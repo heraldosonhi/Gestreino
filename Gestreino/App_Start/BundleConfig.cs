@@ -20,11 +20,15 @@ namespace Gestreino
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new Bundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                      "~/Assets/javascript/jquery.min.js",
+                      "~/Assets/javascript/bootstrap.bundle.min.js",
+                      "~/Assets/javascript/custom.js"
+                      ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Assets/css/bootstrap.min.css",
+                      "~/Assets/css/custom.css",
+                      "~/Assets/css/app.css"));
         }
     }
 }

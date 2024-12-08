@@ -1,12 +1,15 @@
 ﻿@{
-    ViewBag.Title = "Início";
+    ViewBag.Title = "";
 }
-
+<main>
+    <div class="row">
         @if (Request.IsAuthenticated)
         {
-            <!-- page content -->
-            <div class="right_col" role="main" style="background: url('../../Assets/images/home.jpg'); background-size: cover; background-blend-mode: difference; "></div>
-            <!-- /page content -->
+            <div class="col-md-3">
+                @Html.Partial("_SideBarMenu")
+            </div>
+            <div class="col-md-8">
+            </div>
         }
         else
         {
@@ -16,3 +19,5 @@
                 </div>
             </div>
         }
+    </div>
+</main>
