@@ -1,112 +1,128 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
 namespace Gestreino.Models
 {
-    public class ExternalLoginConfirmationViewModel
-    {
-        [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-    }
-
-    public class ExternalLoginListViewModel
-    {
-        public string ReturnUrl { get; set; }
-    }
-
-    public class SendCodeViewModel
-    {
-        public string SelectedProvider { get; set; }
-        public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
-        public string ReturnUrl { get; set; }
-        public bool RememberMe { get; set; }
-    }
-
-    public class VerifyCodeViewModel
-    {
-        [Required]
-        public string Provider { get; set; }
-
-        [Required]
-        [Display(Name = "Code")]
-        public string Code { get; set; }
-        public string ReturnUrl { get; set; }
-
-        [Display(Name = "Remember this browser?")]
-        public bool RememberBrowser { get; set; }
-
-        public bool RememberMe { get; set; }
-    }
-
-    public class ForgotViewModel
-    {
-        [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-    }
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "{0} é um campo obrigatório!")]
         [Display(Name = "Utilizador")]
-        [EmailAddress]
+        [DataType(DataType.Text)]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "{0} é um campo obrigatório!")]
         [DataType(DataType.Password)]
         [Display(Name = "Senha")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Lembrar de Min?")]
         public bool RememberMe { get; set; }
     }
-
-    public class RegisterViewModel
+    public class PasswordResetViewModel
     {
-        [Required]
-        [EmailAddress]
+        //[Required(ErrorMessage = "{0} é um campo obrigatório!")]
+        [EmailAddress(ErrorMessage = "{0} não é válido!")]
         [Display(Name = "Email")]
+        [DataType(DataType.Text)]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        //[Required(ErrorMessage = "{0} é um campo obrigatório!")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "{0} não é válido!")]
+        [StringLength(100, ErrorMessage = "{0} deve ter o mínimo de {2} dígitos", MinimumLength = 9)]
+        [Display(Name = "Número de telemóvel")]
+        public string Telephone { get; set; }
+
+        //[Required]
+        [Display(Name = "Número de estudante")]
+        [DataType(DataType.Text)]
+        public string Login { get; set; }
+
+        //[Required]
+        [Display(Name = "Número de identificação (Nº de B.I. ou Passaporte apresentado no acto da inscrição)")]
+        [DataType(DataType.Text)]
+        public string BI { get; set; }
+
+        //[Required(ErrorMessage = "{0} é um campo obrigatório!")]
+        [StringLength(100, ErrorMessage = "A {0} de acesso deve ter o mínimo de {2} caracteres", MinimumLength = 8)]
+        //[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", ErrorMessage = "A {0} de acesso deve conter no mínimo 8 caracteres entre eles maiúsculos e minúsculos, números e caracteres especiais!")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Nova senha")]
         public string Password { get; set; }
 
+        //[Required(ErrorMessage = "{0} é um campo obrigatório!")]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Confirmação da senha")]
+        [Compare("Password", ErrorMessage = "A senha de acesso não é idêntica a confirmação.")]
         public string ConfirmPassword { get; set; }
+
     }
 
-    public class ResetPasswordViewModel
+    public class PasswordResetTokenViewModel
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "{0} é um campo obrigatório!")]
+        [StringLength(100, ErrorMessage = "A {0} de acesso deve ter o mínimo de {2} caracteres", MinimumLength = 8)]
+        //[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", ErrorMessage = "A {0} de acesso deve conter no mínimo 8 caracteres entre eles maiúsculos e minúsculos, números e caracteres especiais!")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Nova senha")]
         public string Password { get; set; }
 
+        [Required(ErrorMessage = "{0} é um campo obrigatório!")]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Confirmação")]
+        [Compare("Password", ErrorMessage = "A senha de acesso não é idêntica a confirmação.")]
         public string ConfirmPassword { get; set; }
 
-        public string Code { get; set; }
+        public int TOKENID { get; set; }
+        public string TOKEN { get; set; }
+
+        public int Status { get; set; }
+
+        public string Email { get; set; }
+
+        //[Required]
+        [Display(Name = "Utilizador")]
+        [DataType(DataType.Text)]
+        public string Login { get; set; }
     }
 
-    public class ForgotPasswordViewModel
+
+    public class ProfileViewModel
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
+        [Required(ErrorMessage = "{0} é um campo obrigatório!")]
+        [StringLength(100, ErrorMessage = "A {0} de acesso deve ter o mínimo de {2} caracteres", MinimumLength = 8)]
+        //[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", ErrorMessage = "A {0} de acesso deve conter no mínimo 8 caracteres entre eles maiúsculos e minúsculos, números e caracteres especiais!")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Nova senha")]
+        public string Password { get; set; }
+
+        [Required(ErrorMessage = "{0} é um campo obrigatório!")]
+        [StringLength(100, ErrorMessage = "A {0} deve ter o mínimo de {2} caracteres", MinimumLength = 8)]
+        //[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", ErrorMessage = "A {0} de acesso deve conter no mínimo 8 caracteres entre eles maiúsculos e minúsculos, números e caracteres especiais!")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Senha")]
+        public string NewPassword { get; set; }
+
+        [Required(ErrorMessage = "{0} é um campo obrigatório!")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirmação")]
+        [Compare("Password", ErrorMessage = "A senha de acesso não é idêntica a confirmação.")]
+        public string ConfirmPassword { get; set; }
+        [Display(Name = "Gerar senha")]
+        public bool isAutomaticPasswordEmail { get; set; }
+        public int UserID { get; set; }
         public string Email { get; set; }
+        public string Nome { get; set; }
+
+        public string Telefone { get; set; }
+        public string TelefoneAlternativo { get; set; }
+        public string Endereco { get; set; }
+        public string BIPassaporte { get; set; }
+        public string DataCriacao { get; set; }
+
+        //[Required]
+        [Display(Name = "Utilizador")]
+        [DataType(DataType.Text)]
+        public string Login { get; set; }
     }
 }
