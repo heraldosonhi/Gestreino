@@ -30,9 +30,9 @@ namespace Gestreino
         public Nullable<System.DateTime> DATA_ACTUALIZACAO { get; set; }
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
     
-        public virtual PES_PESSOAS PES_PESSOAS { get; set; }
         public virtual PES_PROFISSOES PES_PROFISSOES { get; set; }
         public virtual PES_PROFISSOES_TIPO_CONTRACTO PES_PROFISSOES_TIPO_CONTRACTO { get; set; }
         public virtual PES_PROFISSOES_REGIME_TRABALHO PES_PROFISSOES_REGIME_TRABALHO { get; set; }
+        public virtual PES_PESSOAS PES_PESSOAS { get; set; }
     }
 }

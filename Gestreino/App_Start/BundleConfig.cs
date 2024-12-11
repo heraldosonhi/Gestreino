@@ -22,7 +22,8 @@ namespace Gestreino
             bundles.Add(new Bundle("~/bundles/bootstrap").Include(
                       "~/Assets/javascript/jquery.min.js",
                       "~/Assets/javascript/bootstrap.bundle.min.js",
-                      "~/Assets/javascript/custom.js"
+                      "~/Assets/javascript/custom.js",
+                      "~/Assets/javascript/application.js"
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

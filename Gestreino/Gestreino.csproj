@@ -217,6 +217,7 @@
     <Compile Include="Classes\FileUploader.cs" />
     <Compile Include="Classes\SelectValues.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AjaxController.cs" />
     <Compile Include="Controllers\GTManagementController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -263,7 +264,7 @@
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\GTManagementController.cs" />
+    <Compile Include="Models\GTManagementViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="ORM.Context.cs">
@@ -354,6 +355,15 @@
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SP_PES_ENT_PESSOAS_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_UTILIZADORES_ENT_UTILIZADORES_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_UTILIZADORES_LOGIN_LOGS_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="UTILIZADORES.cs">
       <DependentUpon>ORM.tt</DependentUpon>
@@ -382,6 +392,9 @@
     <Compile Include="UTILIZADORES_LOGIN_LOGS.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="UTILIZADORES_LOGIN_PASSWORD_TENT.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\css\app.css" />
@@ -389,9 +402,11 @@
     <Content Include="Assets\css\custom.css" />
     <Content Include="Assets\css\font-awesome.min.css" />
     <Content Include="Assets\fonts\fontawesome-webfont.svg" />
-    <Content Include="Assets\images\avatar.jpg" />
+    <Content Include="Assets\images\loading.gif" />
+    <Content Include="Assets\images\user-avatar.jpg" />
     <Content Include="Assets\images\home.jpg" />
     <Content Include="Assets\images\icon.jpg" />
+    <Content Include="Assets\javascript\application.js" />
     <Content Include="Assets\javascript\bootstrap.bundle.min.js" />
     <Content Include="Assets\javascript\custom.js" />
     <Content Include="Assets\javascript\jquery.min.js" />
@@ -486,6 +501,9 @@
     <Content Include="Views\Shared\_SideBarMenu.cshtml" />
     <Content Include="Views\GTManagement\Index.cshtml" />
     <Content Include="Views\GTManagement\Athletes\Index.cshtml" />
+    <Content Include="Views\Account\Profile.cshtml" />
+    <Content Include="Views\GTManagement\Users\Index.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Users.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

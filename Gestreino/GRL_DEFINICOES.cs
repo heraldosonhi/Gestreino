@@ -15,6 +15,7 @@ namespace Gestreino
     public partial class GRL_DEFINICOES
     {
         public int ID { get; set; }
+        public int INST_APLICACAO_ID { get; set; }
         public string INST_PER_TEMA_1 { get; set; }
         public string INST_PER_TEMA_1_SIDEBAR { get; set; }
         public string INST_PER_TEMA_2 { get; set; }
@@ -37,5 +38,7 @@ namespace Gestreino
         public System.DateTime DATA_INSERCAO { get; set; }
         public Nullable<System.DateTime> DATA_ACTUALIZACAO { get; set; }
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
+    
+        public virtual INST_APLICACAO INST_APLICACAO { get; set; }
     }
 }

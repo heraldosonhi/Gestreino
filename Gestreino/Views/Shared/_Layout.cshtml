@@ -19,7 +19,7 @@
                 <div class="col-md-3 left_col">
                     <div class="left_col scroll-view">
                         <div class="navbar nav_title" style="border: 0;">
-                            <a href="@Url.Action("", "")" class="site_title"><img src="~/Assets/images/icon.jpg" class="navImg" width="40"/> Gestreino</a>
+                            <a href="@Url.Action("", "")" class="site_title"><img src="~/Assets/images/icon.jpg" class="navImg" width="40" /> Gestreino</a>
                         </div>
 
                         <div class="clearfix"></div>
@@ -30,6 +30,9 @@
                         <!-- sidebar menu -->
                         <!-- /menu footer buttons -->
                         <div class="sidebar-footer hidden-small">
+                            <a data-toggle="tooltip" data-placement="top" title="Selecionar Avaliado">
+                                <span class="glyphicon glyphicon-random" aria-hidden="true"></span>
+                            </a>
                             <a data-toggle="tooltip" data-placement="top" title="Configurações">
                                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                             </a>
@@ -58,7 +61,7 @@
                                         <img src="~/Assets/images/avatar.jpg" alt="">@User.Identity.GetUserName()
                                     </a>
                                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="javascript:;"> Perfil</a>
+                                        <a class="dropdown-item" href="@Url.Action("profile","account")"> Perfil</a>
                                         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "" }))
                                         {
                                             @Html.AntiForgeryToken()
@@ -84,8 +87,21 @@
                 </footer>
                 <!-- /footer content -->
             }
-            </div>
+        </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="crudControlModal" tabindex="-1" role="dialog" aria-labelledby="crudControlLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-crud-content">
+                    <div class="p-12pt"><img src="/Assets/images/loading.gif" /></div>
+                    <!-- // AJAXMODAL CRUDCONTROL CONTENT -->
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     @*Scripts.Render("~/bundles/jquery")*@
     @Scripts.Render("~/bundles/bootstrap")

@@ -72,10 +72,11 @@ namespace JeanPiagetSGA.Controllers
             ViewBag.Grupos = (string.IsNullOrEmpty(item.GRUPO_UTILIZADORES)) ? "Não tem grupos associados" : item.GRUPO_UTILIZADORES;
             ViewBag.Apresentacao = (!string.IsNullOrEmpty(item.APRESENTACAO_PESSOAL)) ? Converters.StripHTML(item.APRESENTACAO_PESSOAL) : "Não tem definido uma apresentação pessoal";
 
-            var PessoaEndereco = databaseManager.SP_PES_ENT_PESSOAS_ENDERECOS(PesId.ID, null, null, null, null, null, null, null, null, null, null, null, "R").Where(x => x.ENDERECO_PRINCIAL == "Sim").ToList();
-            ViewBag.PessoaEndereco = PessoaEndereco.Count() > 0 ? PessoaEndereco[0].MUN + ", " + PessoaEndereco[0].CIDADE : String.Empty;
-            ViewBag.MORADA = PessoaEndereco.Count() > 0 ? PessoaEndereco[0].MORADA : String.Empty;
-            ViewBag.PessoaIdent = databaseManager.SP_PES_ENT_PESSOAS_IDENTIFICACAO(PesId.ID, null, null, null, null, null, null, null, null, null, null, "R").ToList();
+            //var PessoaEndereco = databaseManager.SP_PES_ENT_PESSOAS_ENDERECOS(PesId.ID, null, null, null, null, null, null, null, null, null, null, null, "R").Where(x => x.ENDERECO_PRINCIAL == "Sim").ToList();
+            //ViewBag.PessoaEndereco = PessoaEndereco.Count() > 0 ? PessoaEndereco[0].MUN + ", " + PessoaEndereco[0].CIDADE : String.Empty;
+            //ViewBag.MORADA = PessoaEndereco.Count() > 0 ? PessoaEndereco[0].MORADA : String.Empty;
+            //ViewBag.PessoaIdent = databaseManager.SP_PES_ENT_PESSOAS_IDENTIFICACAO(PesId.ID, null, null, null, null, null, null, null, null, null, null, "R").ToList();
+            
             /*
              // Get claims after login
              var claimsIdentity = User.Identity as ClaimsIdentity;
@@ -114,10 +115,11 @@ namespace JeanPiagetSGA.Controllers
         // POST: Reset Password
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResetPassword(string returnUrl, Models.ProfileViewModel MODEL)
+        public async Task<ActionResult> ResetPassword(string returnUrl, ProfileViewModel MODEL)
         {
             try
             {
+                
                 if (!ModelState.IsValid)
                 {
                     string errors = string.Empty;
@@ -127,14 +129,14 @@ namespace JeanPiagetSGA.Controllers
                 }
 
                 var loginInfo = databaseManager.UTILIZADORES.Where(a => a.ID == MODEL.UserID && a.DATA_REMOCAO == null).FirstOrDefault();
-                if (string.Compare(Crypto.Hash(MODEL.NewPassword + loginInfo.SALT), loginInfo.SENHA_PASSWORD) != 0)
+                if (string.Compare(Crypto.Hash(MODEL.Password + loginInfo.SALT), loginInfo.SENHA_PASSWORD) != 0)
                 {
                     return Json(new { result = false, error = "Senha de acesso inválida!" });
                 }
 
                 // Create Salted Password
                 var Salt = Crypto.GenerateSalt(64);
-                var Password = Crypto.Hash(MODEL.Password.Trim() + Salt);
+                var Password = Crypto.Hash(MODEL.NewPassword.Trim() + Salt);
                 // Remove whitespaces and parse datetime strings //TrimStart() //Trim()
                 var update = databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES(MODEL.UserID, null, null, null, null, null, null, Password, Salt, null, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), Convert.ToChar('P').ToString()).ToArray();
 
@@ -177,7 +179,7 @@ namespace JeanPiagetSGA.Controllers
             }
 
             int tokenid = Configs.TOKENS[0]; // Recuperar senha 
-
+            /*
             if (databaseManager.PES_CONTACTOS.Where(a => a.EMAIL == MODEL.Email && a.DATA_REMOCAO == null).ToList().Count() == 0)
                 return Json(new { result = false, error = "Este email não está associado a uma conta de utilizador!" });
 
@@ -203,13 +205,13 @@ namespace JeanPiagetSGA.Controllers
             // Send Email
             string url = "https://unipiaget-angola.org/api/redirect?token=" + token + "&campus=" + Configs.INST_INSTITUICAO_SIGLA;
             Mailer.SendEmailMVC(3, MODEL.Email, pesname, tokenUrlEncode, url, null, null); // Email template - 3
-
+            */
             // Try Catch
-            if (!string.IsNullOrEmpty(ExportEmail.StatusReport.result) && ExportEmail.StatusReport.result != "Success")
-                return Json(new { result = false, error = "Erro ao requisitar link para recuperar acesso, por favor tente mais tarde!" /*Mailer.StatusReport.result*/ });
-            else
+            //if (!string.IsNullOrEmpty(ExportEmail.StatusReport.result) && ExportEmail.StatusReport.result != "Success")
+            //    return Json(new { result = false, error = "Erro ao requisitar link para recuperar acesso, por favor tente mais tarde!" /*Mailer.StatusReport.result*/ });
+            //else
                 // If successfull email sent insert token into database
-                databaseManager.SP_GRL_ENT_TOKENS(null, null, tokenid, token, MODEL.Email, DateTime.Now, null, "CT").ToList();  // Recuperar senha de acesso - 1
+            //    databaseManager.SP_GRL_ENT_TOKENS(null, null, tokenid, token, MODEL.Email, DateTime.Now, null, "CT").ToList();  // Recuperar senha de acesso - 1
 
             //return View(model);
             return Json(new { result = true, success = "Link enviado com successo, se não recebeu o nosso email na sua caixa de entrada por favor verifique a sua pasta de Spam 'Email de Lixo', O link é valído por " + Configs.SEC_SENHA_RECU_LIMITE_EMAIL + " minutos apenas.", toastrMessage = "Email enviado com successo!", resetForm = true });
@@ -244,6 +246,7 @@ namespace JeanPiagetSGA.Controllers
             var UserId = User[0].ID;
 
             // Exist groupId
+            /*
             if ((from j1 in databaseManager.UTILIZADORES
                  join j2 in databaseManager.UTILIZADORES_UTILI_GRUPOS_SUB on j1.ID equals j2.UTILIZADORES_ID
                  where j1.DATA_REMOCAO == null && j1.ID == UserId && j2.UTILIZADORES_GRUPOS_SUB_ID == Configs.INST_MDL_ADM_VLRID_GRUPO_UTILIZADOR_TMP && j2.ACTIVO == true
@@ -256,7 +259,7 @@ namespace JeanPiagetSGA.Controllers
             var Password = Crypto.Hash(MODEL.Password.Trim() + Salt);
             // Remove whitespaces and parse datetime strings //TrimStart() //Trim()
             var update = databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES(UserId, null, null, null, null, null, null, Password, Salt, null, null, null, null, null, null, null, null, null, null, 1, Convert.ToChar('P').ToString()).ToArray();
-
+            */
             //return View(model);
             return Json(new { result = true, success = "Senha de acesso alterada com successo.", resetForm = true });
         }
@@ -273,7 +276,7 @@ namespace JeanPiagetSGA.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-
+            /*
             string message = string.Empty;
             token = HttpUtility.UrlDecode(token).Replace(" ", "+");
             int tokenid = Configs.TOKENS[0]; // Recuperar senha 
@@ -312,7 +315,7 @@ namespace JeanPiagetSGA.Controllers
                 MODEL.Status = 0; // Token invalido
                 message = "Atenção: link de recuperação de senha inválido ou você já pode tê-lo usado!";
             }
-            ViewBag.Message = message;
+            ViewBag.Message = message;*/
             return View(MODEL);
         }
 
@@ -327,7 +330,7 @@ namespace JeanPiagetSGA.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-
+            /*
             string message = string.Empty;
             string token = MODEL.TOKEN.Replace(" ", "+");
             int tokenid = Configs.TOKENS[0]; // Recuperar senha 
@@ -389,7 +392,7 @@ namespace JeanPiagetSGA.Controllers
             {
                 return Json(new { result = false, error = "Atenção: link de recuperação de senha inválido!" });
             }
-
+            */
             return Json(new { result = true, success = "Senha atualizada com successo, deve iniciar a sua sessão!", resetForm = true });
         }
 
@@ -442,12 +445,12 @@ namespace JeanPiagetSGA.Controllers
                         // Fetch Groups
                         var grupos = databaseManager.SP_UTILIZADORES_LOGIN(logindetails.ID, null, null, null, null, null, null, null, null, Convert.ToChar('G').ToString()).ToArray();
                         // Fetch SubGroups
-                        var subgrupos = databaseManager.SP_UTILIZADORES_LOGIN(logindetails.ID, null, null, null, null, null, null, null, null, Convert.ToChar('S').ToString()).ToArray();
+                        //var subgrupos = databaseManager.SP_UTILIZADORES_LOGIN(logindetails.ID, null, null, null, null, null, null, null, null, Convert.ToChar('S').ToString()).ToArray();
                         // Fetch Atoms
                         var atomos = databaseManager.SP_UTILIZADORES_LOGIN(logindetails.ID, null, null, null, null, null, null, null, null, Convert.ToChar('A').ToString()).ToArray();
                         // Convert them to list
                         List<int> lst_grupos = grupos.OfType<int>().ToList(); // this isn't going to be fast.
-                        List<int> lst_subgrupos = subgrupos.OfType<int>().ToList(); // this isn't going to be fast.
+                        List<int> lst_subgrupos = null;//subgrupos.OfType<int>().ToList(); // this isn't going to be fast.
                         List<int> lst_atomos = atomos.OfType<int>().ToList(); // this isn't going to be fast.
                         // Fetch User Details
                         var ProfilePhoto = databaseManager.PES_PESSOAS.Where(x => x.UTILIZADORES_ID == logindetails.ID).Select(x => x.FOTOGRAFIA).SingleOrDefault();
@@ -492,10 +495,10 @@ namespace JeanPiagetSGA.Controllers
                 {
                     claims.Add(new Claim(ClaimTypes.PrimaryGroupSid, g.ToString()));
                 }
-                foreach (var s in subgrupos)
-                {
-                    claims.Add(new Claim(ClaimTypes.GroupSid, s.ToString()));
-                }
+                //foreach (var s in subgrupos)
+                //{
+                //    claims.Add(new Claim(ClaimTypes.GroupSid, s.ToString()));
+                //}
                 foreach (var a in atomos)
                 {
                     claims.Add(new Claim(ClaimTypes.Role, a.ToString()));
@@ -511,7 +514,7 @@ namespace JeanPiagetSGA.Controllers
                 authenticationManager.SignIn(new AuthenticationProperties()
                 {
                     IsPersistent = isPersistent,
-                    ExpiresUtc = new DateTimeOffset(DateTime.UtcNow.AddMinutes(Convert.ToDouble(Classes.Configs.SEC_SESSAO_TIMEOUT_TEMPO))) //Session Expiration time?
+                    ExpiresUtc = new DateTimeOffset(DateTime.UtcNow.AddMinutes(Convert.ToDouble(Configs.SEC_SESSAO_TIMEOUT_TEMPO))) //Session Expiration time?
                 }, claimIdenties);
                 // Log SigIn Activity
                 LogSignIn(UserId, "L");
@@ -537,7 +540,7 @@ namespace JeanPiagetSGA.Controllers
             decimal Lat = 0;
             decimal Long = 0;
             // Get ModuleId
-            int ModuleId = Convert.ToInt32(Configs.INST_MDL_ADM_VLRID_MODULO_ADM);
+            int ModuleId = 1;//Convert.ToInt32(Configs.INST_MDL_ADM_VLRID_MODULO_ADM);
             // Get Url
             string Url = HttpContext.Request.Url.AbsoluteUri;
             // Get Device name
@@ -687,7 +690,7 @@ namespace JeanPiagetSGA.Controllers
             // Password tryout counts
             var tryouts = databaseManager.UTILIZADORES_LOGIN_PASSWORD_TENT.Where(x => x.UTILIZADORES_ID == userid && x.DATA > DateAfter).Count();
 
-            if (tryouts >= Classes.Configs.SEC_SENHA_TENT_BLOQUEIO)
+            if (tryouts >= Configs.SEC_SENHA_TENT_BLOQUEIO)
             {
                 exceed = true;
             }

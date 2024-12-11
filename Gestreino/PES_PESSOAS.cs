@@ -37,7 +37,7 @@ namespace Gestreino
         public string NOME { get; set; }
         public string SEXO { get; set; }
         public Nullable<System.DateTime> DATA_NASCIMENTO { get; set; }
-        public int PES_ESTADO_CIVIL_ID { get; set; }
+        public Nullable<int> PES_ESTADO_CIVIL_ID { get; set; }
         public string NIF { get; set; }
         public string APRESENTACAO_PESSOAL { get; set; }
         public string FOTOGRAFIA { get; set; }

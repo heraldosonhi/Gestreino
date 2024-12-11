@@ -11,11 +11,11 @@ namespace Gestreino.Classes
 {
     public class Configs
     {
-        //private PiagetEntity databaseManager = new PiagetEntity();
+        private GESTREINO_Entities databaseManager = new GESTREINO_Entities();
 
         // INST
-        public static int? INST_INSTITUICAO_ID = 2; //FIX 
-        public static string INST_INSTITUICAO_SIGLA;
+        public static int? INST_INSTITUICAO_ID = 1; //APLICACAO ID 1 
+        public static string INST_INSTITUICAO_SIGLA ;
         public static string INST_INSTITUICAO_NOME;
         public static string INST_INSTITUICAO_ENDERECO;
         public static string INST_INSTITUICAO_URL;
@@ -24,8 +24,9 @@ namespace Gestreino.Classes
         public static string INST_PER_TEMA_1_SIDEBAR;
         public static string INST_PER_TEMA_2;
         public static int? INST_PER_LOGOTIPO_WIDTH;
-        
+        public static string INST_MDL_ADM_MODULO_PORTAL = String.Empty;
         // ADM
+        /*
         public static int? INST_MDL_ADM_VLRID_MODULO_CAND;
         public static int? INST_MDL_ADM_VLRID_MODULO_PORTAL;
         public static int? INST_MDL_ADM_VLRID_MODULO_ADM;
@@ -90,6 +91,7 @@ namespace Gestreino.Classes
         public static int? INST_MDL_GA_CARACT_ESP_PARAM;
         public static int? INST_MDL_GA_PLANOS_ESTUDO_ANOS_ACADEMICOS;
         public static decimal? INST_MDL_GA_PLANO_OCORRENCIA_BASE_FORMULA;
+        */
         // GPAG
         public static int? INST_MDL_GPAG_MOEDA_PADRAO;
         //-
@@ -132,6 +134,7 @@ namespace Gestreino.Classes
         public static int[] TOKENS = { 1 }; // 0 => Recuperacao da Senha de acesso
 
         // EPOCAS DE EXAMES
+        /*
         public static int? GA_PAUTAS_EPOCAS_EXAME_PROCESSOS = 1;
         public static int? GA_EPOCAS_EXAME_REC = 4;
         public static int? GA_EPOCAS_EXAME_EXT = 5;
@@ -144,66 +147,37 @@ namespace Gestreino.Classes
         public static int? GA_ALUNOS_TIPO_INSCRICAO_UC_EXAME = 5;
         public static int? GA_ALUNOS_TIPO_INSCRICAO_TIPO_ANUAL = (int)System.Enum.Parse(typeof(GATipoInscricao), "Anual");
         public static int? GA_ALUNOS_TIPO_INSCRICAO_TIPO_UC = (int)System.Enum.Parse(typeof(GATipoInscricao), "UC");
-
-        public static int? GA_PEDIDOS_MUDANCA_CURSO = 17;
-        public static int? GA_PEDIDOS_MUDANCA_TURNO = 18;
-        public static int? GA_PEDIDOS_AN_MATRICULA = 25;
-        public static int? GA_PEDIDOS_SU_MATRICULA = 19;
-
-        public static int[] GA_PEDIDOS_DEC_MATRICULA = new int[] { 20 };
-        public static int[] GA_PEDIDOS_DEC_NOTAS = new int[] { 21 };
-        public static int[] GA_PEDIDOS_DEC_TRANSFERENCIA = new int[] { 22 };
-        public static int[] GA_PEDIDOS_DEC__DIVIDA = new int[] { 23 };
-        public static int[] GA_PEDIDOS_DEC__CUSTOS = new int[] { 24 };
-
-        public static int? INST_MDL_GPAG_TIPOLOGIA_CREDITO_EM_CONTA = 42;
-        public static string INST_MDL_GPAG_METODO_PAGAMENTO_CREDITO_EM_CONTA = "CRED";
-        public static int? INST_MDL_GPAG_TIPOLOGIA_MULTAS = 9;
-        public static int? INST_MDL_GPAG_DOCUMENTO_FR = 39;
-        public static int? INST_MDL_GPAG_DOCUMENTO_NC = 46;
-
-        public static int? PES_FAMILIAR_GRUPO_PAI = 11;
-        public static int? PES_FAMILIAR_GRUPO_MAE = 12;
-
-        public static int? INST_MDL_ADM_VLRID_GRUPO_DOCENTE = 10;
-
-        // GUIDELINES MARKS CALCULATIONS
-        public static int? GA_PAUTAS_A_CALCULO_NAO_AUTOMATIZAR = 1;
-        public static int? GA_PAUTAS_A_CALCULO_ARITMETICA = 2;
-        public static int? GA_PAUTAS_A_CALCULO_PONDERADA = 3;
-        public static int? GA_PAUTAS_A_CALCULO_SOMA_COMPONENTES = 4;
-
-        // PLANO DE PAGAMENTOS CONDICAO MAIN
-        public static int? GPAG_PLANO_PAG_COND_FREQ = 3;
-        public static int? GPAG_PLANO_PAG_COND_EXCLSFREQ = 5;
+        */
+      
 
 
         public void BeginConfig()
         {
             if (string.IsNullOrEmpty(Configs.INST_INSTITUICAO_SIGLA))
             {
-                /*
+                
                 // Setup Static Config Values 
-                var configvalues = databaseManager.GRL_DEFINICOES.Join(databaseManager.INST_INSTITUICAO,x => x.INST_INSTITUICAO_ID, y => y.ID,(x, y) => new { x, y }).Where(y => y.y.ID == INST_INSTITUICAO_ID).ToList();
+                var configvalues = databaseManager.GRL_DEFINICOES.Join(databaseManager.INST_APLICACAO,x => x.INST_APLICACAO_ID, y => y.ID,(x, y) => new { x, y }).Where(y => y.y.ID == INST_INSTITUICAO_ID).ToList();
                 //var institution = databaseManager.INST_INSTITUICAO.Join(databaseManager.INST_INSTITUICAO_ENDERECOS,x => x.ID,y => y.INST_INSTITUICAO_ID, (x, y) => new { y }).Where(y => y.y.INST_INSTITUICAO_ID == INST_INSTITUICAO_ID).ToList();
-                var institution = (from j1 in databaseManager.INST_INSTITUICAO
+                /*var institution = (from j1 in databaseManager.INST_INSTITUICAO
                                    join j2 in databaseManager.INST_INSTITUICAO_ENDERECOS on j1.ID equals j2.INST_INSTITUICAO_ID
                                    join j3 in databaseManager.INST_NSTITUICAO_CONTACTOS on j1.ID equals j3.INST_INSTITUICAO_ID
                                    where j1.ID==INST_INSTITUICAO_ID
-                                   select new { j2.MORADA,j3.URL }).ToList();
+                                   select new { j2.MORADA,j3.URL }).ToList();*/
                
-                var modules = databaseManager.INST_APLICACOES_MODULOS.Where(x => x.DATA_REMOCAO == null).Select(x => new {x.ID,x.NOME}).ToList();
-                var currency = databaseManager.GPAG_MOEDAS.Where(x => x.DATA_REMOCAO == null).Select(x => new {x.ID,x.CODIGO,x.SIGLA}).ToList();
-                var alectivo = databaseManager.GRL_ANO_LECTIVO.Where(x => x.DATA_REMOCAO == null && x.PADRAO_ACTIVO==true).Select(x => new { x.ID, x.VALOR, x.DESCRICAO }).ToList();
+                //var modules = databaseManager.INST_APLICACOES_MODULOS.Where(x => x.DATA_REMOCAO == null).Select(x => new {x.ID,x.NOME}).ToList();
+                //var currency = databaseManager.GPAG_MOEDAS.Where(x => x.DATA_REMOCAO == null).Select(x => new {x.ID,x.CODIGO,x.SIGLA}).ToList();
+                //var alectivo = databaseManager.GRL_ANO_LECTIVO.Where(x => x.DATA_REMOCAO == null && x.PADRAO_ACTIVO==true).Select(x => new { x.ID, x.VALOR, x.DESCRICAO }).ToList();
 
                 INST_INSTITUICAO_SIGLA = configvalues[0].y.SIGLA;
                 INST_INSTITUICAO_NOME = configvalues[0].y.NOME;
-                INST_INSTITUICAO_ENDERECO = institution[0].MORADA;
-                INST_INSTITUICAO_URL = institution[0].URL;
+                //INST_INSTITUICAO_ENDERECO = institution[0].MORADA;
+                //INST_INSTITUICAO_URL = institution[0].URL;
                 INST_PER_TEMA_1 = configvalues[0].x.INST_PER_TEMA_1;
                 INST_PER_TEMA_1_SIDEBAR = configvalues[0].x.INST_PER_TEMA_1_SIDEBAR;
                 INST_PER_TEMA_2 = configvalues[0].x.INST_PER_TEMA_2;
                 INST_PER_LOGOTIPO_WIDTH = configvalues[0].x.INST_PER_LOGOTIPO_WIDTH;
+                /*
                 INST_MDL_ADM_VLRID_MODULO_CAND = configvalues[0].x.INST_MDL_ADM_VLRID_MODULO_CAND;
                 INST_MDL_ADM_VLRID_MODULO_PORTAL = configvalues[0].x.INST_MDL_ADM_VLRID_MODULO_PORTAL;
                 INST_MDL_ADM_VLRID_MODULO_ADM = configvalues[0].x.INST_MDL_ADM_VLRID_MODULO_ADM;
@@ -266,16 +240,17 @@ namespace Gestreino.Classes
                 INST_MDL_GA_PLANOS_ESTUDO_ANOS_ACADEMICOS = configvalues[0].x.INST_MDL_GA_PLANOS_ESTUDO_ANOS_ACADEMICOS;
                 INST_MDL_GA_PLANO_OCORRENCIA_BASE_FORMULA = configvalues[0].x.INST_MDL_GA_PLANO_OCORRENCIA_BASE_FORMULA;
                 INST_MDL_GPAG_MOEDA_PADRAO = configvalues[0].x.INST_MDL_GPAG_MOEDA_PADRAO;
+                */
                 //-
-                INST_MDL_GPAG_MOEDA_PADRAO_CODIGO = currency.Where(x => x.ID == INST_MDL_GPAG_MOEDA_PADRAO).Select(x => x.CODIGO).SingleOrDefault();
-                INST_MDL_GPAG_MOEDA_PADRAO_SIGLA= currency.Where(x => x.ID == INST_MDL_GPAG_MOEDA_PADRAO).Select(x => x.SIGLA).SingleOrDefault();
+                //INST_MDL_GPAG_MOEDA_PADRAO_CODIGO = currency.Where(x => x.ID == INST_MDL_GPAG_MOEDA_PADRAO).Select(x => x.CODIGO).SingleOrDefault();
+                //INST_MDL_GPAG_MOEDA_PADRAO_SIGLA= currency.Where(x => x.ID == INST_MDL_GPAG_MOEDA_PADRAO).Select(x => x.SIGLA).SingleOrDefault();
                 //-
-                INST_MDL_GPAG_NUMERO_COPIAS_RECIBO = configvalues[0].x.INST_MDL_GPAG_NUMERO_COPIAS_RECIBO;
-                INST_MDL_GPAG_EMOL_DATA_LIMITE = configvalues[0].x.INST_MDL_GPAG_EMOL_DATA_LIMITE;
+                //INST_MDL_GPAG_NUMERO_COPIAS_RECIBO = configvalues[0].x.INST_MDL_GPAG_NUMERO_COPIAS_RECIBO;
+                //INST_MDL_GPAG_EMOL_DATA_LIMITE = configvalues[0].x.INST_MDL_GPAG_EMOL_DATA_LIMITE;
                 INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS = configvalues[0].x.INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS;
                 INST_MDL_GPAG_NOTA_DECIMAL = configvalues[0].x.INST_MDL_GPAG_NOTA_DECIMAL;
                 INST_MDL_GP_BI_MAXLENGTH = configvalues[0].x.INST_MDL_GP_BI_MAXLENGTH;
-                NET_LDAP_BASE = configvalues[0].x.NET_LDAP_BASE;
+                /* = configvalues[0].x.NET_LDAP_BASE;
                 NET_LDAP_HOSTNAME = configvalues[0].x.NET_LDAP_HOSTNAME;
                 NET_ENDERECO_IP_INTERNO = configvalues[0].x.NET_ENDERECO_IP_INTERNO;
                 NET_ENDERECO_IP_EXTERNO = configvalues[0].x.NET_ENDERECO_IP_EXTERNO;
@@ -283,20 +258,20 @@ namespace Gestreino.Classes
                 NET_STMP_PORT = configvalues[0].x.NET_STMP_PORT;
                 NET_SMTP_USERNAME = configvalues[0].x.NET_SMTP_USERNAME;
                 NET_SMTP_SENHA = configvalues[0].x.NET_SMTP_SENHA;
-                NET_STMP_FROM = configvalues[0].x.NET_STMP_FROM;
+                NET_STMP_FROM = configvalues[0].x.NET_STMP_FROM;*/
                 SEC_SENHA_TENT_BLOQUEIO = configvalues[0].x.SEC_SENHA_TENT_BLOQUEIO;
                 SEC_SENHA_TENT_BLOQUEIO_TEMPO = configvalues[0].x.SEC_SENHA_TENT_BLOQUEIO_TEMPO;
                 SEC_SENHA_RECU_LIMITE_EMAIL = configvalues[0].x.SEC_SENHA_RECU_LIMITE_EMAIL;
                 SEC_SESSAO_TIMEOUT_TEMPO = configvalues[0].x.SEC_SESSAO_TIMEOUT_TEMPO;
-                API_CURRENCY_TOKEN = configvalues[0].x.API_CURRENCY_TOKEN;
+                /*API_CURRENCY_TOKEN = configvalues[0].x.API_CURRENCY_TOKEN;
                 API_CURRENCY_BASE = configvalues[0].x.API_CURRENCY_BASE;
                 API_SMS_TOKEN = configvalues[0].x.API_SMS_TOKEN;
                 API_SMS_BASE = configvalues[0].x.API_SMS_BASE;
                 API_SMS_ACTIVO = configvalues[0].x.API_SMS_ACTIVO;
-                API_SMS_SENDER_ID = configvalues[0].x.API_SMS_SENDER_ID;
+                API_SMS_SENDER_ID = configvalues[0].x.API_SMS_SENDER_ID;*/
                 //-
-                GRL_A_LECTIVO = alectivo.Any() ? alectivo[0].VALOR : DateTime.Now.Year;
-                */
+                //GRL_A_LECTIVO = alectivo.Any() ? alectivo[0].VALOR : DateTime.Now.Year;
+                
             }
         }
     }

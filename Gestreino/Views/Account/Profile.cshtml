@@ -1,0 +1,106 @@
+﻿@model Gestreino.Models.ProfileViewModel
+@{
+    ViewBag.Title = "Perfil";
+}
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+                <div class="x_panel">
+                    <div class="x_content">
+                        <div class="col-md-3 col-sm-3  profile_left">
+                            <div class="profile_img">
+                                <div id="crop-avatar">
+                                    <img class="img-responsive avatar-view" src="@ViewBag.imgSrc" alt="@Model.Nome" title="@Model.Nome">
+                                </div>
+                            </div>
+                            <h3>@Model.Nome</h3>
+
+                            <ul class="list-unstyled user_data">
+                                <li>
+                                    <i class="fa fa-key user-profile-icon"></i> @Model.Login
+                                </li>
+                                <li>
+                                    <i class="fa fa-envelope user-profile-icon"></i> @Model.Email
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-9 col-sm-9 ">
+                            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                    <li role="presentation" class="active">
+                                        <a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Perfil</a>
+                                    </li>
+                                    <li role="presentation" class="">
+                                        <a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Acesso</a>
+                                    </li>
+                                </ul>
+                                <div id="myTabContent" class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
+                                        <h4>Dados gerais</h4>
+                                        <hr />
+                                        <ul class="list-unstyled user_data">
+                                            <li>
+                                                <i class="fa fa-user fa-fw user-profile-icon"></i> @Model.Nome
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-key fa-fw user-profile-icon"></i> @Model.Login
+                                            </li>
+                                            <li class="m-top-xs">
+                                                <i class="fa fa-envelope fa-fw user-profile-icon"></i>
+                                                <a href="@Model.Email" target="_blank">@Model.Email</a>
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-phone fa-fw user-profile-icon"></i> @Model.Telefone / @Model.TelefoneAlternativo
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-info fa-fw user-profile-icon"></i> @ViewBag.Apresentacao
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-lock fa-fw user-profile-icon"></i> @ViewBag.Grupos
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                        @using (Html.BeginForm("resetpassword", "account", FormMethod.Post, new { role = "form" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            @Html.HiddenFor(x=>x.UserID)
+                                                        <h4>Alterar senha de acesso</h4>
+                                                        <hr />
+                                                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
+                                                            <div class="col-md-10">
+                                                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.NewPassword, new { @class = "col-md-2 col-form-label" })
+                                                            <div class="col-md-10">
+                                                                @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 col-form-label" })
+                                                            <div class="col-md-10">
+                                                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-2">
+                                                            <div class="offset-md-2 col-md-10">
+                                                                <input type="submit" value="Submeter" class="btn btn-outline-dark" />
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>

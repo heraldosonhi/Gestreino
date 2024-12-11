@@ -20,6 +20,24 @@ namespace Gestreino.Controllers
         {
             return View("Athletes/Index");
         }
-        
+
+
+
+
+
+
+
+
+
+        // GET: GTManagement
+        public ActionResult Users()
+        {
+
+
+
+
+            return View("Users/Index");
+        }
+
     }
 }

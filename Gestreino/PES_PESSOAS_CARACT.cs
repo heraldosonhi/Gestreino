@@ -62,7 +62,7 @@ namespace Gestreino
         public Nullable<System.DateTime> DATA_ACTUALIZACAO { get; set; }
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
     
-        public virtual PES_PESSOAS PES_PESSOAS { get; set; }
         public virtual PES_PESSOAS_CARACT_TIPO_SANG PES_PESSOAS_CARACT_TIPO_SANG { get; set; }
+        public virtual PES_PESSOAS PES_PESSOAS { get; set; }
     }
 }

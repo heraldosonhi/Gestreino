@@ -89,25 +89,27 @@ namespace Gestreino.Models
 
     public class ProfileViewModel
     {
+
         [Required(ErrorMessage = "{0} é um campo obrigatório!")]
         [StringLength(100, ErrorMessage = "A {0} de acesso deve ter o mínimo de {2} caracteres", MinimumLength = 8)]
         //[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", ErrorMessage = "A {0} de acesso deve conter no mínimo 8 caracteres entre eles maiúsculos e minúsculos, números e caracteres especiais!")]
         [DataType(DataType.Password)]
-        [Display(Name = "Nova senha")]
+        [Display(Name = "Senha")]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "{0} é um campo obrigatório!")]
         [StringLength(100, ErrorMessage = "A {0} deve ter o mínimo de {2} caracteres", MinimumLength = 8)]
         //[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", ErrorMessage = "A {0} de acesso deve conter no mínimo 8 caracteres entre eles maiúsculos e minúsculos, números e caracteres especiais!")]
         [DataType(DataType.Password)]
-        [Display(Name = "Senha")]
+        [Display(Name = "Nova senha")]
         public string NewPassword { get; set; }
 
         [Required(ErrorMessage = "{0} é um campo obrigatório!")]
         [DataType(DataType.Password)]
         [Display(Name = "Confirmação")]
-        [Compare("Password", ErrorMessage = "A senha de acesso não é idêntica a confirmação.")]
+        [Compare("NewPassword", ErrorMessage = "A senha de acesso não é idêntica a confirmação.")]
         public string ConfirmPassword { get; set; }
+
         [Display(Name = "Gerar senha")]
         public bool isAutomaticPasswordEmail { get; set; }
         public int UserID { get; set; }
