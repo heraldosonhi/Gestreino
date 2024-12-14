@@ -62,7 +62,6 @@ namespace Gestreino
         public virtual DbSet<PES_TIPO_ENDERECOS> PES_TIPO_ENDERECOS { get; set; }
         public virtual DbSet<PES_TIPO_IDENTIFICACAO> PES_TIPO_IDENTIFICACAO { get; set; }
         public virtual DbSet<UTILIZADORES> UTILIZADORES { get; set; }
-        public virtual DbSet<UTILIZADORES_ACESSO_ATOMOS> UTILIZADORES_ACESSO_ATOMOS { get; set; }
         public virtual DbSet<UTILIZADORES_ACESSO_ATOMOS_GRUPOS> UTILIZADORES_ACESSO_ATOMOS_GRUPOS { get; set; }
         public virtual DbSet<UTILIZADORES_ACESSO_GRUPOS> UTILIZADORES_ACESSO_GRUPOS { get; set; }
         public virtual DbSet<UTILIZADORES_ACESSO_PERFIS> UTILIZADORES_ACESSO_PERFIS { get; set; }
@@ -74,6 +73,7 @@ namespace Gestreino
         public virtual DbSet<GRL_DEFINICOES> GRL_DEFINICOES { get; set; }
         public virtual DbSet<INST_APLICACAO> INST_APLICACAO { get; set; }
         public virtual DbSet<PES_PESSOAS> PES_PESSOAS { get; set; }
+        public virtual DbSet<UTILIZADORES_ACESSO_ATOMOS> UTILIZADORES_ACESSO_ATOMOS { get; set; }
     
         public virtual ObjectResult<SP_UTILIZADORES_LOGIN_LOGS_Result> SP_UTILIZADORES_LOGIN_LOGS(Nullable<int> userId, string action)
         {
@@ -226,7 +226,7 @@ namespace Gestreino
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_PESSOAS_Result>("SP_PES_ENT_PESSOAS", iDParameter, nomeParameter, sexoParameter, dataNascimentoParameter, estadoCivilIdParameter, nIFParameter, apresentacaoPessoalParameter, paisIdParameter, cidadeIdParameter, municipioIdParameter, telefoneParameter, telefoneAlternativoParameter, telefoneResidencialParameter, faxParameter, emailParameter, codigoPostalParameter, urlParameter, alturaParameter, pesoParameter, tipoSangueIdParameter, userIdParameter, actionParameter);
         }
     
-        public virtual ObjectResult<SP_UTILIZADORES_ENT_UTILIZADORES_Result> SP_UTILIZADORES_ENT_UTILIZADORES(Nullable<int> id, Nullable<int> subGroupId, Nullable<int> profileId, string login, string nome, Nullable<decimal> telefone, string email, string senha, string salt, Nullable<bool> activo, Nullable<System.DateTime> dataAct, Nullable<System.DateTime> dataDesact, Nullable<bool> oAuth2Valid, string oAuth2Provider, string oAuth2ID, Nullable<bool> lADPValid, string lADPHost, string lADPBase, Nullable<bool> validada, Nullable<int> userInsercaoId, string action)
+        public virtual ObjectResult<SP_UTILIZADORES_ENT_UTILIZADORES_Result> SP_UTILIZADORES_ENT_UTILIZADORES(Nullable<int> id, Nullable<int> subGroupId, Nullable<int> profileId, string login, string nome, Nullable<decimal> telefone, string email, string senha, string salt, Nullable<bool> activo, Nullable<System.DateTime> dataAct, Nullable<System.DateTime> dataDesact, Nullable<bool> validada, Nullable<int> userInsercaoId, string action)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
@@ -276,30 +276,6 @@ namespace Gestreino
                 new ObjectParameter("DataDesact", dataDesact) :
                 new ObjectParameter("DataDesact", typeof(System.DateTime));
     
-            var oAuth2ValidParameter = oAuth2Valid.HasValue ?
-                new ObjectParameter("OAuth2Valid", oAuth2Valid) :
-                new ObjectParameter("OAuth2Valid", typeof(bool));
-    
-            var oAuth2ProviderParameter = oAuth2Provider != null ?
-                new ObjectParameter("OAuth2Provider", oAuth2Provider) :
-                new ObjectParameter("OAuth2Provider", typeof(string));
-    
-            var oAuth2IDParameter = oAuth2ID != null ?
-                new ObjectParameter("OAuth2ID", oAuth2ID) :
-                new ObjectParameter("OAuth2ID", typeof(string));
-    
-            var lADPValidParameter = lADPValid.HasValue ?
-                new ObjectParameter("LADPValid", lADPValid) :
-                new ObjectParameter("LADPValid", typeof(bool));
-    
-            var lADPHostParameter = lADPHost != null ?
-                new ObjectParameter("LADPHost", lADPHost) :
-                new ObjectParameter("LADPHost", typeof(string));
-    
-            var lADPBaseParameter = lADPBase != null ?
-                new ObjectParameter("LADPBase", lADPBase) :
-                new ObjectParameter("LADPBase", typeof(string));
-    
             var validadaParameter = validada.HasValue ?
                 new ObjectParameter("Validada", validada) :
                 new ObjectParameter("Validada", typeof(bool));
@@ -312,7 +288,186 @@ namespace Gestreino
                 new ObjectParameter("Action", action) :
                 new ObjectParameter("Action", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_UTILIZADORES_Result>("SP_UTILIZADORES_ENT_UTILIZADORES", idParameter, subGroupIdParameter, profileIdParameter, loginParameter, nomeParameter, telefoneParameter, emailParameter, senhaParameter, saltParameter, activoParameter, dataActParameter, dataDesactParameter, oAuth2ValidParameter, oAuth2ProviderParameter, oAuth2IDParameter, lADPValidParameter, lADPHostParameter, lADPBaseParameter, validadaParameter, userInsercaoIdParameter, actionParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_UTILIZADORES_Result>("SP_UTILIZADORES_ENT_UTILIZADORES", idParameter, subGroupIdParameter, profileIdParameter, loginParameter, nomeParameter, telefoneParameter, emailParameter, senhaParameter, saltParameter, activoParameter, dataActParameter, dataDesactParameter, validadaParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_UTILIZADORES_ENT_ATOMOS_Result> SP_UTILIZADORES_ENT_ATOMOS(Nullable<int> id, string nome, string descricao, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var descricaoParameter = descricao != null ?
+                new ObjectParameter("Descricao", descricao) :
+                new ObjectParameter("Descricao", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_ATOMOS_Result>("SP_UTILIZADORES_ENT_ATOMOS", idParameter, nomeParameter, descricaoParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_UTILIZADORES_ENT_GRUPOS_Result> SP_UTILIZADORES_ENT_GRUPOS(Nullable<int> id, string sigla, string nome, string descricao, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var siglaParameter = sigla != null ?
+                new ObjectParameter("Sigla", sigla) :
+                new ObjectParameter("Sigla", typeof(string));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var descricaoParameter = descricao != null ?
+                new ObjectParameter("Descricao", descricao) :
+                new ObjectParameter("Descricao", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_GRUPOS_Result>("SP_UTILIZADORES_ENT_GRUPOS", idParameter, siglaParameter, nomeParameter, descricaoParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_UTILIZADORES_ENT_PERFIS_Result> SP_UTILIZADORES_ENT_PERFIS(Nullable<int> id, string nome, string descricao, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var descricaoParameter = descricao != null ?
+                new ObjectParameter("Descricao", descricao) :
+                new ObjectParameter("Descricao", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_PERFIS_Result>("SP_UTILIZADORES_ENT_PERFIS", idParameter, nomeParameter, descricaoParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_UTILIZADORES_ENT_ATOMOS_GRUPOS_Result> SP_UTILIZADORES_ENT_ATOMOS_GRUPOS(Nullable<int> id, Nullable<int> groupId, Nullable<int> atomId, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var groupIdParameter = groupId.HasValue ?
+                new ObjectParameter("GroupId", groupId) :
+                new ObjectParameter("GroupId", typeof(int));
+    
+            var atomIdParameter = atomId.HasValue ?
+                new ObjectParameter("AtomId", atomId) :
+                new ObjectParameter("AtomId", typeof(int));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_ATOMOS_GRUPOS_Result>("SP_UTILIZADORES_ENT_ATOMOS_GRUPOS", idParameter, groupIdParameter, atomIdParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_UTILIZADORES_ENT_GRUPOS_UTILIZADORES_Result> SP_UTILIZADORES_ENT_GRUPOS_UTILIZADORES(Nullable<int> id, Nullable<int> groupId, Nullable<int> userId, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var groupIdParameter = groupId.HasValue ?
+                new ObjectParameter("GroupId", groupId) :
+                new ObjectParameter("GroupId", typeof(int));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_GRUPOS_UTILIZADORES_Result>("SP_UTILIZADORES_ENT_GRUPOS_UTILIZADORES", idParameter, groupIdParameter, userIdParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_UTILIZADORES_ENT_PERFIS_ATOMOS_Result> SP_UTILIZADORES_ENT_PERFIS_ATOMOS(Nullable<int> id, Nullable<int> profileId, Nullable<int> atomId, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var profileIdParameter = profileId.HasValue ?
+                new ObjectParameter("ProfileId", profileId) :
+                new ObjectParameter("ProfileId", typeof(int));
+    
+            var atomIdParameter = atomId.HasValue ?
+                new ObjectParameter("AtomId", atomId) :
+                new ObjectParameter("AtomId", typeof(int));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_PERFIS_ATOMOS_Result>("SP_UTILIZADORES_ENT_PERFIS_ATOMOS", idParameter, profileIdParameter, atomIdParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS_Result> SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS(Nullable<int> id, Nullable<int> profileId, Nullable<int> userId, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var profileIdParameter = profileId.HasValue ?
+                new ObjectParameter("ProfileId", profileId) :
+                new ObjectParameter("ProfileId", typeof(int));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS_Result>("SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS", idParameter, profileIdParameter, userIdParameter, userInsercaoIdParameter, actionParameter);
         }
     }
 }

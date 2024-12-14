@@ -10,6 +10,7 @@ namespace Gestreino.Controllers
     {
         public ActionResult Index()
         {
+            if (!Request.IsAuthenticated) RedirectToAction("login","account");
             return View();
         }
     }

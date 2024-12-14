@@ -21,13 +21,19 @@ namespace Gestreino
 
             bundles.Add(new Bundle("~/bundles/bootstrap").Include(
                       "~/Assets/javascript/jquery.min.js",
+                      "~/Assets/javascript/jquery.min2-unobtrusive-ajax.min.js",
                       "~/Assets/javascript/bootstrap.bundle.min.js",
+                      "~/Assets/javascript/dataTables.checkboxes.min.js",
+                      "~/Assets/javascript/dataTables.min.js",
+                      "~/Assets/javascript/toastr.min.js",
                       "~/Assets/javascript/custom.js",
                       "~/Assets/javascript/application.js"
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Assets/css/bootstrap.min.css",
+                       "~/Content/css/toastr.min.css",
+                       "~/Content/css/dataTables.dataTables.min.css",
                       "~/Assets/css/custom.css",
                       "~/Assets/css/app.css"));
         }

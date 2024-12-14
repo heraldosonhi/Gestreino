@@ -1,0 +1,687 @@
+﻿@model Gestreino.Models.AccessAppendItems
+@{
+    Layout = null;
+}
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_panel" style="border:none">
+                <div class="x_title">
+                    <h2>@ViewBag.Action utilizador à grupo(s)</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a class="dropdown-item" href="#">Settings 1</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="close-link" data-dismiss="modal"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="handle-error alert alert-accent"
+                     role="alert" style="display:none;">
+                    <div class="d-flex flex-wrap align-items-start">
+                        <div class="mr-8pt">
+                            <i class="fa fa-warning"></i>
+                        </div>
+                        <div class="flex"
+                             style="min-width: 180px">
+                            <small class="text-black-100">
+                                <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="x_content">
+                    <br />
+                    @if (ViewBag.Action == "AdicionarGroupUtil")
+                    {
+                        using (Ajax.BeginForm("NewUserGroup", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.Id, new { Name = "GroupId" })
+                            <div id="appenditem"></div>
+                            <button hidden id="appenditemForm">save</button>
+                        }
+                        <!--  DATATABLE START -->
+                        <div class="card mb-32pt">
+                            <div class="card-header">
+                                <div class="form-inline">
+                                    <label class="" for="length_change">Mostrar</label>
+                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="UserTable">
+                                        <option value='10'>10</option>
+                                        <option value='25'>25</option>
+                                        <option value='50'>50</option>
+                                        <option value='100'>100</option>
+                                        <option value='500'>500</option>
+                                        <option value='1000'>1000</option>
+                                        <option value='2000'>2000</option>
+                                        <option value='5000'>5000</option>
+                                        <option value='10000'>10000</option>
+                                    </select>
+                                    <label class="" for="length_change">registos</label>
+                                    <div class="btn-group">
+                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="UserTable"><i class="fa fa-check-square"></i></button>
+                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserTable"><i class="fa fa-search"></i></button>
+                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserTable"><i class="fa fa-eraser"></i></button>
+                                        <button type="button" onclick="appenditem()" title="Adicionar utilizador" class="btn btn-default"><i class="fa fa-plus-circle"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="UserTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td><input type="text" id="Utilizador" class="form-control" /></td>
+                                            <td><input type="text" id="Nome" class="form-control" /></td>
+                                            <td><input type="text" id="Grupos" class="form-control" /></td>
+                                            <td><input type="text" id="Perfis" class="form-control" /></td>
+                                            <td><input type="text" id="Estado" class="form-control" /></td>
+                                            <td><input type="text" id="Insercao" class="form-control" /></td>
+                                            <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
+                                            <td><input type="text" id="Actualizacao" class="form-control" /></td>
+                                            <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th data-name="Utilizador">Utilizador</th>
+                                            <th data-name="Nome">Nome</th>
+                                            <th data-name="Grupos">Grupos</th>
+                                            <th data-name="Perfis">Perfis</th>
+                                            <th data-name="Estado">Estado</th>
+                                            <th data-name="Insercao">Inserção</th>
+                                            <th data-name="DataInsercao">Data Inserção</th>
+                                            <th data-name="Actualizacao">Actualização</th>
+                                            <th data-name="DataActualizacao">Data Actualização</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="card-footer p-8pt">
+                                <span class="paginateInfoUser paginateInfo mr-12pt" style="float:right"></span>
+                                <div id="paginateUser" class="pagination justify-content-start pagination-xsm m-0"></div>
+                            </div>
+                        </div>
+                        <!--  DATATABLE START -->
+
+                    }
+                    @if (ViewBag.Action == "AdicionarUtilGroup")
+                    {
+                        using (Ajax.BeginForm("NewUserGroup", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.Id, new { Name = "GroupId" })
+                            <div id="appenditem"></div>
+                            <button hidden id="appenditemForm">save</button>
+                        }
+                        <!--  DATATABLE START -->
+                <div class="card mb-32pt">
+                    <div class="card-header">
+                        <div class="form-inline">
+                            <label class="" for="length_change">Mostrar</label>
+                            <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GroupTable">
+                                <option value='10'>10</option>
+                                <option value='25'>25</option>
+                                <option value='50'>50</option>
+                                <option value='100'>100</option>
+                                <option value='500'>500</option>
+                                <option value='1000'>1000</option>
+                                <option value='2000'>2000</option>
+                                <option value='5000'>5000</option>
+                                <option value='10000'>10000</option>
+                            </select>
+                            <label class="" for="length_change">registos</label>
+                            <div class="btn-group">
+                                <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GroupTable"><i class="fa fa-check-square"></i></button>
+                                <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GroupTable"><i class="fa fa-search"></i></button>
+                                <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GroupTable"><i class="fa fa-eraser"></i></button>
+                                <button type="button" onclick="appenditem()" title="Adicionar grupo" class="btn btn-default"><i class="fa fa-plus-circle"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="GroupTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                            <thead>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td><input type="text" id="Sigla" class="form-control" /></td>
+                                    <td><input type="text" id="Nome" class="form-control" /></td>
+                                    <td><input type="text" id="Insercao" class="form-control" /></td>
+                                    <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
+                                    <td><input type="text" id="Actualizacao" class="form-control" /></td>
+                                    <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th data-name="Sigla">Sigla</th>
+                                    <th data-name="Nome">Nome</th>
+                                    <th data-name="Insercao">Inserção</th>
+                                    <th data-name="DataInsercao">Data Inserção</th>
+                                    <th data-name="Actualizacao">Actualização</th>
+                                    <th data-name="DataActualizacao">Data Actualização</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="card-footer p-8pt">
+                        <span class="paginateInfoGroup paginateInfo mr-12pt" style="float:right"></span>
+                        <div id="paginateGroup" class="pagination justify-content-start pagination-xsm m-0"></div>
+                    </div>
+                </div>
+                        <!--  DATATABLE START -->
+
+                    }
+                    @if (ViewBag.Action == "RemoverGroupUtil")
+                    {
+                        using (Ajax.BeginForm("DeleteUserGroup", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            foreach (var i in ViewBag.bulkids)
+                            {
+                                <input type="hidden" value="@i" name="ids[]" />
+                            }
+                            <p>Deseja remover este(s) item(s)? Esta operação não é reversível</p>
+
+                            <div class="row mt-1">
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-danger btn-sm" id="BtnSubmit">Submeter</button>
+                                </div>
+                            </div>
+                        }
+                    }
+
+
+                    @if (ViewBag.Action == "AdicionarGroupAtom")
+                    {
+                        using (Ajax.BeginForm("NewAtomGroup", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.Id, new { Name = "GroupId" })
+                            <div id="appenditem"></div>
+                            <button hidden id="appenditemForm">save</button>
+                        }
+                        <!--  DATATABLE START -->
+                        <div class="card mb-32pt">
+                            <div class="card-header">
+                                <div class="form-inline">
+                                    <label class="" for="length_change">Mostrar</label>
+                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="AtomTable">
+                                        <option value='10'>10</option>
+                                        <option value='25'>25</option>
+                                        <option value='50'>50</option>
+                                        <option value='100'>100</option>
+                                        <option value='500'>500</option>
+                                        <option value='1000'>1000</option>
+                                        <option value='2000'>2000</option>
+                                        <option value='5000'>5000</option>
+                                        <option value='10000'>10000</option>
+                                    </select>
+                                    <label class="" for="length_change">registos</label>
+                                    <div class="btn-group">
+                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="AtomTable"><i class="fa fa-check-square"></i></button>
+                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="AtomTable"><i class="fa fa-search"></i></button>
+                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="AtomTable"><i class="fa fa-eraser"></i></button>
+                                        <button type="button" onclick="appenditem()" title="Adicionar átomo" class="btn btn-default"><i class="fa fa-plus-circle"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="AtomTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td><input type="text" id="Nome" class="form-control" /></td>
+                                            <td><input type="text" id="Insercao" class="form-control" /></td>
+                                            <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
+                                            <td><input type="text" id="Actualizacao" class="form-control" /></td>
+                                            <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th data-name="Nome">Nome</th>
+                                            <th data-name="Insercao">Inserção</th>
+                                            <th data-name="DataInsercao">Data Inserção</th>
+                                            <th data-name="Actualizacao">Actualização</th>
+                                            <th data-name="DataActualizacao">Data Actualização</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="card-footer p-8pt">
+                                <span class="paginateInfoAtom paginateInfo mr-12pt" style="float:right"></span>
+                                <div id="paginateAtom" class="pagination justify-content-start pagination-xsm m-0"></div>
+                            </div>
+                        </div>
+                        <!--  DATATABLE START -->
+
+                    }
+                    @if (ViewBag.Action == "AdicionarAtomGroup")
+                    {
+                        using (Ajax.BeginForm("NewAtomGroup", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.Id, new { Name = "AtomId" })
+                            <div id="appenditem"></div>
+                            <button hidden id="appenditemForm">save</button>
+                        }
+                        <!--  DATATABLE START -->
+                        <div class="card mb-32pt">
+                            <div class="card-header">
+                                <div class="form-inline">
+                                    <label class="" for="length_change">Mostrar</label>
+                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GroupTable">
+                                        <option value='10'>10</option>
+                                        <option value='25'>25</option>
+                                        <option value='50'>50</option>
+                                        <option value='100'>100</option>
+                                        <option value='500'>500</option>
+                                        <option value='1000'>1000</option>
+                                        <option value='2000'>2000</option>
+                                        <option value='5000'>5000</option>
+                                        <option value='10000'>10000</option>
+                                    </select>
+                                    <label class="" for="length_change">registos</label>
+                                    <div class="btn-group">
+                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GroupTable"><i class="fa fa-check-square"></i></button>
+                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GroupTable"><i class="fa fa-search"></i></button>
+                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GroupTable"><i class="fa fa-eraser"></i></button>
+                                        <button type="button" onclick="appenditem()" title="Adicionar grupo" class="btn btn-default"><i class="fa fa-plus-circle"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="GroupTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td><input type="text" id="Sigla" class="form-control" /></td>
+                                            <td><input type="text" id="Nome" class="form-control" /></td>
+                                            <td><input type="text" id="Insercao" class="form-control" /></td>
+                                            <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
+                                            <td><input type="text" id="Actualizacao" class="form-control" /></td>
+                                            <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th data-name="Sigla">Sigla</th>
+                                            <th data-name="Nome">Nome</th>
+                                            <th data-name="Insercao">Inserção</th>
+                                            <th data-name="DataInsercao">Data Inserção</th>
+                                            <th data-name="Actualizacao">Actualização</th>
+                                            <th data-name="DataActualizacao">Data Actualização</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="card-footer p-8pt">
+                                <span class="paginateInfoGroup paginateInfo mr-12pt" style="float:right"></span>
+                                <div id="paginateGroup" class="pagination justify-content-start pagination-xsm m-0"></div>
+                            </div>
+                        </div>
+                        <!--  DATATABLE START -->
+
+                    }
+                    @if (ViewBag.Action == "RemoverGroupAtom")
+                    {
+                        using (Ajax.BeginForm("DeleteAtomGroup", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            foreach (var i in ViewBag.bulkids)
+                            {
+                                <input type="hidden" value="@i" name="ids[]" />
+                            }
+                            <p>Deseja remover este(s) item(s)? Esta operação não é reversível</p>
+
+                            <div class="row mt-1">
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-danger btn-sm" id="BtnSubmit">Submeter</button>
+                                </div>
+                            </div>
+                        }
+                    }
+
+
+                    @if (ViewBag.Action == "AdicionarAtomProfile")
+                    {
+                        using (Ajax.BeginForm("NewAtomProfile", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.Id, new { Name = "AtomId" })
+                            <div id="appenditem"></div>
+                            <button hidden id="appenditemForm">save</button>
+                        }
+                        <!--  DATATABLE START -->
+                        <div class="card mb-32pt">
+                            <div class="card-header">
+                                <div class="form-inline">
+                                    <label class="" for="length_change">Mostrar</label>
+                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="ProfileTable">
+                                        <option value='10'>10</option>
+                                        <option value='25'>25</option>
+                                        <option value='50'>50</option>
+                                        <option value='100'>100</option>
+                                        <option value='500'>500</option>
+                                        <option value='1000'>1000</option>
+                                        <option value='2000'>2000</option>
+                                        <option value='5000'>5000</option>
+                                        <option value='10000'>10000</option>
+                                    </select>
+                                    <label class="" for="length_change">registos</label>
+                                    <div class="btn-group">
+                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="ProfileTable"><i class="fa fa-check-square"></i></button>
+                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="ProfileTable"><i class="fa fa-search"></i></button>
+                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="ProfileTable"><i class="fa fa-eraser"></i></button>
+                                        <button type="button" onclick="appenditem()" title="Adicionar perfil" class="btn btn-default"><i class="fa fa-plus-circle"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="ProfileTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td><input type="text" id="Nome" class="form-control" /></td>
+                                            <td><input type="text" id="Insercao" class="form-control" /></td>
+                                            <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
+                                            <td><input type="text" id="Actualizacao" class="form-control" /></td>
+                                            <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th data-name="Nome">Nome</th>
+                                            <th data-name="Insercao">Inserção</th>
+                                            <th data-name="DataInsercao">Data Inserção</th>
+                                            <th data-name="Actualizacao">Actualização</th>
+                                            <th data-name="DataActualizacao">Data Actualização</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="card-footer p-8pt">
+                                <span class="paginateInfoProfile paginateInfo mr-12pt" style="float:right"></span>
+                                <div id="paginateProfile" class="pagination justify-content-start pagination-xsm m-0"></div>
+                            </div>
+                        </div>
+                        <!--  DATATABLE START -->
+
+                    }
+                    @if (ViewBag.Action == "AdicionarProfileAtom")
+                    {
+                        using (Ajax.BeginForm("NewAtomProfile", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.Id, new { Name = "ProfileId" })
+                            <div id="appenditem"></div>
+                            <button hidden id="appenditemForm">save</button>
+                        }
+                        <!--  DATATABLE START -->
+                        <div class="card mb-32pt">
+                            <div class="card-header">
+                                <div class="form-inline">
+                                    <label class="" for="length_change">Mostrar</label>
+                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="AtomTable">
+                                        <option value='10'>10</option>
+                                        <option value='25'>25</option>
+                                        <option value='50'>50</option>
+                                        <option value='100'>100</option>
+                                        <option value='500'>500</option>
+                                        <option value='1000'>1000</option>
+                                        <option value='2000'>2000</option>
+                                        <option value='5000'>5000</option>
+                                        <option value='10000'>10000</option>
+                                    </select>
+                                    <label class="" for="length_change">registos</label>
+                                    <div class="btn-group">
+                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="AtomTable"><i class="fa fa-check-square"></i></button>
+                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="AtomTable"><i class="fa fa-search"></i></button>
+                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="AtomTable"><i class="fa fa-eraser"></i></button>
+                                        <button type="button" onclick="appenditem()" title="Adicionar grupo" class="btn btn-default"><i class="fa fa-plus-circle"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="AtomTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td><input type="text" id="Nome" class="form-control" /></td>
+                                            <td><input type="text" id="Insercao" class="form-control" /></td>
+                                            <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
+                                            <td><input type="text" id="Actualizacao" class="form-control" /></td>
+                                            <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th data-name="Nome">Nome</th>
+                                            <th data-name="Insercao">Inserção</th>
+                                            <th data-name="DataInsercao">Data Inserção</th>
+                                            <th data-name="Actualizacao">Actualização</th>
+                                            <th data-name="DataActualizacao">Data Actualização</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="card-footer p-8pt">
+                                <span class="paginateInfoAtom paginateInfo mr-12pt" style="float:right"></span>
+                                <div id="paginateAtom" class="pagination justify-content-start pagination-xsm m-0"></div>
+                            </div>
+                        </div>
+                        <!--  DATATABLE START -->
+
+                    }
+                    @if (ViewBag.Action == "RemoverAtomProfile")
+                    {
+                        using (Ajax.BeginForm("DeleteAtomProfile", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            foreach (var i in ViewBag.bulkids)
+                            {
+                                <input type="hidden" value="@i" name="ids[]" />
+                            }
+                            <p>Deseja remover este(s) item(s)? Esta operação não é reversível</p>
+
+                            <div class="row mt-1">
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-danger btn-sm" id="BtnSubmit">Submeter</button>
+                                </div>
+                            </div>
+                        }
+                    }
+
+
+                    @if (ViewBag.Action == "AdicionarProfileUtil")
+                    {
+                        using (Ajax.BeginForm("NewProfileUtil", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.Id, new { Name = "ProfileId" })
+                            <div id="appenditem"></div>
+                            <button hidden id="appenditemForm">save</button>
+                        }
+                        <!--  DATATABLE START -->
+                        <div class="card mb-32pt">
+                            <div class="card-header">
+                                <div class="form-inline">
+                                    <label class="" for="length_change">Mostrar</label>
+                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="UserTable">
+                                        <option value='10'>10</option>
+                                        <option value='25'>25</option>
+                                        <option value='50'>50</option>
+                                        <option value='100'>100</option>
+                                        <option value='500'>500</option>
+                                        <option value='1000'>1000</option>
+                                        <option value='2000'>2000</option>
+                                        <option value='5000'>5000</option>
+                                        <option value='10000'>10000</option>
+                                    </select>
+                                    <label class="" for="length_change">registos</label>
+                                    <div class="btn-group">
+                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="UserTable"><i class="fa fa-check-square"></i></button>
+                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserTable"><i class="fa fa-search"></i></button>
+                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserTable"><i class="fa fa-eraser"></i></button>
+                                        <button type="button" onclick="appenditem()" title="Adicionar utilizador" class="btn btn-default"><i class="fa fa-plus-circle"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="UserTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td><input type="text" id="Utilizador" class="form-control" /></td>
+                                            <td><input type="text" id="Nome" class="form-control" /></td>
+                                            <td><input type="text" id="Grupos" class="form-control" /></td>
+                                            <td><input type="text" id="Perfis" class="form-control" /></td>
+                                            <td><input type="text" id="Estado" class="form-control" /></td>
+                                            <td><input type="text" id="Insercao" class="form-control" /></td>
+                                            <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
+                                            <td><input type="text" id="Actualizacao" class="form-control" /></td>
+                                            <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th data-name="Utilizador">Utilizador</th>
+                                            <th data-name="Nome">Nome</th>
+                                            <th data-name="Grupos">Grupos</th>
+                                            <th data-name="Perfis">Perfis</th>
+                                            <th data-name="Estado">Estado</th>
+                                            <th data-name="Insercao">Inserção</th>
+                                            <th data-name="DataInsercao">Data Inserção</th>
+                                            <th data-name="Actualizacao">Actualização</th>
+                                            <th data-name="DataActualizacao">Data Actualização</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="card-footer p-8pt">
+                                <span class="paginateInfoUser paginateInfo mr-12pt" style="float:right"></span>
+                                <div id="paginateUser" class="pagination justify-content-start pagination-xsm m-0"></div>
+                            </div>
+                        </div>
+                        <!--  DATATABLE START -->
+
+                    }
+                    @if (ViewBag.Action == "AdicionarUtilProfile")
+                    {
+                        using (Ajax.BeginForm("NewProfileUtil", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.Id, new { Name = "UserId" })
+                            <div id="appenditem"></div>
+                            <button hidden id="appenditemForm">save</button>
+                        }
+                        <!--  DATATABLE START -->
+                        <div class="card mb-32pt">
+                            <div class="card-header">
+                                <div class="form-inline">
+                                    <label class="" for="length_change">Mostrar</label>
+                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="ProfileTable">
+                                        <option value='10'>10</option>
+                                        <option value='25'>25</option>
+                                        <option value='50'>50</option>
+                                        <option value='100'>100</option>
+                                        <option value='500'>500</option>
+                                        <option value='1000'>1000</option>
+                                        <option value='2000'>2000</option>
+                                        <option value='5000'>5000</option>
+                                        <option value='10000'>10000</option>
+                                    </select>
+                                    <label class="" for="length_change">registos</label>
+                                    <div class="btn-group">
+                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="ProfileTable"><i class="fa fa-check-square"></i></button>
+                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="ProfileTable"><i class="fa fa-search"></i></button>
+                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="ProfileTable"><i class="fa fa-eraser"></i></button>
+                                        <button type="button" onclick="appenditem()" title="Adicionar perfil" class="btn btn-default"><i class="fa fa-plus-circle"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="ProfileTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td><input type="text" id="Nome" class="form-control" /></td>
+                                            <td><input type="text" id="Insercao" class="form-control" /></td>
+                                            <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
+                                            <td><input type="text" id="Actualizacao" class="form-control" /></td>
+                                            <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th data-name="Nome">Nome</th>
+                                            <th data-name="Insercao">Inserção</th>
+                                            <th data-name="DataInsercao">Data Inserção</th>
+                                            <th data-name="Actualizacao">Actualização</th>
+                                            <th data-name="DataActualizacao">Data Actualização</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="card-footer p-8pt">
+                                <span class="paginateInfoProfile paginateInfo mr-12pt" style="float:right"></span>
+                                <div id="paginateProfile" class="pagination justify-content-start pagination-xsm m-0"></div>
+                            </div>
+                        </div>
+                        <!--  DATATABLE START -->
+
+                    }
+                    @if (ViewBag.Action == "RemoverUtilProfile")
+                    {
+                        using (Ajax.BeginForm("DeleteUtilProfile", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            foreach (var i in ViewBag.bulkids)
+                            {
+                                <input type="hidden" value="@i" name="ids[]" />
+                            }
+                            <p>Deseja remover este(s) item(s)? Esta operação não é reversível</p>
+
+                            <div class="row mt-1">
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-danger btn-sm" id="BtnSubmit">Submeter</button>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page content -->
+<script type="text/javascript" src="~/Assets/javascript/application.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+    
+    });
+</script>

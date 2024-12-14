@@ -25,7 +25,7 @@ namespace Gestreino
         public string NOME { get; set; }
         public string DESCRICAO { get; set; }
         public int INSERIDO_POR { get; set; }
-        public Nullable<int> ACTUALIZADOR_POR { get; set; }
+        public Nullable<int> ACTUALIZADO_POR { get; set; }
         public Nullable<int> REMOVIDO_POR { get; set; }
         public System.DateTime DATA_INSERCAO { get; set; }
         public Nullable<System.DateTime> DATA_ACTUALIZACAO { get; set; }

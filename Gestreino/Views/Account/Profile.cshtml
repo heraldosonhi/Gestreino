@@ -4,7 +4,24 @@
 }
 <!-- page content -->
 <div class="right_col" role="main">
-    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="handle-error alert alert-accent"
+                     role="alert" style="display:none;">
+                    <div class="d-flex flex-wrap align-items-start">
+                        <div class="mr-8pt">
+                            <i class="fa fa-warning"></i>
+                        </div>
+                        <div class="flex"
+                             style="min-width: 180px">
+                            <span class="text-black-100">
+                                <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12 col-sm-12 ">
                 <div class="x_panel">
@@ -16,7 +33,6 @@
                                 </div>
                             </div>
                             <h3>@Model.Nome</h3>
-
                             <ul class="list-unstyled user_data">
                                 <li>
                                     <i class="fa fa-key user-profile-icon"></i> @Model.Login
@@ -30,17 +46,16 @@
                             <div class="" role="tabpanel" data-example-id="togglable-tabs">
                                 <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                                     <li role="presentation" class="active">
-                                        <a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Perfil</a>
+                                        <a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Dados gerais</a>
                                     </li>
                                     <li role="presentation" class="">
-                                        <a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Acesso</a>
+                                        <a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Alterar senha</a>
                                     </li>
                                 </ul>
                                 <div id="myTabContent" class="tab-content">
                                     <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
-                                        <h4>Dados gerais</h4>
-                                        <hr />
-                                        <ul class="list-unstyled user_data">
+
+                                        <ul class="list-unstyled user_data mt-2">
                                             <li>
                                                 <i class="fa fa-user fa-fw user-profile-icon"></i> @Model.Nome
                                             </li>
@@ -52,7 +67,7 @@
                                                 <a href="@Model.Email" target="_blank">@Model.Email</a>
                                             </li>
                                             <li>
-                                                <i class="fa fa-phone fa-fw user-profile-icon"></i> @Model.Telefone / @Model.TelefoneAlternativo
+                                                <i class="fa fa-phone fa-fw user-profile-icon"></i> @Model.Telefone &nbsp; @Model.TelefoneAlternativo
                                             </li>
                                             <li>
                                                 <i class="fa fa-info fa-fw user-profile-icon"></i> @ViewBag.Apresentacao
@@ -63,40 +78,35 @@
                                         </ul>
                                     </div>
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
-                                        @using (Html.BeginForm("resetpassword", "account", FormMethod.Post, new { role = "form" }))
+                                        @using (Ajax.BeginForm("resetpassword", "account", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                                         {
                                             @Html.AntiForgeryToken()
-                                            @Html.HiddenFor(x=>x.UserID)
-                                                        <h4>Alterar senha de acesso</h4>
-                                                        <hr />
-                                                        @Html.ValidationSummary("", new { @class = "text-danger" })
-                                                        <div class="row">
-                                                            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
-                                                            <div class="col-md-10">
-                                                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            @Html.LabelFor(m => m.NewPassword, new { @class = "col-md-2 col-form-label" })
-                                                            <div class="col-md-10">
-                                                                @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control" })
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 col-form-label" })
-                                                            <div class="col-md-10">
-                                                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mt-2">
-                                                            <div class="offset-md-2 col-md-10">
-                                                                <input type="submit" value="Submeter" class="btn btn-outline-dark" />
-                                                            </div>
-                                                        </div>
-                                                    }
+                                            @Html.HiddenFor(x => x.UserID)
+
+                                            <div class="row mt-2">
+                                                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
+                                                <div class="col-md-10">
+                                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control",required="" })
                                                 </div>
                                             </div>
-                                        </div>
+                                            <div class="row">
+                                                @Html.LabelFor(m => m.NewPassword, new { @class = "col-md-2 col-form-label" })
+                                                <div class="col-md-10">
+                                                    @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control", required = "" })
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 col-form-label" })
+                                                <div class="col-md-10">
+                                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", required = "" })
+                                                </div>
+                                            </div>
+                                            <div class="row mt-2">
+                                                <div class="offset-md-2 col-md-10">
+                                                    <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+                                                </div>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -104,3 +114,6 @@
                     </div>
                 </div>
             </div>
+        </div>
+    <h2>&nbsp;</h2>
+</div>

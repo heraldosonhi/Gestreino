@@ -1,18 +1,9 @@
 ﻿@{
     ViewBag.Title = "Início";
 }
-
         @if (Request.IsAuthenticated)
         {
             <!-- page content -->
             <div class="right_col" role="main" style="background: url('../../Assets/images/home.jpg'); background-size: cover; background-blend-mode: difference; "></div>
             <!-- /page content -->
-        }
-        else
-        {
-            <div class="col-md-12">
-                <div class="mb-5">
-                    <p class="text-center"><a href="@Url.Action("login","account")" class="btn btn-primary">Iniciar sessão</a></p>
-                </div>
-            </div>
         }

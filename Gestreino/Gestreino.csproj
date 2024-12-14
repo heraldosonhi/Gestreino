@@ -358,6 +358,27 @@
     <Compile Include="SP_PES_ENT_PESSOAS_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_UTILIZADORES_ENT_ATOMOS_GRUPOS_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_UTILIZADORES_ENT_ATOMOS_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_UTILIZADORES_ENT_GRUPOS_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_UTILIZADORES_ENT_GRUPOS_UTILIZADORES_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_UTILIZADORES_ENT_PERFIS_ATOMOS_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_UTILIZADORES_ENT_PERFIS_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_UTILIZADORES_ENT_UTILIZADORES_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -400,6 +421,7 @@
     <Content Include="Assets\css\app.css" />
     <Content Include="Assets\css\bootstrap.min.css" />
     <Content Include="Assets\css\custom.css" />
+    <Content Include="Assets\css\dataTables.dataTables.min.css" />
     <Content Include="Assets\css\font-awesome.min.css" />
     <Content Include="Assets\fonts\fontawesome-webfont.svg" />
     <Content Include="Assets\images\loading.gif" />
@@ -409,7 +431,11 @@
     <Content Include="Assets\javascript\application.js" />
     <Content Include="Assets\javascript\bootstrap.bundle.min.js" />
     <Content Include="Assets\javascript\custom.js" />
+    <Content Include="Assets\javascript\dataTables.checkboxes.min.js" />
+    <Content Include="Assets\javascript\dataTables.min.js" />
     <Content Include="Assets\javascript\jquery.min.js" />
+    <Content Include="Assets\javascript\jquery.min2-unobtrusive-ajax.min.js" />
+    <Content Include="Assets\javascript\toastr.min.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -426,6 +452,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ORM.Context.tt">
@@ -456,17 +484,24 @@
     <Content Include="ORM.edmx.diagram">
       <DependentUpon>ORM.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\toastr.scss" />
+    <Content Include="Content\toastr.less" />
+    <Content Include="Assets\lib\datatable\pt-PT.json" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
     <Content Include="Scripts\jquery-3.7.0.slim.js" />
     <Content Include="Scripts\jquery-3.7.0.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -504,9 +539,20 @@
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\GTManagement\Users\Index.cshtml" />
     <Content Include="Views\Ajax\GTManagement\Users.cshtml" />
+    <Content Include="Views\GTManagement\Access\Index.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Groups.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Profiles.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Atoms.cshtml" />
+    <Content Include="Views\GTManagement\Access\ViewGroups.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\AppendItems.cshtml" />
+    <Content Include="Views\GTManagement\Access\ViewProfiles.cshtml" />
+    <Content Include="Views\GTManagement\Access\ViewAtoms.cshtml" />
+    <Content Include="Views\GTManagement\Users\ViewUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\GTManagement\Atoms\" />
+    <Folder Include="Views\GTManagement\Profiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

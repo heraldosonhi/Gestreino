@@ -119,7 +119,6 @@ namespace JeanPiagetSGA.Controllers
         {
             try
             {
-                
                 if (!ModelState.IsValid)
                 {
                     string errors = string.Empty;
@@ -138,7 +137,7 @@ namespace JeanPiagetSGA.Controllers
                 var Salt = Crypto.GenerateSalt(64);
                 var Password = Crypto.Hash(MODEL.NewPassword.Trim() + Salt);
                 // Remove whitespaces and parse datetime strings //TrimStart() //Trim()
-                var update = databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES(MODEL.UserID, null, null, null, null, null, null, Password, Salt, null, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), Convert.ToChar('P').ToString()).ToArray();
+                var update = databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES(MODEL.UserID, null, null, null, null, null, null, Password, Salt, null, null, null, null, int.Parse(User.Identity.GetUserId()), Convert.ToChar('P').ToString()).ToArray();
 
                 ModelState.Clear();
             }

@@ -675,7 +675,7 @@
           <Property Name="NOME" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="DESCRICAO" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
-          <Property Name="ACTUALIZADOR_POR" Type="int" />
+          <Property Name="ACTUALIZADO_POR" Type="int" />
           <Property Name="REMOVIDO_POR" Type="int" />
           <Property Name="DATA_INSERCAO" Type="datetime" Nullable="false" />
           <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
@@ -1516,6 +1516,49 @@
           <Parameter Name="UserId" Type="int" Mode="In" />
           <Parameter Name="Action" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_UTILIZADORES_ENT_ATOMOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="Descricao" Type="varchar" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_UTILIZADORES_ENT_ATOMOS_GRUPOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="GroupId" Type="int" Mode="In" />
+          <Parameter Name="AtomId" Type="int" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_UTILIZADORES_ENT_GRUPOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Sigla" Type="varchar" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="Descricao" Type="varchar" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_UTILIZADORES_ENT_GRUPOS_UTILIZADORES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="GroupId" Type="int" Mode="In" />
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_UTILIZADORES_ENT_PERFIS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="Descricao" Type="varchar" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_UTILIZADORES_ENT_PERFIS_ATOMOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="ProfileId" Type="int" Mode="In" />
+          <Parameter Name="AtomId" Type="int" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_UTILIZADORES_ENT_UTILIZADORES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="SubGroupId" Type="int" Mode="In" />
@@ -1529,13 +1572,14 @@
           <Parameter Name="Activo" Type="bit" Mode="In" />
           <Parameter Name="DataAct" Type="date" Mode="In" />
           <Parameter Name="DataDesact" Type="date" Mode="In" />
-          <Parameter Name="OAuth2Valid" Type="bit" Mode="In" />
-          <Parameter Name="OAuth2Provider" Type="varchar" Mode="In" />
-          <Parameter Name="OAuth2ID" Type="varchar" Mode="In" />
-          <Parameter Name="LADPValid" Type="bit" Mode="In" />
-          <Parameter Name="LADPHost" Type="varchar" Mode="In" />
-          <Parameter Name="LADPBase" Type="varchar" Mode="In" />
           <Parameter Name="Validada" Type="bit" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="ProfileId" Type="int" Mode="In" />
+          <Parameter Name="UserId" Type="int" Mode="In" />
           <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
           <Parameter Name="Action" Type="varchar" Mode="In" />
         </Function>
@@ -2518,22 +2562,6 @@
           <NavigationProperty Name="UTILIZADORES_LOGIN_PASSWORD_TENT" Relationship="GESTREINO_ORM.UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID" FromRole="UTILIZADORES" ToRole="UTILIZADORES_LOGIN_PASSWORD_TENT" />
           <NavigationProperty Name="PES_PESSOAS" Relationship="GESTREINO_ORM.FKPES_PESSOA577877" FromRole="UTILIZADORES" ToRole="PES_PESSOAS" />
         </EntityType>
-        <EntityType Name="UTILIZADORES_ACESSO_ATOMOS">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NOME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DESCRICAO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
-          <Property Name="ACTUALIZADOR_POR" Type="Int32" />
-          <Property Name="REMOVIDO_POR" Type="Int32" />
-          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
-          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" Relationship="Self.FKUTILIZADOR744434" FromRole="UTILIZADORES_ACESSO_ATOMOS" ToRole="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" />
-          <NavigationProperty Name="UTILIZADORES_ACESSO_PERFIS_ATOMOS" Relationship="Self.FKUTILIZADOR816609" FromRole="UTILIZADORES_ACESSO_ATOMOS" ToRole="UTILIZADORES_ACESSO_PERFIS_ATOMOS" />
-        </EntityType>
         <EntityType Name="UTILIZADORES_ACESSO_ATOMOS_GRUPOS">
           <Key>
             <PropertyRef Name="ID" />
@@ -2547,8 +2575,8 @@
           <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="UTILIZADORES_ACESSO_ATOMOS" Relationship="Self.FKUTILIZADOR744434" FromRole="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" ToRole="UTILIZADORES_ACESSO_ATOMOS" />
           <NavigationProperty Name="UTILIZADORES_ACESSO_GRUPOS" Relationship="Self.FKUTILIZADOR350451" FromRole="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" ToRole="UTILIZADORES_ACESSO_GRUPOS" />
+          <NavigationProperty Name="UTILIZADORES_ACESSO_ATOMOS" Relationship="GESTREINO_ORM.FKUTILIZADOR744434" FromRole="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" ToRole="UTILIZADORES_ACESSO_ATOMOS" />
         </EntityType>
         <EntityType Name="UTILIZADORES_ACESSO_GRUPOS">
           <Key>
@@ -2596,8 +2624,8 @@
           <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="UTILIZADORES_ACESSO_ATOMOS" Relationship="Self.FKUTILIZADOR816609" FromRole="UTILIZADORES_ACESSO_PERFIS_ATOMOS" ToRole="UTILIZADORES_ACESSO_ATOMOS" />
           <NavigationProperty Name="UTILIZADORES_ACESSO_PERFIS" Relationship="Self.FKUTILIZADOR285471" FromRole="UTILIZADORES_ACESSO_PERFIS_ATOMOS" ToRole="UTILIZADORES_ACESSO_PERFIS" />
+          <NavigationProperty Name="UTILIZADORES_ACESSO_ATOMOS" Relationship="GESTREINO_ORM.FKUTILIZADOR816609" FromRole="UTILIZADORES_ACESSO_PERFIS_ATOMOS" ToRole="UTILIZADORES_ACESSO_ATOMOS" />
         </EntityType>
         <EntityType Name="UTILIZADORES_ACESSO_UTIL_GRUPOS">
           <Key>
@@ -3067,30 +3095,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKUTILIZADOR744434">
-          <End Role="UTILIZADORES_ACESSO_ATOMOS" Type="Self.UTILIZADORES_ACESSO_ATOMOS" Multiplicity="1" />
-          <End Role="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" Type="Self.UTILIZADORES_ACESSO_ATOMOS_GRUPOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UTILIZADORES_ACESSO_ATOMOS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UTILIZADORES_ACESSO_ATOMOS_GRUPOS">
-              <PropertyRef Name="UTILIZADORES_ACESSO_ATOMOS_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKUTILIZADOR816609">
-          <End Role="UTILIZADORES_ACESSO_ATOMOS" Type="Self.UTILIZADORES_ACESSO_ATOMOS" Multiplicity="1" />
-          <End Role="UTILIZADORES_ACESSO_PERFIS_ATOMOS" Type="Self.UTILIZADORES_ACESSO_PERFIS_ATOMOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UTILIZADORES_ACESSO_ATOMOS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UTILIZADORES_ACESSO_PERFIS_ATOMOS">
-              <PropertyRef Name="UTILIZADORES_ACESSO_ATOMOS_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FKUTILIZADOR350451">
           <End Role="UTILIZADORES_ACESSO_GRUPOS" Type="Self.UTILIZADORES_ACESSO_GRUPOS" Multiplicity="1" />
           <End Role="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" Type="Self.UTILIZADORES_ACESSO_ATOMOS_GRUPOS" Multiplicity="*" />
@@ -3175,7 +3179,6 @@
           <EntitySet Name="PES_TIPO_ENDERECOS" EntityType="Self.PES_TIPO_ENDERECOS" />
           <EntitySet Name="PES_TIPO_IDENTIFICACAO" EntityType="Self.PES_TIPO_IDENTIFICACAO" />
           <EntitySet Name="UTILIZADORES" EntityType="Self.UTILIZADORES" />
-          <EntitySet Name="UTILIZADORES_ACESSO_ATOMOS" EntityType="Self.UTILIZADORES_ACESSO_ATOMOS" />
           <EntitySet Name="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" EntityType="Self.UTILIZADORES_ACESSO_ATOMOS_GRUPOS" />
           <EntitySet Name="UTILIZADORES_ACESSO_GRUPOS" EntityType="Self.UTILIZADORES_ACESSO_GRUPOS" />
           <EntitySet Name="UTILIZADORES_ACESSO_PERFIS" EntityType="Self.UTILIZADORES_ACESSO_PERFIS" />
@@ -3323,14 +3326,6 @@
             <End Role="UTILIZADORES" EntitySet="UTILIZADORES" />
             <End Role="UTILIZADORES_ACESSO_UTIL_GRUPOS" EntitySet="UTILIZADORES_ACESSO_UTIL_GRUPOS" />
           </AssociationSet>
-          <AssociationSet Name="FKUTILIZADOR744434" Association="Self.FKUTILIZADOR744434">
-            <End Role="UTILIZADORES_ACESSO_ATOMOS" EntitySet="UTILIZADORES_ACESSO_ATOMOS" />
-            <End Role="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" EntitySet="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" />
-          </AssociationSet>
-          <AssociationSet Name="FKUTILIZADOR816609" Association="Self.FKUTILIZADOR816609">
-            <End Role="UTILIZADORES_ACESSO_ATOMOS" EntitySet="UTILIZADORES_ACESSO_ATOMOS" />
-            <End Role="UTILIZADORES_ACESSO_PERFIS_ATOMOS" EntitySet="UTILIZADORES_ACESSO_PERFIS_ATOMOS" />
-          </AssociationSet>
           <AssociationSet Name="FKUTILIZADOR350451" Association="Self.FKUTILIZADOR350451">
             <End Role="UTILIZADORES_ACESSO_GRUPOS" EntitySet="UTILIZADORES_ACESSO_GRUPOS" />
             <End Role="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" EntitySet="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" />
@@ -3472,13 +3467,66 @@
             <Parameter Name="Activo" Mode="In" Type="Boolean" />
             <Parameter Name="DataAct" Mode="In" Type="DateTime" />
             <Parameter Name="DataDesact" Mode="In" Type="DateTime" />
-            <Parameter Name="OAuth2Valid" Mode="In" Type="Boolean" />
-            <Parameter Name="OAuth2Provider" Mode="In" Type="String" />
-            <Parameter Name="OAuth2ID" Mode="In" Type="String" />
-            <Parameter Name="LADPValid" Mode="In" Type="Boolean" />
-            <Parameter Name="LADPHost" Mode="In" Type="String" />
-            <Parameter Name="LADPBase" Mode="In" Type="String" />
             <Parameter Name="Validada" Mode="In" Type="Boolean" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UTILIZADORES_ENT_ATOMOS" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_ATOMOS_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="Descricao" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UTILIZADORES_ENT_GRUPOS" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_GRUPOS_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Sigla" Mode="In" Type="String" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="Descricao" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UTILIZADORES_ENT_PERFIS" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_PERFIS_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="Descricao" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="UTILIZADORES_ACESSO_ATOMOS" EntityType="GESTREINO_ORM.UTILIZADORES_ACESSO_ATOMOS" />
+          <AssociationSet Name="FKUTILIZADOR744434" Association="GESTREINO_ORM.FKUTILIZADOR744434">
+            <End Role="UTILIZADORES_ACESSO_ATOMOS" EntitySet="UTILIZADORES_ACESSO_ATOMOS" />
+            <End Role="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" EntitySet="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" />
+          </AssociationSet>
+          <AssociationSet Name="FKUTILIZADOR816609" Association="GESTREINO_ORM.FKUTILIZADOR816609">
+            <End Role="UTILIZADORES_ACESSO_ATOMOS" EntitySet="UTILIZADORES_ACESSO_ATOMOS" />
+            <End Role="UTILIZADORES_ACESSO_PERFIS_ATOMOS" EntitySet="UTILIZADORES_ACESSO_PERFIS_ATOMOS" />
+          </AssociationSet>
+          <FunctionImport Name="SP_UTILIZADORES_ENT_ATOMOS_GRUPOS" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_ATOMOS_GRUPOS_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="GroupId" Mode="In" Type="Int32" />
+            <Parameter Name="AtomId" Mode="In" Type="Int32" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UTILIZADORES_ENT_GRUPOS_UTILIZADORES" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_GRUPOS_UTILIZADORES_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="GroupId" Mode="In" Type="Int32" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UTILIZADORES_ENT_PERFIS_ATOMOS" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_PERFIS_ATOMOS_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="ProfileId" Mode="In" Type="Int32" />
+            <Parameter Name="AtomId" Mode="In" Type="Int32" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="ProfileId" Mode="In" Type="Int32" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
             <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
@@ -3846,6 +3894,122 @@
           <Property Type="Int32" Name="TOTALGROUPS" Nullable="true" />
           <Property Type="Int32" Name="TOTALPERFIS" Nullable="true" />
           <Property Type="String" Name="ULTIMA_SESSAO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_UTILIZADORES_ENT_ATOMOS_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="DESCRICAO" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_UTILIZADORES_ENT_GRUPOS_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="DESCRICAO" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_UTILIZADORES_ENT_PERFIS_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="DESCRICAO" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <EntityType Name="UTILIZADORES_ACESSO_ATOMOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRICAO" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" Relationship="GESTREINO_ORM.FKUTILIZADOR744434" FromRole="UTILIZADORES_ACESSO_ATOMOS" ToRole="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" />
+          <NavigationProperty Name="UTILIZADORES_ACESSO_PERFIS_ATOMOS" Relationship="GESTREINO_ORM.FKUTILIZADOR816609" FromRole="UTILIZADORES_ACESSO_ATOMOS" ToRole="UTILIZADORES_ACESSO_PERFIS_ATOMOS" />
+        </EntityType>
+        <Association Name="FKUTILIZADOR744434">
+          <End Type="GESTREINO_ORM.UTILIZADORES_ACESSO_ATOMOS" Role="UTILIZADORES_ACESSO_ATOMOS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.UTILIZADORES_ACESSO_ATOMOS_GRUPOS" Role="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UTILIZADORES_ACESSO_ATOMOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UTILIZADORES_ACESSO_ATOMOS_GRUPOS">
+              <PropertyRef Name="UTILIZADORES_ACESSO_ATOMOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKUTILIZADOR816609">
+          <End Type="GESTREINO_ORM.UTILIZADORES_ACESSO_ATOMOS" Role="UTILIZADORES_ACESSO_ATOMOS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.UTILIZADORES_ACESSO_PERFIS_ATOMOS" Role="UTILIZADORES_ACESSO_PERFIS_ATOMOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UTILIZADORES_ACESSO_ATOMOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UTILIZADORES_ACESSO_PERFIS_ATOMOS">
+              <PropertyRef Name="UTILIZADORES_ACESSO_ATOMOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="SP_UTILIZADORES_ENT_ATOMOS_GRUPOS_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="ATOMO_ID" Nullable="false" />
+          <Property Type="String" Name="ATOMO_NOME" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="GRUPO_ID" Nullable="false" />
+          <Property Type="String" Name="GRUPO_SIGLA" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="GRUPO_NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_UTILIZADORES_ENT_GRUPOS_UTILIZADORES_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="UTILIZADOR_ID" Nullable="false" />
+          <Property Type="String" Name="LOGIN" Nullable="false" MaxLength="32" />
+          <Property Type="String" Name="NOME_PROPIO" Nullable="false" MaxLength="48" />
+          <Property Type="String" Name="APELIDO" Nullable="false" MaxLength="48" />
+          <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="GRUPO_NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_UTILIZADORES_ENT_PERFIS_ATOMOS_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="PERFIL_ID" Nullable="false" />
+          <Property Type="String" Name="PERFIL_NOME" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="ATOMO_ID" Nullable="false" />
+          <Property Type="String" Name="ATOMO_NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="UTILIZADOR_ID" Nullable="false" />
+          <Property Type="String" Name="LOGIN" Nullable="false" MaxLength="32" />
+          <Property Type="String" Name="NOME_PROPIO" Nullable="false" MaxLength="48" />
+          <Property Type="String" Name="APELIDO" Nullable="false" MaxLength="48" />
+          <Property Type="String" Name="PERFIL_NOME" Nullable="false" MaxLength="255" />
           <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
           <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
           <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
@@ -4487,21 +4651,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UTILIZADORES_ACESSO_ATOMOS">
-            <EntityTypeMapping TypeName="GESTREINO_ORM.UTILIZADORES_ACESSO_ATOMOS">
-              <MappingFragment StoreEntitySet="UTILIZADORES_ACESSO_ATOMOS">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="NOME" ColumnName="NOME" />
-                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
-                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
-                <ScalarProperty Name="ACTUALIZADOR_POR" ColumnName="ACTUALIZADOR_POR" />
-                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
-                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
-                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
-                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UTILIZADORES_ACESSO_ATOMOS_GRUPOS">
             <EntityTypeMapping TypeName="GESTREINO_ORM.UTILIZADORES_ACESSO_ATOMOS_GRUPOS">
               <MappingFragment StoreEntitySet="UTILIZADORES_ACESSO_ATOMOS_GRUPOS">
@@ -4765,6 +4914,125 @@
                 <ScalarProperty Name="TOTALGROUPS" ColumnName="TOTALGROUPS" />
                 <ScalarProperty Name="TOTALPERFIS" ColumnName="TOTALPERFIS" />
                 <ScalarProperty Name="ULTIMA_SESSAO" ColumnName="ULTIMA_SESSAO" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_ENT_ATOMOS" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_ENT_ATOMOS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_UTILIZADORES_ENT_ATOMOS_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_ENT_GRUPOS" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_ENT_GRUPOS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_UTILIZADORES_ENT_GRUPOS_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_ENT_PERFIS" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_ENT_PERFIS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_UTILIZADORES_ENT_PERFIS_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="UTILIZADORES_ACESSO_ATOMOS">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.UTILIZADORES_ACESSO_ATOMOS">
+              <MappingFragment StoreEntitySet="UTILIZADORES_ACESSO_ATOMOS">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_ENT_ATOMOS_GRUPOS" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_ENT_ATOMOS_GRUPOS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_UTILIZADORES_ENT_ATOMOS_GRUPOS_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ATOMO_ID" ColumnName="ATOMO_ID" />
+                <ScalarProperty Name="ATOMO_NOME" ColumnName="ATOMO_NOME" />
+                <ScalarProperty Name="GRUPO_ID" ColumnName="GRUPO_ID" />
+                <ScalarProperty Name="GRUPO_SIGLA" ColumnName="GRUPO_SIGLA" />
+                <ScalarProperty Name="GRUPO_NOME" ColumnName="GRUPO_NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_ENT_GRUPOS_UTILIZADORES" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_ENT_GRUPOS_UTILIZADORES">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_UTILIZADORES_ENT_GRUPOS_UTILIZADORES_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UTILIZADOR_ID" ColumnName="UTILIZADOR_ID" />
+                <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
+                <ScalarProperty Name="NOME_PROPIO" ColumnName="NOME_PROPIO" />
+                <ScalarProperty Name="APELIDO" ColumnName="APELIDO" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="GRUPO_NOME" ColumnName="GRUPO_NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_ENT_PERFIS_ATOMOS" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_ENT_PERFIS_ATOMOS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_UTILIZADORES_ENT_PERFIS_ATOMOS_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PERFIL_ID" ColumnName="PERFIL_ID" />
+                <ScalarProperty Name="PERFIL_NOME" ColumnName="PERFIL_NOME" />
+                <ScalarProperty Name="ATOMO_ID" ColumnName="ATOMO_ID" />
+                <ScalarProperty Name="ATOMO_NOME" ColumnName="ATOMO_NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UTILIZADOR_ID" ColumnName="UTILIZADOR_ID" />
+                <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
+                <ScalarProperty Name="NOME_PROPIO" ColumnName="NOME_PROPIO" />
+                <ScalarProperty Name="APELIDO" ColumnName="APELIDO" />
+                <ScalarProperty Name="PERFIL_NOME" ColumnName="PERFIL_NOME" />
                 <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
                 <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
                 <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />

@@ -24,7 +24,7 @@ namespace Gestreino
         public Nullable<System.DateTime> DATA_ACTUALIZACAO { get; set; }
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
     
-        public virtual UTILIZADORES_ACESSO_ATOMOS UTILIZADORES_ACESSO_ATOMOS { get; set; }
         public virtual UTILIZADORES_ACESSO_GRUPOS UTILIZADORES_ACESSO_GRUPOS { get; set; }
+        public virtual UTILIZADORES_ACESSO_ATOMOS UTILIZADORES_ACESSO_ATOMOS { get; set; }
     }
 }

@@ -3132,15 +3132,16 @@ span.tag a {
 /* *********  /form tags input  **************************** */
 /** Tabs **/
 ul.bar_tabs {
-  overflow: visible;
-  background: #F5F7FA;
-  height: 25px;
-  margin: 21px 0 14px;
-  padding-left: 14px;
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  border-bottom: 1px solid #E6E9ED; }
+    overflow: visible;
+    /*background: #F5F7FA;*/
+    height: 25px;
+    margin: 21px 0 14px;
+    padding-left: 14px;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    border-bottom: 1px solid #E6E9ED;
+}
 
 ul.bar_tabs > li {
   border: 1px solid #E6E9ED;
