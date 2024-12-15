@@ -16,8 +16,8 @@ namespace Gestreino.Classes
         }
         public enum Status
         {
-            Activo,
-            Inactivo
+            Activo=1,
+            Inactivo=0
         }
         public enum Duration
         {

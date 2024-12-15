@@ -23,17 +23,30 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12 col-sm-12 ">
-                <div class="x_panel">
+            <div class="col-md-3   widget widget_tally_box">
+                <div class="x_panel fixed_height_390">
                     <div class="x_content">
-                        <div class="col-md-3 col-sm-3  profile_left">
-                            <div class="profile_img">
-                                <div id="crop-avatar">
-                                    <img class="img-responsive avatar-view" src="@ViewBag.imgSrc" alt="@Model.Nome" title="@Model.Nome">
-                                </div>
-                            </div>
-                            <h3>@Model.Nome</h3>
-                            <ul class="list-unstyled user_data">
+                        <div class="flex">
+                            <ul class="list-inline widget_profile_box">
+                                <li>
+                                    <a>
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <img class="img-circle profile_img" src="@ViewBag.imgSrc" alt="@Model.Nome" title="@Model.Nome">
+                                </li>
+                                <li>
+                                    <a>
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                      
+                        <h3 class="name">@Model.Nome</h3>
+                        <div class="flex">
+                            <ul class="list-inline count2">
                                 <li>
                                     <i class="fa fa-key user-profile-icon"></i> @Model.Login
                                 </li>
@@ -42,7 +55,14 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-md-9 col-sm-9 ">
+                        <p><i class="fa fa-info fa-fw user-profile-icon"></i> @ViewBag.Apresentacao</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9 col-sm-12 ">
+                <div class="x_panel">
+                    <div class="x_content">
                             <div class="" role="tabpanel" data-example-id="togglable-tabs">
                                 <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                                     <li role="presentation" class="active">
@@ -54,7 +74,6 @@
                                 </ul>
                                 <div id="myTabContent" class="tab-content">
                                     <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
-
                                         <ul class="list-unstyled user_data mt-2">
                                             <li>
                                                 <i class="fa fa-user fa-fw user-profile-icon"></i> @Model.Nome
@@ -84,21 +103,38 @@
                                             @Html.HiddenFor(x => x.UserID)
 
                                             <div class="row mt-2">
-                                                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
-                                                <div class="col-md-10">
-                                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control",required="" })
+                                                @Html.LabelFor(m => m.OldPassword, new { @class = "col-md-2 col-form-label" })
+                                                <div class="col-md-6">
+                                                    @Html.PasswordFor(m => m.OldPassword, new { @class = "form-control form-control-sm", required = "" })
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                @Html.LabelFor(m => m.NewPassword, new { @class = "col-md-2 col-form-label" })
-                                                <div class="col-md-10">
-                                                    @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control", required = "" })
+                                                <label class="col-sm-2 col-form-label text-right"></label>
+                                                <div class="col-md-6">
+                                                    @Html.LabelFor(m => m.isAutomaticPasswordEmail, new { @class = " col-form-label" })
+                                                    @Html.CheckBoxFor(m => m.isAutomaticPasswordEmail, new { @class = "" })
+                                                </div>
+                                            </div>
+                                            <div class="row GenPasswordRow" style="display:none">
+                                                <label class="col-sm-2 col-form-label text-right"></label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control form-control-sm" placeholder="Senha gerada" id="GenPassword" readonly="">
+                                                </div>
+                                                <div class="col-sm-3 btn-group">
+                                                    <a class="btn btn-sm btn-secondary" onclick="ShufflePassword()" title="Shuffle"><i class="fa fa-random"></i></a>
+                                                    <a class="btn btn-sm btn-secondary" onclick="copyPassword()" title="Copiar senha"><i class="fa fa-copy"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
+                                                <div class="col-md-6">
+                                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-sm", required = "" })
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 col-form-label" })
-                                                <div class="col-md-10">
-                                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", required = "" })
+                                                <div class="col-md-6">
+                                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control form-control-sm", required = "" })
                                                 </div>
                                             </div>
                                             <div class="row mt-2">
@@ -111,7 +147,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>

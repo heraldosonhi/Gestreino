@@ -3,138 +3,81 @@
 }
 <!-- page content -->
 <div class="right_col" role="main">
-    <div class="">
-        <div class="page-title">
-            <div class="title_left">
-                <h3>Plain Page</h3>
-            </div>
 
-            <div class="title_right">
-                <div class="col-md-5 col-sm-5   form-group pull-right top_search">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
-                        </span>
-                    </div>
+    <!--  DATATABLE START -->
+
+    <div class="card mb-32pt">
+        <div class="card-header">
+            <div class="form-inline">
+                <label class="" for="length_change">Mostrar</label>
+                <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="UserTable">
+                    <option value='10'>10</option>
+                    <option value='25'>25</option>
+                    <option value='50'>50</option>
+                    <option value='100'>100</option>
+                    <option value='500'>500</option>
+                    <option value='1000'>1000</option>
+                    <option value='2000'>2000</option>
+                    <option value='5000'>5000</option>
+                    <option value='10000'>10000</option>
+                </select>
+                <label class="" for="length_change">registos</label>
+                <div class="btn-group">
+                    <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="UserTable"><i class="fa fa-check-square"></i></button>
+                    <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="users" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                    <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserTable"><i class="fa fa-search"></i></button>
+                    <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserTable"><i class="fa fa-eraser"></i></button>
+                    <a title="Adicionar atleta" href="@Url.Action("newathlete","gtmanagement")" class="btn btn-default"><i class="fa fa-plus-circle"></i></a>
+                    <!--Separator-->
+                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
                 </div>
             </div>
         </div>
-
-        <div class="clearfix"></div>
-
-        <div class="row">
-            <div class="col-md-12 col-sm-12  ">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Plain Page</h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li>
-                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Settings 1</a>
-                                    <a class="dropdown-item" href="#">Settings 2</a>
-                                </div>
-                            </li>
-                            <li>
-                                <a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-
-
-
-                        <!--  DATATABLE START -->
-                        <div class="card-header card-reader-radius bg-primary-pickled-bluewood">
-                            <h3 class="card-title text-white">Cursos</h3>
-                        </div>
-                        <div class="card mb-32pt">
-                            <div class="card-header">
-                                <div class="form-inline">
-                                    <label class="" for="length_change">Mostrar</label>
-                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="CursosTable">
-                                        <option value='10'>10</option>
-                                        <option value='25'>25</option>
-                                        <option value='50'>50</option>
-                                        <option value='100'>100</option>
-                                        <option value='500'>500</option>
-                                        <option value='1000'>1000</option>
-                                        <option value='2000'>2000</option>
-                                        <option value='5000'>5000</option>
-                                        <option value='10000'>10000</option>
-                                    </select>
-                                    <label class="" for="length_change">registos</label>
-                                    <div class="btn-group">
-                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="CursosTable"><i class="fa-solid fa-check-to-slot"></i></button>
-                                       <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="cursos" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>}
-                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="CursosTable"><i class="fa fa-search"></i></button>
-                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="CursosTable"><i class="fa fa-eraser"></i></button>
-                                         <a title="Adicionar curso" href="@Url.Action("newcourse", "gamanagement")" class="btn btn-default"><i class="fa fa-plus-circle"></i>&nbsp;</a>}
-                                        <!--Separator--><button type="button" class="btn btn-sm btn-secondary mr-0 ml-0 pr-0 pl-0" disabled></button>
-                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id="CursosTable"><i class="fa fa-filter"></i></a>
-                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id="CursosTable"><i class="fa fa-file-export"></i></a>
-                                        <a title="Ajuda" class="btn btn-default" href="https://unipiaget-angola.org/manual.piagetsga/cursos" target="_blank"><i class="fa fa-circle-question"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table id="CursosTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td><input type="text" id="Codigo" class="form-control" /></td>
-                                            <td><input type="text" id="Sigla" class="form-control" /></td>
-                                            <td><input type="text" id="Nome" class="form-control" /></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td><input type="text" id="Regime" class="form-control" /></td>
-                                            <td><input type="text" id="NumeroAnos" class="form-control" /></td>
-                                            <td><input type="text" id="DataInicio" class="form-control datepicker" /></td>
-                                            <td></td>
-                                            <td><input type="text" id="Insercao" class="form-control" /></td>
-                                            <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
-                                            <td><input type="text" id="Actualizacao" class="form-control" /></td>
-                                            <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
-                                        </tr>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th data-name="Codigo">Código</th>
-                                            <th data-name="Sigla">Sigla</th>
-                                            <th data-name="Nome">Nome</th>
-                                            <th data-name="InsUni">Unidade Orgânica</th>
-                                            <th data-name="Grau">Grau Académico</th>
-                                            <th data-name="Regime">Turno(s)</th>
-                                            <th data-name="NumeroAnos">Duração</th>
-                                            <th data-name="DataInicio">Data Início</th>
-                                            <th data-name="Estado">Estado</th>
-                                            <th data-name="Insercao">Inserção</th>
-                                            <th data-name="DataInsercao">Data Inserção</th>
-                                            <th data-name="Actualizacao">Actualização</th>
-                                            <th data-name="DataActualizacao">Data Actualização</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div class="card-footer p-8pt">
-                                <span class="paginateInfoCursos paginateInfo mr-12pt" style="float:right"></span>
-                                <div id="paginateCursos" class="pagination justify-content-start pagination-xsm m-0"></div>
-                            </div>
-                        </div>
-                        <!--  DATATABLE START -->
-
-
-
-                    </div>
-                </div>
-            </div>
+        <div class="table-responsive">
+            <table id="UserTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><input type="text" id="Utilizador" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="Nome" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="Grupos" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="Perfis" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="Estado" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
+                        <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th data-name="Utilizador">Utilizador</th>
+                        <th data-name="Nome">Nome</th>
+                        <th data-name="Grupos">Grupos</th>
+                        <th data-name="Perfis">Perfis</th>
+                        <th data-name="Estado">Estado</th>
+                        <th data-name="Insercao">Inserção</th>
+                        <th data-name="DataInsercao">Data Inserção</th>
+                        <th data-name="Actualizacao">Actualização</th>
+                        <th data-name="DataActualizacao">Data Actualização</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="card-footer p-8pt">
+            <span class="paginateInfoUser paginateInfo mr-12pt" style="float:right"></span>
+            <div id="paginateUser" class="pagination justify-content-start pagination-xsm m-0"></div>
         </div>
     </div>
+    <!--  DATATABLE START -->
+
+    <h2>&nbsp;</h2>
 </div>
 <!-- /page content -->
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        handleDataUsers();
+    });
+</script>

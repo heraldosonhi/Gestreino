@@ -83,15 +83,15 @@
                                         <tr>
                                             <td></td>
                                             <td></td>
-                                            <td><input type="text" id="Utilizador" class="form-control" /></td>
-                                            <td><input type="text" id="Nome" class="form-control" /></td>
-                                            <td><input type="text" id="Grupos" class="form-control" /></td>
-                                            <td><input type="text" id="Perfis" class="form-control" /></td>
-                                            <td><input type="text" id="Estado" class="form-control" /></td>
-                                            <td><input type="text" id="Insercao" class="form-control" /></td>
-                                            <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
-                                            <td><input type="text" id="Actualizacao" class="form-control" /></td>
-                                            <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
+                                            <td><input type="text" id="Utilizador" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Nome" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Grupos" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Perfis" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Estado" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                            <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
                                         </tr>
                                         <tr>
                                             <th></th>
@@ -122,66 +122,66 @@
                         using (Ajax.BeginForm("NewUserGroup", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
-                            @Html.HiddenFor(m => m.Id, new { Name = "GroupId" })
+                            @Html.TextBoxFor(m => m.Id, new { Name = "UserId" })
                             <div id="appenditem"></div>
                             <button hidden id="appenditemForm">save</button>
                         }
                         <!--  DATATABLE START -->
-                <div class="card mb-32pt">
-                    <div class="card-header">
-                        <div class="form-inline">
-                            <label class="" for="length_change">Mostrar</label>
-                            <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GroupTable">
-                                <option value='10'>10</option>
-                                <option value='25'>25</option>
-                                <option value='50'>50</option>
-                                <option value='100'>100</option>
-                                <option value='500'>500</option>
-                                <option value='1000'>1000</option>
-                                <option value='2000'>2000</option>
-                                <option value='5000'>5000</option>
-                                <option value='10000'>10000</option>
-                            </select>
-                            <label class="" for="length_change">registos</label>
-                            <div class="btn-group">
-                                <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GroupTable"><i class="fa fa-check-square"></i></button>
-                                <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GroupTable"><i class="fa fa-search"></i></button>
-                                <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GroupTable"><i class="fa fa-eraser"></i></button>
-                                <button type="button" onclick="appenditem()" title="Adicionar grupo" class="btn btn-default"><i class="fa fa-plus-circle"></i></button>
+                        <div class="card mb-32pt">
+                            <div class="card-header">
+                                <div class="form-inline">
+                                    <label class="" for="length_change">Mostrar</label>
+                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GroupTable">
+                                        <option value='10'>10</option>
+                                        <option value='25'>25</option>
+                                        <option value='50'>50</option>
+                                        <option value='100'>100</option>
+                                        <option value='500'>500</option>
+                                        <option value='1000'>1000</option>
+                                        <option value='2000'>2000</option>
+                                        <option value='5000'>5000</option>
+                                        <option value='10000'>10000</option>
+                                    </select>
+                                    <label class="" for="length_change">registos</label>
+                                    <div class="btn-group">
+                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GroupTable"><i class="fa fa-check-square"></i></button>
+                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GroupTable"><i class="fa fa-search"></i></button>
+                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GroupTable"><i class="fa fa-eraser"></i></button>
+                                        <button type="button" onclick="appenditem()" title="Adicionar grupo" class="btn btn-default"><i class="fa fa-plus-circle"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="GroupTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td><input type="text" id="Sigla" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Nome" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                            <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th data-name="Sigla">Sigla</th>
+                                            <th data-name="Nome">Nome</th>
+                                            <th data-name="Insercao">Inserção</th>
+                                            <th data-name="DataInsercao">Data Inserção</th>
+                                            <th data-name="Actualizacao">Actualização</th>
+                                            <th data-name="DataActualizacao">Data Actualização</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="card-footer p-8pt">
+                                <span class="paginateInfoGroup paginateInfo mr-12pt" style="float:right"></span>
+                                <div id="paginateGroup" class="pagination justify-content-start pagination-xsm m-0"></div>
                             </div>
                         </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table id="GroupTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                            <thead>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td><input type="text" id="Sigla" class="form-control" /></td>
-                                    <td><input type="text" id="Nome" class="form-control" /></td>
-                                    <td><input type="text" id="Insercao" class="form-control" /></td>
-                                    <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
-                                    <td><input type="text" id="Actualizacao" class="form-control" /></td>
-                                    <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
-                                </tr>
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th data-name="Sigla">Sigla</th>
-                                    <th data-name="Nome">Nome</th>
-                                    <th data-name="Insercao">Inserção</th>
-                                    <th data-name="DataInsercao">Data Inserção</th>
-                                    <th data-name="Actualizacao">Actualização</th>
-                                    <th data-name="DataActualizacao">Data Actualização</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                    <div class="card-footer p-8pt">
-                        <span class="paginateInfoGroup paginateInfo mr-12pt" style="float:right"></span>
-                        <div id="paginateGroup" class="pagination justify-content-start pagination-xsm m-0"></div>
-                    </div>
-                </div>
                         <!--  DATATABLE START -->
 
                     }
@@ -204,7 +204,6 @@
                             </div>
                         }
                     }
-
 
                     @if (ViewBag.Action == "AdicionarGroupAtom")
                     {
@@ -246,11 +245,11 @@
                                         <tr>
                                             <td></td>
                                             <td></td>
-                                            <td><input type="text" id="Nome" class="form-control" /></td>
-                                            <td><input type="text" id="Insercao" class="form-control" /></td>
-                                            <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
-                                            <td><input type="text" id="Actualizacao" class="form-control" /></td>
-                                            <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
+                                            <td><input type="text" id="Nome" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                            <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
                                         </tr>
                                         <tr>
                                             <th></th>
@@ -312,12 +311,12 @@
                                         <tr>
                                             <td></td>
                                             <td></td>
-                                            <td><input type="text" id="Sigla" class="form-control" /></td>
-                                            <td><input type="text" id="Nome" class="form-control" /></td>
-                                            <td><input type="text" id="Insercao" class="form-control" /></td>
-                                            <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
-                                            <td><input type="text" id="Actualizacao" class="form-control" /></td>
-                                            <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
+                                            <td><input type="text" id="Sigla" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Nome" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                            <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
                                         </tr>
                                         <tr>
                                             <th></th>
@@ -360,7 +359,6 @@
                         }
                     }
 
-
                     @if (ViewBag.Action == "AdicionarAtomProfile")
                     {
                         using (Ajax.BeginForm("NewAtomProfile", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
@@ -401,11 +399,11 @@
                                         <tr>
                                             <td></td>
                                             <td></td>
-                                            <td><input type="text" id="Nome" class="form-control" /></td>
-                                            <td><input type="text" id="Insercao" class="form-control" /></td>
-                                            <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
-                                            <td><input type="text" id="Actualizacao" class="form-control" /></td>
-                                            <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
+                                            <td><input type="text" id="Nome" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                            <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
                                         </tr>
                                         <tr>
                                             <th></th>
@@ -467,11 +465,11 @@
                                         <tr>
                                             <td></td>
                                             <td></td>
-                                            <td><input type="text" id="Nome" class="form-control" /></td>
-                                            <td><input type="text" id="Insercao" class="form-control" /></td>
-                                            <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
-                                            <td><input type="text" id="Actualizacao" class="form-control" /></td>
-                                            <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
+                                            <td><input type="text" id="Nome" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                            <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
                                         </tr>
                                         <tr>
                                             <th></th>
@@ -513,7 +511,6 @@
                         }
                     }
 
-
                     @if (ViewBag.Action == "AdicionarProfileUtil")
                     {
                         using (Ajax.BeginForm("NewProfileUtil", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
@@ -554,15 +551,15 @@
                                         <tr>
                                             <td></td>
                                             <td></td>
-                                            <td><input type="text" id="Utilizador" class="form-control" /></td>
-                                            <td><input type="text" id="Nome" class="form-control" /></td>
-                                            <td><input type="text" id="Grupos" class="form-control" /></td>
-                                            <td><input type="text" id="Perfis" class="form-control" /></td>
-                                            <td><input type="text" id="Estado" class="form-control" /></td>
-                                            <td><input type="text" id="Insercao" class="form-control" /></td>
-                                            <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
-                                            <td><input type="text" id="Actualizacao" class="form-control" /></td>
-                                            <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
+                                            <td><input type="text" id="Utilizador" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Nome" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Grupos" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Perfis" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Estado" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                            <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
                                         </tr>
                                         <tr>
                                             <th></th>
@@ -628,11 +625,11 @@
                                         <tr>
                                             <td></td>
                                             <td></td>
-                                            <td><input type="text" id="Nome" class="form-control" /></td>
-                                            <td><input type="text" id="Insercao" class="form-control" /></td>
-                                            <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
-                                            <td><input type="text" id="Actualizacao" class="form-control" /></td>
-                                            <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
+                                            <td><input type="text" id="Nome" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                            <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
                                         </tr>
                                         <tr>
                                             <th></th>
@@ -678,10 +675,5 @@
         </div>
     </div>
 </div>
-<!-- /page content -->
+<!-- /page content FIX THIS -->
 <script type="text/javascript" src="~/Assets/javascript/application.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function (event) {
-    
-    });
-</script>

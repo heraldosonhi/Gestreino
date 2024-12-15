@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "";
+}
+<!-- page content -->
+<div class="right_col" role="main">
+                <!--  DATATABLE START -->
+                <div class="card mb-32pt">
+                    <div class="card-header">
+                        <div class="form-inline">
+                            <label class="" for="length_change">Mostrar</label>
+                            <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="UserLogTable">
+                                <option value='10'>10</option>
+                                <option value='25'>25</option>
+                                <option value='50'>50</option>
+                                <option value='100'>100</option>
+                                <option value='500'>500</option>
+                                <option value='1000'>1000</option>
+                                <option value='2000'>2000</option>
+                                <option value='5000'>5000</option>
+                                <option value='10000'>10000</option>
+                            </select>
+                            <label class="" for="length_change">registos</label>
+                            <div class="btn-group">
+                                <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="UserLogTable"><i class="fa fa-check-square"></i></button>
+                                <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserLogTable"><i class="fa fa-search"></i></button>
+                                <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserLogTable"><i class="fa fa-eraser"></i></button>
+                                <!--Separator-->
+                                <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                                <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="UserLogTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                            <thead>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td><input type="text" id="UserLogTableLogin" class="form-control form-control-sm" /></td>
+                                    <td><input type="text" id="UserLogTableIP" class="form-control form-control-sm" /></td>
+                                    <td><input type="text" id="UserLogTableMAC" class="form-control form-control-sm" /></td>
+                                    <td><input type="text" id="UserLogTableHost" class="form-control form-control-sm" /></td>
+                                    <td><input type="text" id="UserLogTableDispositivo" class="form-control form-control-sm" /></td>
+                                    <td><input type="text" id="UserLogTableURL" class="form-control form-control-sm" /></td>
+                                    <td><input type="text" id="UserLogTableData" class="form-control form-control-sm datepicker" /></td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th data-name="UserLogTableLogin">Utilizador</th>
+                                    <th data-name="UserLogTableIP">IP</th>
+                                    <th data-name="UserLogTableMAC">MAC</th>
+                                    <th data-name="UserLogTableHost">Host</th>
+                                    <th data-name="UserLogTableDispositivo">Dispositivo</th>
+                                    <th data-name="UserLogTableURL">URL</th>
+                                    <th data-name="UserLogTableData">Data</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="card-footer p-8pt">
+                        <span class="paginateInfoUserLogTable paginateInfo mr-12pt" style="float:right"></span>
+                        <div id="paginateUserLogTable" class="pagination justify-content-start pagination-xsm m-0"></div>
+                    </div>
+                </div>
+                <!--  DATATABLE START -->
+    <h2>&nbsp;</h2>
+    <h2>&nbsp;</h2>
+</div>
+<!-- /page content -->
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        handleDataUserLogTable();
+    });
+</script>

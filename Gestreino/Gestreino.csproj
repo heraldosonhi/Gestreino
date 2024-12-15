@@ -355,6 +355,24 @@
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SP_GRL_ENT_END_CIDADE_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GRL_ENT_END_DISTR_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GRL_ENT_END_PAIS_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GRL_ENT_TIPODOC_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GRL_ENT_TIPOTOKEN_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_INST_APLICACAO_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_PES_ENT_PESSOAS_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -534,25 +552,35 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_SideBarMenu.cshtml" />
-    <Content Include="Views\GTManagement\Index.cshtml" />
     <Content Include="Views\GTManagement\Athletes\Index.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\GTManagement\Users\Index.cshtml" />
-    <Content Include="Views\Ajax\GTManagement\Users.cshtml" />
     <Content Include="Views\GTManagement\Access\Index.cshtml" />
-    <Content Include="Views\Ajax\GTManagement\Groups.cshtml" />
-    <Content Include="Views\Ajax\GTManagement\Profiles.cshtml" />
-    <Content Include="Views\Ajax\GTManagement\Atoms.cshtml" />
     <Content Include="Views\GTManagement\Access\ViewGroups.cshtml" />
-    <Content Include="Views\Ajax\GTManagement\AppendItems.cshtml" />
     <Content Include="Views\GTManagement\Access\ViewProfiles.cshtml" />
     <Content Include="Views\GTManagement\Access\ViewAtoms.cshtml" />
     <Content Include="Views\GTManagement\Users\ViewUsers.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Users\Index.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Access\AppendItems.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Access\Atoms.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Access\Groups.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Access\Profiles.cshtml" />
+    <Content Include="Views\GTManagement\Access\LoginLogs.cshtml" />
+    <Content Include="Views\GTManagement\Parameters\Index.cshtml" />
+    <Content Include="Views\GTManagement\Parameters\ParametersGRL.cshtml" />
+    <Content Include="Views\GTManagement\Parameters\ParametersPES.cshtml" />
+    <Content Include="Views\GTManagement\Parameters\ParametersGT.cshtml" />
+    <Content Include="Views\GTManagement\Settings\Index.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Parameters\GRLDocType.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Parameters\GRLTokenType.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Parameters\GRLEndPais.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Parameters\GRLEndCidade.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Parameters\GRLEndDistr.cshtml" />
+    <Content Include="Views\GTManagement\Settings\UpdateInst.cshtml" />
+    <Content Include="Views\GTManagement\Athletes\NewAthlete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\GTManagement\Atoms\" />
-    <Folder Include="Views\GTManagement\Profiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

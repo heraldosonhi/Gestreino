@@ -76,9 +76,9 @@ namespace Gestreino.Classes
             if (template == 5)
             {
                 subject = "Inscrição efetuada com successo";
-                body = "Caríssimo (a) <b>" + var1 + "</b> <br />&nbsp;<br /> A sua inscrição foi registada com successo. Acesse o " + Configs.INST_MDL_ADM_MODULO_PORTAL + " para o acompanhamento da mesma e dirija-se à instituição para proceder ao pagamento do(s) emolumento(s) acompanhado dos documentos para validação.<br />&nbsp;<br /> " + var2;
+                body = "Caríssimo (a) <b>" + var1 + "</b> <br />&nbsp;<br /> A sua inscrição foi registada com successo. Acesse o  para o acompanhamento da mesma e dirija-se à instituição para proceder ao pagamento do(s) emolumento(s) acompanhado dos documentos para validação.<br />&nbsp;<br /> " + var2;
                 url = var3;
-                urltitle = Configs.INST_MDL_ADM_MODULO_PORTAL;
+                urltitle = string.Empty; //Configs.INST_MDL_ADM_MODULO_PORTAL;
             }
 
             using (System.IO.StreamReader reader = new System.IO.StreamReader(System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Administration/EmailTemplate.htm")))

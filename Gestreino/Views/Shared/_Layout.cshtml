@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="~/Assets/images/icon.jpg">
     <title>@ViewBag.Title - Gestreino</title>
+    <style>
+        :root {
+            --INST_PER_TEMA_1: @Gestreino.Classes.Configs.INST_PER_TEMA_1;
+            --INST_PER_TEMA_1_SIDEBAR:  @Gestreino.Classes.Configs.INST_PER_TEMA_1_SIDEBAR;
+            --INST_PER_TEMA_2: @Gestreino.Classes.Configs.INST_PER_TEMA_2;
+        }
+    </style>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <!-- Font Awesome -->
@@ -81,7 +88,7 @@
                 <!-- footer content -->
                 <footer>
                     <div class="pull-right">
-                        @User.Identity.GetUserName()  - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                       <i class="fa fa-user"></i> @User.Identity.GetUserName()  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Atleta: <i>Nenhum selecionado</i>
                     </div>
                     <div class="clearfix"></div>
                 </footer>
@@ -106,7 +113,7 @@
     @*Scripts.Render("~/bundles/jquery")*@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/sl-1.2.5/datatables.min.js"></script>
-    <script type="text/javascript" src="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.10/js/dataTables.checkboxes.min.js"></script>
+    @*<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/sl-1.2.5/datatables.min.js"></script>
+        <script type="text/javascript" src="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.10/js/dataTables.checkboxes.min.js"></script>*@
 </body>
 </html>

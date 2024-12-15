@@ -24,7 +24,6 @@ namespace Gestreino.Classes
         public static string INST_PER_TEMA_1_SIDEBAR;
         public static string INST_PER_TEMA_2;
         public static int? INST_PER_LOGOTIPO_WIDTH;
-        public static string INST_MDL_ADM_MODULO_PORTAL = String.Empty;
         // ADM
         /*
         public static int? INST_MDL_ADM_VLRID_MODULO_CAND;
@@ -155,7 +154,6 @@ namespace Gestreino.Classes
         {
             if (string.IsNullOrEmpty(Configs.INST_INSTITUICAO_SIGLA))
             {
-                
                 // Setup Static Config Values 
                 var configvalues = databaseManager.GRL_DEFINICOES.Join(databaseManager.INST_APLICACAO,x => x.INST_APLICACAO_ID, y => y.ID,(x, y) => new { x, y }).Where(y => y.y.ID == INST_INSTITUICAO_ID).ToList();
                 //var institution = databaseManager.INST_INSTITUICAO.Join(databaseManager.INST_INSTITUICAO_ENDERECOS,x => x.ID,y => y.INST_INSTITUICAO_ID, (x, y) => new { y }).Where(y => y.y.INST_INSTITUICAO_ID == INST_INSTITUICAO_ID).ToList();
@@ -249,7 +247,7 @@ namespace Gestreino.Classes
                 //INST_MDL_GPAG_EMOL_DATA_LIMITE = configvalues[0].x.INST_MDL_GPAG_EMOL_DATA_LIMITE;
                 INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS = configvalues[0].x.INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS;
                 INST_MDL_GPAG_NOTA_DECIMAL = configvalues[0].x.INST_MDL_GPAG_NOTA_DECIMAL;
-                INST_MDL_GP_BI_MAXLENGTH = configvalues[0].x.INST_MDL_GP_BI_MAXLENGTH;
+                //INST_MDL_GP_BI_MAXLENGTH = configvalues[0].x.INST_MDL_GP_BI_MAXLENGTH;
                 /* = configvalues[0].x.NET_LDAP_BASE;
                 NET_LDAP_HOSTNAME = configvalues[0].x.NET_LDAP_HOSTNAME;
                 NET_ENDERECO_IP_INTERNO = configvalues[0].x.NET_ENDERECO_IP_INTERNO;

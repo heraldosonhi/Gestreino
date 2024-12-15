@@ -3,218 +3,218 @@
 }
 <!-- page content -->
 <div class="right_col" role="main">
-
-    <p>&nbsp;</p>
-
-    <div class="" role="tabpanel" data-example-id="togglable-tabs">
-        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-            <li role="presentation" class="active">
-                <a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Grupos</a>
-            </li>
-            <li role="presentation" class="">
-                <a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Perfis</a>
-            </li>
-            <li role="presentation" class="">
-                <a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Átomos</a>
-            </li>
-        </ul>
-        <div id="myTabContent" class="tab-content">
-            <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
-                <!--  DATATABLE START -->
-                <div class="card mb-32pt">
-                    <div class="card-header">
-                        <div class="form-inline">
-                            <label class="" for="length_change">Mostrar</label>
-                            <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GroupTable">
-                                <option value='10'>10</option>
-                                <option value='25'>25</option>
-                                <option value='50'>50</option>
-                                <option value='100'>100</option>
-                                <option value='500'>500</option>
-                                <option value='1000'>1000</option>
-                                <option value='2000'>2000</option>
-                                <option value='5000'>5000</option>
-                                <option value='10000'>10000</option>
-                            </select>
-                            <label class="" for="length_change">registos</label>
-                            <div class="btn-group">
-                                <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GroupTable"><i class="fa fa-check-square"></i></button>
-                                <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="groups" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GroupTable"><i class="fa fa-search"></i></button>
-                                <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GroupTable"><i class="fa fa-eraser"></i></button>
-                                <a title="Adicionar grupo" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="groups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                                <!--Separator-->
-                                <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
-                                <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Grupos</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Perfis</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Átomos</a>
+                    </li>
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
+                        <!--  DATATABLE START -->
+                        <div class="card mb-32pt">
+                            <div class="card-header">
+                                <div class="form-inline">
+                                    <label class="" for="length_change">Mostrar</label>
+                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GroupTable">
+                                        <option value='10'>10</option>
+                                        <option value='25'>25</option>
+                                        <option value='50'>50</option>
+                                        <option value='100'>100</option>
+                                        <option value='500'>500</option>
+                                        <option value='1000'>1000</option>
+                                        <option value='2000'>2000</option>
+                                        <option value='5000'>5000</option>
+                                        <option value='10000'>10000</option>
+                                    </select>
+                                    <label class="" for="length_change">registos</label>
+                                    <div class="btn-group">
+                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GroupTable"><i class="fa fa-check-square"></i></button>
+                                        <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="groups" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GroupTable"><i class="fa fa-search"></i></button>
+                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GroupTable"><i class="fa fa-eraser"></i></button>
+                                        <a title="Adicionar grupo" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="groups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
+                                        <!--Separator-->
+                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="GroupTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td><input type="text" id="GroupTableSigla" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="GroupTableNome" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="GroupTableInsercao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="GroupTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                            <td><input type="text" id="GroupTableActualizacao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="GroupTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th data-name="GroupTableSigla">Sigla</th>
+                                            <th data-name="GroupTableNome">Nome</th>
+                                            <th data-name="GroupTableInsercao">Inserção</th>
+                                            <th data-name="GroupTableDataInsercao">Data Inserção</th>
+                                            <th data-name="GroupTableActualizacao">Actualização</th>
+                                            <th data-name="GroupTableDataActualizacao">Data Actualização</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="card-footer p-8pt">
+                                <span class="paginateInfoGroup paginateInfo mr-12pt" style="float:right"></span>
+                                <div id="paginateGroup" class="pagination justify-content-start pagination-xsm m-0"></div>
                             </div>
                         </div>
+                        <!--  DATATABLE START -->
                     </div>
-                    <div class="table-responsive">
-                        <table id="GroupTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                            <thead>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td><input type="text" id="Sigla" class="form-control" /></td>
-                                    <td><input type="text" id="Nome" class="form-control" /></td>
-                                    <td><input type="text" id="Insercao" class="form-control" /></td>
-                                    <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
-                                    <td><input type="text" id="Actualizacao" class="form-control" /></td>
-                                    <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
-                                </tr>
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th data-name="Sigla">Sigla</th>
-                                    <th data-name="Nome">Nome</th>
-                                    <th data-name="Insercao">Inserção</th>
-                                    <th data-name="DataInsercao">Data Inserção</th>
-                                    <th data-name="Actualizacao">Actualização</th>
-                                    <th data-name="DataActualizacao">Data Actualização</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                    <div class="card-footer p-8pt">
-                        <span class="paginateInfoGroup paginateInfo mr-12pt" style="float:right"></span>
-                        <div id="paginateGroup" class="pagination justify-content-start pagination-xsm m-0"></div>
-                    </div>
-                </div>
-                <!--  DATATABLE START -->
-            </div>
-            <div role="tabpanel" class="tab-pane  " id="tab_content2" aria-labelledby="home-tab">
-                <!--  DATATABLE START -->
-                <div class="card mb-32pt">
-                    <div class="card-header">
-                        <div class="form-inline">
-                            <label class="" for="length_change">Mostrar</label>
-                            <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="ProfileTable">
-                                <option value='10'>10</option>
-                                <option value='25'>25</option>
-                                <option value='50'>50</option>
-                                <option value='100'>100</option>
-                                <option value='500'>500</option>
-                                <option value='1000'>1000</option>
-                                <option value='2000'>2000</option>
-                                <option value='5000'>5000</option>
-                                <option value='10000'>10000</option>
-                            </select>
-                            <label class="" for="length_change">registos</label>
-                            <div class="btn-group">
-                                <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="ProfileTable"><i class="fa fa-check-square"></i></button>
-                                <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="profiles" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                <button title="Pesquisar" class="btnSearch btn btn-default" data-id="ProfileTable"><i class="fa fa-search"></i></button>
-                                <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="ProfileTable"><i class="fa fa-eraser"></i></button>
-                                <a title="Adicionar perfil" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="profiles" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                                <!--Separator-->
-                                <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
-                                <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                    <div role="tabpanel" class="tab-pane  " id="tab_content2" aria-labelledby="home-tab">
+                        <!--  DATATABLE START -->
+                        <div class="card mb-32pt">
+                            <div class="card-header">
+                                <div class="form-inline">
+                                    <label class="" for="length_change">Mostrar</label>
+                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="ProfileTable">
+                                        <option value='10'>10</option>
+                                        <option value='25'>25</option>
+                                        <option value='50'>50</option>
+                                        <option value='100'>100</option>
+                                        <option value='500'>500</option>
+                                        <option value='1000'>1000</option>
+                                        <option value='2000'>2000</option>
+                                        <option value='5000'>5000</option>
+                                        <option value='10000'>10000</option>
+                                    </select>
+                                    <label class="" for="length_change">registos</label>
+                                    <div class="btn-group">
+                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="ProfileTable"><i class="fa fa-check-square"></i></button>
+                                        <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="profiles" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="ProfileTable"><i class="fa fa-search"></i></button>
+                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="ProfileTable"><i class="fa fa-eraser"></i></button>
+                                        <a title="Adicionar perfil" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="profiles" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
+                                        <!--Separator-->
+                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="ProfileTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td><input type="text" id="ProfileTableNome" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="ProfileTableInsercao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="ProfileTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                            <td><input type="text" id="ProfileTableActualizacao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="ProfileTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th data-name="ProfileTableNome">Nome</th>
+                                            <th data-name="ProfileTableInsercao">Inserção</th>
+                                            <th data-name="ProfileTableDataInsercao">Data Inserção</th>
+                                            <th data-name="ProfileTableActualizacao">Actualização</th>
+                                            <th data-name="ProfileTableDataActualizacao">Data Actualização</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="card-footer p-8pt">
+                                <span class="paginateInfoProfile paginateInfo mr-12pt" style="float:right"></span>
+                                <div id="paginateProfile" class="pagination justify-content-start pagination-xsm m-0"></div>
                             </div>
                         </div>
+                        <!--  DATATABLE START -->
                     </div>
-                    <div class="table-responsive">
-                        <table id="ProfileTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                            <thead>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td><input type="text" id="Nome" class="form-control" /></td>
-                                    <td><input type="text" id="Insercao" class="form-control" /></td>
-                                    <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
-                                    <td><input type="text" id="Actualizacao" class="form-control" /></td>
-                                    <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
-                                </tr>
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th data-name="Nome">Nome</th>
-                                    <th data-name="Insercao">Inserção</th>
-                                    <th data-name="DataInsercao">Data Inserção</th>
-                                    <th data-name="Actualizacao">Actualização</th>
-                                    <th data-name="DataActualizacao">Data Actualização</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                    <div class="card-footer p-8pt">
-                        <span class="paginateInfoProfile paginateInfo mr-12pt" style="float:right"></span>
-                        <div id="paginateProfile" class="pagination justify-content-start pagination-xsm m-0"></div>
-                    </div>
-                </div>
-                <!--  DATATABLE START -->
-            </div>
-            <div role="tabpanel" class="tab-pane  " id="tab_content3" aria-labelledby="home-tab">
-                <!--  DATATABLE START -->
-                <div class="card mb-32pt">
-                    <div class="card-header">
-                        <div class="form-inline">
-                            <label class="" for="length_change">Mostrar</label>
-                            <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="AtomTable">
-                                <option value='10'>10</option>
-                                <option value='25'>25</option>
-                                <option value='50'>50</option>
-                                <option value='100'>100</option>
-                                <option value='500'>500</option>
-                                <option value='1000'>1000</option>
-                                <option value='2000'>2000</option>
-                                <option value='5000'>5000</option>
-                                <option value='10000'>10000</option>
-                            </select>
-                            <label class="" for="length_change">registos</label>
-                            <div class="btn-group">
-                                <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="AtomTable"><i class="fa fa-check-square"></i></button>
-                                <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="atoms" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                <button title="Pesquisar" class="btnSearch btn btn-default" data-id="AtomTable"><i class="fa fa-search"></i></button>
-                                <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="AtomTable"><i class="fa fa-eraser"></i></button>
-                                <a title="Adicionar átomo" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="atoms" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                                <!--Separator-->
-                                <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
-                                <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
-                             </div>
+                    <div role="tabpanel" class="tab-pane  " id="tab_content3" aria-labelledby="home-tab">
+                        <!--  DATATABLE START -->
+                        <div class="card mb-32pt">
+                            <div class="card-header">
+                                <div class="form-inline">
+                                    <label class="" for="length_change">Mostrar</label>
+                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="AtomTable">
+                                        <option value='10'>10</option>
+                                        <option value='25'>25</option>
+                                        <option value='50'>50</option>
+                                        <option value='100'>100</option>
+                                        <option value='500'>500</option>
+                                        <option value='1000'>1000</option>
+                                        <option value='2000'>2000</option>
+                                        <option value='5000'>5000</option>
+                                        <option value='10000'>10000</option>
+                                    </select>
+                                    <label class="" for="length_change">registos</label>
+                                    <div class="btn-group">
+                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="AtomTable"><i class="fa fa-check-square"></i></button>
+                                        <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="atoms" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="AtomTable"><i class="fa fa-search"></i></button>
+                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="AtomTable"><i class="fa fa-eraser"></i></button>
+                                        <a title="Adicionar átomo" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="atoms" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
+                                        <!--Separator-->
+                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="AtomTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td><input type="text" id="AtomTableNome" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="AtomTableInsercao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="AtomTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                            <td><input type="text" id="AtomTableActualizacao" class="form-control form-control-sm" /></td>
+                                            <td><input type="text" id="AtomTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th data-name="AtomTableNome">Nome</th>
+                                            <th data-name="AtomTableInsercao">Inserção</th>
+                                            <th data-name="AtomTableDataInsercao">Data Inserção</th>
+                                            <th data-name="AtomTableActualizacao">Actualização</th>
+                                            <th data-name="AtomTableDataActualizacao">Data Actualização</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="card-footer p-8pt">
+                                <span class="paginateInfoAtom paginateInfo mr-12pt" style="float:right"></span>
+                                <div id="paginateAtom" class="pagination justify-content-start pagination-xsm m-0"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table id="AtomTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                            <thead>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td><input type="text" id="Nome" class="form-control" /></td>
-                                    <td><input type="text" id="Insercao" class="form-control" /></td>
-                                    <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
-                                    <td><input type="text" id="Actualizacao" class="form-control" /></td>
-                                    <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
-                                </tr>
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th data-name="Nome">Nome</th>
-                                    <th data-name="Insercao">Inserção</th>
-                                    <th data-name="DataInsercao">Data Inserção</th>
-                                    <th data-name="Actualizacao">Actualização</th>
-                                    <th data-name="DataActualizacao">Data Actualização</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                    <div class="card-footer p-8pt">
-                        <span class="paginateInfoAtom paginateInfo mr-12pt" style="float:right"></span>
-                        <div id="paginateAtom" class="pagination justify-content-start pagination-xsm m-0"></div>
+                        <!--  DATATABLE START -->
                     </div>
                 </div>
-                <!--  DATATABLE START -->
             </div>
-        </div>
-        </div>
 
-
-                <h2>&nbsp;</h2>
-            </div>
-            <!-- /page content -->
-            <script>
-                document.addEventListener("DOMContentLoaded", function (event) {
-                    handleDataGrupos();
-                    handleDataPerfis();
-                    handleDataAtomos();
-                });
-            </script>
+            <h2>&nbsp;</h2>
+        </div>
+    </div>
+</div>
+        <!-- /page content -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function (event) {
+                handleDataGrupos();
+                handleDataPerfis();
+                handleDataAtomos();
+            });
+        </script>

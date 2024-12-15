@@ -62,14 +62,9 @@
           <Property Name="INST_PER_TEMA_1_SIDEBAR" Type="varchar" MaxLength="24" />
           <Property Name="INST_PER_TEMA_2" Type="varchar" MaxLength="24" />
           <Property Name="INST_PER_LOGOTIPO_WIDTH" Type="int" />
-          <Property Name="INST_MDL_ADM_VLRID_ADDR_STANDARD_COUNTRY" Type="int" />
-          <Property Name="INST_MDL_ADM_VLRID_ARQUIVO_FOTOGRAFIA" Type="int" />
-          <Property Name="INST_MDL_ADM_VLRID_ARQUIVO_LOGOTIPO" Type="int" />
-          <Property Name="INST_MDL_ADM_VLRID_TIPODOC_BI" Type="int" />
           <Property Name="INST_MDL_GPAG_MOEDA_PADRAO" Type="int" />
           <Property Name="INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS" Type="int" />
           <Property Name="INST_MDL_GPAG_NOTA_DECIMAL" Type="int" />
-          <Property Name="INST_MDL_GP_BI_MAXLENGTH" Type="int" />
           <Property Name="SEC_SENHA_TENT_BLOQUEIO" Type="int" />
           <Property Name="SEC_SENHA_TENT_BLOQUEIO_TEMPO" Type="int" />
           <Property Name="SEC_SENHA_RECU_LIMITE_EMAIL" Type="int" />
@@ -1480,6 +1475,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="GRL_ENDERECO_CIDADE_ENDERECO_PAIS_ID">
+          <End Role="GRL_ENDERECO_PAIS" Type="Self.GRL_ENDERECO_PAIS" Multiplicity="1" />
+          <End Role="GRL_ENDERECO_CIDADE" Type="Self.GRL_ENDERECO_CIDADE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GRL_ENDERECO_PAIS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GRL_ENDERECO_CIDADE">
+              <PropertyRef Name="ENDERECO_PAIS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GRL_ENDERECO_MUN_DISTR_ENDERECO_CIDADE_ID">
+          <End Role="GRL_ENDERECO_CIDADE" Type="Self.GRL_ENDERECO_CIDADE" Multiplicity="1" />
+          <End Role="GRL_ENDERECO_MUN_DISTR" Type="Self.GRL_ENDERECO_MUN_DISTR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GRL_ENDERECO_CIDADE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GRL_ENDERECO_MUN_DISTR">
+              <PropertyRef Name="ENDERECO_CIDADE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID">
           <End Role="UTILIZADORES" Type="Self.UTILIZADORES" Multiplicity="1" />
           <End Role="UTILIZADORES_LOGIN_PASSWORD_TENT" Type="Self.UTILIZADORES_LOGIN_PASSWORD_TENT" Multiplicity="*" />
@@ -1492,6 +1511,66 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_GRL_ENT_END_CIDADE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Sigla" Type="varchar" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="PaisId" Type="int" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_GRL_ENT_END_DISTR" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Sigla" Type="varchar" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="CidadeId" Type="int" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_GRL_ENT_END_PAIS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Sigla" Type="varchar" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="Codigo" Type="int" Mode="In" />
+          <Parameter Name="Indicativo" Type="varchar" Mode="In" />
+          <Parameter Name="Mas" Type="varchar" Mode="In" />
+          <Parameter Name="Fem" Type="varchar" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_GRL_ENT_TIPODOC" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Sigla" Type="varchar" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_GRL_ENT_TIPOTOKEN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_INST_APLICACAO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Sigla" Type="varchar" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="NIF" Type="varchar" Mode="In" />
+          <Parameter Name="Telefone" Type="decimal" Mode="In" />
+          <Parameter Name="TelefoneAlternativo" Type="decimal" Mode="In" />
+          <Parameter Name="Fax" Type="decimal" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="CodigoPostal" Type="varchar" Mode="In" />
+          <Parameter Name="URL" Type="varchar" Mode="In" />
+          <Parameter Name="Numero" Type="int" Mode="In" />
+          <Parameter Name="Rua" Type="varchar" Mode="In" />
+          <Parameter Name="Morada" Type="varchar" Mode="In" />
+          <Parameter Name="PaisId" Type="int" Mode="In" />
+          <Parameter Name="CidadeId" Type="int" Mode="In" />
+          <Parameter Name="MunId" Type="int" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_PES_ENT_PESSOAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
           <Parameter Name="Nome" Type="varchar" Mode="In" />
@@ -1875,6 +1954,14 @@
             <End Role="INST_APLICACAO" EntitySet="INST_APLICACAO" />
             <End Role="GRL_DEFINICOES" EntitySet="GRL_DEFINICOES" />
           </AssociationSet>
+          <AssociationSet Name="GRL_ENDERECO_CIDADE_ENDERECO_PAIS_ID" Association="Self.GRL_ENDERECO_CIDADE_ENDERECO_PAIS_ID">
+            <End Role="GRL_ENDERECO_PAIS" EntitySet="GRL_ENDERECO_PAIS" />
+            <End Role="GRL_ENDERECO_CIDADE" EntitySet="GRL_ENDERECO_CIDADE" />
+          </AssociationSet>
+          <AssociationSet Name="GRL_ENDERECO_MUN_DISTR_ENDERECO_CIDADE_ID" Association="Self.GRL_ENDERECO_MUN_DISTR_ENDERECO_CIDADE_ID">
+            <End Role="GRL_ENDERECO_CIDADE" EntitySet="GRL_ENDERECO_CIDADE" />
+            <End Role="GRL_ENDERECO_MUN_DISTR" EntitySet="GRL_ENDERECO_MUN_DISTR" />
+          </AssociationSet>
           <AssociationSet Name="UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID" Association="Self.UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID">
             <End Role="UTILIZADORES" EntitySet="UTILIZADORES" />
             <End Role="UTILIZADORES_LOGIN_PASSWORD_TENT" EntitySet="UTILIZADORES_LOGIN_PASSWORD_TENT" />
@@ -1954,6 +2041,8 @@
           <NavigationProperty Name="PES_IDENTIFICACAO_LOCAL_EM" Relationship="Self.FKPES_IDENTI565101" FromRole="GRL_ENDERECO_CIDADE" ToRole="PES_IDENTIFICACAO_LOCAL_EM" />
           <NavigationProperty Name="PES_NATURALIDADE" Relationship="Self.FKPES_NATURA422334" FromRole="GRL_ENDERECO_CIDADE" ToRole="PES_NATURALIDADE" />
           <NavigationProperty Name="PES_PESSOAS_FAM_ENDERECOS" Relationship="Self.FKPES_PESSOA932046" FromRole="GRL_ENDERECO_CIDADE" ToRole="PES_PESSOAS_FAM_ENDERECOS" />
+          <NavigationProperty Name="GRL_ENDERECO_PAIS" Relationship="GESTREINO_ORM.GRL_ENDERECO_CIDADE_ENDERECO_PAIS_ID" FromRole="GRL_ENDERECO_CIDADE" ToRole="GRL_ENDERECO_PAIS" />
+          <NavigationProperty Name="GRL_ENDERECO_MUN_DISTR" Relationship="GESTREINO_ORM.GRL_ENDERECO_MUN_DISTR_ENDERECO_CIDADE_ID" FromRole="GRL_ENDERECO_CIDADE" ToRole="GRL_ENDERECO_MUN_DISTR" />
         </EntityType>
         <EntityType Name="GRL_ENDERECO_MUN_DISTR">
           <Key>
@@ -1974,6 +2063,7 @@
           <NavigationProperty Name="PES_IDENTIFICACAO_LOCAL_EM" Relationship="Self.FKPES_IDENTI736389" FromRole="GRL_ENDERECO_MUN_DISTR" ToRole="PES_IDENTIFICACAO_LOCAL_EM" />
           <NavigationProperty Name="PES_NATURALIDADE" Relationship="Self.FKPES_NATURA92434" FromRole="GRL_ENDERECO_MUN_DISTR" ToRole="PES_NATURALIDADE" />
           <NavigationProperty Name="PES_PESSOAS_FAM_ENDERECOS" Relationship="Self.FKPES_PESSOA261947" FromRole="GRL_ENDERECO_MUN_DISTR" ToRole="PES_PESSOAS_FAM_ENDERECOS" />
+          <NavigationProperty Name="GRL_ENDERECO_CIDADE" Relationship="GESTREINO_ORM.GRL_ENDERECO_MUN_DISTR_ENDERECO_CIDADE_ID" FromRole="GRL_ENDERECO_MUN_DISTR" ToRole="GRL_ENDERECO_CIDADE" />
         </EntityType>
         <EntityType Name="GRL_ENDERECO_PAIS">
           <Key>
@@ -1998,6 +2088,7 @@
           <NavigationProperty Name="PES_NACIONALIDADE" Relationship="Self.FKPES_NACION768793" FromRole="GRL_ENDERECO_PAIS" ToRole="PES_NACIONALIDADE" />
           <NavigationProperty Name="PES_NATURALIDADE" Relationship="Self.FKPES_NATURA927136" FromRole="GRL_ENDERECO_PAIS" ToRole="PES_NATURALIDADE" />
           <NavigationProperty Name="PES_PESSOAS_FAM_ENDERECOS" Relationship="Self.FKPES_PESSOA281518" FromRole="GRL_ENDERECO_PAIS" ToRole="PES_PESSOAS_FAM_ENDERECOS" />
+          <NavigationProperty Name="GRL_ENDERECO_CIDADE" Relationship="GESTREINO_ORM.GRL_ENDERECO_CIDADE_ENDERECO_PAIS_ID" FromRole="GRL_ENDERECO_PAIS" ToRole="GRL_ENDERECO_CIDADE" />
         </EntityType>
         <EntityType Name="GRL_TOKENS">
           <Key>
@@ -3363,13 +3454,8 @@
             <Parameter Name="Url" Mode="In" Type="String" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="GRL_DEFINICOES" EntityType="GESTREINO_ORM.GRL_DEFINICOES" />
           <EntitySet Name="INST_APLICACAO" EntityType="GESTREINO_ORM.INST_APLICACAO" />
           <EntitySet Name="PES_PESSOAS" EntityType="GESTREINO_ORM.PES_PESSOAS" />
-          <AssociationSet Name="GRL_DEFINICOES_INST_APLICACAO_ID" Association="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID">
-            <End Role="INST_APLICACAO" EntitySet="INST_APLICACAO" />
-            <End Role="GRL_DEFINICOES" EntitySet="GRL_DEFINICOES" />
-          </AssociationSet>
           <AssociationSet Name="FKINST_APLIC342516" Association="GESTREINO_ORM.FKINST_APLIC342516">
             <End Role="INST_APLICACAO" EntitySet="INST_APLICACAO" />
             <End Role="INST_APLICACAO_ARQUIVOS" EntitySet="INST_APLICACAO_ARQUIVOS" />
@@ -3530,6 +3616,79 @@
             <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="SP_GRL_ENT_END_CIDADE" ReturnType="Collection(GESTREINO_ORM.SP_GRL_ENT_END_CIDADE_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Sigla" Mode="In" Type="String" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="PaisId" Mode="In" Type="Int32" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GRL_ENT_END_DISTR" ReturnType="Collection(GESTREINO_ORM.SP_GRL_ENT_END_DISTR_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Sigla" Mode="In" Type="String" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="CidadeId" Mode="In" Type="Int32" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GRL_ENT_END_PAIS" ReturnType="Collection(GESTREINO_ORM.SP_GRL_ENT_END_PAIS_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Sigla" Mode="In" Type="String" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="Codigo" Mode="In" Type="Int32" />
+            <Parameter Name="Indicativo" Mode="In" Type="String" />
+            <Parameter Name="Mas" Mode="In" Type="String" />
+            <Parameter Name="Fem" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GRL_ENT_TIPODOC" ReturnType="Collection(GESTREINO_ORM.SP_GRL_ENT_TIPODOC_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Sigla" Mode="In" Type="String" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GRL_ENT_TIPOTOKEN" ReturnType="Collection(GESTREINO_ORM.SP_GRL_ENT_TIPOTOKEN_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <AssociationSet Name="GRL_ENDERECO_CIDADE_ENDERECO_PAIS_ID" Association="GESTREINO_ORM.GRL_ENDERECO_CIDADE_ENDERECO_PAIS_ID">
+            <End Role="GRL_ENDERECO_PAIS" EntitySet="GRL_ENDERECO_PAIS" />
+            <End Role="GRL_ENDERECO_CIDADE" EntitySet="GRL_ENDERECO_CIDADE" />
+          </AssociationSet>
+          <AssociationSet Name="GRL_ENDERECO_MUN_DISTR_ENDERECO_CIDADE_ID" Association="GESTREINO_ORM.GRL_ENDERECO_MUN_DISTR_ENDERECO_CIDADE_ID">
+            <End Role="GRL_ENDERECO_CIDADE" EntitySet="GRL_ENDERECO_CIDADE" />
+            <End Role="GRL_ENDERECO_MUN_DISTR" EntitySet="GRL_ENDERECO_MUN_DISTR" />
+          </AssociationSet>
+          <FunctionImport Name="SP_INST_APLICACAO" ReturnType="Collection(GESTREINO_ORM.SP_INST_APLICACAO_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Sigla" Mode="In" Type="String" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="NIF" Mode="In" Type="String" />
+            <Parameter Name="Telefone" Mode="In" Type="Decimal" />
+            <Parameter Name="TelefoneAlternativo" Mode="In" Type="Decimal" />
+            <Parameter Name="Fax" Mode="In" Type="Decimal" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="CodigoPostal" Mode="In" Type="String" />
+            <Parameter Name="URL" Mode="In" Type="String" />
+            <Parameter Name="Numero" Mode="In" Type="Int32" />
+            <Parameter Name="Rua" Mode="In" Type="String" />
+            <Parameter Name="Morada" Mode="In" Type="String" />
+            <Parameter Name="PaisId" Mode="In" Type="Int32" />
+            <Parameter Name="CidadeId" Mode="In" Type="Int32" />
+            <Parameter Name="MunId" Mode="In" Type="Int32" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="GRL_DEFINICOES" EntityType="GESTREINO_ORM.GRL_DEFINICOES" />
+          <AssociationSet Name="GRL_DEFINICOES_INST_APLICACAO_ID" Association="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID">
+            <End Role="INST_APLICACAO" EntitySet="INST_APLICACAO" />
+            <End Role="GRL_DEFINICOES" EntitySet="GRL_DEFINICOES" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -3571,36 +3730,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="GRL_DEFINICOES">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="INST_APLICACAO_ID" Type="Int32" Nullable="false" />
-          <Property Name="INST_PER_TEMA_1" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
-          <Property Name="INST_PER_TEMA_1_SIDEBAR" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
-          <Property Name="INST_PER_TEMA_2" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
-          <Property Name="INST_PER_LOGOTIPO_WIDTH" Type="Int32" />
-          <Property Name="INST_MDL_ADM_VLRID_ADDR_STANDARD_COUNTRY" Type="Int32" />
-          <Property Name="INST_MDL_ADM_VLRID_ARQUIVO_FOTOGRAFIA" Type="Int32" />
-          <Property Name="INST_MDL_ADM_VLRID_ARQUIVO_LOGOTIPO" Type="Int32" />
-          <Property Name="INST_MDL_ADM_VLRID_TIPODOC_BI" Type="Int32" />
-          <Property Name="INST_MDL_GPAG_MOEDA_PADRAO" Type="Int32" />
-          <Property Name="INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS" Type="Int32" />
-          <Property Name="INST_MDL_GPAG_NOTA_DECIMAL" Type="Int32" />
-          <Property Name="INST_MDL_GP_BI_MAXLENGTH" Type="Int32" />
-          <Property Name="SEC_SENHA_TENT_BLOQUEIO" Type="Int32" />
-          <Property Name="SEC_SENHA_TENT_BLOQUEIO_TEMPO" Type="Int32" />
-          <Property Name="SEC_SENHA_RECU_LIMITE_EMAIL" Type="Int32" />
-          <Property Name="SEC_SESSAO_TIMEOUT_TEMPO" Type="Int32" />
-          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
-          <Property Name="ACTUALIZADO_POR" Type="Int32" />
-          <Property Name="REMOVIDO_POR" Type="Int32" />
-          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
-          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="INST_APLICACAO" Relationship="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID" FromRole="GRL_DEFINICOES" ToRole="INST_APLICACAO" />
-        </EntityType>
         <EntityType Name="INST_APLICACAO">
           <Key>
             <PropertyRef Name="ID" />
@@ -3615,10 +3744,10 @@
           <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="GRL_DEFINICOES" Relationship="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID" FromRole="INST_APLICACAO" ToRole="GRL_DEFINICOES" />
           <NavigationProperty Name="INST_APLICACAO_ARQUIVOS" Relationship="GESTREINO_ORM.FKINST_APLIC342516" FromRole="INST_APLICACAO" ToRole="INST_APLICACAO_ARQUIVOS" />
           <NavigationProperty Name="INST_APLICACAO_ENDERECOS" Relationship="GESTREINO_ORM.FKINST_APLIC348700" FromRole="INST_APLICACAO" ToRole="INST_APLICACAO_ENDERECOS" />
           <NavigationProperty Name="INST_APLICACAO_CONTACTOS" Relationship="GESTREINO_ORM.FKINST_APLIC72783" FromRole="INST_APLICACAO" ToRole="INST_APLICACAO_CONTACTOS" />
+          <NavigationProperty Name="GRL_DEFINICOES" Relationship="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID" FromRole="INST_APLICACAO" ToRole="GRL_DEFINICOES" />
         </EntityType>
         <EntityType Name="PES_PESSOAS">
           <Key>
@@ -3655,18 +3784,6 @@
           <NavigationProperty Name="PES_PESSOAS_CARACT_DEFICIENCIA" Relationship="GESTREINO_ORM.FKPES_PESSOA801637" FromRole="PES_PESSOAS" ToRole="PES_PESSOAS_CARACT_DEFICIENCIA" />
           <NavigationProperty Name="PES_PESSOAS_CARACT" Relationship="GESTREINO_ORM.FKPES_PESSOA802772" FromRole="PES_PESSOAS" ToRole="PES_PESSOAS_CARACT" />
         </EntityType>
-        <Association Name="GRL_DEFINICOES_INST_APLICACAO_ID">
-          <End Type="GESTREINO_ORM.INST_APLICACAO" Role="INST_APLICACAO" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.GRL_DEFINICOES" Role="GRL_DEFINICOES" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="INST_APLICACAO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GRL_DEFINICOES">
-              <PropertyRef Name="INST_APLICACAO_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FKINST_APLIC342516">
           <End Type="GESTREINO_ORM.INST_APLICACAO" Role="INST_APLICACAO" Multiplicity="1" />
           <End Type="GESTREINO_ORM.INST_APLICACAO_ARQUIVOS" Role="INST_APLICACAO_ARQUIVOS" Multiplicity="*" />
@@ -4015,6 +4132,149 @@
           <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
           <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
         </ComplexType>
+        <ComplexType Name="SP_GRL_ENT_END_CIDADE_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="PAIS_ID" Nullable="false" />
+          <Property Type="String" Name="PAIS_SIGLA" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="PAIS_NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_GRL_ENT_END_DISTR_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="CIDADE_ID" Nullable="false" />
+          <Property Type="String" Name="CIDADE_SIGLA" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="CIDADE_NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_GRL_ENT_END_PAIS_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="CODIGO" Nullable="false" />
+          <Property Type="String" Name="INDICATIVO" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="NACIONALIDADE_MAS" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NACIONALIDADE_FEM" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_GRL_ENT_TIPODOC_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_GRL_ENT_TIPOTOKEN_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <Association Name="GRL_ENDERECO_CIDADE_ENDERECO_PAIS_ID">
+          <End Type="GESTREINO_ORM.GRL_ENDERECO_PAIS" Role="GRL_ENDERECO_PAIS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GRL_ENDERECO_CIDADE" Role="GRL_ENDERECO_CIDADE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GRL_ENDERECO_PAIS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GRL_ENDERECO_CIDADE">
+              <PropertyRef Name="ENDERECO_PAIS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GRL_ENDERECO_MUN_DISTR_ENDERECO_CIDADE_ID">
+          <End Type="GESTREINO_ORM.GRL_ENDERECO_CIDADE" Role="GRL_ENDERECO_CIDADE" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GRL_ENDERECO_MUN_DISTR" Role="GRL_ENDERECO_MUN_DISTR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GRL_ENDERECO_CIDADE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GRL_ENDERECO_MUN_DISTR">
+              <PropertyRef Name="ENDERECO_CIDADE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="SP_INST_APLICACAO_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="NIF" Nullable="true" MaxLength="15" />
+          <Property Type="Decimal" Name="TELEFONE" Nullable="false" Precision="13" Scale="0" />
+          <Property Type="Decimal" Name="TELEFONE_ALTERNATIVO" Nullable="true" Precision="13" Scale="0" />
+          <Property Type="Decimal" Name="FAX" Nullable="true" Precision="13" Scale="0" />
+          <Property Type="String" Name="EMAIL" Nullable="false" MaxLength="64" />
+          <Property Type="String" Name="CODIGO_POSTAL" Nullable="true" MaxLength="48" />
+          <Property Type="String" Name="URL" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="NUMERO" Nullable="true" />
+          <Property Type="String" Name="RUA" Nullable="false" MaxLength="64" />
+          <Property Type="String" Name="MORADA" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="ENDERECO_PAIS_ID" Nullable="false" />
+          <Property Type="Int32" Name="GRL_ENDERECO_CIDADE_ID" Nullable="false" />
+          <Property Type="Int32" Name="ENDERECO_MUN_DISTR_ID" Nullable="false" />
+          <Property Type="String" Name="PAIS_SIGLA" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="PAIS_NOME" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="CIDADE_SIGLA" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="CIDADE_NOME" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="MUN_SIGLA" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="MUN_NOME" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <EntityType Name="GRL_DEFINICOES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="INST_APLICACAO_ID" Type="Int32" Nullable="false" />
+          <Property Name="INST_PER_TEMA_1" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="INST_PER_TEMA_1_SIDEBAR" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="INST_PER_TEMA_2" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="INST_PER_LOGOTIPO_WIDTH" Type="Int32" />
+          <Property Name="INST_MDL_GPAG_MOEDA_PADRAO" Type="Int32" />
+          <Property Name="INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS" Type="Int32" />
+          <Property Name="INST_MDL_GPAG_NOTA_DECIMAL" Type="Int32" />
+          <Property Name="SEC_SENHA_TENT_BLOQUEIO" Type="Int32" />
+          <Property Name="SEC_SENHA_TENT_BLOQUEIO_TEMPO" Type="Int32" />
+          <Property Name="SEC_SENHA_RECU_LIMITE_EMAIL" Type="Int32" />
+          <Property Name="SEC_SESSAO_TIMEOUT_TEMPO" Type="Int32" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="INST_APLICACAO" Relationship="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID" FromRole="GRL_DEFINICOES" ToRole="INST_APLICACAO" />
+        </EntityType>
+        <Association Name="GRL_DEFINICOES_INST_APLICACAO_ID">
+          <End Type="GESTREINO_ORM.INST_APLICACAO" Role="INST_APLICACAO" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GRL_DEFINICOES" Role="GRL_DEFINICOES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INST_APLICACAO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GRL_DEFINICOES">
+              <PropertyRef Name="INST_APLICACAO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4791,36 +5051,6 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_LOGIN" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_LOGIN" />
-          <EntitySetMapping Name="GRL_DEFINICOES">
-            <EntityTypeMapping TypeName="GESTREINO_ORM.GRL_DEFINICOES">
-              <MappingFragment StoreEntitySet="GRL_DEFINICOES">
-                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
-                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
-                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
-                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
-                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
-                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
-                <ScalarProperty Name="SEC_SESSAO_TIMEOUT_TEMPO" ColumnName="SEC_SESSAO_TIMEOUT_TEMPO" />
-                <ScalarProperty Name="SEC_SENHA_RECU_LIMITE_EMAIL" ColumnName="SEC_SENHA_RECU_LIMITE_EMAIL" />
-                <ScalarProperty Name="SEC_SENHA_TENT_BLOQUEIO_TEMPO" ColumnName="SEC_SENHA_TENT_BLOQUEIO_TEMPO" />
-                <ScalarProperty Name="SEC_SENHA_TENT_BLOQUEIO" ColumnName="SEC_SENHA_TENT_BLOQUEIO" />
-                <ScalarProperty Name="INST_MDL_GP_BI_MAXLENGTH" ColumnName="INST_MDL_GP_BI_MAXLENGTH" />
-                <ScalarProperty Name="INST_MDL_GPAG_NOTA_DECIMAL" ColumnName="INST_MDL_GPAG_NOTA_DECIMAL" />
-                <ScalarProperty Name="INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS" ColumnName="INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS" />
-                <ScalarProperty Name="INST_MDL_GPAG_MOEDA_PADRAO" ColumnName="INST_MDL_GPAG_MOEDA_PADRAO" />
-                <ScalarProperty Name="INST_MDL_ADM_VLRID_TIPODOC_BI" ColumnName="INST_MDL_ADM_VLRID_TIPODOC_BI" />
-                <ScalarProperty Name="INST_MDL_ADM_VLRID_ARQUIVO_LOGOTIPO" ColumnName="INST_MDL_ADM_VLRID_ARQUIVO_LOGOTIPO" />
-                <ScalarProperty Name="INST_MDL_ADM_VLRID_ARQUIVO_FOTOGRAFIA" ColumnName="INST_MDL_ADM_VLRID_ARQUIVO_FOTOGRAFIA" />
-                <ScalarProperty Name="INST_MDL_ADM_VLRID_ADDR_STANDARD_COUNTRY" ColumnName="INST_MDL_ADM_VLRID_ADDR_STANDARD_COUNTRY" />
-                <ScalarProperty Name="INST_PER_LOGOTIPO_WIDTH" ColumnName="INST_PER_LOGOTIPO_WIDTH" />
-                <ScalarProperty Name="INST_PER_TEMA_2" ColumnName="INST_PER_TEMA_2" />
-                <ScalarProperty Name="INST_PER_TEMA_1_SIDEBAR" ColumnName="INST_PER_TEMA_1_SIDEBAR" />
-                <ScalarProperty Name="INST_PER_TEMA_1" ColumnName="INST_PER_TEMA_1" />
-                <ScalarProperty Name="INST_APLICACAO_ID" ColumnName="INST_APLICACAO_ID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="INST_APLICACAO">
             <EntityTypeMapping TypeName="GESTREINO_ORM.INST_APLICACAO">
               <MappingFragment StoreEntitySet="INST_APLICACAO">
@@ -5040,6 +5270,137 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GRL_ENT_END_CIDADE" FunctionName="GESTREINO_ORM.Store.SP_GRL_ENT_END_CIDADE">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GRL_ENT_END_CIDADE_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="PAIS_ID" ColumnName="PAIS_ID" />
+                <ScalarProperty Name="PAIS_SIGLA" ColumnName="PAIS_SIGLA" />
+                <ScalarProperty Name="PAIS_NOME" ColumnName="PAIS_NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GRL_ENT_END_DISTR" FunctionName="GESTREINO_ORM.Store.SP_GRL_ENT_END_DISTR">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GRL_ENT_END_DISTR_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="CIDADE_ID" ColumnName="CIDADE_ID" />
+                <ScalarProperty Name="CIDADE_SIGLA" ColumnName="CIDADE_SIGLA" />
+                <ScalarProperty Name="CIDADE_NOME" ColumnName="CIDADE_NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GRL_ENT_END_PAIS" FunctionName="GESTREINO_ORM.Store.SP_GRL_ENT_END_PAIS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GRL_ENT_END_PAIS_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
+                <ScalarProperty Name="INDICATIVO" ColumnName="INDICATIVO" />
+                <ScalarProperty Name="NACIONALIDADE_MAS" ColumnName="NACIONALIDADE_MAS" />
+                <ScalarProperty Name="NACIONALIDADE_FEM" ColumnName="NACIONALIDADE_FEM" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GRL_ENT_TIPODOC" FunctionName="GESTREINO_ORM.Store.SP_GRL_ENT_TIPODOC">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GRL_ENT_TIPODOC_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GRL_ENT_TIPOTOKEN" FunctionName="GESTREINO_ORM.Store.SP_GRL_ENT_TIPOTOKEN">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GRL_ENT_TIPOTOKEN_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_INST_APLICACAO" FunctionName="GESTREINO_ORM.Store.SP_INST_APLICACAO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_INST_APLICACAO_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="NIF" ColumnName="NIF" />
+                <ScalarProperty Name="TELEFONE" ColumnName="TELEFONE" />
+                <ScalarProperty Name="TELEFONE_ALTERNATIVO" ColumnName="TELEFONE_ALTERNATIVO" />
+                <ScalarProperty Name="FAX" ColumnName="FAX" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="CODIGO_POSTAL" ColumnName="CODIGO_POSTAL" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
+                <ScalarProperty Name="RUA" ColumnName="RUA" />
+                <ScalarProperty Name="MORADA" ColumnName="MORADA" />
+                <ScalarProperty Name="ENDERECO_PAIS_ID" ColumnName="ENDERECO_PAIS_ID" />
+                <ScalarProperty Name="GRL_ENDERECO_CIDADE_ID" ColumnName="GRL_ENDERECO_CIDADE_ID" />
+                <ScalarProperty Name="ENDERECO_MUN_DISTR_ID" ColumnName="ENDERECO_MUN_DISTR_ID" />
+                <ScalarProperty Name="PAIS_SIGLA" ColumnName="PAIS_SIGLA" />
+                <ScalarProperty Name="PAIS_NOME" ColumnName="PAIS_NOME" />
+                <ScalarProperty Name="CIDADE_SIGLA" ColumnName="CIDADE_SIGLA" />
+                <ScalarProperty Name="CIDADE_NOME" ColumnName="CIDADE_NOME" />
+                <ScalarProperty Name="MUN_SIGLA" ColumnName="MUN_SIGLA" />
+                <ScalarProperty Name="MUN_NOME" ColumnName="MUN_NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="GRL_DEFINICOES">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GRL_DEFINICOES">
+              <MappingFragment StoreEntitySet="GRL_DEFINICOES">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="SEC_SESSAO_TIMEOUT_TEMPO" ColumnName="SEC_SESSAO_TIMEOUT_TEMPO" />
+                <ScalarProperty Name="SEC_SENHA_RECU_LIMITE_EMAIL" ColumnName="SEC_SENHA_RECU_LIMITE_EMAIL" />
+                <ScalarProperty Name="SEC_SENHA_TENT_BLOQUEIO_TEMPO" ColumnName="SEC_SENHA_TENT_BLOQUEIO_TEMPO" />
+                <ScalarProperty Name="SEC_SENHA_TENT_BLOQUEIO" ColumnName="SEC_SENHA_TENT_BLOQUEIO" />
+                <ScalarProperty Name="INST_MDL_GPAG_NOTA_DECIMAL" ColumnName="INST_MDL_GPAG_NOTA_DECIMAL" />
+                <ScalarProperty Name="INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS" ColumnName="INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS" />
+                <ScalarProperty Name="INST_MDL_GPAG_MOEDA_PADRAO" ColumnName="INST_MDL_GPAG_MOEDA_PADRAO" />
+                <ScalarProperty Name="INST_PER_LOGOTIPO_WIDTH" ColumnName="INST_PER_LOGOTIPO_WIDTH" />
+                <ScalarProperty Name="INST_PER_TEMA_2" ColumnName="INST_PER_TEMA_2" />
+                <ScalarProperty Name="INST_PER_TEMA_1_SIDEBAR" ColumnName="INST_PER_TEMA_1_SIDEBAR" />
+                <ScalarProperty Name="INST_PER_TEMA_1" ColumnName="INST_PER_TEMA_1" />
+                <ScalarProperty Name="INST_APLICACAO_ID" ColumnName="INST_APLICACAO_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

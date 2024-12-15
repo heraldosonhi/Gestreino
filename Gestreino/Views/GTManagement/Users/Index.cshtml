@@ -29,8 +29,8 @@
                     <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserTable"><i class="fa fa-eraser"></i></button>
                     <a title="Adicionar utilizador" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="users" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
                     <!--Separator-->
-                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
-                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
                 </div>
             </div>
         </div>
@@ -40,15 +40,15 @@
                     <tr>
                         <td></td>
                         <td></td>
-                        <td><input type="text" id="Utilizador" class="form-control" /></td>
-                        <td><input type="text" id="Nome" class="form-control" /></td>
-                        <td><input type="text" id="Grupos" class="form-control" /></td>
-                        <td><input type="text" id="Perfis" class="form-control" /></td>
-                        <td><input type="text" id="Estado" class="form-control" /></td>
-                        <td><input type="text" id="Insercao" class="form-control" /></td>
-                        <td><input type="text" id="DataInsercao" class="form-control datepicker" /></td>
-                        <td><input type="text" id="Actualizacao" class="form-control" /></td>
-                        <td><input type="text" id="DataActualizacao" class="form-control datepicker" /></td>
+                        <td><input type="text" id="Utilizador" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="Nome" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="Grupos" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="Perfis" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="Estado" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
+                        <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
                     </tr>
                     <tr>
                         <th></th>

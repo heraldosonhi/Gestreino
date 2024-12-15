@@ -128,14 +128,14 @@ namespace JeanPiagetSGA.Controllers
                 }
 
                 var loginInfo = databaseManager.UTILIZADORES.Where(a => a.ID == MODEL.UserID && a.DATA_REMOCAO == null).FirstOrDefault();
-                if (string.Compare(Crypto.Hash(MODEL.Password + loginInfo.SALT), loginInfo.SENHA_PASSWORD) != 0)
+                if (string.Compare(Crypto.Hash(MODEL.OldPassword + loginInfo.SALT), loginInfo.SENHA_PASSWORD) != 0)
                 {
                     return Json(new { result = false, error = "Senha de acesso inválida!" });
                 }
 
                 // Create Salted Password
                 var Salt = Crypto.GenerateSalt(64);
-                var Password = Crypto.Hash(MODEL.NewPassword.Trim() + Salt);
+                var Password = Crypto.Hash(MODEL.Password.Trim() + Salt);
                 // Remove whitespaces and parse datetime strings //TrimStart() //Trim()
                 var update = databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES(MODEL.UserID, null, null, null, null, null, null, Password, Salt, null, null, null, null, int.Parse(User.Identity.GetUserId()), Convert.ToChar('P').ToString()).ToArray();
 

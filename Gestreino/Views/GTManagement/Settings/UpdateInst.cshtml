@@ -1,0 +1,146 @@
+﻿@model Gestreino.Models.SettingsInst
+@{
+    ViewBag.Title = "Atualizar dados da aplicação";
+}
+<!-- page content -->
+<div class="right_col" role="main">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("settings","gtmanagement")">Definições</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Atualizar dados da aplicação</li>
+        </ol>
+    </nav>
+    <div class="handle-error alert alert-accent"
+         role="alert" style="display:none;">
+        <div class="d-flex flex-wrap align-items-start">
+            <div class="mr-8pt">
+                <i class="fa fa-warning"></i>
+            </div>
+            <div class="flex"
+                 style="min-width: 180px">
+                <span class="text-black-100">
+                    <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9 col-sm-12 ">
+                    <div class="animated flipInY ">
+                        <div class="tile-stats">
+                            <div class="icon">
+                                <i class="fa fa-cogs"></i>
+                            </div>
+                            <h3 class="p-2">Atualizar dados da aplicação</h3>
+                            <span class="p-4"><i class="fa fa-info-circle"></i> Os campos a vermelho são de caráter obrigatório!</span>
+                            @using (Ajax.BeginForm("UpdateInst", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }, new { @class = "p-4" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(m => m.ID)
+                                <div class="row">
+                                    @Html.LabelFor(m => m.Sigla, new { @class = "col-md-2 col-form-label required" }) 
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(m => m.Sigla, new { @class = "form-control form-control-sm",required="" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.Nome, new { @class = "col-md-2 col-form-label required" }) 
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.Nome, new { @class = "form-control form-control-sm", required = "" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.NIF, new { @class = "col-md-2 col-form-label" })
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(m => m.NIF, new { @class = "form-control form-control-sm" })
+                                    </div>
+                                </div>
+                                <h6><span><i class="fa fa-phone"></i> Contactos</span></h6>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.Telephone, new { @class = "col-md-2 col-form-label required" }) 
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control form-control-sm", required = "" ,@type="number"})
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.TelephoneAlternativo, new { @class = "col-md-2 col-form-label" })
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(m => m.TelephoneAlternativo, new { @class = "form-control form-control-sm", @type = "number" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.Fax, new { @class = "col-md-2 col-form-label" })
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(m => m.Fax, new { @class = "form-control form-control-sm", @type = "number" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label required" }) 
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm" ,required = "" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.CodigoPostal, new { @class = "col-md-2 col-form-label" })
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(m => m.CodigoPostal, new { @class = "form-control form-control-sm" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.URL, new { @class = "col-md-2 col-form-label" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.URL, new { @class = "form-control form-control-sm" })
+                                    </div>
+                                </div>
+                                <h6><span><i class="fa fa-location-arrow"></i> Endereço</span></h6>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.Numero, new { @class = "col-md-2 col-form-label" })
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(m => m.Numero, new { @class = "form-control form-control-sm" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.Rua, new { @class = "col-md-2 col-form-label required" }) 
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.Rua, new { @class = "form-control form-control-sm" ,required=""})
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.Morada, new { @class = "col-md-2 col-form-label required" }) 
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.Morada, new { @class = "form-control form-control-sm", required = "" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.ENDERECO_PAIS_ID, new { @class = "col-md-2 col-form-label required" }) 
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(x => Model.ENDERECO_PAIS_ID, Model.PAIS_LIST, "Sem filtro", new { @class = "form-control form-control-sm", required = "" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.ENDERECO_CIDADE_ID, new { @class = "col-md-2 col-form-label required" }) 
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(x => Model.ENDERECO_CIDADE_ID, Model.CIDADE_LIST, "Sem filtro", new { @class = "form-control form-control-sm", required = "" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.ENDERECO_MUN_ID, new { @class = "col-md-2 col-form-label required" }) 
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(x => Model.ENDERECO_MUN_ID, Model.MUN_LIST, "Sem filtro", new { @class = "form-control form-control-sm", required = "" })
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-sm-2 text-right">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+        </div>
+    </div>
+    <h2>&nbsp;</h2>
+</div>
+    <!-- /page content -->

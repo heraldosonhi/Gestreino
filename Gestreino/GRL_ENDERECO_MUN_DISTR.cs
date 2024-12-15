@@ -45,5 +45,6 @@ namespace Gestreino
         public virtual ICollection<PES_NATURALIDADE> PES_NATURALIDADE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PES_PESSOAS_FAM_ENDERECOS> PES_PESSOAS_FAM_ENDERECOS { get; set; }
+        public virtual GRL_ENDERECO_CIDADE GRL_ENDERECO_CIDADE { get; set; }
     }
 }

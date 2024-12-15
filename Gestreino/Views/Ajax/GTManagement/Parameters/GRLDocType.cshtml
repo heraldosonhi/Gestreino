@@ -1,4 +1,4 @@
-﻿@model UTILIZADORES_ACESSO_GRUPOS
+﻿@model GRL_ARQUIVOS_TIPO_DOCS
 @{
     Layout = null;
 }
@@ -8,7 +8,7 @@
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel" style="border:none">
                 <div class="x_title">
-                    <h2>@ViewBag.Action grupo</h2>
+                    <h2>@ViewBag.Action tipo de documento</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
@@ -27,7 +27,6 @@
                     </ul>
                     <div class="clearfix"></div>
                 </div>
-
                 <div class="handle-error alert alert-accent"
                      role="alert" style="display:none;">
                     <div class="d-flex flex-wrap align-items-start">
@@ -36,9 +35,9 @@
                         </div>
                         <div class="flex"
                              style="min-width: 180px">
-                            <small class="text-black-100">
+                            <span class="text-black-100">
                                 <strong>Atenção!</strong> <span class="handle-error-message"></span>
-                            </small>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -46,32 +45,25 @@
                     <br />
                     @if (ViewBag.Action == "Adicionar")
                     {
-                        using (Ajax.BeginForm("newgroup", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        using (Ajax.BeginForm("NewGRLDocTypes", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
-
                             <div class="row">
                                 <label class="col-md-2 col-form-label">Sigla</label>
                                 <div class="col-md-6">
-                                    @Html.TextBoxFor(m => m.SIGLA, new { @class = "form-control", required = "" })
+                                    @Html.TextBoxFor(m => m.SIGLA, new { @class = "form-control form-control-sm", required = "" })
                                 </div>
                             </div>
                             <div class="row">
                                 <label class="col-md-2 col-form-label">Nome</label>
                                 <div class="col-md-10">
-                                    @Html.TextBoxFor(m => m.NOME, new { @class = "form-control", required = "" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-md-2 col-form-label">Descrição</label>
-                                <div class="col-md-10">
-                                    @Html.TextAreaFor(m => m.DESCRICAO, new { @class = "form-control", required = "" })
+                                    @Html.TextBoxFor(m => m.NOME, new { @class = "form-control form-control-sm", required = "" })
                                 </div>
                             </div>
                             <div class="row mt-1">
                                 <div class="col-sm-2 text-right">
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-10">
                                     <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
                                 </div>
                             </div>
@@ -79,26 +71,20 @@
                     }
                     @if (ViewBag.Action == "Editar")
                     {
-                        using (Ajax.BeginForm("updategroup", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        using (Ajax.BeginForm("UpdateGRLDocTypes", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.ID)
                             <div class="row">
                                 <label class="col-md-2 col-form-label">Sigla</label>
                                 <div class="col-md-6">
-                                    @Html.TextBoxFor(m => m.SIGLA, new { @class = "form-control", required = "" })
+                                    @Html.TextBoxFor(m => m.SIGLA, new { @class = "form-control form-control-sm", required = "" })
                                 </div>
                             </div>
                             <div class="row">
                                 <label class="col-md-2 col-form-label">Nome</label>
                                 <div class="col-md-10">
-                                    @Html.TextBoxFor(m => m.NOME, new { @class = "form-control", required = "" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-md-2 col-form-label">Descrição</label>
-                                <div class="col-md-10">
-                                    @Html.TextAreaFor(m => m.DESCRICAO, new { @class = "form-control", required = "" })
+                                    @Html.TextBoxFor(m => m.NOME, new { @class = "form-control form-control-sm", required = "" })
                                 </div>
                             </div>
                             <div class="row mt-1">
@@ -112,7 +98,7 @@
                     }
                     @if (ViewBag.Action == "Remover")
                     {
-                        using (Ajax.BeginForm("deletegroup", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        using (Ajax.BeginForm("DeleteGRLDocTypes", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.ID)

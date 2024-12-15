@@ -1,0 +1,494 @@
+﻿@model Gestreino.Models.SettingsInst
+@{
+    ViewBag.Title = "Atualizar dados da aplicação";
+}
+<!-- page content -->
+<div class="right_col" role="main">
+ 
+    <div class="handle-error alert alert-accent"
+         role="alert" style="display:none;">
+        <div class="d-flex flex-wrap align-items-start">
+            <div class="mr-8pt">
+                <i class="fa fa-warning"></i>
+            </div>
+            <div class="flex"
+                 style="min-width: 180px">
+                <span class="text-black-100">
+                    <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+    <form action="/gtmanagement/UpdateInst?Length=12" data-ajax="true" data-ajax-failure="handleFailure" data-ajax-method="POST" data-ajax-success="handleSuccess" id="form0" method="post">
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+                <div class="animated flipInY">
+                    <div class="tile-stats">
+                        <div class="icon">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <h3 class="p-2">Adicionar novo registo</h3>
+                        <span class="p-4"><i class="fa fa-info-circle"></i> Os campos a vermelho são de caráter obrigatório!</span>
+                        <div class="p-4">
+                            <input name="__RequestVerificationToken" type="hidden" value="wez585C3PFz4UpfgxCNulT1XGbZ1t0Js46OLMdJbrRU9V3US6oTcsbIHpAiJjuzDXBfPqDDjSxBbQLyLRYNTT-LJ_g8Nb8SDYSeEpbQ5d22003uVT9QHJUzsucOYy95CZawB1B7UH8PJi_s6LE_qEw2" /><input data-val="true" data-val-number="The field ID must be a number." id="ID" name="ID" type="hidden" value="1" />
+
+                            <div class="row">
+                                <label class="col-md-2 col-form-label required" for="Nome">N Socio</label>
+                                <div class="col-md-4">
+                                    <input class="form-control form-control-sm " id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-2 col-form-label required" for="Nome">Nome</label>
+                                <div class="col-md-10">
+                                    <input class="form-control form-control-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-2 col-form-label required" for="Nome">Sexo</label>
+                                <div class="col-md-4">
+                                    <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                </div>
+                                <label class="col-md-2 col-form-label required" for="Nome">Data nascimento</label>
+                                <div class="col-md-4">
+                                    <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-2 col-form-label required" for="Nome">Estado Civil</label>
+                                <div class="col-md-4">
+                                    <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                </div>
+                                <label class="col-md-2 col-form-label required" for="Nome">NIF</label>
+                                <div class="col-md-4">
+                                    <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                </div>
+                            </div>
+
+
+                            <h6><span><i class="fa fa-phone"></i> Contactos</span></h6>
+                            <div class="card">
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label required" for="Telephone">Telefone</label>
+                                    <div class="col-md-4">
+                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-length="Telefone deve ter o mínimo de 9 dígitos" data-val-length-max="100" data-val-length-min="9" data-val-regex="Telefone não é válido!" data-val-regex-pattern="^[0-9]*$" id="Telephone" name="Telephone" required="" type="number" value="222222222" />
+                                    </div>
+                                    <label class="col-md-2 col-form-label" for="TelephoneAlternativo">T/ Alternativo</label>
+                                    <div class="col-md-4">
+                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-length="Telefone Alternativo deve ter o mínimo de 9 dígitos" data-val-length-max="100" data-val-length-min="9" data-val-regex="Telefone Alternativo não é válido!" data-val-regex-pattern="^[0-9]*$" id="TelephoneAlternativo" name="TelephoneAlternativo" type="number" value="" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label required" for="Email">Email</label>
+                                    <div class="col-md-4">
+                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-email="Email não é válido!" id="Email" name="Email" required="" type="text" value="info@gestreino.pt" />
+                                    </div>
+                                </div>
+                            </div>
+                            <h6><span><i class="fa fa-location-arrow"></i> Endereço</span></h6>
+                            <div class="card">
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label" for="Numero">N&#250;mero/Rua/Morada </label>
+                                    <div class="col-md-1">
+                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-number="The field Número  must be a number." id="Numero" name="Numero" type="text" value="42" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Rua" name="Rua" required="" type="text" value="Serbia cinzenta" />
+                                    </div>
+                                   <div class="col-md-5">
+                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Morada" name="Morada" required="" type="text" value="Belas" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label required" for="ENDERECO_PAIS_ID">Pa&#237;s</label>
+                                    <div class="col-md-1">
+                                        <select class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-number="The field País must be a number." id="ENDERECO_PAIS_ID" name="ENDERECO_PAIS_ID" required="">
+                                            <option value="">Sem filtro</option>
+                                            <option selected="selected" value="1">Angola</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-number="The field Cidade must be a number." id="ENDERECO_CIDADE_ID" name="ENDERECO_CIDADE_ID" required="">
+                                            <option value="">Sem filtro</option>
+                                            <option selected="selected" value="1">Luanda</option>
+                                            <option value="2">Luanda</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <select class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-number="The field Distrito must be a number." id="ENDERECO_MUN_ID" name="ENDERECO_MUN_ID" required="">
+                                            <option value="">Sem filtro</option>
+                                            <option selected="selected" value="1">Kilamba Kiaxi</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <h6><span><i class="fa fa-medkit"></i> Caracteristicas</span></h6>
+                            <div class="card">
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label required" for="Nome">Altura (cm)</label>
+                                    <div class="col-md-4">
+                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    </div>
+                                    <label class="col-md-2 col-form-label required" for="Nome">VO2</label>
+                                    <div class="col-md-4">
+                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label required" for="Nome">Peso (kg)</label>
+                                    <div class="col-md-4">
+                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    </div>
+                                    <label class="col-md-2 col-form-label required" for="Nome">Massa Gorda (%)</label>
+                                    <div class="col-md-4">
+                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label required" for="Nome">IMC</label>
+                                    <div class="col-md-4">
+                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    </div>
+                                    <label class="col-md-2 col-form-label required" for="Nome">Duracao do plano</label>
+                                    <div class="col-md-4">
+                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label required" for="Nome">FC Repouso</label>
+                                    <div class="col-md-4">
+                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    </div>
+                                    <label class="col-md-2 col-form-label required" for="Nome">Protocolo</label>
+                                    <div class="col-md-4">
+                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label required" for="Nome">FC Maximo</label>
+                                    <div class="col-md-4">
+                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label required" for="Nome">TA Sistolica</label>
+                                    <div class="col-md-4">
+                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label required" for="Nome">TA Distolica</label>
+                                    <div class="col-md-4">
+                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                            <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#tab_content1" id="" role="tab" data-toggle="tab" aria-expanded="true">Frequencia Cardiaca</a>
+                                </li>
+                                <li role="presentation" class="">
+                                    <a href="#tab_content2" role="tab" id="" data-toggle="tab" aria-expanded="false">Factores de risco</a>
+                                </li>
+                                <li role="presentation" class="">
+                                    <a href="#tab_content3" role="tab" id="" data-toggle="tab" aria-expanded="false">Objectivos</a>
+                                </li>
+                            </ul>
+                            <div id="myTabContent" class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="tab_content1" aria-labelledby="">
+                                    <div class="p-3 ">
+                                        <div class="alert alert-primary-light mb-1 mt-0"
+                                             role="alert">
+                                            <div class="d-flex flex-wrap align-items-start">
+                                                <div class="mr-8pt">
+                                                    <i class="fa fa-cogs"></i>&nbsp;
+                                                </div>
+                                                <div class="flex"
+                                                     style="min-width: 180px">
+                                                    <span class="text-black-100">
+                                                        <strong>Personalização!</strong> Cores de temas e tamanho de formato de Logotipo
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <table border="1">
+                                                        <tr>
+                                                            <td>40%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>32</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table border="1">
+                                                        <tr>
+                                                            <td>40%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>32</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table border="1">
+                                                        <tr>
+                                                            <td>40%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>32</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table border="1">
+                                                        <tr>
+                                                            <td>40%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>32</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table border="1">
+                                                        <tr>
+                                                            <td>40%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>32</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table border="1">
+                                                        <tr>
+                                                            <td>40%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>32</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table border="1">
+                                                        <tr>
+                                                            <td>40%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>32</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table border="1">
+                                                        <tr>
+                                                            <td>40%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>32</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table border="1">
+                                                        <tr>
+                                                            <td>40%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>32</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table border="1">
+                                                        <tr>
+                                                            <td>40%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>32</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="">
+
+                                    <div class="p-3 ">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" class="flat" checked="checked"> Checked
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" class="flat" checked="checked"> Checked
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" class="flat" checked="checked"> Checked
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" class="flat" checked="checked"> Checked
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" class="flat" checked="checked"> Checked
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" class="flat" checked="checked"> Checked
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" class="flat" checked="checked"> Checked
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" class="flat" checked="checked"> Checked
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" class="flat" checked="checked"> Checked
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" class="flat" checked="checked"> Checked
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        
+
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="">
+                                        <div class="alert alert-primary-light mb-0"
+                                             role="alert">
+                                            <div class="d-flex flex-wrap align-items-start">
+                                                <div class="mr-8pt">
+                                                    <i class="fa fa-cogs"></i>&nbsp;
+                                                </div>
+                                                <div class="flex"
+                                                     style="min-width: 180px">
+                                                    <span class="text-black-100">
+                                                        <strong>Segurança!</strong> Definições de sessão e tokens
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input name="__RequestVerificationToken" type="hidden" value="TMAaLWkyX2yVSL0X4hYT6OP1cYg2HrnqUPihooMWjWMVRO4RTU3hj4S9x5iv0vatErBtqlngo-j09SkvrSYhDZ9ABlwPG5wfcm2ZSByvGZCS2U1Diki-aNNbKqj66feRbHAe0rrqGXtQcvTwFsDRDw2" />                                                    <div class="row">
+                                            <label class="col-md-2 col-form-label" for="SEC_SENHA_TENT_BLOQUEIO">N&#250;mero m&#225;ximo de tentativas de sess&#227;o</label>
+                                            <div class="col-md-6">
+                                                <input class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-number="The field Número máximo de tentativas de sessão must be a number." id="SEC_SENHA_TENT_BLOQUEIO" name="SEC_SENHA_TENT_BLOQUEIO" required="" type="number" value="5" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-2 col-form-label" for="SEC_SENHA_TENT_BLOQUEIO_TEMPO">Tempo de espera para o desbloqueo de sess&#227;o (Minutos)</label>
+                                            <div class="col-md-6">
+                                                <input class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-number="The field Tempo de espera para o desbloqueo de sessão (Minutos) must be a number." id="SEC_SENHA_TENT_BLOQUEIO_TEMPO" name="SEC_SENHA_TENT_BLOQUEIO_TEMPO" required="" type="number" value="15" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-2 col-form-label" for="SEC_SENHA_RECU_LIMITE_EMAIL">Tempo limite de token de email (Minutos)</label>
+                                            <div class="col-md-6">
+                                                <input class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-number="The field Tempo limite de token de email (Minutos) must be a number." id="SEC_SENHA_RECU_LIMITE_EMAIL" name="SEC_SENHA_RECU_LIMITE_EMAIL" required="" type="number" value="15" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-2 col-form-label" for="SEC_SESSAO_TIMEOUT_TEMPO">Timeout de cookies de sess&#227;o (Minutos) </label>
+                                            <div class="col-md-6">
+                                                <input class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-number="The field Timeout de cookies de sessão (Minutos)  must be a number." id="SEC_SESSAO_TIMEOUT_TEMPO" name="SEC_SESSAO_TIMEOUT_TEMPO" required="" type="number" value="480" />
+                                            </div>
+                                        </div>
+                                        <div class="row mt-1">
+                                            <div class="col-sm-2 text-right">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+
+
+                        </div>
+
+
+                        <div class="row mt-1">
+                            <div class="col-sm-2 text-right">
+                            </div>
+                            <div class="col-sm-6">
+                                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-12 ">
+                <div class="row">
+                    <label class="col-md-2 col-form-label required" for="Sigla"></label>
+                    <div class="col-md-6">
+                        <img src="~/Assets/images/user-avatar.jpg" width="80" />
+                    </div>
+                </div>
+            </div>
+            </div>
+</form>
+    <h2>&nbsp;</h2>
+</div>
+<!-- /page content -->

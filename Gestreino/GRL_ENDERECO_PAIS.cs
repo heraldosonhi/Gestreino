@@ -23,6 +23,7 @@ namespace Gestreino
             this.PES_NACIONALIDADE = new HashSet<PES_NACIONALIDADE>();
             this.PES_NATURALIDADE = new HashSet<PES_NATURALIDADE>();
             this.PES_PESSOAS_FAM_ENDERECOS = new HashSet<PES_PESSOAS_FAM_ENDERECOS>();
+            this.GRL_ENDERECO_CIDADE = new HashSet<GRL_ENDERECO_CIDADE>();
         }
     
         public int ID { get; set; }
@@ -51,5 +52,7 @@ namespace Gestreino
         public virtual ICollection<PES_NATURALIDADE> PES_NATURALIDADE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PES_PESSOAS_FAM_ENDERECOS> PES_PESSOAS_FAM_ENDERECOS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GRL_ENDERECO_CIDADE> GRL_ENDERECO_CIDADE { get; set; }
     }
 }

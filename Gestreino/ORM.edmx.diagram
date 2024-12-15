@@ -88,10 +88,8 @@
         <AssociationConnector Association="GESTREINO_ORM.FKUTILIZADOR296978" ManuallyRouted="false" />
         <EntityTypeShape EntityType="GESTREINO_ORM.UTILIZADORES_LOGIN_PASSWORD_TENT" Width="1.5" PointX="3" PointY="43.875" />
         <AssociationConnector Association="GESTREINO_ORM.UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID" />
-        <EntityTypeShape EntityType="GESTREINO_ORM.GRL_DEFINICOES" Width="1.5" PointX="16.5" PointY="15.875" />
         <EntityTypeShape EntityType="GESTREINO_ORM.INST_APLICACAO" Width="1.5" PointX="14.25" PointY="22.75" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS" Width="1.5" PointX="3" PointY="34" />
-        <AssociationConnector Association="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID" />
         <AssociationConnector Association="GESTREINO_ORM.FKINST_APLIC342516" />
         <AssociationConnector Association="GESTREINO_ORM.FKINST_APLIC348700" />
         <AssociationConnector Association="GESTREINO_ORM.FKINST_APLIC72783" />
@@ -110,6 +108,10 @@
         <EntityTypeShape EntityType="GESTREINO_ORM.UTILIZADORES_ACESSO_ATOMOS" Width="1.5" PointX="3.75" PointY="15.75" />
         <AssociationConnector Association="GESTREINO_ORM.FKUTILIZADOR744434" />
         <AssociationConnector Association="GESTREINO_ORM.FKUTILIZADOR816609" />
+        <AssociationConnector Association="GESTREINO_ORM.GRL_ENDERECO_CIDADE_ENDERECO_PAIS_ID" />
+        <AssociationConnector Association="GESTREINO_ORM.GRL_ENDERECO_MUN_DISTR_ENDERECO_CIDADE_ID" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GRL_DEFINICOES" Width="1.5" PointX="16.5" PointY="16.125" />
+        <AssociationConnector Association="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -20,14 +20,9 @@ namespace Gestreino
         public string INST_PER_TEMA_1_SIDEBAR { get; set; }
         public string INST_PER_TEMA_2 { get; set; }
         public Nullable<int> INST_PER_LOGOTIPO_WIDTH { get; set; }
-        public Nullable<int> INST_MDL_ADM_VLRID_ADDR_STANDARD_COUNTRY { get; set; }
-        public Nullable<int> INST_MDL_ADM_VLRID_ARQUIVO_FOTOGRAFIA { get; set; }
-        public Nullable<int> INST_MDL_ADM_VLRID_ARQUIVO_LOGOTIPO { get; set; }
-        public Nullable<int> INST_MDL_ADM_VLRID_TIPODOC_BI { get; set; }
         public Nullable<int> INST_MDL_GPAG_MOEDA_PADRAO { get; set; }
         public Nullable<int> INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS { get; set; }
         public Nullable<int> INST_MDL_GPAG_NOTA_DECIMAL { get; set; }
-        public Nullable<int> INST_MDL_GP_BI_MAXLENGTH { get; set; }
         public Nullable<int> SEC_SENHA_TENT_BLOQUEIO { get; set; }
         public Nullable<int> SEC_SENHA_TENT_BLOQUEIO_TEMPO { get; set; }
         public Nullable<int> SEC_SENHA_RECU_LIMITE_EMAIL { get; set; }

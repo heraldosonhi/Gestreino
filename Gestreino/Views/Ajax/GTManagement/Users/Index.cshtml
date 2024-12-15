@@ -1,0 +1,213 @@
+﻿@model Gestreino.Models.Users
+@using Gestreino.Classes
+@{
+    Layout = null;
+}
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_panel" style="border:none">
+                <div class="x_title">
+                    <h2>@ViewBag.Action utilizador</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a class="dropdown-item" href="#">Settings 1</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="close-link" data-dismiss="modal"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="handle-error alert alert-accent"
+                     role="alert" style="display:none;">
+                    <div class="d-flex flex-wrap align-items-start">
+                        <div class="mr-8pt">
+                            <i class="fa fa-warning"></i>
+                        </div>
+                        <div class="flex"
+                             style="min-width: 180px">
+                            <span class="text-black-100">
+                                <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="x_content">
+                    <br />
+                    @if (ViewBag.Action == "Adicionar")
+                    {
+                        using (Ajax.BeginForm("newuser", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="row">
+                                @Html.LabelFor(m => m.Login, new { @class = "col-md-2 col-form-label" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(m => m.Login, new { @class = "form-control form-control-sm", required = "", maxlength = "32" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                @Html.LabelFor(m => m.Name, new { @class = "col-md-2 col-form-label" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control form-control-sm", required = "" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm", required = "", maxlength = "64" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                @Html.LabelFor(m => m.Phone, new { @class = "col-md-2 col-form-label" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(m => m.Phone, new { @class = "form-control form-control-sm", type = "number", required = "" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label text-right"></label>
+                                <div class="col-md-10">
+                                    @Html.LabelFor(m => m.isAutomaticPasswordEmail, new { @class = " col-form-label" })
+                                    @Html.CheckBoxFor(m => m.isAutomaticPasswordEmail, new { @class = "", required = "" })
+                                </div>
+                            </div>
+                            <div class="row GenPasswordRow" style="display:none">
+                                <label class="col-sm-2 col-form-label text-right"></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Senha gerada" id="GenPassword" readonly="">
+                                </div>
+                                <div class="col-sm-3 btn-group">
+                                    <a class="btn btn-sm btn-secondary" onclick="ShufflePassword()" title="Shuffle"><i class="fa fa-random"></i></a>
+                                    <a class="btn btn-sm btn-secondary" onclick="copyPassword()" title="Copiar senha"><i class="fa fa-copy"></i></a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
+                                <div class="col-md-10">
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-sm", required = "" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 col-form-label" })
+                                <div class="col-md-10">
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control form-control-sm", required = "" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                @Html.LabelFor(m => m.Status, new { @class = "col-md-2 col-form-label" })
+                                <div class="col-md-6">
+                                    @Html.DropDownListFor(m => Model.Status, Enum.GetValues(typeof(SelectValues.Status)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.Status), e), Value = e.ToString() }), new { @class = "form-control form-control-sm custom-select" })
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-sm-2 text-right">
+                                </div>
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+                                </div>
+                            </div>
+                        }
+                    }
+                    @if (ViewBag.Action == "Editar")
+                    {
+                        using (Ajax.BeginForm("updateuser", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.Id)
+                            <div class="row">
+                                @Html.LabelFor(m => m.Login, new { @class = "col-md-2 col-form-label" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(m => m.Login, new { @class = "form-control form-control-sm", required = "", maxlength = "32" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                @Html.LabelFor(m => m.Status, new { @class = "col-md-2 col-form-label" })
+                                <div class="col-md-6">
+                                    @Html.DropDownListFor(m => Model.Status, Enum.GetValues(typeof(SelectValues.Status)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.Status), e), Value = e.ToString() }), new { @class = "form-control form-control-sm custom-select" })
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-sm-2 text-right">
+                                </div>
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+                                </div>
+                            </div>
+                        }
+                    }
+                    @if (ViewBag.Action == "AlterarSenha")
+                    {
+                        using (Ajax.BeginForm("updatepassword", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.Id)
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label text-right"></label>
+                                <div class="col-md-10">
+                                    @Html.LabelFor(m => m.isAutomaticPasswordEmail, new { @class = " col-form-label" })
+                                    @Html.CheckBoxFor(m => m.isAutomaticPasswordEmail, new { @class = "" })
+                                </div>
+                            </div>
+                            <div class="row GenPasswordRow" style="display:none">
+                                <label class="col-sm-2 col-form-label text-right"></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Senha gerada" id="GenPassword" readonly="">
+                                </div>
+                                <div class="col-sm-3 btn-group">
+                                    <a class="btn btn-sm btn-secondary" onclick="ShufflePassword()" title="Shuffle"><i class="fa fa-random"></i></a>
+                                    <a class="btn btn-sm btn-secondary" onclick="copyPassword()" title="Copiar senha"><i class="fa fa-copy"></i></a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
+                                <div class="col-md-10">
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-sm", required = "" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 col-form-label" })
+                                <div class="col-md-10">
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control form-control-sm", required = "" })
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-sm-2 text-right">
+                                </div>
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+                                </div>
+                            </div>
+                        }
+                    }
+                    @if (ViewBag.Action == "LimparLogs")
+                    {
+                        using (Ajax.BeginForm("CleanUserLogs", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.Id)
+                            <p>Deseja desbloquear os dados de sessão?</p>
+
+                            <div class="row mt-1">
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-danger btn-sm" id="BtnSubmit">Submeter</button>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page content -->

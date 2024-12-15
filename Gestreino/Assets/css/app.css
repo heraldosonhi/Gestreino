@@ -21,6 +21,7 @@ table tr:hover a {
     background-color: #eff0d2
 }
 
+.required{color:red}
 .alert {
     padding: .5rem;
     margin-bottom: 1rem;
@@ -129,6 +130,37 @@ table tr:hover a {
 .alert-accent-red .alert-link {
     color: #63132d
 }
+
+
+
+
+
+
+
+
+
+
+
+.bg-success {
+    background-color: #efe !important
+}
+
+.bg-inactive {
+    background-color: #f8e3e3 !important
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

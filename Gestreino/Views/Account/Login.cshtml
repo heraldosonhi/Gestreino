@@ -11,7 +11,7 @@
                     @Html.AntiForgeryToken()
                     <br />
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <h1>Gestreino</h1>
+                    <h1><img src="~/Assets/images/icon.jpg" width="40" class="navImg" /> Gestreino</h1>
 
                     <div class="row">
                         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
@@ -33,32 +33,16 @@
                             <input type="submit" class="btn btn-secondary submit" value="Iniciar sessão">
                         </div>
                     </div>
-                    @*
-            <div class="row">
-                <div class="offset-md-2 col-md-10">
-                    <div class="checkbox">
-                        @Html.CheckBoxFor(m => m.RememberMe)
-                        @Html.LabelFor(m => m.RememberMe)
+                    <div class="row mb-4">
+                        <label class="col-md-2 col-form-label"></label>
+                        <div class="col-md-10">
+                            @Html.ActionLink("Recuperar senha de acesso", "forgotpassword", new { }, new {@class=""})
+                        </div>
                     </div>
-                </div>
-            </div>*@
-                    @* Enable this once you have account confirmation enabled for password reset functionality
-            <p>
-                @Html.ActionLink("Forgot your password?", "ForgotPassword")
-            </p>
-                    <div class="clearfix"></div>
-
-                    <div class="separator">
-                        <p class="change_link">
-                            <a class="reset_pass" href="#">Recuperar senha de acesso</a>
-                            <a href="@Url.Action("register","account")" class="to_register"> Novo registo </a>
-                        </p>
-                    </div>*@
                 }
             </section>
         </div>
     </div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

@@ -70,10 +70,10 @@ namespace Gestreino
         public virtual DbSet<UTILIZADORES_ACESSO_UTIL_PERFIS> UTILIZADORES_ACESSO_UTIL_PERFIS { get; set; }
         public virtual DbSet<UTILIZADORES_LOGIN_LOGS> UTILIZADORES_LOGIN_LOGS { get; set; }
         public virtual DbSet<UTILIZADORES_LOGIN_PASSWORD_TENT> UTILIZADORES_LOGIN_PASSWORD_TENT { get; set; }
-        public virtual DbSet<GRL_DEFINICOES> GRL_DEFINICOES { get; set; }
         public virtual DbSet<INST_APLICACAO> INST_APLICACAO { get; set; }
         public virtual DbSet<PES_PESSOAS> PES_PESSOAS { get; set; }
         public virtual DbSet<UTILIZADORES_ACESSO_ATOMOS> UTILIZADORES_ACESSO_ATOMOS { get; set; }
+        public virtual DbSet<GRL_DEFINICOES> GRL_DEFINICOES { get; set; }
     
         public virtual ObjectResult<SP_UTILIZADORES_LOGIN_LOGS_Result> SP_UTILIZADORES_LOGIN_LOGS(Nullable<int> userId, string action)
         {
@@ -468,6 +468,228 @@ namespace Gestreino
                 new ObjectParameter("Action", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS_Result>("SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS", idParameter, profileIdParameter, userIdParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_GRL_ENT_END_CIDADE_Result> SP_GRL_ENT_END_CIDADE(Nullable<int> id, string sigla, string nome, Nullable<int> paisId, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var siglaParameter = sigla != null ?
+                new ObjectParameter("Sigla", sigla) :
+                new ObjectParameter("Sigla", typeof(string));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var paisIdParameter = paisId.HasValue ?
+                new ObjectParameter("PaisId", paisId) :
+                new ObjectParameter("PaisId", typeof(int));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GRL_ENT_END_CIDADE_Result>("SP_GRL_ENT_END_CIDADE", idParameter, siglaParameter, nomeParameter, paisIdParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_GRL_ENT_END_DISTR_Result> SP_GRL_ENT_END_DISTR(Nullable<int> id, string sigla, string nome, Nullable<int> cidadeId, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var siglaParameter = sigla != null ?
+                new ObjectParameter("Sigla", sigla) :
+                new ObjectParameter("Sigla", typeof(string));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var cidadeIdParameter = cidadeId.HasValue ?
+                new ObjectParameter("CidadeId", cidadeId) :
+                new ObjectParameter("CidadeId", typeof(int));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GRL_ENT_END_DISTR_Result>("SP_GRL_ENT_END_DISTR", idParameter, siglaParameter, nomeParameter, cidadeIdParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_GRL_ENT_END_PAIS_Result> SP_GRL_ENT_END_PAIS(Nullable<int> id, string sigla, string nome, Nullable<int> codigo, string indicativo, string mas, string fem, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var siglaParameter = sigla != null ?
+                new ObjectParameter("Sigla", sigla) :
+                new ObjectParameter("Sigla", typeof(string));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var codigoParameter = codigo.HasValue ?
+                new ObjectParameter("Codigo", codigo) :
+                new ObjectParameter("Codigo", typeof(int));
+    
+            var indicativoParameter = indicativo != null ?
+                new ObjectParameter("Indicativo", indicativo) :
+                new ObjectParameter("Indicativo", typeof(string));
+    
+            var masParameter = mas != null ?
+                new ObjectParameter("Mas", mas) :
+                new ObjectParameter("Mas", typeof(string));
+    
+            var femParameter = fem != null ?
+                new ObjectParameter("Fem", fem) :
+                new ObjectParameter("Fem", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GRL_ENT_END_PAIS_Result>("SP_GRL_ENT_END_PAIS", idParameter, siglaParameter, nomeParameter, codigoParameter, indicativoParameter, masParameter, femParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_GRL_ENT_TIPODOC_Result> SP_GRL_ENT_TIPODOC(Nullable<int> id, string sigla, string nome, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var siglaParameter = sigla != null ?
+                new ObjectParameter("Sigla", sigla) :
+                new ObjectParameter("Sigla", typeof(string));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GRL_ENT_TIPODOC_Result>("SP_GRL_ENT_TIPODOC", idParameter, siglaParameter, nomeParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_GRL_ENT_TIPOTOKEN_Result> SP_GRL_ENT_TIPOTOKEN(Nullable<int> id, string nome, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GRL_ENT_TIPOTOKEN_Result>("SP_GRL_ENT_TIPOTOKEN", idParameter, nomeParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_INST_APLICACAO_Result> SP_INST_APLICACAO(Nullable<int> id, string sigla, string nome, string nIF, Nullable<decimal> telefone, Nullable<decimal> telefoneAlternativo, Nullable<decimal> fax, string email, string codigoPostal, string uRL, Nullable<int> numero, string rua, string morada, Nullable<int> paisId, Nullable<int> cidadeId, Nullable<int> munId, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var siglaParameter = sigla != null ?
+                new ObjectParameter("Sigla", sigla) :
+                new ObjectParameter("Sigla", typeof(string));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var nIFParameter = nIF != null ?
+                new ObjectParameter("NIF", nIF) :
+                new ObjectParameter("NIF", typeof(string));
+    
+            var telefoneParameter = telefone.HasValue ?
+                new ObjectParameter("Telefone", telefone) :
+                new ObjectParameter("Telefone", typeof(decimal));
+    
+            var telefoneAlternativoParameter = telefoneAlternativo.HasValue ?
+                new ObjectParameter("TelefoneAlternativo", telefoneAlternativo) :
+                new ObjectParameter("TelefoneAlternativo", typeof(decimal));
+    
+            var faxParameter = fax.HasValue ?
+                new ObjectParameter("Fax", fax) :
+                new ObjectParameter("Fax", typeof(decimal));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var codigoPostalParameter = codigoPostal != null ?
+                new ObjectParameter("CodigoPostal", codigoPostal) :
+                new ObjectParameter("CodigoPostal", typeof(string));
+    
+            var uRLParameter = uRL != null ?
+                new ObjectParameter("URL", uRL) :
+                new ObjectParameter("URL", typeof(string));
+    
+            var numeroParameter = numero.HasValue ?
+                new ObjectParameter("Numero", numero) :
+                new ObjectParameter("Numero", typeof(int));
+    
+            var ruaParameter = rua != null ?
+                new ObjectParameter("Rua", rua) :
+                new ObjectParameter("Rua", typeof(string));
+    
+            var moradaParameter = morada != null ?
+                new ObjectParameter("Morada", morada) :
+                new ObjectParameter("Morada", typeof(string));
+    
+            var paisIdParameter = paisId.HasValue ?
+                new ObjectParameter("PaisId", paisId) :
+                new ObjectParameter("PaisId", typeof(int));
+    
+            var cidadeIdParameter = cidadeId.HasValue ?
+                new ObjectParameter("CidadeId", cidadeId) :
+                new ObjectParameter("CidadeId", typeof(int));
+    
+            var munIdParameter = munId.HasValue ?
+                new ObjectParameter("MunId", munId) :
+                new ObjectParameter("MunId", typeof(int));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_INST_APLICACAO_Result>("SP_INST_APLICACAO", idParameter, siglaParameter, nomeParameter, nIFParameter, telefoneParameter, telefoneAlternativoParameter, faxParameter, emailParameter, codigoPostalParameter, uRLParameter, numeroParameter, ruaParameter, moradaParameter, paisIdParameter, cidadeIdParameter, munIdParameter, userInsercaoIdParameter, actionParameter);
         }
     }
 }
