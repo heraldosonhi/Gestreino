@@ -1,4 +1,192 @@
-﻿/*
+﻿
+
+/* ############################################
+  DATEPICKER FUNCTIONS JS
+ ##############################################
+ */
+//Definir plugin datepicker nos inputs do tipo date
+function SetUpDatepicker(id) {
+    $('.datepicker').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        autoApply: true,
+        locale: {
+            format: 'DD-MM-YYYY', daysOfWeek: [
+                "Dom",
+                "Seg",
+                "Ter",
+                "Qua",
+                "Qui",
+                "Sex",
+                "Sab"
+            ],
+            monthNames: [
+                "Janeiro",
+                "Fevereiro",
+                "Março",
+                "Abril",
+                "Maio",
+                "Junho",
+                "Julho",
+                "Agosto",
+                "Setembro",
+                "Outubro",
+                "Novembro",
+                "Dezembro"
+            ],
+        },
+        minYear: 1999,
+        maxYear: new Date().getFullYear() + 15
+    });
+    $('.datepickerDisablePastDate').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        autoApply: true,
+        locale: {
+            format: 'DD-MM-YYYY', daysOfWeek: [
+                "Dom",
+                "Seg",
+                "Ter",
+                "Qua",
+                "Qui",
+                "Sex",
+                "Sab"
+            ],
+            monthNames: [
+                "Janeiro",
+                "Fevereiro",
+                "Março",
+                "Abril",
+                "Maio",
+                "Junho",
+                "Julho",
+                "Agosto",
+                "Setembro",
+                "Outubro",
+                "Novembro",
+                "Dezembro"
+            ],
+        },
+        minYear: 1999,
+        minDate: new Date(),
+        maxYear: new Date().getFullYear() + 15
+    });
+    $('.datepickerDisableFutureDate').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        autoApply: true,
+        locale: {
+            format: 'DD-MM-YYYY', daysOfWeek: [
+                "Dom",
+                "Seg",
+                "Ter",
+                "Qua",
+                "Qui",
+                "Sex",
+                "Sab"
+            ],
+            monthNames: [
+                "Janeiro",
+                "Fevereiro",
+                "Março",
+                "Abril",
+                "Maio",
+                "Junho",
+                "Julho",
+                "Agosto",
+                "Setembro",
+                "Outubro",
+                "Novembro",
+                "Dezembro"
+            ],
+        },
+        minYear: 1905,
+        /*minDate: new Date(),*/
+        maxDate: new Date()
+    });
+    $('.Disablecalendardatepicker').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        autoApply: true,
+        locale: {
+            format: 'DD-MM-YYYY', daysOfWeek: [
+                "Dom",
+                "Seg",
+                "Ter",
+                "Qua",
+                "Qui",
+                "Sex",
+                "Sab"
+            ],
+            monthNames: [
+                "Janeiro",
+                "Fevereiro",
+                "Março",
+                "Abril",
+                "Maio",
+                "Junho",
+                "Julho",
+                "Agosto",
+                "Setembro",
+                "Outubro",
+                "Novembro",
+                "Dezembro"
+            ],
+        },
+        minDate: new Date($("#DisableDateIni").val()),
+        maxDate: new Date($("#DisableDateEnd").val())
+    });
+    // Disablecalendardatepicker with Loop over date options
+    $('.Disablecalendardatepicker_' + id).daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        autoApply: true,
+        locale: {
+            format: 'DD-MM-YYYY', daysOfWeek: [
+                "Dom",
+                "Seg",
+                "Ter",
+                "Qua",
+                "Qui",
+                "Sex",
+                "Sab"
+            ],
+            monthNames: [
+                "Janeiro",
+                "Fevereiro",
+                "Março",
+                "Abril",
+                "Maio",
+                "Junho",
+                "Julho",
+                "Agosto",
+                "Setembro",
+                "Outubro",
+                "Novembro",
+                "Dezembro"
+            ],
+        },
+        minDate: new Date($(".DisableDateIni_" + id).val()),
+        maxDate: new Date($(".DisableDateEnd_" + id).val())
+    });
+
+    $('.datepicker, .datepickerDisablePastDate, .datepickerDisableFutureDate, .Disablecalendardatepicker, .Disablecalendardatepicker_' + id).on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('DD-MM-YYYY'));
+    });
+    // Prevent data entry :: Readonly Input
+    $('.datepicker, .datepickerDisablePastDate, .datepickerDisableFutureDate, .Disablecalendardatepicker, .Disablecalendardatepicker_' + id).on('keydown paste focus mousedown', function (e) {
+        if (e.keyCode != 9)
+            e.preventDefault();
+    });
+}
+
+
+/*
  ############################################
   DINAMICALLY CREATED CHECKBOX - GET IDS[]
  ##############################################
@@ -1299,6 +1487,100 @@ function handleDataGRLEndDistrTable() {
         //Remove pagination from table and add to custom Div
         initComplete: (settings, json) => {
             $('#GRLEndDistrTable_paginate').appendTo('#paginateGRLEndDistrTable');
+        },
+    });
+};
+function handleDataGPUsers() {
+    var table = $("#DadosPessoaisTable").DataTable({
+        "processing": true, // Para exibir mensagem de processamento a cada requisi��o
+        "serverSide": true, // Para processar as requisi��es no back-end
+        //"filter": false, // : est� comentado porque estamos a usar filtros que enviamos no back-end
+        "orderMulti": false, // Op��o de ordena��o para uma coluna de cada vez.
+        //Linguagem PT
+        "language": {
+            "url": "/Assets/lib/datatable/pt-PT.json"
+        },
+        fixedHeader: {
+            header: true,
+            footer: true
+        },
+        "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
+        "ajax": {
+            "url": "/gtmanagement/GetUsers", // POST TO CONTROLLER
+            "type": "POST",
+            "datatype": "json"
+        },
+        "columns": [
+            { "data": "Id", "name": null, "autoWidth": true },
+            //Column customizada
+            {
+                sortable: false,
+                "render": function (data, type, full, meta) {
+                    return '<a title="Visualizar" href="/gtmanagement/viewathletes/' + full.Id + '" class=""><i class="fa fa-search" /></i></a>';
+                }
+            },
+            {
+                sortable: true,
+                "render": function (data, type, full, meta) {
+                    return `
+                                <div class="media flex-nowrap align-items-center"
+                                         style="white-space: nowrap;">
+                                        <div class="avatar avatar-sm mr-8pt">
+                                            <img src="${full.FOTOGRAFIA}"
+                                                 alt="${full.NOME}"
+                                                 class="avatar-img rounded-circle">
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex d-flex flex-column">
+                                                    <p class="mb-0"><strong class="js-lists-values-name">${full.NOME}</strong></p>
+                                                    <small class="js-lists-values-email text-50">${full.USER}</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            `
+                }
+            },
+            { "data": "SOCIO", "name": "SOCIO", "autoWidth": true },
+            { "data": "TELEFONE", "name": "TELEFONE", "autoWidth": true },
+            { "data": "EMAIL", "name": "EMAIL", "autoWidth": true },
+            //{ "data": "UTILIZADOR", "name": "UTILIZADOR", "autoWidth": true },
+            { "data": "INSERCAO", "name": "INSERCAO", "autoWidth": true },
+            { "data": "DATAINSERCAO", "name": "DATAINSERCAO", "autoWidth": true },
+            { "data": "ACTUALIZACAO", "name": "ACTUALIZACAO", "autoWidth": true },
+            { "data": "DATAACTUALIZACAO", "name": "DATAACTUALIZACAO", "autoWidth": true }
+        ],
+        //Configura��o da tabela para os checkboxes
+        'columnDefs': [
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                },
+            }
+        ], 'select': {
+            'style': 'multi'
+        },
+        'order': [[1, 'false']],
+        'rowCallback': function (row, data, dataIndex) {
+            // Get row ID
+            var rowId = data["Id"];
+            //console.log(rowId)
+            //Draw table and add selected option to previously selected checkboxes
+            $.each(values, function (i, r) {
+                if (rowId == r) {
+                    $(row).find('input[type="checkbox"]').prop('checked', true);
+                    $(row).closest("tr").addClass("selected");
+                }
+            })
+        },
+        drawCallback: function () {
+            processInfo(this.api().page.info(), 'paginateInfoDadosPessoais');
+        },
+        //Remove pagination from table and add to custom Div
+        initComplete: (settings, json) => {
+            $('#DadosPessoaisTable_paginate').appendTo('#paginateDadosPessoais');
         },
     });
 };

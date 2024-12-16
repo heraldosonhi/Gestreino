@@ -1,10 +1,10 @@
-﻿@model Gestreino.Models.SettingsInst
+﻿@model Gestreino.Models.Athlete
+@using Gestreino.Classes
 @{
-    ViewBag.Title = "Atualizar dados da aplicação";
+    ViewBag.Title = "Adicionar novo atleta";
 }
 <!-- page content -->
 <div class="right_col" role="main">
- 
     <div class="handle-error alert alert-accent"
          role="alert" style="display:none;">
         <div class="d-flex flex-wrap align-items-start">
@@ -19,476 +19,423 @@
             </div>
         </div>
     </div>
-
-
-    <form action="/gtmanagement/UpdateInst?Length=12" data-ajax="true" data-ajax-failure="handleFailure" data-ajax-method="POST" data-ajax-success="handleSuccess" id="form0" method="post">
-
+    @using (Ajax.BeginForm("newathlete", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+    {
+        @Html.AntiForgeryToken()
         <div class="row">
-            <div class="col-md-12 col-sm-12 ">
+            <div class="col-md-11 col-sm-12 ">
                 <div class="animated flipInY">
                     <div class="tile-stats">
                         <div class="icon">
-                            <i class="fa fa-user"></i>
+                            <i class="fa fa-tags"></i>
                         </div>
-                        <h3 class="p-2">Adicionar novo registo</h3>
+                        <h3 class="p-2">Adicionar novo atleta</h3>
                         <span class="p-4"><i class="fa fa-info-circle"></i> Os campos a vermelho são de caráter obrigatório!</span>
                         <div class="p-4">
-                            <input name="__RequestVerificationToken" type="hidden" value="wez585C3PFz4UpfgxCNulT1XGbZ1t0Js46OLMdJbrRU9V3US6oTcsbIHpAiJjuzDXBfPqDDjSxBbQLyLRYNTT-LJ_g8Nb8SDYSeEpbQ5d22003uVT9QHJUzsucOYy95CZawB1B7UH8PJi_s6LE_qEw2" /><input data-val="true" data-val-number="The field ID must be a number." id="ID" name="ID" type="hidden" value="1" />
 
                             <div class="row">
-                                <label class="col-md-2 col-form-label required" for="Nome">N Socio</label>
+                                @Html.LabelFor(m => m.Numero, new { @class = "col-md-2 col-form-label required" })
                                 <div class="col-md-4">
-                                    <input class="form-control form-control-sm " id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    @Html.TextBoxFor(m => m.Numero, new { @class = "form-control form-control-sm", type = "number", required = "" })
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-md-2 col-form-label required" for="Nome">Nome</label>
+                                @Html.LabelFor(m => m.Nome, new { @class = "col-md-2 col-form-label required" })
                                 <div class="col-md-10">
-                                    <input class="form-control form-control-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    @Html.TextBoxFor(m => m.Nome, new { @class = "form-control form-control-sm", required = "" })
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-md-2 col-form-label required" for="Nome">Sexo</label>
+                                @Html.LabelFor(m => m.Sexo, new { @class = "col-md-2 col-form-label required" })
                                 <div class="col-md-4">
-                                    <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    @Html.DropDownListFor(m => Model.Sexo, Enum.GetValues(typeof(SelectValues.Sexo)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.Sexo), e), Value = e.ToString() }), "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
                                 </div>
-                                <label class="col-md-2 col-form-label required" for="Nome">Data nascimento</label>
+                                @Html.LabelFor(m => m.DataNascimento, new { @class = "col-md-2 col-form-label required" })
                                 <div class="col-md-4">
-                                    <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    @Html.TextBoxFor(m => m.DataNascimento, new { @class = "form-control form-control-sm datepickerDisableFutureDate", required = "" })
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-md-2 col-form-label required" for="Nome">Estado Civil</label>
+                                @Html.LabelFor(m => m.EstadoCivil, new { @class = "col-md-2 col-form-label" })
                                 <div class="col-md-4">
-                                    <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    @Html.DropDownListFor(x => Model.EstadoCivil, Model.EstadoCivilList, "Selecionar uma opção", new { @class = "form-control form-control-sm" })
                                 </div>
-                                <label class="col-md-2 col-form-label required" for="Nome">NIF</label>
+                                @Html.LabelFor(m => m.NIF, new { @class = "col-md-2 col-form-label" })
                                 <div class="col-md-4">
-                                    <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    @Html.TextBoxFor(m => m.NIF, new { @class = "form-control form-control-sm" })
                                 </div>
                             </div>
-
-
-                            <h6><span><i class="fa fa-phone"></i> Contactos</span></h6>
-                            <div class="card">
+                            <h6 class="mt-1"><span><i class="fa fa-location-arrow"></i> Naturalidade</span></h6>
+                            <div class="">
                                 <div class="row">
-                                    <label class="col-md-2 col-form-label required" for="Telephone">Telefone</label>
+                                    @Html.LabelFor(m => m.NacionalidadeId, new { @class = "col-md-2 col-form-label" })
                                     <div class="col-md-4">
-                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-length="Telefone deve ter o mínimo de 9 dígitos" data-val-length-max="100" data-val-length-min="9" data-val-regex="Telefone não é válido!" data-val-regex-pattern="^[0-9]*$" id="Telephone" name="Telephone" required="" type="number" value="222222222" />
-                                    </div>
-                                    <label class="col-md-2 col-form-label" for="TelephoneAlternativo">T/ Alternativo</label>
-                                    <div class="col-md-4">
-                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-length="Telefone Alternativo deve ter o mínimo de 9 dígitos" data-val-length-max="100" data-val-length-min="9" data-val-regex="Telefone Alternativo não é válido!" data-val-regex-pattern="^[0-9]*$" id="TelephoneAlternativo" name="TelephoneAlternativo" type="number" value="" />
+                                        @Html.ListBoxFor(x => Model.NacionalidadeId, Model.PAIS_LIST, new { @class = "form-control form-control-sm" })
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <label class="col-md-2 col-form-label required" for="Email">Email</label>
-                                    <div class="col-md-4">
-                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-email="Email não é válido!" id="Email" name="Email" required="" type="text" value="info@gestreino.pt" />
-                                    </div>
-                                </div>
-                            </div>
-                            <h6><span><i class="fa fa-location-arrow"></i> Endereço</span></h6>
-                            <div class="card">
-                                <div class="row">
-                                    <label class="col-md-2 col-form-label" for="Numero">N&#250;mero/Rua/Morada </label>
-                                    <div class="col-md-1">
-                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-number="The field Número  must be a number." id="Numero" name="Numero" type="text" value="42" />
+                                <div class="row mt-1">
+                                    @Html.LabelFor(m => m.NAT_PAIS_ID, new { @class = "col-md-2 col-form-label required" })
+                                    <div class="col-md-2">
+                                        @Html.DropDownListFor(x => Model.NAT_PAIS_ID, Model.PAIS_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
                                     </div>
                                     <div class="col-md-4">
-                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Rua" name="Rua" required="" type="text" value="Serbia cinzenta" />
-                                    </div>
-                                   <div class="col-md-5">
-                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Morada" name="Morada" required="" type="text" value="Belas" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <label class="col-md-2 col-form-label required" for="ENDERECO_PAIS_ID">Pa&#237;s</label>
-                                    <div class="col-md-1">
-                                        <select class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-number="The field País must be a number." id="ENDERECO_PAIS_ID" name="ENDERECO_PAIS_ID" required="">
-                                            <option value="">Sem filtro</option>
-                                            <option selected="selected" value="1">Angola</option>
-                                        </select>
+                                        @Html.DropDownListFor(x => Model.NAT_CIDADE_ID, Model.CIDADE_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
                                     </div>
                                     <div class="col-md-4">
-                                        <select class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-number="The field Cidade must be a number." id="ENDERECO_CIDADE_ID" name="ENDERECO_CIDADE_ID" required="">
-                                            <option value="">Sem filtro</option>
-                                            <option selected="selected" value="1">Luanda</option>
-                                            <option value="2">Luanda</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <select class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-number="The field Distrito must be a number." id="ENDERECO_MUN_ID" name="ENDERECO_MUN_ID" required="">
-                                            <option value="">Sem filtro</option>
-                                            <option selected="selected" value="1">Kilamba Kiaxi</option>
-                                        </select>
+                                        @Html.DropDownListFor(x => Model.NAT_MUN_ID, Model.MUN_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm" })
                                     </div>
                                 </div>
                             </div>
-
-
-                            <h6><span><i class="fa fa-medkit"></i> Caracteristicas</span></h6>
-                            <div class="card">
-                                <div class="row">
-                                    <label class="col-md-2 col-form-label required" for="Nome">Altura (cm)</label>
-                                    <div class="col-md-4">
-                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                <h6 class="mt-1"><span><i class="fa fa-phone"></i> Contactos</span></h6>
+                                <div class="">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.Telephone, new { @class = "col-md-2 col-form-label required" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control form-control-sm", required = "", @type = "number" })
+                                        </div>
+                                        @Html.LabelFor(m => m.TelephoneAlternativo, new { @class = "col-md-2 col-form-label" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.TelephoneAlternativo, new { @class = "form-control form-control-sm", @type = "number" })
+                                        </div>
                                     </div>
-                                    <label class="col-md-2 col-form-label required" for="Nome">VO2</label>
-                                    <div class="col-md-4">
-                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <h6 class="mt-1"><span><i class="fa fa-location-arrow"></i> Endereço</span></h6>
+                                <div class="">
+                                    <div class="row">
+                                        <label class="col-md-2 col-form-label required" for="Numero">N&#250;mero/Rua/Morada </label>
+                                        <div class="col-md-2">
+                                            @Html.DropDownListFor(x => Model.ENDERECO_TIPO, Model.ENDERECO_TIPO_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.TextBoxFor(m => m.EndNumero, new { @class = "form-control form-control-sm", @type = "number" })
+                                        </div>
+                                        <div class="col-md-3">
+                                            @Html.TextBoxFor(m => m.Rua, new { @class = "form-control form-control-sm", required = "" })
+                                        </div>
+                                        <div class="col-md-3">
+                                            @Html.TextBoxFor(m => m.Morada, new { @class = "form-control form-control-sm", required = "" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-md-2 col-form-label required" for="Numero"></label>
+                                        <div class="col-md-2">
+                                            @Html.DropDownListFor(x => Model.ENDERECO_PAIS_ID, Model.PAIS_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.DropDownListFor(x => Model.ENDERECO_CIDADE_ID, Model.CIDADE_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.DropDownListFor(x => Model.ENDERECO_MUN_ID, Model.MUN_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <h6 class="mt-1"><span><i class="fa fa-medkit"></i> Características</span></h6>
+                                <div class="card p-1 bg-light mb-2">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.Caract_Altura, new { @class = "col-md-2 col-form-label required" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.Caract_Altura, new { @class = "form-control form-control-sm", type = "number", required = "" })
+                                        </div>
+                                        @Html.LabelFor(m => m.Caract_VO2, new { @class = "col-md-2 col-form-label" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.Caract_VO2, new { @class = "form-control form-control-sm", @readonly = "" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.Caract_Peso, new { @class = "col-md-2 col-form-label required" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.Caract_Peso, new { @class = "form-control form-control-sm", type = "number", required = "", step = ".01" })
+                                        </div>
+                                        @Html.LabelFor(m => m.Caract_MassaGorda, new { @class = "col-md-2 col-form-label" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.Caract_MassaGorda, new { @class = "form-control form-control-sm", @readonly = "" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.Caract_IMC, new { @class = "col-md-2 col-form-label" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.Caract_IMC, new { @class = "form-control form-control-sm", @readonly = "" })
+                                        </div>
+                                        @Html.LabelFor(m => m.Caract_DuracaoPlano, new { @class = "col-md-2 col-form-label required" })
+                                        <div class="col-md-4">
+                                            @Html.DropDownListFor(x => Model.Caract_DuracaoPlano, Model.Caract_DuracaoPlanoList, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.Caract_FCRepouso, new { @class = "col-md-2 col-form-label required" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.Caract_FCRepouso, new { @class = "form-control form-control-sm", type = "number" })
+                                        </div>
+                                        @Html.LabelFor(m => m.Caract_Protocolo, new { @class = "col-md-2 col-form-label required" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.Caract_Protocolo, new { @class = "form-control form-control-sm", type = "number" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.Caract_FCMaximo, new { @class = "col-md-2 col-form-label" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.Caract_FCMaximo, new { @class = "form-control form-control-sm", @readonly = "" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.Caract_TASistolica, new { @class = "col-md-2 col-form-label required" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.Caract_TASistolica, new { @class = "form-control form-control-sm", type = "number" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.Caract_TADistolica, new { @class = "col-md-2 col-form-label required" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.Caract_TADistolica, new { @class = "form-control form-control-sm", type = "number" })
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-md-2 col-form-label required" for="Nome">Peso (kg)</label>
-                                    <div class="col-md-4">
-                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
-                                    </div>
-                                    <label class="col-md-2 col-form-label required" for="Nome">Massa Gorda (%)</label>
-                                    <div class="col-md-4">
-                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    <label class="col-md-2 col-form-label required" for="Nome"></label>
+                                    <div class="col-md-10">
+                                        <div class="card" role="tabpanel" data-example-id="togglable-tabs">
+                                            <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                                <li role="presentation" class="active">
+                                                    <a href="#tab_content1" id="" role="tab" data-toggle="tab" aria-expanded="true">Frequência Cardíaca</a>
+                                                </li>
+                                                <li role="presentation" class="">
+                                                    <a href="#tab_content2" role="tab" id="" data-toggle="tab" aria-expanded="false">Factores de risco</a>
+                                                </li>
+                                                <li role="presentation" class="">
+                                                    <a href="#tab_content3" role="tab" id="" data-toggle="tab" aria-expanded="false">Objectivos</a>
+                                                </li>
+                                            </ul>
+                                            <div id="myTabContent" class="tab-content">
+                                                <div role="tabpanel" class="tab-pane active" id="tab_content1" aria-labelledby="">
+                                                    <div class="p-3 ">
+                                                        <div class="alert  mb-1 mt-0"
+                                                             role="alert">
+                                                            <div class="d-flex flex-wrap align-items-start">
+                                                                <div class="mr-8pt">
+                                                                    <strong>  <i class="fa fa-code-fork"></i>&nbsp;</strong>
+                                                                </div>
+                                                                <div class="flex"
+                                                                     style="min-width: 180px">
+                                                                    <strong class="text-black-100">
+                                                                        Fórmula Karvonen e Skinner
+                                                                    </strong>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="table-responsive">
+                                                            <table class="fctable">
+                                                                <tr>
+                                                                    <td>
+                                                                        <table border="1">
+                                                                            <tr>
+                                                                                <td>40%</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><input type="" value="" name="fc[]" /></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                    <td>
+                                                                        <table border="1">
+                                                                            <tr>
+                                                                                <td>45%</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><input type="" value="" name="fc[]" /></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                    <td>
+                                                                        <table border="1">
+                                                                            <tr>
+                                                                                <td>50%</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><input type="" value="" name="fc[]" /></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                    <td>
+                                                                        <table border="1">
+                                                                            <tr>
+                                                                                <td>55%</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><input type="" value="" name="fc[]" /></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                    <td>
+                                                                        <table border="1">
+                                                                            <tr>
+                                                                                <td>60%</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><input type="" value="" name="fc[]" /></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                    <td>
+                                                                        <table border="1">
+                                                                            <tr>
+                                                                                <td>65%</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><input type="" value="" name="fc[]" /></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                    <td>
+                                                                        <table border="1">
+                                                                            <tr>
+                                                                                <td>70%</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><input type="" value="" name="fc[]" /></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                    <td>
+                                                                        <table border="1">
+                                                                            <tr>
+                                                                                <td>75%</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><input type="" value="" name="fc[]" /></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                    <td>
+                                                                        <table border="1">
+                                                                            <tr>
+                                                                                <td>80%</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><input type="" value="" name="fc[]" /></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                    <td>
+                                                                        <table border="1">
+                                                                            <tr>
+                                                                                <td>85%</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><input type="" value="" name="fc[]" /></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="">
+                                                    <div class="p-3 ">
+                                                        <div class="row">
+                                                            <div class="col-md-2">
+                                                                @Html.LabelFor(m => m.FR_Hipertensao, new { @class = " col-form-label" })
+                                                                @Html.CheckBoxFor(m => m.FR_Hipertensao, new { @class = "" })
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                @Html.LabelFor(m => m.FR_Tabaco, new { @class = " col-form-label" })
+                                                                @Html.CheckBoxFor(m => m.FR_Tabaco, new { @class = "" })
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                @Html.LabelFor(m => m.FR_Hiperlipidemia, new { @class = " col-form-label" })
+                                                                @Html.CheckBoxFor(m => m.FR_Hiperlipidemia, new { @class = "" })
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                @Html.LabelFor(m => m.FR_Obesidade, new { @class = " col-form-label" })
+                                                                @Html.CheckBoxFor(m => m.FR_Obesidade, new { @class = "" })
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                @Html.LabelFor(m => m.FR_Diabetes, new { @class = " col-form-label" })
+                                                                @Html.CheckBoxFor(m => m.FR_Diabetes, new { @class = "" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-2">
+                                                                @Html.LabelFor(m => m.FR_Inactividade, new { @class = " col-form-label" })
+                                                                @Html.CheckBoxFor(m => m.FR_Inactividade, new { @class = "" })
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                @Html.LabelFor(m => m.FR_Heriditariedade, new { @class = " col-form-label" })
+                                                                @Html.CheckBoxFor(m => m.FR_Heriditariedade, new { @class = "" })
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                @Html.LabelFor(m => m.FR_Examescomplementares, new { @class = " col-form-label" })
+                                                                @Html.CheckBoxFor(m => m.FR_Examescomplementares, new { @class = "" })
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                @Html.LabelFor(m => m.FR_Outros, new { @class = " col-form-label" })
+                                                                @Html.CheckBoxFor(m => m.FR_Outros, new { @class = "" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="">
+                                                    <div class="p-3 ">
+                                                        <div class="row">
+                                                            <div class="col-md-2">
+                                                                @Html.LabelFor(m => m.OB_Actividade, new { @class = " col-form-label" })
+                                                                @Html.CheckBoxFor(m => m.OB_Actividade, new { @class = "" })
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                @Html.LabelFor(m => m.OB_Controlopeso, new { @class = " col-form-label" })
+                                                                @Html.CheckBoxFor(m => m.OB_Controlopeso, new { @class = "" })
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                @Html.LabelFor(m => m.OB_PrevenirIdade, new { @class = " col-form-label" })
+                                                                @Html.CheckBoxFor(m => m.OB_PrevenirIdade, new { @class = "" })
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                @Html.LabelFor(m => m.OB_TreinoDesporto, new { @class = " col-form-label" })
+                                                                @Html.CheckBoxFor(m => m.OB_TreinoDesporto, new { @class = "" })
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                @Html.LabelFor(m => m.OB_AumentarMassa, new { @class = " col-form-label" })
+                                                                @Html.CheckBoxFor(m => m.OB_AumentarMassa, new { @class = "" })
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                @Html.LabelFor(m => m.OB_BemEstar, new { @class = " col-form-label" })
+                                                                @Html.CheckBoxFor(m => m.OB_BemEstar, new { @class = "" })
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                @Html.LabelFor(m => m.OB_Tonificar, new { @class = " col-form-label" })
+                                                                @Html.CheckBoxFor(m => m.OB_Tonificar, new { @class = "" })
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                @Html.LabelFor(m => m.OB_Outros, new { @class = " col-form-label" })
+                                                                @Html.CheckBoxFor(m => m.OB_Outros, new { @class = "" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <label class="col-md-2 col-form-label required" for="Nome">IMC</label>
-                                    <div class="col-md-4">
-                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                <div class="row mt-2">
+                                    <div class="col-sm-2 text-right">
                                     </div>
-                                    <label class="col-md-2 col-form-label required" for="Nome">Duracao do plano</label>
-                                    <div class="col-md-4">
-                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
+                                    <div class="col-sm-6">
+                                        <a href="@Url.Action("athletes", "gtmanagement")" class="btn btn-danger btn-sm">Cancelar</a>
+                                        <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <label class="col-md-2 col-form-label required" for="Nome">FC Repouso</label>
-                                    <div class="col-md-4">
-                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
-                                    </div>
-                                    <label class="col-md-2 col-form-label required" for="Nome">Protocolo</label>
-                                    <div class="col-md-4">
-                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <label class="col-md-2 col-form-label required" for="Nome">FC Maximo</label>
-                                    <div class="col-md-4">
-                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <label class="col-md-2 col-form-label required" for="Nome">TA Sistolica</label>
-                                    <div class="col-md-4">
-                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <label class="col-md-2 col-form-label required" for="Nome">TA Distolica</label>
-                                    <div class="col-md-4">
-                                        <input class=" form-control form-control-sm form-control form-control-sm-sm" id="Nome" name="Nome" required="" type="text" value="Gestreino" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-
-                        <div class="" role="tabpanel" data-example-id="togglable-tabs">
-                            <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                <li role="presentation" class="active">
-                                    <a href="#tab_content1" id="" role="tab" data-toggle="tab" aria-expanded="true">Frequencia Cardiaca</a>
-                                </li>
-                                <li role="presentation" class="">
-                                    <a href="#tab_content2" role="tab" id="" data-toggle="tab" aria-expanded="false">Factores de risco</a>
-                                </li>
-                                <li role="presentation" class="">
-                                    <a href="#tab_content3" role="tab" id="" data-toggle="tab" aria-expanded="false">Objectivos</a>
-                                </li>
-                            </ul>
-                            <div id="myTabContent" class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" id="tab_content1" aria-labelledby="">
-                                    <div class="p-3 ">
-                                        <div class="alert alert-primary-light mb-1 mt-0"
-                                             role="alert">
-                                            <div class="d-flex flex-wrap align-items-start">
-                                                <div class="mr-8pt">
-                                                    <i class="fa fa-cogs"></i>&nbsp;
-                                                </div>
-                                                <div class="flex"
-                                                     style="min-width: 180px">
-                                                    <span class="text-black-100">
-                                                        <strong>Personalização!</strong> Cores de temas e tamanho de formato de Logotipo
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <table border="1">
-                                                        <tr>
-                                                            <td>40%</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>32</td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td>
-                                                    <table border="1">
-                                                        <tr>
-                                                            <td>40%</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>32</td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td>
-                                                    <table border="1">
-                                                        <tr>
-                                                            <td>40%</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>32</td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td>
-                                                    <table border="1">
-                                                        <tr>
-                                                            <td>40%</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>32</td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td>
-                                                    <table border="1">
-                                                        <tr>
-                                                            <td>40%</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>32</td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td>
-                                                    <table border="1">
-                                                        <tr>
-                                                            <td>40%</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>32</td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td>
-                                                    <table border="1">
-                                                        <tr>
-                                                            <td>40%</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>32</td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td>
-                                                    <table border="1">
-                                                        <tr>
-                                                            <td>40%</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>32</td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td>
-                                                    <table border="1">
-                                                        <tr>
-                                                            <td>40%</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>32</td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td>
-                                                    <table border="1">
-                                                        <tr>
-                                                            <td>40%</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>32</td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </table>
-
-                                    </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="">
-
-                                    <div class="p-3 ">
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="flat" checked="checked"> Checked
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="flat" checked="checked"> Checked
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="flat" checked="checked"> Checked
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="flat" checked="checked"> Checked
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="flat" checked="checked"> Checked
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="flat" checked="checked"> Checked
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="flat" checked="checked"> Checked
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="flat" checked="checked"> Checked
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="flat" checked="checked"> Checked
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="flat" checked="checked"> Checked
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                        
-
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="">
-                                        <div class="alert alert-primary-light mb-0"
-                                             role="alert">
-                                            <div class="d-flex flex-wrap align-items-start">
-                                                <div class="mr-8pt">
-                                                    <i class="fa fa-cogs"></i>&nbsp;
-                                                </div>
-                                                <div class="flex"
-                                                     style="min-width: 180px">
-                                                    <span class="text-black-100">
-                                                        <strong>Segurança!</strong> Definições de sessão e tokens
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <input name="__RequestVerificationToken" type="hidden" value="TMAaLWkyX2yVSL0X4hYT6OP1cYg2HrnqUPihooMWjWMVRO4RTU3hj4S9x5iv0vatErBtqlngo-j09SkvrSYhDZ9ABlwPG5wfcm2ZSByvGZCS2U1Diki-aNNbKqj66feRbHAe0rrqGXtQcvTwFsDRDw2" />                                                    <div class="row">
-                                            <label class="col-md-2 col-form-label" for="SEC_SENHA_TENT_BLOQUEIO">N&#250;mero m&#225;ximo de tentativas de sess&#227;o</label>
-                                            <div class="col-md-6">
-                                                <input class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-number="The field Número máximo de tentativas de sessão must be a number." id="SEC_SENHA_TENT_BLOQUEIO" name="SEC_SENHA_TENT_BLOQUEIO" required="" type="number" value="5" />
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label class="col-md-2 col-form-label" for="SEC_SENHA_TENT_BLOQUEIO_TEMPO">Tempo de espera para o desbloqueo de sess&#227;o (Minutos)</label>
-                                            <div class="col-md-6">
-                                                <input class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-number="The field Tempo de espera para o desbloqueo de sessão (Minutos) must be a number." id="SEC_SENHA_TENT_BLOQUEIO_TEMPO" name="SEC_SENHA_TENT_BLOQUEIO_TEMPO" required="" type="number" value="15" />
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label class="col-md-2 col-form-label" for="SEC_SENHA_RECU_LIMITE_EMAIL">Tempo limite de token de email (Minutos)</label>
-                                            <div class="col-md-6">
-                                                <input class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-number="The field Tempo limite de token de email (Minutos) must be a number." id="SEC_SENHA_RECU_LIMITE_EMAIL" name="SEC_SENHA_RECU_LIMITE_EMAIL" required="" type="number" value="15" />
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label class="col-md-2 col-form-label" for="SEC_SESSAO_TIMEOUT_TEMPO">Timeout de cookies de sess&#227;o (Minutos) </label>
-                                            <div class="col-md-6">
-                                                <input class=" form-control form-control-sm form-control form-control-sm-sm" data-val="true" data-val-number="The field Timeout de cookies de sessão (Minutos)  must be a number." id="SEC_SESSAO_TIMEOUT_TEMPO" name="SEC_SESSAO_TIMEOUT_TEMPO" required="" type="number" value="480" />
-                                            </div>
-                                        </div>
-                                        <div class="row mt-1">
-                                            <div class="col-sm-2 text-right">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
-
-
-
-                        </div>
-
-
-                        <div class="row mt-1">
-                            <div class="col-sm-2 text-right">
-                            </div>
-                            <div class="col-sm-6">
-                                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
                             </div>
                         </div>
-                    </div>
-
                 </div>
             </div>
-            <div class="col-md-2 col-sm-12 ">
-                <div class="row">
-                    <label class="col-md-2 col-form-label required" for="Sigla"></label>
-                    <div class="col-md-6">
-                        <img src="~/Assets/images/user-avatar.jpg" width="80" />
-                    </div>
-                </div>
-            </div>
-            </div>
-</form>
+        </div>
+    }
     <h2>&nbsp;</h2>
 </div>
 <!-- /page content -->

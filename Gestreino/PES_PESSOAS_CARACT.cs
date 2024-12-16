@@ -25,9 +25,8 @@ namespace Gestreino
         public Nullable<int> TADISTOLICA { get; set; }
         public Nullable<int> MASSAGORDA { get; set; }
         public Nullable<int> VO2 { get; set; }
-        public Nullable<int> DURACAO_PLANO_ID { get; set; }
+        public Nullable<int> GT_DuracaoPlano_ID { get; set; }
         public Nullable<int> IMC { get; set; }
-        public string OBSERVACOES { get; set; }
         public Nullable<decimal> FCTREINO1 { get; set; }
         public Nullable<decimal> FCTREINO2 { get; set; }
         public Nullable<decimal> FCTREINO3 { get; set; }
@@ -55,6 +54,7 @@ namespace Gestreino
         public Nullable<bool> OB_BE { get; set; }
         public Nullable<bool> OB_TO { get; set; }
         public Nullable<bool> OB_OT { get; set; }
+        public string OBSERVACOES { get; set; }
         public int INSERIDO_POR { get; set; }
         public Nullable<int> ACTUALIZADO_POR { get; set; }
         public Nullable<int> REMOVIDO_POR { get; set; }
@@ -62,7 +62,8 @@ namespace Gestreino
         public Nullable<System.DateTime> DATA_ACTUALIZACAO { get; set; }
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
     
-        public virtual PES_PESSOAS_CARACT_TIPO_SANG PES_PESSOAS_CARACT_TIPO_SANG { get; set; }
+        public virtual GT_DuracaoPlano GT_DuracaoPlano { get; set; }
         public virtual PES_PESSOAS PES_PESSOAS { get; set; }
+        public virtual PES_PESSOAS_CARACT_TIPO_SANG PES_PESSOAS_CARACT_TIPO_SANG { get; set; }
     }
 }

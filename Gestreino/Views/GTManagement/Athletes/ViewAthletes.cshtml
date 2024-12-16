@@ -1,0 +1,431 @@
+﻿@model Gestreino.Models.Athlete
+@{
+    ViewBag.Title = ViewBag.data[0].NOME;
+}
+<!-- page content -->
+<div class="right_col" role="main">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("athletes","gtmanagement")">Atletas</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewBag.data[0].NOME</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col-md-4 col-sm-12 ">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="profile_img">
+                        <div class="crop-avatar">
+                            <img class="img-responsive avatar-view" src="~/Assets/images/user-avatar.jpg" width="200" alt="@ViewBag.data[0].NOME" title="@ViewBag.data[0].NOME">
+                        </div>
+                    </div>
+                    <h3><i class="fa fa-tag"></i>&nbsp;@ViewBag.data[0].PES_NUMERO</h3>
+                    <h3>@ViewBag.data[0].NOME_PROPIO @ViewBag.data[0].APELIDO</h3>
+                    <div class="btn-group-vertical">
+                        <a title="Atualizar informação" href="@Url.Action("updateathlete", "gtmanagement", new {Id=ViewBag.data[0].ID})" class="btn btn-sm btn-block btn-secondary"><i class="fa fa-pencil user-profile-icon"></i> Atualizar informação</a>
+                        <a title="Perfil do utilizador" href="@Url.Action("viewusers", "gtmanagement", new {Id=ViewBag.data[0].UTILIZADORES_ID})" class="btn  btn-block btn-sm btn-secondary"><i class="fa fa-user user-profile-icon"></i> Utilizador</a>
+                        <a title="Selecionar avalidado" href="javascript:void(0)" class="btn btn-sm  btn-block btn-secondary disabled"><i class="fa fa-random user-profile-icon"></i> Selecionar avaliado</a>
+                        <a title="Alterar foto de perfil" href="javascript:void(0)" class="btn btn-sm  btn-block btn-secondary disabled"><i class="fa fa-camera user-profile-icon"></i> A/ foto de perfil</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-sm-12 ">
+            <div class="x_panel">
+                <div class="x_content">
+                    <h6 class="mt-1"><span><i class="fa fa-medkit"></i> Características</span></h6>
+                    <div class="card p-1 bg-light mb-2">
+                        <table>
+                            <tr>
+                                <td>Altura (cm)</td>
+                                <td>@ViewBag.dataCaract[0].ALTURA.ToString("G29")</td>
+                            </tr>
+                            <tr>
+                                <td>Peso (kg)</td>
+                                <td>@ViewBag.dataCaract[0].PESO.ToString("G29")</td>
+                            </tr>
+                            <tr>
+                                <td>IMC</td>
+                                <td>@ViewBag.dataCaract[0].IMC</td>
+                            </tr>
+                            <tr>
+                                <td>FC Repouso</td>
+                                <td>@ViewBag.dataCaract[0].FCREPOUSO</td>
+                            </tr>
+                            <tr>
+                                <td>FC M&#225;ximo</td>
+                                <td>@ViewBag.dataCaract[0].FCMAXIMO</td>
+                            </tr>
+                            <tr>
+                                <td>TA Sist&#243;lica</td>
+                                <td>@ViewBag.dataCaract[0].TASISTOLICA</td>
+                            </tr>
+                            <tr>
+                                <td>TA Dist&#243;lica</td>
+                                <td>@ViewBag.dataCaract[0].TADISTOLICA</td>
+                            </tr>
+                            <tr>
+                                <td>VO2</td>
+                                <td>@ViewBag.dataCaract[0].VO2</td>
+                            </tr>
+                            <tr>
+                                <td>Massa Gorda (%)</td>
+                                <td>@ViewBag.dataCaract[0].MASSAGORDA</td>
+                            </tr>
+                            <tr>
+                                <td>Dura&#231;&#227;o do plano</td>
+                                <td>@ViewBag.dataCaract[0].GT_DuracaoPlano_ID</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="card" role="tabpanel" data-example-id="togglable-tabs">
+                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                            <li role="presentation" class="active">
+                                <a href="#tab_content1" id="" role="tab" data-toggle="tab" aria-expanded="true">Frequência Cardíaca</a>
+                            </li>
+                            <li role="presentation" class="">
+                                <a href="#tab_content2" role="tab" id="" data-toggle="tab" aria-expanded="false">Factores de risco</a>
+                            </li>
+                            <li role="presentation" class="">
+                                <a href="#tab_content3" role="tab" id="" data-toggle="tab" aria-expanded="false">Objectivos</a>
+                            </li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="tab_content1" aria-labelledby="">
+                                <div class="p-3 ">
+                                    <div class="alert  mb-1 mt-0"
+                                         role="alert">
+                                        <div class="d-flex flex-wrap align-items-start">
+                                            <div class="mr-8pt">
+                                                <strong>  <i class="fa fa-code-fork"></i>&nbsp;</strong>
+                                            </div>
+                                            <div class="flex"
+                                                 style="min-width: 180px">
+                                                <strong class="text-black-100">
+                                                    Fórmula Karvonen e Skinner
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <table border="1">
+                                                    <tr>
+                                                        <td>40%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@ViewBag.dataCaract[0].FCTREINO1</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table border="1">
+                                                    <tr>
+                                                        <td>45%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@ViewBag.dataCaract[0].FCTREINO2</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table border="1">
+                                                    <tr>
+                                                        <td>50%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@ViewBag.dataCaract[0].FCTREINO3</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table border="1">
+                                                    <tr>
+                                                        <td>55%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@ViewBag.dataCaract[0].FCTREINO4</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table border="1">
+                                                    <tr>
+                                                        <td>60%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@ViewBag.dataCaract[0].FCTREINO5</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table border="1">
+                                                    <tr>
+                                                        <td>65%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@ViewBag.dataCaract[0].FCTREINO6</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table border="1">
+                                                    <tr>
+                                                        <td>70%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@ViewBag.dataCaract[0].FCTREINO7</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table border="1">
+                                                    <tr>
+                                                        <td>75%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@ViewBag.dataCaract[0].FCTREINO8</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table border="1">
+                                                    <tr>
+                                                        <td>80%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@ViewBag.dataCaract[0].FCTREINO9</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table border="1">
+                                                    <tr>
+                                                        <td>85%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@ViewBag.dataCaract[0].FCTREINO10</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="">
+                                <div class="p-3 ">
+                                    <p>Visualize aqui os <b><i>factores de riscos</i></b></p>
+                                    <div class="row">
+                                        @if (ViewBag.dataCaract[0].FR_HT)
+                                        {
+                                            <div class="col-md-2">
+                                                <label class=" col-form-label" for="FR_Hipertensao">Hipertens&#227;o</label>
+                                            </div>
+                                        }
+                                        @if (ViewBag.dataCaract[0].FR_TB)
+                                        {
+                                            <div class="col-md-2">
+                                                <label class=" col-form-label" for="FR_Tabaco">Tabaco</label>
+                                            </div>
+                                        }
+                                        @if (ViewBag.dataCaract[0].FR_HL)
+                                        {
+                                            <div class="col-md-3">
+                                                <label class=" col-form-label" for="FR_Hiperlipidemia">Hiperlipidemia</label>
+                                            </div>
+                                        }
+                                        @if (ViewBag.dataCaract[0].FR_OB)
+                                        {
+                                            <div class="col-md-2">
+                                                <label class=" col-form-label" for="FR_Obesidade">Obesidade</label>
+                                            </div>
+                                        }
+                                        @if (ViewBag.dataCaract[0].FR_DB)
+                                        {
+                                            <div class="col-md-2">
+                                                <label class=" col-form-label" for="FR_Diabetes">Diabetes</label>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="row">
+                                        @if (ViewBag.dataCaract[0].FR_IN)
+                                        {
+                                            <div class="col-md-2">
+                                                <label class=" col-form-label" for="FR_Inactividade">Inactividade</label>
+                                            </div>
+                                        }
+                                        @if (ViewBag.dataCaract[0].FR_HE)
+                                        {
+                                            <div class="col-md-3">
+                                                <label class=" col-form-label" for="FR_Heriditariedade">Heriditariedade</label>
+                                            </div>
+                                        }
+                                        @if (ViewBag.dataCaract[0].FR_EC)
+                                        {
+                                            <div class="col-md-4">
+                                                <label class=" col-form-label" for="FR_Examescomplementares">Exames complementares</label>
+                                            </div>
+                                        }
+                                        @if (ViewBag.dataCaract[0].FR_OT)
+                                        {
+                                            <div class="col-md-2">
+                                                <label class=" col-form-label" for="FR_Outros">Outros</label>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="">
+                                <div class="p-3 ">
+                                    <p>Visualize aqui os <b><i>objectivos</i></b> do Atleta</p>
+                                    <div class="row">
+                                        @if (ViewBag.dataCaract[0].OB_AC)
+                                        {
+                                            <div class="col-md-2">
+                                                <label class=" col-form-label" for="OB_Actividade">Actividade</label>
+                                            </div>
+                                        }
+                                        @if (ViewBag.dataCaract[0].OB_CP)
+                                        {
+                                            <div class="col-md-3">
+                                                <label class=" col-form-label" for="OB_Controlopeso">Controlo de peso</label>
+                                            </div>
+                                        }
+                                        @if (ViewBag.dataCaract[0].OB_PI)
+                                        {
+                                            <div class="col-md-3">
+                                                <label class=" col-form-label" for="OB_PrevenirIdade">Predevenir a &quot;Idade&quot;</label>
+                                            </div>
+                                        }
+                                        @if (ViewBag.dataCaract[0].OB_TP)
+                                        {
+                                            <div class="col-md-3">
+                                                <label class=" col-form-label" for="OB_TreinoDesporto">Treino desportivo</label>
+                                            </div>
+                                        }
+                                        @if (ViewBag.dataCaract[0].OB_AM)
+                                        {
+                                            <div class="col-md-4">
+                                                <label class=" col-form-label" for="OB_AumentarMassa">Aumentar a massa muscular</label>
+                                            </div>
+                                        }
+                                        @if (ViewBag.dataCaract[0].OB_BE)
+                                        {
+                                            <div class="col-md-3">
+                                                <label class=" col-form-label" for="OB_BemEstar">Bem estar / Sa&#250;de</label>
+                                            </div>
+                                        }
+                                        @if (ViewBag.dataCaract[0].OB_TO)
+                                        {
+                                            <div class="col-md-2">
+                                                <label class=" col-form-label" for="OB_Tonificar">Tonificar</label>
+                                            </div>
+                                        }
+                                        @if (ViewBag.dataCaract[0].OB_OT)
+                                        {
+                                            <div class="col-md-2">
+                                                <label class=" col-form-label" for="OB_Outros">Outros</label>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="x_panel">
+        <div class="x_content">
+            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#tab_contentd1" id="" role="tab" data-toggle="tab" aria-expanded="true">Dados gerais</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a style="cursor:not-allowed" href="#" role="tab" id="" data-toggle="tab" aria-expanded="false">Agregados</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a style="cursor:not-allowed" href="#" role="tab" id="" data-toggle="tab" aria-expanded="false">Dados profissionais</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a style="cursor:not-allowed" href="#" role="tab" id="" data-toggle="tab" aria-expanded="false">Deficiências</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a style="cursor:not-allowed" href="#" role="tab" id="" data-toggle="tab" aria-expanded="false">Documentos</a>
+                    </li>
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    <div role="tabpanel" class="tab-pane active " id="tab_contentd1" aria-labelledby="">
+                        <div class="">
+                            <table style="width:40% !important">
+                                <tr>
+                                    <td>n° Sócio</td>
+                                    <td>@ViewBag.data[0].PES_NUMERO</td>
+                                </tr>
+                                <tr>
+                                    <td>Nome</td>
+                                    <td>@ViewBag.data[0].NOME</td>
+                                </tr>
+                                <tr>
+                                    <td>Sexo</td>
+                                    <td>@ViewBag.data[0].SEXO</td>
+                                </tr>
+                                <tr>
+                                    <td>Data Nascimento</td>
+                                    <td>@ViewBag.data[0].DATA_NASCIMENTO &nbsp;&nbsp;&nbsp;<i class="fa fa-calendar"></i> @Model.Age anos</td>
+                                </tr>
+                                <tr>
+                                    <td>Estado Civil</td>
+                                    <td>@ViewBag.data[0].ESTADO_CIVIL</td>
+                                </tr>
+                                <tr>
+                                    <td>Nacionalidade</td>
+                                    <td>@ViewBag.data[0].NACIONALIDADE</td>
+                                </tr>
+                                <tr>
+                                    <td>Naturalidade</td>
+                                    <td>@ViewBag.data[0].NATURALIDADE_MUN @ViewBag.data[0].NATURALIDADE_CIDADE @ViewBag.data[0].NATURALIDADE_PAIS</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Telefone</td>
+                                    <td>@ViewBag.data[0].TELEFONE</td>
+                                </tr>
+                                <tr>
+                                    <td>Telefone alternativo</td>
+                                    <td>@ViewBag.data[0].TELEFONE_ALTERNATIVO</td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td>@ViewBag.data[0].EMAIL</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Endereço</td>
+                                    <td>@ViewBag.dataEnd[0].NUMERO  @ViewBag.dataEnd[0].RUA  @ViewBag.dataEnd[0].MORADA  @ViewBag.dataEnd[0].MUN_NOME @ViewBag.dataEnd[0].CIDADE_NOME @ViewBag.dataEnd[0].PAIS_NOME</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+            <h2>&nbsp;</h2>
+            <h2>&nbsp;</h2>
+        </div>
+        <!-- /page content -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function (event) {
+            });
+        </script>

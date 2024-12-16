@@ -17,7 +17,6 @@
         <EntityTypeShape EntityType="GESTREINO_ORM.INST_APLICACAO_CONTACTOS" Width="1.5" PointX="16.5" PointY="22.5" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.INST_APLICACAO_ENDERECOS" Width="1.5" PointX="16.5" PointY="27.375" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_ARQUIVOS" Width="1.5" PointX="8.25" PointY="37.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="GESTREINO_ORM.PES_CONTACTOS" Width="1.5" PointX="5.25" PointY="42.125" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_ENDERECOS" Width="1.5" PointX="11.25" PointY="36.625" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_ESTADO_CIVIL" Width="1.5" PointX="0.75" PointY="32.875" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_FAMILIARES_GRUPOS" Width="1.5" PointX="3" PointY="28.875" IsExpanded="true" />
@@ -25,7 +24,6 @@
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_IDENTIFICACAO_LOCAL_EM" Width="1.5" PointX="16.5" PointY="32.875" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_NACIONALIDADE" Width="1.5" PointX="8.25" PointY="42.75" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_NATURALIDADE" Width="1.5" PointX="11.25" PointY="31.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_CARACT" Width="1.5" PointX="14.25" PointY="34.125" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_CARACT_DEFICIENCIA" Width="1.5" PointX="11.25" PointY="43.5" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_CARACT_GRAU_DEF" Width="1.5" PointX="9" PointY="57" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_CARACT_TIPO_DEF" Width="1.5" PointX="9" PointY="60.625" IsExpanded="true" />
@@ -71,7 +69,6 @@
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA888362" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI220268" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI377525" ManuallyRouted="false" />
-        <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA872225" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA215063" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA359193" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA365702" ManuallyRouted="false" />
@@ -94,7 +91,6 @@
         <AssociationConnector Association="GESTREINO_ORM.FKINST_APLIC348700" />
         <AssociationConnector Association="GESTREINO_ORM.FKINST_APLIC72783" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_ARQUIV36075" />
-        <AssociationConnector Association="GESTREINO_ORM.FKPES_CONTAC756418" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_ENDERE793688" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA207036" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI437016" />
@@ -104,7 +100,6 @@
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA54742" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA577877" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA801637" />
-        <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA802772" />
         <EntityTypeShape EntityType="GESTREINO_ORM.UTILIZADORES_ACESSO_ATOMOS" Width="1.5" PointX="3.75" PointY="15.75" />
         <AssociationConnector Association="GESTREINO_ORM.FKUTILIZADOR744434" />
         <AssociationConnector Association="GESTREINO_ORM.FKUTILIZADOR816609" />
@@ -112,6 +107,13 @@
         <AssociationConnector Association="GESTREINO_ORM.GRL_ENDERECO_MUN_DISTR_ENDERECO_CIDADE_ID" />
         <EntityTypeShape EntityType="GESTREINO_ORM.GRL_DEFINICOES" Width="1.5" PointX="16.5" PointY="16.125" />
         <AssociationConnector Association="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.PES_CONTACTOS" Width="1.5" PointX="5.25" PointY="42.5" />
+        <AssociationConnector Association="GESTREINO_ORM.FKPES_CONTAC756418" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_DuracaoPlano" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_CARACT" Width="1.5" PointX="19.25" PointY="26.375" />
+        <AssociationConnector Association="GESTREINO_ORM.PES_PESSOAS_CARACT_GT_DuracaoPlano_ID" />
+        <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA802772" />
+        <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA872225" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

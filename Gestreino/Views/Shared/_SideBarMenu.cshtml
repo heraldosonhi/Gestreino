@@ -5,21 +5,21 @@
         <div class="menu_section">
            
             <ul class="nav side-menu">
-                <li>
-                    <a><i class="fa fa-home"></i> Atletas <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                        <li><a href="@Url.Action("athletes","gtmanagement")">Dados biográficos</a></li>
+                <li class="@(ViewBag.LeftBarLinkActive==201?"active":"")">
+                    <a style="border-left:3px dotted #00ff21"><i class="fa fa-tags"></i> Atletas <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive==201?"block":"")">
+                        <li class="@(ViewBag.LeftBarLinkActive==201?"current-page":"")"><a href="@Url.Action("athletes","gtmanagement")">Dados biográficos</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a><i class="fa fa-edit"></i> Prescrição <span class="fa fa-chevron-down"></span></a>
+                    <a><i class="fa fa-credit-card"></i> Prescrição <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li><a href="#">Plano de Musculação</a></li>
                         <li><a href="#">Plano de Cardiovascular</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a><i class="fa fa-sitemap"></i> Avaliação <span class="fa fa-chevron-down"></span></a>
+                    <a><i class="fa fa-anchor"></i> Avaliação <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li>
                             <a>Estado Psicológico<span class="fa fa-chevron-down"></span></a>
@@ -59,7 +59,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a><i class="fa fa-desktop"></i> Consultas <span class="fa fa-chevron-down"></span></a>
+                    <a><i class="fa fa-history"></i> Consultas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li><a href="#">Prescrições</a></li>
                         <li><a href="#">Prescrições / Data</a></li>
@@ -79,7 +79,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a><i class="fa fa-cog"></i> Configurações <span class="fa fa-chevron-down"></span></a>
+                    <a style="border-left:3px dotted #00ff21"><i class="fa fa-cog"></i> Configurações <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li>
                             <a>Controlo de Acesso<span class="fa fa-chevron-down"></span></a>

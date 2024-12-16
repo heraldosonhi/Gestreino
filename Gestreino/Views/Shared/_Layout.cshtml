@@ -19,6 +19,9 @@
     <link href="~/Assets/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body class="nav-md footer_fixed">
+    <div class="bg-black text-white">
+        Docs/Stack/Repo: <i> <a class="text-white" href="https://github.com/heraldosonhi/Gestreino" target="_blank">https://github.com/heraldosonhi/Gestreino</a></i>
+    </div>
     <div class="container body">
         <div class="main_container">
             @if (Request.IsAuthenticated)
@@ -88,7 +91,7 @@
                 <!-- footer content -->
                 <footer>
                     <div class="pull-right">
-                       <i class="fa fa-user"></i> @User.Identity.GetUserName()  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Atleta: <i>Nenhum selecionado</i>
+                        <i class="fa fa-user"></i> @User.Identity.GetUserName()  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Atleta: <i>Nenhum selecionado</i>
                     </div>
                     <div class="clearfix"></div>
                 </footer>
@@ -113,6 +116,7 @@
     @*Scripts.Render("~/bundles/jquery")*@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script>SetUpDatepicker();</script>
     @*<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/sl-1.2.5/datatables.min.js"></script>
         <script type="text/javascript" src="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.10/js/dataTables.checkboxes.min.js"></script>*@
 </body>

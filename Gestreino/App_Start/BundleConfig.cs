@@ -24,11 +24,15 @@ namespace Gestreino
                       "~/Assets/javascript/jquery.min2-unobtrusive-ajax.min.js",
                       "~/Assets/javascript/bootstrap.bundle.min.js",
                       "~/Assets/javascript/toastr.min.js",
-                      "~/Assets/javascript/custom.js",
-                      "~/Assets/javascript/application.js",
-
                       "~/Assets/javascript/dataTables.min.js",
-                      "~/Assets/javascript/dataTables.checkboxes.min.js"
+                      "~/Assets/javascript/dataTables.checkboxes.min.js",
+
+                       "~/Assets/javascript/moment.min.js",
+                      "~/Assets/javascript/daterangepicker.min.js",
+
+                      "~/Assets/javascript/custom.js",
+                      "~/Assets/javascript/application.js"
+
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

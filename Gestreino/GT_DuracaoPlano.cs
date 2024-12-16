@@ -12,16 +12,16 @@ namespace Gestreino
     using System;
     using System.Collections.Generic;
     
-    public partial class PES_CONTACTOS
+    public partial class GT_DuracaoPlano
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public GT_DuracaoPlano()
+        {
+            this.PES_PESSOAS_CARACT = new HashSet<PES_PESSOAS_CARACT>();
+        }
+    
         public int ID { get; set; }
-        public int PES_PESSOAS_ID { get; set; }
-        public decimal TELEFONE { get; set; }
-        public Nullable<decimal> TELEFONE_ALTERNATIVO { get; set; }
-        public Nullable<decimal> FAX { get; set; }
-        public string EMAIL { get; set; }
-        public string CODIGO_POSTAL { get; set; }
-        public string URL { get; set; }
+        public int DURACAO { get; set; }
         public int INSERIDO_POR { get; set; }
         public Nullable<int> ACTUALIZADO_POR { get; set; }
         public Nullable<int> REMOVIDO_POR { get; set; }
@@ -29,6 +29,7 @@ namespace Gestreino
         public Nullable<System.DateTime> DATA_ACTUALIZACAO { get; set; }
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
     
-        public virtual PES_PESSOAS PES_PESSOAS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PES_PESSOAS_CARACT> PES_PESSOAS_CARACT { get; set; }
     }
 }

@@ -62,7 +62,7 @@ namespace JeanPiagetSGA.Controllers
                          join j2 in databaseManager.PES_PESSOAS on j1.ID equals j2.UTILIZADORES_ID
                          where j1.LOGIN == MODEL.Login && j2.DATA_REMOCAO == null
                          select new { j2.ID, j1.DATA_INSERCAO }).FirstOrDefault();
-            var item = databaseManager.SP_PES_ENT_PESSOAS(PesId.ID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, Convert.ToChar('R').ToString()).OrderByDescending(x => x.NOME).Select(x => new { x.NOME, x.TELEFONE, x.TELEFONE_ALTERNATIVO, x.EMAIL, x.UTILIZADORES_ID, x.GRUPO_UTILIZADORES, x.APRESENTACAO_PESSOAL }).FirstOrDefault();
+            var item = databaseManager.SP_PES_ENT_PESSOAS(PesId.ID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, Convert.ToChar('R').ToString()).OrderByDescending(x => x.NOME).Select(x => new { x.NOME, x.TELEFONE, x.TELEFONE_ALTERNATIVO, x.EMAIL, x.UTILIZADORES_ID, x.GRUPO_UTILIZADORES, x.APRESENTACAO_PESSOAL }).FirstOrDefault();
             MODEL.UserID = item.UTILIZADORES_ID;
             MODEL.Nome = item.NOME;
             MODEL.Email = item.EMAIL;

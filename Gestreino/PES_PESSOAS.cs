@@ -18,7 +18,6 @@ namespace Gestreino
         public PES_PESSOAS()
         {
             this.PES_ARQUIVOS = new HashSet<PES_ARQUIVOS>();
-            this.PES_CONTACTOS = new HashSet<PES_CONTACTOS>();
             this.PES_ENDERECOS = new HashSet<PES_ENDERECOS>();
             this.PES_IDENTIFICACAO = new HashSet<PES_IDENTIFICACAO>();
             this.PES_NACIONALIDADE = new HashSet<PES_NACIONALIDADE>();
@@ -26,6 +25,7 @@ namespace Gestreino
             this.PES_PESSOAS_PROFISSOES = new HashSet<PES_PESSOAS_PROFISSOES>();
             this.PES_PESSOAS_FAM = new HashSet<PES_PESSOAS_FAM>();
             this.PES_PESSOAS_CARACT_DEFICIENCIA = new HashSet<PES_PESSOAS_CARACT_DEFICIENCIA>();
+            this.PES_CONTACTOS = new HashSet<PES_CONTACTOS>();
             this.PES_PESSOAS_CARACT = new HashSet<PES_PESSOAS_CARACT>();
         }
     
@@ -51,8 +51,6 @@ namespace Gestreino
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PES_ARQUIVOS> PES_ARQUIVOS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PES_CONTACTOS> PES_CONTACTOS { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PES_ENDERECOS> PES_ENDERECOS { get; set; }
         public virtual PES_ESTADO_CIVIL PES_ESTADO_CIVIL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -68,6 +66,8 @@ namespace Gestreino
         public virtual UTILIZADORES UTILIZADORES { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PES_PESSOAS_CARACT_DEFICIENCIA> PES_PESSOAS_CARACT_DEFICIENCIA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PES_CONTACTOS> PES_CONTACTOS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PES_PESSOAS_CARACT> PES_PESSOAS_CARACT { get; set; }
     }

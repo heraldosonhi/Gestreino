@@ -21,13 +21,13 @@ namespace Gestreino
         public string APELIDO { get; set; }
         public string SEXO { get; set; }
         public string ESTADO_CIVIL { get; set; }
+        public int PES_ESTADO_CIVIL_ID { get; set; }
         public string DATA_NASCIMENTO { get; set; }
         public string NATURALIDADE_PAIS { get; set; }
         public string NATURALIDADE_CIDADE { get; set; }
         public string NATURALIDADE_MUN { get; set; }
         public decimal TELEFONE { get; set; }
         public Nullable<decimal> TELEFONE_ALTERNATIVO { get; set; }
-        public Nullable<decimal> TELEFONE_RESIDENCIAL { get; set; }
         public Nullable<decimal> FAX { get; set; }
         public string EMAIL { get; set; }
         public string CODIGO_POSTAL { get; set; }
@@ -37,9 +37,7 @@ namespace Gestreino
         public string GRUPO_UTILIZADORES { get; set; }
         public string NACIONALIDADE { get; set; }
         public string FOTOGRAFIA { get; set; }
-        public string GRUPO_SANGUINEO { get; set; }
-        public decimal ALTURA { get; set; }
-        public decimal PESO { get; set; }
+        public Nullable<int> PES_NUMERO { get; set; }
         public string INSERCAO { get; set; }
         public string ACTUALIZACAO { get; set; }
         public string DATA_INSERCAO { get; set; }

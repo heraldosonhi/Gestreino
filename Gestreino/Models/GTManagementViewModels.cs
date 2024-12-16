@@ -135,7 +135,7 @@ namespace Gestreino.Models
         [Display(Name = "Fax")]
         public string Fax { get; set; }
 
-        [Display(Name = "Codigo Postal")]
+        [Display(Name = "Código Postal")]
         public string CodigoPostal { get; set; }
 
         [Display(Name = "Link URL")]
@@ -158,7 +158,7 @@ namespace Gestreino.Models
         public int? ENDERECO_CIDADE_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> CIDADE_LIST { get; set; }
 
-        [Display(Name = "Distrito")]
+        [Display(Name = "Município")]
         public int? ENDERECO_MUN_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> MUN_LIST { get; set; }
     }
@@ -199,5 +199,187 @@ namespace Gestreino.Models
         [Display(Name = "Timeout de cookies de sessão (Minutos) ")]
         public int? SEC_SESSAO_TIMEOUT_TEMPO { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> MOEDA_LIST { get; set; }
+    }
+
+
+    public class Athlete
+    {
+        public int? ID { get; set; }
+        public int? Age { get; set; }
+
+        [Display(Name = "n° Sócio")]
+        public int? Numero { get; set; }
+
+        [Display(Name = "Nome")]
+        public string Nome { get; set; }
+
+        [Display(Name = "Sexo")]
+        public int? Sexo { get; set; }
+
+        [Display(Name = "Data nascimento")]
+        public string DataNascimento { get; set; }
+
+        [Display(Name = "Estado Civil")]
+        public int? EstadoCivil { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> EstadoCivilList { get; set; }
+
+        [Display(Name = "NIF")]
+        public string NIF { get; set; }
+
+        [Display(Name = "Nacionalidade")]
+        public int[] NacionalidadeId { get; set; }
+
+        //[Required(ErrorMessage = "{0} é um campo obrigatório!")]
+        [EmailAddress(ErrorMessage = "{0} não é válido!")]
+        [Display(Name = "Email")]
+        [DataType(DataType.Text)]
+        public string Email { get; set; }
+
+        //[Required(ErrorMessage = "{0} é um campo obrigatório!")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "{0} não é válido!")]
+        [StringLength(100, ErrorMessage = "{0} deve ter o mínimo de {2} dígitos", MinimumLength = 9)]
+        [Display(Name = "Telefone")]
+        public string Telephone { get; set; }
+
+        //[Required(ErrorMessage = "{0} é um campo obrigatório!")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "{0} não é válido!")]
+        [StringLength(100, ErrorMessage = "{0} deve ter o mínimo de {2} dígitos", MinimumLength = 9)]
+        [Display(Name = "Telefone Alternativo")]
+        public string TelephoneAlternativo { get; set; }
+
+        //[Required(ErrorMessage = "{0} é um campo obrigatório!")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "{0} não é válido!")]
+        [StringLength(100, ErrorMessage = "{0} deve ter o mínimo de {2} dígitos", MinimumLength = 9)]
+        [Display(Name = "Fax")]
+        public string Fax { get; set; }
+
+        [Display(Name = "Código Postal")]
+        public string CodigoPostal { get; set; }
+
+        [Display(Name = "Link URL")]
+        public string URL { get; set; }
+        [Display(Name = "Número ")]
+        public int? EndNumero { get; set; }
+
+        [Display(Name = "Rua")]
+        public string Rua { get; set; }
+
+        [Display(Name = "Morada")]
+        public string Morada { get; set; }
+
+        [Display(Name = "País")]
+        public int? ENDERECO_PAIS_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> PAIS_LIST { get; set; }
+
+        [Display(Name = "Cidade")]
+        public int? ENDERECO_CIDADE_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> CIDADE_LIST { get; set; }
+
+        [Display(Name = "Município")]
+        public int? ENDERECO_MUN_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> MUN_LIST { get; set; }
+
+        [Display(Name = "Tipo")]
+        public int? ENDERECO_TIPO { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> ENDERECO_TIPO_LIST { get; set; }
+
+        [Display(Name = "Natural de")]
+        public int? NAT_PAIS_ID { get; set; }
+
+        [Display(Name = "Cidade")]
+        public int? NAT_CIDADE_ID { get; set; }
+
+        [Display(Name = "Município")]
+        public int? NAT_MUN_ID { get; set; }
+
+
+        [Display(Name = "Altura (cm)")]
+        public string Caract_Altura { get; set; }
+
+        [Display(Name = "VO2")]
+        public int? Caract_VO2 { get; set; }
+
+        [Display(Name = "Peso (kg)")]
+        public string Caract_Peso { get; set; }
+
+        [Display(Name = "Massa Gorda (%)")]
+        public int? Caract_MassaGorda { get; set; }
+
+        [Display(Name = "IMC")]
+        public int? Caract_IMC { get; set; }
+
+        [Display(Name = "Duração do plano")]
+        public int? Caract_DuracaoPlano { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> Caract_DuracaoPlanoList { get; set; }
+
+        [Display(Name = "FC Repouso")]
+        public int? Caract_FCRepouso { get; set; }
+
+        [Display(Name = "Protocolo")]
+        public int? Caract_Protocolo { get; set; }
+
+        [Display(Name = "FC Máximo")]
+        public int? Caract_FCMaximo { get; set; }
+
+        [Display(Name = "TA Sistólica")]
+        public int? Caract_TASistolica { get; set; }
+
+        [Display(Name = "TA Distólica")]
+        public int? Caract_TADistolica { get; set; }
+        //
+        [Display(Name = "Hipertensão")]
+        public bool FR_Hipertensao { get; set; }
+
+        [Display(Name = "Tabaco")]
+        public bool FR_Tabaco { get; set; }
+
+        [Display(Name = "Hiperlipidemia")]
+        public bool FR_Hiperlipidemia { get; set; }
+
+        [Display(Name = "Obesidade")]
+        public bool FR_Obesidade { get; set; }
+
+        [Display(Name = "Diabetes")]
+        public bool FR_Diabetes { get; set; }
+
+        [Display(Name = "Inactividade")]
+        public bool FR_Inactividade { get; set; }
+
+        [Display(Name = "Heriditariedade")]
+        public bool FR_Heriditariedade { get; set; }
+
+        [Display(Name = "Exames complementares")]
+        public bool FR_Examescomplementares{ get; set; }
+
+        [Display(Name = "Outros")]
+        public bool FR_Outros { get; set; }
+        //
+        [Display(Name = "Actividade")]
+        public bool OB_Actividade { get; set; }
+
+        [Display(Name = "Controlo de peso")]
+        public bool OB_Controlopeso { get; set; }
+
+        [Display(Name = "Predevenir a \"Idade\"")]
+        public bool OB_PrevenirIdade{ get; set; }
+
+        [Display(Name = "Treino desportivo")]
+        public bool OB_TreinoDesporto{ get; set; }
+
+        [Display(Name = "Aumentar a massa muscular")]
+        public bool OB_AumentarMassa { get; set; }
+
+        [Display(Name = "Bem estar / Saúde")]
+        public bool OB_BemEstar { get; set; }
+
+        [Display(Name = "Tonificar")]
+        public bool OB_Tonificar { get; set; }
+
+        [Display(Name = "Outros")]
+        public bool OB_Outros { get; set; }
+
     }
 }

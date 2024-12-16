@@ -251,6 +251,9 @@
     <Compile Include="GRL_TOKENS_TIPOS.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_DuracaoPlano.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="INST_APLICACAO.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -373,6 +376,9 @@
     <Compile Include="SP_INST_APLICACAO_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_PES_ENT_PESSOAS_ENDERECO_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_PES_ENT_PESSOAS_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -451,8 +457,10 @@
     <Content Include="Assets\javascript\custom.js" />
     <Content Include="Assets\javascript\dataTables.checkboxes.min.js" />
     <Content Include="Assets\javascript\dataTables.min.js" />
+    <Content Include="Assets\javascript\daterangepicker.min.js" />
     <Content Include="Assets\javascript\jquery.min.js" />
     <Content Include="Assets\javascript\jquery.min2-unobtrusive-ajax.min.js" />
+    <Content Include="Assets\javascript\moment.min.js" />
     <Content Include="Assets\javascript\toastr.min.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -505,6 +513,7 @@
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
     <Content Include="Assets\lib\datatable\pt-PT.json" />
+    <Content Include="README.md" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -578,6 +587,8 @@
     <Content Include="Views\Ajax\GTManagement\Parameters\GRLEndDistr.cshtml" />
     <Content Include="Views\GTManagement\Settings\UpdateInst.cshtml" />
     <Content Include="Views\GTManagement\Athletes\NewAthlete.cshtml" />
+    <Content Include="Views\GTManagement\Athletes\ViewAthletes.cshtml" />
+    <Content Include="Views\GTManagement\Athletes\UpdateAthlete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -24,6 +24,8 @@ namespace Gestreino.Classes
         public static string INST_PER_TEMA_1_SIDEBAR;
         public static string INST_PER_TEMA_2;
         public static int? INST_PER_LOGOTIPO_WIDTH;
+
+        public static int? INST_MDL_ADM_VLRID_ADDR_STANDARD_COUNTRY=11;
         // ADM
         /*
         public static int? INST_MDL_ADM_VLRID_MODULO_CAND;
