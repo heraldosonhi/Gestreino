@@ -205,6 +205,7 @@ namespace Gestreino.Models
     public class Athlete
     {
         public int? ID { get; set; }
+        public int? UserID { get; set; }
         public int? Age { get; set; }
 
         [Display(Name = "n° Sócio")]

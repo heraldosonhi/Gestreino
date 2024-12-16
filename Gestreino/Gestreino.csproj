@@ -462,6 +462,8 @@
     <Content Include="Assets\javascript\jquery.min2-unobtrusive-ajax.min.js" />
     <Content Include="Assets\javascript\moment.min.js" />
     <Content Include="Assets\javascript\toastr.min.js" />
+    <Content Include="Assets\lib\cropper\cropper.css" />
+    <Content Include="Assets\lib\cropper\cropper.min.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -590,6 +592,8 @@
     <Content Include="Views\GTManagement\Athletes\NewAthlete.cshtml" />
     <Content Include="Views\GTManagement\Athletes\ViewAthletes.cshtml" />
     <Content Include="Views\GTManagement\Athletes\UpdateAthlete.cshtml" />
+    <Content Include="Views\GTManagement\Athletes\ProfilePhoto.cshtml" />
+    <Content Include="Views\GTManagement\Athletes\WebCam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

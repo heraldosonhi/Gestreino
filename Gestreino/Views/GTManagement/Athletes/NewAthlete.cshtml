@@ -36,7 +36,7 @@
                             <div class="row">
                                 @Html.LabelFor(m => m.Numero, new { @class = "col-md-2 col-form-label required" })
                                 <div class="col-md-4">
-                                    @Html.TextBoxFor(m => m.Numero, new { @class = "form-control form-control-sm", type = "number", required = "" })
+                                    @Html.TextBoxFor(m => m.Numero, new { @class = "form-control form-control-sm", type = "number", min="1",required = "" })
                                 </div>
                             </div>
                             <div class="row">
@@ -91,11 +91,11 @@
                                     <div class="row">
                                         @Html.LabelFor(m => m.Telephone, new { @class = "col-md-2 col-form-label required" })
                                         <div class="col-md-4">
-                                            @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control form-control-sm", required = "", @type = "number" })
+                                            @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control form-control-sm", required = "", @type = "number", min = "1" })
                                         </div>
                                         @Html.LabelFor(m => m.TelephoneAlternativo, new { @class = "col-md-2 col-form-label" })
                                         <div class="col-md-4">
-                                            @Html.TextBoxFor(m => m.TelephoneAlternativo, new { @class = "form-control form-control-sm", @type = "number" })
+                                            @Html.TextBoxFor(m => m.TelephoneAlternativo, new { @class = "form-control form-control-sm", @type = "number", min = "1" })
                                         </div>
                                     </div>
                                     <div class="row">
@@ -113,7 +113,7 @@
                                             @Html.DropDownListFor(x => Model.ENDERECO_TIPO, Model.ENDERECO_TIPO_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
                                         </div>
                                         <div class="col-md-2">
-                                            @Html.TextBoxFor(m => m.EndNumero, new { @class = "form-control form-control-sm", @type = "number" })
+                                            @Html.TextBoxFor(m => m.EndNumero, new { @class = "form-control form-control-sm", @type = "number", min = "1" })
                                         </div>
                                         <div class="col-md-3">
                                             @Html.TextBoxFor(m => m.Rua, new { @class = "form-control form-control-sm", required = "" })
@@ -140,7 +140,7 @@
                                     <div class="row">
                                         @Html.LabelFor(m => m.Caract_Altura, new { @class = "col-md-2 col-form-label required" })
                                         <div class="col-md-4">
-                                            @Html.TextBoxFor(m => m.Caract_Altura, new { @class = "form-control form-control-sm", type = "number", required = "" })
+                                            @Html.TextBoxFor(m => m.Caract_Altura, new { @class = "form-control form-control-sm", type = "number", required = "", min = "1" })
                                         </div>
                                         @Html.LabelFor(m => m.Caract_VO2, new { @class = "col-md-2 col-form-label" })
                                         <div class="col-md-4">
@@ -150,7 +150,7 @@
                                     <div class="row">
                                         @Html.LabelFor(m => m.Caract_Peso, new { @class = "col-md-2 col-form-label required" })
                                         <div class="col-md-4">
-                                            @Html.TextBoxFor(m => m.Caract_Peso, new { @class = "form-control form-control-sm", type = "number", required = "", step = ".01" })
+                                            @Html.TextBoxFor(m => m.Caract_Peso, new { @class = "form-control form-control-sm", type = "number", required = "", step = ".01", min = "1" })
                                         </div>
                                         @Html.LabelFor(m => m.Caract_MassaGorda, new { @class = "col-md-2 col-form-label" })
                                         <div class="col-md-4">
@@ -170,11 +170,11 @@
                                     <div class="row">
                                         @Html.LabelFor(m => m.Caract_FCRepouso, new { @class = "col-md-2 col-form-label required" })
                                         <div class="col-md-4">
-                                            @Html.TextBoxFor(m => m.Caract_FCRepouso, new { @class = "form-control form-control-sm", type = "number" })
+                                            @Html.TextBoxFor(m => m.Caract_FCRepouso, new { @class = "form-control form-control-sm", type = "number", min = "1" })
                                         </div>
                                         @Html.LabelFor(m => m.Caract_Protocolo, new { @class = "col-md-2 col-form-label required" })
                                         <div class="col-md-4">
-                                            @Html.TextBoxFor(m => m.Caract_Protocolo, new { @class = "form-control form-control-sm", type = "number" })
+                                            @Html.TextBoxFor(m => m.Caract_Protocolo, new { @class = "form-control form-control-sm", type = "number", min = "1" })
                                         </div>
                                     </div>
                                     <div class="row">
@@ -186,13 +186,13 @@
                                     <div class="row">
                                         @Html.LabelFor(m => m.Caract_TASistolica, new { @class = "col-md-2 col-form-label required" })
                                         <div class="col-md-4">
-                                            @Html.TextBoxFor(m => m.Caract_TASistolica, new { @class = "form-control form-control-sm", type = "number" })
+                                            @Html.TextBoxFor(m => m.Caract_TASistolica, new { @class = "form-control form-control-sm", type = "number", min = "1" })
                                         </div>
                                     </div>
                                     <div class="row">
                                         @Html.LabelFor(m => m.Caract_TADistolica, new { @class = "col-md-2 col-form-label required" })
                                         <div class="col-md-4">
-                                            @Html.TextBoxFor(m => m.Caract_TADistolica, new { @class = "form-control form-control-sm", type = "number" })
+                                            @Html.TextBoxFor(m => m.Caract_TADistolica, new { @class = "form-control form-control-sm", type = "number", min = "1" })
                                         </div>
                                     </div>
                                 </div>

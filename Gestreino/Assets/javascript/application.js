@@ -1816,3 +1816,136 @@ function appenditem() {
     $('#appenditem').html(html);
     $('#appenditemForm').click();
 }
+
+
+
+
+
+
+
+
+
+/* ############################################
+  CROPPER JS PROFILE PICTURE FUNCTION
+ ##############################################
+ */
+function jscropperprofile(userid, pesid) {
+    var avatar = $('.profile-image-uploader');
+    var image = document.getElementById('image');
+    var input = document.getElementById('input');
+    var $progress = $('.progress');
+    var $progressBar = $('.progress-bar');
+    var $modal = $('#modal-profile-image-changer');
+    var cropper;
+    let container = new DataTransfer();
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+    input.addEventListener('change', function (e) {
+        var files = e.target.files;
+        var done = function (url) {
+            input.value = '';
+            image.src = url;
+            $modal.modal('show');
+        };
+        var reader;
+        var file;
+        var url;
+        if (files && files.length > 0) {
+            file = files[0];
+            if (URL) {
+                done(URL.createObjectURL(file));
+            } else if (FileReader) {
+                reader = new FileReader();
+                reader.onload = function (e) {
+                    done(reader.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+    $modal.on('shown.bs.modal', function () {
+        cropper = new Cropper(image, {
+            aspectRatio: 1,
+            viewMode: 3,
+        });
+    }).on('hidden.bs.modal', function () {
+        cropper.destroy();
+        cropper = null;
+    });
+    document.getElementById('crop').addEventListener('click', function () {
+        var initialAvatarURL;
+        var canvas;
+        $modal.modal('hide');
+        if (cropper) {
+            canvas = cropper.getCroppedCanvas({
+                minWidth: document.getElementById("minwidth").value,
+                minHeight: document.getElementById("minheigth").value,
+                maxWidth: document.getElementById("maxwidth").value,
+                maxHeight: document.getElementById("maxheigth").value,
+                fillColor: document.getElementById("fillcolor").value,
+                imageSmoothingEnabled: true,
+                imageSmoothingQuality: 'high',
+            });
+            initialAvatarURL = avatar.src;
+            avatar.src = canvas.toDataURL();
+            $progress.show();
+            canvas.toBlob(function (blob) {
+                var formData = new FormData();
+                //Add canvas file to input type
+                filex = new File([blob], "img.jpg", { type: "image/jpeg", lastModified: new Date().getTime() });
+                container.items.add(filex);
+                input.files = container.files;
+                // Form Submit Click Event MVC Upload
+                //$('#BtnSubmitAvatar').click();
+            });
+            // OR 
+            // Send as ImgBase64
+            $.ajax({
+                type: "POST",
+                url: "/gtmanagement/UpdateProfilePhoto/",
+                data: {
+                    ID: userid,
+                    PES_PESSOA_ID: pesid,
+                    WebcamImgBase64: canvas.toDataURL("image/jpeg"),
+                    file: null
+                },
+                beforeSend: function () { },
+                success: function (data) {
+                    setPictureWebCam(data)
+                    $progress.hide();
+                }
+            })
+        }
+    });
+}
+function setChangePicturePES(pesid) {
+    window.open("/gtmanagement/profilephoto?id=" + pesid + "&from=newenrollment", "profilephoto", "location=yes,resizable=no,height=620,width=550,scrollbars=yes,status=yes")
+}
+function setPictureWebcamBtn(userid, pesid) {
+    window.open("/gtmanagement/webcam?id=" + userid + "&pesId=" + pesid + "", "webcam", "location=yes,resizable=no,height=620,width=550,scrollbars=yes,status=yes")
+}
+function setPictureWebCam(data) {
+    var imageUrl = "/" + data.imageUrl
+
+    if (data.result) {
+        $(".profile-image-uploader").attr('src', imageUrl)//.width("100%").height("100%")
+        $(".profile-image-uploader").parent().attr('href', imageUrl)
+    }
+    handleSuccess(data)
+    loadOut();
+}
+function closephotoenrollment() {
+    var src = $('.profile-image-uploader').attr('src');
+    window.opener.setPicture(src)
+    window.close()
+}
+function setPicture(imageUrl) {
+    $(".profile-image-uploader").attr('src', imageUrl)//.width("100%").height("100%")
+    $(".profile-image-uploader").parent().attr('href', imageUrl)
+}
+
+
+
+
+

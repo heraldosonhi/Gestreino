@@ -1,0 +1,120 @@
+﻿@using Gestreino.Models
+@using Gestreino.Classes
+@model Athlete
+@{
+    ViewBag.Title = "Alterar fotografia: " + @ViewBag.item[0].NOME;
+}
+<!-- page content -->
+<div class="right_col" role="main">
+    <link rel="stylesheet" href="@Url.Content("~/Assets/lib/cropper/cropper.css")" />
+
+    <!-- Page Content -->
+    <div class="container page-section">
+        <div class="handle-error alert alert-accent"
+             role="alert" style="display:none;">
+            <div class="d-flex flex-wrap align-items-start">
+                <div class="mr-8pt">
+                    <i class="fa fa-warning"></i>
+                </div>
+                <div class="flex"
+                     style="min-width: 180px">
+                    <small class="text-black-100">
+                        <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-sm-8half">
+                <center>
+                    @using (Html.BeginForm("UpdateProfilePhoto", "gtmanagement", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { enctype = "multipart/form-data", role = "form", id = "FileUploader" }))
+                    {
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.UserID)
+                        @Html.HiddenFor(m => m.ID)
+
+                        <label class="label mb-24pt btn-group">
+                            <input type="file" class="sr-only" id="input" name="file" accept="image/*">
+                            <a class="btn btn-light" id="input" title="Carregar fotografia pessoal"><i class="fa fa-upload fa-2x"></i></a>
+                            <button type="button" class="btn btn-light btn-rounded" onclick="setPictureWebcamBtn(@ViewBag.item[0].UTILIZADORES_ID,@ViewBag.item[0].ID)" title="Capturar rosto"><i class="fa fa-camera fa-2x"></i></button>
+                            <a class="btn btn-light" title="Definições de imagem" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-crop fa-2x"></i></a>
+                        </label>
+
+                        <div class="collapse mt-2" id="collapseExample">
+                            <div class="col-md-9">
+                                <div class="card card-body card-reader-radius">
+                                    <div class="row mt-2">
+                                        <div class="col-sm-2 text-right">
+                                            <label class="col-form-label">Altura Min/Max</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="number" maxlength="3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" id="minheigth" value="256" />
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="number" maxlength="3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" id="maxheigth" value="528" />
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-sm-2 text-right">
+                                            <label class="col-form-label">Largura Min/Max</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="number" maxlength="3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" id="minwidth" value="256" />
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="number" maxlength="3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control" id="maxwidth" value="528" />
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-sm-2 text-right">
+                                            <label class="col-form-label">Preenchimento</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="color" class="form-control" id="fillcolor" value="#ffffff">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p>
+                            <a class="avatarlink" href="@ViewBag.imgSrc" target="_blank">
+                                <img class="profile-image-uploader navImg border-gray mb-24pt" src="@ViewBag.imgSrc" alt="@ViewBag.item[0].NOME" width="300">
+                            </a>
+                        </p>
+                        <div class="progress" style="display:none">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary btn-sm" style="display:none;" id="BtnSubmitAvatar">Submeter</button>
+                        </div>
+                    } 
+                </center>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-profile-image-changer" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-capitalize" id="modalLabel">Alterar fotografia pessoal</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="img-container">
+                        <img id="image" src="" style=" width: 100%;">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="crop">Submeter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+    window.addEventListener('DOMContentLoaded', function () {
+        jscropperprofile(@Model.UserID,@Model.ID);
+    });
+    </script>

@@ -16,7 +16,7 @@
                 <div class="x_content">
                     <div class="profile_img">
                         <div class="crop-avatar">
-                            <img class="img-responsive avatar-view" src="~/Assets/images/user-avatar.jpg" width="200" alt="@ViewBag.data[0].NOME" title="@ViewBag.data[0].NOME">
+                            <img class="img-responsive avatar-view navImg" src="@ViewBag.imgSrc" width="200" alt="@ViewBag.data[0].NOME" title="@ViewBag.data[0].NOME">
                         </div>
                     </div>
                     <h3><i class="fa fa-tag"></i>&nbsp;@ViewBag.data[0].PES_NUMERO</h3>
@@ -25,7 +25,7 @@
                         <a title="Atualizar informação" href="@Url.Action("updateathlete", "gtmanagement", new {Id=ViewBag.data[0].ID})" class="btn btn-sm btn-block btn-secondary"><i class="fa fa-pencil user-profile-icon"></i> Atualizar informação</a>
                         <a title="Perfil do utilizador" href="@Url.Action("viewusers", "gtmanagement", new {Id=ViewBag.data[0].UTILIZADORES_ID})" class="btn  btn-block btn-sm btn-secondary"><i class="fa fa-user user-profile-icon"></i> Utilizador</a>
                         <a title="Selecionar avalidado" href="javascript:void(0)" class="btn btn-sm  btn-block btn-secondary disabled"><i class="fa fa-random user-profile-icon"></i> Selecionar avaliado</a>
-                        <a title="Alterar foto de perfil" href="javascript:void(0)" class="btn btn-sm  btn-block btn-secondary disabled"><i class="fa fa-camera user-profile-icon"></i> A/ foto de perfil</a>
+                        <a title="Alterar foto de perfil" href="@Url.Action("profilephoto", "gtmanagement", new { Id = ViewBag.data[0].ID })" class="btn btn-sm  btn-block btn-secondary"><i class="fa fa-camera user-profile-icon"></i> A/ foto de perfil</a>
                     </div>
                 </div>
             </div>

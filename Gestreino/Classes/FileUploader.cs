@@ -26,8 +26,8 @@ namespace Gestreino.Classes
           */
 
         // Define Main Storage location
-        public static string FileStorage = "~/ipiaget/";
-        public static string SQLStorage = "ipiaget/";
+        public static string FileStorage = "~/uploaded/";
+        public static string SQLStorage = "uploaded/";
 
         // Define Module Subfolder
         /*

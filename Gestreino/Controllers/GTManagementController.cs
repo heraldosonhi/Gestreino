@@ -8,10 +8,13 @@ using JeanPiagetSGA;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using static Gestreino.Classes.SelectValues;
 
@@ -152,7 +155,7 @@ namespace Gestreino.Controllers
             var DateofBirth = string.IsNullOrEmpty(data.First().DATA_NASCIMENTO) ? (DateTime?)null : DateTime.ParseExact(data.First().DATA_NASCIMENTO, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             if (DateofBirth != null)
                 MODEL.Age = Converters.CalculateAge(DateofBirth.Value);
-
+            ViewBag.imgSrc = (string.IsNullOrEmpty(data.First().FOTOGRAFIA)) ? "/Assets/images/user-avatar.jpg" : "/" + data.First().FOTOGRAFIA;
             ViewBag.data = data;
             ViewBag.dataCaract = dataCaract;
             ViewBag.dataEnd = dataEnd;
@@ -317,7 +320,7 @@ namespace Gestreino.Controllers
                 var Altura = (MODEL.Caract_Altura != null) ? decimal.Parse(MODEL.Caract_Altura, CultureInfo.InvariantCulture) : (Decimal?)null;
 
                 //Create or update User
-                var Login = Converters.GetFirstAndLastName(MODEL.Nome).ToLower();
+                var Login = Converters.GetFirstAndLastName(MODEL.Nome).Replace(" ","").ToLower();
 
                 if (databaseManager.UTILIZADORES.Where(x => x.LOGIN == Login).Any())
                     Login = Login + "" +(databaseManager.UTILIZADORES.Count() + 1);
@@ -362,14 +365,14 @@ namespace Gestreino.Controllers
                         var addnationality = databaseManager.SP_PES_ENT_PESSOAS(MODEL.ID, null, null, null, null, null, null, item, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), "IN").ToList();
                     }
                 }
-
+                returnUrl = "/gtmanagement/viewathletes/" + PesId;
                 ModelState.Clear();
             }
             catch (Exception ex)
             {
                 return Json(new { result = false, error = ex.Message });
             }
-            return Json(new { result = true, error = string.Empty, table = "UserTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+            return Json(new { result = true, error = string.Empty, url = returnUrl, showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
 
         // Create
@@ -427,15 +430,161 @@ namespace Gestreino.Controllers
                         var addnationality = databaseManager.SP_PES_ENT_PESSOAS(MODEL.ID, null, null, null, null, null, null, item, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), "IN").ToList();
                     }
                 }
-
+                returnUrl = "/gtmanagement/viewathletes/" + MODEL.ID;
                 ModelState.Clear();
             }
             catch (Exception ex)
             {
                 return Json(new { result = false, error = ex.Message });
             }
-            return Json(new { result = true, error = string.Empty, table = "UserTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+            return Json(new { result = true, error = string.Empty, url= returnUrl, showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
+
+
+
+        // Get
+        public ActionResult ProfilePhoto(int? Id, Athlete MODEL)
+        {
+            //if (AcessControl.Authorized(AcessControl.GP_USERS_ALTER_PHOTOGRAPH) || AcessControl.Authorized(AcessControl.GA_ENROLLMENTS_NEW) || AcessControl.Authorized(AcessControl.GA_ENROLLMENTS_NEW_EXCEPTION) || AcessControl.Authorized(AcessControl.GA_APPLICATIONS_ENROL_STUDENTS)) { } else return View("Lockout");
+            if (Id == null || Id <= 0) { return RedirectToAction("users", "gpmanagement"); }
+             var item = databaseManager.SP_PES_ENT_PESSOAS(Id, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, Convert.ToChar('R').ToString()).ToList();
+             ViewBag.item = item;
+            if (item.Count == 0) return RedirectToAction("users", "gpmanagement");
+            MODEL.UserID = item.FirstOrDefault().UTILIZADORES_ID;
+            MODEL.ID = item.FirstOrDefault().ID;
+           
+            ViewBag.imgSrc = (string.IsNullOrEmpty(item[0].FOTOGRAFIA)) ? "/Assets/images/user-avatar.jpg" : "/" + item[0].FOTOGRAFIA;
+            //ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Users;
+            return View("Athletes/ProfilePhoto", MODEL);
+        }
+        // Get 
+        [HttpGet]
+        public ActionResult WebCam()
+        {
+           // if (AcessControl.Authorized(AcessControl.GP_USERS_ALTER_PHOTOGRAPH) || AcessControl.Authorized(AcessControl.GA_ENROLLMENTS_NEW) || AcessControl.Authorized(AcessControl.GA_ENROLLMENTS_NEW_EXCEPTION) || AcessControl.Authorized(AcessControl.GA_APPLICATIONS_ENROL_STUDENTS)) { } else return View("Lockout");
+            return View("Athletes/WebCam");
+        }
+        // Update
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult UpdateProfilePhoto(int? UserId, int? PES_PESSOA_ID, string WebcamImgBase64, HttpPostedFileBase file, string returnUrl)
+        {
+
+            //if (AcessControl.Authorized(AcessControl.GP_USERS_ALTER_PHOTOGRAPH) || AcessControl.Authorized(AcessControl.GA_ENROLLMENTS_NEW) || AcessControl.Authorized(AcessControl.GA_ENROLLMENTS_NEW_EXCEPTION) || AcessControl.Authorized(AcessControl.GA_APPLICATIONS_ENROL_STUDENTS)) { }
+            //else return Json(new { result = false, error = "Acesso não autorizado!" });
+
+            // Get Allowed size
+            var allowedSize = Classes.FileUploader.TwoMB; // 2.0 MB
+            // Get Document Type Id
+            var tipoidentname = "Fotografia pessoal";
+            var entity = "pespessoas";
+            var sqlpath = string.Empty;
+
+            int filesize = 0;
+            string filetype = string.Empty;
+            MemoryStream ms = new MemoryStream();
+
+            try
+            {
+                if (!string.IsNullOrEmpty(WebcamImgBase64))
+                {
+                    var base64String = WebcamImgBase64.Split(',')[1];
+                    byte[] imageBytes = Convert.FromBase64String(base64String);
+                    ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
+                    ms.Write(imageBytes, 0, imageBytes.Length);
+
+                    filesize = Convert.ToInt32(ms.Length);
+                    filetype = ".jpeg";
+                }
+                else
+                {
+                    if (file != null)
+                    {
+                        filesize = file.ContentLength;
+                        filetype = System.IO.Path.GetExtension(file.FileName);
+                    }
+                }
+
+                if (filesize > 0 /*&& filesize < Convert.ToDouble(WebConfigurationManager.AppSettings["maxRequestLength"])*/)
+                {
+                    // Get Module Subfolder
+                    var modulestorage = FileUploader.ModuleStorage[Convert.ToInt32(FileUploader.DecoderFactory(entity)[2])];
+                    // Get file size
+                    var size = filesize;
+                    // Get file type
+                    var type = filetype.ToLower();
+                    // Get directory
+                    string[] DirectoryFactory = FileUploader.DirectoryFactory(modulestorage, Server.MapPath(FileUploader.FileStorage), filetype, null, tipoidentname + "-" + PES_PESSOA_ID);
+                    /*
+                    * 0 => sqlpath,
+                    * 1 => path,
+                    * 2 => filename
+                    */
+                    sqlpath = DirectoryFactory[0];
+                    var path = DirectoryFactory[1];
+                    var filename = DirectoryFactory[2];
+                    //Define tablename and fieldname for Stored Procedure
+                    string tablename = FileUploader.DecoderFactory(entity)[0];
+                    string fieldname = FileUploader.DecoderFactory(entity)[1];
+
+                    // Check file type
+                    if (!FileUploader.allowedExtensions.Contains(type))
+                        return Json(new { result = false, error = "Formato inválido!, por favor adicionar um documento válido com a capacidade permitida!" });
+
+                    // Check file size
+                    if (size > allowedSize)
+                        return Json(new { result = false, error = "Tamanho do documento deve ser inferior a " + FileUploader.FormatSize(allowedSize) + "!" });
+
+                    if (!string.IsNullOrEmpty(WebcamImgBase64)) (System.Drawing.Image.FromStream(ms, true)).Save(path, ImageFormat.Jpeg);
+                    else file.SaveAs(path);
+
+                    using (var db = databaseManager)
+                    {
+                        // make sure you have the right column/variable used here
+                        var row = db.PES_PESSOAS.FirstOrDefault(x => x.ID == PES_PESSOA_ID);
+
+                        if (row == null)
+                            return Json(new { result = false, error = "ID inválido: " + PES_PESSOA_ID });
+
+                        // this variable is tracked by the db context
+                        row.FOTOGRAFIA = sqlpath;
+                        db.SaveChanges();
+
+                        if (UserId == int.Parse(User.Identity.GetUserId()))
+                        {
+                            // Update User Details
+                            var claimsIdentity = User.Identity as ClaimsIdentity;
+                            // check for existing claim and remove it
+                            var existingClaim = claimsIdentity.FindFirst(ClaimTypes.UserData);
+                            if (existingClaim != null)
+                                claimsIdentity.RemoveClaim(existingClaim);
+                            // update profile photo identity claim
+                            claimsIdentity.AddClaim(new Claim(ClaimTypes.UserData, sqlpath));
+                            var authenticationManager = System.Web.HttpContext.Current.GetOwinContext().Authentication;
+                            authenticationManager.AuthenticationResponseGrant = new Microsoft.Owin.Security.AuthenticationResponseGrant(new ClaimsPrincipal(claimsIdentity), new Microsoft.Owin.Security.AuthenticationProperties() { IsPersistent = true });
+
+                        }
+                    }
+
+                    // Return to Url
+                    returnUrl = "/gpmanagement/viewusers/" + PES_PESSOA_ID;
+                    ModelState.Clear();
+                }
+                else
+                {
+                    return Json(new { result = false, error = "Por favor adicionar um documento válido com a capacidade permitida!" });
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { result = false, error = e.Message });
+            }
+            return Json(new { result = true, imageUrl = sqlpath, showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+
+
+
 
 
         // GET: GTManagement
@@ -724,7 +873,7 @@ namespace Gestreino.Controllers
             var data = databaseManager.SP_INST_APLICACAO(Configs.INST_INSTITUICAO_ID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "R").ToList();
             var setts = databaseManager.GRL_DEFINICOES.Where(x => x.INST_APLICACAO_ID == Configs.INST_INSTITUICAO_ID).ToList();
 
-            MODEL.MOEDA_LIST = databaseManager.GRL_ENDERECO_PAIS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.INDICATIVO });
+            MODEL.MOEDA_LIST = databaseManager.GRL_ENDERECO_PAIS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME+" - "+x.CODIGO.ToString() });
             MODEL.INST_PER_TEMA_1 = setts.First().INST_PER_TEMA_1;
             MODEL.INST_PER_TEMA_1_SIDEBAR = setts.First().INST_PER_TEMA_1_SIDEBAR;
             MODEL.INST_PER_TEMA_2 = setts.First().INST_PER_TEMA_2;
