@@ -1,0 +1,241 @@
+﻿@using JeanPiagetSGA.Models
+@using JeanPiagetSGA.Classes
+@model  PES_Dados_Pessoais_Ident
+@{Layout = null; }
+<div class="card-header card-reader-radius bg-primary-pickled-bluewood">
+    <h3 class="text-white mb-0">@ViewBag.Action identificação pessoal</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="handle-error alert alert-accent"
+                 role="alert" style="display:none;">
+                <div class="d-flex flex-wrap align-items-start">
+                    <div class="mr-8pt">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="flex"
+                         style="min-width: 180px">
+                        <small class="text-black-100">
+                            <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (ViewBag.Action == "Adicionar")
+    {
+        using (Html.BeginForm("AddIdentification", "gpmanagement", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { enctype = "multipart/form-data", role = "form", id = "FileUploader" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ID)
+            <p>  <span><i class="fa fa-circle-question"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.PES_TIPO_IDENTIFICACAO, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-6">
+                    @Html.DropDownListFor(x => Model.PES_TIPO_IDENTIFICACAO, Model.PES_TIPO_IDENTIFICACAO_LIST, "Selecionar o Tipo de Identificação", new { @class = "form-control ", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row mt-2">
+                @Html.LabelFor(m => m.Numero, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.Numero, new { @class = "form-control", placeholder = "Número", maxlength = "64", required = "" })
+                </div>
+            </div>
+            <div class="row"><div class="col-sm-12">&nbsp;</div></div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5 class="bg-light p-2 rounded" style="text-transform:capitalize"><i class="fa fa-info-circle"></i> Emissão</h5>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-sm-2 text-right">
+                    @Html.LabelFor(m => m.DateIssue, new { @class = "col-form-label required" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.DateIssue, new { @class = "datepickerDisableFutureDate form-control", placeholder = "Data de Emissão", required = "" })
+                </div>
+                <div class="col-sm-2 text-right">
+                    @Html.LabelFor(m => m.DateExpire, new { @class = "col-form-label" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.DateExpire, new { @class = "datepicker form-control", placeholder = "Data de Caducidade" })
+                </div>
+            </div>
+            <div class="form-group row mt-2">
+                @Html.LabelFor(m => m.OrgaoEmissor, new { @class = "col-sm-2 col-form-label text-right" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.OrgaoEmissor, new { @class = "form-control", placeholder = "Órgão Emissor", maxlength = "128" })
+                </div>
+            </div>
+            <!-- ADDRESS HELPER START -->
+            <div class="AddressHelperContainer">
+                <div class="form-group row">
+                    @Html.LabelFor(m => m.Pais, new { @class = "col-sm-2 col-form-label text-right required" })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(x => Model.PaisId, Model.PaisList, "Selecionar uma opção", new { @class = "form-control SelectCountry", required = "" })
+                    </div>
+                </div>
+                <div class="AddressHelper" style="display:none">
+                    <div class="form-group row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-2 btn-group">
+                            <button type="button" class="btn btn-sm btn-accent-pickled-bluewood" onclick="updateCityList('',this)"><i class="fa fa-refresh"></i></button>
+                            <button type="button" disabled="" class="newCity btn btn-sm btn-accent-pickled-bluewood" onclick="addressHelperPopUpNewCity(this)"><i class="fa fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-2">
+                        @Html.LabelFor(m => m.Cidade, new { @class = "col-sm-2 col-form-label text-right required" })
+                        <div class="col-sm-10 AddressHelperCity">
+                            @Html.DropDownListFor(x => Model.CidadeId, Model.CidadeList, "Selecionar uma opção", new { @class = "form-control SelectCity", required = "required" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ADDRESS HELPER END -->
+
+            <div class="alert alert-primary">
+                <div class="d-flex flex-wrap align-items-center">
+                    <div class="mr-8pt">
+                        <i class="help"></i>
+                    </div>
+                    <div class="flex"
+                         style="min-width: 180px">
+                        <small class="text-100">
+                            Formatos permitidos: @string.Join(", ", FileUploader.allowedExtensions).
+                            Capacidade máxima até @FileUploader.FormatSize(FileUploader.TwoMB)
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-right">Ficheiro Digital</label>
+                <div class="col-sm-5">
+                    @Html.TextBox("file", null, new { type = "file", data_filesize = FileUploader.TwoMB })
+                </div>
+            </div>
+            <div class="form-group row progress-container" style="display:none">
+                <label class="col-sm-2 col-form-label text-right">&nbsp;</label>
+                <div class="col-sm-10">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row mt-2">
+                @Html.LabelFor(m => m.Observacao, new { @class = "col-sm-2 col-form-label text-right" })
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(m => m.Observacao, new { @class = "form-control", placeholder = "Observação", maxlength = "255" })
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+            </div>
+        }
+    }
+    @if (ViewBag.Action == "Editar")
+    {
+        using (Ajax.BeginForm("../gpmanagement/UpdateIdentification", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ID)
+            @Html.HiddenFor(m => m.PES_PESSOAS_ID)
+            <p>  <span><i class="fa fa-circle-question"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.PES_TIPO_IDENTIFICACAO, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-6">
+                    @Html.DropDownListFor(x => Model.PES_TIPO_IDENTIFICACAO, Model.PES_TIPO_IDENTIFICACAO_LIST, "Selecionar o Tipo de Identificação", new { @class = "form-control ", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row mt-2">
+                @Html.LabelFor(m => m.Numero, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.Numero, new { @class = "form-control", placeholder = "Número", maxlength = "64", required = "" })
+                </div>
+            </div>
+            <div class="row"><div class="col-sm-12">&nbsp;</div></div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5 class="bg-light p-2 rounded" style="text-transform:capitalize"><i class="fa fa-info-circle"></i> Emissão</h5>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-sm-2 text-right">
+                    @Html.LabelFor(m => m.DateIssue, new { @class = "col-form-label required" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.DateIssue, new { @class = "datepickerDisableFutureDate form-control", placeholder = "Data de Emissão", required = "" })
+                </div>
+                <div class="col-sm-2 text-right">
+                    @Html.LabelFor(m => m.DateExpire, new { @class = "col-form-label" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.DateExpire, new { @class = "datepicker form-control", placeholder = "Data de Caducidade" })
+                </div>
+            </div>
+            <div class="form-group row mt-2">
+                @Html.LabelFor(m => m.OrgaoEmissor, new { @class = "col-sm-2 col-form-label text-right" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.OrgaoEmissor, new { @class = "form-control", placeholder = "Órgão Emissor", maxlength = "128" })
+                </div>
+            </div>
+            <!-- ADDRESS HELPER START -->
+            <div class="AddressHelperContainer">
+                <div class="form-group row">
+                    @Html.LabelFor(m => m.Pais, new { @class = "col-sm-2 col-form-label text-right required" })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(x => Model.PaisId, Model.PaisList, "Selecionar uma opção", new { @class = "form-control SelectCountry", required = "" })
+                    </div>
+                </div>
+                <div class="AddressHelper" style="display:none">
+                    <div class="form-group row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-2 btn-group">
+                            <button type="button" class="btn btn-sm btn-accent-pickled-bluewood" onclick="updateCityList('',this)"><i class="fa fa-refresh"></i></button>
+                            <button type="button" disabled="" class="newCity btn btn-sm btn-accent-pickled-bluewood" onclick="addressHelperPopUpNewCity(this)"><i class="fa fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-2">
+                        @Html.LabelFor(m => m.Cidade, new { @class = "col-sm-2 col-form-label text-right required" })
+                        <div class="col-sm-10 AddressHelperCity">
+                            @Html.DropDownListFor(x => Model.CidadeId, Model.CidadeList, "Selecionar uma opção", new { @class = "form-control SelectCity", required = "required" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ADDRESS HELPER END -->
+            <div class="form-group row mt-2">
+                @Html.LabelFor(m => m.Observacao, new { @class = "col-sm-2 col-form-label text-right" })
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(m => m.Observacao, new { @class = "form-control", placeholder = "Observação", maxlength = "255" })
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+            </div>
+        }
+    }
+    @if (ViewBag.Action == "Remover")
+    {
+        using (Ajax.BeginForm("../gpmanagement/DeleteIdentification", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="row col-lg-12">
+                @{ foreach (var id in ViewBag.Ids)
+                    {
+                        <input type="hidden" name="Ids[]" value="@id" />
+                    }
+                }
+                <p>Deseja remover este(s) item(s)?</p>
+
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+            </div>
+        }
+    }
+</div>

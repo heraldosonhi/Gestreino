@@ -248,6 +248,12 @@ $(document).on('click', '.open-modal-crud', function (e) {
             break;
         case 'grlenddistr': url = '../../Ajax/GRLEndDistr';
             break;
+        case 'pesfamily': url = '../../Ajax/PESFamily';
+            break;
+        case 'pesprofessional': url = '../../Ajax/PESProfessional';
+            break;
+        case 'pesdisability': url = '../../Ajax/PESDisability';
+            break;
         default: null
     }
     $.ajax({
@@ -263,7 +269,7 @@ $(document).on('click', '.open-modal-crud', function (e) {
             // Deliver modal content
             $(".modal-crud-content").show().html(result);
             // Call javascript functions to enable modal support
-            //SetUpDatepicker();
+            SetUpDatepicker();
             //addressHelper();
             //setupSelect2();
             //quillEditor();
@@ -1579,6 +1585,311 @@ function handleDataGPUsers() {
         },
     });
 };
+function handleDataGPUsersIdent() {
+    var table = $("#UserIdentTable").DataTable({
+        "processing": true, // Para exibir mensagem de processamento a cada requisi��o
+        "serverSide": true, // Para processar as requisi��es no back-end
+        //"filter": false, // : est� comentado porque estamos a usar filtros que enviamos no back-end
+        "orderMulti": false, // Op��o de ordena��o para uma coluna de cada vez.
+        //Linguagem PT
+        "language": {
+            "url": "/Assets/lib/datatable/pt-PT.json"
+        },
+        fixedHeader: {
+            header: true,
+            footer: true
+        },
+        "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
+        "ajax": {
+            "url": "/gtmanagement/GetUsersIdentification", // POST TO CONTROLLER
+            "type": "POST",
+            "datatype": "json",
+            data: { "Id": $('#PesId').val() }
+        },
+        "columns": [
+            { "data": "Id", "name": null, "autoWidth": true },
+            //Column customizada
+            {
+                sortable: false,
+                "render": function (data, type, full, meta) {
+                    return '<a style="display:' + full.AccessControlEdit + '" title="Editar" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Editar" data-entity="pesident" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil" /></i></a> <a style="display:' + full.AccessControlDelete + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="pesident" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash" /></i></a>';
+                }
+            },
+            //Cada dado representa uma coluna da tabela
+            { "data": "IDENTIFICACAO", "name": "IDENTIFICACAO", "autoWidth": true },
+            { "data": "NUMERO", "name": "NUMERO", "autoWidth": true },
+            { "data": "DATAEMISSAO", "name": "DATAEMISSAO", "autoWidth": true },
+            { "data": "DATAVALIDADE", "name": "DATAVALIDADE", "autoWidth": true },
+            { "data": "LOCALEMISSAO", "name": "LOCALEMISSAO", "autoWidth": true },
+            { "data": "ORGAOEMISSOR", "name": "ORGAOEMISSOR", "autoWidth": true },
+            { "data": "OBSERVACAO", "name": "OBSERVACAO", "autoWidth": true },
+            { "data": "INSERCAO", "name": "INSERCAO", "autoWidth": true },
+            { "data": "DATAINSERCAO", "name": "DATAINSERCAO", "autoWidth": true },
+            { "data": "ACTUALIZACAO", "name": "ACTUALIZACAO", "autoWidth": true },
+            { "data": "DATAACTUALIZACAO", "name": "DATAACTUALIZACAO", "autoWidth": true }
+        ],
+        //Configura��o da tabela para os checkboxes
+        'columnDefs': [
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                },
+            }
+        ], 'select': {
+            'style': 'multi'
+        },
+        'order': [[1, 'false']],
+        'rowCallback': function (row, data, dataIndex) {
+            // Get row ID
+            var rowId = data["Id"];
+            //console.log(rowId)
+            //Draw table and add selected option to previously selected checkboxes
+            $.each(values, function (i, r) {
+                if (rowId == r) {
+                    $(row).find('input[type="checkbox"]').prop('checked', true);
+                    $(row).closest("tr").addClass("selected");
+                }
+            })
+        },
+        drawCallback: function () {
+            processInfo(this.api().page.info(), 'paginateInfoUserIdent');
+        },
+        //Remove pagination from table and add to custom Div
+        initComplete: (settings, json) => {
+            $('#UserIdentTable_paginate').appendTo('#paginateUserIdent');
+        },
+    });
+};
+function handleDataGPUsersProfissao() {
+    var table = $("#UserProfissaoTable").DataTable({
+        "processing": true, // Para exibir mensagem de processamento a cada requisi��o
+        "serverSide": true, // Para processar as requisi��es no back-end
+        //"filter": false, // : est� comentado porque estamos a usar filtros que enviamos no back-end
+        "orderMulti": false, // Op��o de ordena��o para uma coluna de cada vez.
+        //Linguagem PT
+        "language": {
+            "url": "/Assets/lib/datatable/pt-PT.json"
+        },
+        fixedHeader: {
+            header: true,
+            footer: true
+        },
+        "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
+        "ajax": {
+            "url": "/gtmanagement/GetUsersProfessional", // POST TO CONTROLLER
+            "type": "POST",
+            "datatype": "json",
+            data: { "Id": $('#PesId').val() }
+        },
+        "columns": [
+            { "data": "Id", "name": null, "autoWidth": true },
+            //Column customizada
+            {
+                sortable: false,
+                "render": function (data, type, full, meta) {
+                    return '<a style="display:' + full.AccessControlEdit + '" title="Editar" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Editar" data-entity="pesprofessional" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil" /></i></a> <a style="display:' + full.AccessControlDelete + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="pesprofessional" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash" /></i></a>';
+                }
+            },
+            //Cada dado representa uma coluna da tabela
+            { "data": "EMPRESA", "name": "EMPRESA", "autoWidth": true },
+            { "data": "FUNCAO", "name": "FUNCAO", "autoWidth": true },
+            { "data": "CONTRACTO", "name": "CONTRACTO", "autoWidth": true },
+            { "data": "REGIME", "name": "REGIME", "autoWidth": true },
+            { "data": "DATAINICIAL", "name": "DATAINICIAL", "autoWidth": true },
+            { "data": "DATAFIM", "name": "DATAFIM", "autoWidth": true },
+            { "data": "DESCRICAO", "name": "DESCRICAO", "autoWidth": true },
+            { "data": "INSERCAO", "name": "INSERCAO", "autoWidth": true },
+            { "data": "DATAINSERCAO", "name": "DATAINSERCAO", "autoWidth": true },
+            { "data": "ACTUALIZACAO", "name": "ACTUALIZACAO", "autoWidth": true },
+            { "data": "DATAACTUALIZACAO", "name": "DATAACTUALIZACAO", "autoWidth": true }
+        ],
+        //Configura��o da tabela para os checkboxes
+        'columnDefs': [
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                },
+            }
+        ], 'select': {
+            'style': 'multi'
+        },
+        'order': [[1, 'false']],
+        'rowCallback': function (row, data, dataIndex) {
+            // Get row ID
+            var rowId = data["Id"];
+            //console.log(rowId)
+            //Draw table and add selected option to previously selected checkboxes
+            $.each(values, function (i, r) {
+                if (rowId == r) {
+                    $(row).find('input[type="checkbox"]').prop('checked', true);
+                    $(row).closest("tr").addClass("selected");
+                }
+            })
+        },
+        drawCallback: function () {
+            processInfo(this.api().page.info(), 'paginateInfoUserProfissaoTable');
+        },
+        //Remove pagination from table and add to custom Div
+        initComplete: (settings, json) => {
+            $('#UserProfissaoTable_paginate').appendTo('#paginateUserProfissaoTable');
+        },
+    });
+};
+function handleDataGPUsersFamily() {
+    var table = $("#UserFamilyTable").DataTable({
+        "processing": true, // Para exibir mensagem de processamento a cada requisi��o
+        "serverSide": true, // Para processar as requisi��es no back-end
+        //"filter": false, // : est� comentado porque estamos a usar filtros que enviamos no back-end
+        "orderMulti": false, // Op��o de ordena��o para uma coluna de cada vez.
+        //Linguagem PT
+        "language": {
+            "url": "/Assets/lib/datatable/pt-PT.json"
+        },
+        fixedHeader: {
+            header: true,
+            footer: true
+        },
+        "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
+        "ajax": {
+            "url": "/gtmanagement/GetUsersFamily", // POST TO CONTROLLER
+            "type": "POST",
+            "datatype": "json",
+            data: { "Id": $('#PesId').val() }
+        },
+        "columns": [
+            { "data": "Id", "name": null, "autoWidth": true },
+            //Column customizada
+            {
+                sortable: false,
+                "render": function (data, type, full, meta) {
+                    return '<a  style="display:' + full.AccessControlEdit + '" title="Editar" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Editar" data-entity="pesfamily" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil" /></i></a> <a  style="display:' + full.AccessControlDelete + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="pesfamily" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash" /></i></a>';
+                }
+            },
+            //Cada dado representa uma coluna da tabela
+            { "data": "AGREGADO", "name": "AGREGADO", "autoWidth": true },
+            { "data": "NOME", "name": "NOME", "autoWidth": true },
+            { "data": "PROFISSAO", "name": "PROFISSAO", "autoWidth": true },
+            { "data": "TELEFONE", "name": "TELEFONE", "autoWidth": true },
+            { "data": "TELEFONEALTERNATIVO", "name": "TELEFONEALTERNATIVO", "autoWidth": true },
+            { "data": "FAX", "name": "FAX", "autoWidth": true },
+            { "data": "EMAIL", "name": "EMAIL", "autoWidth": true },
+            { "data": "URL", "name": "URL", "autoWidth": true },
+            { "data": "ENDERECO", "name": "ENDERECO", "autoWidth": true },
+            { "data": "MORADA", "name": "MORADA", "autoWidth": true },
+            { "data": "RUA", "name": "RUA", "autoWidth": true },
+            { "data": "NUMERO", "name": "NUMERO", "autoWidth": true },
+            { "data": "INSERCAO", "name": "INSERCAO", "autoWidth": true },
+            { "data": "DATAINSERCAO", "name": "DATAINSERCAO", "autoWidth": true },
+            { "data": "ACTUALIZACAO", "name": "ACTUALIZACAO", "autoWidth": true },
+            { "data": "DATAACTUALIZACAO", "name": "DATAACTUALIZACAO", "autoWidth": true }
+        ],
+        //Configura��o da tabela para os checkboxes
+        'columnDefs': [
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                },
+            }
+        ], 'select': {
+            'style': 'multi'
+        },
+        'order': [[1, 'false']],
+        'rowCallback': function (row, data, dataIndex) {
+            // Get row ID
+            var rowId = data["Id"];
+            //console.log(rowId)
+            //Draw table and add selected option to previously selected checkboxes
+            $.each(values, function (i, r) {
+                if (rowId == r) {
+                    $(row).find('input[type="checkbox"]').prop('checked', true);
+                    $(row).closest("tr").addClass("selected");
+                }
+            })
+        },
+        drawCallback: function () {
+            processInfo(this.api().page.info(), 'paginateInfoUserFamilyTable');
+        },
+        //Remove pagination from table and add to custom Div
+        initComplete: (settings, json) => {
+            $('#UserFamilyTable_paginate').appendTo('#paginateUserFamilyTable');
+        },
+    });
+};
+function handleDataGPUsersDisability() {
+    var table = $("#UserDisabilityTable").DataTable({
+        "processing": true, // Para exibir mensagem de processamento a cada requisi��o
+        "serverSide": true, // Para processar as requisi��es no back-end
+        //"filter": false, // : est� comentado porque estamos a usar filtros que enviamos no back-end
+        "orderMulti": false, // Op��o de ordena��o para uma coluna de cada vez.
+        //Linguagem PT
+        "language": {
+            "url": "/Assets/lib/datatable/pt-PT.json"
+        },
+        fixedHeader: {
+            header: true,
+            footer: true
+        },
+        "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
+        "ajax": {
+            "url": "/gtmanagement/GetUsersDisability", // POST TO CONTROLLER
+            "type": "POST",
+            "datatype": "json",
+            data: { "Id": $('#PesId').val() }
+        },
+        "columns": [
+            { "data": "Id", "name": null, "autoWidth": true },
+            //Column customizada
+            {
+                sortable: false,
+                "render": function (data, type, full, meta) {
+                    return '<a  style="display:' + full.AccessControlEdit + '" title="Editar" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Editar" data-entity="pesdisability" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil" /></i></a> <a  style="display:' + full.AccessControlDelete + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="pesdisability" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash" /></i></a>';
+                }
+            },
+            //Cada dado representa uma coluna da tabela
+            { "data": "DEFICIENCIA", "name": "DEFICIENCIA", "autoWidth": true },
+            { "data": "GRAU", "name": "GRAU", "autoWidth": true },
+            { "data": "DESCRICAO", "name": "DESCRICAO", "autoWidth": true },
+            { "data": "INSERCAO", "name": "INSERCAO", "autoWidth": true },
+            { "data": "DATAINSERCAO", "name": "DATAINSERCAO", "autoWidth": true },
+            { "data": "ACTUALIZACAO", "name": "ACTUALIZACAO", "autoWidth": true },
+            { "data": "DATAACTUALIZACAO", "name": "DATAACTUALIZACAO", "autoWidth": true }
+        ],
+        //Configura��o da tabela para os checkboxes
+        'columnDefs': [
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                },
+            }
+        ], 'select': {
+            'style': 'multi'
+        },
+        'order': [[1, 'false']],
+        'rowCallback': function (row, data, dataIndex) {
+            // Get row ID
+            var rowId = data["Id"];
+            //console.log(rowId)
+            //Draw table and add selected option to previously selected checkboxes
+            $.each(values, function (i, r) {
+                if (rowId == r) {
+                    $(row).find('input[type="checkbox"]').prop('checked', true);
+                    $(row).closest("tr").addClass("selected");
+                }
+            })
+        },
+        drawCallback: function () {
+            processInfo(this.api().page.info(), 'paginateInfoUserDisabilityTable');
+        },
+        //Remove pagination from table and add to custom Div
+        initComplete: (settings, json) => {
+            $('#UserDisabilityTable_paginate').appendTo('#paginateUserDisabilityTable');
+        },
+    });
+};
 /*
 * 
 #####################################################
@@ -1942,5 +2253,170 @@ function setPicture(imageUrl) {
 
 
 
+
+
+//Isencao de Agregado Familiar
+$(document).on("change", ".PesFamilyIsento", function () {
+    if ($(this).is(":checked"))
+        $('.AddFamilyAgregadoIsento').attr("disabled", true);
+    else
+        $('.AddFamilyAgregadoIsento').attr("disabled", false);
+
+})
+
+
+
+
+
+
+
+/* ############################################
+  COUNTRY AND CITY ADDRESS HELPERS START
+ ##############################################
+ */
+function addressHelper() {
+    // Get Input helpers
+    var CountryId = $('.SelectCountry').val();
+    var AO = null; // ANGOLAN ID NUMBER FROM [GRL_ENDERECO_PAIS]
+    var url = '../../Ajax/AddressHelper';
+    //Retrieve selected options from Ajax
+    $.ajax({
+        type: "GET",
+        url: "/ajax/GetConfigValuesStandardCountryID",
+        data: {},
+        cache: false,
+        beforeSend: function () { },
+        complete: function () { },
+        success: function (data) {
+            AO = data;
+            // On Edit View process Html Helpers
+            if (CountryId == '') {
+                $('.AddressHelper').hide();
+                $('.AddressHelperAO').hide();
+            }
+            else if (CountryId == AO) {
+                $('.AddressHelper').show();
+                $('.AddressHelperAO').show();
+                $('.newCity').attr('disabled', true);
+                $('.SelectDistrict').prop("required", true);
+            }
+            else {
+                $('.AddressHelper').show();
+                $('.AddressHelperAO').hide();
+                $('.newCity').attr('disabled', false);
+            }
+        }
+    });
+    // Set Onchange events for Country Select
+    $(document).on("change", ".SelectCountry", function () {
+        var thisvar = $(this);
+        // Loadin
+        loadIn();
+        // Set Id and Get Select from ajax
+        var Id = $(this).val();
+        // Process Html Helpers
+        if (Id == '') {
+            $(thisvar).parent().parent().parent().find('.AddressHelper').hide();
+            $(thisvar).parent().parent().parent().find('.AddressHelperAO').hide();
+            Id = 0;
+        }
+        else if (Id == AO) {
+            $(thisvar).parent().parent().parent().find('.AddressHelper').show();
+            $(thisvar).parent().parent().parent().find('.AddressHelperAO').show();
+            $(thisvar).parent().parent().parent().find('.newCity').attr('disabled', true);
+        } else {
+            $(thisvar).parent().parent().parent().find('.AddressHelper').show();
+            $(thisvar).parent().parent().parent().find('.AddressHelperAO').hide();
+            $(thisvar).parent().parent().parent().find('.newCity').attr('disabled', false);
+        }
+        // Retrieve selected options from Ajax
+        $.ajax({
+            type: "GET",
+            url: "/ajax/GetCityByCountry",
+            data: { "id": Id },
+            cache: false,
+            beforeSend: function () {
+                // Loadin
+                loadIn();
+            },
+            complete: function () {
+            },
+            success: function (data) {
+                $(thisvar).parent().parent().parent().find('.SelectCity option').remove();
+                var s = '<option value="">Selecionar uma opção</option>';
+                for (var i = 0; i < data.length; i++) {
+                    s += '<option value="' + data[i].ID + '">' + data[i].Nome + '</option>';
+                }
+                $(thisvar).parent().parent().parent().find('.SelectCity').html(s);
+                // Loadout
+                loadOut();
+            }
+        });
+    });
+    // Set Onchange events for City Select
+    $(document).on("change", ".SelectCity", function () {
+        var thisvar = $(this);
+        // Loadin
+        loadIn();
+        // Set Id and Get Select from ajax
+        var Id = $(this).val();
+        var Action = 'mun';
+        if (Id == '') Id = 0; // Select options cannot be null for Model
+        // Retrieve selected options from Ajax
+        $.ajax({
+            type: "GET",
+            url: "/ajax/GetDistrictByCity",
+            data: { "id": Id },
+            cache: false,
+            beforeSend: function () {
+                // Loadin
+                loadIn();
+            },
+            complete: function () {
+            },
+            success: function (data) {
+                $(thisvar).parent().parent().parent().find('.SelectDistrict option').remove();
+                var s = '<option value="">Selecionar uma opção</option>';
+                for (var i = 0; i < data.length; i++) {
+                    s += '<option value="' + data[i].ID + '">' + data[i].Nome + '</option>';
+                }
+                $(thisvar).parent().parent().parent().find('.SelectDistrict').html(s);
+                // Add requirement for District/Municipio selection if Country=AO
+                if ($(thisvar).parent().parent().parent().find('.SelectCountry').val() == AO)
+                    $(thisvar).parent().parent().parent().find('.SelectDistrict').prop("required", true);
+                else
+                    $(thisvar).parent().parent().parent().find('.SelectDistrict').prop("required", false);
+                // Loadout
+                loadOut();
+            }
+        });
+    });
+}
+// Display Popup window to add new city
+function addressHelperPopUpNewCity(thisvar) {
+    var CountryId = $(thisvar).parent().parent().parent().parent().find('.SelectCountry').val();
+    if (CountryId != '')
+        window.open('/administration/address/' + CountryId + '?entityfrom=addnewcity&var=' + thisvar, 'newwin', 'width=400,height=400');
+    return false;
+}
+// Update Citylist on Select options with newly updated Id, trigger select change
+function updateCityList(CidadeId, thisvar) {
+    var CountryId = $(thisvar).parent().parent().parent().parent().find('.SelectCountry').val();
+    //var CountryId = $('.SelectCountry').val();
+    $(thisvar).parent().parent().parent().parent().find('.SelectCountry').val(CountryId).trigger('change');
+    //$('.SelectCountry').val(CountryId).trigger('change');
+    updateCityIdList(CidadeId, thisvar);
+}
+// Automatically select updated option from Popup window with new Id
+function updateCityIdList(CidadeId, thisvar) {
+    setTimeout(function () {
+        $(thisvar).parent().parent().parent().parent().find('.SelectCity').val(CidadeId).trigger('change');
+        // $('.SelectCity').val(CidadeId).trigger('change');
+    }, 500); // Wait for select change trigger, timeout 500 milli secons = 0.5 Seconds
+}
+/* ############################################
+  COUNTRY AND CITY ADDRESS HELPERS END
+ ##############################################
+ */
 
 

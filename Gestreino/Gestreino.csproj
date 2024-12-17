@@ -322,9 +322,6 @@
     <Compile Include="PES_PESSOAS_CARACT_DEFICIENCIA.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
-    <Compile Include="PES_PESSOAS_CARACT_GRAU_DEF.cs">
-      <DependentUpon>ORM.tt</DependentUpon>
-    </Compile>
     <Compile Include="PES_PESSOAS_CARACT_TIPO_DEF.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -377,7 +374,16 @@
     <Compile Include="SP_INST_APLICACAO_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_PES_ENT_PESSOAS_DEFICIENCIA_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_PES_ENT_PESSOAS_ENDERECO_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_PES_ENT_PESSOAS_FAM_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_PES_ENT_PESSOAS_PROFISSOES_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_PES_ENT_PESSOAS_Result.cs">
@@ -517,7 +523,6 @@
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
     <Content Include="Assets\lib\datatable\pt-PT.json" />
-    <Content Include="README.md" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -545,51 +550,23 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Account\ConfirmEmail.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ForgotPassword.cshtml" />
-    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\SendCode.cshtml" />
-    <Content Include="Views\Account\VerifyCode.cshtml" />
-    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Views\Manage\ChangePassword.cshtml" />
-    <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\ManageLogins.cshtml" />
-    <Content Include="Views\Manage\SetPassword.cshtml" />
-    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_SideBarMenu.cshtml" />
     <Content Include="Views\GTManagement\Athletes\Index.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
-    <Content Include="Views\GTManagement\Users\Index.cshtml" />
-    <Content Include="Views\GTManagement\Access\Index.cshtml" />
-    <Content Include="Views\GTManagement\Access\ViewGroups.cshtml" />
-    <Content Include="Views\GTManagement\Access\ViewProfiles.cshtml" />
-    <Content Include="Views\GTManagement\Access\ViewAtoms.cshtml" />
-    <Content Include="Views\GTManagement\Users\ViewUsers.cshtml" />
     <Content Include="Views\Ajax\Administration\Users\Index.cshtml" />
     <Content Include="Views\Ajax\Administration\Access\AppendItems.cshtml" />
     <Content Include="Views\Ajax\Administration\Access\Atoms.cshtml" />
     <Content Include="Views\Ajax\Administration\Access\Groups.cshtml" />
     <Content Include="Views\Ajax\Administration\Access\Profiles.cshtml" />
-    <Content Include="Views\GTManagement\Access\LoginLogs.cshtml" />
-    <Content Include="Views\GTManagement\Parameters\Index.cshtml" />
-    <Content Include="Views\GTManagement\Parameters\ParametersGRL.cshtml" />
-    <Content Include="Views\GTManagement\Parameters\ParametersPES.cshtml" />
-    <Content Include="Views\GTManagement\Parameters\ParametersGT.cshtml" />
-    <Content Include="Views\GTManagement\Settings\Index.cshtml" />
     <Content Include="Views\Ajax\Administration\Parameters\GRLDocType.cshtml" />
     <Content Include="Views\Ajax\Administration\Parameters\GRLTokenType.cshtml" />
     <Content Include="Views\Ajax\Administration\Parameters\GRLEndPais.cshtml" />
     <Content Include="Views\Ajax\Administration\Parameters\GRLEndCidade.cshtml" />
     <Content Include="Views\Ajax\Administration\Parameters\GRLEndDistr.cshtml" />
-    <Content Include="Views\GTManagement\Settings\UpdateInst.cshtml" />
     <Content Include="Views\GTManagement\Athletes\NewAthlete.cshtml" />
     <Content Include="Views\GTManagement\Athletes\ViewAthletes.cshtml" />
     <Content Include="Views\GTManagement\Athletes\UpdateAthlete.cshtml" />
@@ -608,10 +585,13 @@
     <Content Include="Views\Administration\Settings\UpdateInst.cshtml" />
     <Content Include="Views\Administration\Users\Index.cshtml" />
     <Content Include="Views\Administration\Users\ViewUsers.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Athletes\GPManagementUserAgregado.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Athletes\GPManagementUserDisability.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Athletes\GPManagementUserIdent.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Athletes\GPManagementUserProfessional.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Ajax\GTManagement\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

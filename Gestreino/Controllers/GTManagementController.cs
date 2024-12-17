@@ -151,10 +151,20 @@ namespace Gestreino.Controllers
             if (!data.Any()) return RedirectToAction("", "home");
             var dataCaract = databaseManager.PES_PESSOAS_CARACT.Where(x => x.PES_PESSOAS_ID == Id).ToList();
             var dataEnd = databaseManager.SP_PES_ENT_PESSOAS_ENDERECO(Id, null, null, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), "R").ToList();
-
+            MODEL.ID = Id;
             var DateofBirth = string.IsNullOrEmpty(data.First().DATA_NASCIMENTO) ? (DateTime?)null : DateTime.ParseExact(data.First().DATA_NASCIMENTO, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             if (DateofBirth != null)
                 MODEL.Age = Converters.CalculateAge(DateofBirth.Value);
+
+
+            MODEL.PES_DEFICIENCIA_LIST = databaseManager.PES_PESSOAS_CARACT_TIPO_DEF.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+
+            MODEL.PES_PROFISSAO_LIST = databaseManager.PES_PROFISSOES.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            MODEL.PES_Contracto_LIST = databaseManager.PES_PROFISSOES_TIPO_CONTRACTO.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            MODEL.PES_Regime_LIST = databaseManager.PES_PROFISSOES_REGIME_TRABALHO.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            MODEL.PES_FAMILIARES_GRUPOS_LIST = databaseManager.PES_FAMILIARES_GRUPOS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+           
+
             ViewBag.imgSrc = (string.IsNullOrEmpty(data.First().FOTOGRAFIA)) ? "/Assets/images/user-avatar.jpg" : "/" + data.First().FOTOGRAFIA;
             ViewBag.data = data;
             ViewBag.dataCaract = dataCaract;
@@ -580,5 +590,699 @@ namespace Gestreino.Controllers
             }
             return Json(new { result = true, imageUrl = sqlpath, showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
+     ******************************************
+     *******************************************
+     DADOS PESSOAIS PROFISSIONAIS :: READ
+     ******************************************
+     *******************************************
+    */
+        // Ajax Table
+        [HttpPost]
+        public ActionResult GetUsersProfessional(int? Id)
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Empresa = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Funcao = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Contracto = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Regime = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var DataIni = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var DataFim = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            var Descricao = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[9][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[10][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            // GET TABLE CONTENT
+
+            var v = (from a in databaseManager.SP_PES_ENT_PESSOAS_PROFISSOES(null,Id, null, null, null, null, null, null, null, null, Convert.ToChar('R').ToString()).ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Empresa)) v = v.Where(a => a.EMPRESA != null && a.EMPRESA.ToUpper().Contains(Empresa.ToUpper()));
+            if (!string.IsNullOrEmpty(Funcao)) v = v.Where(a => a.PES_PROFISSOES_ID != null && a.PES_PROFISSOES_ID.ToString() == Funcao);
+            if (!string.IsNullOrEmpty(Contracto)) v = v.Where(a => a.PES_PROFISSOES_TIPO_CONTRACTO_ID != null && a.PES_PROFISSOES_TIPO_CONTRACTO_ID.ToString() == Contracto);
+            if (!string.IsNullOrEmpty(Regime)) v = v.Where(a => a.PES_PROFISSOES_REGIME_TRABALHO_ID != null && a.PES_PROFISSOES_REGIME_TRABALHO_ID.ToString() == Regime);
+            //if (!string.IsNullOrEmpty(Unidade)) v = v.Where(a => a.INST_UNIDADES_ID != null && a.INST_UNIDADES_ID.ToString() == Unidade);
+            //if (!string.IsNullOrEmpty(Espaco)) v = v.Where(a => a.INST_ESPACOS_ID != null && a.INST_ESPACOS_ID.ToString() == Espaco);
+            if (!string.IsNullOrEmpty(DataIni)) v = v.Where(a => a.DATA_INICIO != null && a.DATA_INICIO.ToUpper().Contains(DataIni.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(DataFim)) v = v.Where(a => a.DATA_FIM != null && a.DATA_FIM.ToUpper().Contains(DataFim.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Descricao)) v = v.Where(a => a.DESCRICAO != null && a.DESCRICAO.ToUpper().ToString().Contains(Descricao.ToUpper()));
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "EMPRESA": v = v.OrderBy(s => s.EMPRESA); break;
+                        case "FUNCAO": v = v.OrderBy(s => s.PROFISSAO); break;
+                        case "CONTRACTO": v = v.OrderBy(s => s.CONT_NOME); break;
+                        case "REGIME": v = v.OrderBy(s => s.REGIME_NOME); break;
+                        case "DATAINICIAL": v = v.OrderBy(s => s.DATA_INICIO); break;
+                        case "DATAFIM": v = v.OrderBy(s => s.DATA_FIM); break;
+                        case "DESCRICAO": v = v.OrderBy(s => s.DESCRICAO); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "EMPRESA": v = v.OrderByDescending(s => s.EMPRESA); break;
+                        case "FUNCAO": v = v.OrderByDescending(s => s.PROFISSAO); break;
+                        case "CONTRACTO": v = v.OrderByDescending(s => s.CONT_NOME); break;
+                        case "REGIME": v = v.OrderByDescending(s => s.REGIME_NOME); break;
+                        case "DATAINICIAL": v = v.OrderByDescending(s => s.DATA_INICIO); break;
+                        case "DATAFIM": v = v.OrderByDescending(s => s.DATA_FIM); break;
+                        case "DESCRICAO": v = v.OrderByDescending(s => s.DESCRICAO); break;
+                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_PROFESSIONAL_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_PROFESSIONAL_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    EMPRESA = x.EMPRESA,
+                    FUNCAO = x.PROFISSAO,
+                    CONTRACTO = x.CONT_NOME,
+                    REGIME = x.REGIME_NOME,
+                    DATAINICIAL = x.DATA_INICIO,
+                    DATAFIM = x.DATA_FIM,
+                    DESCRICAO = Converters.StripHTML(x.DESCRICAO),
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        // Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddProfessional(PES_Dados_Pessoais_Professional MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (!string.IsNullOrWhiteSpace(MODEL.DateEnd) && DateTime.ParseExact(MODEL.DateEnd, "dd-MM-yyyy", CultureInfo.InvariantCulture) < DateTime.ParseExact(MODEL.DateIni, "dd-MM-yyyy", CultureInfo.InvariantCulture))
+                {
+                    return Json(new { result = false, error = "Data Inicial deve ser inferior a Data de Fim!" });
+                }
+
+                var DateIni = string.IsNullOrWhiteSpace(MODEL.DateIni) ? (DateTime?)null : DateTime.ParseExact(MODEL.DateIni, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                var DateEnd = string.IsNullOrWhiteSpace(MODEL.DateEnd) ? (DateTime?)null : DateTime.ParseExact(MODEL.DateEnd, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                string Empresa = MODEL.Empresa;
+
+                // Create
+                var create = databaseManager.SP_PES_ENT_PESSOAS_PROFISSOES(null,MODEL.ID, MODEL.PES_PROFISSOES_REGIME_ID, MODEL.PES_PROFISSOES_CONTRACTO_ID, MODEL.PES_PROFISSAO_ID,Empresa, DateIni, DateEnd, MODEL.Descricao, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "UserProfissaoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        // Update
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateProfessional(PES_Dados_Pessoais_Professional MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (!string.IsNullOrWhiteSpace(MODEL.DateEnd) && DateTime.ParseExact(MODEL.DateEnd, "dd-MM-yyyy", CultureInfo.InvariantCulture) < DateTime.ParseExact(MODEL.DateIni, "dd-MM-yyyy", CultureInfo.InvariantCulture))
+                {
+                    return Json(new { result = false, error = "Data Inicial deve ser inferior a Data de Fim!" });
+                }
+
+                var DateIni = string.IsNullOrWhiteSpace(MODEL.DateIni) ? (DateTime?)null : DateTime.ParseExact(MODEL.DateIni, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                var DateEnd = string.IsNullOrWhiteSpace(MODEL.DateEnd) ? (DateTime?)null : DateTime.ParseExact(MODEL.DateEnd, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                //bool intext = (MODEL.INT_EXT == "Interno") ? intext = true : false;
+                string Empresa = MODEL.Empresa;
+
+                // Update
+                var update = databaseManager.SP_PES_ENT_PESSOAS_PROFISSOES(MODEL.ID, null,MODEL.PES_PROFISSOES_REGIME_ID, MODEL.PES_PROFISSOES_CONTRACTO_ID, MODEL.PES_PROFISSAO_ID, Empresa, DateIni, DateEnd, MODEL.Descricao, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "UserProfissaoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        // Delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteProfessional(int[] Ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (Ids.Length == 0)
+                    return Json(new { result = false, error = "Nenhum item selecionado para remoção!" });
+
+                foreach (var i in Ids)
+                {
+                    var delete = databaseManager.SP_PES_ENT_PESSOAS_PROFISSOES(i, null, null, null, null, null, null, null, null, null, Convert.ToChar('D').ToString()).ToList();
+                }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "UserProfissaoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+
+
+
+
+        /*
+        ******************************************
+        *******************************************
+        DADOS PESSOAIS FAMILIARES :: READ
+        ******************************************
+        *******************************************
+       */
+        // Ajax Table
+        [HttpPost]
+        public ActionResult GetUsersFamily(int? Id)
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Agregado = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Profissao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Telefone = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var TelefoneAlternativo = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var Fax = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            var Email = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+            var URL = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault();
+            var Endereco = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault();
+            var Morada = Request.Form.GetValues("columns[9][search][value]").FirstOrDefault();
+            var Rua = Request.Form.GetValues("columns[10][search][value]").FirstOrDefault();
+            var Numero = Request.Form.GetValues("columns[11][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[12][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[13][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[14][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[15][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            // GET TABLE CONTENT
+
+            var v = (from a in databaseManager.SP_PES_ENT_PESSOAS_FAM(null,Id, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, Convert.ToChar('R').ToString()).ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Agregado)) v = v.Where(a => a.PES_FAMILIARES_GRUPOS_ID != null && a.PES_FAMILIARES_GRUPOS_ID.ToString() == Agregado);
+            if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
+            if (!string.IsNullOrEmpty(Profissao)) v = v.Where(a => a.PES_PROFISSOES_ID != null && a.PES_PROFISSOES_ID.ToString() == Profissao);
+            if (!string.IsNullOrEmpty(Telefone)) v = v.Where(a => a.TELEFONE != null && a.TELEFONE.ToString().Contains(Telefone.ToUpper()));
+            if (!string.IsNullOrEmpty(TelefoneAlternativo)) v = v.Where(a => a.TELEFONE_ALTERNATIVO != null && a.TELEFONE_ALTERNATIVO.ToString().Contains(TelefoneAlternativo.ToUpper()));
+            if (!string.IsNullOrEmpty(Fax)) v = v.Where(a => a.FAX != null && a.FAX.ToString().Contains(Fax.ToUpper()));
+            if (!string.IsNullOrEmpty(Email)) v = v.Where(a => a.EMAIL != null && a.EMAIL.ToString().Contains(Email.ToUpper()));
+            if (!string.IsNullOrEmpty(URL)) v = v.Where(a => a.URL != null && a.URL.ToString().Contains(URL.ToUpper()));
+            if (!string.IsNullOrEmpty(Endereco)) v = v.Where(a => a.PAIS_NOME != null && (a.PAIS_NOME.ToUpper() + " " + a.CIDADE_NOME.ToUpper() + " " + a.MUN_NOME.ToUpper()).Contains(Endereco.ToUpper()));
+            if (!string.IsNullOrEmpty(Morada)) v = v.Where(a => a.MORADA != null && a.MORADA.ToString().Contains(Morada.ToUpper()));
+            if (!string.IsNullOrEmpty(Rua)) v = v.Where(a => a.RUA != null && a.RUA.ToString().ToUpper().Contains(Rua.ToUpper()));
+            if (!string.IsNullOrEmpty(Numero)) v = v.Where(a => a.NUMERO != null && a.NUMERO.ToString().Contains(Numero.ToUpper()));
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "AGREGADO": v = v.OrderBy(s => s.PES_FAMILIARES_GRUPOS_ID); break;
+                        case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "PROFISSAO": v = v.OrderBy(s => s.PES_PROFISSOES_ID); break;
+                        case "TELEFONE": v = v.OrderBy(s => s.TELEFONE); break;
+                        case "TELEFONEALTERNATIVO": v = v.OrderBy(s => s.TELEFONE_ALTERNATIVO); break;
+                        case "FAX": v = v.OrderBy(s => s.FAX); break;
+                        case "EMAIL": v = v.OrderBy(s => s.EMAIL); break;
+                        case "URL": v = v.OrderBy(s => s.URL); break;
+                        case "ENDERECO": v = v.OrderBy(s => s.CIDADE_NOME); break;
+                        case "MORADA": v = v.OrderBy(s => s.MORADA); break;
+                        case "RUA": v = v.OrderBy(s => s.RUA); break;
+                        case "NUMERO": v = v.OrderBy(s => s.NUMERO); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "AGREGADO": v = v.OrderByDescending(s => s.PES_FAMILIARES_GRUPOS_ID); break;
+                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "PROFISSAO": v = v.OrderByDescending(s => s.PES_PROFISSOES_ID); break;
+                        case "TELEFONE": v = v.OrderByDescending(s => s.TELEFONE); break;
+                        case "TELEFONEALTERNATIVO": v = v.OrderByDescending(s => s.TELEFONE_ALTERNATIVO); break;
+                        case "FAX": v = v.OrderByDescending(s => s.FAX); break;
+                        case "EMAIL": v = v.OrderByDescending(s => s.EMAIL); break;
+                        case "URL": v = v.OrderByDescending(s => s.URL); break;
+                        case "ENDERECO": v = v.OrderByDescending(s => s.CIDADE_NOME); break;
+                        case "MORADA": v = v.OrderByDescending(s => s.MORADA); break;
+                        case "RUA": v = v.OrderByDescending(s => s.RUA); break;
+                        case "NUMERO": v = v.OrderByDescending(s => s.NUMERO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_FAM_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_FAM_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    AGREGADO = x.AGREGADO,
+                    NOME = x.NOME,
+                    PROFISSAO = x.PROFISSAO,
+                    TELEFONE = x.TELEFONE == 0 ? null : x.TELEFONE,
+                    TELEFONEALTERNATIVO = x.TELEFONE_ALTERNATIVO,
+                    FAX = x.FAX,
+                    EMAIL = x.EMAIL,
+                    URL = x.URL,
+                    ENDERECO = x.MUN_NOME + " " + x.CIDADE_NOME + " " + x.PAIS_NOME,
+                    MORADA = x.MORADA,
+                    RUA = x.RUA,
+                    NUMERO = x.NUMERO,
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        // Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddFamilyAgregado(PES_Dados_Pessoais_Agregado MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_PESSOAS_FAM.Where(a => a.PES_PESSOAS_ID == MODEL.ID && a.PES_FAMILIARES_GRUPOS_ID == MODEL.PES_FAMILIARES_GRUPOS_ID).ToList().Count() > 0)
+                {
+                    return Json(new { result = false, error = "Agregado já encontra-se registado!" });
+                }
+
+                Decimal Telephone = (!string.IsNullOrEmpty(MODEL.Telephone)) ? Convert.ToDecimal(MODEL.Telephone) : 0;
+                Decimal TelephoneAlternativo = (!string.IsNullOrEmpty(MODEL.TelephoneAlternativo)) ? Convert.ToDecimal(MODEL.TelephoneAlternativo) : 0;
+                Decimal Fax = (!string.IsNullOrEmpty(MODEL.Fax)) ? Convert.ToDecimal(MODEL.Fax) : 0; ;
+
+                // Create
+                var create = databaseManager.SP_PES_ENT_PESSOAS_FAM(null,MODEL.ID, MODEL.PES_FAMILIARES_GRUPOS_ID, MODEL.PES_PROFISSAO_ID, MODEL.Nome, Telephone, TelephoneAlternativo, Fax, (!string.IsNullOrEmpty(MODEL.Email)) ? MODEL.Email.Trim().ToLower() : MODEL.Email, (!string.IsNullOrEmpty(MODEL.URL)) ? MODEL.URL.Trim().ToLower() : MODEL.URL, MODEL.Numero, !string.IsNullOrEmpty(MODEL.Rua) ? MODEL.Rua.Trim() : MODEL.Rua, !string.IsNullOrEmpty(MODEL.Morada) ? MODEL.Morada.Trim() : MODEL.Morada, MODEL.PaisId, MODEL.CidadeId, MODEL.DistrictoId, MODEL.Isento, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "UserFamilyTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        // Update
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateFamilyAgregado(PES_Dados_Pessoais_Agregado MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_PESSOAS_FAM.Where(a => a.ID != MODEL.ID && a.PES_FAMILIARES_GRUPOS_ID == MODEL.PES_FAMILIARES_GRUPOS_ID && a.PES_PESSOAS_ID == MODEL.PES_PESSOAS_ID).ToList().Count() > 0)
+                {
+                    return Json(new { result = false, error = "Agregado já encontra-se registado!" });
+                }
+
+                Decimal Telephone = (!string.IsNullOrEmpty(MODEL.Telephone)) ? Convert.ToDecimal(MODEL.Telephone) : 0;
+                Decimal TelephoneAlternativo = (!string.IsNullOrEmpty(MODEL.TelephoneAlternativo)) ? Convert.ToDecimal(MODEL.TelephoneAlternativo) : 0;
+                Decimal Fax = (!string.IsNullOrEmpty(MODEL.Fax)) ? Convert.ToDecimal(MODEL.Fax) : 0; ;
+
+                // Update
+                var update = databaseManager.SP_PES_ENT_PESSOAS_FAM(MODEL.ID,null, MODEL.PES_FAMILIARES_GRUPOS_ID, MODEL.PES_PROFISSAO_ID, MODEL.Nome, Telephone, TelephoneAlternativo, Fax, (!string.IsNullOrEmpty(MODEL.Email)) ? MODEL.Email.Trim().ToLower() : MODEL.Email, (!string.IsNullOrEmpty(MODEL.URL)) ? MODEL.URL.Trim().ToLower() : MODEL.URL, MODEL.Numero, !string.IsNullOrEmpty(MODEL.Rua) ? MODEL.Rua.Trim() : MODEL.Rua, !string.IsNullOrEmpty(MODEL.Morada) ? MODEL.Morada.Trim() : MODEL.Morada, MODEL.PaisId, MODEL.CidadeId, MODEL.DistrictoId, MODEL.Isento, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "UserFamilyTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        // Delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteFamilyAgregado(int[] Ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (Ids.Length == 0)
+                    return Json(new { result = false, error = "Nenhum item selecionado para remoção!" });
+
+                foreach (var i in Ids)
+                {
+                    var delete = databaseManager.SP_PES_ENT_PESSOAS_FAM(i, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, Convert.ToChar('D').ToString()).ToList();
+                }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "UserFamilyTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+
+
+
+        /*
+    ******************************************
+    *******************************************
+    DADOS PESSOAIS DEFICIENCIAS :: READ
+    ******************************************
+    *******************************************
+   */
+        // Ajax Table
+        [HttpPost]
+        public ActionResult GetUsersDisability(int? Id)
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Deficiencia = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Grau = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Descricao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            // GET TABLE CONTENT
+
+            var v = (from a in databaseManager.SP_PES_ENT_PESSOAS_DEFICIENCIA(null,Id, null,null, null, null, Convert.ToChar('R').ToString()).ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Deficiencia)) v = v.Where(a => a.PES_PESSOAS_CARACT_TIPO_DEF_ID != null && a.PES_PESSOAS_CARACT_TIPO_DEF_ID.ToString() == Deficiencia);
+            if (!string.IsNullOrEmpty(Grau)) v = v.Where(a => a.PES_PESSOAS_CARACT_GRAU_DEF_ID != null && a.PES_PESSOAS_CARACT_GRAU_DEF_ID.ToString() == Grau);
+            if (!string.IsNullOrEmpty(Descricao)) v = v.Where(a => a.DESCRICAO != null && a.DESCRICAO.ToUpper().Contains(Descricao.ToUpper()));
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "DEFICIENCIA": v = v.OrderBy(s => s.PES_PESSOAS_CARACT_TIPO_DEF_ID); break;
+                        case "GRAU": v = v.OrderBy(s => s.PES_PESSOAS_CARACT_GRAU_DEF_ID); break;
+                        case "DESCRICAO": v = v.OrderBy(s => s.DESCRICAO); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "DEFICIENCIA": v = v.OrderByDescending(s => s.PES_PESSOAS_CARACT_TIPO_DEF_ID); break;
+                        case "GRAU": v = v.OrderByDescending(s => s.PES_PESSOAS_CARACT_GRAU_DEF_ID); break;
+                        case "DESCRICAO": v = v.OrderByDescending(s => s.DESCRICAO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_DEFICIENCY_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_DEFICIENCY_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    DEFICIENCIA = x.NOME,
+                    GRAU = x.GRAU,
+                    DESCRICAO = Converters.StripHTML(x.DESCRICAO),
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        // Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddDisability(PES_Dados_Pessoais_Deficiencia MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_PESSOAS_CARACT_DEFICIENCIA.Where(a => a.PES_PESSOAS_ID == MODEL.ID && a.PES_PESSOAS_CARACT_TIPO_DEF_ID == MODEL.PES_DEFICIENCIA_ID && a.PES_PESSOAS_CARACT_GRAU_DEF_ID == MODEL.PES_DEFICIENCIA_GRAU_ID).ToList().Count() > 0)
+                {
+                    return Json(new { result = false, error = "Este tipo de deficiência e grau já encontra-se registado!" });
+                }
+
+                // Create
+                var create = databaseManager.SP_PES_ENT_PESSOAS_DEFICIENCIA(null,MODEL.ID,MODEL.PES_DEFICIENCIA_ID, MODEL.PES_DEFICIENCIA_GRAU_ID, (!string.IsNullOrEmpty(MODEL.Descricao)) ? MODEL.Descricao.Trim().ToLower() : MODEL.Descricao, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "UserDisabilityTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        // Update
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateDisability(PES_Dados_Pessoais_Deficiencia MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_PESSOAS_CARACT_DEFICIENCIA.Where(a => a.ID != MODEL.ID && a.PES_PESSOAS_CARACT_TIPO_DEF_ID == MODEL.PES_DEFICIENCIA_ID && a.PES_PESSOAS_CARACT_GRAU_DEF_ID == MODEL.PES_DEFICIENCIA_GRAU_ID).ToList().Count() > 0)
+                {
+                    return Json(new { result = false, error = "Este tipo de deficiência e grau já encontra-se registado!" });
+                }
+
+                // Update
+                var update = databaseManager.SP_PES_ENT_PESSOAS_DEFICIENCIA(MODEL.ID, null,MODEL.PES_DEFICIENCIA_ID, MODEL.PES_DEFICIENCIA_GRAU_ID, (!string.IsNullOrEmpty(MODEL.Descricao)) ? MODEL.Descricao.Trim().ToLower() : MODEL.Descricao, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "UserDisabilityTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        // Delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteDisability(int[] Ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (Ids.Length == 0)
+                    return Json(new { result = false, error = "Nenhum item selecionado para remoção!" });
+
+                foreach (var i in Ids)
+                {
+                    var delete = databaseManager.SP_PES_ENT_PESSOAS_DEFICIENCIA(i, null, null,null, null, null, Convert.ToChar('D').ToString()).ToList();
+                }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "UserDisabilityTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+
+
+
+
+
     }
 }

@@ -1,0 +1,173 @@
+﻿@using Gestreino.Models
+@using Gestreino.Classes
+@model  PES_Dados_Pessoais_Professional
+@{Layout = null; }
+<div class="card-header card-reader-radius bg-primary-pickled-bluewood">
+    <h3 class="text-white mb-0">@ViewBag.Action dados profissionais</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="handle-error alert alert-accent"
+                 role="alert" style="display:none;">
+                <div class="d-flex flex-wrap align-items-start">
+                    <div class="mr-8pt">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="flex"
+                         style="min-width: 180px">
+                        <small class="text-black-100">
+                            <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (ViewBag.Action == "Adicionar")
+    {
+        using (Ajax.BeginForm("../gtmanagement/AddProfessional", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ID)
+            <p>  <span><i class="fa fa-circle-question"></i> Os campos a vermelho são de caráter obrigatório!</span></p>   
+            <div class="form-group row">
+                @Html.LabelFor(m => m.PES_PROFISSAO_ID, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(x => Model.PES_PROFISSAO_ID, Model.PES_PROFISSAO_LIST, "Selecionar a funcão", new { @class = "form-control ", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.Empresa, new { @class = "col-sm-2 col-form-label text-right" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(x => Model.Empresa, new { @class = "empresa form-control ", placeholder = "Empresa", maxlength = "255" })
+                </div>
+            </div>
+            <div class="row"><div class="col-sm-12">&nbsp;</div></div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5 class="bg-light p-2 rounded" style="text-transform:capitalize"><i class="fa fa-info-circle"></i> Vínculo laboral</h5>
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.PES_PROFISSOES_CONTRACTO_ID, new { @class = "col-sm-2 col-form-label text-right" })
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(x => Model.PES_PROFISSOES_CONTRACTO_ID, Model.PES_PROFISSOES_CONTRACTO_LIST, "Selecionar o tipo de contracto", new { @class = "form-control " })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.PES_PROFISSOES_REGIME_ID, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(x => Model.PES_PROFISSOES_REGIME_ID, Model.PES_PROFISSOES_REGIME_LIST, "Selecionar o regime de trabalho", new { @class = "form-control ", required = "required" })
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-sm-2 text-right">
+                    @Html.LabelFor(m => m.DateIni, new { @class = "col-form-label required" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.DateIni, new { @class = "datepicker form-control", placeholder = "Data Inicial", required = "" })
+                </div>
+                <div class="col-sm-2 text-right">
+                    @Html.LabelFor(m => m.DateEnd, new { @class = "col-form-label" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.DateEnd, new { @class = "datepicker form-control", placeholder = "Data Fim" })
+                </div>
+            </div>
+            <div class="form-group row mt-2">
+                @Html.LabelFor(m => m.Descricao, new { @class = "col-sm-2 col-form-label text-right" })
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(m => m.Descricao, new { @class = "form-control", placeholder = "Descrição da função", maxlength = "4000" })
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+            </div>
+        }
+    }
+    @if (ViewBag.Action == "Editar")
+    {
+        using (Ajax.BeginForm("../gtmanagement/UpdateProfessional", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ID)
+            <p>  <span><i class="fa fa-circle-question"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.PES_PROFISSAO_ID, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(x => Model.PES_PROFISSAO_ID, Model.PES_PROFISSAO_LIST, "Selecionar a funcão", new { @class = "form-control ", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.Empresa, new { @class = "col-sm-2 col-form-label text-right" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(x => Model.Empresa, new { @class = "empresa form-control ", placeholder = "Empresa", maxlength = "255"})
+                </div>
+            </div>
+            <div class="row"><div class="col-sm-12">&nbsp;</div></div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5 class="bg-light p-2 rounded" style="text-transform:capitalize"><i class="fa fa-info-circle"></i> Vínculo laboral</h5>
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.PES_PROFISSOES_CONTRACTO_ID, new { @class = "col-sm-2 col-form-label text-right" })
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(x => Model.PES_PROFISSOES_CONTRACTO_ID, Model.PES_PROFISSOES_CONTRACTO_LIST, "Selecionar o tipo de contracto", new { @class = "form-control " })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.PES_PROFISSOES_REGIME_ID, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(x => Model.PES_PROFISSOES_REGIME_ID, Model.PES_PROFISSOES_REGIME_LIST, "Selecionar o regime de trabalho", new { @class = "form-control ", required = "required" })
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-sm-2 text-right">
+                    @Html.LabelFor(m => m.DateIni, new { @class = "col-form-label required" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.DateIni, new { @class = "datepicker form-control", placeholder = "Data Inicial", required = "" })
+                </div>
+                <div class="col-sm-2 text-right">
+                    @Html.LabelFor(m => m.DateEnd, new { @class = "col-form-label" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.DateEnd, new { @class = "datepicker form-control", placeholder = "Data Fim" })
+                </div>
+            </div>
+            <div class="form-group row mt-2">
+                @Html.LabelFor(m => m.Descricao, new { @class = "col-sm-2 col-form-label text-right" })
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(m => m.Descricao, new { @class = "form-control", placeholder = "Descrição da função", maxlength = "4000" })
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+            </div>
+        }
+    }
+    @if (ViewBag.Action == "Remover")
+    {
+        using (Ajax.BeginForm("../gtmanagement/DeleteProfessional", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="row col-lg-12">
+                @{ foreach (var id in ViewBag.bulkids)
+                    {
+                        <input type="hidden" name="Ids[]" value="@id" />
+                    }
+                }
+                <p>Deseja remover este(s) item(s)?</p>
+
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+            </div>
+        }
+    }
+</div>

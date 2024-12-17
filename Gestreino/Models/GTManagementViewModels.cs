@@ -381,6 +381,140 @@ namespace Gestreino.Models
 
         [Display(Name = "Outros")]
         public bool OB_Outros { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> PES_TIPO_IDENTIFICACAO_LIST { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> PES_FAMILIARES_GRUPOS_LIST { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> PES_PROFISSAO_LIST { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> PES_Contracto_LIST { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> PES_Regime_LIST { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> PES_DEFICIENCIA_LIST { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> PES_DEFICIENCIA_GRAU_LIST { get; set; }
+
+    }
+
+
+
+    public class PES_Dados_Pessoais_Professional
+    {
+        public int? ID { get; set; }
+        [Display(Name = "Regime")]
+        public int? PES_PROFISSOES_REGIME_ID { get; set; }
+
+        [Display(Name = "Contrato")]
+        public int? PES_PROFISSOES_CONTRACTO_ID { get; set; }
+
+        [Display(Name = "Profissao")]
+        public int? PES_PROFISSAO_ID { get; set; }
+        
+        [Display(Name = "Data Inicio")]
+        public string DateIni { get; set; }
+
+        [Display(Name = "Data Fim")]
+        public string DateEnd { get; set; }
+
+        [Display(Name = "Descricao")]
+        public string Descricao { get; set; }
+
+        [Display(Name = "Empresa")]
+        public string Empresa { get; set; }
+
+        public IEnumerable<System.Web.Mvc.SelectListItem> PES_PROFISSAO_LIST { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> PES_PROFISSOES_CONTRACTO_LIST { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> PES_PROFISSOES_REGIME_LIST { get; set; }
+    }
+    public class PES_Dados_Pessoais_Agregado
+    {
+        public int? ID { get; set; }
+        public int? PES_PESSOAS_ID { get; set; }
+        [Display(Name = "Agregado")]
+        public int? PES_FAMILIARES_GRUPOS_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> PES_FAMILIARES_GRUPOS_LIST { get; set; }
+
+        [Display(Name = "Profissao")]
+        public int? PES_PROFISSAO_ID { get; set; }
+        [Display(Name = "Nome")]
+        public string Nome { get; set; }
+
+        //[Required(ErrorMessage = "{0} é um campo obrigatório!")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "{0} não é válido!")]
+        [StringLength(100, ErrorMessage = "{0} deve ter o mínimo de {2} dígitos", MinimumLength = 9)]
+        [Display(Name = "Telefone")]
+        public string Telephone { get; set; }
+
+        //[Required(ErrorMessage = "{0} é um campo obrigatório!")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "{0} não é válido!")]
+        [StringLength(100, ErrorMessage = "{0} deve ter o mínimo de {2} dígitos", MinimumLength = 9)]
+        [Display(Name = "Telefone Alternativo")]
+        public string TelephoneAlternativo { get; set; }
+
+        //[Required(ErrorMessage = "{0} é um campo obrigatório!")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "{0} não é válido!")]
+        [StringLength(100, ErrorMessage = "{0} deve ter o mínimo de {2} dígitos", MinimumLength = 9)]
+        [Display(Name = "Fax")]
+        public string Fax { get; set; }
+
+        //[Required(ErrorMessage = "{0} é um campo obrigatório!")]
+        //[StringLength(100, ErrorMessage = "A {0} de acesso deve ter o mínimo de {2} caracteres", MinimumLength = 64)]
+        [Display(Name = "Email")]
+        [EmailAddress(ErrorMessage = "Endereço de email inválido!")]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+        [Display(Name = "URL")]
+        public string URL { get; set; }
+
+        [Display(Name = "Número ")]
+        public int? Numero { get; set; }
+
+        [Display(Name = "Rua")]
+        public string Rua { get; set; }
+
+        [Display(Name = "Morada")]
+        public string Morada { get; set; }
+
+        [Display(Name = "País")]
+        public int? PaisId { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> PaisList { get; set; }
+
+        [Display(Name = "Cidade")]
+        public int? CidadeId { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> CidadeList { get; set; }
+
+        [Display(Name = "Município")]
+        public int? DistrictoId { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> DistrictoList { get; set; }
+
+        [Display(Name = "Isento")]
+        public bool Isento { get; set; }
+
+        [Display(Name = "Data Fim")]
+        public string DateEnd { get; set; }
+
+        [Display(Name = "Descricao")]
+        public string Descricao { get; set; }
+
+        [Display(Name = "Empresa")]
+        public string Empresa { get; set; }
+
+        public IEnumerable<System.Web.Mvc.SelectListItem> PES_PROFISSAO_LIST { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> PES_PROFISSOES_CONTRACTO_LIST { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> PES_PROFISSOES_REGIME_LIST { get; set; }
+    }
+    public class PES_Dados_Pessoais_Deficiencia
+    {
+        public int? ID { get; set; }
+        public int? PES_PESSOAS_ID { get; set; }
+
+        [Display(Name = "Deficiencia")]
+        public int? PES_DEFICIENCIA_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> PES_DEFICIENCIA_LIST { get; set; }
+
+        [Display(Name = "Grau de deficiencia")]
+        public int? PES_DEFICIENCIA_GRAU_ID { get; set; }
+
+        [Display(Name = "Descricao")]
+        public string Descricao { get; set; }
 
     }
 }

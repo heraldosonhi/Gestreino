@@ -66,7 +66,7 @@
                             <div class="row">
                                 @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
                                 <div class="col-md-10">
-                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm", required = "", maxlength = "64" })
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm", required = "", maxlength = "64" , type = "email" })
                                 </div>
                             </div>
                             <div class="row">

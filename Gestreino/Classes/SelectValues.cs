@@ -31,6 +31,11 @@ namespace Gestreino.Classes
             Interno,
             Externo
         }
+        public enum GrauDef
+        {
+            Total=1,
+            Parcial=2
+        }
         public enum PisoEntrada
         {
             Sim,

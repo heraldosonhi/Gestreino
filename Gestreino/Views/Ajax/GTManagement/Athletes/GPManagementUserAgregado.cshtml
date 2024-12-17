@@ -1,0 +1,357 @@
+﻿@using Gestreino.Models
+@model  PES_Dados_Pessoais_Agregado
+@{Layout = null; }
+<div class="card-header card-reader-radius bg-primary-pickled-bluewood">
+    <h3 class="text-white mb-0">@ViewBag.Action agregado familiar</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="handle-error alert alert-accent"
+                 role="alert" style="display:none;">
+                <div class="d-flex flex-wrap align-items-start">
+                    <div class="mr-8pt">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="flex"
+                         style="min-width: 180px">
+                        <small class="text-black-100">
+                            <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (ViewBag.Action == "Adicionar")
+    {
+        using (Ajax.BeginForm("../gtmanagement/AddFamilyAgregado", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ID)
+            <p>  <span><i class="fa fa-circle-question"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.PES_FAMILIARES_GRUPOS_ID, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-6">
+                    @Html.DropDownListFor(x => Model.PES_FAMILIARES_GRUPOS_ID, Model.PES_FAMILIARES_GRUPOS_LIST, "Selecionar o agregado", new { @class = "form-control ", required = "required" })
+                </div>
+            </div>
+            <div class="alert alert-warning">
+                <div class="d-flex flex-wrap align-items-center">
+                    <div class="form-group row">
+                        <div class="col-sm-2">
+                            <div class="custom-control custom-checkbox">
+                                @Html.CheckBoxFor(m => m.Isento, new { @class = "custom-control-input PesFamilyIsento", @checked = "" })
+                                @Html.LabelFor(m => m.Isento, new { @class = "custom-control-label" })
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="flex" style="min-width: 180px">
+                                <small class="text-100">
+                                    Use esta opção para isenção do Agregado, caso seja aplicável.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <fieldset class="AddFamilyAgregadoIsento">
+                <div class="form-group row">
+                    @Html.LabelFor(m => m.Nome, new { @class = "col-sm-2 col-form-label text-right required" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(x => Model.Nome, new { @class = "form-control", placeholder = "Nome completo", maxlength = "255", required = "" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(m => m.PES_PROFISSAO_ID, new { @class = "col-sm-2 col-form-label text-right" })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(x => Model.PES_PROFISSAO_ID, Model.PES_PROFISSAO_LIST, "Selecionar a profissão", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="row"><div class="col-sm-12">&nbsp;</div></div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5 class="bg-light p-2 rounded" style="text-transform:capitalize"><i class="fa fa-phone"></i> Contactos</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2 text-right">
+                        @Html.LabelFor(m => m.Telephone, new { @class = "col-form-label required" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control", @placeholder = "Telefone", maxlength = "9", type = "number", min = 0, required = "", oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
+                    </div>
+                    <div class="col-sm-2 text-right">
+                        @Html.LabelFor(m => m.TelephoneAlternativo, new { @class = "col-form-label" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.TelephoneAlternativo, new { @class = "form-control", @placeholder = "Telefone Alternativo", maxlength = "9", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2 text-right">
+                        @Html.LabelFor(m => m.Fax, new { @class = "col-form-label" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Fax, new { @class = "form-control", @placeholder = "Fax", maxlength = "9", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
+                    </div>
+                    <div class="col-sm-2 text-right">
+                        @Html.LabelFor(m => m.Email, new { @class = "col-form-label" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email", maxlength = "64", type = "email" })
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-2 text-right">
+                        @Html.LabelFor(m => m.URL, new { @class = "col-form-label" })
+                    </div>
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.URL, new { @class = "form-control", placeholder = "Página Web", maxlength = "255" })
+                    </div>
+                </div>
+                <div class="row"><div class="col-sm-12">&nbsp;</div></div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5 class="bg-light p-2 rounded" style="text-transform:capitalize"><i class="fa fa-address-book"></i> Endereço (Opcional)</h5>
+                    </div>
+                </div>
+
+                <!-- ADDRESS HELPER START -->
+                <div class="AddressHelperContainer">
+                    <div class="form-group row">
+                        @Html.LabelFor(m => m.PaisId, new { @class = "col-sm-2 col-form-label text-right required" })
+                        <div class="col-sm-10">
+                            @Html.DropDownListFor(x => Model.PaisId, Model.PaisList, "Selecionar uma opção", new { @class = "form-control SelectCountry", required = "" })
+                        </div>
+                    </div>
+                    <div class="AddressHelper" style="">
+                        <div class="form-group row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-2 btn-group">
+                                <button type="button" class="btn btn-sm btn-accent-pickled-bluewood" onclick="updateCityList('',this)"><i class="fa fa-refresh"></i></button>
+                                <button type="button" disabled="" class="newCity btn btn-sm btn-accent-pickled-bluewood" onclick="addressHelperPopUpNewCity(this)"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-2">
+                            @Html.LabelFor(m => m.CidadeId, new { @class = "col-sm-2 col-form-label text-right required" })
+                            <div class="col-sm-10 ">
+                                @Html.DropDownListFor(x => Model.CidadeId, Model.CidadeList, "Selecionar uma opção", new { @class = "form-control", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group row ">
+                            @Html.LabelFor(m => m.DistrictoId, new { @class = "col-sm-2 col-form-label text-right" })
+                            <div class="col-sm-10">
+                                @Html.DropDownListFor(x => Model.DistrictoId, Model.DistrictoList, "Selecionar uma opção", new { @class = "form-control" })
+                                <p class="form-text text-muted text-left">Informe a cidade ou província para selecionar o município</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ADDRESS HELPER END -->
+
+                <div class="form-group row mt-2">
+                    @Html.LabelFor(m => m.Morada, new { @class = "col-sm-2 col-form-label text-right" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Morada, new { @class = "form-control", placeholder = "Morada", maxlength = "255" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2 text-right">
+                        @Html.LabelFor(m => m.Rua, new { @class = "col-form-label" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Rua, new { @class = "form-control", placeholder = "Rua", maxlength = "64" })
+                    </div>
+                    <div class="col-sm-2 text-right">
+                        @Html.LabelFor(m => m.Numero, new { @class = "col-form-label" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Numero, new { @class = "form-control", placeholder = "Número", maxlength = "12", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
+                    </div>
+                </div>
+            </fieldset>
+            <div class="mt-1">
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+            </div>
+        }
+    }
+    @if (ViewBag.Action == "Editar")
+    {
+        using (Ajax.BeginForm("../gtmanagement/UpdateFamilyAgregado", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ID)
+            @Html.HiddenFor(m => m.PES_PESSOAS_ID)
+            <p>  <span><i class="fa fa-circle-question"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.PES_FAMILIARES_GRUPOS_ID, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-6">
+                    @Html.DropDownListFor(x => Model.PES_FAMILIARES_GRUPOS_ID, Model.PES_FAMILIARES_GRUPOS_LIST, "Selecionar o agregado", new { @class = "form-control ", required = "required" })
+                </div>
+            </div>
+            <div class="alert alert-warning">
+                <div class="d-flex flex-wrap align-items-center">
+                    <div class="form-group row">
+                        <div class="col-sm-2">
+                            <div class="custom-control custom-checkbox">
+                                @Html.CheckBoxFor(m => m.Isento, new { @class = "custom-control-input PesFamilyIsento", @checked = "" })
+                                @Html.LabelFor(m => m.Isento, new { @class = "custom-control-label" })
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="flex" style="min-width: 180px">
+                                <small class="text-100">
+                                    Use esta opção para isenção do Agregado, caso seja aplicável.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <fieldset class="AddFamilyAgregadoIsento" @(Model.Isento==true?"disabled=":"")>
+                <div class="form-group row">
+                    @Html.LabelFor(m => m.Nome, new { @class = "col-sm-2 col-form-label text-right required" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(x => Model.Nome, new { @class = "form-control", placeholder = "Nome completo", maxlength = "255", required = "" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(m => m.PES_PROFISSAO_ID, new { @class = "col-sm-2 col-form-label text-right" })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(x => Model.PES_PROFISSAO_ID, Model.PES_PROFISSAO_LIST, "Selecionar a profissão", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="row"><div class="col-sm-12">&nbsp;</div></div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5 class="bg-light p-2 rounded" style="text-transform:capitalize"><i class="fa fa-phone"></i> Contactos</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2 text-right">
+                        @Html.LabelFor(m => m.Telephone, new { @class = "col-form-label required" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control", @placeholder = "Telefone", maxlength = "9", type = "number", min = 0, required = "", oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
+                    </div>
+                    <div class="col-sm-2 text-right">
+                        @Html.LabelFor(m => m.TelephoneAlternativo, new { @class = "col-form-label" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.TelephoneAlternativo, new { @class = "form-control", @placeholder = "Telefone Alternativo", maxlength = "9", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2 text-right">
+                        @Html.LabelFor(m => m.Fax, new { @class = "col-form-label" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Fax, new { @class = "form-control", @placeholder = "Fax", maxlength = "9", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
+                    </div>
+                    <div class="col-sm-2 text-right">
+                        @Html.LabelFor(m => m.Email, new { @class = "col-form-label" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email", maxlength = "64", type = "email" })
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-2 text-right">
+                        @Html.LabelFor(m => m.URL, new { @class = "col-form-label" })
+                    </div>
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.URL, new { @class = "form-control", placeholder = "Página Web", maxlength = "255" })
+                    </div>
+                </div>
+                <div class="row"><div class="col-sm-12">&nbsp;</div></div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5 class="bg-light p-2 rounded" style="text-transform:capitalize"><i class="fa fa-address-book"></i> Endereço (Opcional)</h5>
+                    </div>
+                </div>
+
+                <!-- ADDRESS HELPER START -->
+                <div class="AddressHelperContainer">
+                    <div class="form-group row">
+                        @Html.LabelFor(m => m.PaisId, new { @class = "col-sm-2 col-form-label text-right required" })
+                        <div class="col-sm-10">
+                            @Html.DropDownListFor(x => Model.PaisId, Model.PaisList, "Selecionar uma opção", new { @class = "form-control SelectCountry", required = "" })
+                        </div>
+                    </div>
+                    <div class="AddressHelper" style="">
+                        <div class="form-group row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-2 btn-group">
+                                <button type="button" class="btn btn-sm btn-accent-pickled-bluewood" onclick="updateCityList('',this)"><i class="fa fa-refresh"></i></button>
+                                <button type="button" disabled="" class="newCity btn btn-sm btn-accent-pickled-bluewood" onclick="addressHelperPopUpNewCity(this)"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-2">
+                            @Html.LabelFor(m => m.CidadeId, new { @class = "col-sm-2 col-form-label text-right required" })
+                            <div class="col-sm-10">
+                                @Html.DropDownListFor(x => Model.CidadeId, Model.CidadeList, "Selecionar uma opção", new { @class = "form-control", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(m => m.DistrictoId, new { @class = "col-sm-2 col-form-label text-right" })
+                            <div class="col-sm-10">
+                                @Html.DropDownListFor(x => Model.DistrictoId, Model.DistrictoList, "Selecionar uma opção", new { @class = "form-control" })
+                                <p class="form-text text-muted text-left">Informe a cidade ou província para selecionar o município</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ADDRESS HELPER END -->
+
+                <div class="form-group row mt-2">
+                    @Html.LabelFor(m => m.Morada, new { @class = "col-sm-2 col-form-label text-right" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Morada, new { @class = "form-control", placeholder = "Morada", maxlength = "255" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2 text-right">
+                        @Html.LabelFor(m => m.Rua, new { @class = "col-form-label" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Rua, new { @class = "form-control", placeholder = "Rua", maxlength = "64" })
+                    </div>
+                    <div class="col-sm-2 text-right">
+                        @Html.LabelFor(m => m.Numero, new { @class = "col-form-label" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Numero, new { @class = "form-control", placeholder = "Número", maxlength = "12", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
+                    </div>
+                </div>
+                </fieldset>
+                <div class="mt-1">
+                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+                </div>
+                }
+                }
+                @if (ViewBag.Action == "Remover")
+                {
+                    using (Ajax.BeginForm("../gtmanagement/DeleteFamilyAgregado", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="row col-lg-12">
+                            @{ foreach (var id in ViewBag.bulkids)
+                                {
+                                    <input type="hidden" name="Ids[]" value="@id" />
+                                }
+                            }
+                            <p>Deseja remover este(s) item(s)?</p>
+
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+                        </div>
+                    }
+                }
+        </div>

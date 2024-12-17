@@ -1,1 +1,359 @@
-﻿
+﻿@model Gestreino.Models.Users
+@{
+    ViewBag.Title = "Parametrização de dados biográficos";
+}
+<!-- page content -->
+<div class="right_col" role="main">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("parameters","administration")">Parametrização</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Entidades pessoais (PES)</li>
+        </ol>
+    </nav>
+
+    <div class="alert alert-primary-light"
+         role="alert">
+        <div class="d-flex flex-wrap align-items-start">
+            <div class="mr-8pt">
+                <i class="fa fa-cogs"></i>&nbsp;
+            </div>
+            <div class="flex"
+                 style="min-width: 180px">
+                <span class="text-black-100">
+                    <strong>Parâmetros GRL!</strong> Tipo de Documentos (Arquivos) / Tipo de Tokens / Paises / Cidades / Distritos e Municípios
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- DOCS TIPO -->
+    <!--  DATATABLE START -->
+    <div class="card mb-32pt">
+        <div class="card-header">
+            <div class="form-inline">
+                <label class="" for="length_change">Mostrar</label>
+                <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GRLTipoDocTable">
+                    <option value='10'>10</option>
+                    <option value='25'>25</option>
+                    <option value='50'>50</option>
+                    <option value='100'>100</option>
+                    <option value='500'>500</option>
+                    <option value='1000'>1000</option>
+                    <option value='2000'>2000</option>
+                    <option value='5000'>5000</option>
+                    <option value='10000'>10000</option>
+                </select>
+                <label class="" for="length_change">registos</label>
+                <div class="btn-group">
+                    <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GRLTipoDocTable"><i class="fa fa-check-square"></i></button>
+                    <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="grldoctype" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                    <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GRLTipoDocTable"><i class="fa fa-search"></i></button>
+                    <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GRLTipoDocTable"><i class="fa fa-eraser"></i></button>
+                    <a title="Adicionar tipo de documento" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="grldoctype" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
+                    <!--Separator-->
+                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="GRLTipoDocTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><input type="text" id="GRLTipoDocTableSigla" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLTipoDocTableNome" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLTipoDocTableInsercao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLTipoDocTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
+                        <td><input type="text" id="GRLTipoDocTableActualizacao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLTipoDocTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th data-name="GRLTipoDocTableSigla">Sigla</th>
+                        <th data-name="GRLTipoDocTableNome">Nome</th>
+                        <th data-name="GRLTipoDocTableInsercao">Inserção</th>
+                        <th data-name="GRLTipoDocTableDataInsercao">Data Inserção</th>
+                        <th data-name="GRLTipoDocTableActualizacao">Actualização</th>
+                        <th data-name="GRLTipoDocTableDataActualizacao">Data Actualização</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="card-footer p-8pt">
+            <span class="paginateInfoGRLTipoDocTable paginateInfo mr-12pt" style="float:right"></span>
+            <div id="paginateGRLTipoDocTable" class="pagination justify-content-start pagination-xsm m-0"></div>
+        </div>
+    </div>
+    <!--  DATATABLE START -->
+    <br />
+    <!-- TOKENS TIPO -->
+    <!--  DATATABLE START -->
+    <div class="card mb-32pt">
+        <div class="card-header">
+            <div class="form-inline">
+                <label class="" for="length_change">Mostrar</label>
+                <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GRLTipoTokenTable">
+                    <option value='10'>10</option>
+                    <option value='25'>25</option>
+                    <option value='50'>50</option>
+                    <option value='100'>100</option>
+                    <option value='500'>500</option>
+                    <option value='1000'>1000</option>
+                    <option value='2000'>2000</option>
+                    <option value='5000'>5000</option>
+                    <option value='10000'>10000</option>
+                </select>
+                <label class="" for="length_change">registos</label>
+                <div class="btn-group">
+                    <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GRLTipoTokenTable"><i class="fa fa-check-square"></i></button>
+                    <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="grltokentype" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                    <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GRLTipoTokenTable"><i class="fa fa-search"></i></button>
+                    <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GRLTipoTokenTable"><i class="fa fa-eraser"></i></button>
+                    <a title="Adicionar tipo de token" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="grltokentype" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
+                    <!--Separator-->
+                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="GRLTipoTokenTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><input type="text" id="GRLTipoTokenTableNome" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLTipoTokenTableInsercao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLTipoTokenTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
+                        <td><input type="text" id="GRLTipoTokenTableActualizacao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLTipoTokenTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th data-name="GRLTipoTokenTableNome">Nome</th>
+                        <th data-name="GRLTipoTokenTableInsercao">Inserção</th>
+                        <th data-name="GRLTipoTokenTableDataInsercao">Data Inserção</th>
+                        <th data-name="GRLTipoTokenTableActualizacao">Actualização</th>
+                        <th data-name="GRLTipoTokenTableDataActualizacao">Data Actualização</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="card-footer p-8pt">
+            <span class="paginateInfoGRLTipoTokenTable paginateInfo mr-12pt" style="float:right"></span>
+            <div id="paginateGRLTipoTokenTable" class="pagination justify-content-start pagination-xsm m-0"></div>
+        </div>
+    </div>
+    <!--  DATATABLE START -->
+    <br />
+    <!-- ENDERECO PAIS -->
+    <!--  DATATABLE START -->
+    <div class="card mb-32pt">
+        <div class="card-header">
+            <div class="form-inline">
+                <label class="" for="length_change">Mostrar</label>
+                <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GRLEndPaisTable">
+                    <option value='10'>10</option>
+                    <option value='25'>25</option>
+                    <option value='50'>50</option>
+                    <option value='100'>100</option>
+                    <option value='500'>500</option>
+                    <option value='1000'>1000</option>
+                    <option value='2000'>2000</option>
+                    <option value='5000'>5000</option>
+                    <option value='10000'>10000</option>
+                </select>
+                <label class="" for="length_change">registos</label>
+                <div class="btn-group">
+                    <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GRLEndPaisTable"><i class="fa fa-check-square"></i></button>
+                    <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="grlendpais" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                    <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GRLEndPaisTable"><i class="fa fa-search"></i></button>
+                    <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GRLEndPaisTable"><i class="fa fa-eraser"></i></button>
+                    <a title="Adicionar país" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="grlendpais" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
+                    <!--Separator-->
+                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="GRLEndPaisTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><input type="text" id="GRLEndPaisTableSigla" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLEndPaisTableNome" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLEndPaisTableCodigo" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLEndPaisTableInsercao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLEndPaisTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
+                        <td><input type="text" id="GRLEndPaisTableActualizacao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLEndPaisTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th data-name="GRLEndPaisTableSigla">Sigla</th>
+                        <th data-name="GRLEndPaisTableNome">Nome</th>
+                        <th data-name="GRLEndPaisTableCodigo">Código</th>
+                        <th data-name="GRLEndPaisTableInsercao">Inserção</th>
+                        <th data-name="GRLEndPaisTableDataInsercao">Data Inserção</th>
+                        <th data-name="GRLEndPaisTableActualizacao">Actualização</th>
+                        <th data-name="GRLEndPaisTableDataActualizacao">Data Actualização</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="card-footer p-8pt">
+            <span class="paginateInfoGRLEndPaisTable paginateInfo mr-12pt" style="float:right"></span>
+            <div id="paginateGRLEndPaisTable" class="pagination justify-content-start pagination-xsm m-0"></div>
+        </div>
+    </div>
+    <!--  DATATABLE START -->
+    <br />
+    <!-- ENDERECO CIDADE -->
+    <!--  DATATABLE START -->
+    <div class="card mb-32pt">
+        <div class="card-header">
+            <div class="form-inline">
+                <label class="" for="length_change">Mostrar</label>
+                <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GRLEndCidadeTable">
+                    <option value='10'>10</option>
+                    <option value='25'>25</option>
+                    <option value='50'>50</option>
+                    <option value='100'>100</option>
+                    <option value='500'>500</option>
+                    <option value='1000'>1000</option>
+                    <option value='2000'>2000</option>
+                    <option value='5000'>5000</option>
+                    <option value='10000'>10000</option>
+                </select>
+                <label class="" for="length_change">registos</label>
+                <div class="btn-group">
+                    <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GRLEndCidadeTable"><i class="fa fa-check-square"></i></button>
+                    <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="grlendcidade" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                    <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GRLEndCidadeTable"><i class="fa fa-search"></i></button>
+                    <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GRLEndCidadeTable"><i class="fa fa-eraser"></i></button>
+                    <a title="Adicionar cidade" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="grlendcidade" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
+                    <!--Separator-->
+                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="GRLEndCidadeTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><input type="text" id="GRLEndCidadeTableSigla" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLEndCidadeTableNome" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLEndCidadeTablePais" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLEndCidadeTableInsercao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLEndCidadeTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
+                        <td><input type="text" id="GRLEndCidadeTableActualizacao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLEndCidadeTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th data-name="GRLEndCidadeTableSigla">Sigla</th>
+                        <th data-name="GRLEndCidadeTableNome">Nome</th>
+                        <th data-name="GRLEndCidadeTablePais">País</th>
+                        <th data-name="GRLEndCidadeTableInsercao">Inserção</th>
+                        <th data-name="GRLEndCidadeTableDataInsercao">Data Inserção</th>
+                        <th data-name="GRLEndCidadeTableActualizacao">Actualização</th>
+                        <th data-name="GRLEndCidadeTableDataActualizacao">Data Actualização</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="card-footer p-8pt">
+            <span class="paginateInfoGRLEndCidadeTable paginateInfo mr-12pt" style="float:right"></span>
+            <div id="paginateGRLEndCidadeTable" class="pagination justify-content-start pagination-xsm m-0"></div>
+        </div>
+    </div>
+    <!--  DATATABLE START -->
+    <br />
+    <!-- ENDERECO DISTRITO -->
+    <!--  DATATABLE START -->
+    <div class="card mb-32pt">
+        <div class="card-header">
+            <div class="form-inline">
+                <label class="" for="length_change">Mostrar</label>
+                <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GRLEndDistrTable">
+                    <option value='10'>10</option>
+                    <option value='25'>25</option>
+                    <option value='50'>50</option>
+                    <option value='100'>100</option>
+                    <option value='500'>500</option>
+                    <option value='1000'>1000</option>
+                    <option value='2000'>2000</option>
+                    <option value='5000'>5000</option>
+                    <option value='10000'>10000</option>
+                </select>
+                <label class="" for="length_change">registos</label>
+                <div class="btn-group">
+                    <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GRLEndDistrTable"><i class="fa fa-check-square"></i></button>
+                    <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="grlenddistr" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                    <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GRLEndDistrTable"><i class="fa fa-search"></i></button>
+                    <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GRLEndDistrTable"><i class="fa fa-eraser"></i></button>
+                    <a title="Adicionar distrito ou município" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="grlenddistr" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
+                    <!--Separator-->
+                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="GRLEndDistrTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><input type="text" id="GRLEndDistrTableSigla" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLEndDistrTableNome" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLEndDistrTableCidade" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLEndDistrTableInsercao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLEndDistrTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
+                        <td><input type="text" id="GRLEndDistrTableActualizacao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLEndDistrTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th data-name="GRLEndDistrTableSigla">Sigla</th>
+                        <th data-name="GRLEndDistrTableNome">Nome</th>
+                        <th data-name="GRLEndDistrTableCidade">Cidade</th>
+                        <th data-name="GRLEndDistrTableInsercao">Inserção</th>
+                        <th data-name="GRLEndDistrTableDataInsercao">Data Inserção</th>
+                        <th data-name="GRLEndDistrTableActualizacao">Actualização</th>
+                        <th data-name="GRLEndDistrTableDataActualizacao">Data Actualização</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="card-footer p-8pt">
+            <span class="paginateInfoGRLEndDistrTable paginateInfo mr-12pt" style="float:right"></span>
+            <div id="paginateGRLEndDistrTable" class="pagination justify-content-start pagination-xsm m-0"></div>
+        </div>
+    </div>
+    <!--  DATATABLE START -->
+    <h2>&nbsp;</h2>
+    <h2>&nbsp;</h2>
+</div>
+<!-- /page content -->
+<script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            handleDataGRLTipoDocTable();
+            handleDataGRLTipoTokenTable();
+            handleDataGRLEndPaisTable();
+            handleDataGRLEndCidadeTable();
+            handleDataGRLEndDistrTable();
+        });
+</script>

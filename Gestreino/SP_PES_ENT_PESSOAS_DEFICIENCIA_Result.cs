@@ -10,23 +10,19 @@
 namespace Gestreino
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class PES_PESSOAS_CARACT_DEFICIENCIA
+    public partial class SP_PES_ENT_PESSOAS_DEFICIENCIA_Result
     {
         public int ID { get; set; }
-        public int PES_PESSOAS_ID { get; set; }
         public int PES_PESSOAS_CARACT_TIPO_DEF_ID { get; set; }
         public int PES_PESSOAS_CARACT_GRAU_DEF_ID { get; set; }
         public string DESCRICAO { get; set; }
-        public int INSERIDO_POR { get; set; }
-        public Nullable<int> ACTUALIZADO_POR { get; set; }
-        public Nullable<int> REMOVIDO_POR { get; set; }
-        public System.DateTime DATA_INSERCAO { get; set; }
-        public Nullable<System.DateTime> DATA_ACTUALIZACAO { get; set; }
-        public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
-    
-        public virtual PES_PESSOAS_CARACT_TIPO_DEF PES_PESSOAS_CARACT_TIPO_DEF { get; set; }
-        public virtual PES_PESSOAS PES_PESSOAS { get; set; }
+        public string SIGLA { get; set; }
+        public string NOME { get; set; }
+        public string GRAU { get; set; }
+        public string INSERCAO { get; set; }
+        public string ACTUALIZACAO { get; set; }
+        public string DATA_INSERCAO { get; set; }
+        public string DATA_ACTUALIZACAO { get; set; }
     }
 }

@@ -47,7 +47,6 @@ namespace Gestreino
         public virtual DbSet<PES_NACIONALIDADE> PES_NACIONALIDADE { get; set; }
         public virtual DbSet<PES_NATURALIDADE> PES_NATURALIDADE { get; set; }
         public virtual DbSet<PES_PESSOAS_CARACT_DEFICIENCIA> PES_PESSOAS_CARACT_DEFICIENCIA { get; set; }
-        public virtual DbSet<PES_PESSOAS_CARACT_GRAU_DEF> PES_PESSOAS_CARACT_GRAU_DEF { get; set; }
         public virtual DbSet<PES_PESSOAS_CARACT_TIPO_DEF> PES_PESSOAS_CARACT_TIPO_DEF { get; set; }
         public virtual DbSet<PES_PESSOAS_CARACT_TIPO_SANG> PES_PESSOAS_CARACT_TIPO_SANG { get; set; }
         public virtual DbSet<PES_PESSOAS_FAM> PES_PESSOAS_FAM { get; set; }
@@ -917,6 +916,169 @@ namespace Gestreino
                 new ObjectParameter("Action", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_PESSOAS_ENDERECO_Result>("SP_PES_ENT_PESSOAS_ENDERECO", idParameter, pesIdParameter, tipoEnderecoParameter, principalParameter, numeroParameter, ruaParameter, moradaParameter, paisIdParameter, cidadeIdParameter, municipioIdParameter, dataInicioParameter, dataFimParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_PES_ENT_PESSOAS_DEFICIENCIA_Result> SP_PES_ENT_PESSOAS_DEFICIENCIA(Nullable<int> id, Nullable<int> pesId, Nullable<int> deficienciaId, Nullable<int> grauId, string descricao, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var pesIdParameter = pesId.HasValue ?
+                new ObjectParameter("PesId", pesId) :
+                new ObjectParameter("PesId", typeof(int));
+    
+            var deficienciaIdParameter = deficienciaId.HasValue ?
+                new ObjectParameter("DeficienciaId", deficienciaId) :
+                new ObjectParameter("DeficienciaId", typeof(int));
+    
+            var grauIdParameter = grauId.HasValue ?
+                new ObjectParameter("GrauId", grauId) :
+                new ObjectParameter("GrauId", typeof(int));
+    
+            var descricaoParameter = descricao != null ?
+                new ObjectParameter("Descricao", descricao) :
+                new ObjectParameter("Descricao", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_PESSOAS_DEFICIENCIA_Result>("SP_PES_ENT_PESSOAS_DEFICIENCIA", idParameter, pesIdParameter, deficienciaIdParameter, grauIdParameter, descricaoParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_PES_ENT_PESSOAS_PROFISSOES_Result> SP_PES_ENT_PESSOAS_PROFISSOES(Nullable<int> id, Nullable<int> pesId, Nullable<int> regimeId, Nullable<int> contractoId, Nullable<int> profissaoId, string empresa, Nullable<System.DateTime> dateIni, Nullable<System.DateTime> dateEnd, string descricao, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var pesIdParameter = pesId.HasValue ?
+                new ObjectParameter("PesId", pesId) :
+                new ObjectParameter("PesId", typeof(int));
+    
+            var regimeIdParameter = regimeId.HasValue ?
+                new ObjectParameter("RegimeId", regimeId) :
+                new ObjectParameter("RegimeId", typeof(int));
+    
+            var contractoIdParameter = contractoId.HasValue ?
+                new ObjectParameter("ContractoId", contractoId) :
+                new ObjectParameter("ContractoId", typeof(int));
+    
+            var profissaoIdParameter = profissaoId.HasValue ?
+                new ObjectParameter("ProfissaoId", profissaoId) :
+                new ObjectParameter("ProfissaoId", typeof(int));
+    
+            var empresaParameter = empresa != null ?
+                new ObjectParameter("Empresa", empresa) :
+                new ObjectParameter("Empresa", typeof(string));
+    
+            var dateIniParameter = dateIni.HasValue ?
+                new ObjectParameter("DateIni", dateIni) :
+                new ObjectParameter("DateIni", typeof(System.DateTime));
+    
+            var dateEndParameter = dateEnd.HasValue ?
+                new ObjectParameter("DateEnd", dateEnd) :
+                new ObjectParameter("DateEnd", typeof(System.DateTime));
+    
+            var descricaoParameter = descricao != null ?
+                new ObjectParameter("Descricao", descricao) :
+                new ObjectParameter("Descricao", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_PESSOAS_PROFISSOES_Result>("SP_PES_ENT_PESSOAS_PROFISSOES", idParameter, pesIdParameter, regimeIdParameter, contractoIdParameter, profissaoIdParameter, empresaParameter, dateIniParameter, dateEndParameter, descricaoParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_PES_ENT_PESSOAS_FAM_Result> SP_PES_ENT_PESSOAS_FAM(Nullable<int> id, Nullable<int> pesId, Nullable<int> grupoId, Nullable<int> profissaoId, string nome, Nullable<decimal> telefone, Nullable<decimal> telefoneAlternativo, Nullable<decimal> fax, string email, string uRl, Nullable<int> numero, string rua, string morada, Nullable<int> paisId, Nullable<int> cidadeId, Nullable<int> municipioId, Nullable<bool> isento, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var pesIdParameter = pesId.HasValue ?
+                new ObjectParameter("PesId", pesId) :
+                new ObjectParameter("PesId", typeof(int));
+    
+            var grupoIdParameter = grupoId.HasValue ?
+                new ObjectParameter("GrupoId", grupoId) :
+                new ObjectParameter("GrupoId", typeof(int));
+    
+            var profissaoIdParameter = profissaoId.HasValue ?
+                new ObjectParameter("ProfissaoId", profissaoId) :
+                new ObjectParameter("ProfissaoId", typeof(int));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var telefoneParameter = telefone.HasValue ?
+                new ObjectParameter("Telefone", telefone) :
+                new ObjectParameter("Telefone", typeof(decimal));
+    
+            var telefoneAlternativoParameter = telefoneAlternativo.HasValue ?
+                new ObjectParameter("TelefoneAlternativo", telefoneAlternativo) :
+                new ObjectParameter("TelefoneAlternativo", typeof(decimal));
+    
+            var faxParameter = fax.HasValue ?
+                new ObjectParameter("Fax", fax) :
+                new ObjectParameter("Fax", typeof(decimal));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var uRlParameter = uRl != null ?
+                new ObjectParameter("URl", uRl) :
+                new ObjectParameter("URl", typeof(string));
+    
+            var numeroParameter = numero.HasValue ?
+                new ObjectParameter("Numero", numero) :
+                new ObjectParameter("Numero", typeof(int));
+    
+            var ruaParameter = rua != null ?
+                new ObjectParameter("Rua", rua) :
+                new ObjectParameter("Rua", typeof(string));
+    
+            var moradaParameter = morada != null ?
+                new ObjectParameter("Morada", morada) :
+                new ObjectParameter("Morada", typeof(string));
+    
+            var paisIdParameter = paisId.HasValue ?
+                new ObjectParameter("PaisId", paisId) :
+                new ObjectParameter("PaisId", typeof(int));
+    
+            var cidadeIdParameter = cidadeId.HasValue ?
+                new ObjectParameter("CidadeId", cidadeId) :
+                new ObjectParameter("CidadeId", typeof(int));
+    
+            var municipioIdParameter = municipioId.HasValue ?
+                new ObjectParameter("MunicipioId", municipioId) :
+                new ObjectParameter("MunicipioId", typeof(int));
+    
+            var isentoParameter = isento.HasValue ?
+                new ObjectParameter("Isento", isento) :
+                new ObjectParameter("Isento", typeof(bool));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_PESSOAS_FAM_Result>("SP_PES_ENT_PESSOAS_FAM", idParameter, pesIdParameter, grupoIdParameter, profissaoIdParameter, nomeParameter, telefoneParameter, telefoneAlternativoParameter, faxParameter, emailParameter, uRlParameter, numeroParameter, ruaParameter, moradaParameter, paisIdParameter, cidadeIdParameter, municipioIdParameter, isentoParameter, userInsercaoIdParameter, actionParameter);
         }
     }
 }

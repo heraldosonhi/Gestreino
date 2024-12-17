@@ -1,0 +1,109 @@
+﻿@using Gestreino.Models
+@using Gestreino.Classes
+@model  PES_Dados_Pessoais_Deficiencia
+@{Layout = null; }
+<div class="card-header card-reader-radius bg-primary-pickled-bluewood">
+    <h3 class="text-white mb-0">@ViewBag.Action registo de deficiência</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="handle-error alert alert-accent"
+                 role="alert" style="display:none;">
+                <div class="d-flex flex-wrap align-items-start">
+                    <div class="mr-8pt">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="flex"
+                         style="min-width: 180px">
+                        <small class="text-black-100">
+                            <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (ViewBag.Action == "Adicionar")
+    {
+        using (Ajax.BeginForm("../gtmanagement/AddDisability", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ID)
+            <p>  <span><i class="fa fa-circle-question"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.PES_DEFICIENCIA_ID, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(x => Model.PES_DEFICIENCIA_ID, Model.PES_DEFICIENCIA_LIST, "Selecionar o tipo de deficiência", new { @class = "form-control ", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.PES_DEFICIENCIA_GRAU_ID, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(m => Model.PES_DEFICIENCIA_GRAU_ID, Enum.GetValues(typeof(SelectValues.GrauDef)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.GrauDef), e), Value = e.ToString() }), "Selecionar uma opção", new { @class = "form-control form-control-sm custom-select" ,required=""})
+               </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.Descricao, new { @class = "col-sm-2 col-form-label text-right" })
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(x => Model.Descricao, new { @class = "form-control ", maxlength = "4000", })
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+            </div>
+        }
+    }
+    @if (ViewBag.Action == "Editar")
+    {
+        using (Ajax.BeginForm("../gtmanagement/UpdateDisability", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ID)
+            <p>  <span><i class="fa fa-circle-question"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.PES_DEFICIENCIA_ID, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(x => Model.PES_DEFICIENCIA_ID, Model.PES_DEFICIENCIA_LIST, "Selecionar o tipo de deficiência", new { @class = "form-control ", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.PES_DEFICIENCIA_GRAU_ID, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(m => Model.PES_DEFICIENCIA_GRAU_ID, Enum.GetValues(typeof(SelectValues.GrauDef)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.GrauDef), e), Value = e.ToString() }), "Selecionar uma opção", new { @class = "form-control form-control-sm custom-select",required="" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.Descricao, new { @class = "col-sm-2 col-form-label text-right" })
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(x => Model.Descricao, new { @class = "form-control ", maxlength = "4000", })
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+            </div>
+        }
+    }
+    @if (ViewBag.Action == "Remover")
+    {
+        using (Ajax.BeginForm("../gtmanagement/DeleteDisability", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="row col-lg-12">
+                @{ foreach (var id in ViewBag.bulkids)
+                    {
+                        <input type="hidden" name="Ids[]" value="@id" />
+                    }
+                }
+                <p>Deseja remover este(s) item(s)?</p>
+
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+            </div>
+        }
+    }
+</div>

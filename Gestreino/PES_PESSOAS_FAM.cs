@@ -40,5 +40,6 @@ namespace Gestreino
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PES_PESSOAS_FAM_ENDERECOS> PES_PESSOAS_FAM_ENDERECOS { get; set; }
         public virtual PES_PESSOAS PES_PESSOAS { get; set; }
+        public virtual PES_PROFISSOES PES_PROFISSOES { get; set; }
     }
 }

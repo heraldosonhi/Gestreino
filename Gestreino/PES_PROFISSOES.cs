@@ -18,6 +18,7 @@ namespace Gestreino
         public PES_PROFISSOES()
         {
             this.PES_PESSOAS_PROFISSOES = new HashSet<PES_PESSOAS_PROFISSOES>();
+            this.PES_PESSOAS_FAM = new HashSet<PES_PESSOAS_FAM>();
         }
     
         public int ID { get; set; }
@@ -31,5 +32,7 @@ namespace Gestreino
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PES_PESSOAS_PROFISSOES> PES_PESSOAS_PROFISSOES { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PES_PESSOAS_FAM> PES_PESSOAS_FAM { get; set; }
     }
 }

@@ -477,20 +477,6 @@
           <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
           <Property Name="DATA_REMOCAO" Type="datetime" />
         </EntityType>
-        <EntityType Name="PES_PESSOAS_CARACT_GRAU_DEF">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="SIGLA" Type="varchar" MaxLength="3" Nullable="false" />
-          <Property Name="NOME" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
-          <Property Name="ACTUALIZADO_POR" Type="int" />
-          <Property Name="REMOVIDO_POR" Type="int" />
-          <Property Name="DATA_INSERCAO" Type="datetime" Nullable="false" />
-          <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
-          <Property Name="DATA_REMOCAO" Type="datetime" />
-        </EntityType>
         <EntityType Name="PES_PESSOAS_CARACT_TIPO_DEF">
           <Key>
             <PropertyRef Name="ID" />
@@ -1211,18 +1197,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKPES_PESSOA359193">
-          <End Role="PES_PESSOAS_CARACT_GRAU_DEF" Type="Self.PES_PESSOAS_CARACT_GRAU_DEF" Multiplicity="1" />
-          <End Role="PES_PESSOAS_CARACT_DEFICIENCIA" Type="Self.PES_PESSOAS_CARACT_DEFICIENCIA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PES_PESSOAS_CARACT_GRAU_DEF">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_PESSOAS_CARACT_DEFICIENCIA">
-              <PropertyRef Name="PES_PESSOAS_CARACT_GRAU_DEF_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FKPES_PESSOA365702">
           <End Role="PES_PESSOAS_FAM" Type="Self.PES_PESSOAS_FAM" Multiplicity="1" />
           <End Role="PES_PESSOAS_FAM_CONTACTOS" Type="Self.PES_PESSOAS_FAM_CONTACTOS" Multiplicity="*" />
@@ -1523,6 +1497,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="PES_PESSOAS_FAM_PES_PROFISSOES_ID">
+          <End Role="PES_PROFISSOES" Type="Self.PES_PROFISSOES" Multiplicity="0..1" />
+          <End Role="PES_PESSOAS_FAM" Type="Self.PES_PESSOAS_FAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PES_PROFISSOES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_PESSOAS_FAM">
+              <PropertyRef Name="PES_PROFISSOES_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID">
           <End Role="UTILIZADORES" Type="Self.UTILIZADORES" Multiplicity="1" />
           <End Role="UTILIZADORES_LOGIN_PASSWORD_TENT" Type="Self.UTILIZADORES_LOGIN_PASSWORD_TENT" Multiplicity="*" />
@@ -1661,6 +1647,15 @@
           <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
           <Parameter Name="Action" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_PES_ENT_PESSOAS_DEFICIENCIA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="PesId" Type="int" Mode="In" />
+          <Parameter Name="DeficienciaId" Type="int" Mode="In" />
+          <Parameter Name="GrauId" Type="int" Mode="In" />
+          <Parameter Name="Descricao" Type="varchar" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_PES_ENT_PESSOAS_ENDERECO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="PesId" Type="int" Mode="In" />
@@ -1674,6 +1669,40 @@
           <Parameter Name="MunicipioId" Type="int" Mode="In" />
           <Parameter Name="DataInicio" Type="date" Mode="In" />
           <Parameter Name="DataFim" Type="date" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_PES_ENT_PESSOAS_FAM" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="PesId" Type="int" Mode="In" />
+          <Parameter Name="GrupoId" Type="int" Mode="In" />
+          <Parameter Name="ProfissaoId" Type="int" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="Telefone" Type="numeric" Mode="In" />
+          <Parameter Name="TelefoneAlternativo" Type="numeric" Mode="In" />
+          <Parameter Name="Fax" Type="numeric" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="URl" Type="varchar" Mode="In" />
+          <Parameter Name="Numero" Type="int" Mode="In" />
+          <Parameter Name="Rua" Type="varchar" Mode="In" />
+          <Parameter Name="Morada" Type="varchar" Mode="In" />
+          <Parameter Name="PaisId" Type="int" Mode="In" />
+          <Parameter Name="CidadeId" Type="int" Mode="In" />
+          <Parameter Name="MunicipioId" Type="int" Mode="In" />
+          <Parameter Name="Isento" Type="bit" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_PES_ENT_PESSOAS_PROFISSOES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="PesId" Type="int" Mode="In" />
+          <Parameter Name="RegimeId" Type="int" Mode="In" />
+          <Parameter Name="ContractoId" Type="int" Mode="In" />
+          <Parameter Name="ProfissaoId" Type="int" Mode="In" />
+          <Parameter Name="Empresa" Type="varchar" Mode="In" />
+          <Parameter Name="DateIni" Type="date" Mode="In" />
+          <Parameter Name="DateEnd" Type="date" Mode="In" />
+          <Parameter Name="Descricao" Type="varchar" Mode="In" />
           <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
           <Parameter Name="Action" Type="varchar" Mode="In" />
         </Function>
@@ -1787,7 +1816,6 @@
           <EntitySet Name="PES_PESSOAS" EntityType="Self.PES_PESSOAS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PES_PESSOAS_CARACT" EntityType="Self.PES_PESSOAS_CARACT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PES_PESSOAS_CARACT_DEFICIENCIA" EntityType="Self.PES_PESSOAS_CARACT_DEFICIENCIA" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PES_PESSOAS_CARACT_GRAU_DEF" EntityType="Self.PES_PESSOAS_CARACT_GRAU_DEF" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PES_PESSOAS_CARACT_TIPO_DEF" EntityType="Self.PES_PESSOAS_CARACT_TIPO_DEF" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PES_PESSOAS_CARACT_TIPO_SANG" EntityType="Self.PES_PESSOAS_CARACT_TIPO_SANG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PES_PESSOAS_FAM" EntityType="Self.PES_PESSOAS_FAM" Schema="dbo" store:Type="Tables" />
@@ -1945,10 +1973,6 @@
             <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
             <End Role="PES_PESSOAS_PROFISSOES" EntitySet="PES_PESSOAS_PROFISSOES" />
           </AssociationSet>
-          <AssociationSet Name="FKPES_PESSOA359193" Association="Self.FKPES_PESSOA359193">
-            <End Role="PES_PESSOAS_CARACT_GRAU_DEF" EntitySet="PES_PESSOAS_CARACT_GRAU_DEF" />
-            <End Role="PES_PESSOAS_CARACT_DEFICIENCIA" EntitySet="PES_PESSOAS_CARACT_DEFICIENCIA" />
-          </AssociationSet>
           <AssociationSet Name="FKPES_PESSOA365702" Association="Self.FKPES_PESSOA365702">
             <End Role="PES_PESSOAS_FAM" EntitySet="PES_PESSOAS_FAM" />
             <End Role="PES_PESSOAS_FAM_CONTACTOS" EntitySet="PES_PESSOAS_FAM_CONTACTOS" />
@@ -2048,6 +2072,10 @@
           <AssociationSet Name="PES_PESSOAS_CARACT_GT_DuracaoPlano_ID" Association="Self.PES_PESSOAS_CARACT_GT_DuracaoPlano_ID">
             <End Role="GT_DuracaoPlano" EntitySet="GT_DuracaoPlano" />
             <End Role="PES_PESSOAS_CARACT" EntitySet="PES_PESSOAS_CARACT" />
+          </AssociationSet>
+          <AssociationSet Name="PES_PESSOAS_FAM_PES_PROFISSOES_ID" Association="Self.PES_PESSOAS_FAM_PES_PROFISSOES_ID">
+            <End Role="PES_PROFISSOES" EntitySet="PES_PROFISSOES" />
+            <End Role="PES_PESSOAS_FAM" EntitySet="PES_PESSOAS_FAM" />
           </AssociationSet>
           <AssociationSet Name="UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID" Association="Self.UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID">
             <End Role="UTILIZADORES" EntitySet="UTILIZADORES" />
@@ -2439,23 +2467,7 @@
           <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
           <NavigationProperty Name="PES_PESSOAS_CARACT_TIPO_DEF" Relationship="Self.FKPES_PESSOA215063" FromRole="PES_PESSOAS_CARACT_DEFICIENCIA" ToRole="PES_PESSOAS_CARACT_TIPO_DEF" />
-          <NavigationProperty Name="PES_PESSOAS_CARACT_GRAU_DEF" Relationship="Self.FKPES_PESSOA359193" FromRole="PES_PESSOAS_CARACT_DEFICIENCIA" ToRole="PES_PESSOAS_CARACT_GRAU_DEF" />
           <NavigationProperty Name="PES_PESSOAS" Relationship="GESTREINO_ORM.FKPES_PESSOA801637" FromRole="PES_PESSOAS_CARACT_DEFICIENCIA" ToRole="PES_PESSOAS" />
-        </EntityType>
-        <EntityType Name="PES_PESSOAS_CARACT_GRAU_DEF">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SIGLA" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NOME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
-          <Property Name="ACTUALIZADO_POR" Type="Int32" />
-          <Property Name="REMOVIDO_POR" Type="Int32" />
-          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
-          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="PES_PESSOAS_CARACT_DEFICIENCIA" Relationship="Self.FKPES_PESSOA359193" FromRole="PES_PESSOAS_CARACT_GRAU_DEF" ToRole="PES_PESSOAS_CARACT_DEFICIENCIA" />
         </EntityType>
         <EntityType Name="PES_PESSOAS_CARACT_TIPO_DEF">
           <Key>
@@ -2506,6 +2518,7 @@
           <NavigationProperty Name="PES_PESSOAS_FAM_CONTACTOS" Relationship="Self.FKPES_PESSOA365702" FromRole="PES_PESSOAS_FAM" ToRole="PES_PESSOAS_FAM_CONTACTOS" />
           <NavigationProperty Name="PES_PESSOAS_FAM_ENDERECOS" Relationship="Self.FKPES_PESSOA815594" FromRole="PES_PESSOAS_FAM" ToRole="PES_PESSOAS_FAM_ENDERECOS" />
           <NavigationProperty Name="PES_PESSOAS" Relationship="GESTREINO_ORM.FKPES_PESSOA54742" FromRole="PES_PESSOAS_FAM" ToRole="PES_PESSOAS" />
+          <NavigationProperty Name="PES_PROFISSOES" Relationship="GESTREINO_ORM.PES_PESSOAS_FAM_PES_PROFISSOES_ID" FromRole="PES_PESSOAS_FAM" ToRole="PES_PROFISSOES" />
         </EntityType>
         <EntityType Name="PES_PESSOAS_FAM_CONTACTOS">
           <Key>
@@ -2580,6 +2593,7 @@
           <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
           <NavigationProperty Name="PES_PESSOAS_PROFISSOES" Relationship="Self.FKPES_PESSOA747112" FromRole="PES_PROFISSOES" ToRole="PES_PESSOAS_PROFISSOES" />
+          <NavigationProperty Name="PES_PESSOAS_FAM" Relationship="GESTREINO_ORM.PES_PESSOAS_FAM_PES_PROFISSOES_ID" FromRole="PES_PROFISSOES" ToRole="PES_PESSOAS_FAM" />
         </EntityType>
         <EntityType Name="PES_PROFISSOES_REGIME_TRABALHO">
           <Key>
@@ -3078,18 +3092,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKPES_PESSOA359193">
-          <End Role="PES_PESSOAS_CARACT_GRAU_DEF" Type="Self.PES_PESSOAS_CARACT_GRAU_DEF" Multiplicity="1" />
-          <End Role="PES_PESSOAS_CARACT_DEFICIENCIA" Type="Self.PES_PESSOAS_CARACT_DEFICIENCIA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PES_PESSOAS_CARACT_GRAU_DEF">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_PESSOAS_CARACT_DEFICIENCIA">
-              <PropertyRef Name="PES_PESSOAS_CARACT_GRAU_DEF_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FKPES_PESSOA365702">
           <End Role="PES_PESSOAS_FAM" Type="Self.PES_PESSOAS_FAM" Multiplicity="1" />
           <End Role="PES_PESSOAS_FAM_CONTACTOS" Type="Self.PES_PESSOAS_FAM_CONTACTOS" Multiplicity="*" />
@@ -3255,7 +3257,6 @@
           <EntitySet Name="PES_NACIONALIDADE" EntityType="Self.PES_NACIONALIDADE" />
           <EntitySet Name="PES_NATURALIDADE" EntityType="Self.PES_NATURALIDADE" />
           <EntitySet Name="PES_PESSOAS_CARACT_DEFICIENCIA" EntityType="Self.PES_PESSOAS_CARACT_DEFICIENCIA" />
-          <EntitySet Name="PES_PESSOAS_CARACT_GRAU_DEF" EntityType="Self.PES_PESSOAS_CARACT_GRAU_DEF" />
           <EntitySet Name="PES_PESSOAS_CARACT_TIPO_DEF" EntityType="Self.PES_PESSOAS_CARACT_TIPO_DEF" />
           <EntitySet Name="PES_PESSOAS_CARACT_TIPO_SANG" EntityType="Self.PES_PESSOAS_CARACT_TIPO_SANG" />
           <EntitySet Name="PES_PESSOAS_FAM" EntityType="Self.PES_PESSOAS_FAM" />
@@ -3373,10 +3374,6 @@
           </AssociationSet>
           <AssociationSet Name="FKPES_PESSOA215063" Association="Self.FKPES_PESSOA215063">
             <End Role="PES_PESSOAS_CARACT_TIPO_DEF" EntitySet="PES_PESSOAS_CARACT_TIPO_DEF" />
-            <End Role="PES_PESSOAS_CARACT_DEFICIENCIA" EntitySet="PES_PESSOAS_CARACT_DEFICIENCIA" />
-          </AssociationSet>
-          <AssociationSet Name="FKPES_PESSOA359193" Association="Self.FKPES_PESSOA359193">
-            <End Role="PES_PESSOAS_CARACT_GRAU_DEF" EntitySet="PES_PESSOAS_CARACT_GRAU_DEF" />
             <End Role="PES_PESSOAS_CARACT_DEFICIENCIA" EntitySet="PES_PESSOAS_CARACT_DEFICIENCIA" />
           </AssociationSet>
           <AssociationSet Name="FKPES_PESSOA365702" Association="Self.FKPES_PESSOA365702">
@@ -3749,6 +3746,53 @@
             <Parameter Name="MunicipioId" Mode="In" Type="Int32" />
             <Parameter Name="DataInicio" Mode="In" Type="DateTime" />
             <Parameter Name="DataFim" Mode="In" Type="DateTime" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PES_ENT_PESSOAS_DEFICIENCIA" ReturnType="Collection(GESTREINO_ORM.SP_PES_ENT_PESSOAS_DEFICIENCIA_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="PesId" Mode="In" Type="Int32" />
+            <Parameter Name="DeficienciaId" Mode="In" Type="Int32" />
+            <Parameter Name="GrauId" Mode="In" Type="Int32" />
+            <Parameter Name="Descricao" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PES_ENT_PESSOAS_PROFISSOES" ReturnType="Collection(GESTREINO_ORM.SP_PES_ENT_PESSOAS_PROFISSOES_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="PesId" Mode="In" Type="Int32" />
+            <Parameter Name="RegimeId" Mode="In" Type="Int32" />
+            <Parameter Name="ContractoId" Mode="In" Type="Int32" />
+            <Parameter Name="ProfissaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Empresa" Mode="In" Type="String" />
+            <Parameter Name="DateIni" Mode="In" Type="DateTime" />
+            <Parameter Name="DateEnd" Mode="In" Type="DateTime" />
+            <Parameter Name="Descricao" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <AssociationSet Name="PES_PESSOAS_FAM_PES_PROFISSOES_ID" Association="GESTREINO_ORM.PES_PESSOAS_FAM_PES_PROFISSOES_ID">
+            <End Role="PES_PROFISSOES" EntitySet="PES_PROFISSOES" />
+            <End Role="PES_PESSOAS_FAM" EntitySet="PES_PESSOAS_FAM" />
+          </AssociationSet>
+          <FunctionImport Name="SP_PES_ENT_PESSOAS_FAM" ReturnType="Collection(GESTREINO_ORM.SP_PES_ENT_PESSOAS_FAM_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="PesId" Mode="In" Type="Int32" />
+            <Parameter Name="GrupoId" Mode="In" Type="Int32" />
+            <Parameter Name="ProfissaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="Telefone" Mode="In" Type="Decimal" />
+            <Parameter Name="TelefoneAlternativo" Mode="In" Type="Decimal" />
+            <Parameter Name="Fax" Mode="In" Type="Decimal" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="URl" Mode="In" Type="String" />
+            <Parameter Name="Numero" Mode="In" Type="Int32" />
+            <Parameter Name="Rua" Mode="In" Type="String" />
+            <Parameter Name="Morada" Mode="In" Type="String" />
+            <Parameter Name="PaisId" Mode="In" Type="Int32" />
+            <Parameter Name="CidadeId" Mode="In" Type="Int32" />
+            <Parameter Name="MunicipioId" Mode="In" Type="Int32" />
+            <Parameter Name="Isento" Mode="In" Type="Boolean" />
             <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
@@ -4471,6 +4515,77 @@
           <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
           <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
         </ComplexType>
+        <ComplexType Name="SP_PES_ENT_PESSOAS_DEFICIENCIA_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="PES_PESSOAS_CARACT_TIPO_DEF_ID" Nullable="false" />
+          <Property Type="Int32" Name="PES_PESSOAS_CARACT_GRAU_DEF_ID" Nullable="false" />
+          <Property Type="String" Name="DESCRICAO" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="SIGLA" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="GRAU" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_PES_ENT_PESSOAS_PROFISSOES_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="PES_PROFISSOES_ID" Nullable="false" />
+          <Property Type="Int32" Name="PES_PROFISSOES_REGIME_TRABALHO_ID" Nullable="false" />
+          <Property Type="Int32" Name="PES_PROFISSOES_TIPO_CONTRACTO_ID" Nullable="false" />
+          <Property Type="String" Name="EMPRESA" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="DATA_INICIO" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="DATA_FIM" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="DESCRICAO" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="REGIME_SIGLA" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="REGIME_NOME" Nullable="false" MaxLength="64" />
+          <Property Type="String" Name="CONT_SIGLA" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="CONT_NOME" Nullable="false" MaxLength="64" />
+          <Property Type="String" Name="PROFISSAO" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <Association Name="PES_PESSOAS_FAM_PES_PROFISSOES_ID">
+          <End Type="GESTREINO_ORM.PES_PROFISSOES" Role="PES_PROFISSOES" Multiplicity="0..1" />
+          <End Type="GESTREINO_ORM.PES_PESSOAS_FAM" Role="PES_PESSOAS_FAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PES_PROFISSOES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_PESSOAS_FAM">
+              <PropertyRef Name="PES_PROFISSOES_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="SP_PES_ENT_PESSOAS_FAM_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="PES_FAMILIARES_GRUPOS_ID" Nullable="false" />
+          <Property Type="String" Name="AGREGADO" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="NOME" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="PES_PROFISSOES_ID" Nullable="true" />
+          <Property Type="String" Name="PROFISSAO" Nullable="true" MaxLength="255" />
+          <Property Type="Boolean" Name="ISENTO" Nullable="false" />
+          <Property Type="Decimal" Name="TELEFONE" Nullable="true" Precision="13" Scale="0" />
+          <Property Type="Decimal" Name="TELEFONE_ALTERNATIVO" Nullable="true" Precision="13" Scale="0" />
+          <Property Type="Decimal" Name="FAX" Nullable="true" Precision="13" Scale="0" />
+          <Property Type="String" Name="EMAIL" Nullable="true" MaxLength="64" />
+          <Property Type="String" Name="URL" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="NUMERO" Nullable="true" />
+          <Property Type="String" Name="RUA" Nullable="true" MaxLength="64" />
+          <Property Type="String" Name="MORADA" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="GRL_ENDERECO_PAIS_ID" Nullable="true" />
+          <Property Type="Int32" Name="GRL_ENDERECO_CIDADE_ID" Nullable="true" />
+          <Property Type="Int32" Name="GRL_ENDERECO_MUN_DISTR_ID" Nullable="true" />
+          <Property Type="String" Name="PAIS_NOME" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="CIDADE_NOME" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="MUN_NOME" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4814,21 +4929,6 @@
                 <ScalarProperty Name="PES_PESSOAS_CARACT_TIPO_DEF_ID" ColumnName="PES_PESSOAS_CARACT_TIPO_DEF_ID" />
                 <ScalarProperty Name="PES_PESSOAS_CARACT_GRAU_DEF_ID" ColumnName="PES_PESSOAS_CARACT_GRAU_DEF_ID" />
                 <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
-                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
-                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
-                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
-                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
-                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
-                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PES_PESSOAS_CARACT_GRAU_DEF">
-            <EntityTypeMapping TypeName="GESTREINO_ORM.PES_PESSOAS_CARACT_GRAU_DEF">
-              <MappingFragment StoreEntitySet="PES_PESSOAS_CARACT_GRAU_DEF">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
-                <ScalarProperty Name="NOME" ColumnName="NOME" />
                 <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
                 <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
                 <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
@@ -5628,6 +5728,77 @@
                 <ScalarProperty Name="MUN_NOME" ColumnName="MUN_NOME" />
                 <ScalarProperty Name="DATA_INICIO" ColumnName="DATA_INICIO" />
                 <ScalarProperty Name="DATA_FIM" ColumnName="DATA_FIM" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_PES_ENT_PESSOAS_DEFICIENCIA" FunctionName="GESTREINO_ORM.Store.SP_PES_ENT_PESSOAS_DEFICIENCIA">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_PES_ENT_PESSOAS_DEFICIENCIA_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PES_PESSOAS_CARACT_TIPO_DEF_ID" ColumnName="PES_PESSOAS_CARACT_TIPO_DEF_ID" />
+                <ScalarProperty Name="PES_PESSOAS_CARACT_GRAU_DEF_ID" ColumnName="PES_PESSOAS_CARACT_GRAU_DEF_ID" />
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="GRAU" ColumnName="GRAU" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_PES_ENT_PESSOAS_PROFISSOES" FunctionName="GESTREINO_ORM.Store.SP_PES_ENT_PESSOAS_PROFISSOES">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_PES_ENT_PESSOAS_PROFISSOES_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PES_PROFISSOES_ID" ColumnName="PES_PROFISSOES_ID" />
+                <ScalarProperty Name="PES_PROFISSOES_REGIME_TRABALHO_ID" ColumnName="PES_PROFISSOES_REGIME_TRABALHO_ID" />
+                <ScalarProperty Name="PES_PROFISSOES_TIPO_CONTRACTO_ID" ColumnName="PES_PROFISSOES_TIPO_CONTRACTO_ID" />
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+                <ScalarProperty Name="DATA_INICIO" ColumnName="DATA_INICIO" />
+                <ScalarProperty Name="DATA_FIM" ColumnName="DATA_FIM" />
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="REGIME_SIGLA" ColumnName="REGIME_SIGLA" />
+                <ScalarProperty Name="REGIME_NOME" ColumnName="REGIME_NOME" />
+                <ScalarProperty Name="CONT_SIGLA" ColumnName="CONT_SIGLA" />
+                <ScalarProperty Name="CONT_NOME" ColumnName="CONT_NOME" />
+                <ScalarProperty Name="PROFISSAO" ColumnName="PROFISSAO" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_PES_ENT_PESSOAS_FAM" FunctionName="GESTREINO_ORM.Store.SP_PES_ENT_PESSOAS_FAM">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_PES_ENT_PESSOAS_FAM_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PES_FAMILIARES_GRUPOS_ID" ColumnName="PES_FAMILIARES_GRUPOS_ID" />
+                <ScalarProperty Name="AGREGADO" ColumnName="AGREGADO" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="PES_PROFISSOES_ID" ColumnName="PES_PROFISSOES_ID" />
+                <ScalarProperty Name="PROFISSAO" ColumnName="PROFISSAO" />
+                <ScalarProperty Name="ISENTO" ColumnName="ISENTO" />
+                <ScalarProperty Name="TELEFONE" ColumnName="TELEFONE" />
+                <ScalarProperty Name="TELEFONE_ALTERNATIVO" ColumnName="TELEFONE_ALTERNATIVO" />
+                <ScalarProperty Name="FAX" ColumnName="FAX" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
+                <ScalarProperty Name="RUA" ColumnName="RUA" />
+                <ScalarProperty Name="MORADA" ColumnName="MORADA" />
+                <ScalarProperty Name="GRL_ENDERECO_PAIS_ID" ColumnName="GRL_ENDERECO_PAIS_ID" />
+                <ScalarProperty Name="GRL_ENDERECO_CIDADE_ID" ColumnName="GRL_ENDERECO_CIDADE_ID" />
+                <ScalarProperty Name="GRL_ENDERECO_MUN_DISTR_ID" ColumnName="GRL_ENDERECO_MUN_DISTR_ID" />
+                <ScalarProperty Name="PAIS_NOME" ColumnName="PAIS_NOME" />
+                <ScalarProperty Name="CIDADE_NOME" ColumnName="CIDADE_NOME" />
+                <ScalarProperty Name="MUN_NOME" ColumnName="MUN_NOME" />
                 <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
                 <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
                 <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />

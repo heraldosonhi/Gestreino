@@ -25,7 +25,6 @@
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_NACIONALIDADE" Width="1.5" PointX="8.25" PointY="42.75" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_NATURALIDADE" Width="1.5" PointX="11.25" PointY="31.375" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_CARACT_DEFICIENCIA" Width="1.5" PointX="11.25" PointY="43.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_CARACT_GRAU_DEF" Width="1.5" PointX="9" PointY="57" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_CARACT_TIPO_DEF" Width="1.5" PointX="9" PointY="60.625" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_CARACT_TIPO_SANG" Width="1.5" PointX="12" PointY="52.875" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_FAM" Width="1.5" PointX="5.25" PointY="28.25" IsExpanded="true" />
@@ -70,7 +69,6 @@
         <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI220268" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI377525" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA215063" ManuallyRouted="false" />
-        <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA359193" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA365702" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA815594" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA747112" ManuallyRouted="false" />
@@ -114,6 +112,7 @@
         <AssociationConnector Association="GESTREINO_ORM.PES_PESSOAS_CARACT_GT_DuracaoPlano_ID" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA802772" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA872225" />
+        <AssociationConnector Association="GESTREINO_ORM.PES_PESSOAS_FAM_PES_PROFISSOES_ID" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
