@@ -47,7 +47,7 @@
                     <br />
                     @if (ViewBag.Action == "Adicionar")
                     {
-                        using (Ajax.BeginForm("newuser", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        using (Ajax.BeginForm("newuser", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
 
@@ -121,7 +121,7 @@
                     }
                     @if (ViewBag.Action == "Editar")
                     {
-                        using (Ajax.BeginForm("updateuser", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        using (Ajax.BeginForm("updateuser", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.Id)
@@ -148,7 +148,7 @@
                     }
                     @if (ViewBag.Action == "AlterarSenha")
                     {
-                        using (Ajax.BeginForm("updatepassword", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        using (Ajax.BeginForm("updatepassword", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.Id)
@@ -192,7 +192,7 @@
                     }
                     @if (ViewBag.Action == "LimparLogs")
                     {
-                        using (Ajax.BeginForm("CleanUserLogs", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        using (Ajax.BeginForm("CleanUserLogs", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.Id)

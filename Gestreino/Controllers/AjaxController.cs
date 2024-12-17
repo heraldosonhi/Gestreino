@@ -16,12 +16,10 @@ namespace Gestreino.Controllers
     {
         private GESTREINO_Entities databaseManager = new GESTREINO_Entities();
 
-        // GET: Ajax
+
         public ActionResult Users(Gestreino.Models.Users MODEL, string action, int? id, int?[] bulkids)
         {
-
             MODEL.Status = 1;
-
             if (id>0)
             {
                 var data = databaseManager.UTILIZADORES.Where(x => x.ID == id).ToList();
@@ -31,7 +29,7 @@ namespace Gestreino.Controllers
             }
 
             ViewBag.Action = action;
-            return View("GTManagement/Users/Index",MODEL);
+            return View("administration/Users/Index",MODEL);
         }
         public ActionResult Groups(UTILIZADORES_ACESSO_GRUPOS MODEL,string action, int? id, int?[] bulkids)
         {
@@ -49,7 +47,7 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
-            return View("GTManagement/Access/Groups", MODEL);
+            return View("administration/Access/Groups", MODEL);
         }
         public ActionResult Profiles(UTILIZADORES_ACESSO_PERFIS MODEL, string action, int? id, int?[] bulkids)
         {
@@ -66,7 +64,7 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
-            return View("GTManagement/Access/Profiles", MODEL);
+            return View("administration/Access/Profiles", MODEL);
         }
         public ActionResult Atoms(UTILIZADORES_ACESSO_ATOMOS MODEL, string action, int? id, int?[] bulkids)
         {
@@ -83,13 +81,12 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
-            return View("GTManagement/Access/Atoms", MODEL);
+            return View("administration/Access/Atoms", MODEL);
         }
         public ActionResult UserGroups(AccessAppendItems MODEL, string action, int? id, int?[] bulkids)
         {
             
             MODEL.Id = id;
-
             int?[] ids = new int?[] { id.Value };
             //if (action.Contains("Multiplos")) ids = bulkids;
             //if (action.Contains("Multiplos")) action = "Remover";
@@ -106,13 +103,10 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
-            return View("GTManagement/Access/AppendItems", MODEL);
+            return View("administration/Access/AppendItems", MODEL);
         }
 
 
-
-
-        //GRL ENTITIES
         public ActionResult GRLDocType(GRL_ARQUIVOS_TIPO_DOCS MODEL, string action, int? id, int?[] bulkids)
         {
             if (action == "Editar")
@@ -128,7 +122,7 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
-            return View("GTManagement/Parameters/GRLDocType", MODEL);
+            return View("administration/Parameters/GRLDocType", MODEL);
         }
         public ActionResult GRLTokenType(GRL_TOKENS_TIPOS MODEL, string action, int? id, int?[] bulkids)
         {
@@ -144,7 +138,7 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
-            return View("GTManagement/Parameters/GRLTokenType", MODEL);
+            return View("administration/Parameters/GRLTokenType", MODEL);
         }
         public ActionResult GRLEndPais(GRL_ENDERECO_PAIS MODEL, string action, int? id, int?[] bulkids)
         {
@@ -165,7 +159,7 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
-            return View("GTManagement/Parameters/GRLEndPais", MODEL);
+            return View("administration/Parameters/GRLEndPais", MODEL);
         }
         public ActionResult GRLEndCidade(GRLEndCidade MODEL, string action, int? id, int?[] bulkids)
         {
@@ -187,7 +181,7 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
-            return View("GTManagement/Parameters/GRLEndCidade", MODEL);
+            return View("administration/Parameters/GRLEndCidade", MODEL);
         }
         public ActionResult GRLEndDistr(GRLEndDistr MODEL, string action, int? id, int?[] bulkids)
         {
@@ -207,7 +201,7 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
-            return View("GTManagement/Parameters/GRLEndDistr", MODEL);
+            return View("administration/Parameters/GRLEndDistr", MODEL);
         }
 
     }

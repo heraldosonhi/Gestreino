@@ -26,8 +26,8 @@ namespace Gestreino.Classes
           */
 
         // Define Main Storage location
-        public static string FileStorage = "~/uploaded/";
-        public static string SQLStorage = "uploaded/";
+        public static string FileStorage = "~/uploads/";
+        public static string SQLStorage = "uploads/";
 
         // Define Module Subfolder
         /*

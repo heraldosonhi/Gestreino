@@ -411,7 +411,7 @@ function handleDataUsers() {
         },
         "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
         "ajax": {
-            "url": "../../gtmanagement/GetUser", // POST TO CONTROLLER
+            "url": "../../administration/GetUser", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
             data: { "GroupId": $('#GroupId').val(), "ProfileId": $('#ProfileId').val() }
@@ -422,7 +422,7 @@ function handleDataUsers() {
             {
                 sortable: false,
                 "render": function (data, type, full, meta) {
-                    return '<a title="Visualizar" href="/gtmanagement/viewusers/' + full.Id + '"><i class="fa fa-search"/></i></a>';
+                    return '<a title="Visualizar" href="/administration/viewusers/' + full.Id + '"><i class="fa fa-search"/></i></a>';
 
                 }
             },
@@ -487,7 +487,7 @@ function handleDataGrupos() {
         },
         "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
         "ajax": {
-            "url": "../../gtmanagement/GetGroups", // POST TO CONTROLLER
+            "url": "../../administration/GetGroups", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
             data: { }
@@ -498,7 +498,7 @@ function handleDataGrupos() {
             {
                 sortable: false,
                 "render": function (data, type, full, meta) {
-                    return '<a title="Visualizar" href="/gtmanagement/viewgroups/' + full.Id + '"><i class="fa fa-search"/></i></a>' +
+                    return '<a title="Visualizar" href="/administration/viewgroups/' + full.Id + '"><i class="fa fa-search"/></i></a>' +
                         ' <a style="display:' + full.AccessControlAddGroup + '" title="Editar" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Editar" data-entity="groups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil"></i></a>' +
                         ' <a style="display:' + full.AccessControlAddGroup + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="groups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
                 }
@@ -561,7 +561,7 @@ function handleDataAtomos() {
         },
         "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
         "ajax": {
-            "url": "../../gtmanagement/GetAtoms", // POST TO CONTROLLER
+            "url": "../../administration/GetAtoms", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
             data: { }
@@ -572,7 +572,7 @@ function handleDataAtomos() {
             {
                 sortable: false,
                 "render": function (data, type, full, meta) {
-                    return '<a title="Visualizar" href="/gtmanagement/viewatoms/' + full.Id + '"><i class="fa fa-search"/></i></a>' +
+                    return '<a title="Visualizar" href="/administration/viewatoms/' + full.Id + '"><i class="fa fa-search"/></i></a>' +
                         ' <a style="display:' + full.AccessControlAddGroup + '" title="Editar" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Editar" data-entity="atoms" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil"></i></a>' +
                         ' <a style="display:' + full.AccessControlAddGroup + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="atoms" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
                 }
@@ -634,7 +634,7 @@ function handleDataPerfis() {
         },
         "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
         "ajax": {
-            "url": "../../gtmanagement/GetProfiles", // POST TO CONTROLLER
+            "url": "../../administration/GetProfiles", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
             data: { }
@@ -645,7 +645,7 @@ function handleDataPerfis() {
             {
                 sortable: false,
                 "render": function (data, type, full, meta) {
-                    return '<a title="Visualizar" href="/gtmanagement/viewprofiles/' + full.Id + '"><i class="fa fa-search"/></i></a>' +
+                    return '<a title="Visualizar" href="/administration/viewprofiles/' + full.Id + '"><i class="fa fa-search"/></i></a>' +
                         ' <a style="display:' + full.AccessControlAddGroup + '" title="Editar" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Editar" data-entity="profiles" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil"></i></a>' +
                         ' <a style="display:' + full.AccessControlAddGroup + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="profiles" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
                 }
@@ -707,7 +707,7 @@ function handleDataUserGroups() {
         },
         "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
         "ajax": {
-            "url": "../../gtmanagement/GetUserGroup", // POST TO CONTROLLER
+            "url": "../../administration/GetUserGroup", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
             data: { GroupId: $("#GroupId").val(), UserId: $("#UserId").val() }
@@ -779,7 +779,7 @@ function handleDataAtomGroups() {
         },
         "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
         "ajax": {
-            "url": "../../gtmanagement/GetAtomGroup", // POST TO CONTROLLER
+            "url": "../../administration/GetAtomGroup", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
             data: { GroupId: $("#GroupId").val(), AtomId: $("#AtomId").val() }
@@ -851,7 +851,7 @@ function handleDataProfileAtoms() {
         },
         "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
         "ajax": {
-            "url": "../../gtmanagement/GetProfileAtom", // POST TO CONTROLLER
+            "url": "../../administration/GetProfileAtom", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
             data: { ProfileId: $("#ProfileId").val(), AtomId: $("#AtomId").val() }
@@ -923,7 +923,7 @@ function handleDataProfileUtil() {
         },
         "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
         "ajax": {
-            "url": "../../gtmanagement/GetProfileUtil", // POST TO CONTROLLER
+            "url": "../../administration/GetProfileUtil", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
             data: { ProfileId: $("#ProfileId").val(), UserId: $("#UserId").val() }
@@ -995,7 +995,7 @@ function handleDataUserLogTable() {
         },
         "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
         "ajax": {
-            "url": "../../gtmanagement/GetUserLogs", // POST TO CONTROLLER
+            "url": "../../administration/GetUserLogs", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
             data: { UserId: $("#UserId").val()}
@@ -1068,7 +1068,7 @@ function handleDataAtomsAccessTable() {
         },
         "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
         "ajax": {
-            "url": "../../gtmanagement/GetUserAtoms", // POST TO CONTROLLER
+            "url": "../../administration/GetUserAtoms", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
             data: { UserId: $("#UserId").val() }
@@ -1123,10 +1123,6 @@ function handleDataAtomsAccessTable() {
         },
     });
 };
-
-
-
-
 function handleDataGRLTipoDocTable() {
     var table = $("#GRLTipoDocTable").DataTable({
         "processing": true, // Para exibir mensagem de processamento a cada requisição
@@ -1143,7 +1139,7 @@ function handleDataGRLTipoDocTable() {
         },
         "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
         "ajax": {
-            "url": "../../gtmanagement/GetGRLDocTypes", // POST TO CONTROLLER
+            "url": "../../administration/GetGRLDocTypes", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
             data: { }
@@ -1215,7 +1211,7 @@ function handleDataGRLTipoTokenTable() {
         },
         "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
         "ajax": {
-            "url": "../../gtmanagement/GetGRLTokenTypes", // POST TO CONTROLLER
+            "url": "../../administration/GetGRLTokenTypes", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
             data: {}
@@ -1270,7 +1266,6 @@ function handleDataGRLTipoTokenTable() {
         },
     });
 };
-
 function handleDataGRLEndPaisTable() {
     var table = $("#GRLEndPaisTable").DataTable({
         "processing": true, // Para exibir mensagem de processamento a cada requisição
@@ -1287,7 +1282,7 @@ function handleDataGRLEndPaisTable() {
         },
         "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
         "ajax": {
-            "url": "../../gtmanagement/GetGRLEndPais", // POST TO CONTROLLER
+            "url": "../../administration/GetGRLEndPais", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
             data: {}
@@ -1360,7 +1355,7 @@ function handleDataGRLEndCidadeTable() {
         },
         "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
         "ajax": {
-            "url": "../../gtmanagement/GetGRLEndCidade", // POST TO CONTROLLER
+            "url": "../../administration/GetGRLEndCidade", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
             data: {}
@@ -1433,7 +1428,7 @@ function handleDataGRLEndDistrTable() {
         },
         "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
         "ajax": {
-            "url": "../../gtmanagement/GetGRLEndDistr", // POST TO CONTROLLER
+            "url": "../../administration/GetGRLEndDistr", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
             data: {}

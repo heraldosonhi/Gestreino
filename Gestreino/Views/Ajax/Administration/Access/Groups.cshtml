@@ -1,4 +1,4 @@
-﻿@model UTILIZADORES_ACESSO_PERFIS
+﻿@model UTILIZADORES_ACESSO_GRUPOS
 @{
     Layout = null;
 }
@@ -8,7 +8,7 @@
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel" style="border:none">
                 <div class="x_title">
-                    <h2>@ViewBag.Action perfil</h2>
+                    <h2>@ViewBag.Action grupo</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
@@ -46,9 +46,16 @@
                     <br />
                     @if (ViewBag.Action == "Adicionar")
                     {
-                        using (Ajax.BeginForm("newprofile", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        using (Ajax.BeginForm("newgroup", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
+
+                            <div class="row">
+                                <label class="col-md-2 col-form-label">Sigla</label>
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(m => m.SIGLA, new { @class = "form-control form-control-sm", required = "" })
+                                </div>
+                            </div>
                             <div class="row">
                                 <label class="col-md-2 col-form-label">Nome</label>
                                 <div class="col-md-10">
@@ -72,10 +79,16 @@
                     }
                     @if (ViewBag.Action == "Editar")
                     {
-                        using (Ajax.BeginForm("updateprofile", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        using (Ajax.BeginForm("updategroup", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.ID)
+                            <div class="row">
+                                <label class="col-md-2 col-form-label">Sigla</label>
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(m => m.SIGLA, new { @class = "form-control form-control-sm", required = "" })
+                                </div>
+                            </div>
                             <div class="row">
                                 <label class="col-md-2 col-form-label">Nome</label>
                                 <div class="col-md-10">
@@ -99,7 +112,7 @@
                     }
                     @if (ViewBag.Action == "Remover")
                     {
-                        using (Ajax.BeginForm("deleteprofile", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        using (Ajax.BeginForm("deletegroup", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.ID)

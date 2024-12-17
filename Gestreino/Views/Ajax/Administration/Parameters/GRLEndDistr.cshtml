@@ -1,4 +1,4 @@
-﻿@model UTILIZADORES_ACESSO_GRUPOS
+﻿@model Gestreino.Models.GRLEndDistr
 @{
     Layout = null;
 }
@@ -8,7 +8,7 @@
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel" style="border:none">
                 <div class="x_title">
-                    <h2>@ViewBag.Action grupo</h2>
+                    <h2>@ViewBag.Action distrito ou município</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
@@ -36,9 +36,9 @@
                         </div>
                         <div class="flex"
                              style="min-width: 180px">
-                            <small class="text-black-100">
+                            <span class="text-black-100">
                                 <strong>Atenção!</strong> <span class="handle-error-message"></span>
-                            </small>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -46,10 +46,9 @@
                     <br />
                     @if (ViewBag.Action == "Adicionar")
                     {
-                        using (Ajax.BeginForm("newgroup", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        using (Ajax.BeginForm("NewGRLEndDistr", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
-
                             <div class="row">
                                 <label class="col-md-2 col-form-label">Sigla</label>
                                 <div class="col-md-6">
@@ -63,9 +62,9 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-md-2 col-form-label">Descrição</label>
+                                <label class="col-md-2 col-form-label">Cidade</label>
                                 <div class="col-md-10">
-                                    @Html.TextAreaFor(m => m.DESCRICAO, new { @class = "form-control form-control-sm", required = "" })
+                                    @Html.DropDownListFor(x => Model.ENDERECO_CIDADE_ID, Model.CIDADE_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
                                 </div>
                             </div>
                             <div class="row mt-1">
@@ -79,7 +78,7 @@
                     }
                     @if (ViewBag.Action == "Editar")
                     {
-                        using (Ajax.BeginForm("updategroup", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        using (Ajax.BeginForm("UpdateGRLEndDistr", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.ID)
@@ -96,9 +95,9 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-md-2 col-form-label">Descrição</label>
+                                <label class="col-md-2 col-form-label">Cidade</label>
                                 <div class="col-md-10">
-                                    @Html.TextAreaFor(m => m.DESCRICAO, new { @class = "form-control form-control-sm", required = "" })
+                                    @Html.DropDownListFor(x => Model.ENDERECO_CIDADE_ID, Model.CIDADE_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
                                 </div>
                             </div>
                             <div class="row mt-1">
@@ -112,7 +111,7 @@
                     }
                     @if (ViewBag.Action == "Remover")
                     {
-                        using (Ajax.BeginForm("deletegroup", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        using (Ajax.BeginForm("DeleteGRLEndDistr", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.ID)

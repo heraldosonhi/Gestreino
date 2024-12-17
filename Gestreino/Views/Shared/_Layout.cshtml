@@ -1,4 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
+@using Gestreino.Classes
+@using System.Security.Claims
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,7 +45,7 @@
                             <a data-toggle="tooltip" data-placement="top" title="Selecionar Avaliado">
                                 <span class="glyphicon glyphicon-random" aria-hidden="true"></span>
                             </a>
-                            <a data-toggle="tooltip" data-placement="top" title="Configurações">
+                            <a data-toggle="tooltip" href="@Url.Action("settings","administration")" data-placement="top" title="Configurações">
                                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                             </a>
                             @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "" }))
@@ -59,6 +61,11 @@
                 </div>
 
                 <!-- top navigation -->
+                if (Request.IsAuthenticated)
+                {
+                    var claimsIdentity = User.Identity as ClaimsIdentity;
+                    var existingClaim = claimsIdentity.FindFirst(ClaimTypes.UserData);
+              
                 <div class="top_nav">
                     <div class="nav_menu">
                         <div class="nav toggle">
@@ -68,7 +75,7 @@
                             <ul class=" navbar-right">
                                 <li class="nav-item dropdown open" style="padding-left: 15px;">
                                     <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                                        <img src="~/Assets/images/avatar.jpg" alt="">@User.Identity.GetUserName()
+                                        <img src="@(existingClaim != null && !string.IsNullOrEmpty(claimsIdentity.FindFirst(ClaimTypes.UserData).Value) ? "/" + claimsIdentity.FindFirst(ClaimTypes.UserData).Value :  "/Assets/images/user-avatar.jpg")" alt="@User.Identity.GetUserName()">@User.Identity.GetUserName()
                                     </a>
                                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="@Url.Action("profile","account")"> Perfil</a>
@@ -83,6 +90,7 @@
                         </nav>
                     </div>
                 </div>
+                }
                 <!-- /top navigation -->
             }
             @RenderBody()
