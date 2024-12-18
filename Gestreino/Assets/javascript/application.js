@@ -2948,7 +2948,7 @@ function jscropperprofile(userid, pesid) {
                 type: "POST",
                 url: "/gtmanagement/UpdateProfilePhoto/",
                 data: {
-                    ID: userid,
+                    UserId: userid,
                     PES_PESSOA_ID: pesid,
                     WebcamImgBase64: canvas.toDataURL("image/jpeg"),
                     file: null
