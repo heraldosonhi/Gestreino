@@ -20,18 +20,17 @@ using static Gestreino.Classes.SelectValues;
 
 namespace Gestreino.Controllers
 {
+    [Authorize]
+
     public class AdministrationController : Controller
     {
         private GESTREINO_Entities databaseManager = new GESTREINO_Entities();
         // _MenuLeftBarLink
         int _MenuLeftBarLink_User = 101;
-        int _MenuLeftBarLink_Groups = 102;
-        int _MenuLeftBarLink_Profiles = 103;
-        int _MenuLeftBarLink_Atoms = 104;
-        int _MenuLeftBarLink_LoginLogs = 105;
-        int _MenuLeftBarLink_Parameters = 106;
-        int _MenuLeftBarLink_Settings = 107;
-
+        int _MenuLeftBarLink_Access = 102;
+        int _MenuLeftBarLink_LoginLogs = 103;
+        int _MenuLeftBarLink_Parameters = 104;
+        int _MenuLeftBarLink_Settings = 105;
         public ActionResult Index()
         {
             return View();
@@ -296,6 +295,7 @@ namespace Gestreino.Controllers
         [HttpGet]
         public ActionResult Access()
         {
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Access;
             return View("Access/Index");
         }
 
@@ -307,7 +307,7 @@ namespace Gestreino.Controllers
             var data = databaseManager.SP_UTILIZADORES_ENT_GRUPOS(Id, null, null, null, null, "R").ToList();
             if (!data.Any()) { return RedirectToAction("", "home"); }
             ViewBag.data = data;
-            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Groups;
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Access;
             return View("Access/ViewGroups");
         }
         [HttpPost]
@@ -491,7 +491,7 @@ namespace Gestreino.Controllers
             var data = databaseManager.SP_UTILIZADORES_ENT_PERFIS(Id, null, null, null, "R").ToList();
             if (!data.Any()) { return RedirectToAction("", "home"); }
             ViewBag.data = data;
-            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Profiles;
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Access;
             return View("Access/ViewProfiles");
         }
         [HttpPost]
@@ -669,7 +669,7 @@ namespace Gestreino.Controllers
             var data = databaseManager.SP_UTILIZADORES_ENT_ATOMOS(Id, null, null, null, "R").ToList();
             if (!data.Any()) { return RedirectToAction("", "home"); }
             ViewBag.data = data;
-            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Atoms;
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Access;
             return View("Access/ViewAtoms");
         }
         [HttpPost]
@@ -1601,6 +1601,7 @@ namespace Gestreino.Controllers
         //UserLogs
         public ActionResult LoginLogs()
         {
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_LoginLogs;
             return View("Access/LoginLogs");
         }
         [HttpPost]
@@ -2595,6 +2596,1727 @@ namespace Gestreino.Controllers
             }
             return Json(new { result = true, error = string.Empty, table = "GRLEndDistrTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
+
+        //Parameters tipo ident
+        [HttpPost]
+        public ActionResult GetGRLIdentType()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Sigla = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var v = (from a in databaseManager.SP_PES_ENT_TIPO_IDENTIFICACAO(null, null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Sigla)) v = v.Where(a => a.SIGLA != null && a.SIGLA.ToUpper().Contains(Sigla.ToUpper()));
+            if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "SIGLA": v = v.OrderBy(s => s.SIGLA); break;
+                        case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "SIGLA": v = v.OrderByDescending(s => s.SIGLA); break;
+                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    NOME = x.NOME,
+                    SIGLA = x.SIGLA,
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewGRLIdentType(PES_TIPO_IDENTIFICACAO MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_TIPO_IDENTIFICACAO.Where(x => x.SIGLA == MODEL.SIGLA || x.NOME == MODEL.NOME).Any())
+                    return Json(new { result = false, error = "Sigla e/ou Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Create
+                var create = databaseManager.SP_PES_ENT_TIPO_IDENTIFICACAO(null, MODEL.SIGLA, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLIdentTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateGRLIdentType(PES_TIPO_IDENTIFICACAO MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_TIPO_IDENTIFICACAO.Where(x => x.SIGLA == MODEL.SIGLA && x.ID!=MODEL.ID || x.NOME == MODEL.NOME && x.ID != MODEL.ID).Any())
+                    return Json(new { result = false, error = "Sigla e/ou Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Update
+                var update = databaseManager.SP_PES_ENT_TIPO_IDENTIFICACAO(MODEL.ID, MODEL.SIGLA, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLIdentTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteGRLIdentType(int?[] ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                // Delete
+                foreach (var i in ids)
+                {
+                    databaseManager.SP_PES_ENT_TIPO_IDENTIFICACAO(i, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
+                }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLIdentTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+        //Parameters estado civil
+        [HttpPost]
+        public ActionResult GetGRLEstadoCivil()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Sigla = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var v = (from a in databaseManager.SP_PES_ENT_ESTADOCIVIL(null, null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Sigla)) v = v.Where(a => a.SIGLA != null && a.SIGLA.ToUpper().Contains(Sigla.ToUpper()));
+            if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "SIGLA": v = v.OrderBy(s => s.SIGLA); break;
+                        case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "SIGLA": v = v.OrderByDescending(s => s.SIGLA); break;
+                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    NOME = x.NOME,
+                    SIGLA = x.SIGLA,
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewGRLEstadoCivil(PES_ESTADO_CIVIL MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_ESTADO_CIVIL.Where(x => x.SIGLA == MODEL.SIGLA || x.NOME == MODEL.NOME).Any())
+                    return Json(new { result = false, error = "Sigla e/ou Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Create
+                var create = databaseManager.SP_PES_ENT_ESTADOCIVIL(null, MODEL.SIGLA, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLEstadoCivilTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateGRLEstadoCivil(PES_ESTADO_CIVIL MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_ESTADO_CIVIL.Where(x => x.SIGLA == MODEL.SIGLA && x.ID != MODEL.ID || x.NOME == MODEL.NOME && x.ID != MODEL.ID).Any())
+                    return Json(new { result = false, error = "Sigla e/ou Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Update
+                var update = databaseManager.SP_PES_ENT_ESTADOCIVIL(MODEL.ID, MODEL.SIGLA, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLEstadoCivilTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteGRLEstadoCivil(int?[] ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                // Delete
+                foreach (var i in ids)
+                {
+                    databaseManager.SP_PES_ENT_ESTADOCIVIL(i, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
+                }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLEstadoCivilTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+        //Parameters tipo endereco
+        [HttpPost]
+        public ActionResult GetGRLEndType()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Sigla = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var v = (from a in databaseManager.SP_PES_ENT_TIPO_ENDERECO(null, null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Sigla)) v = v.Where(a => a.SIGLA != null && a.SIGLA.ToUpper().Contains(Sigla.ToUpper()));
+            if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "SIGLA": v = v.OrderBy(s => s.SIGLA); break;
+                        case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "SIGLA": v = v.OrderByDescending(s => s.SIGLA); break;
+                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    NOME = x.NOME,
+                    SIGLA = x.SIGLA,
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewGRLEndType(PES_TIPO_ENDERECOS MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_TIPO_ENDERECOS.Where(x => x.SIGLA == MODEL.SIGLA || x.NOME == MODEL.NOME).Any())
+                    return Json(new { result = false, error = "Sigla e/ou Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Create
+                var create = databaseManager.SP_PES_ENT_TIPO_ENDERECO(null, MODEL.SIGLA, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLEndTipoEndTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateGRLEndType(PES_TIPO_ENDERECOS MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_TIPO_ENDERECOS.Where(x => x.SIGLA == MODEL.SIGLA && x.ID != MODEL.ID || x.NOME == MODEL.NOME && x.ID != MODEL.ID).Any())
+                    return Json(new { result = false, error = "Sigla e/ou Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Update
+                var update = databaseManager.SP_PES_ENT_TIPO_ENDERECO(MODEL.ID, MODEL.SIGLA, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLEndTipoEndTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteGRLEndType(int?[] ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                // Delete
+                foreach (var i in ids)
+                {
+                    databaseManager.SP_PES_ENT_TIPO_ENDERECO(i, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
+                }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLEndTipoEndTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+        //Parameters profissoes
+        [HttpPost]
+        public ActionResult GetGRLProfissao()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Nome = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var v = (from a in databaseManager.SP_PES_ENT_PROFISSOES(null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    NOME = x.NOME,
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewGRLProfissao(PES_PROFISSOES MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_PROFISSOES.Where(x => x.NOME == MODEL.NOME).Any())
+                    return Json(new { result = false, error = "Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Create
+                var create = databaseManager.SP_PES_ENT_PROFISSOES(null, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLProfissaoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateGRLProfissao(PES_PROFISSOES MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_PROFISSOES.Where(x => x.NOME == MODEL.NOME && x.ID != MODEL.ID).Any())
+                    return Json(new { result = false, error = "Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Update
+                var update = databaseManager.SP_PES_ENT_PROFISSOES(MODEL.ID, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLProfissaoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteGRLProfissao(int?[] ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                // Delete
+                foreach (var i in ids)
+                {
+                    databaseManager.SP_PES_ENT_PROFISSOES(i, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
+                }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLProfissaoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+        //Parameters tipo de contractos
+        [HttpPost]
+        public ActionResult GetGRLProfContract()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Sigla = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var v = (from a in databaseManager.SP_PES_ENT_TIPO_CONTRACTO(null, null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Sigla)) v = v.Where(a => a.SIGLA != null && a.SIGLA.ToUpper().Contains(Sigla.ToUpper()));
+            if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "SIGLA": v = v.OrderBy(s => s.SIGLA); break;
+                        case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "SIGLA": v = v.OrderByDescending(s => s.SIGLA); break;
+                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    NOME = x.NOME,
+                    SIGLA = x.SIGLA,
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewGRLProfContract(PES_PROFISSOES_TIPO_CONTRACTO MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_PROFISSOES_TIPO_CONTRACTO.Where(x => x.SIGLA == MODEL.SIGLA || x.NOME == MODEL.NOME).Any())
+                    return Json(new { result = false, error = "Sigla e/ou Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Create
+                var create = databaseManager.SP_PES_ENT_TIPO_CONTRACTO(null, MODEL.SIGLA, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLProfissaoTipoContractoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateGRLProfContract(PES_PROFISSOES_TIPO_CONTRACTO MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_PROFISSOES_TIPO_CONTRACTO.Where(x => x.SIGLA == MODEL.SIGLA && x.ID != MODEL.ID || x.NOME == MODEL.NOME && x.ID != MODEL.ID).Any())
+                    return Json(new { result = false, error = "Sigla e/ou Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Update
+                var update = databaseManager.SP_PES_ENT_TIPO_CONTRACTO(MODEL.ID, MODEL.SIGLA, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLProfissaoTipoContractoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteGRLProfContract(int?[] ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                // Delete
+                foreach (var i in ids)
+                {
+                    databaseManager.SP_PES_ENT_TIPO_CONTRACTO(i, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
+                }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLProfissaoTipoContractoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+        //Parameters tipo de regimes
+        [HttpPost]
+        public ActionResult GetGRLProfRegime()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Sigla = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var v = (from a in databaseManager.SP_PES_ENT_TIPO_REGIME(null, null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Sigla)) v = v.Where(a => a.SIGLA != null && a.SIGLA.ToUpper().Contains(Sigla.ToUpper()));
+            if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "SIGLA": v = v.OrderBy(s => s.SIGLA); break;
+                        case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "SIGLA": v = v.OrderByDescending(s => s.SIGLA); break;
+                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    NOME = x.NOME,
+                    SIGLA = x.SIGLA,
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewGRLProfRegime(PES_PROFISSOES_REGIME_TRABALHO MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_PROFISSOES_REGIME_TRABALHO.Where(x => x.SIGLA == MODEL.SIGLA || x.NOME == MODEL.NOME).Any())
+                    return Json(new { result = false, error = "Sigla e/ou Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Create
+                var create = databaseManager.SP_PES_ENT_TIPO_REGIME(null, MODEL.SIGLA, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLProfissaoTipoRegimeTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateGRLProfRegime(PES_PROFISSOES_REGIME_TRABALHO MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_PROFISSOES_REGIME_TRABALHO.Where(x => x.SIGLA == MODEL.SIGLA && x.ID != MODEL.ID || x.NOME == MODEL.NOME && x.ID != MODEL.ID).Any())
+                    return Json(new { result = false, error = "Sigla e/ou Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Update
+                var update = databaseManager.SP_PES_ENT_TIPO_REGIME(MODEL.ID, MODEL.SIGLA, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLProfissaoTipoRegimeTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteGRLProfRegime(int?[] ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                // Delete
+                foreach (var i in ids)
+                {
+                    databaseManager.SP_PES_ENT_TIPO_REGIME(i, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
+                }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLProfissaoTipoRegimeTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+        //Parameters tipo de agregado
+        [HttpPost]
+        public ActionResult GetGRLPESAgregado()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Sigla = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var v = (from a in databaseManager.SP_PES_ENT_FAMILIARES_GRUPO(null, null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Sigla)) v = v.Where(a => a.SIGLA != null && a.SIGLA.ToUpper().Contains(Sigla.ToUpper()));
+            if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "SIGLA": v = v.OrderBy(s => s.SIGLA); break;
+                        case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "SIGLA": v = v.OrderByDescending(s => s.SIGLA); break;
+                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    NOME = x.NOME,
+                    SIGLA = x.SIGLA,
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewGRLPESAgregado(PES_FAMILIARES_GRUPOS MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_FAMILIARES_GRUPOS.Where(x => x.SIGLA == MODEL.SIGLA || x.NOME == MODEL.NOME).Any())
+                    return Json(new { result = false, error = "Sigla e/ou Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Create
+                var create = databaseManager.SP_PES_ENT_FAMILIARES_GRUPO(null, MODEL.SIGLA, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLAgregadoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateGRLPESAgregado(PES_FAMILIARES_GRUPOS MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_FAMILIARES_GRUPOS.Where(x => x.SIGLA == MODEL.SIGLA && x.ID != MODEL.ID || x.NOME == MODEL.NOME && x.ID != MODEL.ID).Any())
+                    return Json(new { result = false, error = "Sigla e/ou Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Update
+                var update = databaseManager.SP_PES_ENT_FAMILIARES_GRUPO(MODEL.ID, MODEL.SIGLA, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLAgregadoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteGRLPESAgregado(int?[] ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                // Delete
+                foreach (var i in ids)
+                {
+                    databaseManager.SP_PES_ENT_FAMILIARES_GRUPO(i, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
+                }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLAgregadoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+        //Parameters grupo sanguineo
+        [HttpPost]
+        public ActionResult GetGRLPESGrupoSang()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Nome = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var v = (from a in databaseManager.SP_PES_ENT_CARACT_TIPO_SANG(null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    NOME = x.NOME,
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewGRLPESGrupoSang(PES_PESSOAS_CARACT_TIPO_SANG MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_PESSOAS_CARACT_TIPO_SANG.Where(x => x.NOME == MODEL.NOME).Any())
+                    return Json(new { result = false, error = "Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Create
+                var create = databaseManager.SP_PES_ENT_CARACT_TIPO_SANG(null, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLGroupSangTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateGRLPESGrupoSang(PES_PESSOAS_CARACT_TIPO_SANG MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_PESSOAS_CARACT_TIPO_SANG.Where(x => x.NOME == MODEL.NOME && x.ID != MODEL.ID).Any())
+                    return Json(new { result = false, error = "Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Update
+                var update = databaseManager.SP_PES_ENT_CARACT_TIPO_SANG(MODEL.ID, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLGroupSangTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteGRLPESGrupoSang(int?[] ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                // Delete
+                foreach (var i in ids)
+                {
+                    databaseManager.SP_PES_ENT_CARACT_TIPO_SANG(i, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
+                }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLGroupSangTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+        //Parameters tipo de deficiencia
+        [HttpPost]
+        public ActionResult GetGRLPESDef()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Sigla = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var v = (from a in databaseManager.SP_PES_ENT_CARACT_TIPO_DEF(null, null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Sigla)) v = v.Where(a => a.SIGLA != null && a.SIGLA.ToUpper().Contains(Sigla.ToUpper()));
+            if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "SIGLA": v = v.OrderBy(s => s.SIGLA); break;
+                        case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "SIGLA": v = v.OrderByDescending(s => s.SIGLA); break;
+                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    NOME = x.NOME,
+                    SIGLA = x.SIGLA,
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewGRLPESDef(PES_PESSOAS_CARACT_TIPO_DEF MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_PESSOAS_CARACT_TIPO_DEF.Where(x => x.SIGLA == MODEL.SIGLA || x.NOME == MODEL.NOME).Any())
+                    return Json(new { result = false, error = "Sigla e/ou Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Create
+                var create = databaseManager.SP_PES_ENT_CARACT_TIPO_DEF(null, MODEL.SIGLA, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLTipoDefTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UdpateGRLPESDef(PES_PESSOAS_CARACT_TIPO_DEF MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.PES_PESSOAS_CARACT_TIPO_DEF.Where(x => x.SIGLA == MODEL.SIGLA && x.ID != MODEL.ID || x.NOME == MODEL.NOME && x.ID != MODEL.ID).Any())
+                    return Json(new { result = false, error = "Sigla e/ou Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Update
+                var update = databaseManager.SP_PES_ENT_CARACT_TIPO_DEF(MODEL.ID, MODEL.SIGLA, MODEL.NOME, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLTipoDefTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteGRLPESDef(int?[] ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                // Delete
+                foreach (var i in ids)
+                {
+                    databaseManager.SP_PES_ENT_CARACT_TIPO_DEF(i, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
+                }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLTipoDefTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+        //Parameters GT duracao de planos
+        [HttpPost]
+        public ActionResult GetGRLGTDuracaoPlano()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Duracao = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var v = (from a in databaseManager.SP_GT_ENT_DURACAO_TIPO(null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Duracao)) v = v.Where(a => a.DURACAO != null && a.DURACAO.ToString()==Duracao);
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "DURACAO": v = v.OrderBy(s => s.DURACAO); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "DURACAO": v = v.OrderByDescending(s => s.DURACAO); break;
+                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    DURACAO = x.DURACAO,
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewGRLGTDuracaoPlano(GT_DuracaoPlano MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.GT_DuracaoPlano.Where(x => x.DURACAO == MODEL.DURACAO).Any())
+                    return Json(new { result = false, error = "Entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Create
+                var create = databaseManager.SP_GT_ENT_DURACAO_TIPO(null, MODEL.DURACAO, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLGTDuracaoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateGRLGTDuracaoPlano(GT_DuracaoPlano MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.GT_DuracaoPlano.Where(x => x.DURACAO == MODEL.DURACAO && x.ID != MODEL.ID).Any())
+                    return Json(new { result = false, error = "Entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Update
+                var update = databaseManager.SP_GT_ENT_DURACAO_TIPO(MODEL.ID, MODEL.DURACAO, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLGTDuracaoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteGRLGTDuracaoPlano(int?[] ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                // Delete
+                foreach (var i in ids)
+                {
+                    databaseManager.SP_GT_ENT_DURACAO_TIPO(i, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
+                }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLGTDuracaoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+
+
+
+
+
 
         //Settings 
         [HttpGet]

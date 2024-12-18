@@ -1,9 +1,11 @@
-﻿@if (Request.IsAuthenticated)
+﻿@using Gestreino.Classes;
+@{ List<int> Settings = new List<int> { 101, 102, 103, 104, 105 };}
+@if (Request.IsAuthenticated)
 {
     <!-- sidebar menu -->
-    <div  id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
         <div class="menu_section">
-           
+
             <ul class="nav side-menu">
                 <li class="@(ViewBag.LeftBarLinkActive==201?"active":"")">
                     <a style="border-left:3px dotted #00ff21"><i class="fa fa-tags"></i> Atletas <span class="fa fa-chevron-down"></span></a>
@@ -12,7 +14,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a><i class="fa fa-credit-card"></i> Prescrição <span class="fa fa-chevron-down"></span></a>
+                    <a style="border-left:3px dotted #ff6a00"><i class="fa fa-credit-card"></i> Prescrição <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li><a href="#">Plano de Musculação</a></li>
                         <li><a href="#">Plano de Cardiovascular</a></li>
@@ -78,19 +80,20 @@
                         <li><a href="#">Relatórios</a></li>
                     </ul>
                 </li>
-                <li>
+                <li  class="@(Settings.Contains(ViewBag.LeftBarLinkActive)  ?"active":"")">
                     <a style="border-left:3px dotted #00ff21"><i class="fa fa-cog"></i> Configurações <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                        <li>
+                    <ul class="nav child_menu"  
+                       style="display:@(Settings.Contains(ViewBag.LeftBarLinkActive)  ?"block":"")">
+                        <li class="@(ViewBag.LeftBarLinkActive==101 || ViewBag.LeftBarLinkActive==102 || ViewBag.LeftBarLinkActive==103?"active":"")">
                             <a>Controlo de Acesso<span class="fa fa-chevron-down"></span></a>
-                            <ul class="nav child_menu">
-                                <li><a href="@Url.Action("users","administration")">Utilizadores</a></li>
-                                <li><a href="@Url.Action("access","administration")">Grupos, perfis e átomos</a></li>
-                                <li><a href="@Url.Action("loginlogs","administration")">Rastreamento de sessão</a></li>
+                            <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive==101 || ViewBag.LeftBarLinkActive==102 || ViewBag.LeftBarLinkActive==103?"block":"")">
+                                <li class="@(ViewBag.LeftBarLinkActive==101?"current-page":"")"><a href="@Url.Action("users","administration")">Utilizadores</a></li>
+                                <li class="@(ViewBag.LeftBarLinkActive==102?"current-page":"")"><a href="@Url.Action("access","administration")">Grupos, perfis e átomos</a></li>
+                                <li class="@(ViewBag.LeftBarLinkActive==103?"current-page":"")"><a href="@Url.Action("loginlogs","administration")">Rastreamento de sessão</a></li>
                             </ul>
                         </li>
-                        <li><a href="@Url.Action("parameters","administration")">Parametrização</a></li>
-                        <li><a href="@Url.Action("settings","administration")">Definições</a></li>
+                        <li class="@(ViewBag.LeftBarLinkActive==104?"current-page":"")"><a href="@Url.Action("parameters","administration")">Parametrização</a></li>
+                        <li class="@(ViewBag.LeftBarLinkActive==105?"current-page":"")"><a href="@Url.Action("settings","administration")">Definições</a></li>
                     </ul>
                 </li>
             </ul>

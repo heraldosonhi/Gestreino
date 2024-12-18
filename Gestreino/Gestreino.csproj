@@ -371,7 +371,22 @@
     <Compile Include="SP_GRL_ENT_TIPOTOKEN_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_GT_ENT_DURACAO_TIPO_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_INST_APLICACAO_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_PES_ENT_CARACT_TIPO_DEF_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_PES_ENT_CARACT_TIPO_SANG_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_PES_ENT_ESTADOCIVIL_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_PES_ENT_FAMILIARES_GRUPO_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_PES_ENT_PESSOAS_DEFICIENCIA_Result.cs">
@@ -387,6 +402,21 @@
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_PES_ENT_PESSOAS_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_PES_ENT_PROFISSOES_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_PES_ENT_TIPO_CONTRACTO_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_PES_ENT_TIPO_ENDERECO_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_PES_ENT_TIPO_IDENTIFICACAO_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_PES_ENT_TIPO_REGIME_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_UTILIZADORES_ENT_ATOMOS_GRUPOS_Result.cs">
@@ -589,6 +619,16 @@
     <Content Include="Views\Ajax\GTManagement\Athletes\GPManagementUserDisability.cshtml" />
     <Content Include="Views\Ajax\GTManagement\Athletes\GPManagementUserIdent.cshtml" />
     <Content Include="Views\Ajax\GTManagement\Athletes\GPManagementUserProfessional.cshtml" />
+    <Content Include="Views\Ajax\Administration\Parameters\GRLIdentType.cshtml" />
+    <Content Include="Views\Ajax\Administration\Parameters\GRLEstadoCivil.cshtml" />
+    <Content Include="Views\Ajax\Administration\Parameters\GRLEndType.cshtml" />
+    <Content Include="Views\Ajax\Administration\Parameters\GRLProfissao.cshtml" />
+    <Content Include="Views\Ajax\Administration\Parameters\GRLProfContract.cshtml" />
+    <Content Include="Views\Ajax\Administration\Parameters\GRLProfRegime.cshtml" />
+    <Content Include="Views\Ajax\Administration\Parameters\GRLPESAgregado.cshtml" />
+    <Content Include="Views\Ajax\Administration\Parameters\GRLPESGrupoSang.cshtml" />
+    <Content Include="Views\Ajax\Administration\Parameters\GRLPESDef.cshtml" />
+    <Content Include="Views\Ajax\Administration\Parameters\GRLGTDuracaoPlano.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

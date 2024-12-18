@@ -1561,6 +1561,12 @@
           <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
           <Parameter Name="Action" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_GT_ENT_DURACAO_TIPO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Duracao" Type="int" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_INST_APLICACAO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="Sigla" Type="varchar" Mode="In" />
@@ -1578,6 +1584,33 @@
           <Parameter Name="PaisId" Type="int" Mode="In" />
           <Parameter Name="CidadeId" Type="int" Mode="In" />
           <Parameter Name="MunId" Type="int" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_PES_ENT_CARACT_TIPO_DEF" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Sigla" Type="varchar" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_PES_ENT_CARACT_TIPO_SANG" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_PES_ENT_ESTADOCIVIL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Sigla" Type="varchar" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_PES_ENT_FAMILIARES_GRUPO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Sigla" Type="varchar" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
           <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
           <Parameter Name="Action" Type="varchar" Mode="In" />
         </Function>
@@ -1703,6 +1736,40 @@
           <Parameter Name="DateIni" Type="date" Mode="In" />
           <Parameter Name="DateEnd" Type="date" Mode="In" />
           <Parameter Name="Descricao" Type="varchar" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_PES_ENT_PROFISSOES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_PES_ENT_TIPO_CONTRACTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Sigla" Type="varchar" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_PES_ENT_TIPO_ENDERECO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Sigla" Type="varchar" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_PES_ENT_TIPO_IDENTIFICACAO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Sigla" Type="varchar" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_PES_ENT_TIPO_REGIME" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Sigla" Type="varchar" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
           <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
           <Parameter Name="Action" Type="varchar" Mode="In" />
         </Function>
@@ -3796,6 +3863,73 @@
             <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="SP_GT_ENT_DURACAO_TIPO" ReturnType="Collection(GESTREINO_ORM.SP_GT_ENT_DURACAO_TIPO_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Duracao" Mode="In" Type="Int32" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PES_ENT_CARACT_TIPO_DEF" ReturnType="Collection(GESTREINO_ORM.SP_PES_ENT_CARACT_TIPO_DEF_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Sigla" Mode="In" Type="String" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PES_ENT_CARACT_TIPO_SANG" ReturnType="Collection(GESTREINO_ORM.SP_PES_ENT_CARACT_TIPO_SANG_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PES_ENT_ESTADOCIVIL" ReturnType="Collection(GESTREINO_ORM.SP_PES_ENT_ESTADOCIVIL_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Sigla" Mode="In" Type="String" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PES_ENT_FAMILIARES_GRUPO" ReturnType="Collection(GESTREINO_ORM.SP_PES_ENT_FAMILIARES_GRUPO_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Sigla" Mode="In" Type="String" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PES_ENT_PROFISSOES" ReturnType="Collection(GESTREINO_ORM.SP_PES_ENT_PROFISSOES_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PES_ENT_TIPO_CONTRACTO" ReturnType="Collection(GESTREINO_ORM.SP_PES_ENT_TIPO_CONTRACTO_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Sigla" Mode="In" Type="String" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PES_ENT_TIPO_ENDERECO" ReturnType="Collection(GESTREINO_ORM.SP_PES_ENT_TIPO_ENDERECO_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Sigla" Mode="In" Type="String" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PES_ENT_TIPO_IDENTIFICACAO" ReturnType="Collection(GESTREINO_ORM.SP_PES_ENT_TIPO_IDENTIFICACAO_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Sigla" Mode="In" Type="String" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PES_ENT_TIPO_REGIME" ReturnType="Collection(GESTREINO_ORM.SP_PES_ENT_TIPO_REGIME_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Sigla" Mode="In" Type="String" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -4581,6 +4715,93 @@
           <Property Type="String" Name="PAIS_NOME" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="CIDADE_NOME" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="MUN_NOME" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_GT_ENT_DURACAO_TIPO_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="DURACAO" Nullable="false" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_PES_ENT_CARACT_TIPO_DEF_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SIGLA" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_PES_ENT_CARACT_TIPO_SANG_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_PES_ENT_ESTADOCIVIL_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="64" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_PES_ENT_FAMILIARES_GRUPO_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_PES_ENT_PROFISSOES_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_PES_ENT_TIPO_CONTRACTO_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="64" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_PES_ENT_TIPO_ENDERECO_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_PES_ENT_TIPO_IDENTIFICACAO_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="64" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_PES_ENT_TIPO_REGIME_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="64" />
           <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
           <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
           <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
@@ -5799,6 +6020,133 @@
                 <ScalarProperty Name="PAIS_NOME" ColumnName="PAIS_NOME" />
                 <ScalarProperty Name="CIDADE_NOME" ColumnName="CIDADE_NOME" />
                 <ScalarProperty Name="MUN_NOME" ColumnName="MUN_NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GT_ENT_DURACAO_TIPO" FunctionName="GESTREINO_ORM.Store.SP_GT_ENT_DURACAO_TIPO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GT_ENT_DURACAO_TIPO_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DURACAO" ColumnName="DURACAO" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_PES_ENT_CARACT_TIPO_DEF" FunctionName="GESTREINO_ORM.Store.SP_PES_ENT_CARACT_TIPO_DEF">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_PES_ENT_CARACT_TIPO_DEF_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_PES_ENT_CARACT_TIPO_SANG" FunctionName="GESTREINO_ORM.Store.SP_PES_ENT_CARACT_TIPO_SANG">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_PES_ENT_CARACT_TIPO_SANG_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_PES_ENT_ESTADOCIVIL" FunctionName="GESTREINO_ORM.Store.SP_PES_ENT_ESTADOCIVIL">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_PES_ENT_ESTADOCIVIL_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_PES_ENT_FAMILIARES_GRUPO" FunctionName="GESTREINO_ORM.Store.SP_PES_ENT_FAMILIARES_GRUPO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_PES_ENT_FAMILIARES_GRUPO_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_PES_ENT_PROFISSOES" FunctionName="GESTREINO_ORM.Store.SP_PES_ENT_PROFISSOES">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_PES_ENT_PROFISSOES_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_PES_ENT_TIPO_CONTRACTO" FunctionName="GESTREINO_ORM.Store.SP_PES_ENT_TIPO_CONTRACTO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_PES_ENT_TIPO_CONTRACTO_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_PES_ENT_TIPO_ENDERECO" FunctionName="GESTREINO_ORM.Store.SP_PES_ENT_TIPO_ENDERECO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_PES_ENT_TIPO_ENDERECO_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_PES_ENT_TIPO_IDENTIFICACAO" FunctionName="GESTREINO_ORM.Store.SP_PES_ENT_TIPO_IDENTIFICACAO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_PES_ENT_TIPO_IDENTIFICACAO_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_PES_ENT_TIPO_REGIME" FunctionName="GESTREINO_ORM.Store.SP_PES_ENT_TIPO_REGIME">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_PES_ENT_TIPO_REGIME_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
                 <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
                 <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
                 <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />

@@ -463,7 +463,7 @@ namespace Gestreino.Controllers
             MODEL.ID = item.FirstOrDefault().ID;
 
             ViewBag.imgSrc = (string.IsNullOrEmpty(item[0].FOTOGRAFIA)) ? "/Assets/images/user-avatar.jpg" : "/" + item[0].FOTOGRAFIA;
-            //ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Users;
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Athletes;
             return View("Athletes/ProfilePhoto", MODEL);
         }
         // Get 
@@ -471,6 +471,7 @@ namespace Gestreino.Controllers
         public ActionResult WebCam()
         {
             // if (AcessControl.Authorized(AcessControl.GP_USERS_ALTER_PHOTOGRAPH) || AcessControl.Authorized(AcessControl.GA_ENROLLMENTS_NEW) || AcessControl.Authorized(AcessControl.GA_ENROLLMENTS_NEW_EXCEPTION) || AcessControl.Authorized(AcessControl.GA_APPLICATIONS_ENROL_STUDENTS)) { } else return View("Lockout");
+            ViewBag.LeftBarLinkActive = 0;
             return View("Athletes/WebCam");
         }
         // Update

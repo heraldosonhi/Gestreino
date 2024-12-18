@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace Gestreino.Controllers
 {
+    [Authorize]
     public class AjaxController : Controller
     {
         private GESTREINO_Entities databaseManager = new GESTREINO_Entities();
@@ -206,8 +207,6 @@ namespace Gestreino.Controllers
         }
 
 
-
-
         public ActionResult PESFamily(PES_Dados_Pessoais_Agregado MODEL, string action, int? id, int?[] bulkids)
         {
             MODEL.ID = id;
@@ -296,6 +295,176 @@ namespace Gestreino.Controllers
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
             return View("GTManagement/Athletes/GPManagementUserDisability", MODEL);
+        }
+
+
+        public ActionResult GRLIdentType(PES_TIPO_IDENTIFICACAO MODEL, string action, int? id, int?[] bulkids)
+        {
+            if (action == "Editar")
+            {
+                var data = databaseManager.PES_TIPO_IDENTIFICACAO.Where(x => x.ID == id).ToList();
+                MODEL.ID = data.First().ID;
+                MODEL.NOME = data.First().NOME;
+                MODEL.SIGLA = data.First().SIGLA;
+            }
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("administration/Parameters/GRLIdentType", MODEL);
+        }
+        public ActionResult GRLEstadoCivil(PES_ESTADO_CIVIL MODEL, string action, int? id, int?[] bulkids)
+        {
+            if (action == "Editar")
+            {
+                var data = databaseManager.PES_ESTADO_CIVIL.Where(x => x.ID == id).ToList();
+                MODEL.ID = data.First().ID;
+                MODEL.NOME = data.First().NOME;
+                MODEL.SIGLA = data.First().SIGLA;
+            }
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("administration/Parameters/GRLEstadoCivil", MODEL);
+        }
+        public ActionResult GRLEndType(PES_TIPO_ENDERECOS MODEL, string action, int? id, int?[] bulkids)
+        {
+            if (action == "Editar")
+            {
+                var data = databaseManager.PES_TIPO_ENDERECOS.Where(x => x.ID == id).ToList();
+                MODEL.ID = data.First().ID;
+                MODEL.NOME = data.First().NOME;
+                MODEL.SIGLA = data.First().SIGLA;
+            }
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("administration/Parameters/GRLEndType", MODEL);
+        }
+        public ActionResult GRLProfissao(PES_PROFISSOES MODEL, string action, int? id, int?[] bulkids)
+        {
+            if (action == "Editar")
+            {
+                var data = databaseManager.PES_PROFISSOES.Where(x => x.ID == id).ToList();
+                MODEL.ID = data.First().ID;
+                MODEL.NOME = data.First().NOME;
+            }
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("administration/Parameters/GRLProfissao", MODEL);
+        }
+        public ActionResult GRLProfContract(PES_PROFISSOES_TIPO_CONTRACTO MODEL, string action, int? id, int?[] bulkids)
+        {
+            if (action == "Editar")
+            {
+                var data = databaseManager.PES_PROFISSOES_TIPO_CONTRACTO.Where(x => x.ID == id).ToList();
+                MODEL.ID = data.First().ID;
+                MODEL.NOME = data.First().NOME;
+                MODEL.SIGLA = data.First().SIGLA;
+            }
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("administration/Parameters/GRLProfContract", MODEL);
+        }
+        public ActionResult GRLProfRegime(PES_PROFISSOES_REGIME_TRABALHO MODEL, string action, int? id, int?[] bulkids)
+        {
+            if (action == "Editar")
+            {
+                var data = databaseManager.PES_PROFISSOES_REGIME_TRABALHO.Where(x => x.ID == id).ToList();
+                MODEL.ID = data.First().ID;
+                MODEL.NOME = data.First().NOME;
+                MODEL.SIGLA = data.First().SIGLA;
+            }
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("administration/Parameters/GRLProfRegime", MODEL);
+        }
+        public ActionResult GRLPESAgregado(PES_FAMILIARES_GRUPOS MODEL, string action, int? id, int?[] bulkids)
+        {
+            if (action == "Editar")
+            {
+                var data = databaseManager.PES_FAMILIARES_GRUPOS.Where(x => x.ID == id).ToList();
+                MODEL.ID = data.First().ID;
+                MODEL.NOME = data.First().NOME;
+                MODEL.SIGLA = data.First().SIGLA;
+            }
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("administration/Parameters/GRLPESAgregado", MODEL);
+        }
+        public ActionResult GRLPESGrupoSang(PES_PESSOAS_CARACT_TIPO_SANG MODEL, string action, int? id, int?[] bulkids)
+        {
+            if (action == "Editar")
+            {
+                var data = databaseManager.PES_PESSOAS_CARACT_TIPO_SANG.Where(x => x.ID == id).ToList();
+                MODEL.ID = data.First().ID;
+                MODEL.NOME = data.First().NOME;
+            }
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("administration/Parameters/GRLPESGrupoSang", MODEL);
+        }
+        public ActionResult GRLPESDef(PES_PESSOAS_CARACT_TIPO_DEF MODEL, string action, int? id, int?[] bulkids)
+        {
+            if (action == "Editar")
+            {
+                var data = databaseManager.PES_PESSOAS_CARACT_TIPO_DEF.Where(x => x.ID == id).ToList();
+                MODEL.ID = data.First().ID;
+                MODEL.NOME = data.First().NOME;
+                MODEL.SIGLA = data.First().SIGLA;
+            }
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("administration/Parameters/GRLPESDef", MODEL);
+        }
+
+        public ActionResult GRLGTDuracaoPlano(GT_DuracaoPlano MODEL, string action, int? id, int?[] bulkids)
+        {
+            if (action == "Editar")
+            {
+                var data = databaseManager.GT_DuracaoPlano.Where(x => x.ID == id).ToList();
+                MODEL.ID = data.First().ID;
+                MODEL.DURACAO = data.First().DURACAO;
+            }
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("administration/Parameters/GRLGTDuracaoPlano", MODEL);
         }
 
     }

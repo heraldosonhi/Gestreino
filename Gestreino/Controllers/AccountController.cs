@@ -76,7 +76,7 @@ namespace JeanPiagetSGA.Controllers
             //ViewBag.PessoaEndereco = PessoaEndereco.Count() > 0 ? PessoaEndereco[0].MUN + ", " + PessoaEndereco[0].CIDADE : String.Empty;
             //ViewBag.MORADA = PessoaEndereco.Count() > 0 ? PessoaEndereco[0].MORADA : String.Empty;
             //ViewBag.PessoaIdent = databaseManager.SP_PES_ENT_PESSOAS_IDENTIFICACAO(PesId.ID, null, null, null, null, null, null, null, null, null, null, "R").ToList();
-            
+
             /*
              // Get claims after login
              var claimsIdentity = User.Identity as ClaimsIdentity;
@@ -110,6 +110,7 @@ namespace JeanPiagetSGA.Controllers
              ViewBag.SubGrupos = subgrupos;
              ViewBag.Atomos = atomos;
             */
+            ViewBag.LeftBarLinkActive = 0;
             return View(MODEL);
         }
         // POST: Reset Password

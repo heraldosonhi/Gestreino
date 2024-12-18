@@ -1080,5 +1080,243 @@ namespace Gestreino
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_PESSOAS_FAM_Result>("SP_PES_ENT_PESSOAS_FAM", idParameter, pesIdParameter, grupoIdParameter, profissaoIdParameter, nomeParameter, telefoneParameter, telefoneAlternativoParameter, faxParameter, emailParameter, uRlParameter, numeroParameter, ruaParameter, moradaParameter, paisIdParameter, cidadeIdParameter, municipioIdParameter, isentoParameter, userInsercaoIdParameter, actionParameter);
         }
+    
+        public virtual ObjectResult<SP_GT_ENT_DURACAO_TIPO_Result> SP_GT_ENT_DURACAO_TIPO(Nullable<int> id, Nullable<int> duracao, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var duracaoParameter = duracao.HasValue ?
+                new ObjectParameter("Duracao", duracao) :
+                new ObjectParameter("Duracao", typeof(int));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_ENT_DURACAO_TIPO_Result>("SP_GT_ENT_DURACAO_TIPO", idParameter, duracaoParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_PES_ENT_CARACT_TIPO_DEF_Result> SP_PES_ENT_CARACT_TIPO_DEF(Nullable<int> id, string sigla, string nome, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var siglaParameter = sigla != null ?
+                new ObjectParameter("Sigla", sigla) :
+                new ObjectParameter("Sigla", typeof(string));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_CARACT_TIPO_DEF_Result>("SP_PES_ENT_CARACT_TIPO_DEF", idParameter, siglaParameter, nomeParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_PES_ENT_CARACT_TIPO_SANG_Result> SP_PES_ENT_CARACT_TIPO_SANG(Nullable<int> id, string nome, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_CARACT_TIPO_SANG_Result>("SP_PES_ENT_CARACT_TIPO_SANG", idParameter, nomeParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_PES_ENT_ESTADOCIVIL_Result> SP_PES_ENT_ESTADOCIVIL(Nullable<int> id, string sigla, string nome, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var siglaParameter = sigla != null ?
+                new ObjectParameter("Sigla", sigla) :
+                new ObjectParameter("Sigla", typeof(string));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_ESTADOCIVIL_Result>("SP_PES_ENT_ESTADOCIVIL", idParameter, siglaParameter, nomeParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_PES_ENT_FAMILIARES_GRUPO_Result> SP_PES_ENT_FAMILIARES_GRUPO(Nullable<int> id, string sigla, string nome, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var siglaParameter = sigla != null ?
+                new ObjectParameter("Sigla", sigla) :
+                new ObjectParameter("Sigla", typeof(string));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_FAMILIARES_GRUPO_Result>("SP_PES_ENT_FAMILIARES_GRUPO", idParameter, siglaParameter, nomeParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_PES_ENT_PROFISSOES_Result> SP_PES_ENT_PROFISSOES(Nullable<int> id, string nome, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_PROFISSOES_Result>("SP_PES_ENT_PROFISSOES", idParameter, nomeParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_PES_ENT_TIPO_CONTRACTO_Result> SP_PES_ENT_TIPO_CONTRACTO(Nullable<int> id, string sigla, string nome, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var siglaParameter = sigla != null ?
+                new ObjectParameter("Sigla", sigla) :
+                new ObjectParameter("Sigla", typeof(string));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_TIPO_CONTRACTO_Result>("SP_PES_ENT_TIPO_CONTRACTO", idParameter, siglaParameter, nomeParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_PES_ENT_TIPO_ENDERECO_Result> SP_PES_ENT_TIPO_ENDERECO(Nullable<int> id, string sigla, string nome, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var siglaParameter = sigla != null ?
+                new ObjectParameter("Sigla", sigla) :
+                new ObjectParameter("Sigla", typeof(string));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_TIPO_ENDERECO_Result>("SP_PES_ENT_TIPO_ENDERECO", idParameter, siglaParameter, nomeParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_PES_ENT_TIPO_IDENTIFICACAO_Result> SP_PES_ENT_TIPO_IDENTIFICACAO(Nullable<int> id, string sigla, string nome, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var siglaParameter = sigla != null ?
+                new ObjectParameter("Sigla", sigla) :
+                new ObjectParameter("Sigla", typeof(string));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_TIPO_IDENTIFICACAO_Result>("SP_PES_ENT_TIPO_IDENTIFICACAO", idParameter, siglaParameter, nomeParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_PES_ENT_TIPO_REGIME_Result> SP_PES_ENT_TIPO_REGIME(Nullable<int> id, string sigla, string nome, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var siglaParameter = sigla != null ?
+                new ObjectParameter("Sigla", sigla) :
+                new ObjectParameter("Sigla", typeof(string));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_TIPO_REGIME_Result>("SP_PES_ENT_TIPO_REGIME", idParameter, siglaParameter, nomeParameter, userInsercaoIdParameter, actionParameter);
+        }
     }
 }

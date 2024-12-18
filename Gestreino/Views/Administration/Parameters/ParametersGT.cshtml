@@ -1,1 +1,97 @@
-﻿
+﻿@model Gestreino.Models.Users
+@{
+    ViewBag.Title = "Parametrização de entidadades Gestreino";
+}
+<!-- page content -->
+<div class="right_col" role="main">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("parameters","administration")">Parametrização</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Entidades Gestreino (GT)</li>
+        </ol>
+    </nav>
+
+    <div class="alert alert-primary-light"
+         role="alert">
+        <div class="d-flex flex-wrap align-items-start">
+            <div class="mr-8pt">
+                <i class="fa fa-cogs"></i>&nbsp;
+            </div>
+            <div class="flex"
+                 style="min-width: 180px">
+                <span class="text-black-100">
+                    <strong>Parâmetros GT!</strong> Duração de planos
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- DOCS TIPO -->
+    <!--  DATATABLE START -->
+    <div class="card mb-32pt">
+        <div class="card-header">
+            <div class="form-inline">
+                <label class="" for="length_change">Mostrar</label>
+                <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GRLGTDuracaoTable">
+                    <option value='10'>10</option>
+                    <option value='25'>25</option>
+                    <option value='50'>50</option>
+                    <option value='100'>100</option>
+                    <option value='500'>500</option>
+                    <option value='1000'>1000</option>
+                    <option value='2000'>2000</option>
+                    <option value='5000'>5000</option>
+                    <option value='10000'>10000</option>
+                </select>
+                <label class="" for="length_change">registos</label>
+                <div class="btn-group">
+                    <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GRLGTDuracaoTable"><i class="fa fa-check-square"></i></button>
+                    <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="grlgtduracao" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                    <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GRLGTDuracaoTable"><i class="fa fa-search"></i></button>
+                    <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GRLGTDuracaoTable"><i class="fa fa-eraser"></i></button>
+                    <a title="Adicionar duração de plano" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="grlgtduracao" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
+                    <!--Separator-->
+                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="GRLGTDuracaoTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><input type="text" id="GRLGTDuracaoTableDuracao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLGTDuracaoTableInsercao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLGTDuracaoTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
+                        <td><input type="text" id="GRLGTDuracaoTableActualizacao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLGTDuracaoTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th data-name="GRLGTDuracaoTableDuracao">Duração</th>
+                        <th data-name="GRLGTDuracaoTableInsercao">Inserção</th>
+                        <th data-name="GRLGTDuracaoTableDataInsercao">Data Inserção</th>
+                        <th data-name="GRLGTDuracaoTableActualizacao">Actualização</th>
+                        <th data-name="GRLGTDuracaoTableDataActualizacao">Data Actualização</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="card-footer p-8pt">
+            <span class="paginateInfoGRLGTDuracaoTable paginateInfo mr-12pt" style="float:right"></span>
+            <div id="paginateGRLGTDuracaoTable" class="pagination justify-content-start pagination-xsm m-0"></div>
+        </div>
+    </div>
+    <!--  DATATABLE START -->
+    <h2>&nbsp;</h2>
+    <h2>&nbsp;</h2>
+</div>
+<!-- /page content -->
+<script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            handleDataGRLGTDuracaoTable();
+        });
+</script>

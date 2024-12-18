@@ -36,6 +36,7 @@
                         @Html.HiddenFor(m => m.ID)
 
                         <label class="label mb-24pt btn-group">
+                            <a href="@Url.Action("viewathletes", "gtmanagement", new {Id=Model.ID})" class="btn btn-danger btn-sm">Voltar</a>
                             <input type="file" class="sr-only" id="input" name="file" accept="image/*">
                             <a class="btn btn-light" id="input" title="Carregar fotografia pessoal"><i class="fa fa-upload fa-2x"></i></a>
                             <button type="button" class="btn btn-light btn-rounded" onclick="setPictureWebcamBtn(@ViewBag.item[0].UTILIZADORES_ID,@ViewBag.item[0].ID)" title="Capturar rosto"><i class="fa fa-camera fa-2x"></i></button>
