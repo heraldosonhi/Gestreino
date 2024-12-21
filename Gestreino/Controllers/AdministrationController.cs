@@ -4312,6 +4312,193 @@ namespace Gestreino.Controllers
             return Json(new { result = true, error = string.Empty, table = "GRLGTDuracaoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
 
+        //Parameters GT Fase de treino
+        [HttpPost]
+        public ActionResult GetGRLGTFaseTreinoTable()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Sigla = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Serie = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Reps = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var RM = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Descanso = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var v = (from a in databaseManager.SP_GT_ENT_FaseTreino(null, null, null, null, null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Sigla)) v = v.Where(a => a.SIGLA != null && a.SIGLA.ToUpper() == Sigla.ToUpper());
+            if (!string.IsNullOrEmpty(Serie)) v = v.Where(a => a.GT_Series_ID != null && a.GT_Series_ID.ToString() == Serie);
+            if (!string.IsNullOrEmpty(Reps)) v = v.Where(a => a.GT_Repeticoes_ID != null && a.GT_Repeticoes_ID.ToString() == Reps);
+            if (!string.IsNullOrEmpty(RM)) v = v.Where(a => a.GT_Carga_ID != null && a.GT_Carga_ID.ToString() == RM);
+            if (!string.IsNullOrEmpty(Descanso)) v = v.Where(a => a.GT_TempoDescanso_ID != null && a.GT_TempoDescanso_ID.ToString() == Descanso);
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "SIGLA": v = v.OrderBy(s => s.SIGLA); break;
+                        case "SERIE": v = v.OrderBy(s => s.GT_Series_ID); break;
+                        case "REPS": v = v.OrderBy(s => s.GT_Repeticoes_ID); break;
+                        case "RM": v = v.OrderBy(s => s.GT_Carga_ID); break;
+                        case "DESCANSO": v = v.OrderBy(s => s.TEMPO_DESCANSO); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "SIGLA": v = v.OrderByDescending(s => s.SIGLA); break;
+                        case "SERIE": v = v.OrderByDescending(s => s.GT_Series_ID); break;
+                        case "REPS": v = v.OrderByDescending(s => s.GT_Repeticoes_ID); break;
+                        case "RM": v = v.OrderByDescending(s => s.GT_Carga_ID); break;
+                        case "DESCANSO": v = v.OrderByDescending(s => s.TEMPO_DESCANSO); break;
+                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    SIGLA = x.SIGLA,
+                    SERIE = x.SERIES,
+                    REPS = x.REPETICOES,
+                    RM = x.CARGA,
+                    DESCANSO = x.TEMPO_DESCANSO,
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewGRLGTFaseTreino(Gestreino.Models.GT_FaseTreino MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.GT_FaseTreino.Where(x => x.SIGLA == MODEL.SIGLA).Any())
+                    return Json(new { result = false, error = "Sigla da entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Create
+                var create = databaseManager.SP_GT_ENT_FaseTreino(null, MODEL.SIGLA, MODEL.GT_Series_ID, MODEL.GT_Repeticoes_ID, MODEL.GT_Carga_ID, MODEL.GT_TempoDescanso_ID, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLGTFaseTreinoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateGRLGTFaseTreino(Gestreino.Models.GT_FaseTreino MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (databaseManager.GT_FaseTreino.Where(x => x.SIGLA == MODEL.SIGLA && x.ID != MODEL.ID).Any())
+                    return Json(new { result = false, error = "Sigla da entidade já se encontra registada, por favor verifique a seleção!" });
+
+                // Update
+                var update = databaseManager.SP_GT_ENT_FaseTreino(MODEL.ID, MODEL.SIGLA,MODEL.GT_Series_ID,MODEL.GT_Repeticoes_ID,MODEL.GT_Carga_ID,MODEL.GT_TempoDescanso_ID, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLGTFaseTreinoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteGRLGTFaseTreino(int?[] ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                // Delete
+                foreach (var i in ids)
+                {
+                    databaseManager.SP_GT_ENT_FaseTreino(i, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
+                }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLGTFaseTreinoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
 
 
 

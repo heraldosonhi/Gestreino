@@ -13,11 +13,11 @@
                         <li class="@(ViewBag.LeftBarLinkActive==201?"current-page":"")"><a href="@Url.Action("athletes","gtmanagement")">Dados biográficos</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a style="border-left:3px dotted #ff6a00"><i class="fa fa-credit-card"></i> Prescrição <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                        <li><a href="#">Plano de Musculação</a></li>
-                        <li><a href="#">Plano de Cardiovascular</a></li>
+                <li class="@(ViewBag.LeftBarLinkActive==202 || ViewBag.LeftBarLinkActive==203 ?"active":"")">
+                    <a style="border-left:3px dotted #ff6a00"><i class="fa fa-book"></i> Prescrição <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu"  style="display:@(ViewBag.LeftBarLinkActive==202 ||ViewBag.LeftBarLinkActive==203 ?"block":"")">
+                        <li class="@(ViewBag.LeftBarLinkActive==202?"current-page":"")"><a href="@Url.Action("bodymassplans","gtmanagement")">Plano de Musculação</a></li>
+                        <li class="@(ViewBag.LeftBarLinkActive==203?"current-page":"")"><a href="@Url.Action("cardioplans","gtmanagement")">Plano de Cardiovascular</a></li>
                     </ul>
                 </li>
                 <li>

@@ -26,7 +26,9 @@ namespace Gestreino.Controllers
         private GESTREINO_Entities databaseManager = new GESTREINO_Entities();
         // _MenuLeftBarLink
         int _MenuLeftBarLink_Athletes = 201;
-        int _MenuLeftBarLink_FileManagement = 202;
+        int _MenuLeftBarLink_PlanBodyMass = 202;
+        int _MenuLeftBarLink_PlanCardio = 203;
+        int _MenuLeftBarLink_FileManagement = 0;
 
         // GET: GTManagement
         public ActionResult Index()
@@ -1283,6 +1285,33 @@ namespace Gestreino.Controllers
 
 
 
+
+
+
+        //PRESCRICAO
+        // GET: GTManagement
+        public ActionResult BodyMassPlans(Gestreino.Models.GT_TreinoBodyMass MODEL)
+        {
+            MODEL.GT_Series_List = databaseManager.GT_Series.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.SERIES.ToString() });
+            MODEL.GT_Repeticoes_List = databaseManager.GT_Repeticoes.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.REPETICOES.ToString() });
+            MODEL.GT_Carga_List = databaseManager.GT_Carga.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.CARGA.ToString() });
+            MODEL.GT_TempoDescanso_List = databaseManager.GT_TempoDescanso.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.TEMPO_DESCANSO });
+
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_PlanBodyMass;
+            return View("Plans/BodyMass/NewPlan",MODEL);
+        }
+        //PRESCRICAO
+        // GET: GTManagement
+        public ActionResult CardioPlans(Gestreino.Models.GT_TreinoBodyMass MODEL)
+        {
+            MODEL.GT_Series_List = databaseManager.GT_Series.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.SERIES.ToString() });
+            MODEL.GT_Repeticoes_List = databaseManager.GT_Repeticoes.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.REPETICOES.ToString() });
+            MODEL.GT_Carga_List = databaseManager.GT_Carga.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.CARGA.ToString() });
+            MODEL.GT_TempoDescanso_List = databaseManager.GT_TempoDescanso.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.TEMPO_DESCANSO });
+
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_PlanCardio;
+            return View("Plans/Cardio/NewPlan",MODEL);
+        }
 
 
     }

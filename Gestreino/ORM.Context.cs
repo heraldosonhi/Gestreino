@@ -74,6 +74,11 @@ namespace Gestreino
         public virtual DbSet<PES_CONTACTOS> PES_CONTACTOS { get; set; }
         public virtual DbSet<GT_DuracaoPlano> GT_DuracaoPlano { get; set; }
         public virtual DbSet<PES_PESSOAS_CARACT> PES_PESSOAS_CARACT { get; set; }
+        public virtual DbSet<GT_Carga> GT_Carga { get; set; }
+        public virtual DbSet<GT_FaseTreino> GT_FaseTreino { get; set; }
+        public virtual DbSet<GT_Repeticoes> GT_Repeticoes { get; set; }
+        public virtual DbSet<GT_Series> GT_Series { get; set; }
+        public virtual DbSet<GT_TempoDescanso> GT_TempoDescanso { get; set; }
     
         public virtual ObjectResult<SP_UTILIZADORES_LOGIN_LOGS_Result> SP_UTILIZADORES_LOGIN_LOGS(Nullable<int> userId, string action)
         {
@@ -1317,6 +1322,43 @@ namespace Gestreino
                 new ObjectParameter("Action", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_TIPO_REGIME_Result>("SP_PES_ENT_TIPO_REGIME", idParameter, siglaParameter, nomeParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_GT_ENT_FaseTreino_Result> SP_GT_ENT_FaseTreino(Nullable<int> id, string sigla, Nullable<int> gT_Series_ID, Nullable<int> gT_Repeticoes_ID, Nullable<int> gT_Carga_ID, Nullable<int> gT_TempoDescanso_ID, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var siglaParameter = sigla != null ?
+                new ObjectParameter("Sigla", sigla) :
+                new ObjectParameter("Sigla", typeof(string));
+    
+            var gT_Series_IDParameter = gT_Series_ID.HasValue ?
+                new ObjectParameter("GT_Series_ID", gT_Series_ID) :
+                new ObjectParameter("GT_Series_ID", typeof(int));
+    
+            var gT_Repeticoes_IDParameter = gT_Repeticoes_ID.HasValue ?
+                new ObjectParameter("GT_Repeticoes_ID", gT_Repeticoes_ID) :
+                new ObjectParameter("GT_Repeticoes_ID", typeof(int));
+    
+            var gT_Carga_IDParameter = gT_Carga_ID.HasValue ?
+                new ObjectParameter("GT_Carga_ID", gT_Carga_ID) :
+                new ObjectParameter("GT_Carga_ID", typeof(int));
+    
+            var gT_TempoDescanso_IDParameter = gT_TempoDescanso_ID.HasValue ?
+                new ObjectParameter("GT_TempoDescanso_ID", gT_TempoDescanso_ID) :
+                new ObjectParameter("GT_TempoDescanso_ID", typeof(int));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_ENT_FaseTreino_Result>("SP_GT_ENT_FaseTreino", idParameter, siglaParameter, gT_Series_IDParameter, gT_Repeticoes_IDParameter, gT_Carga_IDParameter, gT_TempoDescanso_IDParameter, userInsercaoIdParameter, actionParameter);
         }
     }
 }

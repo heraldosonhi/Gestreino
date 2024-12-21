@@ -517,4 +517,51 @@ namespace Gestreino.Models
         public string Descricao { get; set; }
 
     }
+    public class GT_FaseTreino
+    {
+        public int? ID { get; set; }
+
+        [Display(Name = "Fase do treino")]
+        public string SIGLA { get; set; }
+
+        [Display(Name = "Séries")]
+        public int? GT_Series_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> GT_Series_List { get; set; }
+
+        [Display(Name = "Repetições")]
+        public int? GT_Repeticoes_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> GT_Repeticoes_List { get; set; }
+
+        [Display(Name = "Perc. RM")]
+        public int? GT_Carga_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> GT_Carga_List { get; set; }
+
+        [Display(Name = "Descanso")]
+        public int? GT_TempoDescanso_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> GT_TempoDescanso_List { get; set; }
+    }
+
+    public class GT_TreinoBodyMass
+    {
+        public int? ID { get; set; }
+
+        [Display(Name = "Fase do treino")]
+        public string SIGLA { get; set; }
+
+        [Display(Name = "Séries")]
+        public int? GT_Series_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> GT_Series_List { get; set; }
+
+        [Display(Name = "Repetições")]
+        public int? GT_Repeticoes_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> GT_Repeticoes_List { get; set; }
+
+        [Display(Name = "Perc. RM")]
+        public int? GT_Carga_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> GT_Carga_List { get; set; }
+
+        [Display(Name = "Descanso")]
+        public int? GT_TempoDescanso_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> GT_TempoDescanso_List { get; set; }
+    }
 }

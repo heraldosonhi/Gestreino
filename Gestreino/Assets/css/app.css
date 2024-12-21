@@ -660,3 +660,27 @@ button.toast-close-button {
     touch-action: auto;
     -ms-touch-action: auto
 }
+
+
+
+
+
+
+
+
+.planfieldset  {
+    
+    border:1px solid #ccc
+} /* Remove margins from p elements inside fieldsets */
+
+fieldset {
+    border: 1px solid transparent;
+}
+
+legend {
+    margin-bottom:.1rem !important
+}
+.planimg{
+    border:1px solid #ccc
+}
+

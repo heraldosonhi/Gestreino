@@ -153,6 +153,13 @@
           <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
           <Property Name="DATA_REMOCAO" Type="datetime" />
         </EntityType>
+        <EntityType Name="GT_Carga">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CARGA" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="GT_DuracaoPlano">
           <Key>
             <PropertyRef Name="ID" />
@@ -165,6 +172,44 @@
           <Property Name="DATA_INSERCAO" Type="datetime" Nullable="false" />
           <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
           <Property Name="DATA_REMOCAO" Type="datetime" />
+        </EntityType>
+        <EntityType Name="GT_FaseTreino">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SIGLA" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="GT_Series_ID" Type="int" Nullable="false" />
+          <Property Name="GT_Repeticoes_ID" Type="int" Nullable="false" />
+          <Property Name="GT_Carga_ID" Type="int" Nullable="false" />
+          <Property Name="GT_TempoDescanso_ID" Type="int" Nullable="false" />
+          <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="int" />
+          <Property Name="REMOVIDO_POR" Type="int" />
+          <Property Name="DATA_INSERCAO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
+          <Property Name="DATA_REMOCAO" Type="datetime" />
+        </EntityType>
+        <EntityType Name="GT_Repeticoes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="REPETICOES" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GT_Series">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SERIES" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GT_TempoDescanso">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TEMPO_DESCANSO" Type="varchar" MaxLength="30" Nullable="false" />
         </EntityType>
         <EntityType Name="INST_APLICACAO">
           <Key>
@@ -1567,6 +1612,16 @@
           <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
           <Parameter Name="Action" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_GT_ENT_FaseTreino" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Sigla" Type="varchar" Mode="In" />
+          <Parameter Name="GT_Series_ID" Type="int" Mode="In" />
+          <Parameter Name="GT_Repeticoes_ID" Type="int" Mode="In" />
+          <Parameter Name="GT_Carga_ID" Type="int" Mode="In" />
+          <Parameter Name="GT_TempoDescanso_ID" Type="int" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_INST_APLICACAO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="Sigla" Type="varchar" Mode="In" />
@@ -1866,7 +1921,12 @@
           <EntitySet Name="GRL_ENDERECO_PAIS" EntityType="Self.GRL_ENDERECO_PAIS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GRL_TOKENS" EntityType="Self.GRL_TOKENS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GRL_TOKENS_TIPOS" EntityType="Self.GRL_TOKENS_TIPOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_Carga" EntityType="Self.GT_Carga" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_DuracaoPlano" EntityType="Self.GT_DuracaoPlano" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_FaseTreino" EntityType="Self.GT_FaseTreino" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_Repeticoes" EntityType="Self.GT_Repeticoes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_Series" EntityType="Self.GT_Series" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_TempoDescanso" EntityType="Self.GT_TempoDescanso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="INST_APLICACAO" EntityType="Self.INST_APLICACAO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="INST_APLICACAO_ARQUIVOS" EntityType="Self.INST_APLICACAO_ARQUIVOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="INST_APLICACAO_CONTACTOS" EntityType="Self.INST_APLICACAO_CONTACTOS" Schema="dbo" store:Type="Tables" />
@@ -3930,6 +3990,21 @@
             <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="GT_Carga" EntityType="GESTREINO_ORM.GT_Carga" />
+          <EntitySet Name="GT_FaseTreino" EntityType="GESTREINO_ORM.GT_FaseTreino" />
+          <EntitySet Name="GT_Repeticoes" EntityType="GESTREINO_ORM.GT_Repeticoes" />
+          <EntitySet Name="GT_Series" EntityType="GESTREINO_ORM.GT_Series" />
+          <EntitySet Name="GT_TempoDescanso" EntityType="GESTREINO_ORM.GT_TempoDescanso" />
+          <FunctionImport Name="SP_GT_ENT_FaseTreino" ReturnType="Collection(GESTREINO_ORM.SP_GT_ENT_FaseTreino_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Sigla" Mode="In" Type="String" />
+            <Parameter Name="GT_Series_ID" Mode="In" Type="Int32" />
+            <Parameter Name="GT_Repeticoes_ID" Mode="In" Type="Int32" />
+            <Parameter Name="GT_Carga_ID" Mode="In" Type="Int32" />
+            <Parameter Name="GT_TempoDescanso_ID" Mode="In" Type="Int32" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -4802,6 +4877,67 @@
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="3" />
           <Property Type="String" Name="NOME" Nullable="false" MaxLength="64" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <EntityType Name="GT_Carga">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CARGA" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GT_FaseTreino">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SIGLA" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="GT_Series_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_Repeticoes_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_Carga_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_TempoDescanso_ID" Type="Int32" Nullable="false" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="GT_Repeticoes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="REPETICOES" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GT_Series">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SERIES" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GT_TempoDescanso">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TEMPO_DESCANSO" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="SP_GT_ENT_FaseTreino_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="GT_Series_ID" Nullable="false" />
+          <Property Type="Int32" Name="GT_Repeticoes_ID" Nullable="false" />
+          <Property Type="Int32" Name="GT_Carga_ID" Nullable="false" />
+          <Property Type="Int32" Name="GT_TempoDescanso_ID" Nullable="false" />
+          <Property Type="Int32" Name="CARGA" Nullable="false" />
+          <Property Type="Int32" Name="REPETICOES" Nullable="false" />
+          <Property Type="Int32" Name="SERIES" Nullable="false" />
+          <Property Type="String" Name="TEMPO_DESCANSO" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
           <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
           <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
@@ -6147,6 +6283,76 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
                 <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="GT_Carga">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_Carga">
+              <MappingFragment StoreEntitySet="GT_Carga">
+                <ScalarProperty Name="CARGA" ColumnName="CARGA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_FaseTreino">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_FaseTreino">
+              <MappingFragment StoreEntitySet="GT_FaseTreino">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="GT_TempoDescanso_ID" ColumnName="GT_TempoDescanso_ID" />
+                <ScalarProperty Name="GT_Carga_ID" ColumnName="GT_Carga_ID" />
+                <ScalarProperty Name="GT_Repeticoes_ID" ColumnName="GT_Repeticoes_ID" />
+                <ScalarProperty Name="GT_Series_ID" ColumnName="GT_Series_ID" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_Repeticoes">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_Repeticoes">
+              <MappingFragment StoreEntitySet="GT_Repeticoes">
+                <ScalarProperty Name="REPETICOES" ColumnName="REPETICOES" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_Series">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_Series">
+              <MappingFragment StoreEntitySet="GT_Series">
+                <ScalarProperty Name="SERIES" ColumnName="SERIES" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_TempoDescanso">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_TempoDescanso">
+              <MappingFragment StoreEntitySet="GT_TempoDescanso">
+                <ScalarProperty Name="TEMPO_DESCANSO" ColumnName="TEMPO_DESCANSO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_GT_ENT_FaseTreino" FunctionName="GESTREINO_ORM.Store.SP_GT_ENT_FaseTreino">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GT_ENT_FaseTreino_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="GT_Series_ID" ColumnName="GT_Series_ID" />
+                <ScalarProperty Name="GT_Repeticoes_ID" ColumnName="GT_Repeticoes_ID" />
+                <ScalarProperty Name="GT_Carga_ID" ColumnName="GT_Carga_ID" />
+                <ScalarProperty Name="GT_TempoDescanso_ID" ColumnName="GT_TempoDescanso_ID" />
+                <ScalarProperty Name="CARGA" ColumnName="CARGA" />
+                <ScalarProperty Name="REPETICOES" ColumnName="REPETICOES" />
+                <ScalarProperty Name="SERIES" ColumnName="SERIES" />
+                <ScalarProperty Name="TEMPO_DESCANSO" ColumnName="TEMPO_DESCANSO" />
                 <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
                 <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
                 <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />

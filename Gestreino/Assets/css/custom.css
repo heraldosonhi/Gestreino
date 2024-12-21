@@ -1701,7 +1701,8 @@ h2 {
   font-weight: 500; }
 
 legend {
-  padding-bottom: 7px; }
+    /*padding-bottom: 7px;*/
+}
 
 .demo-placeholder {
   height: 280px; }

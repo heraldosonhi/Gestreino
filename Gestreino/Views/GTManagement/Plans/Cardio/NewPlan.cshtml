@@ -1,0 +1,319 @@
+﻿@model Gestreino.Models.GT_TreinoBodyMass
+@using Gestreino.Classes
+@{
+    ViewBag.Title = "Plano de treino cardiovascular";
+}
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="handle-error alert alert-accent"
+         role="alert" style="display:none;">
+        <div class="d-flex flex-wrap align-items-start">
+            <div class="mr-8pt">
+                <i class="fa fa-warning"></i>
+            </div>
+            <div class="flex"
+                 style="min-width: 180px">
+                <span class="text-black-100">
+                    <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 ">
+            @using (Ajax.BeginForm("", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="animated flipInY">
+                    <div class="tile-stats">
+                        <div class="icon">
+                            <i class="fa fa-book"></i>
+                        </div>
+                        <h3 class="p-2">Plano de treino Cardiovascular</h3>
+                        <div class="p-4">
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <fieldset class="planfieldset p-1">
+                                        <legend>Dados do exercício:</legend>
+                                        <div class="row">
+                                            <label class="col-md-8 col-form-label">Duração (Min.):</label>
+                                            <div class="col-md-4">
+                                                @Html.DropDownListFor(x => Model.GT_Series_ID, Model.GT_Series_List, new { @class = "form-control form-control-sm", required = "" })
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-8 col-form-label">FC (Min/Máx) bpm:</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control form-control-sm" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-8 col-form-label">Nível / Resist. / Velocidade:</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control form-control-sm" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-8 col-form-label">Inclinação:</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control form-control-sm" />
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-6">
+                                    <fieldset class="planfieldset p-1">
+                                        <legend>Dados do plano:</legend>
+
+                                        <div class="row">
+                                            <label class="col-md-3 col-form-label">Data de início:</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control datepicker form-control-sm" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="btn-group">
+                                                    <button disabled="" class="btn btn-sm btn-secondary">Predefinido</button>
+                                                    <button disabled="" class="btn btn-sm btn-secondary"><i class="fa fa-plus-square"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-3 col-form-label">Data fim:</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control datepicker form-control-sm" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-3 col-form-label">Periodização:</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control form-control-sm" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-3 col-form-label">Observações:</label>
+                                            <div class="col-md-9">
+                                                <textarea style="height:30px" rows="1" class="form-control"></textarea>
+                                             </div>
+                                        </div>
+
+                                    </fieldset>
+
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-md-12">
+                                    <fieldset class="planfieldset p-1">
+                                        <legend>Tipo de plano:</legend>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <input type="radio" name="plantype" class="" id="plantype1"> <label class="mb-0" for="plantype1">Manual</label> <br />
+                                                <input type="radio" name="plantype" class="" id="plantype2"> <label class="mb-1" for="plantype2">Predefinido</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="row">
+                                                    <label class="col-md-3 col-form-label">Nome do treino:</label>
+                                                    <div class="col-md-5">
+                                                        <input type="text" class="form-control form-control-sm" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-5">
+                                    <fieldset class="planfieldset p-1">
+                                        <legend>Exercícios disponíveis:</legend>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p class="text-center"> <img class="planimg" src="~/Assets/images/user-avatar.jpg" width="100" /></p>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-12">
+                                                <!--  DATATABLE START -->
+
+                                                <div class="card mb-32pt">
+
+                                                    <div class="table-responsive">
+                                                        <table id="DadosPessoaisTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                                            <thead>
+                                                                <tr>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td><input type="text" id="DateIni" class="form-control form-control-sm" /></td>
+                                                                    <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
+                                                                    <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                                                    <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
+                                                                    <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                    <th data-name="DateIni">Data de início</th>
+                                                                    <th data-name="Insercao">Inserção</th>
+                                                                    <th data-name="DataInsercao">Data Inserção</th>
+                                                                    <th data-name="Actualizacao">Actualização</th>
+                                                                    <th data-name="DataActualizacao">Data Actualização</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                    <div class="card-footer p-8pt">
+                                                        <span class="paginateInfoDadosPessoais paginateInfo mr-12pt" style="float:right"></span>
+                                                        <div id="paginateDadosPessoais" class="pagination justify-content-start pagination-xsm m-0"></div>
+                                                    </div>
+                                                </div>
+                                                <!--  DATATABLE START -->
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="">
+                                        <button disabled class="btn btn-secondary btn-block"><i class="fa fa-floppy-o"></i></button>
+                                        <button type="button" class="btn btn-secondary btn-block"><<</button>
+                                        <button type="button" class="btn btn-secondary btn-block"><</button>
+                                        <button type="button" class="btn btn-secondary btn-block">></button>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <fieldset class="planfieldset p-1">
+                                        <legend>Exercícios Cardio:</legend>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p class="text-center"> <img class="planimg" src="~/Assets/images/user-avatar.jpg" width="100" /></p>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-12">
+                                                <!--  DATATABLE START -->
+
+                                                <div class="card mb-32pt">
+
+                                                    <div class="table-responsive">
+                                                        <table id="DadosPessoaisTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                                            <thead>
+                                                                <tr>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td><input type="text" id="DateIni" class="form-control form-control-sm" /></td>
+                                                                    <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
+                                                                    <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                                                    <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
+                                                                    <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                    <th data-name="DateIni">Data de início</th>
+                                                                    <th data-name="Insercao">Inserção</th>
+                                                                    <th data-name="DataInsercao">Data Inserção</th>
+                                                                    <th data-name="Actualizacao">Actualização</th>
+                                                                    <th data-name="DataActualizacao">Data Actualização</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                    <div class="card-footer p-8pt">
+                                                        <span class="paginateInfoDadosPessoais paginateInfo mr-12pt" style="float:right"></span>
+                                                        <div id="paginateDadosPessoais" class="pagination justify-content-start pagination-xsm m-0"></div>
+                                                    </div>
+                                                </div>
+                                                <!--  DATATABLE START -->
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+
+
+                        </div>
+                            </div>
+                        </div>
+
+
+            }
+        </div>
+        <div class="col-md-12 col-sm-12 ">
+
+
+
+
+
+            <!--  DATATABLE START -->
+
+            <div class="card mb-32pt">
+                <div class="card-header">
+                    <div class="form-inline">
+                        <label class="" for="length_change">Mostrar</label>
+                        <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="DadosPessoaisTable">
+                            <option value='10'>10</option>
+                            <option value='25'>25</option>
+                            <option value='50'>50</option>
+                            <option value='100'>100</option>
+                            <option value='500'>500</option>
+                            <option value='1000'>1000</option>
+                            <option value='2000'>2000</option>
+                            <option value='5000'>5000</option>
+                            <option value='10000'>10000</option>
+                        </select>
+                        <label class="" for="length_change">registos</label>
+                        <div class="btn-group">
+                            <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="DadosPessoaisTable"><i class="fa fa-check-square"></i></button>
+                            <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="users" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                            <button title="Pesquisar" class="btnSearch btn btn-default" data-id="DadosPessoaisTable"><i class="fa fa-search"></i></button>
+                            <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="DadosPessoaisTable"><i class="fa fa-eraser"></i></button>
+                            <!--Separator-->
+                            <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                            <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="DadosPessoaisTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                        <thead>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td><input type="text" id="DateIni" class="form-control form-control-sm" /></td>
+                                <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
+                                <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
+                                <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th data-name="DateIni">Data de início</th>
+                                <th data-name="Insercao">Inserção</th>
+                                <th data-name="DataInsercao">Data Inserção</th>
+                                <th data-name="Actualizacao">Actualização</th>
+                                <th data-name="DataActualizacao">Data Actualização</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="card-footer p-8pt">
+                    <span class="paginateInfoDadosPessoais paginateInfo mr-12pt" style="float:right"></span>
+                    <div id="paginateDadosPessoais" class="pagination justify-content-start pagination-xsm m-0"></div>
+                </div>
+            </div>
+            <!--  DATATABLE START -->
+
+
+
+
+
+        </div>
+    </div>
+
+    <h2>&nbsp;</h2>
+</div>
+<!-- /page content -->

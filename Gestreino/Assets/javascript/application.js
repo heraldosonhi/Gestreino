@@ -274,6 +274,8 @@ $(document).on('click', '.open-modal-crud', function (e) {
             break;
         case 'grlgtduracao': url = '../../Ajax/GRLGTDuracaoPlano';
             break;
+        case 'grlgtfasetreino': url = '../../Ajax/GRLGTFaseTreino';
+            break;
         default: null
     }
     $.ajax({
@@ -2624,6 +2626,81 @@ function handleDataGRLGTDuracaoTable() {
         //Remove pagination from table and add to custom Div
         initComplete: (settings, json) => {
             $('#GRLGTDuracaoTable_paginate').appendTo('#paginateGRLGTDuracaoTable');
+        },
+    });
+};
+function handleDataGRLGTFaseTreinoTable() {
+    var table = $("#GRLGTFaseTreinoTable").DataTable({
+        "processing": true, // Para exibir mensagem de processamento a cada requisição
+        "serverSide": true, // Para processar as requisições no back-end
+        //"filter": false, // : está comentado porque estamos a usar filtros que enviamos no back-end
+        "orderMulti": false, // Opção de ordenação para uma coluna de cada vez.
+        //Linguagem PT
+        "language": {
+            "url": "/Assets/lib/datatable/pt-PT.json"
+        },
+        fixedHeader: {
+            header: true,
+            footer: true
+        },
+        "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
+        "ajax": {
+            "url": "../../administration/GetGRLGTFaseTreinoTable", // POST TO CONTROLLER
+            "type": "POST",
+            "datatype": "json",
+            data: {}
+        },
+        "columns": [
+            { "data": "Id", "name": null, "autoWidth": true },
+            //Column customizada
+            {
+                sortable: false,
+                "render": function (data, type, full, meta) {
+                    return '<a title="Editar" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Editar" data-entity="grlgtfasetreino" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil"></i></a>' +
+                        ' <a title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="grlgtfasetreino" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
+                }
+            },
+            //Cada dado representa uma coluna da tabela
+            { "data": "SIGLA", "name": "SIGLA", "autoWidth": true },
+            { "data": "SERIE", "name": "SERIE", "autoWidth": true },
+            { "data": "REPS", "name": "REPS", "autoWidth": true },
+            { "data": "RM", "name": "RM", "autoWidth": true },
+            { "data": "DESCANSO", "name": "DESCANSO", "autoWidth": true },
+            { "data": "INSERCAO", "name": "INSERCAO", "autoWidth": true },
+            { "data": "DATAINSERCAO", "name": "DATAINSERCAO", "autoWidth": true },
+            { "data": "ACTUALIZACAO", "name": "ACTUALIZACAO", "autoWidth": true },
+            { "data": "DATAACTUALIZACAO", "name": "DATAACTUALIZACAO", "autoWidth": true },
+        ],
+        //Configuração da tabela para os checkboxes
+        'columnDefs': [
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                },
+            }
+        ], 'select': {
+            'style': 'multi'
+        },
+        'order': [[1, 'false']],
+        'rowCallback': function (row, data, dataIndex) {
+            // Get row ID
+            var rowId = data["Id"];
+            //console.log(rowId)
+            //Dra table and add selected option to previously selected checkboxes
+            $.each(values, function (i, r) {
+                if (rowId == r) {
+                    $(row).find('input[type="checkbox"]').prop('checked', true);
+                    $(row).closest("tr").addClass("selected");
+                }
+            })
+        },
+        drawCallback: function () {
+            processInfo(this.api().page.info(), 'paginateInfoGRLGTFaseTreinoTable');
+        },
+        //Remove pagination from table and add to custom Div
+        initComplete: (settings, json) => {
+            $('#GRLGTFaseTreinoTable_paginate').appendTo('#paginateGRLGTFaseTreinoTable');
         },
     });
 };

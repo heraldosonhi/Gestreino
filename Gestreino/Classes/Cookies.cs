@@ -11,10 +11,10 @@ namespace Gestreino.Classes
     public class Cookies
     {
         //Static Vars
-        public static string COOKIES_GA_CALENDAR_COLUMN_SIZE = "IPIAGET_gacalendarcolumnsize";
-        public static string COOKIES_GA_REQUEST_INIT_VIEW = "IPIAGET_garequestinitview";
-        public static string COOKIES_GA_EXAMENROLLMENT_INIT_VIEW = "IPIAGET_gaexamenrollmentinitview";
-        public static string COOKIES_GA_ENROLLMENTS_INIT_VIEW = "IPIAGET_garenrollmentsinitview";
+        public static string COOKIES_SIDEBAR_MENU_COLLAPSE = "gestreino_sidemenucollapse";
+        //public static string COOKIES_GA_REQUEST_INIT_VIEW = "IPIAGET_garequestinitview";
+        //public static string COOKIES_GA_EXAMENROLLMENT_INIT_VIEW = "IPIAGET_gaexamenrollmentinitview";
+        //public static string COOKIES_GA_ENROLLMENTS_INIT_VIEW = "IPIAGET_garenrollmentsinitview";
 
 
         public void WriteCookie(string entity, string value)

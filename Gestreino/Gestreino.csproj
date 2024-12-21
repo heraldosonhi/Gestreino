@@ -252,7 +252,22 @@
     <Compile Include="GRL_TOKENS_TIPOS.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_Carga.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="GT_DuracaoPlano.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_FaseTreino.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_Repeticoes.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_Series.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_TempoDescanso.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="INST_APLICACAO.cs">
@@ -372,6 +387,9 @@
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_GT_ENT_DURACAO_TIPO_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GT_ENT_FaseTreino_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_INST_APLICACAO_Result.cs">
@@ -633,6 +651,9 @@
     <Content Include="Views\Ajax\Administration\Parameters\GRLPESGrupoSang.cshtml" />
     <Content Include="Views\Ajax\Administration\Parameters\GRLPESDef.cshtml" />
     <Content Include="Views\Ajax\Administration\Parameters\GRLGTDuracaoPlano.cshtml" />
+    <Content Include="Views\Ajax\Administration\Parameters\GRLGTFaseTreino.cshtml" />
+    <Content Include="Views\GTManagement\Plans\BodyMass\NewPlan.cshtml" />
+    <Content Include="Views\GTManagement\Plans\Cardio\NewPlan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

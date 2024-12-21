@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
 @using Gestreino.Classes
 @using System.Security.Claims
+@{ int init = string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_SIDEBAR_MENU_COLLAPSE)) ? 0 : int.Parse(Cookies.ReadCookie(Cookies.COOKIES_SIDEBAR_MENU_COLLAPSE)); }
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +21,7 @@
     <!-- Font Awesome -->
     <link href="~/Assets/css/font-awesome.min.css" rel="stylesheet">
 </head>
-<body class="nav-md footer_fixed">
+<body class="nav-@(init==1?"md":"sm") footer_fixed">
     <div class="bg-black text-white">
         Docs/Stack/Repo: <i> <a class="text-white" href="https://github.com/heraldosonhi/Gestreino" target="_blank">https://github.com/heraldosonhi/Gestreino</a></i>
     </div>
@@ -65,31 +66,38 @@
                 {
                     var claimsIdentity = User.Identity as ClaimsIdentity;
                     var existingClaim = claimsIdentity.FindFirst(ClaimTypes.UserData);
-              
-                <div class="top_nav">
-                    <div class="nav_menu">
-                        <div class="nav toggle">
-                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+
+                    <div class="top_nav">
+                        <div class="nav_menu">
+                            <div class="nav toggle">
+                                @using (Ajax.BeginForm("../ajax/SetCookies", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "", OnComplete = "", OnSuccess = "", OnFailure = "", UpdateTargetId = "" }, new { id = "" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" value="@Cookies.COOKIES_SIDEBAR_MENU_COLLAPSE" name="entity" />
+                                    <button type="submit" id="BtnSubmit" style="display:none"></button>
+                                    <input type="hidden" value="@(init==0?"1":"0")" name="value" />
+                                    <a id="menu_toggle" class="mt-3" onclick="$('#BtnSubmit').click();"><i class="fa fa-bars"></i></a>
+                                }
+                            </div>
+                            <nav class="nav navbar-nav">
+                                <ul class=" navbar-right">
+                                    <li class="nav-item dropdown open" style="padding-left: 15px;">
+                                        <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
+                                            <img src="@(existingClaim != null && !string.IsNullOrEmpty(claimsIdentity.FindFirst(ClaimTypes.UserData).Value) ? "/" + claimsIdentity.FindFirst(ClaimTypes.UserData).Value :  "/Assets/images/user-avatar.jpg")" alt="@User.Identity.GetUserName()">@User.Identity.GetUserName()
+                                        </a>
+                                        <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="@Url.Action("profile","account")"> Perfil</a>
+                                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out pull-right"></i> Terminar sessão</a>
+                                            }
+                                        </div>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
-                        <nav class="nav navbar-nav">
-                            <ul class=" navbar-right">
-                                <li class="nav-item dropdown open" style="padding-left: 15px;">
-                                    <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                                        <img src="@(existingClaim != null && !string.IsNullOrEmpty(claimsIdentity.FindFirst(ClaimTypes.UserData).Value) ? "/" + claimsIdentity.FindFirst(ClaimTypes.UserData).Value :  "/Assets/images/user-avatar.jpg")" alt="@User.Identity.GetUserName()">@User.Identity.GetUserName()
-                                    </a>
-                                    <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="@Url.Action("profile","account")"> Perfil</a>
-                                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "" }))
-                                        {
-                                            @Html.AntiForgeryToken()
-                                            <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out pull-right"></i> Terminar sessão</a>
-                                        }
-                                    </div>
-                                </li>
-                            </ul>
-                        </nav>
                     </div>
-                </div>
                 }
                 <!-- /top navigation -->
             }

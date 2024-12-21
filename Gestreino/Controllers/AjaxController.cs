@@ -466,6 +466,67 @@ namespace Gestreino.Controllers
             ViewBag.Action = action;
             return View("administration/Parameters/GRLGTDuracaoPlano", MODEL);
         }
+          public ActionResult GRLGTFaseTreino(Gestreino.Models.GT_FaseTreino MODEL, string action, int? id, int?[] bulkids)
+        {
+            if (action == "Editar")
+            {
+                var data = databaseManager.GT_FaseTreino.Where(x => x.ID == id).ToList();
+                MODEL.ID = id;
+                MODEL.SIGLA = data.First().SIGLA;
+                MODEL.GT_Series_ID = data.First().GT_Series_ID;
+                MODEL.GT_Repeticoes_ID = data.First().GT_Repeticoes_ID;
+                MODEL.GT_Carga_ID = data.First().GT_Carga_ID;
+                MODEL.GT_TempoDescanso_ID = data.First().GT_TempoDescanso_ID;
+            }
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+
+            MODEL.GT_Series_List = databaseManager.GT_Series.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.SERIES.ToString() });
+            MODEL.GT_Repeticoes_List = databaseManager.GT_Repeticoes.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.REPETICOES.ToString() });
+            MODEL.GT_Carga_List = databaseManager.GT_Carga.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.CARGA.ToString() });
+            MODEL.GT_TempoDescanso_List = databaseManager.GT_TempoDescanso.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.TEMPO_DESCANSO });
+
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("administration/Parameters/GRLGTFaseTreino", MODEL);
+        }
+
+
+
+
+
+        // Delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SetCookies(string entity,string value)
+        {
+            try
+            {
+
+                Cookies c = new Cookies();
+                c.WriteCookie(entity, value);
+                string cookievalue;
+                if (Request.Cookies["cookie"] != null)
+                {
+                  //  cookievalue = Request.Cookies["cookie"].ToString();
+                }
+                else
+                {
+                 //   Response.Cookies["cookie"].Value = "cookie value";
+                 //   Response.Cookies["cookie"].Expires = DateTime.Now.AddMinutes(1); // add expiry time
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+       
+
+
 
     }
 }
