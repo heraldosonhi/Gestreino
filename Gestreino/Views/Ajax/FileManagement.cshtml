@@ -1,0 +1,211 @@
+﻿@using Gestreino.Classes
+@model FileUploader.FileUploadModel
+@{Layout = null; }
+<div class="card-header card-reader-radius bg-primary-pickled-bluewood">
+    <h3 class="text-white mb-0">@ViewBag.Action documento</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="handle-error alert alert-accent"
+                 role="alert" style="display:none;">
+                <div class="d-flex flex-wrap align-items-start">
+                    <div class="mr-8pt">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="flex"
+                         style="min-width: 180px">
+                        <small class="text-black-100">
+                            <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (ViewBag.Action == "Adicionar")
+    {
+        //using (Html.BeginForm("AddFile", "ajax", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { enctype = "multipart/form-data", role = "form", id = "FileUploader" }))
+        //{
+        using (Ajax.BeginForm("../ajax/AddFile", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { enctype = "multipart/form-data", role = "form", id = "FileUploader" }))
+        { 
+            <div class="alert alert-primary">
+                <div class="d-flex flex-wrap align-items-center">
+                    <div class="mr-8pt">
+                        <i class="help"></i>
+                    </div>
+                    <div class="flex"
+                         style="min-width: 180px">
+                        <small class="text-100">
+                            Formatos permitidos: @string.Join(", ", FileUploader.allowedExtensions).
+                            Capacidade máxima até @FileUploader.FormatSize(FileUploader.ThirtyMB)
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ID, new { @class = "form-label",Value=Model.EntityID })
+            @Html.HiddenFor(m => m.EntityName, new { @class = "form-label" })
+            <p>  <span><i class="fa fa-circle-question"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.TipoDoc, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(x => Model.TipoDocId, Model.TipoDocList, "Selecionar o Documento", new { @class = "form-control ", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.Nome, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.Nome, new { @class = "form-control", placeholder = "Nome", required = "required", maxlength = "255" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-right required">Ficheiro</label>
+                <div class="col-sm-5">
+                    @Html.TextBox("file", null, new { type = "file", required = "required", data_filesize = FileUploader.TwoMB })
+                </div>
+            </div>
+            <div class="form-group row progress-container" style="display:none">
+                <label class="col-sm-2 col-form-label text-right">&nbsp;</label>
+                <div class="col-sm-10">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.Descricao, new { @class = "col-sm-2 col-form-label text-right" })
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(m => m.Descricao, new { @class = "form-control ", placeholder = "Descrição", maxlength = "255" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.Status, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-4">
+                    @Html.LabelFor(m => m.StatusPending, new { @class = "form-control custom-select w-auto", style = "display:none; color: #d9534f", id = "StatusPending" })
+                    @Html.DropDownListFor(m => m.Status, new SelectList(Enum.GetValues(typeof(SelectValues.Status))), new { @class = "form-control custom-select w-auto", id = "Status" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-right"></label>
+                <div class="col-sm-5">
+                    <div class="custom-control custom-checkbox">
+                        @Html.CheckBoxFor(m => m.ScheduledStatus, new { @class = "custom-control-input", id = "ScheduledStatus" })
+                        @Html.LabelFor(m => m.ScheduledStatus, new { @class = "custom-control-label" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row dateActRow" style="display:none;">
+                @Html.LabelFor(m => m.DateAct, new { @class = "col-sm-2 col-form-label text-right" })
+                <div class="col-sm-5">
+                    @Html.TextBoxFor(m => m.DateAct, new { @class = "datepickerDisablePastDate form-control", placeholder = "Data Activação", id = "DateAct" })
+                    @Html.ValidationMessageFor(m => m.DateAct, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-5">
+                    @Html.TextBoxFor(m => m.DateDisact, new { @class = "datepickerDisablePastDate form-control", placeholder = "Data Desactivação", id = "DateDisact" })
+                    @Html.ValidationMessageFor(m => m.DateDisact, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="">Submeter</button>
+            </div>
+        }
+    }
+
+    @if (ViewBag.Action == "Editar")
+    {
+        using (Ajax.BeginForm("../ajax/EditFile", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
+        {
+            <div class="alert alert-primary">
+                <div class="d-flex flex-wrap align-items-center">
+                    <div class="mr-8pt">
+                        <i class="help"></i>
+                    </div>
+                    <div class="flex"
+                         style="min-width: 180px">
+                        <small class="text-100">
+                            Formatos permitidos: @string.Join(", ", FileUploader.allowedExtensions).
+                            Capacidade máxima até @FileUploader.FormatSize(FileUploader.TwoMB)
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ID, new { @class = "form-label" })
+            @Html.HiddenFor(m => m.EntityName, new { @class = "form-label" })
+            <p>  <span><i class="fa fa-circle-question"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.TipoDoc, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-10">
+                    @Html.DropDownListFor(x => Model.TipoDocId, Model.TipoDocList, "Selecionar o Documento", new { @class = "form-control ", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.Nome, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.Nome, new { @class = "form-control", placeholder = "Nome", required = "required", maxlength = "255" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.Descricao, new { @class = "col-sm-2 col-form-label text-right" })
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(m => m.Descricao, new { @class = "form-control ", placeholder = "Descrição", maxlength = "255" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.Status, new { @class = "col-sm-2 col-form-label text-right required" })
+                <div class="col-sm-5">
+                    @Html.LabelFor(m => m.StatusPending, new { @class = "form-control custom-select w-auto", style = "display:none; color: #d9534f", id = "StatusPending" })
+                    @Html.DropDownListFor(m => m.Status, new SelectList(Enum.GetValues(typeof(SelectValues.Status))), new { @class = "form-control custom-select w-auto", id = "Status" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-right"></label>
+                <div class="col-sm-5">
+                    <div class="custom-control custom-checkbox">
+                        @Html.CheckBoxFor(m => m.ScheduledStatus, new { @class = "custom-control-input", id = "ScheduledStatus" })
+                        @Html.LabelFor(m => m.ScheduledStatus, new { @class = "custom-control-label" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row dateActRow" style="display:none;">
+                @Html.LabelFor(m => m.DateAct, new { @class = "col-sm-2 col-form-label text-right" })
+                <div class="col-sm-5">
+                    @Html.TextBoxFor(m => m.DateAct, new { @class = "datepickerDisablePastDate form-control", placeholder = "Data Activação", id = "DateAct" })
+                    @Html.ValidationMessageFor(m => m.DateAct, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-5">
+                    @Html.TextBoxFor(m => m.DateDisact, new { @class = "datepickerDisablePastDate form-control", placeholder = "Data Desactivação", id = "DateDisact" })
+                    @Html.ValidationMessageFor(m => m.DateDisact, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+            </div>
+        }
+    }
+    @if (ViewBag.Action == "Remover")
+    {
+        using (Ajax.BeginForm("../ajax/DeleteFile", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.EntityName)
+            <div class="row col-lg-12">
+                @{ foreach (var id in ViewBag.bulkids)
+                    {
+                        <input type="hidden" name="Ids[]" value="@id" />
+                    }
+                }
+                <p>Deseja remover este(s) item(s)?</p>
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+            </div>
+        }
+    }
+</div>

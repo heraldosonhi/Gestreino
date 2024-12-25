@@ -12,21 +12,20 @@ namespace Gestreino
     using System;
     using System.Collections.Generic;
     
-    public partial class GT_Repeticoes
+    public partial class GT_SOCIOS
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public GT_Repeticoes()
+        public GT_SOCIOS()
         {
-            this.GT_ExercicioTreino = new HashSet<GT_ExercicioTreino>();
-            this.GT_FaseTreino = new HashSet<GT_FaseTreino>();
+            this.GT_TreinosPessoa = new HashSet<GT_TreinosPessoa>();
         }
     
         public int ID { get; set; }
-        public int REPETICOES { get; set; }
+        public int PES_PESSOAS_ID { get; set; }
+        public int NUMERO { get; set; }
     
+        public virtual PES_PESSOAS PES_PESSOAS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GT_ExercicioTreino> GT_ExercicioTreino { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GT_FaseTreino> GT_FaseTreino { get; set; }
+        public virtual ICollection<GT_TreinosPessoa> GT_TreinosPessoa { get; set; }
     }
 }

@@ -374,7 +374,7 @@ namespace Gestreino.Controllers
 
                     foreach (int item in MODEL.NacionalidadeId)
                     {
-                        var addnationality = databaseManager.SP_PES_ENT_PESSOAS(MODEL.ID, null, null, null, null, null, null, item, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), "IN").ToList();
+                        var addnationality = databaseManager.SP_PES_ENT_PESSOAS(PesId, null, null, null, null, null, null, item, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), "IN").ToList();
                     }
                 }
                 returnUrl = "/gtmanagement/viewathletes/" + PesId;
@@ -387,7 +387,7 @@ namespace Gestreino.Controllers
             return Json(new { result = true, error = string.Empty, url = returnUrl, showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
 
-        // Create
+        // Update
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateAthlete(Gestreino.Models.Athlete MODEL, string returnUrl)

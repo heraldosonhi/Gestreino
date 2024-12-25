@@ -276,6 +276,8 @@ $(document).on('click', '.open-modal-crud', function (e) {
             break;
         case 'grlgtfasetreino': url = '../../Ajax/GRLGTFaseTreino';
             break;
+        case 'fileupload': url = '../../Ajax/FileManagement';
+            break;
         default: null
     }
     $.ajax({
@@ -295,8 +297,8 @@ $(document).on('click', '.open-modal-crud', function (e) {
             //addressHelper();
             //setupSelect2();
             //quillEditor();
-            //checkDisabled("ScheduledStatus");
-            //ajax();
+            checkDisabled("ScheduledStatus");
+            ajax();
             handleDataUsers();
             handleDataAtomos();
             handleDataGrupos();
@@ -423,6 +425,88 @@ function handleSuccess(response) {
    DATATABLES
 #####################################################
 */
+function handleDataFileUploaderView() {
+    var table = $("#tblInstituicoesArquivos").DataTable({
+        "processing": true, // Para exibir mensagem de processamento a cada requisição
+        "serverSide": true, // Para processar as requisições no back-end
+        //"filter": false, // : está comentado porque estamos a usar filtros que enviamos no back-end
+        "orderMulti": false, // Opção de ordenação para uma coluna de cada vez.
+        //Linguagem PT
+        "language": {
+            "url": "/Assets/lib/datatable/pt-PT.json"
+        },
+        fixedHeader: {
+            header: true,
+            footer: true
+        },
+        "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
+        "ajax": {
+            "url": "../../Ajax/GetFiles", // POST TO CONTROLLER
+            "type": "POST",
+            "datatype": "json",
+            data: { "EntityId": $('#EntityId').val(), "ArquivoId": $('#ArquivoId').val(), "upload": $('#upload').val() }
+        },
+        "columns": [
+            { "data": "Id", "name": null, "autoWidth": true },
+            //Column customizada
+            {
+                sortable: false,
+                "render": function (data, type, full, meta) {
+                    return '<a title="Visualizar" href="/' + full.Link + '" target="_blank" class=""><i class="fa fa-search"/></i></a>' +
+                        ' <a title="Descarregar" href="/' + full.Link + '" target="_blank" download="" class=""><i class="fa fa-cloud-download"/></i></a>' +
+                        ' <a title="Editar" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Editar" data-entity="fileupload" data-upload="' + $('#upload').val() + '" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil"/></i></a>' +
+                        ' <a title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="fileupload" data-upload="' + $('#upload').val() + '" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"/></i></a>';
+                }
+            },
+            //Cada dado representa uma coluna da tabela
+            { "data": "NOME", "name": "NOME", "autoWidth": true },
+            { "data": "DESCRICAO", "name": "DESCRICAO", "autoWidth": true },
+            { "data": "DOCUMENTO", "name": "DOCUMENTO", "autoWidth": true },
+            { "data": "TIPO", "name": "TIPO", "autoWidth": true },
+            { "data": "TAMANHO", "name": "TAMANHO", "autoWidth": true },
+            { "data": "ESTADO", "name": "ESTADO", "autoWidth": true },
+            { "data": "DATAACTIVACAO", "name": "DATAACTIVACAO", "autoWidth": true },
+            { "data": "DATADESACTIVACAO", "name": "DATADESACTIVACAO", "autoWidth": true },
+            { "data": "INSERCAO", "name": "INSERCAO", "autoWidth": true },
+            { "data": "DATAINSERCAO", "name": "DATAINSERCAO", "autoWidth": true },
+            { "data": "ACTUALIZACAO", "name": "ACTUALIZACAO", "autoWidth": true },
+            { "data": "DATAACTUALIZACAO", "name": "DATAACTUALIZACAO", "autoWidth": true },
+            { "data": "Link", "name": null, "autoWidth": true, "visible": true }
+        ],
+        //Configuração da tabela para os checkboxes
+        'columnDefs': [
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                },
+            }
+        ], 'select': {
+            'style': 'multi'
+        },
+        'order': [[1, 'false']],
+        'rowCallback': function (row, data, dataIndex) {
+            // Get row ID
+            var rowId = data["Id"];
+            //console.log(rowId)
+            //Dra table and add selected option to previously selected checkboxes
+            $.each(values, function (i, r) {
+                if (rowId == r) {
+                    $(row).find('input[type="checkbox"]').prop('checked', true);
+                    $(row).closest("tr").addClass("selected");
+                }
+            })
+        },
+        drawCallback: function () {
+            processInfo(this.api().page.info(), 'paginateInfoInstArquivo');
+        },
+        //Remove pagination from table and add to custom Div
+        initComplete: (settings, json) => {
+            $('#tblInstituicoesArquivos_paginate').appendTo('#paginateInstArquivo');
+        },
+    });
+}; 
+
 function handleDataUsers() {
     var table = $("#UserTable").DataTable({
         "processing": true, // Para exibir mensagem de processamento a cada requisição
@@ -2944,6 +3028,59 @@ function appenditem() {
 
 
 
+/* ############################################
+  AJAXForm FILE UPLOAD FORM GET FORM SUBMIT EVENT
+ ##############################################
+ */
+function ajax() {
+    // Initialize progress bar DOM elements
+    var container = $('.progress-container');
+    var bar = $('.progress-bar');
+
+    $('#FileUploader').ajaxForm({
+        beforeSend: function (xhr) {
+            // Validate file size
+            var input = document.getElementById('file');
+            if (!input.files) {
+                //console.error("This browser doesn't seem to support the `files` property of file inputs.");
+            } else if (!input.files[0]) {
+                //console.log("Please select a file before clicking 'Load'");
+            } else {
+                var file = input.files[0];
+                //var filename = file.name;
+                var filesize = file.size; // Bytes
+                var allowedfilesize = $('#file').data('filesize');
+                if (filesize > allowedfilesize) {
+                    const obj = { result: false, error: "Por favor adicionar um documento com a capacidade permitida!" };
+                    handleSuccess(obj);
+                    return false;
+                }
+            }
+            var percentVal = '0%';
+            bar.width(percentVal)
+            container.show();
+            loadIn();
+        },
+        uploadProgress: function (event, position, total, percentComplete) {
+            var percentVal = percentComplete + '%';
+            bar.width(percentVal)
+            bar.html(percentVal);
+        },
+        success: function () {
+            var percentVal = '100%';
+            bar.width(percentVal)
+        },
+        complete: function (xhr) {
+            container.hide();
+            loadOut();
+            handleSuccess(xhr.responseJSON);
+        },
+        failure: function (xhr) {
+            handleFailure(xhr.responseJSON);
+        }
+    });
+};
+
 
 /* ############################################
   CROPPER JS PROFILE PICTURE FUNCTION
@@ -3078,6 +3215,88 @@ $(document).on("change", ".PesFamilyIsento", function () {
 
 })
 
+$(document).on("change", "#ScheduledStatus", function () {
+    if ($(this).is(":checked")) {
+        $('#DateAct').attr('disabled', false);
+        $('#DateDisact').attr('disabled', false);
+        $('#DateAct').val('');
+        $('#DateDisact').val('');
+        $('#DateAct').prop('required', true);
+        $('#DateDisact').prop('required', true);
+        $('#Status').attr('disabled', true);
+        $('#Status').hide();
+        $('#StatusPending').show();
+        $('.dateActRow').show();
+    } else {
+        $('#DateAct').attr('disabled', true);
+        $('#DateDisact').attr('disabled', true);
+        $('#DateAct').val('');
+        $('#DateDisact').val('');
+        $('#DateAct').prop('required', false);
+        $('#DateDisact').prop('required', false);
+        $('#Status').attr('disabled', false);
+        $('#Status').show();
+        $('#StatusPending').hide();
+        $('.dateActRow').hide();
+    }
+});
+function checkDisabled(entity) {
+    if (entity == "isOAuth2Valid") {
+        if ($('#isOAuth2Valid').is(":checked")) {
+            $('#OAuth2Provider').attr('disabled', false);
+            $('#OAuth2ID').attr('disabled', false);
+            $('#OAuth2Provider').prop('required', true);
+            $('#OAuth2ID').prop('required', true);
+            $('.OAuth2Row').show();
+        } else {
+            $('#OAuth2Provider').attr('disabled', true);
+            $('#OAuth2ID').attr('disabled', true);
+            $('#OAuth2Provider').prop('required', false);
+            $('#OAuth2ID').prop('required', false);
+            $('.OAuth2Row').hide();
+        }
+    }
+    if (entity == "isLDAPValid") {
+        if ($('#isLDAPValid').is(":checked")) {
+            $('#LADPHost').attr('disabled', false);
+            $('#LADPBase').attr('disabled', false);
+            $('#LADPHost').prop('required', true);
+            $('#LADPBase').prop('required', true);
+            $('.LDAPRow').show();
+        } else {
+            $('#LADPHost').attr('disabled', true);
+            $('#LADPBase').attr('disabled', true);
+            $('#LADPHost').prop('required', false);
+            $('#LADPBase').prop('required', false);
+            $('.LDAPRow').hide();
+        }
+    }
+    if (entity == "ScheduledStatus") {
+        if ($('#ScheduledStatus').is(":checked")) {
+            $('#DateAct').attr('disabled', false);
+            $('#DateDisact').attr('disabled', false);
+            //$('#DateAct').val('');
+            //$('#DateDisact').val('');
+            $('#DateAct').prop('required', true);
+            $('#DateDisact').prop('required', true);
+            $('#Status').attr('disabled', true);
+            $('#Status').hide();
+            $('#StatusPending').show();
+            $('.dateActRow').show();
+        } else {
+            $('#DateAct').attr('disabled', true);
+            $('#DateDisact').attr('disabled', true);
+            //$('#DateAct').val('');
+            //$('#DateDisact').val('');
+            $('#DateAct').prop('required', false);
+            $('#DateDisact').prop('required', false);
+            $('#Status').attr('disabled', false);
+            $('#Status').show();
+            $('#StatusPending').hide();
+            $('.dateActRow').hide();
+        }
+    }
+}
 
 
 

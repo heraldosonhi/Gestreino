@@ -17,7 +17,8 @@ namespace Gestreino
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PES_PESSOAS()
         {
-            this.PES_ARQUIVOS = new HashSet<PES_ARQUIVOS>();
+            this.GT_SOCIOS = new HashSet<GT_SOCIOS>();
+            this.PES_CONTACTOS = new HashSet<PES_CONTACTOS>();
             this.PES_ENDERECOS = new HashSet<PES_ENDERECOS>();
             this.PES_IDENTIFICACAO = new HashSet<PES_IDENTIFICACAO>();
             this.PES_NACIONALIDADE = new HashSet<PES_NACIONALIDADE>();
@@ -25,13 +26,12 @@ namespace Gestreino
             this.PES_PESSOAS_PROFISSOES = new HashSet<PES_PESSOAS_PROFISSOES>();
             this.PES_PESSOAS_FAM = new HashSet<PES_PESSOAS_FAM>();
             this.PES_PESSOAS_CARACT_DEFICIENCIA = new HashSet<PES_PESSOAS_CARACT_DEFICIENCIA>();
-            this.PES_CONTACTOS = new HashSet<PES_CONTACTOS>();
             this.PES_PESSOAS_CARACT = new HashSet<PES_PESSOAS_CARACT>();
+            this.PES_ARQUIVOS = new HashSet<PES_ARQUIVOS>();
         }
     
         public int ID { get; set; }
         public int UTILIZADORES_ID { get; set; }
-        public Nullable<int> NUMERO { get; set; }
         public string NOME_PROPIO { get; set; }
         public string APELIDO { get; set; }
         public string NOME { get; set; }
@@ -49,7 +49,9 @@ namespace Gestreino
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PES_ARQUIVOS> PES_ARQUIVOS { get; set; }
+        public virtual ICollection<GT_SOCIOS> GT_SOCIOS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PES_CONTACTOS> PES_CONTACTOS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PES_ENDERECOS> PES_ENDERECOS { get; set; }
         public virtual PES_ESTADO_CIVIL PES_ESTADO_CIVIL { get; set; }
@@ -63,12 +65,12 @@ namespace Gestreino
         public virtual ICollection<PES_PESSOAS_PROFISSOES> PES_PESSOAS_PROFISSOES { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PES_PESSOAS_FAM> PES_PESSOAS_FAM { get; set; }
-        public virtual UTILIZADORES UTILIZADORES { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PES_PESSOAS_CARACT_DEFICIENCIA> PES_PESSOAS_CARACT_DEFICIENCIA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PES_CONTACTOS> PES_CONTACTOS { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PES_PESSOAS_CARACT> PES_PESSOAS_CARACT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PES_ARQUIVOS> PES_ARQUIVOS { get; set; }
+        public virtual UTILIZADORES UTILIZADORES { get; set; }
     }
 }

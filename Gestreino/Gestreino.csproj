@@ -258,6 +258,15 @@
     <Compile Include="GT_DuracaoPlano.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_Exercicio.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_ExercicioTreino.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_Exercicio_ARQUIVOS.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="GT_FaseTreino.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -267,7 +276,19 @@
     <Compile Include="GT_Series.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_SOCIOS.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="GT_TempoDescanso.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_TipoTreino.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_Treino.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_TreinosPessoa.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="INST_APLICACAO.cs">
@@ -371,6 +392,9 @@
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SP_ASSOC_ARQUIVOS_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_GRL_ENT_END_CIDADE_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -654,6 +678,7 @@
     <Content Include="Views\Ajax\Administration\Parameters\GRLGTFaseTreino.cshtml" />
     <Content Include="Views\GTManagement\Plans\BodyMass\NewPlan.cshtml" />
     <Content Include="Views\GTManagement\Plans\Cardio\NewPlan.cshtml" />
+    <Content Include="Views\Ajax\FileManagement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

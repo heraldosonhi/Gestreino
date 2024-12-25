@@ -14,7 +14,19 @@ namespace Gestreino
     
     public partial class GT_TempoDescanso
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public GT_TempoDescanso()
+        {
+            this.GT_ExercicioTreino = new HashSet<GT_ExercicioTreino>();
+            this.GT_FaseTreino = new HashSet<GT_FaseTreino>();
+        }
+    
         public int ID { get; set; }
         public string TEMPO_DESCANSO { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GT_ExercicioTreino> GT_ExercicioTreino { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GT_FaseTreino> GT_FaseTreino { get; set; }
     }
 }

@@ -35,10 +35,8 @@ namespace Gestreino
         public virtual DbSet<GRL_ENDERECO_PAIS> GRL_ENDERECO_PAIS { get; set; }
         public virtual DbSet<GRL_TOKENS> GRL_TOKENS { get; set; }
         public virtual DbSet<GRL_TOKENS_TIPOS> GRL_TOKENS_TIPOS { get; set; }
-        public virtual DbSet<INST_APLICACAO_ARQUIVOS> INST_APLICACAO_ARQUIVOS { get; set; }
         public virtual DbSet<INST_APLICACAO_CONTACTOS> INST_APLICACAO_CONTACTOS { get; set; }
         public virtual DbSet<INST_APLICACAO_ENDERECOS> INST_APLICACAO_ENDERECOS { get; set; }
-        public virtual DbSet<PES_ARQUIVOS> PES_ARQUIVOS { get; set; }
         public virtual DbSet<PES_ENDERECOS> PES_ENDERECOS { get; set; }
         public virtual DbSet<PES_ESTADO_CIVIL> PES_ESTADO_CIVIL { get; set; }
         public virtual DbSet<PES_FAMILIARES_GRUPOS> PES_FAMILIARES_GRUPOS { get; set; }
@@ -58,7 +56,6 @@ namespace Gestreino
         public virtual DbSet<PES_PROFISSOES_TIPO_CONTRACTO> PES_PROFISSOES_TIPO_CONTRACTO { get; set; }
         public virtual DbSet<PES_TIPO_ENDERECOS> PES_TIPO_ENDERECOS { get; set; }
         public virtual DbSet<PES_TIPO_IDENTIFICACAO> PES_TIPO_IDENTIFICACAO { get; set; }
-        public virtual DbSet<UTILIZADORES> UTILIZADORES { get; set; }
         public virtual DbSet<UTILIZADORES_ACESSO_ATOMOS_GRUPOS> UTILIZADORES_ACESSO_ATOMOS_GRUPOS { get; set; }
         public virtual DbSet<UTILIZADORES_ACESSO_GRUPOS> UTILIZADORES_ACESSO_GRUPOS { get; set; }
         public virtual DbSet<UTILIZADORES_ACESSO_PERFIS> UTILIZADORES_ACESSO_PERFIS { get; set; }
@@ -68,7 +65,6 @@ namespace Gestreino
         public virtual DbSet<UTILIZADORES_LOGIN_LOGS> UTILIZADORES_LOGIN_LOGS { get; set; }
         public virtual DbSet<UTILIZADORES_LOGIN_PASSWORD_TENT> UTILIZADORES_LOGIN_PASSWORD_TENT { get; set; }
         public virtual DbSet<INST_APLICACAO> INST_APLICACAO { get; set; }
-        public virtual DbSet<PES_PESSOAS> PES_PESSOAS { get; set; }
         public virtual DbSet<UTILIZADORES_ACESSO_ATOMOS> UTILIZADORES_ACESSO_ATOMOS { get; set; }
         public virtual DbSet<GRL_DEFINICOES> GRL_DEFINICOES { get; set; }
         public virtual DbSet<PES_CONTACTOS> PES_CONTACTOS { get; set; }
@@ -79,6 +75,17 @@ namespace Gestreino
         public virtual DbSet<GT_Repeticoes> GT_Repeticoes { get; set; }
         public virtual DbSet<GT_Series> GT_Series { get; set; }
         public virtual DbSet<GT_TempoDescanso> GT_TempoDescanso { get; set; }
+        public virtual DbSet<GT_Exercicio> GT_Exercicio { get; set; }
+        public virtual DbSet<GT_Exercicio_ARQUIVOS> GT_Exercicio_ARQUIVOS { get; set; }
+        public virtual DbSet<GT_ExercicioTreino> GT_ExercicioTreino { get; set; }
+        public virtual DbSet<GT_SOCIOS> GT_SOCIOS { get; set; }
+        public virtual DbSet<GT_TipoTreino> GT_TipoTreino { get; set; }
+        public virtual DbSet<GT_Treino> GT_Treino { get; set; }
+        public virtual DbSet<GT_TreinosPessoa> GT_TreinosPessoa { get; set; }
+        public virtual DbSet<PES_PESSOAS> PES_PESSOAS { get; set; }
+        public virtual DbSet<INST_APLICACAO_ARQUIVOS> INST_APLICACAO_ARQUIVOS { get; set; }
+        public virtual DbSet<PES_ARQUIVOS> PES_ARQUIVOS { get; set; }
+        public virtual DbSet<UTILIZADORES> UTILIZADORES { get; set; }
     
         public virtual ObjectResult<SP_UTILIZADORES_LOGIN_LOGS_Result> SP_UTILIZADORES_LOGIN_LOGS(Nullable<int> userId, string action)
         {
@@ -1359,6 +1366,79 @@ namespace Gestreino
                 new ObjectParameter("Action", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_ENT_FaseTreino_Result>("SP_GT_ENT_FaseTreino", idParameter, siglaParameter, gT_Series_IDParameter, gT_Repeticoes_IDParameter, gT_Carga_IDParameter, gT_TempoDescanso_IDParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_ASSOC_ARQUIVOS_Result> SP_ASSOC_ARQUIVOS(Nullable<int> id, Nullable<int> arquivoId, string nome, string arquivoDescricao, Nullable<bool> arquivoActivo, Nullable<System.DateTime> arquivoDataAct, Nullable<System.DateTime> arquivoDataDesact, Nullable<int> arquivoTipoDocId, string arquivoNome, string arquivoAlt, string arquivoTipo, Nullable<int> arquivoTamanho, string arquivoUrl, string tablename, string fieldname, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var arquivoIdParameter = arquivoId.HasValue ?
+                new ObjectParameter("ArquivoId", arquivoId) :
+                new ObjectParameter("ArquivoId", typeof(int));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var arquivoDescricaoParameter = arquivoDescricao != null ?
+                new ObjectParameter("ArquivoDescricao", arquivoDescricao) :
+                new ObjectParameter("ArquivoDescricao", typeof(string));
+    
+            var arquivoActivoParameter = arquivoActivo.HasValue ?
+                new ObjectParameter("ArquivoActivo", arquivoActivo) :
+                new ObjectParameter("ArquivoActivo", typeof(bool));
+    
+            var arquivoDataActParameter = arquivoDataAct.HasValue ?
+                new ObjectParameter("ArquivoDataAct", arquivoDataAct) :
+                new ObjectParameter("ArquivoDataAct", typeof(System.DateTime));
+    
+            var arquivoDataDesactParameter = arquivoDataDesact.HasValue ?
+                new ObjectParameter("ArquivoDataDesact", arquivoDataDesact) :
+                new ObjectParameter("ArquivoDataDesact", typeof(System.DateTime));
+    
+            var arquivoTipoDocIdParameter = arquivoTipoDocId.HasValue ?
+                new ObjectParameter("ArquivoTipoDocId", arquivoTipoDocId) :
+                new ObjectParameter("ArquivoTipoDocId", typeof(int));
+    
+            var arquivoNomeParameter = arquivoNome != null ?
+                new ObjectParameter("ArquivoNome", arquivoNome) :
+                new ObjectParameter("ArquivoNome", typeof(string));
+    
+            var arquivoAltParameter = arquivoAlt != null ?
+                new ObjectParameter("ArquivoAlt", arquivoAlt) :
+                new ObjectParameter("ArquivoAlt", typeof(string));
+    
+            var arquivoTipoParameter = arquivoTipo != null ?
+                new ObjectParameter("ArquivoTipo", arquivoTipo) :
+                new ObjectParameter("ArquivoTipo", typeof(string));
+    
+            var arquivoTamanhoParameter = arquivoTamanho.HasValue ?
+                new ObjectParameter("ArquivoTamanho", arquivoTamanho) :
+                new ObjectParameter("ArquivoTamanho", typeof(int));
+    
+            var arquivoUrlParameter = arquivoUrl != null ?
+                new ObjectParameter("ArquivoUrl", arquivoUrl) :
+                new ObjectParameter("ArquivoUrl", typeof(string));
+    
+            var tablenameParameter = tablename != null ?
+                new ObjectParameter("Tablename", tablename) :
+                new ObjectParameter("Tablename", typeof(string));
+    
+            var fieldnameParameter = fieldname != null ?
+                new ObjectParameter("Fieldname", fieldname) :
+                new ObjectParameter("Fieldname", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ASSOC_ARQUIVOS_Result>("SP_ASSOC_ARQUIVOS", idParameter, arquivoIdParameter, nomeParameter, arquivoDescricaoParameter, arquivoActivoParameter, arquivoDataActParameter, arquivoDataDesactParameter, arquivoTipoDocIdParameter, arquivoNomeParameter, arquivoAltParameter, arquivoTipoParameter, arquivoTamanhoParameter, arquivoUrlParameter, tablenameParameter, fieldnameParameter, userInsercaoIdParameter, actionParameter);
         }
     }
 }

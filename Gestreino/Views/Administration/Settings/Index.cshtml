@@ -84,13 +84,39 @@
                                 <i class="fa fa-folder-open"></i>
                             </div>
                             <h3 class="p-2">Documentos</h3>
+                            <div class="alert alert-primary-light mb-0"
+                                 role="alert">
+                                <div class="d-flex flex-wrap align-items-start">
+                                    <div class="mr-8pt">
+                                        <i class="fa fa-folder-o"></i>&nbsp;
+                                    </div>
+                                    <div class="flex"
+                                         style="min-width: 180px">
+                                        <span class="text-black-100">
+                                            <strong>Documentos!</strong> <small class="text-muted">
+                                                Adicione um Documento de tipo <i>Logotipo</i> para alterar o Logotipo da Aplicação 
+                                            </small><br />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                             <!--  DATATABLE START -->
-                            <div class=" mb-32pt p-3 mt-2">
-                                <div class="card">
-                                    <div class="card-header">
+                            <div class="card mb-32pt">
+                                <div class="card-header">
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons" id="changeviewfile">
+                                        <label class="btn btn-outline-primary  active">
+                                            <input type="radio" name="options" id="viewtable" autocomplete="off" checked><i class="fa fa-table"></i>&nbsp;Exibir tabela
+                                        </label>
+                                        <label class="btn btn-outline-primary ">
+                                            <input type="radio" name="options" id="viewlist" autocomplete="off"><i class="fa fa-list"></i>&nbsp;Exibir lista
+                                        </label>
+                                    </div>
+                                    <hr />
+
+                                    <div id="doctablebuttons">
                                         <div class="form-inline">
                                             <label class="" for="length_change">Mostrar</label>
-                                            <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GroupTable">
+                                            <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="tblInstituicoesArquivos">
                                                 <option value='10'>10</option>
                                                 <option value='25'>25</option>
                                                 <option value='50'>50</option>
@@ -103,51 +129,111 @@
                                             </select>
                                             <label class="" for="length_change">registos</label>
                                             <div class="btn-group">
-                                                <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GroupTable"><i class="fa fa-check-square"></i></button>
-                                                <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="groups" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                                <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GroupTable"><i class="fa fa-search"></i></button>
-                                                <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GroupTable"><i class="fa fa-eraser"></i></button>
-                                                <a title="Adicionar grupo" href="javascript:void(0)" class="disabled open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="groups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                                                <!--Separator-->
-                                                <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
-                                                <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                                                <button title="Selecionar" class="btnSelect btn btn-default" data-id="tblInstituicoesArquivos"><i class="fa fa-check-square"></i></button>
+                                                <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="fileupload" data-upload="institution" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                                <button title="Descarregar documento(s) selecionado(s)" class="btn btn-default DescarregarMultiplos" disabled=""><i class="fa fa-cloud-download"></i></button>
+                                                <button title="Pesquisar" class="btnSearch btn btn-default" data-id="tblInstituicoesArquivos"><i class="fa fa-search"></i></button>
+                                                <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="tblInstituicoesArquivos"><i class="fa fa-eraser"></i></button>
+                                                <a title="Adicionar documento" href="javascript:" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="fileupload" data-upload="institution" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i>&nbsp;</a>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="table-responsive">
-                                        <table id="GroupTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                                            <thead>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td><input type="text" id="GroupTableSigla" class="form-control form-control-sm" /></td>
-                                                    <td><input type="text" id="GroupTableNome" class="form-control form-control-sm" /></td>
-                                                    <td><input type="text" id="GroupTableInsercao" class="form-control form-control-sm" /></td>
-                                                    <td><input type="text" id="GroupTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
-                                                    <td><input type="text" id="GroupTableActualizacao" class="form-control form-control-sm" /></td>
-                                                    <td><input type="text" id="GroupTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
-                                                </tr>
-                                                <tr>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th data-name="GroupTableSigla">Sigla</th>
-                                                    <th data-name="GroupTableNome">Nome</th>
-                                                    <th data-name="GroupTableInsercao">Inserção</th>
-                                                    <th data-name="GroupTableDataInsercao">Data Inserção</th>
-                                                    <th data-name="GroupTableActualizacao">Actualização</th>
-                                                    <th data-name="GroupTableDataActualizacao">Data Actualização</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                    <div class="card-footer p-8pt">
-                                        <span class="paginateInfoGroup paginateInfo mr-12pt" style="float:right"></span>
-                                        <div id="paginateGroup" class="pagination justify-content-start pagination-xsm m-0"></div>
+
+                                    <div id="doclistbuttons" hidden>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radiogroups">
+                                                    <label class="btn btn-outline-primary active">
+                                                        <input type="radio" name="options" id="radiofdate" autocomplete="off" checked><i class="fa fa-calendar"></i>&nbsp;Ordenar data
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="radiofgroup" autocomplete="off"><i class="fa fa-file"></i>&nbsp;Ordenar documento
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6 ">
+                                                <div class="mb-12pt d-flex align-items-center mt-8 pull-right">
+                                                    <div class="float-right">
+                                                        <div class="btn-group">
+                                                            <a title="Adicionar documento" href="javascript:" class="open-modal-crud btn btn-primary" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="fileupload" data-upload="institution" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i>&nbsp;</a>
+                                                            <a href="javascript:" title="Visualizar documento selecionado" class="btn btn-primary link-disabled" disabled id="btnViewFile" target="_blank"><i class="fa fa-eye"></i></a>
+                                                            <button title="Descarregar documento(s) selecionado(s)" class="btn btn-primary" id="btnDownloadFile" disabled><i class="fa fa-cloud-download"></i></button>
+                                                            <button title="Editar arquivo selecionado" class="open-modal-crud btn btn-primary" data-id="0" data-action="Editar" data-entity="fileupload" data-upload="" data-toggle="modal" data-target="#crudControlModal" id="btnEditFile" disabled><i class="fa fa-pencil"></i></button>
+                                                            <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-primary" data-id="0" data-action="RemoverMultiplos" data-entity="fileupload" data-upload="institution" data-toggle="modal" data-target="#crudControlModal" disabled="" id="btnDeleteFile"><i class="fa fa-trash"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
+                                <div class="table-responsive" id="doctablebody">
+                                    <table id="tblInstituicoesArquivos" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td><input type="text" id="InstArquivoNome" class="form-control" /></td>
+                                                <td><input type="text" id="InstArquivoDescricao" class="form-control" /></td>
+                                                <td><input type="text" id="InstArquivoDocumento" class="form-control" /></td>
+                                                <td><input type="text" id="InstArquivoTipo" class="form-control" /></td>
+                                                <td><input type="text" id="InstArquivoTamanho" class="form-control" /></td>
+                                                <td><input type="text" id="InstArquivoEstado" class="form-control" /></td>
+                                                <td><input type="text" id="InstArquivoDataActivacao" class="form-control" /></td>
+                                                <td><input type="text" id="InstArquivoDataDesactivacao" class="form-control" /></td>
+                                                <td><input type="text" id="InstArquivoInsercao" class="form-control" /></td>
+                                                <td><input type="text" id="InstArquivoDataInsercao" class="form-control" /></td>
+                                                <td><input type="text" id="InstArquivoActualizacao" class="form-control" /></td>
+                                                <td><input type="text" id="InstArquivoDataActualizacao" class="form-control" /></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th data-name="InstArquivoNome">Nome</th>
+                                                <th data-name="InstArquivoDescricao">Descrição</th>
+                                                <th data-name="InstArquivoDocumento">Documento</th>
+                                                <th data-name="InstArquivoTipo">Tipo</th>
+                                                <th data-name="InstArquivoTamanho">Tamanho</th>
+                                                <th data-name="InstArquivoEstado">Estado</th>
+                                                <th data-name="InstArquivoDataActivacao">Data Activação</th>
+                                                <th data-name="InstArquivoDataDesactivacao">Data Desactivação</th>
+                                                <th data-name="InstArquivoInsercao">Inserção</th>
+                                                <th data-name="InstArquivoDataInsercao">Data Inserção</th>
+                                                <th data-name="InstArquivoActualizacao">Actualização</th>
+                                                <th data-name="InstArquivoDataActualizacao">Data Actualização</th>
+                                                <th data-name="InstArquivoDataActulinkalizacao">Link</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div id="tablefooter">
+                                    <div class="card-footer p-8pt">
+                                        <span class="paginateInfoInstArquivo paginateInfo mr-12pt" style="float:right"></span>
+                                        <div id="paginateInstArquivo" class="pagination justify-content-start pagination-xsm m-0"></div>
+                                        @using (Html.BeginForm("downloadfiles", "ajax", FormMethod.Post, new { id = "tabledownloadform" }))
+                                        {
+                                            <div id="tabledownloaddiv" hidden></div>
+                                        }
+                                    </div>
+                                </div>
+
+
+                                <div id="doclistbody" hidden class="mb-2 p-2">
+                                    <!--  FANCYTREE START -->
+                                    <div id="tree"></div>
+                                    <!--  FANCYTREE START -->
+                                    @using (Html.BeginForm("downloadfiles", "ajax", FormMethod.Post, new { id = "downloadform" }))
+                                    {
+                                        <div id="downloaddiv" hidden> </div>
+                                    }
+                                </div>
                             </div>
                             <!--  DATATABLE START -->
+                            <input type="hidden" id="EntityId" value="@ViewBag.data[0].ID" />
+                            <input type="hidden" id="upload" value="institution" />
                         </div>
                     </div>
                 </div>
@@ -334,3 +420,8 @@
     <h2>&nbsp;</h2>
 </div>
 <!-- /page content -->
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        handleDataFileUploaderView();
+    });
+</script>

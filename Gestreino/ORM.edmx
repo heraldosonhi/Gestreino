@@ -173,6 +173,63 @@
           <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
           <Property Name="DATA_REMOCAO" Type="datetime" />
         </EntityType>
+        <EntityType Name="GT_Exercicio">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GT_TipoTreino_ID" Type="int" Nullable="false" />
+          <Property Name="NOME" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="ALONGAMENTO" Type="int" />
+          <Property Name="SEQUENCIA" Type="int" />
+          <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="int" />
+          <Property Name="REMOVIDO_POR" Type="int" />
+          <Property Name="DATA_INSERCAO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
+          <Property Name="DATA_REMOCAO" Type="datetime" />
+        </EntityType>
+        <EntityType Name="GT_Exercicio_ARQUIVOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GT_Exercicio_ID" Type="int" Nullable="false" />
+          <Property Name="ARQUIVOS_ID" Type="int" Nullable="false" />
+          <Property Name="NOME" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="DESCRICAO" Type="varchar" MaxLength="4000" />
+          <Property Name="ACTIVO" Type="bit" Nullable="false" />
+          <Property Name="DATA_ACT" Type="date" />
+          <Property Name="DATA_DESACT" Type="date" />
+          <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="int" />
+          <Property Name="REMOVIDO_POR" Type="int" />
+          <Property Name="DATA_INSERCAO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
+          <Property Name="DATA_REMOCAO" Type="datetime" />
+        </EntityType>
+        <EntityType Name="GT_ExercicioTreino">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GT_Treino_ID" Type="int" Nullable="false" />
+          <Property Name="GT_Exercicio_ID" Type="int" Nullable="false" />
+          <Property Name="GT_Series_ID" Type="int" Nullable="false" />
+          <Property Name="GT_Repeticoes_ID" Type="int" Nullable="false" />
+          <Property Name="GT_TempoDescanso_ID" Type="int" Nullable="false" />
+          <Property Name="GT_Carga_ID" Type="int" Nullable="false" />
+          <Property Name="REPETICOES_COMPLETADAS" Type="int" Nullable="false" />
+          <Property Name="CARGA_USADA" Type="int" />
+          <Property Name="ONERM" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ORDEM" Type="int" Nullable="false" />
+          <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="int" />
+          <Property Name="REMOVIDO_POR" Type="int" />
+          <Property Name="DATA_INSERCAO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
+          <Property Name="DATA_REMOCAO" Type="datetime" />
+        </EntityType>
         <EntityType Name="GT_FaseTreino">
           <Key>
             <PropertyRef Name="ID" />
@@ -204,12 +261,67 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SERIES" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="GT_SOCIOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PES_PESSOAS_ID" Type="int" Nullable="false" />
+          <Property Name="NUMERO" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="GT_TempoDescanso">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TEMPO_DESCANSO" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GT_TipoTreino">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SIGLA" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="NOME" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="int" />
+          <Property Name="REMOVIDO_POR" Type="int" />
+          <Property Name="DATA_INSERCAO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
+          <Property Name="DATA_REMOCAO" Type="datetime" />
+        </EntityType>
+        <EntityType Name="GT_Treino">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GT_TipoTreino_ID" Type="int" Nullable="false" />
+          <Property Name="NOME" Type="varchar" MaxLength="255" />
+          <Property Name="GT_FaseTreino_ID" Type="int" />
+          <Property Name="PERIODIZACAO" Type="int" />
+          <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="int" />
+          <Property Name="REMOVIDO_POR" Type="int" />
+          <Property Name="DATA_INSERCAO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
+          <Property Name="DATA_REMOCAO" Type="datetime" />
+        </EntityType>
+        <EntityType Name="GT_TreinosPessoa">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GT_SOCIOS_ID" Type="int" Nullable="false" />
+          <Property Name="GT_Treino_ID" Type="int" Nullable="false" />
+          <Property Name="DATA_INICIO" Type="date" Nullable="false" />
+          <Property Name="DATA_FIM" Type="date" />
+          <Property Name="OBSERVACOES" Type="varchar" MaxLength="4000" />
+          <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="int" />
+          <Property Name="REMOVIDO_POR" Type="int" />
+          <Property Name="DATA_INSERCAO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
+          <Property Name="DATA_REMOCAO" Type="datetime" />
         </EntityType>
         <EntityType Name="INST_APLICACAO">
           <Key>
@@ -236,8 +348,8 @@
           <Property Name="NOME" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="DESCRICAO" Type="varchar" MaxLength="4000" />
           <Property Name="ACTIVO" Type="bit" Nullable="false" />
-          <Property Name="DATA_ACT" Type="datetime" Nullable="false" />
-          <Property Name="DATA_DESACT" Type="datetime" />
+          <Property Name="DATA_ACT" Type="date" />
+          <Property Name="DATA_DESACT" Type="date" />
           <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
           <Property Name="ACTUALIZADO_POR" Type="int" />
           <Property Name="REMOVIDO_POR" Type="int" />
@@ -293,8 +405,8 @@
           <Property Name="NOME" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="DESCRICAO" Type="varchar" MaxLength="4000" />
           <Property Name="ACTIVO" Type="bit" Nullable="false" />
-          <Property Name="DATA_ACT" Type="datetime" />
-          <Property Name="DATA_DESACT" Type="datetime" />
+          <Property Name="DATA_ACT" Type="date" />
+          <Property Name="DATA_DESACT" Type="date" />
           <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
           <Property Name="ACTUALIZADO_POR" Type="int" />
           <Property Name="REMOVIDO_POR" Type="int" />
@@ -437,7 +549,6 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UTILIZADORES_ID" Type="int" Nullable="false" />
-          <Property Name="NUMERO" Type="int" />
           <Property Name="NOME_PROPIO" Type="varchar" MaxLength="48" Nullable="false" />
           <Property Name="APELIDO" Type="varchar" MaxLength="48" Nullable="false" />
           <Property Name="NOME" Type="varchar" MaxLength="255" Nullable="false" />
@@ -696,8 +807,8 @@
           <Property Name="SALT" Type="varchar" MaxLength="264" Nullable="false" />
           <Property Name="VALIDA" Type="bit" Nullable="false" />
           <Property Name="ACTIVO" Type="bit" Nullable="false" />
-          <Property Name="DATA_ACT" Type="datetime" />
-          <Property Name="DATA_DESACT" Type="datetime" />
+          <Property Name="DATA_ACT" Type="date" />
+          <Property Name="DATA_DESACT" Type="date" />
           <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
           <Property Name="ACTUALIZADO_POR" Type="int" />
           <Property Name="REMOVIDO_POR" Type="int" />
@@ -1530,6 +1641,222 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="GT_Exercicio_ARQUIVOS_ARQUIVOS_ID">
+          <End Role="GRL_ARQUIVOS" Type="Self.GRL_ARQUIVOS" Multiplicity="1" />
+          <End Role="GT_Exercicio_ARQUIVOS" Type="Self.GT_Exercicio_ARQUIVOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GRL_ARQUIVOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_Exercicio_ARQUIVOS">
+              <PropertyRef Name="ARQUIVOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_Exercicio_ARQUIVOS_GT_Exercicio_ID">
+          <End Role="GT_Exercicio" Type="Self.GT_Exercicio" Multiplicity="1" />
+          <End Role="GT_Exercicio_ARQUIVOS" Type="Self.GT_Exercicio_ARQUIVOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Exercicio">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_Exercicio_ARQUIVOS">
+              <PropertyRef Name="GT_Exercicio_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_Exercicio_GT_TipoTreino_ID">
+          <End Role="GT_TipoTreino" Type="Self.GT_TipoTreino" Multiplicity="1" />
+          <End Role="GT_Exercicio" Type="Self.GT_Exercicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoTreino">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_Exercicio">
+              <PropertyRef Name="GT_TipoTreino_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_Carga_ID">
+          <End Role="GT_Carga" Type="Self.GT_Carga" Multiplicity="1" />
+          <End Role="GT_ExercicioTreino" Type="Self.GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Carga">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_Carga_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_Exercicio_ID">
+          <End Role="GT_Exercicio" Type="Self.GT_Exercicio" Multiplicity="1" />
+          <End Role="GT_ExercicioTreino" Type="Self.GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Exercicio">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_Exercicio_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_Repeticoes_ID">
+          <End Role="GT_Repeticoes" Type="Self.GT_Repeticoes" Multiplicity="1" />
+          <End Role="GT_ExercicioTreino" Type="Self.GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Repeticoes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_Repeticoes_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_Series_ID">
+          <End Role="GT_Series" Type="Self.GT_Series" Multiplicity="1" />
+          <End Role="GT_ExercicioTreino" Type="Self.GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Series">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_Series_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_TempoDescanso_ID">
+          <End Role="GT_TempoDescanso" Type="Self.GT_TempoDescanso" Multiplicity="1" />
+          <End Role="GT_ExercicioTreino" Type="Self.GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TempoDescanso">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_TempoDescanso_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_Treino_ID">
+          <End Role="GT_Treino" Type="Self.GT_Treino" Multiplicity="1" />
+          <End Role="GT_ExercicioTreino" Type="Self.GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Treino">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_Treino_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_FaseTreino_GT_Carga_ID">
+          <End Role="GT_Carga" Type="Self.GT_Carga" Multiplicity="1" />
+          <End Role="GT_FaseTreino" Type="Self.GT_FaseTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Carga">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_FaseTreino">
+              <PropertyRef Name="GT_Carga_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_FaseTreino_GT_Repeticoes_ID">
+          <End Role="GT_Repeticoes" Type="Self.GT_Repeticoes" Multiplicity="1" />
+          <End Role="GT_FaseTreino" Type="Self.GT_FaseTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Repeticoes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_FaseTreino">
+              <PropertyRef Name="GT_Repeticoes_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_FaseTreino_GT_Series_ID">
+          <End Role="GT_Series" Type="Self.GT_Series" Multiplicity="1" />
+          <End Role="GT_FaseTreino" Type="Self.GT_FaseTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Series">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_FaseTreino">
+              <PropertyRef Name="GT_Series_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_FaseTreino_GT_TempoDescanso_ID">
+          <End Role="GT_TempoDescanso" Type="Self.GT_TempoDescanso" Multiplicity="1" />
+          <End Role="GT_FaseTreino" Type="Self.GT_FaseTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TempoDescanso">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_FaseTreino">
+              <PropertyRef Name="GT_TempoDescanso_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_SOCIOS_PES_PESSOAS_ID">
+          <End Role="PES_PESSOAS" Type="Self.PES_PESSOAS" Multiplicity="1" />
+          <End Role="GT_SOCIOS" Type="Self.GT_SOCIOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PES_PESSOAS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_SOCIOS">
+              <PropertyRef Name="PES_PESSOAS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_Treino_GT_GT_FaseTreino_ID">
+          <End Role="GT_FaseTreino" Type="Self.GT_FaseTreino" Multiplicity="0..1" />
+          <End Role="GT_Treino" Type="Self.GT_Treino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_FaseTreino">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_Treino">
+              <PropertyRef Name="GT_FaseTreino_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_Treino_GT_TipoTreino_ID">
+          <End Role="GT_TipoTreino" Type="Self.GT_TipoTreino" Multiplicity="1" />
+          <End Role="GT_Treino" Type="Self.GT_Treino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoTreino">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_Treino">
+              <PropertyRef Name="GT_TipoTreino_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_TreinosPessoa_GT_SOCIOS_ID">
+          <End Role="GT_SOCIOS" Type="Self.GT_SOCIOS" Multiplicity="1" />
+          <End Role="GT_TreinosPessoa" Type="Self.GT_TreinosPessoa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_SOCIOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_TreinosPessoa">
+              <PropertyRef Name="GT_SOCIOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_TreinosPessoa_GT_Treino_ID">
+          <End Role="GT_Treino" Type="Self.GT_Treino" Multiplicity="1" />
+          <End Role="GT_TreinosPessoa" Type="Self.GT_TreinosPessoa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Treino">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_TreinosPessoa">
+              <PropertyRef Name="GT_Treino_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="PES_PESSOAS_CARACT_GT_DuracaoPlano_ID">
           <End Role="GT_DuracaoPlano" Type="Self.GT_DuracaoPlano" Multiplicity="0..1" />
           <End Role="PES_PESSOAS_CARACT" Type="Self.PES_PESSOAS_CARACT" Multiplicity="*" />
@@ -1566,6 +1893,25 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_ASSOC_ARQUIVOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="ArquivoId" Type="int" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="ArquivoDescricao" Type="varchar" Mode="In" />
+          <Parameter Name="ArquivoActivo" Type="bit" Mode="In" />
+          <Parameter Name="ArquivoDataAct" Type="date" Mode="In" />
+          <Parameter Name="ArquivoDataDesact" Type="date" Mode="In" />
+          <Parameter Name="ArquivoTipoDocId" Type="int" Mode="In" />
+          <Parameter Name="ArquivoNome" Type="varchar" Mode="In" />
+          <Parameter Name="ArquivoAlt" Type="varchar" Mode="In" />
+          <Parameter Name="ArquivoTipo" Type="varchar" Mode="In" />
+          <Parameter Name="ArquivoTamanho" Type="int" Mode="In" />
+          <Parameter Name="ArquivoUrl" Type="varchar" Mode="In" />
+          <Parameter Name="Tablename" Type="varchar" Mode="In" />
+          <Parameter Name="Fieldname" Type="varchar" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_GRL_ENT_END_CIDADE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="Sigla" Type="varchar" Mode="In" />
@@ -1923,10 +2269,17 @@
           <EntitySet Name="GRL_TOKENS_TIPOS" EntityType="Self.GRL_TOKENS_TIPOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_Carga" EntityType="Self.GT_Carga" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_DuracaoPlano" EntityType="Self.GT_DuracaoPlano" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_Exercicio" EntityType="Self.GT_Exercicio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_Exercicio_ARQUIVOS" EntityType="Self.GT_Exercicio_ARQUIVOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_ExercicioTreino" EntityType="Self.GT_ExercicioTreino" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_FaseTreino" EntityType="Self.GT_FaseTreino" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_Repeticoes" EntityType="Self.GT_Repeticoes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_Series" EntityType="Self.GT_Series" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_SOCIOS" EntityType="Self.GT_SOCIOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_TempoDescanso" EntityType="Self.GT_TempoDescanso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_TipoTreino" EntityType="Self.GT_TipoTreino" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_Treino" EntityType="Self.GT_Treino" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_TreinosPessoa" EntityType="Self.GT_TreinosPessoa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="INST_APLICACAO" EntityType="Self.INST_APLICACAO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="INST_APLICACAO_ARQUIVOS" EntityType="Self.INST_APLICACAO_ARQUIVOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="INST_APLICACAO_CONTACTOS" EntityType="Self.INST_APLICACAO_CONTACTOS" Schema="dbo" store:Type="Tables" />
@@ -2196,6 +2549,78 @@
             <End Role="GRL_ENDERECO_CIDADE" EntitySet="GRL_ENDERECO_CIDADE" />
             <End Role="GRL_ENDERECO_MUN_DISTR" EntitySet="GRL_ENDERECO_MUN_DISTR" />
           </AssociationSet>
+          <AssociationSet Name="GT_Exercicio_ARQUIVOS_ARQUIVOS_ID" Association="Self.GT_Exercicio_ARQUIVOS_ARQUIVOS_ID">
+            <End Role="GRL_ARQUIVOS" EntitySet="GRL_ARQUIVOS" />
+            <End Role="GT_Exercicio_ARQUIVOS" EntitySet="GT_Exercicio_ARQUIVOS" />
+          </AssociationSet>
+          <AssociationSet Name="GT_Exercicio_ARQUIVOS_GT_Exercicio_ID" Association="Self.GT_Exercicio_ARQUIVOS_GT_Exercicio_ID">
+            <End Role="GT_Exercicio" EntitySet="GT_Exercicio" />
+            <End Role="GT_Exercicio_ARQUIVOS" EntitySet="GT_Exercicio_ARQUIVOS" />
+          </AssociationSet>
+          <AssociationSet Name="GT_Exercicio_GT_TipoTreino_ID" Association="Self.GT_Exercicio_GT_TipoTreino_ID">
+            <End Role="GT_TipoTreino" EntitySet="GT_TipoTreino" />
+            <End Role="GT_Exercicio" EntitySet="GT_Exercicio" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_Carga_ID" Association="Self.GT_ExercicioTreino_GT_Carga_ID">
+            <End Role="GT_Carga" EntitySet="GT_Carga" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_Exercicio_ID" Association="Self.GT_ExercicioTreino_GT_Exercicio_ID">
+            <End Role="GT_Exercicio" EntitySet="GT_Exercicio" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_Repeticoes_ID" Association="Self.GT_ExercicioTreino_GT_Repeticoes_ID">
+            <End Role="GT_Repeticoes" EntitySet="GT_Repeticoes" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_Series_ID" Association="Self.GT_ExercicioTreino_GT_Series_ID">
+            <End Role="GT_Series" EntitySet="GT_Series" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_TempoDescanso_ID" Association="Self.GT_ExercicioTreino_GT_TempoDescanso_ID">
+            <End Role="GT_TempoDescanso" EntitySet="GT_TempoDescanso" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_Treino_ID" Association="Self.GT_ExercicioTreino_GT_Treino_ID">
+            <End Role="GT_Treino" EntitySet="GT_Treino" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_FaseTreino_GT_Carga_ID" Association="Self.GT_FaseTreino_GT_Carga_ID">
+            <End Role="GT_Carga" EntitySet="GT_Carga" />
+            <End Role="GT_FaseTreino" EntitySet="GT_FaseTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_FaseTreino_GT_Repeticoes_ID" Association="Self.GT_FaseTreino_GT_Repeticoes_ID">
+            <End Role="GT_Repeticoes" EntitySet="GT_Repeticoes" />
+            <End Role="GT_FaseTreino" EntitySet="GT_FaseTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_FaseTreino_GT_Series_ID" Association="Self.GT_FaseTreino_GT_Series_ID">
+            <End Role="GT_Series" EntitySet="GT_Series" />
+            <End Role="GT_FaseTreino" EntitySet="GT_FaseTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_FaseTreino_GT_TempoDescanso_ID" Association="Self.GT_FaseTreino_GT_TempoDescanso_ID">
+            <End Role="GT_TempoDescanso" EntitySet="GT_TempoDescanso" />
+            <End Role="GT_FaseTreino" EntitySet="GT_FaseTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_SOCIOS_PES_PESSOAS_ID" Association="Self.GT_SOCIOS_PES_PESSOAS_ID">
+            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
+            <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+          </AssociationSet>
+          <AssociationSet Name="GT_Treino_GT_GT_FaseTreino_ID" Association="Self.GT_Treino_GT_GT_FaseTreino_ID">
+            <End Role="GT_FaseTreino" EntitySet="GT_FaseTreino" />
+            <End Role="GT_Treino" EntitySet="GT_Treino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_Treino_GT_TipoTreino_ID" Association="Self.GT_Treino_GT_TipoTreino_ID">
+            <End Role="GT_TipoTreino" EntitySet="GT_TipoTreino" />
+            <End Role="GT_Treino" EntitySet="GT_Treino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_TreinosPessoa_GT_SOCIOS_ID" Association="Self.GT_TreinosPessoa_GT_SOCIOS_ID">
+            <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+            <End Role="GT_TreinosPessoa" EntitySet="GT_TreinosPessoa" />
+          </AssociationSet>
+          <AssociationSet Name="GT_TreinosPessoa_GT_Treino_ID" Association="Self.GT_TreinosPessoa_GT_Treino_ID">
+            <End Role="GT_Treino" EntitySet="GT_Treino" />
+            <End Role="GT_TreinosPessoa" EntitySet="GT_TreinosPessoa" />
+          </AssociationSet>
           <AssociationSet Name="PES_PESSOAS_CARACT_GT_DuracaoPlano_ID" Association="Self.PES_PESSOAS_CARACT_GT_DuracaoPlano_ID">
             <End Role="GT_DuracaoPlano" EntitySet="GT_DuracaoPlano" />
             <End Role="PES_PESSOAS_CARACT" EntitySet="PES_PESSOAS_CARACT" />
@@ -2246,8 +2671,9 @@
           <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
           <NavigationProperty Name="GRL_ARQUIVOS_TIPO_DOCS" Relationship="Self.FKGRL_ARQUIV868408" FromRole="GRL_ARQUIVOS" ToRole="GRL_ARQUIVOS_TIPO_DOCS" />
-          <NavigationProperty Name="INST_APLICACAO_ARQUIVOS" Relationship="Self.FKINST_APLIC12018" FromRole="GRL_ARQUIVOS" ToRole="INST_APLICACAO_ARQUIVOS" />
-          <NavigationProperty Name="PES_ARQUIVOS" Relationship="Self.FKPES_ARQUIV364588" FromRole="GRL_ARQUIVOS" ToRole="PES_ARQUIVOS" />
+          <NavigationProperty Name="GT_Exercicio_ARQUIVOS" Relationship="GESTREINO_ORM.GT_Exercicio_ARQUIVOS_ARQUIVOS_ID" FromRole="GRL_ARQUIVOS" ToRole="GT_Exercicio_ARQUIVOS" />
+          <NavigationProperty Name="INST_APLICACAO_ARQUIVOS" Relationship="GESTREINO_ORM.FKINST_APLIC12018" FromRole="GRL_ARQUIVOS" ToRole="INST_APLICACAO_ARQUIVOS" />
+          <NavigationProperty Name="PES_ARQUIVOS" Relationship="GESTREINO_ORM.FKPES_ARQUIV364588" FromRole="GRL_ARQUIVOS" ToRole="PES_ARQUIVOS" />
         </EntityType>
         <EntityType Name="GRL_ARQUIVOS_TIPO_DOCS">
           <Key>
@@ -2363,27 +2789,6 @@
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
           <NavigationProperty Name="GRL_TOKENS" Relationship="Self.FKGRL_TOKENS134751" FromRole="GRL_TOKENS_TIPOS" ToRole="GRL_TOKENS" />
         </EntityType>
-        <EntityType Name="INST_APLICACAO_ARQUIVOS">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="INST_APLICACAO_ID" Type="Int32" Nullable="false" />
-          <Property Name="ARQUIVOS_ID" Type="Int32" Nullable="false" />
-          <Property Name="NOME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DESCRICAO" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
-          <Property Name="ACTIVO" Type="Boolean" Nullable="false" />
-          <Property Name="DATA_ACT" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DATA_DESACT" Type="DateTime" Precision="3" />
-          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
-          <Property Name="ACTUALIZADO_POR" Type="Int32" />
-          <Property Name="REMOVIDO_POR" Type="Int32" />
-          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
-          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="GRL_ARQUIVOS" Relationship="Self.FKINST_APLIC12018" FromRole="INST_APLICACAO_ARQUIVOS" ToRole="GRL_ARQUIVOS" />
-          <NavigationProperty Name="INST_APLICACAO" Relationship="GESTREINO_ORM.FKINST_APLIC342516" FromRole="INST_APLICACAO_ARQUIVOS" ToRole="INST_APLICACAO" />
-        </EntityType>
         <EntityType Name="INST_APLICACAO_CONTACTOS">
           <Key>
             <PropertyRef Name="ID" />
@@ -2426,27 +2831,6 @@
           <NavigationProperty Name="GRL_ENDERECO_MUN_DISTR" Relationship="Self.FKINST_APLIC69096" FromRole="INST_APLICACAO_ENDERECOS" ToRole="GRL_ENDERECO_MUN_DISTR" />
           <NavigationProperty Name="GRL_ENDERECO_PAIS" Relationship="Self.FKINST_APLIC939798" FromRole="INST_APLICACAO_ENDERECOS" ToRole="GRL_ENDERECO_PAIS" />
           <NavigationProperty Name="INST_APLICACAO" Relationship="GESTREINO_ORM.FKINST_APLIC348700" FromRole="INST_APLICACAO_ENDERECOS" ToRole="INST_APLICACAO" />
-        </EntityType>
-        <EntityType Name="PES_ARQUIVOS">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PES_PESSOAS_ID" Type="Int32" Nullable="false" />
-          <Property Name="ARQUIVOS_ID" Type="Int32" Nullable="false" />
-          <Property Name="NOME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DESCRICAO" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
-          <Property Name="ACTIVO" Type="Boolean" Nullable="false" />
-          <Property Name="DATA_ACT" Type="DateTime" Precision="3" />
-          <Property Name="DATA_DESACT" Type="DateTime" Precision="3" />
-          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
-          <Property Name="ACTUALIZADO_POR" Type="Int32" />
-          <Property Name="REMOVIDO_POR" Type="Int32" />
-          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
-          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="GRL_ARQUIVOS" Relationship="Self.FKPES_ARQUIV364588" FromRole="PES_ARQUIVOS" ToRole="GRL_ARQUIVOS" />
-          <NavigationProperty Name="PES_PESSOAS" Relationship="GESTREINO_ORM.FKPES_ARQUIV36075" FromRole="PES_ARQUIVOS" ToRole="PES_PESSOAS" />
         </EntityType>
         <EntityType Name="PES_ENDERECOS">
           <Key>
@@ -2644,8 +3028,8 @@
           <NavigationProperty Name="PES_FAMILIARES_GRUPOS" Relationship="Self.FKPES_PESSOA888362" FromRole="PES_PESSOAS_FAM" ToRole="PES_FAMILIARES_GRUPOS" />
           <NavigationProperty Name="PES_PESSOAS_FAM_CONTACTOS" Relationship="Self.FKPES_PESSOA365702" FromRole="PES_PESSOAS_FAM" ToRole="PES_PESSOAS_FAM_CONTACTOS" />
           <NavigationProperty Name="PES_PESSOAS_FAM_ENDERECOS" Relationship="Self.FKPES_PESSOA815594" FromRole="PES_PESSOAS_FAM" ToRole="PES_PESSOAS_FAM_ENDERECOS" />
-          <NavigationProperty Name="PES_PESSOAS" Relationship="GESTREINO_ORM.FKPES_PESSOA54742" FromRole="PES_PESSOAS_FAM" ToRole="PES_PESSOAS" />
           <NavigationProperty Name="PES_PROFISSOES" Relationship="GESTREINO_ORM.PES_PESSOAS_FAM_PES_PROFISSOES_ID" FromRole="PES_PESSOAS_FAM" ToRole="PES_PROFISSOES" />
+          <NavigationProperty Name="PES_PESSOAS" Relationship="GESTREINO_ORM.FKPES_PESSOA54742" FromRole="PES_PESSOAS_FAM" ToRole="PES_PESSOAS" />
         </EntityType>
         <EntityType Name="PES_PESSOAS_FAM_CONTACTOS">
           <Key>
@@ -2782,30 +3166,6 @@
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
           <NavigationProperty Name="PES_IDENTIFICACAO" Relationship="Self.FKPES_IDENTI220268" FromRole="PES_TIPO_IDENTIFICACAO" ToRole="PES_IDENTIFICACAO" />
         </EntityType>
-        <EntityType Name="UTILIZADORES">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LOGIN" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="SENHA_PASSWORD" Type="String" MaxLength="264" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="SALT" Type="String" MaxLength="264" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="VALIDA" Type="Boolean" Nullable="false" />
-          <Property Name="ACTIVO" Type="Boolean" Nullable="false" />
-          <Property Name="DATA_ACT" Type="DateTime" Precision="3" />
-          <Property Name="DATA_DESACT" Type="DateTime" Precision="3" />
-          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
-          <Property Name="ACTUALIZADO_POR" Type="Int32" />
-          <Property Name="REMOVIDO_POR" Type="Int32" />
-          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
-          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="UTILIZADORES_ACESSO_UTIL_PERFIS" Relationship="Self.FKUTILIZADOR212112" FromRole="UTILIZADORES" ToRole="UTILIZADORES_ACESSO_UTIL_PERFIS" />
-          <NavigationProperty Name="UTILIZADORES_LOGIN_LOGS" Relationship="Self.FKUTILIZADOR331508" FromRole="UTILIZADORES" ToRole="UTILIZADORES_LOGIN_LOGS" />
-          <NavigationProperty Name="UTILIZADORES_ACESSO_UTIL_GRUPOS" Relationship="Self.FKUTILIZADOR769774" FromRole="UTILIZADORES" ToRole="UTILIZADORES_ACESSO_UTIL_GRUPOS" />
-          <NavigationProperty Name="UTILIZADORES_LOGIN_PASSWORD_TENT" Relationship="GESTREINO_ORM.UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID" FromRole="UTILIZADORES" ToRole="UTILIZADORES_LOGIN_PASSWORD_TENT" />
-          <NavigationProperty Name="PES_PESSOAS" Relationship="GESTREINO_ORM.FKPES_PESSOA577877" FromRole="UTILIZADORES" ToRole="PES_PESSOAS" />
-        </EntityType>
         <EntityType Name="UTILIZADORES_ACESSO_ATOMOS_GRUPOS">
           <Key>
             <PropertyRef Name="ID" />
@@ -2884,8 +3244,8 @@
           <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="UTILIZADORES" Relationship="Self.FKUTILIZADOR769774" FromRole="UTILIZADORES_ACESSO_UTIL_GRUPOS" ToRole="UTILIZADORES" />
           <NavigationProperty Name="UTILIZADORES_ACESSO_GRUPOS" Relationship="Self.FKUTILIZADOR524177" FromRole="UTILIZADORES_ACESSO_UTIL_GRUPOS" ToRole="UTILIZADORES_ACESSO_GRUPOS" />
+          <NavigationProperty Name="UTILIZADORES" Relationship="GESTREINO_ORM.FKUTILIZADOR769774" FromRole="UTILIZADORES_ACESSO_UTIL_GRUPOS" ToRole="UTILIZADORES" />
         </EntityType>
         <EntityType Name="UTILIZADORES_ACESSO_UTIL_PERFIS">
           <Key>
@@ -2900,8 +3260,8 @@
           <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="UTILIZADORES" Relationship="Self.FKUTILIZADOR212112" FromRole="UTILIZADORES_ACESSO_UTIL_PERFIS" ToRole="UTILIZADORES" />
           <NavigationProperty Name="UTILIZADORES_ACESSO_PERFIS" Relationship="Self.FKUTILIZADOR296978" FromRole="UTILIZADORES_ACESSO_UTIL_PERFIS" ToRole="UTILIZADORES_ACESSO_PERFIS" />
+          <NavigationProperty Name="UTILIZADORES" Relationship="GESTREINO_ORM.FKUTILIZADOR212112" FromRole="UTILIZADORES_ACESSO_UTIL_PERFIS" ToRole="UTILIZADORES" />
         </EntityType>
         <EntityType Name="UTILIZADORES_LOGIN_LOGS">
           <Key>
@@ -2917,7 +3277,7 @@
           <Property Name="LONG" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="URL" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
           <Property Name="DATA" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="UTILIZADORES" Relationship="Self.FKUTILIZADOR331508" FromRole="UTILIZADORES_LOGIN_LOGS" ToRole="UTILIZADORES" />
+          <NavigationProperty Name="UTILIZADORES" Relationship="GESTREINO_ORM.FKUTILIZADOR331508" FromRole="UTILIZADORES_LOGIN_LOGS" ToRole="UTILIZADORES" />
         </EntityType>
         <Association Name="FKGRL_ARQUIV868408">
           <End Role="GRL_ARQUIVOS_TIPO_DOCS" Type="Self.GRL_ARQUIVOS_TIPO_DOCS" Multiplicity="1" />
@@ -2928,30 +3288,6 @@
             </Principal>
             <Dependent Role="GRL_ARQUIVOS">
               <PropertyRef Name="GRL_ARQUIVOS_TIPO_DOCS_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKINST_APLIC12018">
-          <End Role="GRL_ARQUIVOS" Type="Self.GRL_ARQUIVOS" Multiplicity="1" />
-          <End Role="INST_APLICACAO_ARQUIVOS" Type="Self.INST_APLICACAO_ARQUIVOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GRL_ARQUIVOS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="INST_APLICACAO_ARQUIVOS">
-              <PropertyRef Name="ARQUIVOS_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKPES_ARQUIV364588">
-          <End Role="GRL_ARQUIVOS" Type="Self.GRL_ARQUIVOS" Multiplicity="1" />
-          <End Role="PES_ARQUIVOS" Type="Self.PES_ARQUIVOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GRL_ARQUIVOS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_ARQUIVOS">
-              <PropertyRef Name="ARQUIVOS_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3279,42 +3615,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKUTILIZADOR212112">
-          <End Role="UTILIZADORES" Type="Self.UTILIZADORES" Multiplicity="1" />
-          <End Role="UTILIZADORES_ACESSO_UTIL_PERFIS" Type="Self.UTILIZADORES_ACESSO_UTIL_PERFIS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UTILIZADORES">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UTILIZADORES_ACESSO_UTIL_PERFIS">
-              <PropertyRef Name="UTILIZADORES_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKUTILIZADOR331508">
-          <End Role="UTILIZADORES" Type="Self.UTILIZADORES" Multiplicity="1" />
-          <End Role="UTILIZADORES_LOGIN_LOGS" Type="Self.UTILIZADORES_LOGIN_LOGS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UTILIZADORES">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UTILIZADORES_LOGIN_LOGS">
-              <PropertyRef Name="UTILIZADORES_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKUTILIZADOR769774">
-          <End Role="UTILIZADORES" Type="Self.UTILIZADORES" Multiplicity="1" />
-          <End Role="UTILIZADORES_ACESSO_UTIL_GRUPOS" Type="Self.UTILIZADORES_ACESSO_UTIL_GRUPOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UTILIZADORES">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UTILIZADORES_ACESSO_UTIL_GRUPOS">
-              <PropertyRef Name="UTILIZADORES_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FKUTILIZADOR350451">
           <End Role="UTILIZADORES_ACESSO_GRUPOS" Type="Self.UTILIZADORES_ACESSO_GRUPOS" Multiplicity="1" />
           <End Role="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" Type="Self.UTILIZADORES_ACESSO_ATOMOS_GRUPOS" Multiplicity="*" />
@@ -3372,10 +3672,8 @@
           <EntitySet Name="GRL_ENDERECO_PAIS" EntityType="Self.GRL_ENDERECO_PAIS" />
           <EntitySet Name="GRL_TOKENS" EntityType="Self.GRL_TOKENS" />
           <EntitySet Name="GRL_TOKENS_TIPOS" EntityType="Self.GRL_TOKENS_TIPOS" />
-          <EntitySet Name="INST_APLICACAO_ARQUIVOS" EntityType="Self.INST_APLICACAO_ARQUIVOS" />
           <EntitySet Name="INST_APLICACAO_CONTACTOS" EntityType="Self.INST_APLICACAO_CONTACTOS" />
           <EntitySet Name="INST_APLICACAO_ENDERECOS" EntityType="Self.INST_APLICACAO_ENDERECOS" />
-          <EntitySet Name="PES_ARQUIVOS" EntityType="Self.PES_ARQUIVOS" />
           <EntitySet Name="PES_ENDERECOS" EntityType="Self.PES_ENDERECOS" />
           <EntitySet Name="PES_ESTADO_CIVIL" EntityType="Self.PES_ESTADO_CIVIL" />
           <EntitySet Name="PES_FAMILIARES_GRUPOS" EntityType="Self.PES_FAMILIARES_GRUPOS" />
@@ -3395,7 +3693,6 @@
           <EntitySet Name="PES_PROFISSOES_TIPO_CONTRACTO" EntityType="Self.PES_PROFISSOES_TIPO_CONTRACTO" />
           <EntitySet Name="PES_TIPO_ENDERECOS" EntityType="Self.PES_TIPO_ENDERECOS" />
           <EntitySet Name="PES_TIPO_IDENTIFICACAO" EntityType="Self.PES_TIPO_IDENTIFICACAO" />
-          <EntitySet Name="UTILIZADORES" EntityType="Self.UTILIZADORES" />
           <EntitySet Name="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" EntityType="Self.UTILIZADORES_ACESSO_ATOMOS_GRUPOS" />
           <EntitySet Name="UTILIZADORES_ACESSO_GRUPOS" EntityType="Self.UTILIZADORES_ACESSO_GRUPOS" />
           <EntitySet Name="UTILIZADORES_ACESSO_PERFIS" EntityType="Self.UTILIZADORES_ACESSO_PERFIS" />
@@ -3406,14 +3703,6 @@
           <AssociationSet Name="FKGRL_ARQUIV868408" Association="Self.FKGRL_ARQUIV868408">
             <End Role="GRL_ARQUIVOS_TIPO_DOCS" EntitySet="GRL_ARQUIVOS_TIPO_DOCS" />
             <End Role="GRL_ARQUIVOS" EntitySet="GRL_ARQUIVOS" />
-          </AssociationSet>
-          <AssociationSet Name="FKINST_APLIC12018" Association="Self.FKINST_APLIC12018">
-            <End Role="GRL_ARQUIVOS" EntitySet="GRL_ARQUIVOS" />
-            <End Role="INST_APLICACAO_ARQUIVOS" EntitySet="INST_APLICACAO_ARQUIVOS" />
-          </AssociationSet>
-          <AssociationSet Name="FKPES_ARQUIV364588" Association="Self.FKPES_ARQUIV364588">
-            <End Role="GRL_ARQUIVOS" EntitySet="GRL_ARQUIVOS" />
-            <End Role="PES_ARQUIVOS" EntitySet="PES_ARQUIVOS" />
           </AssociationSet>
           <AssociationSet Name="FKINST_APLIC331316" Association="Self.FKINST_APLIC331316">
             <End Role="GRL_ENDERECO_CIDADE" EntitySet="GRL_ENDERECO_CIDADE" />
@@ -3523,18 +3812,6 @@
             <End Role="PES_PROFISSOES_REGIME_TRABALHO" EntitySet="PES_PROFISSOES_REGIME_TRABALHO" />
             <End Role="PES_PESSOAS_PROFISSOES" EntitySet="PES_PESSOAS_PROFISSOES" />
           </AssociationSet>
-          <AssociationSet Name="FKUTILIZADOR212112" Association="Self.FKUTILIZADOR212112">
-            <End Role="UTILIZADORES" EntitySet="UTILIZADORES" />
-            <End Role="UTILIZADORES_ACESSO_UTIL_PERFIS" EntitySet="UTILIZADORES_ACESSO_UTIL_PERFIS" />
-          </AssociationSet>
-          <AssociationSet Name="FKUTILIZADOR331508" Association="Self.FKUTILIZADOR331508">
-            <End Role="UTILIZADORES" EntitySet="UTILIZADORES" />
-            <End Role="UTILIZADORES_LOGIN_LOGS" EntitySet="UTILIZADORES_LOGIN_LOGS" />
-          </AssociationSet>
-          <AssociationSet Name="FKUTILIZADOR769774" Association="Self.FKUTILIZADOR769774">
-            <End Role="UTILIZADORES" EntitySet="UTILIZADORES" />
-            <End Role="UTILIZADORES_ACESSO_UTIL_GRUPOS" EntitySet="UTILIZADORES_ACESSO_UTIL_GRUPOS" />
-          </AssociationSet>
           <AssociationSet Name="FKUTILIZADOR350451" Association="Self.FKUTILIZADOR350451">
             <End Role="UTILIZADORES_ACESSO_GRUPOS" EntitySet="UTILIZADORES_ACESSO_GRUPOS" />
             <End Role="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" EntitySet="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" />
@@ -3556,10 +3833,6 @@
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="UTILIZADORES_LOGIN_PASSWORD_TENT" EntityType="GESTREINO_ORM.UTILIZADORES_LOGIN_PASSWORD_TENT" />
-          <AssociationSet Name="UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID" Association="GESTREINO_ORM.UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID">
-            <End Role="UTILIZADORES" EntitySet="UTILIZADORES" />
-            <End Role="UTILIZADORES_LOGIN_PASSWORD_TENT" EntitySet="UTILIZADORES_LOGIN_PASSWORD_TENT" />
-          </AssociationSet>
           <FunctionImport Name="SP_UTILIZADORES_LOGIN" ReturnType="Collection(Int32)">
             <Parameter Name="UserId" Mode="In" Type="Int32" />
             <Parameter Name="ModuleId" Mode="In" Type="Int32" />
@@ -3573,11 +3846,6 @@
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="INST_APLICACAO" EntityType="GESTREINO_ORM.INST_APLICACAO" />
-          <EntitySet Name="PES_PESSOAS" EntityType="GESTREINO_ORM.PES_PESSOAS" />
-          <AssociationSet Name="FKINST_APLIC342516" Association="GESTREINO_ORM.FKINST_APLIC342516">
-            <End Role="INST_APLICACAO" EntitySet="INST_APLICACAO" />
-            <End Role="INST_APLICACAO_ARQUIVOS" EntitySet="INST_APLICACAO_ARQUIVOS" />
-          </AssociationSet>
           <AssociationSet Name="FKINST_APLIC348700" Association="GESTREINO_ORM.FKINST_APLIC348700">
             <End Role="INST_APLICACAO" EntitySet="INST_APLICACAO" />
             <End Role="INST_APLICACAO_ENDERECOS" EntitySet="INST_APLICACAO_ENDERECOS" />
@@ -3585,46 +3853,6 @@
           <AssociationSet Name="FKINST_APLIC72783" Association="GESTREINO_ORM.FKINST_APLIC72783">
             <End Role="INST_APLICACAO" EntitySet="INST_APLICACAO" />
             <End Role="INST_APLICACAO_CONTACTOS" EntitySet="INST_APLICACAO_CONTACTOS" />
-          </AssociationSet>
-          <AssociationSet Name="FKPES_ARQUIV36075" Association="GESTREINO_ORM.FKPES_ARQUIV36075">
-            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
-            <End Role="PES_ARQUIVOS" EntitySet="PES_ARQUIVOS" />
-          </AssociationSet>
-          <AssociationSet Name="FKPES_ENDERE793688" Association="GESTREINO_ORM.FKPES_ENDERE793688">
-            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
-            <End Role="PES_ENDERECOS" EntitySet="PES_ENDERECOS" />
-          </AssociationSet>
-          <AssociationSet Name="FKPES_PESSOA207036" Association="GESTREINO_ORM.FKPES_PESSOA207036">
-            <End Role="PES_ESTADO_CIVIL" EntitySet="PES_ESTADO_CIVIL" />
-            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
-          </AssociationSet>
-          <AssociationSet Name="FKPES_IDENTI437016" Association="GESTREINO_ORM.FKPES_IDENTI437016">
-            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
-            <End Role="PES_IDENTIFICACAO" EntitySet="PES_IDENTIFICACAO" />
-          </AssociationSet>
-          <AssociationSet Name="FKPES_NACION904470" Association="GESTREINO_ORM.FKPES_NACION904470">
-            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
-            <End Role="PES_NACIONALIDADE" EntitySet="PES_NACIONALIDADE" />
-          </AssociationSet>
-          <AssociationSet Name="FKPES_NATURA600401" Association="GESTREINO_ORM.FKPES_NATURA600401">
-            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
-            <End Role="PES_NATURALIDADE" EntitySet="PES_NATURALIDADE" />
-          </AssociationSet>
-          <AssociationSet Name="FKPES_PESSOA28870" Association="GESTREINO_ORM.FKPES_PESSOA28870">
-            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
-            <End Role="PES_PESSOAS_PROFISSOES" EntitySet="PES_PESSOAS_PROFISSOES" />
-          </AssociationSet>
-          <AssociationSet Name="FKPES_PESSOA54742" Association="GESTREINO_ORM.FKPES_PESSOA54742">
-            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
-            <End Role="PES_PESSOAS_FAM" EntitySet="PES_PESSOAS_FAM" />
-          </AssociationSet>
-          <AssociationSet Name="FKPES_PESSOA577877" Association="GESTREINO_ORM.FKPES_PESSOA577877">
-            <End Role="UTILIZADORES" EntitySet="UTILIZADORES" />
-            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
-          </AssociationSet>
-          <AssociationSet Name="FKPES_PESSOA801637" Association="GESTREINO_ORM.FKPES_PESSOA801637">
-            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
-            <End Role="PES_PESSOAS_CARACT_DEFICIENCIA" EntitySet="PES_PESSOAS_CARACT_DEFICIENCIA" />
           </AssociationSet>
           <FunctionImport Name="SP_UTILIZADORES_ENT_UTILIZADORES" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_UTILIZADORES_Result)">
             <Parameter Name="Id" Mode="In" Type="Int32" />
@@ -3776,18 +4004,10 @@
             <End Role="GRL_DEFINICOES" EntitySet="GRL_DEFINICOES" />
           </AssociationSet>
           <EntitySet Name="PES_CONTACTOS" EntityType="GESTREINO_ORM.PES_CONTACTOS" />
-          <AssociationSet Name="FKPES_CONTAC756418" Association="GESTREINO_ORM.FKPES_CONTAC756418">
-            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
-            <End Role="PES_CONTACTOS" EntitySet="PES_CONTACTOS" />
-          </AssociationSet>
           <EntitySet Name="GT_DuracaoPlano" EntityType="GESTREINO_ORM.GT_DuracaoPlano" />
           <EntitySet Name="PES_PESSOAS_CARACT" EntityType="GESTREINO_ORM.PES_PESSOAS_CARACT" />
           <AssociationSet Name="PES_PESSOAS_CARACT_GT_DuracaoPlano_ID" Association="GESTREINO_ORM.PES_PESSOAS_CARACT_GT_DuracaoPlano_ID">
             <End Role="GT_DuracaoPlano" EntitySet="GT_DuracaoPlano" />
-            <End Role="PES_PESSOAS_CARACT" EntitySet="PES_PESSOAS_CARACT" />
-          </AssociationSet>
-          <AssociationSet Name="FKPES_PESSOA802772" Association="GESTREINO_ORM.FKPES_PESSOA802772">
-            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
             <End Role="PES_PESSOAS_CARACT" EntitySet="PES_PESSOAS_CARACT" />
           </AssociationSet>
           <AssociationSet Name="FKPES_PESSOA872225" Association="GESTREINO_ORM.FKPES_PESSOA872225">
@@ -4005,6 +4225,184 @@
             <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="GT_Exercicio" EntityType="GESTREINO_ORM.GT_Exercicio" />
+          <EntitySet Name="GT_Exercicio_ARQUIVOS" EntityType="GESTREINO_ORM.GT_Exercicio_ARQUIVOS" />
+          <EntitySet Name="GT_ExercicioTreino" EntityType="GESTREINO_ORM.GT_ExercicioTreino" />
+          <EntitySet Name="GT_SOCIOS" EntityType="GESTREINO_ORM.GT_SOCIOS" />
+          <EntitySet Name="GT_TipoTreino" EntityType="GESTREINO_ORM.GT_TipoTreino" />
+          <EntitySet Name="GT_Treino" EntityType="GESTREINO_ORM.GT_Treino" />
+          <EntitySet Name="GT_TreinosPessoa" EntityType="GESTREINO_ORM.GT_TreinosPessoa" />
+          <EntitySet Name="PES_PESSOAS" EntityType="GESTREINO_ORM.PES_PESSOAS" />
+          <AssociationSet Name="GT_Exercicio_ARQUIVOS_ARQUIVOS_ID" Association="GESTREINO_ORM.GT_Exercicio_ARQUIVOS_ARQUIVOS_ID">
+            <End Role="GRL_ARQUIVOS" EntitySet="GRL_ARQUIVOS" />
+            <End Role="GT_Exercicio_ARQUIVOS" EntitySet="GT_Exercicio_ARQUIVOS" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_Carga_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Carga_ID">
+            <End Role="GT_Carga" EntitySet="GT_Carga" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_FaseTreino_GT_Carga_ID" Association="GESTREINO_ORM.GT_FaseTreino_GT_Carga_ID">
+            <End Role="GT_Carga" EntitySet="GT_Carga" />
+            <End Role="GT_FaseTreino" EntitySet="GT_FaseTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_Exercicio_ARQUIVOS_GT_Exercicio_ID" Association="GESTREINO_ORM.GT_Exercicio_ARQUIVOS_GT_Exercicio_ID">
+            <End Role="GT_Exercicio" EntitySet="GT_Exercicio" />
+            <End Role="GT_Exercicio_ARQUIVOS" EntitySet="GT_Exercicio_ARQUIVOS" />
+          </AssociationSet>
+          <AssociationSet Name="GT_Exercicio_GT_TipoTreino_ID" Association="GESTREINO_ORM.GT_Exercicio_GT_TipoTreino_ID">
+            <End Role="GT_TipoTreino" EntitySet="GT_TipoTreino" />
+            <End Role="GT_Exercicio" EntitySet="GT_Exercicio" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_Exercicio_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Exercicio_ID">
+            <End Role="GT_Exercicio" EntitySet="GT_Exercicio" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_Repeticoes_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Repeticoes_ID">
+            <End Role="GT_Repeticoes" EntitySet="GT_Repeticoes" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_Series_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Series_ID">
+            <End Role="GT_Series" EntitySet="GT_Series" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_TempoDescanso_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_TempoDescanso_ID">
+            <End Role="GT_TempoDescanso" EntitySet="GT_TempoDescanso" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_Treino_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Treino_ID">
+            <End Role="GT_Treino" EntitySet="GT_Treino" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_FaseTreino_GT_Repeticoes_ID" Association="GESTREINO_ORM.GT_FaseTreino_GT_Repeticoes_ID">
+            <End Role="GT_Repeticoes" EntitySet="GT_Repeticoes" />
+            <End Role="GT_FaseTreino" EntitySet="GT_FaseTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_FaseTreino_GT_Series_ID" Association="GESTREINO_ORM.GT_FaseTreino_GT_Series_ID">
+            <End Role="GT_Series" EntitySet="GT_Series" />
+            <End Role="GT_FaseTreino" EntitySet="GT_FaseTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_FaseTreino_GT_TempoDescanso_ID" Association="GESTREINO_ORM.GT_FaseTreino_GT_TempoDescanso_ID">
+            <End Role="GT_TempoDescanso" EntitySet="GT_TempoDescanso" />
+            <End Role="GT_FaseTreino" EntitySet="GT_FaseTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_Treino_GT_GT_FaseTreino_ID" Association="GESTREINO_ORM.GT_Treino_GT_GT_FaseTreino_ID">
+            <End Role="GT_FaseTreino" EntitySet="GT_FaseTreino" />
+            <End Role="GT_Treino" EntitySet="GT_Treino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_SOCIOS_PES_PESSOAS_ID" Association="GESTREINO_ORM.GT_SOCIOS_PES_PESSOAS_ID">
+            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
+            <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+          </AssociationSet>
+          <AssociationSet Name="GT_TreinosPessoa_GT_SOCIOS_ID" Association="GESTREINO_ORM.GT_TreinosPessoa_GT_SOCIOS_ID">
+            <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+            <End Role="GT_TreinosPessoa" EntitySet="GT_TreinosPessoa" />
+          </AssociationSet>
+          <AssociationSet Name="GT_Treino_GT_TipoTreino_ID" Association="GESTREINO_ORM.GT_Treino_GT_TipoTreino_ID">
+            <End Role="GT_TipoTreino" EntitySet="GT_TipoTreino" />
+            <End Role="GT_Treino" EntitySet="GT_Treino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_TreinosPessoa_GT_Treino_ID" Association="GESTREINO_ORM.GT_TreinosPessoa_GT_Treino_ID">
+            <End Role="GT_Treino" EntitySet="GT_Treino" />
+            <End Role="GT_TreinosPessoa" EntitySet="GT_TreinosPessoa" />
+          </AssociationSet>
+          <AssociationSet Name="FKPES_CONTAC756418" Association="GESTREINO_ORM.FKPES_CONTAC756418">
+            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
+            <End Role="PES_CONTACTOS" EntitySet="PES_CONTACTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FKPES_ENDERE793688" Association="GESTREINO_ORM.FKPES_ENDERE793688">
+            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
+            <End Role="PES_ENDERECOS" EntitySet="PES_ENDERECOS" />
+          </AssociationSet>
+          <AssociationSet Name="FKPES_PESSOA207036" Association="GESTREINO_ORM.FKPES_PESSOA207036">
+            <End Role="PES_ESTADO_CIVIL" EntitySet="PES_ESTADO_CIVIL" />
+            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
+          </AssociationSet>
+          <AssociationSet Name="FKPES_IDENTI437016" Association="GESTREINO_ORM.FKPES_IDENTI437016">
+            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
+            <End Role="PES_IDENTIFICACAO" EntitySet="PES_IDENTIFICACAO" />
+          </AssociationSet>
+          <AssociationSet Name="FKPES_NACION904470" Association="GESTREINO_ORM.FKPES_NACION904470">
+            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
+            <End Role="PES_NACIONALIDADE" EntitySet="PES_NACIONALIDADE" />
+          </AssociationSet>
+          <AssociationSet Name="FKPES_NATURA600401" Association="GESTREINO_ORM.FKPES_NATURA600401">
+            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
+            <End Role="PES_NATURALIDADE" EntitySet="PES_NATURALIDADE" />
+          </AssociationSet>
+          <AssociationSet Name="FKPES_PESSOA28870" Association="GESTREINO_ORM.FKPES_PESSOA28870">
+            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
+            <End Role="PES_PESSOAS_PROFISSOES" EntitySet="PES_PESSOAS_PROFISSOES" />
+          </AssociationSet>
+          <AssociationSet Name="FKPES_PESSOA54742" Association="GESTREINO_ORM.FKPES_PESSOA54742">
+            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
+            <End Role="PES_PESSOAS_FAM" EntitySet="PES_PESSOAS_FAM" />
+          </AssociationSet>
+          <AssociationSet Name="FKPES_PESSOA801637" Association="GESTREINO_ORM.FKPES_PESSOA801637">
+            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
+            <End Role="PES_PESSOAS_CARACT_DEFICIENCIA" EntitySet="PES_PESSOAS_CARACT_DEFICIENCIA" />
+          </AssociationSet>
+          <AssociationSet Name="FKPES_PESSOA802772" Association="GESTREINO_ORM.FKPES_PESSOA802772">
+            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
+            <End Role="PES_PESSOAS_CARACT" EntitySet="PES_PESSOAS_CARACT" />
+          </AssociationSet>
+          <EntitySet Name="INST_APLICACAO_ARQUIVOS" EntityType="GESTREINO_ORM.INST_APLICACAO_ARQUIVOS" />
+          <EntitySet Name="PES_ARQUIVOS" EntityType="GESTREINO_ORM.PES_ARQUIVOS" />
+          <EntitySet Name="UTILIZADORES" EntityType="GESTREINO_ORM.UTILIZADORES" />
+          <AssociationSet Name="FKINST_APLIC12018" Association="GESTREINO_ORM.FKINST_APLIC12018">
+            <End Role="GRL_ARQUIVOS" EntitySet="GRL_ARQUIVOS" />
+            <End Role="INST_APLICACAO_ARQUIVOS" EntitySet="INST_APLICACAO_ARQUIVOS" />
+          </AssociationSet>
+          <AssociationSet Name="FKPES_ARQUIV364588" Association="GESTREINO_ORM.FKPES_ARQUIV364588">
+            <End Role="GRL_ARQUIVOS" EntitySet="GRL_ARQUIVOS" />
+            <End Role="PES_ARQUIVOS" EntitySet="PES_ARQUIVOS" />
+          </AssociationSet>
+          <AssociationSet Name="FKINST_APLIC342516" Association="GESTREINO_ORM.FKINST_APLIC342516">
+            <End Role="INST_APLICACAO" EntitySet="INST_APLICACAO" />
+            <End Role="INST_APLICACAO_ARQUIVOS" EntitySet="INST_APLICACAO_ARQUIVOS" />
+          </AssociationSet>
+          <AssociationSet Name="FKPES_ARQUIV36075" Association="GESTREINO_ORM.FKPES_ARQUIV36075">
+            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
+            <End Role="PES_ARQUIVOS" EntitySet="PES_ARQUIVOS" />
+          </AssociationSet>
+          <AssociationSet Name="FKPES_PESSOA577877" Association="GESTREINO_ORM.FKPES_PESSOA577877">
+            <End Role="UTILIZADORES" EntitySet="UTILIZADORES" />
+            <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
+          </AssociationSet>
+          <AssociationSet Name="FKUTILIZADOR212112" Association="GESTREINO_ORM.FKUTILIZADOR212112">
+            <End Role="UTILIZADORES" EntitySet="UTILIZADORES" />
+            <End Role="UTILIZADORES_ACESSO_UTIL_PERFIS" EntitySet="UTILIZADORES_ACESSO_UTIL_PERFIS" />
+          </AssociationSet>
+          <AssociationSet Name="FKUTILIZADOR331508" Association="GESTREINO_ORM.FKUTILIZADOR331508">
+            <End Role="UTILIZADORES" EntitySet="UTILIZADORES" />
+            <End Role="UTILIZADORES_LOGIN_LOGS" EntitySet="UTILIZADORES_LOGIN_LOGS" />
+          </AssociationSet>
+          <AssociationSet Name="FKUTILIZADOR769774" Association="GESTREINO_ORM.FKUTILIZADOR769774">
+            <End Role="UTILIZADORES" EntitySet="UTILIZADORES" />
+            <End Role="UTILIZADORES_ACESSO_UTIL_GRUPOS" EntitySet="UTILIZADORES_ACESSO_UTIL_GRUPOS" />
+          </AssociationSet>
+          <AssociationSet Name="UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID" Association="GESTREINO_ORM.UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID">
+            <End Role="UTILIZADORES" EntitySet="UTILIZADORES" />
+            <End Role="UTILIZADORES_LOGIN_PASSWORD_TENT" EntitySet="UTILIZADORES_LOGIN_PASSWORD_TENT" />
+          </AssociationSet>
+          <FunctionImport Name="SP_ASSOC_ARQUIVOS" ReturnType="Collection(GESTREINO_ORM.SP_ASSOC_ARQUIVOS_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="ArquivoId" Mode="In" Type="Int32" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="ArquivoDescricao" Mode="In" Type="String" />
+            <Parameter Name="ArquivoActivo" Mode="In" Type="Boolean" />
+            <Parameter Name="ArquivoDataAct" Mode="In" Type="DateTime" />
+            <Parameter Name="ArquivoDataDesact" Mode="In" Type="DateTime" />
+            <Parameter Name="ArquivoTipoDocId" Mode="In" Type="Int32" />
+            <Parameter Name="ArquivoNome" Mode="In" Type="String" />
+            <Parameter Name="ArquivoAlt" Mode="In" Type="String" />
+            <Parameter Name="ArquivoTipo" Mode="In" Type="String" />
+            <Parameter Name="ArquivoTamanho" Mode="In" Type="Int32" />
+            <Parameter Name="ArquivoUrl" Mode="In" Type="String" />
+            <Parameter Name="Tablename" Mode="In" Type="String" />
+            <Parameter Name="Fieldname" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -4034,18 +4432,6 @@
           <Property Name="DATA" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="UTILIZADORES" Relationship="GESTREINO_ORM.UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID" FromRole="UTILIZADORES_LOGIN_PASSWORD_TENT" ToRole="UTILIZADORES" />
         </EntityType>
-        <Association Name="UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID">
-          <End Type="GESTREINO_ORM.UTILIZADORES" Role="UTILIZADORES" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.UTILIZADORES_LOGIN_PASSWORD_TENT" Role="UTILIZADORES_LOGIN_PASSWORD_TENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UTILIZADORES">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UTILIZADORES_LOGIN_PASSWORD_TENT">
-              <PropertyRef Name="UTILIZADORES_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="INST_APLICACAO">
           <Key>
             <PropertyRef Name="ID" />
@@ -4060,58 +4446,11 @@
           <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="INST_APLICACAO_ARQUIVOS" Relationship="GESTREINO_ORM.FKINST_APLIC342516" FromRole="INST_APLICACAO" ToRole="INST_APLICACAO_ARQUIVOS" />
           <NavigationProperty Name="INST_APLICACAO_ENDERECOS" Relationship="GESTREINO_ORM.FKINST_APLIC348700" FromRole="INST_APLICACAO" ToRole="INST_APLICACAO_ENDERECOS" />
           <NavigationProperty Name="INST_APLICACAO_CONTACTOS" Relationship="GESTREINO_ORM.FKINST_APLIC72783" FromRole="INST_APLICACAO" ToRole="INST_APLICACAO_CONTACTOS" />
           <NavigationProperty Name="GRL_DEFINICOES" Relationship="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID" FromRole="INST_APLICACAO" ToRole="GRL_DEFINICOES" />
+          <NavigationProperty Name="INST_APLICACAO_ARQUIVOS" Relationship="GESTREINO_ORM.FKINST_APLIC342516" FromRole="INST_APLICACAO" ToRole="INST_APLICACAO_ARQUIVOS" />
         </EntityType>
-        <EntityType Name="PES_PESSOAS">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UTILIZADORES_ID" Type="Int32" Nullable="false" />
-          <Property Name="NUMERO" Type="Int32" />
-          <Property Name="NOME_PROPIO" Type="String" Nullable="false" MaxLength="48" FixedLength="false" Unicode="false" />
-          <Property Name="APELIDO" Type="String" Nullable="false" MaxLength="48" FixedLength="false" Unicode="false" />
-          <Property Name="NOME" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="SEXO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="DATA_NASCIMENTO" Type="DateTime" Precision="0" />
-          <Property Name="PES_ESTADO_CIVIL_ID" Type="Int32" />
-          <Property Name="NIF" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="APRESENTACAO_PESSOAL" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
-          <Property Name="FOTOGRAFIA" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
-          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
-          <Property Name="ACTUALIZADO_POR" Type="Int32" />
-          <Property Name="REMOVIDO_POR" Type="Int32" />
-          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
-          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="PES_ARQUIVOS" Relationship="GESTREINO_ORM.FKPES_ARQUIV36075" FromRole="PES_PESSOAS" ToRole="PES_ARQUIVOS" />
-          <NavigationProperty Name="PES_ENDERECOS" Relationship="GESTREINO_ORM.FKPES_ENDERE793688" FromRole="PES_PESSOAS" ToRole="PES_ENDERECOS" />
-          <NavigationProperty Name="PES_ESTADO_CIVIL" Relationship="GESTREINO_ORM.FKPES_PESSOA207036" FromRole="PES_PESSOAS" ToRole="PES_ESTADO_CIVIL" />
-          <NavigationProperty Name="PES_IDENTIFICACAO" Relationship="GESTREINO_ORM.FKPES_IDENTI437016" FromRole="PES_PESSOAS" ToRole="PES_IDENTIFICACAO" />
-          <NavigationProperty Name="PES_NACIONALIDADE" Relationship="GESTREINO_ORM.FKPES_NACION904470" FromRole="PES_PESSOAS" ToRole="PES_NACIONALIDADE" />
-          <NavigationProperty Name="PES_NATURALIDADE" Relationship="GESTREINO_ORM.FKPES_NATURA600401" FromRole="PES_PESSOAS" ToRole="PES_NATURALIDADE" />
-          <NavigationProperty Name="PES_PESSOAS_PROFISSOES" Relationship="GESTREINO_ORM.FKPES_PESSOA28870" FromRole="PES_PESSOAS" ToRole="PES_PESSOAS_PROFISSOES" />
-          <NavigationProperty Name="PES_PESSOAS_FAM" Relationship="GESTREINO_ORM.FKPES_PESSOA54742" FromRole="PES_PESSOAS" ToRole="PES_PESSOAS_FAM" />
-          <NavigationProperty Name="UTILIZADORES" Relationship="GESTREINO_ORM.FKPES_PESSOA577877" FromRole="PES_PESSOAS" ToRole="UTILIZADORES" />
-          <NavigationProperty Name="PES_PESSOAS_CARACT_DEFICIENCIA" Relationship="GESTREINO_ORM.FKPES_PESSOA801637" FromRole="PES_PESSOAS" ToRole="PES_PESSOAS_CARACT_DEFICIENCIA" />
-          <NavigationProperty Name="PES_CONTACTOS" Relationship="GESTREINO_ORM.FKPES_CONTAC756418" FromRole="PES_PESSOAS" ToRole="PES_CONTACTOS" />
-          <NavigationProperty Name="PES_PESSOAS_CARACT" Relationship="GESTREINO_ORM.FKPES_PESSOA802772" FromRole="PES_PESSOAS" ToRole="PES_PESSOAS_CARACT" />
-        </EntityType>
-        <Association Name="FKINST_APLIC342516">
-          <End Type="GESTREINO_ORM.INST_APLICACAO" Role="INST_APLICACAO" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.INST_APLICACAO_ARQUIVOS" Role="INST_APLICACAO_ARQUIVOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="INST_APLICACAO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="INST_APLICACAO_ARQUIVOS">
-              <PropertyRef Name="INST_APLICACAO_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FKINST_APLIC348700">
           <End Type="GESTREINO_ORM.INST_APLICACAO" Role="INST_APLICACAO" Multiplicity="1" />
           <End Type="GESTREINO_ORM.INST_APLICACAO_ENDERECOS" Role="INST_APLICACAO_ENDERECOS" Multiplicity="*" />
@@ -4133,126 +4472,6 @@
             </Principal>
             <Dependent Role="INST_APLICACAO_CONTACTOS">
               <PropertyRef Name="INST_APLICACAO_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKPES_ARQUIV36075">
-          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.PES_ARQUIVOS" Role="PES_ARQUIVOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PES_PESSOAS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_ARQUIVOS">
-              <PropertyRef Name="PES_PESSOAS_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKPES_ENDERE793688">
-          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.PES_ENDERECOS" Role="PES_ENDERECOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PES_PESSOAS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_ENDERECOS">
-              <PropertyRef Name="PES_PESSOAS_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKPES_PESSOA207036">
-          <End Type="GESTREINO_ORM.PES_ESTADO_CIVIL" Role="PES_ESTADO_CIVIL" Multiplicity="0..1" />
-          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PES_ESTADO_CIVIL">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_PESSOAS">
-              <PropertyRef Name="PES_ESTADO_CIVIL_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKPES_IDENTI437016">
-          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.PES_IDENTIFICACAO" Role="PES_IDENTIFICACAO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PES_PESSOAS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_IDENTIFICACAO">
-              <PropertyRef Name="PES_PESSOAS_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKPES_NACION904470">
-          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.PES_NACIONALIDADE" Role="PES_NACIONALIDADE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PES_PESSOAS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_NACIONALIDADE">
-              <PropertyRef Name="PES_PESSOAS_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKPES_NATURA600401">
-          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.PES_NATURALIDADE" Role="PES_NATURALIDADE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PES_PESSOAS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_NATURALIDADE">
-              <PropertyRef Name="PES_PESSOAS_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKPES_PESSOA28870">
-          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.PES_PESSOAS_PROFISSOES" Role="PES_PESSOAS_PROFISSOES" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PES_PESSOAS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_PESSOAS_PROFISSOES">
-              <PropertyRef Name="PES_PESSOAS_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKPES_PESSOA54742">
-          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.PES_PESSOAS_FAM" Role="PES_PESSOAS_FAM" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PES_PESSOAS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_PESSOAS_FAM">
-              <PropertyRef Name="PES_PESSOAS_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKPES_PESSOA577877">
-          <End Type="GESTREINO_ORM.UTILIZADORES" Role="UTILIZADORES" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UTILIZADORES">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_PESSOAS">
-              <PropertyRef Name="UTILIZADORES_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKPES_PESSOA801637">
-          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.PES_PESSOAS_CARACT_DEFICIENCIA" Role="PES_PESSOAS_CARACT_DEFICIENCIA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PES_PESSOAS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_PESSOAS_CARACT_DEFICIENCIA">
-              <PropertyRef Name="PES_PESSOAS_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4554,18 +4773,6 @@
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
           <NavigationProperty Name="PES_PESSOAS" Relationship="GESTREINO_ORM.FKPES_CONTAC756418" FromRole="PES_CONTACTOS" ToRole="PES_PESSOAS" />
         </EntityType>
-        <Association Name="FKPES_CONTAC756418">
-          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.PES_CONTACTOS" Role="PES_CONTACTOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PES_PESSOAS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_CONTACTOS">
-              <PropertyRef Name="PES_PESSOAS_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="GT_DuracaoPlano">
           <Key>
             <PropertyRef Name="ID" />
@@ -4632,8 +4839,8 @@
           <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
           <NavigationProperty Name="GT_DuracaoPlano" Relationship="GESTREINO_ORM.PES_PESSOAS_CARACT_GT_DuracaoPlano_ID" FromRole="PES_PESSOAS_CARACT" ToRole="GT_DuracaoPlano" />
-          <NavigationProperty Name="PES_PESSOAS" Relationship="GESTREINO_ORM.FKPES_PESSOA802772" FromRole="PES_PESSOAS_CARACT" ToRole="PES_PESSOAS" />
           <NavigationProperty Name="PES_PESSOAS_CARACT_TIPO_SANG" Relationship="GESTREINO_ORM.FKPES_PESSOA872225" FromRole="PES_PESSOAS_CARACT" ToRole="PES_PESSOAS_CARACT_TIPO_SANG" />
+          <NavigationProperty Name="PES_PESSOAS" Relationship="GESTREINO_ORM.FKPES_PESSOA802772" FromRole="PES_PESSOAS_CARACT" ToRole="PES_PESSOAS" />
         </EntityType>
         <Association Name="PES_PESSOAS_CARACT_GT_DuracaoPlano_ID">
           <End Type="GESTREINO_ORM.GT_DuracaoPlano" Role="GT_DuracaoPlano" Multiplicity="0..1" />
@@ -4644,18 +4851,6 @@
             </Principal>
             <Dependent Role="PES_PESSOAS_CARACT">
               <PropertyRef Name="GT_DuracaoPlano_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKPES_PESSOA802772">
-          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.PES_PESSOAS_CARACT" Role="PES_PESSOAS_CARACT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PES_PESSOAS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_PESSOAS_CARACT">
-              <PropertyRef Name="PES_PESSOAS_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4888,6 +5083,8 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CARGA" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Carga_ID" FromRole="GT_Carga" ToRole="GT_ExercicioTreino" />
+          <NavigationProperty Name="GT_FaseTreino" Relationship="GESTREINO_ORM.GT_FaseTreino_GT_Carga_ID" FromRole="GT_Carga" ToRole="GT_FaseTreino" />
         </EntityType>
         <EntityType Name="GT_FaseTreino">
           <Key>
@@ -4905,6 +5102,11 @@
           <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GT_Carga" Relationship="GESTREINO_ORM.GT_FaseTreino_GT_Carga_ID" FromRole="GT_FaseTreino" ToRole="GT_Carga" />
+          <NavigationProperty Name="GT_Repeticoes" Relationship="GESTREINO_ORM.GT_FaseTreino_GT_Repeticoes_ID" FromRole="GT_FaseTreino" ToRole="GT_Repeticoes" />
+          <NavigationProperty Name="GT_Series" Relationship="GESTREINO_ORM.GT_FaseTreino_GT_Series_ID" FromRole="GT_FaseTreino" ToRole="GT_Series" />
+          <NavigationProperty Name="GT_TempoDescanso" Relationship="GESTREINO_ORM.GT_FaseTreino_GT_TempoDescanso_ID" FromRole="GT_FaseTreino" ToRole="GT_TempoDescanso" />
+          <NavigationProperty Name="GT_Treino" Relationship="GESTREINO_ORM.GT_Treino_GT_GT_FaseTreino_ID" FromRole="GT_FaseTreino" ToRole="GT_Treino" />
         </EntityType>
         <EntityType Name="GT_Repeticoes">
           <Key>
@@ -4912,6 +5114,8 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="REPETICOES" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Repeticoes_ID" FromRole="GT_Repeticoes" ToRole="GT_ExercicioTreino" />
+          <NavigationProperty Name="GT_FaseTreino" Relationship="GESTREINO_ORM.GT_FaseTreino_GT_Repeticoes_ID" FromRole="GT_Repeticoes" ToRole="GT_FaseTreino" />
         </EntityType>
         <EntityType Name="GT_Series">
           <Key>
@@ -4919,6 +5123,8 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SERIES" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Series_ID" FromRole="GT_Series" ToRole="GT_ExercicioTreino" />
+          <NavigationProperty Name="GT_FaseTreino" Relationship="GESTREINO_ORM.GT_FaseTreino_GT_Series_ID" FromRole="GT_Series" ToRole="GT_FaseTreino" />
         </EntityType>
         <EntityType Name="GT_TempoDescanso">
           <Key>
@@ -4926,6 +5132,8 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TEMPO_DESCANSO" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_TempoDescanso_ID" FromRole="GT_TempoDescanso" ToRole="GT_ExercicioTreino" />
+          <NavigationProperty Name="GT_FaseTreino" Relationship="GESTREINO_ORM.GT_FaseTreino_GT_TempoDescanso_ID" FromRole="GT_TempoDescanso" ToRole="GT_FaseTreino" />
         </EntityType>
         <ComplexType Name="SP_GT_ENT_FaseTreino_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -4942,6 +5150,703 @@
           <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
           <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
           <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <EntityType Name="GT_Exercicio">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GT_TipoTreino_ID" Type="Int32" Nullable="false" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ALONGAMENTO" Type="Int32" />
+          <Property Name="SEQUENCIA" Type="Int32" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GT_Exercicio_ARQUIVOS" Relationship="GESTREINO_ORM.GT_Exercicio_ARQUIVOS_GT_Exercicio_ID" FromRole="GT_Exercicio" ToRole="GT_Exercicio_ARQUIVOS" />
+          <NavigationProperty Name="GT_TipoTreino" Relationship="GESTREINO_ORM.GT_Exercicio_GT_TipoTreino_ID" FromRole="GT_Exercicio" ToRole="GT_TipoTreino" />
+          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Exercicio_ID" FromRole="GT_Exercicio" ToRole="GT_ExercicioTreino" />
+        </EntityType>
+        <EntityType Name="GT_Exercicio_ARQUIVOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GT_Exercicio_ID" Type="Int32" Nullable="false" />
+          <Property Name="ARQUIVOS_ID" Type="Int32" Nullable="false" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRICAO" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="ACTIVO" Type="Boolean" Nullable="false" />
+          <Property Name="DATA_ACT" Type="DateTime" Precision="0" />
+          <Property Name="DATA_DESACT" Type="DateTime" Precision="0" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GRL_ARQUIVOS" Relationship="GESTREINO_ORM.GT_Exercicio_ARQUIVOS_ARQUIVOS_ID" FromRole="GT_Exercicio_ARQUIVOS" ToRole="GRL_ARQUIVOS" />
+          <NavigationProperty Name="GT_Exercicio" Relationship="GESTREINO_ORM.GT_Exercicio_ARQUIVOS_GT_Exercicio_ID" FromRole="GT_Exercicio_ARQUIVOS" ToRole="GT_Exercicio" />
+        </EntityType>
+        <EntityType Name="GT_ExercicioTreino">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GT_Treino_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_Exercicio_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_Series_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_Repeticoes_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_TempoDescanso_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_Carga_ID" Type="Int32" Nullable="false" />
+          <Property Name="REPETICOES_COMPLETADAS" Type="Int32" Nullable="false" />
+          <Property Name="CARGA_USADA" Type="Int32" />
+          <Property Name="ONERM" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ORDEM" Type="Int32" Nullable="false" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GT_Carga" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Carga_ID" FromRole="GT_ExercicioTreino" ToRole="GT_Carga" />
+          <NavigationProperty Name="GT_Exercicio" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Exercicio_ID" FromRole="GT_ExercicioTreino" ToRole="GT_Exercicio" />
+          <NavigationProperty Name="GT_Repeticoes" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Repeticoes_ID" FromRole="GT_ExercicioTreino" ToRole="GT_Repeticoes" />
+          <NavigationProperty Name="GT_Series" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Series_ID" FromRole="GT_ExercicioTreino" ToRole="GT_Series" />
+          <NavigationProperty Name="GT_TempoDescanso" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_TempoDescanso_ID" FromRole="GT_ExercicioTreino" ToRole="GT_TempoDescanso" />
+          <NavigationProperty Name="GT_Treino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Treino_ID" FromRole="GT_ExercicioTreino" ToRole="GT_Treino" />
+        </EntityType>
+        <EntityType Name="GT_SOCIOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PES_PESSOAS_ID" Type="Int32" Nullable="false" />
+          <Property Name="NUMERO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PES_PESSOAS" Relationship="GESTREINO_ORM.GT_SOCIOS_PES_PESSOAS_ID" FromRole="GT_SOCIOS" ToRole="PES_PESSOAS" />
+          <NavigationProperty Name="GT_TreinosPessoa" Relationship="GESTREINO_ORM.GT_TreinosPessoa_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_TreinosPessoa" />
+        </EntityType>
+        <EntityType Name="GT_TipoTreino">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SIGLA" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GT_Exercicio" Relationship="GESTREINO_ORM.GT_Exercicio_GT_TipoTreino_ID" FromRole="GT_TipoTreino" ToRole="GT_Exercicio" />
+          <NavigationProperty Name="GT_Treino" Relationship="GESTREINO_ORM.GT_Treino_GT_TipoTreino_ID" FromRole="GT_TipoTreino" ToRole="GT_Treino" />
+        </EntityType>
+        <EntityType Name="GT_Treino">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GT_TipoTreino_ID" Type="Int32" Nullable="false" />
+          <Property Name="NOME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="GT_FaseTreino_ID" Type="Int32" />
+          <Property Name="PERIODIZACAO" Type="Int32" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Treino_ID" FromRole="GT_Treino" ToRole="GT_ExercicioTreino" />
+          <NavigationProperty Name="GT_FaseTreino" Relationship="GESTREINO_ORM.GT_Treino_GT_GT_FaseTreino_ID" FromRole="GT_Treino" ToRole="GT_FaseTreino" />
+          <NavigationProperty Name="GT_TipoTreino" Relationship="GESTREINO_ORM.GT_Treino_GT_TipoTreino_ID" FromRole="GT_Treino" ToRole="GT_TipoTreino" />
+          <NavigationProperty Name="GT_TreinosPessoa" Relationship="GESTREINO_ORM.GT_TreinosPessoa_GT_Treino_ID" FromRole="GT_Treino" ToRole="GT_TreinosPessoa" />
+        </EntityType>
+        <EntityType Name="GT_TreinosPessoa">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GT_SOCIOS_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_Treino_ID" Type="Int32" Nullable="false" />
+          <Property Name="DATA_INICIO" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DATA_FIM" Type="DateTime" Precision="0" />
+          <Property Name="OBSERVACOES" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GT_SOCIOS" Relationship="GESTREINO_ORM.GT_TreinosPessoa_GT_SOCIOS_ID" FromRole="GT_TreinosPessoa" ToRole="GT_SOCIOS" />
+          <NavigationProperty Name="GT_Treino" Relationship="GESTREINO_ORM.GT_TreinosPessoa_GT_Treino_ID" FromRole="GT_TreinosPessoa" ToRole="GT_Treino" />
+        </EntityType>
+        <EntityType Name="PES_PESSOAS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UTILIZADORES_ID" Type="Int32" Nullable="false" />
+          <Property Name="NOME_PROPIO" Type="String" Nullable="false" MaxLength="48" FixedLength="false" Unicode="false" />
+          <Property Name="APELIDO" Type="String" Nullable="false" MaxLength="48" FixedLength="false" Unicode="false" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SEXO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DATA_NASCIMENTO" Type="DateTime" Precision="0" />
+          <Property Name="PES_ESTADO_CIVIL_ID" Type="Int32" />
+          <Property Name="NIF" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="APRESENTACAO_PESSOAL" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="FOTOGRAFIA" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GT_SOCIOS" Relationship="GESTREINO_ORM.GT_SOCIOS_PES_PESSOAS_ID" FromRole="PES_PESSOAS" ToRole="GT_SOCIOS" />
+          <NavigationProperty Name="PES_CONTACTOS" Relationship="GESTREINO_ORM.FKPES_CONTAC756418" FromRole="PES_PESSOAS" ToRole="PES_CONTACTOS" />
+          <NavigationProperty Name="PES_ENDERECOS" Relationship="GESTREINO_ORM.FKPES_ENDERE793688" FromRole="PES_PESSOAS" ToRole="PES_ENDERECOS" />
+          <NavigationProperty Name="PES_ESTADO_CIVIL" Relationship="GESTREINO_ORM.FKPES_PESSOA207036" FromRole="PES_PESSOAS" ToRole="PES_ESTADO_CIVIL" />
+          <NavigationProperty Name="PES_IDENTIFICACAO" Relationship="GESTREINO_ORM.FKPES_IDENTI437016" FromRole="PES_PESSOAS" ToRole="PES_IDENTIFICACAO" />
+          <NavigationProperty Name="PES_NACIONALIDADE" Relationship="GESTREINO_ORM.FKPES_NACION904470" FromRole="PES_PESSOAS" ToRole="PES_NACIONALIDADE" />
+          <NavigationProperty Name="PES_NATURALIDADE" Relationship="GESTREINO_ORM.FKPES_NATURA600401" FromRole="PES_PESSOAS" ToRole="PES_NATURALIDADE" />
+          <NavigationProperty Name="PES_PESSOAS_PROFISSOES" Relationship="GESTREINO_ORM.FKPES_PESSOA28870" FromRole="PES_PESSOAS" ToRole="PES_PESSOAS_PROFISSOES" />
+          <NavigationProperty Name="PES_PESSOAS_FAM" Relationship="GESTREINO_ORM.FKPES_PESSOA54742" FromRole="PES_PESSOAS" ToRole="PES_PESSOAS_FAM" />
+          <NavigationProperty Name="PES_PESSOAS_CARACT_DEFICIENCIA" Relationship="GESTREINO_ORM.FKPES_PESSOA801637" FromRole="PES_PESSOAS" ToRole="PES_PESSOAS_CARACT_DEFICIENCIA" />
+          <NavigationProperty Name="PES_PESSOAS_CARACT" Relationship="GESTREINO_ORM.FKPES_PESSOA802772" FromRole="PES_PESSOAS" ToRole="PES_PESSOAS_CARACT" />
+          <NavigationProperty Name="PES_ARQUIVOS" Relationship="GESTREINO_ORM.FKPES_ARQUIV36075" FromRole="PES_PESSOAS" ToRole="PES_ARQUIVOS" />
+          <NavigationProperty Name="UTILIZADORES" Relationship="GESTREINO_ORM.FKPES_PESSOA577877" FromRole="PES_PESSOAS" ToRole="UTILIZADORES" />
+        </EntityType>
+        <Association Name="GT_Exercicio_ARQUIVOS_ARQUIVOS_ID">
+          <End Type="GESTREINO_ORM.GRL_ARQUIVOS" Role="GRL_ARQUIVOS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_Exercicio_ARQUIVOS" Role="GT_Exercicio_ARQUIVOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GRL_ARQUIVOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_Exercicio_ARQUIVOS">
+              <PropertyRef Name="ARQUIVOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_Carga_ID">
+          <End Type="GESTREINO_ORM.GT_Carga" Role="GT_Carga" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Carga">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_Carga_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_FaseTreino_GT_Carga_ID">
+          <End Type="GESTREINO_ORM.GT_Carga" Role="GT_Carga" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_FaseTreino" Role="GT_FaseTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Carga">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_FaseTreino">
+              <PropertyRef Name="GT_Carga_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_Exercicio_ARQUIVOS_GT_Exercicio_ID">
+          <End Type="GESTREINO_ORM.GT_Exercicio" Role="GT_Exercicio" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_Exercicio_ARQUIVOS" Role="GT_Exercicio_ARQUIVOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Exercicio">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_Exercicio_ARQUIVOS">
+              <PropertyRef Name="GT_Exercicio_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_Exercicio_GT_TipoTreino_ID">
+          <End Type="GESTREINO_ORM.GT_TipoTreino" Role="GT_TipoTreino" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_Exercicio" Role="GT_Exercicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoTreino">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_Exercicio">
+              <PropertyRef Name="GT_TipoTreino_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_Exercicio_ID">
+          <End Type="GESTREINO_ORM.GT_Exercicio" Role="GT_Exercicio" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Exercicio">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_Exercicio_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_Repeticoes_ID">
+          <End Type="GESTREINO_ORM.GT_Repeticoes" Role="GT_Repeticoes" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Repeticoes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_Repeticoes_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_Series_ID">
+          <End Type="GESTREINO_ORM.GT_Series" Role="GT_Series" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Series">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_Series_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_TempoDescanso_ID">
+          <End Type="GESTREINO_ORM.GT_TempoDescanso" Role="GT_TempoDescanso" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TempoDescanso">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_TempoDescanso_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_Treino_ID">
+          <End Type="GESTREINO_ORM.GT_Treino" Role="GT_Treino" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Treino">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_Treino_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_FaseTreino_GT_Repeticoes_ID">
+          <End Type="GESTREINO_ORM.GT_Repeticoes" Role="GT_Repeticoes" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_FaseTreino" Role="GT_FaseTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Repeticoes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_FaseTreino">
+              <PropertyRef Name="GT_Repeticoes_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_FaseTreino_GT_Series_ID">
+          <End Type="GESTREINO_ORM.GT_Series" Role="GT_Series" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_FaseTreino" Role="GT_FaseTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Series">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_FaseTreino">
+              <PropertyRef Name="GT_Series_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_FaseTreino_GT_TempoDescanso_ID">
+          <End Type="GESTREINO_ORM.GT_TempoDescanso" Role="GT_TempoDescanso" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_FaseTreino" Role="GT_FaseTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TempoDescanso">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_FaseTreino">
+              <PropertyRef Name="GT_TempoDescanso_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_Treino_GT_GT_FaseTreino_ID">
+          <End Type="GESTREINO_ORM.GT_FaseTreino" Role="GT_FaseTreino" Multiplicity="0..1" />
+          <End Type="GESTREINO_ORM.GT_Treino" Role="GT_Treino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_FaseTreino">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_Treino">
+              <PropertyRef Name="GT_FaseTreino_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_SOCIOS_PES_PESSOAS_ID">
+          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_SOCIOS" Role="GT_SOCIOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PES_PESSOAS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_SOCIOS">
+              <PropertyRef Name="PES_PESSOAS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_TreinosPessoa_GT_SOCIOS_ID">
+          <End Type="GESTREINO_ORM.GT_SOCIOS" Role="GT_SOCIOS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_TreinosPessoa" Role="GT_TreinosPessoa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_SOCIOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_TreinosPessoa">
+              <PropertyRef Name="GT_SOCIOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_Treino_GT_TipoTreino_ID">
+          <End Type="GESTREINO_ORM.GT_TipoTreino" Role="GT_TipoTreino" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_Treino" Role="GT_Treino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoTreino">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_Treino">
+              <PropertyRef Name="GT_TipoTreino_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_TreinosPessoa_GT_Treino_ID">
+          <End Type="GESTREINO_ORM.GT_Treino" Role="GT_Treino" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_TreinosPessoa" Role="GT_TreinosPessoa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Treino">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_TreinosPessoa">
+              <PropertyRef Name="GT_Treino_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPES_CONTAC756418">
+          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.PES_CONTACTOS" Role="PES_CONTACTOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PES_PESSOAS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_CONTACTOS">
+              <PropertyRef Name="PES_PESSOAS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPES_ENDERE793688">
+          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.PES_ENDERECOS" Role="PES_ENDERECOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PES_PESSOAS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_ENDERECOS">
+              <PropertyRef Name="PES_PESSOAS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPES_PESSOA207036">
+          <End Type="GESTREINO_ORM.PES_ESTADO_CIVIL" Role="PES_ESTADO_CIVIL" Multiplicity="0..1" />
+          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PES_ESTADO_CIVIL">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_PESSOAS">
+              <PropertyRef Name="PES_ESTADO_CIVIL_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPES_IDENTI437016">
+          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.PES_IDENTIFICACAO" Role="PES_IDENTIFICACAO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PES_PESSOAS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_IDENTIFICACAO">
+              <PropertyRef Name="PES_PESSOAS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPES_NACION904470">
+          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.PES_NACIONALIDADE" Role="PES_NACIONALIDADE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PES_PESSOAS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_NACIONALIDADE">
+              <PropertyRef Name="PES_PESSOAS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPES_NATURA600401">
+          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.PES_NATURALIDADE" Role="PES_NATURALIDADE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PES_PESSOAS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_NATURALIDADE">
+              <PropertyRef Name="PES_PESSOAS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPES_PESSOA28870">
+          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.PES_PESSOAS_PROFISSOES" Role="PES_PESSOAS_PROFISSOES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PES_PESSOAS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_PESSOAS_PROFISSOES">
+              <PropertyRef Name="PES_PESSOAS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPES_PESSOA54742">
+          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.PES_PESSOAS_FAM" Role="PES_PESSOAS_FAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PES_PESSOAS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_PESSOAS_FAM">
+              <PropertyRef Name="PES_PESSOAS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPES_PESSOA801637">
+          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.PES_PESSOAS_CARACT_DEFICIENCIA" Role="PES_PESSOAS_CARACT_DEFICIENCIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PES_PESSOAS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_PESSOAS_CARACT_DEFICIENCIA">
+              <PropertyRef Name="PES_PESSOAS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPES_PESSOA802772">
+          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.PES_PESSOAS_CARACT" Role="PES_PESSOAS_CARACT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PES_PESSOAS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_PESSOAS_CARACT">
+              <PropertyRef Name="PES_PESSOAS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="INST_APLICACAO_ARQUIVOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="INST_APLICACAO_ID" Type="Int32" Nullable="false" />
+          <Property Name="ARQUIVOS_ID" Type="Int32" Nullable="false" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRICAO" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="ACTIVO" Type="Boolean" Nullable="false" />
+          <Property Name="DATA_ACT" Type="DateTime" Precision="0" />
+          <Property Name="DATA_DESACT" Type="DateTime" Precision="0" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GRL_ARQUIVOS" Relationship="GESTREINO_ORM.FKINST_APLIC12018" FromRole="INST_APLICACAO_ARQUIVOS" ToRole="GRL_ARQUIVOS" />
+          <NavigationProperty Name="INST_APLICACAO" Relationship="GESTREINO_ORM.FKINST_APLIC342516" FromRole="INST_APLICACAO_ARQUIVOS" ToRole="INST_APLICACAO" />
+        </EntityType>
+        <EntityType Name="PES_ARQUIVOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PES_PESSOAS_ID" Type="Int32" Nullable="false" />
+          <Property Name="ARQUIVOS_ID" Type="Int32" Nullable="false" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRICAO" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="ACTIVO" Type="Boolean" Nullable="false" />
+          <Property Name="DATA_ACT" Type="DateTime" Precision="0" />
+          <Property Name="DATA_DESACT" Type="DateTime" Precision="0" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GRL_ARQUIVOS" Relationship="GESTREINO_ORM.FKPES_ARQUIV364588" FromRole="PES_ARQUIVOS" ToRole="GRL_ARQUIVOS" />
+          <NavigationProperty Name="PES_PESSOAS" Relationship="GESTREINO_ORM.FKPES_ARQUIV36075" FromRole="PES_ARQUIVOS" ToRole="PES_PESSOAS" />
+        </EntityType>
+        <EntityType Name="UTILIZADORES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LOGIN" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="SENHA_PASSWORD" Type="String" Nullable="false" MaxLength="264" FixedLength="false" Unicode="false" />
+          <Property Name="SALT" Type="String" Nullable="false" MaxLength="264" FixedLength="false" Unicode="false" />
+          <Property Name="VALIDA" Type="Boolean" Nullable="false" />
+          <Property Name="ACTIVO" Type="Boolean" Nullable="false" />
+          <Property Name="DATA_ACT" Type="DateTime" Precision="0" />
+          <Property Name="DATA_DESACT" Type="DateTime" Precision="0" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="PES_PESSOAS" Relationship="GESTREINO_ORM.FKPES_PESSOA577877" FromRole="UTILIZADORES" ToRole="PES_PESSOAS" />
+          <NavigationProperty Name="UTILIZADORES_ACESSO_UTIL_PERFIS" Relationship="GESTREINO_ORM.FKUTILIZADOR212112" FromRole="UTILIZADORES" ToRole="UTILIZADORES_ACESSO_UTIL_PERFIS" />
+          <NavigationProperty Name="UTILIZADORES_LOGIN_LOGS" Relationship="GESTREINO_ORM.FKUTILIZADOR331508" FromRole="UTILIZADORES" ToRole="UTILIZADORES_LOGIN_LOGS" />
+          <NavigationProperty Name="UTILIZADORES_ACESSO_UTIL_GRUPOS" Relationship="GESTREINO_ORM.FKUTILIZADOR769774" FromRole="UTILIZADORES" ToRole="UTILIZADORES_ACESSO_UTIL_GRUPOS" />
+          <NavigationProperty Name="UTILIZADORES_LOGIN_PASSWORD_TENT" Relationship="GESTREINO_ORM.UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID" FromRole="UTILIZADORES" ToRole="UTILIZADORES_LOGIN_PASSWORD_TENT" />
+        </EntityType>
+        <Association Name="FKINST_APLIC12018">
+          <End Type="GESTREINO_ORM.GRL_ARQUIVOS" Role="GRL_ARQUIVOS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.INST_APLICACAO_ARQUIVOS" Role="INST_APLICACAO_ARQUIVOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GRL_ARQUIVOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="INST_APLICACAO_ARQUIVOS">
+              <PropertyRef Name="ARQUIVOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPES_ARQUIV364588">
+          <End Type="GESTREINO_ORM.GRL_ARQUIVOS" Role="GRL_ARQUIVOS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.PES_ARQUIVOS" Role="PES_ARQUIVOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GRL_ARQUIVOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_ARQUIVOS">
+              <PropertyRef Name="ARQUIVOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKINST_APLIC342516">
+          <End Type="GESTREINO_ORM.INST_APLICACAO" Role="INST_APLICACAO" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.INST_APLICACAO_ARQUIVOS" Role="INST_APLICACAO_ARQUIVOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INST_APLICACAO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="INST_APLICACAO_ARQUIVOS">
+              <PropertyRef Name="INST_APLICACAO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPES_ARQUIV36075">
+          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.PES_ARQUIVOS" Role="PES_ARQUIVOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PES_PESSOAS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_ARQUIVOS">
+              <PropertyRef Name="PES_PESSOAS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPES_PESSOA577877">
+          <End Type="GESTREINO_ORM.UTILIZADORES" Role="UTILIZADORES" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.PES_PESSOAS" Role="PES_PESSOAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UTILIZADORES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_PESSOAS">
+              <PropertyRef Name="UTILIZADORES_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKUTILIZADOR212112">
+          <End Type="GESTREINO_ORM.UTILIZADORES" Role="UTILIZADORES" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.UTILIZADORES_ACESSO_UTIL_PERFIS" Role="UTILIZADORES_ACESSO_UTIL_PERFIS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UTILIZADORES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UTILIZADORES_ACESSO_UTIL_PERFIS">
+              <PropertyRef Name="UTILIZADORES_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKUTILIZADOR331508">
+          <End Type="GESTREINO_ORM.UTILIZADORES" Role="UTILIZADORES" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.UTILIZADORES_LOGIN_LOGS" Role="UTILIZADORES_LOGIN_LOGS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UTILIZADORES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UTILIZADORES_LOGIN_LOGS">
+              <PropertyRef Name="UTILIZADORES_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKUTILIZADOR769774">
+          <End Type="GESTREINO_ORM.UTILIZADORES" Role="UTILIZADORES" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.UTILIZADORES_ACESSO_UTIL_GRUPOS" Role="UTILIZADORES_ACESSO_UTIL_GRUPOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UTILIZADORES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UTILIZADORES_ACESSO_UTIL_GRUPOS">
+              <PropertyRef Name="UTILIZADORES_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID">
+          <End Type="GESTREINO_ORM.UTILIZADORES" Role="UTILIZADORES" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.UTILIZADORES_LOGIN_PASSWORD_TENT" Role="UTILIZADORES_LOGIN_PASSWORD_TENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UTILIZADORES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UTILIZADORES_LOGIN_PASSWORD_TENT">
+              <PropertyRef Name="UTILIZADORES_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="SP_ASSOC_ARQUIVOS_Result">
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="DESCRICAO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="ACTIVO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="DATA_ACT" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="DATA_DESACT_EXPIRACAO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="ARQ_TIPO_DOC" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="GRL_ARQUIVOS_TIPO_DOCS_ID" Nullable="false" />
+          <Property Type="String" Name="ARQ_NOME" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="ARQ_ALT" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="ARQ_TIPO" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="ARQ_TAMANHO" Nullable="false" />
+          <Property Type="String" Name="ARQ_URL" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="INSERCAO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="false" MaxLength="1" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -5081,26 +5986,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="INST_APLICACAO_ARQUIVOS">
-            <EntityTypeMapping TypeName="GESTREINO_ORM.INST_APLICACAO_ARQUIVOS">
-              <MappingFragment StoreEntitySet="INST_APLICACAO_ARQUIVOS">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="INST_APLICACAO_ID" ColumnName="INST_APLICACAO_ID" />
-                <ScalarProperty Name="ARQUIVOS_ID" ColumnName="ARQUIVOS_ID" />
-                <ScalarProperty Name="NOME" ColumnName="NOME" />
-                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
-                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
-                <ScalarProperty Name="DATA_ACT" ColumnName="DATA_ACT" />
-                <ScalarProperty Name="DATA_DESACT" ColumnName="DATA_DESACT" />
-                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
-                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
-                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
-                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
-                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
-                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="INST_APLICACAO_CONTACTOS">
             <EntityTypeMapping TypeName="GESTREINO_ORM.INST_APLICACAO_CONTACTOS">
               <MappingFragment StoreEntitySet="INST_APLICACAO_CONTACTOS">
@@ -5132,26 +6017,6 @@
                 <ScalarProperty Name="ENDERECO_PAIS_ID" ColumnName="ENDERECO_PAIS_ID" />
                 <ScalarProperty Name="GRL_ENDERECO_CIDADE_ID" ColumnName="GRL_ENDERECO_CIDADE_ID" />
                 <ScalarProperty Name="ENDERECO_MUN_DISTR_ID" ColumnName="ENDERECO_MUN_DISTR_ID" />
-                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
-                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
-                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
-                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
-                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
-                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PES_ARQUIVOS">
-            <EntityTypeMapping TypeName="GESTREINO_ORM.PES_ARQUIVOS">
-              <MappingFragment StoreEntitySet="PES_ARQUIVOS">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="PES_PESSOAS_ID" ColumnName="PES_PESSOAS_ID" />
-                <ScalarProperty Name="ARQUIVOS_ID" ColumnName="ARQUIVOS_ID" />
-                <ScalarProperty Name="NOME" ColumnName="NOME" />
-                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
-                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
-                <ScalarProperty Name="DATA_ACT" ColumnName="DATA_ACT" />
-                <ScalarProperty Name="DATA_DESACT" ColumnName="DATA_DESACT" />
                 <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
                 <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
                 <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
@@ -5470,26 +6335,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UTILIZADORES">
-            <EntityTypeMapping TypeName="GESTREINO_ORM.UTILIZADORES">
-              <MappingFragment StoreEntitySet="UTILIZADORES">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
-                <ScalarProperty Name="SENHA_PASSWORD" ColumnName="SENHA_PASSWORD" />
-                <ScalarProperty Name="SALT" ColumnName="SALT" />
-                <ScalarProperty Name="VALIDA" ColumnName="VALIDA" />
-                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
-                <ScalarProperty Name="DATA_ACT" ColumnName="DATA_ACT" />
-                <ScalarProperty Name="DATA_DESACT" ColumnName="DATA_DESACT" />
-                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
-                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
-                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
-                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
-                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
-                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UTILIZADORES_ACESSO_ATOMOS_GRUPOS">
             <EntityTypeMapping TypeName="GESTREINO_ORM.UTILIZADORES_ACESSO_ATOMOS_GRUPOS">
               <MappingFragment StoreEntitySet="UTILIZADORES_ACESSO_ATOMOS_GRUPOS">
@@ -5642,30 +6487,6 @@
                 <ScalarProperty Name="NIF" ColumnName="NIF" />
                 <ScalarProperty Name="NOME" ColumnName="NOME" />
                 <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PES_PESSOAS">
-            <EntityTypeMapping TypeName="GESTREINO_ORM.PES_PESSOAS">
-              <MappingFragment StoreEntitySet="PES_PESSOAS">
-                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
-                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
-                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
-                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
-                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
-                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
-                <ScalarProperty Name="FOTOGRAFIA" ColumnName="FOTOGRAFIA" />
-                <ScalarProperty Name="APRESENTACAO_PESSOAL" ColumnName="APRESENTACAO_PESSOAL" />
-                <ScalarProperty Name="NIF" ColumnName="NIF" />
-                <ScalarProperty Name="PES_ESTADO_CIVIL_ID" ColumnName="PES_ESTADO_CIVIL_ID" />
-                <ScalarProperty Name="DATA_NASCIMENTO" ColumnName="DATA_NASCIMENTO" />
-                <ScalarProperty Name="SEXO" ColumnName="SEXO" />
-                <ScalarProperty Name="NOME" ColumnName="NOME" />
-                <ScalarProperty Name="APELIDO" ColumnName="APELIDO" />
-                <ScalarProperty Name="NOME_PROPIO" ColumnName="NOME_PROPIO" />
-                <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
-                <ScalarProperty Name="UTILIZADORES_ID" ColumnName="UTILIZADORES_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -6353,6 +7174,231 @@
                 <ScalarProperty Name="REPETICOES" ColumnName="REPETICOES" />
                 <ScalarProperty Name="SERIES" ColumnName="SERIES" />
                 <ScalarProperty Name="TEMPO_DESCANSO" ColumnName="TEMPO_DESCANSO" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="GT_Exercicio">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_Exercicio">
+              <MappingFragment StoreEntitySet="GT_Exercicio">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="SEQUENCIA" ColumnName="SEQUENCIA" />
+                <ScalarProperty Name="ALONGAMENTO" ColumnName="ALONGAMENTO" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="GT_TipoTreino_ID" ColumnName="GT_TipoTreino_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_Exercicio_ARQUIVOS">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_Exercicio_ARQUIVOS">
+              <MappingFragment StoreEntitySet="GT_Exercicio_ARQUIVOS">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="DATA_DESACT" ColumnName="DATA_DESACT" />
+                <ScalarProperty Name="DATA_ACT" ColumnName="DATA_ACT" />
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="ARQUIVOS_ID" ColumnName="ARQUIVOS_ID" />
+                <ScalarProperty Name="GT_Exercicio_ID" ColumnName="GT_Exercicio_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_ExercicioTreino">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_ExercicioTreino">
+              <MappingFragment StoreEntitySet="GT_ExercicioTreino">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="ORDEM" ColumnName="ORDEM" />
+                <ScalarProperty Name="ONERM" ColumnName="ONERM" />
+                <ScalarProperty Name="CARGA_USADA" ColumnName="CARGA_USADA" />
+                <ScalarProperty Name="REPETICOES_COMPLETADAS" ColumnName="REPETICOES_COMPLETADAS" />
+                <ScalarProperty Name="GT_Carga_ID" ColumnName="GT_Carga_ID" />
+                <ScalarProperty Name="GT_TempoDescanso_ID" ColumnName="GT_TempoDescanso_ID" />
+                <ScalarProperty Name="GT_Repeticoes_ID" ColumnName="GT_Repeticoes_ID" />
+                <ScalarProperty Name="GT_Series_ID" ColumnName="GT_Series_ID" />
+                <ScalarProperty Name="GT_Exercicio_ID" ColumnName="GT_Exercicio_ID" />
+                <ScalarProperty Name="GT_Treino_ID" ColumnName="GT_Treino_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_SOCIOS">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_SOCIOS">
+              <MappingFragment StoreEntitySet="GT_SOCIOS">
+                <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
+                <ScalarProperty Name="PES_PESSOAS_ID" ColumnName="PES_PESSOAS_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_TipoTreino">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_TipoTreino">
+              <MappingFragment StoreEntitySet="GT_TipoTreino">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_Treino">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_Treino">
+              <MappingFragment StoreEntitySet="GT_Treino">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="PERIODIZACAO" ColumnName="PERIODIZACAO" />
+                <ScalarProperty Name="GT_FaseTreino_ID" ColumnName="GT_FaseTreino_ID" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="GT_TipoTreino_ID" ColumnName="GT_TipoTreino_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_TreinosPessoa">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_TreinosPessoa">
+              <MappingFragment StoreEntitySet="GT_TreinosPessoa">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="OBSERVACOES" ColumnName="OBSERVACOES" />
+                <ScalarProperty Name="DATA_FIM" ColumnName="DATA_FIM" />
+                <ScalarProperty Name="DATA_INICIO" ColumnName="DATA_INICIO" />
+                <ScalarProperty Name="GT_Treino_ID" ColumnName="GT_Treino_ID" />
+                <ScalarProperty Name="GT_SOCIOS_ID" ColumnName="GT_SOCIOS_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PES_PESSOAS">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.PES_PESSOAS">
+              <MappingFragment StoreEntitySet="PES_PESSOAS">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="FOTOGRAFIA" ColumnName="FOTOGRAFIA" />
+                <ScalarProperty Name="APRESENTACAO_PESSOAL" ColumnName="APRESENTACAO_PESSOAL" />
+                <ScalarProperty Name="NIF" ColumnName="NIF" />
+                <ScalarProperty Name="PES_ESTADO_CIVIL_ID" ColumnName="PES_ESTADO_CIVIL_ID" />
+                <ScalarProperty Name="DATA_NASCIMENTO" ColumnName="DATA_NASCIMENTO" />
+                <ScalarProperty Name="SEXO" ColumnName="SEXO" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="APELIDO" ColumnName="APELIDO" />
+                <ScalarProperty Name="NOME_PROPIO" ColumnName="NOME_PROPIO" />
+                <ScalarProperty Name="UTILIZADORES_ID" ColumnName="UTILIZADORES_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="INST_APLICACAO_ARQUIVOS">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.INST_APLICACAO_ARQUIVOS">
+              <MappingFragment StoreEntitySet="INST_APLICACAO_ARQUIVOS">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="DATA_DESACT" ColumnName="DATA_DESACT" />
+                <ScalarProperty Name="DATA_ACT" ColumnName="DATA_ACT" />
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="ARQUIVOS_ID" ColumnName="ARQUIVOS_ID" />
+                <ScalarProperty Name="INST_APLICACAO_ID" ColumnName="INST_APLICACAO_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PES_ARQUIVOS">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.PES_ARQUIVOS">
+              <MappingFragment StoreEntitySet="PES_ARQUIVOS">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="DATA_DESACT" ColumnName="DATA_DESACT" />
+                <ScalarProperty Name="DATA_ACT" ColumnName="DATA_ACT" />
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="ARQUIVOS_ID" ColumnName="ARQUIVOS_ID" />
+                <ScalarProperty Name="PES_PESSOAS_ID" ColumnName="PES_PESSOAS_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UTILIZADORES">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.UTILIZADORES">
+              <MappingFragment StoreEntitySet="UTILIZADORES">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="DATA_DESACT" ColumnName="DATA_DESACT" />
+                <ScalarProperty Name="DATA_ACT" ColumnName="DATA_ACT" />
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+                <ScalarProperty Name="VALIDA" ColumnName="VALIDA" />
+                <ScalarProperty Name="SALT" ColumnName="SALT" />
+                <ScalarProperty Name="SENHA_PASSWORD" ColumnName="SENHA_PASSWORD" />
+                <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_ASSOC_ARQUIVOS" FunctionName="GESTREINO_ORM.Store.SP_ASSOC_ARQUIVOS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_ASSOC_ARQUIVOS_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+                <ScalarProperty Name="DATA_ACT" ColumnName="DATA_ACT" />
+                <ScalarProperty Name="DATA_DESACT_EXPIRACAO" ColumnName="DATA_DESACT_EXPIRACAO" />
+                <ScalarProperty Name="ARQ_TIPO_DOC" ColumnName="ARQ_TIPO_DOC" />
+                <ScalarProperty Name="GRL_ARQUIVOS_TIPO_DOCS_ID" ColumnName="GRL_ARQUIVOS_TIPO_DOCS_ID" />
+                <ScalarProperty Name="ARQ_NOME" ColumnName="ARQ_NOME" />
+                <ScalarProperty Name="ARQ_ALT" ColumnName="ARQ_ALT" />
+                <ScalarProperty Name="ARQ_TIPO" ColumnName="ARQ_TIPO" />
+                <ScalarProperty Name="ARQ_TAMANHO" ColumnName="ARQ_TAMANHO" />
+                <ScalarProperty Name="ARQ_URL" ColumnName="ARQ_URL" />
                 <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
                 <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
                 <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />

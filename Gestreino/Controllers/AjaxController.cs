@@ -1,14 +1,21 @@
 ﻿using Antlr.Runtime.Misc;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Office2019.Excel.RichData2;
 using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Vml.Office;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Gestreino.Classes;
 using Gestreino.Models;
+using Microsoft.Ajax.Utilities;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace Gestreino.Controllers
@@ -496,7 +503,7 @@ namespace Gestreino.Controllers
 
 
 
-        // Delete
+        // Cookies
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SetCookies(string entity,string value)
@@ -524,7 +531,329 @@ namespace Gestreino.Controllers
             return Json(new { result = true, error = string.Empty, showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
 
-       
+
+
+        // File Management
+        public ActionResult FileManagement(Gestreino.Classes.FileUploader.FileUploadModel MODEL, string action, int? id, int?[] bulkids,string upload)
+        {
+            MODEL.EntityID = id.Value;
+            MODEL.EntityName = upload;
+
+            if (action == "Editar")
+            {
+                MODEL.ID = id.Value;
+                // Define tablename and fieldname for Stored Procedure
+                string tablename = FileUploader.DecoderFactory(upload)[0];
+                string fieldname = FileUploader.DecoderFactory(upload)[1];
+
+                var data = databaseManager.SP_ASSOC_ARQUIVOS(null, MODEL.ID, null, null, null, null, null, null, null, null, null, null, null, tablename, fieldname, null, "R").ToList();
+                MODEL.TipoDocId = data.First().GRL_ARQUIVOS_TIPO_DOCS_ID;
+                MODEL.Nome= data.First().NOME;
+                MODEL.Descricao = data.First().DESCRICAO;
+                MODEL.Status= data.First().ACTIVO;
+                MODEL.DateAct = string.IsNullOrWhiteSpace(data.First().DATA_ACT) ? null : DateTime.Parse(data.First().DATA_ACT).ToString("dd-MM-yyyy");
+                MODEL.DateDisact = string.IsNullOrWhiteSpace(data.First().DATA_DESACT_EXPIRACAO) ? null : DateTime.Parse(data.First().DATA_DESACT_EXPIRACAO).ToString("dd-MM-yyyy");
+            }
+
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+            MODEL.TipoDocList = databaseManager.GRL_ARQUIVOS_TIPO_DOCS.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME.ToString() });
+            
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("FileManagement", MODEL);
+        }
+        [HttpPost]
+        public ActionResult GetFiles(int? EntityId, int? ArquivoId, string upload)
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Nome = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Descricao = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Documento = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Tipo = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Tamanho = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var Estado = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            var DataAct = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+            var DataDesact = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[9][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[10][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[11][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            EntityId = EntityId == null ? null : EntityId;
+            ArquivoId = ArquivoId == null ? null : ArquivoId;
+
+            // Define tablename and fieldname for Stored Procedure
+            string tablename = FileUploader.DecoderFactory(upload)[0];
+            string fieldname = FileUploader.DecoderFactory(upload)[1];
+
+
+            var v = (from a in databaseManager.SP_ASSOC_ARQUIVOS(null, null, null, null, null, null, null, null, null, null, null, null, null, tablename, fieldname , null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
+            if (!string.IsNullOrEmpty(Descricao)) v = v.Where(a => a.DESCRICAO != null && a.DESCRICAO.ToUpper().Contains(Descricao.ToUpper()));
+            if (!string.IsNullOrEmpty(Documento)) v = v.Where(a => a.ARQ_TIPO_DOC != null && a.ARQ_TIPO_DOC.ToUpper().Contains(Documento.ToUpper()));
+            if (!string.IsNullOrEmpty(Tipo)) v = v.Where(a => a.ARQ_TIPO_DOC != null && a.ARQ_TIPO_DOC.ToString() == Tipo);
+            if (!string.IsNullOrEmpty(Tamanho)) v = v.Where(a => a.ARQ_TAMANHO != null && a.ARQ_TAMANHO.ToString()== Tamanho);
+            if (!string.IsNullOrEmpty(Estado)) v = v.Where(a => a.ACTIVO != null && a.ACTIVO.Contains(Estado));
+            if (!string.IsNullOrEmpty(DataAct)) v = v.Where(a => a.DATA_ACT != null && a.DATA_ACT.ToUpper().Contains(DataAct.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(DataDesact)) v = v.Where(a => a.DATA_DESACT_EXPIRACAO != null && a.DATA_DESACT_EXPIRACAO.ToUpper().Contains(DataDesact.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "DESCRICAO": v = v.OrderBy(s => s.DESCRICAO); break;
+                        case "DOCUMENTO": v = v.OrderBy(s => s.ARQ_TIPO_DOC); break;
+                        case "TIPO": v = v.OrderBy(s => s.GRL_ARQUIVOS_TIPO_DOCS_ID); break;
+                        case "TAMANHO": v = v.OrderBy(s => s.ARQ_TAMANHO); break;
+                        case "ESTADO": v = v.OrderBy(s => s.ACTIVO); break;
+                        case "DATAACTIVACAO": v = v.OrderBy(s => s.DATA_ACT); break;
+                        case "DATADESACTIVACAO": v = v.OrderBy(s => s.DATA_DESACT_EXPIRACAO); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "DESCRICAO": v = v.OrderByDescending(s => s.DESCRICAO); break;
+                        case "DOCUMENTO": v = v.OrderByDescending(s => s.ARQ_TIPO_DOC); break;
+                        case "TIPO": v = v.OrderByDescending(s => s.GRL_ARQUIVOS_TIPO_DOCS_ID); break;
+                        case "TAMANHO": v = v.OrderByDescending(s => s.ARQ_TAMANHO); break;
+                        case "ESTADO": v = v.OrderByDescending(s => s.ACTIVO); break;
+                        case "DATAACTIVACAO": v = v.OrderByDescending(s => s.DATA_ACT); break;
+                        case "DATADESACTIVACAO": v = v.OrderByDescending(s => s.DATA_DESACT_EXPIRACAO); break;
+                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    NOME = x.NOME,
+                    DESCRICAO = x.DESCRICAO,
+                    DOCUMENTO = x.ARQ_TIPO_DOC,
+                    TIPO = x.ARQ_TIPO,
+                    TAMANHO = x.ARQ_TAMANHO,
+                    ESTADO = x.ACTIVO,
+                    DATAACTIVACAO = x.DATA_ACT,
+                    DATADESACTIVACAO = x.DATA_DESACT_EXPIRACAO,
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO,
+                    Link=x.ARQ_URL
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        // Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddFile(HttpPostedFileBase file, Gestreino.Classes.FileUploader.FileUploadModel MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (!string.IsNullOrWhiteSpace(MODEL.DateAct) && DateTime.ParseExact(MODEL.DateDisact, "dd-MM-yyyy", CultureInfo.InvariantCulture) < DateTime.ParseExact(MODEL.DateAct, "dd-MM-yyyy", CultureInfo.InvariantCulture))
+                {
+                    return Json(new { result = false, error = "Data de Emissão deve ser inferior a Data de Validade!" });
+                }
+                var DateAct = string.IsNullOrWhiteSpace(MODEL.DateAct) ? (DateTime?)null : DateTime.ParseExact(MODEL.DateAct, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                var DateDisact = string.IsNullOrWhiteSpace(MODEL.DateDisact) ? (DateTime?)null : DateTime.ParseExact(MODEL.DateDisact, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+
+                // Get Allowed size
+                var allowedSize = Classes.FileUploader.TwoMB; // 2.0 MB
+                var entity = MODEL.EntityName;
+
+                if (file != null)
+                {
+                    if (file.ContentLength > 0 && file.ContentLength < Convert.ToDouble(WebConfigurationManager.AppSettings["maxRequestLength"]))
+                    {
+                        // Get Module Subfolder
+                        var modulestorage = FileUploader.ModuleStorage[Convert.ToInt32(FileUploader.DecoderFactory(entity)[2])];
+
+                        // Get Document Type Id
+                        //var tipoidentname = databaseManager.PES_TIPO_IDENTIFICACAO.Where(x => x.ID == MODEL.PES_TIPO_IDENTIFICACAO).Select(x => x.NOME).FirstOrDefault();
+                        var tipodoc = string.Empty;
+                        var tipodocid = 0;
+                        if (databaseManager.GRL_ARQUIVOS_TIPO_DOCS.Where(x => x.ID == MODEL.TipoDocId).ToList().Count > 0)
+                        {
+                            tipodoc = databaseManager.GRL_ARQUIVOS_TIPO_DOCS.Where(x => x.ID == MODEL.TipoDocId).Select(x => x.NOME).FirstOrDefault().ToLower();
+                            tipodocid = databaseManager.GRL_ARQUIVOS_TIPO_DOCS.Where(x => x.ID == MODEL.TipoDocId).Select(x => x.ID).FirstOrDefault();
+                        }
+                        else
+                            return Json(new { result = false, error = "Arquivo não encontrado, certifique-se que o mesmo seja registado nas parametrizações!" });
+
+                        // Get file size
+                        var size = file.ContentLength;
+                        // Get file type
+                        var type = System.IO.Path.GetExtension(file.FileName).ToLower();
+                        // Get directory
+                        string[] DirectoryFactory = FileUploader.DirectoryFactory(modulestorage, Server.MapPath(FileUploader.FileStorage),System.IO.Path.GetExtension(file.FileName), tipodoc, MODEL.Nome);
+                        /*
+                         * 0 => sqlpath,
+                         * 1 => path,
+                         * 2 => filename
+                         */
+                        var sqlpath = DirectoryFactory[0];
+                        var path = DirectoryFactory[1];
+                        var filename = DirectoryFactory[2];
+                        // Define tablename and fieldname for Stored Procedure
+                        string tablename = FileUploader.DecoderFactory(entity)[0];
+                        string fieldname = FileUploader.DecoderFactory(entity)[1];
+
+                        // Check file type
+                        if (!FileUploader.allowedExtensions.Contains(type))
+                            return Json(new { result = false, error = "Formato inválido!, por favor adicionar um documento válido com a capacidade permitida!" });
+
+                        // Check file size
+                        if (size > allowedSize)
+                            return Json(new { result = false, error = "Tamanho do documento deve ser inferior a " + FileUploader.FormatSize(allowedSize) + "!" });
+
+                        var Active = MODEL.Status == "Activo" ? true : false;
+
+                        // Upload file to folder
+                        file.SaveAs(path);
+                        // Create file reference in SQL Database
+                        var createFile = databaseManager.SP_ASSOC_ARQUIVOS(MODEL.ID, null, MODEL.Nome, MODEL.Descricao, Active, DateAct, DateDisact, tipodocid, filename, null, type, size, sqlpath, tablename, fieldname, int.Parse(User.Identity.GetUserId()), Convert.ToChar('C').ToString()).ToList();
+                    }
+                    else
+                    {
+                        return Json(new { result = false, error = "Por favor adicionar um documento válido com a capacidade permitida!" });
+                    }
+                }
+                     ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "tblInstituicoesArquivos", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        // Update
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditFile(Gestreino.Classes.FileUploader.FileUploadModel MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (!string.IsNullOrWhiteSpace(MODEL.DateAct) && DateTime.ParseExact(MODEL.DateDisact, "dd-MM-yyyy", CultureInfo.InvariantCulture) < DateTime.ParseExact(MODEL.DateAct, "dd-MM-yyyy", CultureInfo.InvariantCulture))
+                {
+                    return Json(new { result = false, error = "Data de Emissão deve ser inferior a Data de Validade!" });
+                }
+                var DateAct = string.IsNullOrWhiteSpace(MODEL.DateAct) ? (DateTime?)null : DateTime.ParseExact(MODEL.DateAct, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                var DateDisact = string.IsNullOrWhiteSpace(MODEL.DateDisact) ? (DateTime?)null : DateTime.ParseExact(MODEL.DateDisact, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                var Active = MODEL.Status == "Activo" ? true : false;
+
+                // Define tablename and fieldname for Stored Procedure
+                string tablename = FileUploader.DecoderFactory(MODEL.EntityName)[0];
+                string fieldname = FileUploader.DecoderFactory(MODEL.EntityName)[1];
+
+                // Update
+                var update = databaseManager.SP_ASSOC_ARQUIVOS(null, MODEL.ID, MODEL.Nome, MODEL.Descricao, Active, DateAct, DateDisact, MODEL.TipoDocId, null, null, null, null, null, tablename, fieldname, int.Parse(User.Identity.GetUserId()), Convert.ToChar('U').ToString()).ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "tblInstituicoesArquivos", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        // Delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteFile(Gestreino.Classes.FileUploader.FileUploadModel MODEL,int?[] ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                // Define tablename and fieldname for Stored Procedure
+                string tablename = FileUploader.DecoderFactory(MODEL.EntityName)[0];
+                string fieldname = FileUploader.DecoderFactory(MODEL.EntityName)[1];
+
+                // Delete
+                foreach (var i in ids)
+                {
+                    databaseManager.SP_ASSOC_ARQUIVOS(null, i, null, null, null, null,null, null, null, null, null, null, null, tablename, null, null, Convert.ToChar('D').ToString()).ToList();
+                 }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "tblInstituicoesArquivos", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
 
 
 

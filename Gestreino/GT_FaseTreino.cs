@@ -14,6 +14,12 @@ namespace Gestreino
     
     public partial class GT_FaseTreino
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public GT_FaseTreino()
+        {
+            this.GT_Treino = new HashSet<GT_Treino>();
+        }
+    
         public int ID { get; set; }
         public string SIGLA { get; set; }
         public int GT_Series_ID { get; set; }
@@ -26,5 +32,12 @@ namespace Gestreino
         public System.DateTime DATA_INSERCAO { get; set; }
         public Nullable<System.DateTime> DATA_ACTUALIZACAO { get; set; }
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
+    
+        public virtual GT_Carga GT_Carga { get; set; }
+        public virtual GT_Repeticoes GT_Repeticoes { get; set; }
+        public virtual GT_Series GT_Series { get; set; }
+        public virtual GT_TempoDescanso GT_TempoDescanso { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GT_Treino> GT_Treino { get; set; }
     }
 }

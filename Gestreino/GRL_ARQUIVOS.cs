@@ -17,6 +17,7 @@ namespace Gestreino
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public GRL_ARQUIVOS()
         {
+            this.GT_Exercicio_ARQUIVOS = new HashSet<GT_Exercicio_ARQUIVOS>();
             this.INST_APLICACAO_ARQUIVOS = new HashSet<INST_APLICACAO_ARQUIVOS>();
             this.PES_ARQUIVOS = new HashSet<PES_ARQUIVOS>();
         }
@@ -36,6 +37,8 @@ namespace Gestreino
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
     
         public virtual GRL_ARQUIVOS_TIPO_DOCS GRL_ARQUIVOS_TIPO_DOCS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GT_Exercicio_ARQUIVOS> GT_Exercicio_ARQUIVOS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<INST_APLICACAO_ARQUIVOS> INST_APLICACAO_ARQUIVOS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

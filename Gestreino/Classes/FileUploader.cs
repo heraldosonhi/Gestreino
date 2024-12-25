@@ -32,12 +32,12 @@ namespace Gestreino.Classes
         // Define Module Subfolder
         /*
          * 0 => ADM,
-         * 1 => GA,
-         * 2 => GP,
-         * 3 => GPAG
-         * 4 => PA
+         * 1 => PES,
+         * 2 => GT
+         * 3 => 
+         * 4 => 
          */
-        public static string[] ModuleStorage = { "adm", "ga", "gp", "gpag", "pa" };
+        public static string[] ModuleStorage = { "adm","pes", "gt" };
 
         // Define Int Sizes
         public static int OneMB = 1097152; //1MB 
@@ -150,79 +150,19 @@ namespace Gestreino.Classes
             switch (entityname)
             {
                 case "institution":
-                    names.Add("INST_INSTITUICAO_ARQUIVOS"); // FIRST IN ARRAY!
-                    names.Add("INST_INSTITUICAO_ID"); // SECOND IN ARRAY!
+                    names.Add("INST_APLICACAO_ARQUIVOS"); // FIRST IN ARRAY!
+                    names.Add("INST_APLICACAO_ID"); // SECOND IN ARRAY!
                     names.Add("0"); // ModuleStorage
-                    break;
-                case "institutioncampus":
-                    names.Add("INST_CAMPUS_ARQUIVOS"); // FIRST IN ARRAY!
-                    names.Add("INST_CAMPUS_ID"); // SECOND IN ARRAY!
-                    names.Add("0"); // ModuleStorage
-                    break;
-                case "institutionbuilding":
-                    names.Add("INST_EDIFICIOS_ARQUIVOS"); // FIRST IN ARRAY!
-                    names.Add("INST_EDIFICIOS_ID"); // SECOND IN ARRAY!
-                    names.Add("0"); // ModuleStorage
-                    break;
-                case "institutionfloor":
-                    names.Add("INST_PISOS_ARQUIVOS"); // FIRST IN ARRAY!
-                    names.Add("INST_PISOS_ID"); // SECOND IN ARRAY!
-                    names.Add("0"); // ModuleStorage
-                    break;
-                case "institutionspace":
-                    names.Add("INST_IESPACOS_ARQUIVOS"); // FIRST IN ARRAY!
-                    names.Add("INST_ESPACOS_ID"); // SECOND IN ARRAY!
-                    names.Add("0"); // ModuleStorage
-                    break;
-                case "gaprocess":
-                    names.Add("CAND_PROCESSOS_ARQUIVOS"); // FIRST IN ARRAY!
-                    names.Add("CAND_PROCESSOS_ID"); // SECOND IN ARRAY!
-                    names.Add("1"); // ModuleStorage
                     break;
                 case "pespessoas":
                     names.Add("PES_ARQUIVOS"); // FIRST IN ARRAY!
                     names.Add("PES_PESSOAS_ID"); // SECOND IN ARRAY!
+                    names.Add("1"); // ModuleStorage
+                    break;
+                case "gtexercicios":
+                    names.Add("GT_Exercicio_ARQUIVOS"); // FIRST IN ARRAY!
+                    names.Add("GT_Exercicio_ID"); // SECOND IN ARRAY!
                     names.Add("2"); // ModuleStorage
-                    break;
-                case "candidaturas":
-                    names.Add("CAND_CANDIDATURAS_ARQUIVOS"); // FIRST IN ARRAY!
-                    names.Add("CAND_CANDIDATURAS_ID"); // SECOND IN ARRAY!
-                    names.Add("1"); // ModuleStorage
-                    break;
-                case "gacourses":
-                    names.Add("GA_CURSOS_ARQUIVOS"); // FIRST IN ARRAY!
-                    names.Add("GA_CURSOS_ID"); // SECOND IN ARRAY!
-                    names.Add("1"); // ModuleStorage
-                    break;
-                case "gastudyplans":
-                    names.Add("GA_PLANOS_ESTUDOS_ARQUIVOS"); // FIRST IN ARRAY!
-                    names.Add("GA_PLANOS_ESTUDOS_ID"); // SECOND IN ARRAY!
-                    names.Add("1"); // ModuleStorage
-                    break;
-                case "gastudents":
-                    names.Add("GA_ALUNOS_ARQUIVOS"); // FIRST IN ARRAY!
-                    names.Add("GA_ALUNOS_ID"); // SECOND IN ARRAY!
-                    names.Add("1"); // ModuleStorage
-                    break;
-                case "gaequivalencias":
-                    names.Add("GA_ALUNOS_PROCESSOS_EQUIVALENCIAS_ARQUIVOS"); // FIRST IN ARRAY!
-                    names.Add("GA_ALUNOS_PROCESSOS_EQUIVALENCIAS_ID"); // SECOND IN ARRAY!
-                    names.Add("1"); // ModuleStorage
-                    break;
-                case "checkingaccount":
-                    names.Add("GPAG_CONTA_CORRENTE_ARQUIVOS"); // FIRST IN ARRAY!
-                    names.Add("GPAG_CONTA_CORRENTE_ID"); // SECOND IN ARRAY!
-                    names.Add("3"); // ModuleStorage
-                    break;
-                case "portal":
-                    names.Add("PORTAL_ARQUIVOS"); // FIRST IN ARRAY!
-                    names.Add("PORTAL_ID"); // SECOND IN ARRAY!
-                    names.Add("4"); // ModuleStorage
-                    break;
-                case "gaannouncements":
-                    names.Add("PORTAL_COMUNICADOS_ARQUIVOS"); // FIRST IN ARRAY!
-                    names.Add("PORTAL_COMUNICADOS_ID"); // SECOND IN ARRAY!
-                    names.Add("4"); // ModuleStorage
                     break;
             }
             return names.ToArray();

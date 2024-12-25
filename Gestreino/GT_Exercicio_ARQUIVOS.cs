@@ -12,10 +12,10 @@ namespace Gestreino
     using System;
     using System.Collections.Generic;
     
-    public partial class INST_APLICACAO_ARQUIVOS
+    public partial class GT_Exercicio_ARQUIVOS
     {
         public int ID { get; set; }
-        public int INST_APLICACAO_ID { get; set; }
+        public int GT_Exercicio_ID { get; set; }
         public int ARQUIVOS_ID { get; set; }
         public string NOME { get; set; }
         public string DESCRICAO { get; set; }
@@ -30,6 +30,6 @@ namespace Gestreino
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
     
         public virtual GRL_ARQUIVOS GRL_ARQUIVOS { get; set; }
-        public virtual INST_APLICACAO INST_APLICACAO { get; set; }
+        public virtual GT_Exercicio GT_Exercicio { get; set; }
     }
 }

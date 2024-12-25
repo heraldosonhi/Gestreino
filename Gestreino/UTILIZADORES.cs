@@ -17,11 +17,11 @@ namespace Gestreino
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public UTILIZADORES()
         {
+            this.PES_PESSOAS = new HashSet<PES_PESSOAS>();
             this.UTILIZADORES_ACESSO_UTIL_PERFIS = new HashSet<UTILIZADORES_ACESSO_UTIL_PERFIS>();
             this.UTILIZADORES_LOGIN_LOGS = new HashSet<UTILIZADORES_LOGIN_LOGS>();
             this.UTILIZADORES_ACESSO_UTIL_GRUPOS = new HashSet<UTILIZADORES_ACESSO_UTIL_GRUPOS>();
             this.UTILIZADORES_LOGIN_PASSWORD_TENT = new HashSet<UTILIZADORES_LOGIN_PASSWORD_TENT>();
-            this.PES_PESSOAS = new HashSet<PES_PESSOAS>();
         }
     
         public int ID { get; set; }
@@ -40,6 +40,8 @@ namespace Gestreino
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PES_PESSOAS> PES_PESSOAS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UTILIZADORES_ACESSO_UTIL_PERFIS> UTILIZADORES_ACESSO_UTIL_PERFIS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UTILIZADORES_LOGIN_LOGS> UTILIZADORES_LOGIN_LOGS { get; set; }
@@ -47,7 +49,5 @@ namespace Gestreino
         public virtual ICollection<UTILIZADORES_ACESSO_UTIL_GRUPOS> UTILIZADORES_ACESSO_UTIL_GRUPOS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UTILIZADORES_LOGIN_PASSWORD_TENT> UTILIZADORES_LOGIN_PASSWORD_TENT { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PES_PESSOAS> PES_PESSOAS { get; set; }
     }
 }
