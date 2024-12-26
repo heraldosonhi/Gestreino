@@ -28,6 +28,7 @@ namespace Gestreino.Controllers
         int _MenuLeftBarLink_Athletes = 201;
         int _MenuLeftBarLink_PlanBodyMass = 202;
         int _MenuLeftBarLink_PlanCardio = 203;
+        int _MenuLeftBarLink_Exercices = 204;
         int _MenuLeftBarLink_FileManagement = 0;
 
         // GET: GTManagement
@@ -1286,6 +1287,534 @@ namespace Gestreino.Controllers
 
 
 
+        /*
+        ******************************************
+        *******************************************
+        DADOS PESSOAIS IDENTIFICACAO :: READ
+        ******************************************
+        *******************************************
+       */
+        // Ajax Table
+        [HttpPost]
+        public ActionResult GetUsersIdentification(int? Id)
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Identificacao = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Numero = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var DataEmissao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var DataValidade = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var LocalEmissao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var OrgaoEmissao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            var Observacao = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[9][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[10][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            // GET TABLE CONTENT
+
+            var v = (from a in databaseManager.SP_PES_ENT_PESSOAS_IDENTIFICACAO(Id, null, null, null, null, null, null, null, null, null, null, Convert.ToChar('R').ToString()).ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Identificacao)) v = v.Where(a => a.IDENTIFICACAO_ID != null && a.IDENTIFICACAO_ID.ToString() == Identificacao);
+            if (!string.IsNullOrEmpty(Numero)) v = v.Where(a => a.NUMERO != null && a.NUMERO.ToUpper().Contains(Numero.ToUpper()));
+            if (!string.IsNullOrEmpty(DataEmissao)) v = v.Where(a => a.DATA_EMISSAO != null && a.DATA_EMISSAO.ToUpper().Contains(DataEmissao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(DataValidade)) v = v.Where(a => a.DATA_VALIDADE != null && a.DATA_VALIDADE.ToUpper().Contains(DataValidade.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(LocalEmissao)) v = v.Where(a => a.PAIS != null && (a.PAIS.ToUpper() + " " + a.CIDADE.ToUpper() + " " + a.MUN.ToUpper()).Contains(LocalEmissao.ToUpper()));
+            if (!string.IsNullOrEmpty(OrgaoEmissao)) v = v.Where(a => a.ORGAO_EMISSOR != null && a.ORGAO_EMISSOR.ToUpper().Contains(OrgaoEmissao.ToUpper()));
+            if (!string.IsNullOrEmpty(Observacao)) v = v.Where(a => a.OBSERVACOES != null && a.OBSERVACOES.ToString().Contains(Observacao.ToUpper()));
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "IDENTIFICACAO": v = v.OrderBy(s => s.IDENTIFICACAO); break;
+                        case "NUMERO": v = v.OrderBy(s => s.NUMERO); break;
+                        case "DATAEMISSAO": v = v.OrderBy(s => s.DATA_EMISSAO); break;
+                        case "DATAVALIDADE": v = v.OrderBy(s => s.DATA_VALIDADE); break;
+                        case "LOCALEMISSAO": v = v.OrderBy(s => s.CIDADE); break;
+                        case "OBSERVACAO": v = v.OrderBy(s => s.OBSERVACOES); break;
+                        case "ORGAOEMISSOR": v = v.OrderBy(s => s.ORGAO_EMISSOR); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "IDENTIFICACAO": v = v.OrderByDescending(s => s.IDENTIFICACAO); break;
+                        case "NUMERO": v = v.OrderByDescending(s => s.NUMERO); break;
+                        case "DATAEMISSAO": v = v.OrderByDescending(s => s.DATA_EMISSAO); break;
+                        case "DATAVALIDADE": v = v.OrderByDescending(s => s.DATA_VALIDADE); break;
+                        case "LOCALEMISSAO": v = v.OrderByDescending(s => s.CIDADE); break;
+                        case "OBSERVACAO": v = v.OrderByDescending(s => s.OBSERVACOES); break;
+                        case "ORGAOEMISSOR": v = v.OrderByDescending(s => s.ORGAO_EMISSOR); break;
+                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_IDENTIFICATION_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_IDENTIFICATION_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    IDENTIFICACAO = x.IDENTIFICACAO,
+                    NUMERO = x.NUMERO,
+                    DATAEMISSAO = x.DATA_EMISSAO,
+                    DATAVALIDADE = x.DATA_VALIDADE,
+                    LOCALEMISSAO = x.MUN + " " + x.CIDADE + " " + x.PAIS,
+                    ORGAOEMISSOR = x.ORGAO_EMISSOR,
+                    OBSERVACAO = Converters.StripHTML(x.OBSERVACOES),
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        // Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddIdentification(HttpPostedFileBase file, PES_Dados_Pessoais_Ident MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (!string.IsNullOrWhiteSpace(MODEL.DateExpire) && DateTime.ParseExact(MODEL.DateExpire, "dd-MM-yyyy", CultureInfo.InvariantCulture) < DateTime.ParseExact(MODEL.DateIssue, "dd-MM-yyyy", CultureInfo.InvariantCulture))
+                {
+                    return Json(new { result = false, error = "Data de Emissão deve ser inferior a Data de Validade!" });
+                }
+                if (databaseManager.PES_IDENTIFICACAO.Where(a => a.PES_TIPO_IDENTIFICACAO_ID == MODEL.PES_TIPO_IDENTIFICACAO && a.PES_PESSOAS_ID == MODEL.ID).ToList().Count() > 0)
+                {
+                    return Json(new { result = false, error = "Tipo de Identificação pessoal já encontra-se registada!" });
+                }
+
+                var DateIni = string.IsNullOrWhiteSpace(MODEL.DateIssue) ? (DateTime?)null : DateTime.ParseExact(MODEL.DateIssue, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                var DateEnd = string.IsNullOrWhiteSpace(MODEL.DateExpire) ? (DateTime?)null : DateTime.ParseExact(MODEL.DateExpire, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+
+                // Validate BI number of digits
+                //if (MODEL.PES_TIPO_IDENTIFICACAO == Classes.Configs.INST_MDL_ADM_VLRID_TIPODOC_BI && MODEL.Numero.Length < Classes.Configs.INST_MDL_GP_BI_MAXLENGTH)
+                //    return Json(new { result = false, error = "Documento de Identificação (BI) deve conter 14 Dígitos!" });
+
+                // Validate IDs number of digits
+                if (MODEL.Numero.Length > Classes.Configs.INST_MDL_GP_BI_MAXLENGTH)
+                    return Json(new { result = false, error = "Número de Identificação deve conter menos de 14 Dígitos!" });
+
+                // Validate Identity Document Issue Date
+                if (DateIni >= DateEnd)
+                    return Json(new { result = false, error = "Data de Validade do Documento de Identificação inferior a data de Emissão!" });
+
+                if (DateEnd < DateTime.Now)
+                    return Json(new { result = false, error = "Data de Validade do documento de identificação vencida!" });
+
+                if (databaseManager.PES_IDENTIFICACAO.Where(a => a.PES_TIPO_IDENTIFICACAO_ID == MODEL.PES_TIPO_IDENTIFICACAO && a.PES_PESSOAS_ID == MODEL.ID).ToList().Count() > 0)
+                    return Json(new { result = false, error = "Tipo de Identificação pessoal já encontra-se registada!" });
+
+
+                // Get Allowed size
+                var allowedSize = Classes.FileUploader.TwoMB; // 2.0 MB
+                var entity = "pespessoas";
+
+                if (file != null)
+                {
+                    if (file.ContentLength > 0 && file.ContentLength < Convert.ToDouble(WebConfigurationManager.AppSettings["maxRequestLength"]))
+                    {
+                        // Get Module Subfolder
+                        var modulestorage = FileUploader.ModuleStorage[Convert.ToInt32(FileUploader.DecoderFactory(entity)[2])];
+
+                        // Get Document Type Id
+                        var tipoidentname = databaseManager.PES_TIPO_IDENTIFICACAO.Where(x => x.ID == MODEL.PES_TIPO_IDENTIFICACAO).Select(x => x.NOME).FirstOrDefault();
+                        var tipodoc = string.Empty;
+                        var tipodocid = 0;
+                        if (databaseManager.GRL_ARQUIVOS_TIPO_DOCS.Where(x => x.NOME == tipoidentname).ToList().Count > 0)
+                        {
+                            tipodoc = databaseManager.GRL_ARQUIVOS_TIPO_DOCS.Where(x => x.NOME == tipoidentname).Select(x => x.NOME).FirstOrDefault().ToLower();
+                            tipodocid = databaseManager.GRL_ARQUIVOS_TIPO_DOCS.Where(x => x.NOME == tipoidentname).Select(x => x.ID).FirstOrDefault();
+                        }
+                        else
+                            return Json(new { result = false, error = "Arquivo " + tipoidentname + " não encontrado, certifique-se que o mesmo seja registado nas parametrizações!" });
+
+                        // Get file size
+                        var size = file.ContentLength;
+                        // Get file type
+                        var type = System.IO.Path.GetExtension(file.FileName).ToLower();
+                        // Get directory
+                        string[] DirectoryFactory = FileUploader.DirectoryFactory(modulestorage, Server.MapPath(FileUploader.FileStorage), Path.GetExtension(file.FileName), tipodoc, tipoidentname + "-" + MODEL.Numero);
+                        /*
+                         * 0 => sqlpath,
+                         * 1 => path,
+                         * 2 => filename
+                         */
+                        var sqlpath = DirectoryFactory[0];
+                        var path = DirectoryFactory[1];
+                        var filename = DirectoryFactory[2];
+                        // Define tablename and fieldname for Stored Procedure
+                        string tablename = FileUploader.DecoderFactory(entity)[0];
+                        string fieldname = FileUploader.DecoderFactory(entity)[1];
+
+                        // Check file type
+                        if (!FileUploader.allowedExtensions.Contains(type))
+                            return Json(new { result = false, error = "Formato inválido!, por favor adicionar um documento válido com a capacidade permitida!" });
+
+                        // Check file size
+                        if (size > allowedSize)
+                            return Json(new { result = false, error = "Tamanho do documento deve ser inferior a " + FileUploader.FormatSize(allowedSize) + "!" });
+
+                        var Active = true;
+
+                        // Upload file to folder
+                        file.SaveAs(path);
+                        // Create file reference in SQL Database
+                        var createFile = databaseManager.SP_ASSOC_ARQUIVOS(MODEL.ID, null, tipoidentname + " - " + MODEL.Numero.ToUpper(), null, Active, null, null, tipodocid, filename, null, type, size, sqlpath, tablename, fieldname, int.Parse(User.Identity.GetUserId()), Convert.ToChar('C').ToString()).ToList();
+                    }
+                    else
+                    {
+                        return Json(new { result = false, error = "Por favor adicionar um documento válido com a capacidade permitida!" });
+                    }
+                }
+
+                // Create
+                var create = databaseManager.SP_PES_ENT_PESSOAS_IDENTIFICACAO(MODEL.ID, MODEL.PES_TIPO_IDENTIFICACAO, MODEL.Numero.ToUpper(), DateIni, DateEnd, MODEL.Observacao, MODEL.OrgaoEmissor, MODEL.PaisId, MODEL.CidadeId, null, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "UserIdentTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        // Update
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateIdentification(PES_Dados_Pessoais_Ident MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (!string.IsNullOrWhiteSpace(MODEL.DateExpire) && DateTime.ParseExact(MODEL.DateExpire, "dd-MM-yyyy", CultureInfo.InvariantCulture) < DateTime.ParseExact(MODEL.DateIssue, "dd-MM-yyyy", CultureInfo.InvariantCulture))
+                {
+                    return Json(new { result = false, error = "Data de Emissão deve ser inferior a Data de Validade!" });
+                }
+                if (databaseManager.PES_IDENTIFICACAO.Where(a => a.PES_TIPO_IDENTIFICACAO_ID == MODEL.PES_TIPO_IDENTIFICACAO && a.PES_PESSOAS_ID == MODEL.PES_PESSOAS_ID && a.ID != MODEL.ID).ToList().Count() > 0)
+                    return Json(new { result = false, error = "Tipo de Identificação pessoal já encontra-se registada!" });
+
+                var DateIni = string.IsNullOrWhiteSpace(MODEL.DateIssue) ? (DateTime?)null : DateTime.ParseExact(MODEL.DateIssue, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                var DateEnd = string.IsNullOrWhiteSpace(MODEL.DateExpire) ? (DateTime?)null : DateTime.ParseExact(MODEL.DateExpire, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+
+                // Validate BI number of digits
+                //if (MODEL.PES_TIPO_IDENTIFICACAO == Classes.Configs.INST_MDL_ADM_VLRID_ARQUIVO_LOGOTIPO && MODEL.Numero.Length < Classes.Configs.INST_MDL_GP_BI_MAXLENGTH)
+                //    return Json(new { result = false, error = "Documento de Identificação (BI) deve conter 14 Dígitos!" });
+
+                // Validate IDs number of digits
+                if (MODEL.Numero.Length > Classes.Configs.INST_MDL_GP_BI_MAXLENGTH)
+                    return Json(new { result = false, error = "Número de Identificação deve conter menos de 14 Dígitos!" });
+
+                // Validate Identity Document Issue Date
+                if (DateIni >= DateEnd)
+                    return Json(new { result = false, error = "Data de Validade do Documento de Identificação inferior a data de Emissão!" });
+
+                if (DateEnd < DateTime.Now)
+                    return Json(new { result = false, error = "Data de Validade do documento de identificação vencida!" });
+
+                // Update
+                var update = databaseManager.SP_PES_ENT_PESSOAS_IDENTIFICACAO(MODEL.ID, MODEL.PES_TIPO_IDENTIFICACAO, MODEL.Numero.ToUpper(), DateIni, DateEnd, MODEL.Observacao, MODEL.OrgaoEmissor, MODEL.PaisId, MODEL.CidadeId, null, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "UserIdentTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        // Delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteIdentification(int[] Ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                if (Ids.Length == 0)
+                    return Json(new { result = false, error = "Nenhum item selecionado para remoção!" });
+
+                foreach (var i in Ids)
+                {
+                    var delete = databaseManager.SP_PES_ENT_PESSOAS_IDENTIFICACAO(i, null, null, null, null, null, null, null, null, null, null, Convert.ToChar('D').ToString()).ToList();
+                }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "UserIdentTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+
+
+
+
+
+        // GT Exercicios
+        // GET: GTManagement
+        public ActionResult Exercises()
+        {
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Exercices;
+            return View("Plans/Exercises/Index");
+        }
+
+        public ActionResult ViewExercises(int? Id, Gestreino.Models.GTExercicio MODEL)
+        {
+            //if (!AcessControl.Authorized(AcessControl.GP_USERS_LIST_VIEW_SEARCH)) return View("Lockout");
+            if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
+
+            var data = databaseManager.SP_GT_ENT_EXERCICIO(Id,null, null, null, null, null, Convert.ToChar('R').ToString()).ToList();
+            if (!data.Any()) return RedirectToAction("", "home");
+            MODEL.ID = Id;
+          
+            ViewBag.data = data;
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Exercices;
+            return View("Plans/Exercises/ViewExercise", MODEL);
+        }
+
+        [HttpPost]
+        public ActionResult GetGRLExercicioTable()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Treino = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Alongamento = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Sequencia = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var v = (from a in databaseManager.SP_GT_ENT_EXERCICIO(null, null, null, null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Treino)) v = v.Where(a => a.tr_nome != null && a.tr_nome.ToUpper() == Treino.ToUpper());
+            if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.nome != null && a.nome.ToUpper() == Nome.ToUpper());
+            if (!string.IsNullOrEmpty(Alongamento)) v = v.Where(a => a.ALONGAMENTO != null && a.ALONGAMENTO.ToString() == Alongamento);
+            if (!string.IsNullOrEmpty(Sequencia)) v = v.Where(a => a.SEQUENCIA != null && a.SEQUENCIA.ToString() == Sequencia);
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "TREINO": v = v.OrderBy(s => s.tr_nome); break;
+                        case "NOME": v = v.OrderBy(s => s.nome); break;
+                        case "ALONGAMENTO": v = v.OrderBy(s => s.ALONGAMENTO); break;
+                        case "SEQUENCIA": v = v.OrderBy(s => s.SEQUENCIA); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "TREINO": v = v.OrderByDescending(s => s.tr_nome); break;
+                        case "NOME": v = v.OrderByDescending(s => s.nome); break;
+                        case "ALONGAMENTO": v = v.OrderByDescending(s => s.ALONGAMENTO); break;
+                        case "SEQUENCIA": v = v.OrderByDescending(s => s.SEQUENCIA); break;
+                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    TREINO = x.tr_nome,
+                    NOME = x.nome,
+                    ALONGAMENTO=x.ALONGAMENTO,
+                    SEQUENCIA=x.SEQUENCIA,
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewGRLExercicioTable(GTExercicio MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                // Create
+                var create = databaseManager.SP_GT_ENT_EXERCICIO(null, MODEL.TipoTreinoId, MODEL.Nome,MODEL.Alongamento,MODEL.Sequencia, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLExercicioTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateGRLExercicioTable(GTExercicio MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+                
+                // Update
+                var create = databaseManager.SP_GT_ENT_EXERCICIO(MODEL.ID, MODEL.TipoTreinoId, MODEL.Nome, MODEL.Alongamento, MODEL.Sequencia, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLExercicioTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteGRLExercicioTable(int?[] ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                // Delete
+                foreach (var i in ids)
+                {
+                    databaseManager.SP_GT_ENT_EXERCICIO(i, null, null, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
+                }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GRLExercicioTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
 
 
         //PRESCRICAO
@@ -1296,7 +1825,10 @@ namespace Gestreino.Controllers
             MODEL.GT_Repeticoes_List = databaseManager.GT_Repeticoes.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.REPETICOES.ToString() });
             MODEL.GT_Carga_List = databaseManager.GT_Carga.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.CARGA.ToString() });
             MODEL.GT_TempoDescanso_List = databaseManager.GT_TempoDescanso.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.TEMPO_DESCANSO });
+            MODEL.FaseTreinoList = databaseManager.GT_FaseTreino.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.SIGLA });
+            MODEL.GTTreinoList = databaseManager.GT_Treino.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
 
+            ViewBag.exercises = databaseManager.GT_Exercicio.Where(x => x.DATA_REMOCAO==null && x.GT_TipoTreino_ID==Configs.GT_EXERCISE_TYPE_BODYMASS).ToList();
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_PlanBodyMass;
             return View("Plans/BodyMass/NewPlan",MODEL);
         }

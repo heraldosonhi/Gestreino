@@ -36,8 +36,8 @@ namespace Gestreino
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
     
         public virtual PES_TIPO_IDENTIFICACAO PES_TIPO_IDENTIFICACAO { get; set; }
+        public virtual PES_PESSOAS PES_PESSOAS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PES_IDENTIFICACAO_LOCAL_EM> PES_IDENTIFICACAO_LOCAL_EM { get; set; }
-        public virtual PES_PESSOAS PES_PESSOAS { get; set; }
     }
 }

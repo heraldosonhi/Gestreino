@@ -19,290 +19,259 @@
             </div>
         </div>
     </div>
-
-<div class="row">
-    <div class="col-md-12 col-sm-12 ">
-        @using (Ajax.BeginForm("", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
-        {
-            @Html.AntiForgeryToken()
-            <div class="animated flipInY">
-                <div class="tile-stats">
-                    <div class="icon">
-                        <i class="fa fa-book"></i>
-                    </div>
-                    <h3 class="p-2">Plano de treino Musculação</h3>
-                    <div class="p-4">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <fieldset class="planfieldset p-1">
-                                    <legend>Dados do exercício:</legend>
-                                    <div class="row">
-                                        <label class="col-md-5 col-form-label">N° de séries:</label>
-                                        <div class="col-md-4">
-                                            @Html.DropDownListFor(x => Model.GT_Series_ID, Model.GT_Series_List, new { @class = "form-control form-control-sm", required = "" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label class="col-md-5 col-form-label">N° de repetições:</label>
-                                        <div class="col-md-4">
-                                            @Html.DropDownListFor(x => Model.GT_Repeticoes_ID, Model.GT_Repeticoes_List, new { @class = "form-control form-control-sm", required = "" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label class="col-md-5 col-form-label">% 1RM:</label>
-                                        <div class="col-md-4">
-                                            @Html.DropDownListFor(x => Model.GT_Carga_ID, Model.GT_Carga_List, new { @class = "form-control form-control-sm", required = "" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label class="col-md-5 col-form-label">Tempo descanso:</label>
-                                        <div class="col-md-4">
-                                            @Html.DropDownListFor(x => Model.GT_TempoDescanso_ID, Model.GT_TempoDescanso_List, new { @class = "form-control form-control-sm", required = "" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label class="col-md-5 col-form-label">Rep's:</label>
-                                        <div class="col-md-4">
-                                            <select class="form-control form-control-sm"></select>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label class="col-md-5 col-form-label">Carga / RM:</label>
-                                        <div class="col-md-4">
-                                            <input type="number" class="form-control form-control-sm">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <input type="number" class="form-control form-control-sm">
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </div>
-                            <div class="col-md-6">
-                                <fieldset class=" p-1">
-
-                                    <div class="row">
-                                        <label class="col-md-3 col-form-label">Data de início:</label>
-                                        <div class="col-md-3">
-                                            <input type="text" class="form-control datepicker form-control-sm" />
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="btn-group">
-                                                <button disabled="" class="btn btn-sm btn-secondary">Predefinido</button>
-                                                <button disabled="" class="btn btn-sm btn-secondary"><i class="fa fa-plus-square"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <br />
-                                <fieldset class="planfieldset p-1">
-                                    <legend>Tipo de plano:</legend>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <input type="radio" name="plantype" class="" id="plantype1"> <label class="mb-0" for="plantype1">Manual</label> <br />
-                                            <input type="radio" name="plantype" class="" id="plantype2"> <label class="mb-1" for="plantype2">Predefinido</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="row">
-                                                <label class="col-md-5 col-form-label">Nome do treino:</label>
-                                                <div class="col-md-5">
-                                                    <input type="text" class="form-control" />
-                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <br />
-                                <fieldset class="planfieldset p-1">
-                                    <legend>Tipo de planeamento:</legend>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <input type="radio" name="planningtype" class="" id="planningtype1"> <label class="mb-0" for="planningtype1">Sem fases</label> <br />
-                                            <input type="radio" name="planningtype" class="" id="planningtype2"> <label class="mb-1" for="planningtype2">Com fases</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="row">
-                                                <label class="col-md-5 col-form-label">Fases treino:</label>
-                                                <div class="col-md-5">
-                                                    @Html.DropDownListFor(x => Model.GT_Carga_ID, Model.GT_Carga_List, new { @class = "form-control form-control-sm", required = "" })
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </div>
+    @if (!string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)))
+    {
+    <div class="row">
+        <div class="col-md-12 col-sm-12 ">
+            @using (Ajax.BeginForm("", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="animated flipInY">
+                    <div class="tile-stats">
+                        <div class="icon">
+                            <i class="fa fa-book"></i>
                         </div>
-
-                        <div class="row mt-3">
-                            <div class="col-md-5">
-                                <fieldset class="planfieldset p-1">
-                                    <legend>Exercícios disponíveis:</legend>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <p class="text-center"> <img class="planimg" src="~/Assets/images/user-avatar.jpg" width="100" /></p>
+                        <h3 class="p-2">Plano de treino Musculação</h3>
+                        <div class="p-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <fieldset class="planfieldset p-1">
+                                        <legend>Dados do exercício:</legend>
+                                        <div class="row">
+                                            <label class="col-md-5 col-form-label">N° de séries:</label>
+                                            <div class="col-md-4">
+                                                @Html.DropDownListFor(x => Model.GT_Series_ID, Model.GT_Series_List, new { @class = "form-control form-control-sm", required = "" })
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <div class="col-md-12">
-                                            <!--  DATATABLE START -->
-                                            <div class="card mb-32pt">
-                                                <div class="table-responsive">
-                                                    <table id="" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                                                        <thead>
-                                                            <tr>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td><input type="text" id="DateIni" class="form-control form-control-sm" /></td>
-                                                                <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
-                                                                <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
-                                                                <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
-                                                                <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th></th>
-                                                                <th></th>
-                                                                <th data-name="DateIni">Data de início</th>
-                                                                <th data-name="Insercao">Inserção</th>
-                                                                <th data-name="DataInsercao">Data Inserção</th>
-                                                                <th data-name="Actualizacao">Actualização</th>
-                                                                <th data-name="DataActualizacao">Data Actualização</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
-                                                <div class="card-footer p-8pt">
-                                                    <span class="paginateInfoDadosPessoais paginateInfo mr-12pt" style="float:right"></span>
-                                                    <div id="paginateDadosPessoais" class="pagination justify-content-start pagination-xsm m-0"></div>
+                                        <div class="row">
+                                            <label class="col-md-5 col-form-label">N° de repetições:</label>
+                                            <div class="col-md-4">
+                                                @Html.DropDownListFor(x => Model.GT_Repeticoes_ID, Model.GT_Repeticoes_List, new { @class = "form-control form-control-sm", required = "" })
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-5 col-form-label">% 1RM:</label>
+                                            <div class="col-md-4">
+                                                @Html.DropDownListFor(x => Model.GT_Carga_ID, Model.GT_Carga_List, new { @class = "form-control form-control-sm", required = "" })
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-5 col-form-label">Tempo descanso:</label>
+                                            <div class="col-md-4">
+                                                @Html.DropDownListFor(x => Model.GT_TempoDescanso_ID, Model.GT_TempoDescanso_List, new { @class = "form-control form-control-sm", required = "" })
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-5 col-form-label">Rep's:</label>
+                                            <div class="col-md-4">
+                                                <select class="form-control form-control-sm">
+                                                    @for (int x = 1; x <= 10; x++)
+                                                    {
+                                                        <option>@x</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-5 col-form-label">Carga / RM:</label>
+                                            <div class="col-md-4">
+                                                <input type="number" class="form-control form-control-sm" min="1">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="number" class="form-control form-control-sm" step=".01" min="1">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-6">
+                                    <fieldset class=" p-1">
+                                        <div class="row">
+                                            <label class="col-md-3 col-form-label">Data de início:</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control datepicker form-control-sm" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="btn-group">
+                                                    <button disabled="" class="btn btn-sm btn-secondary">Predefinido</button>
+                                                    <button disabled="" class="btn btn-sm btn-secondary"><i class="fa fa-plus-square"></i></button>
                                                 </div>
                                             </div>
-                                            <!--  DATATABLE START -->
                                         </div>
-                                    </div>
-                                </fieldset>
-                            </div>
-
-                            <div class="col-md-2">
-                                <div class="">
-                                    <button disabled class="btn btn-secondary btn-block"><i class="fa fa-floppy-o"></i></button>
-                                    <button type="button" class="btn btn-secondary btn-block"><<</button>
-                                    <button type="button" class="btn btn-secondary btn-block"><</button>
-                                    <button type="button" class="btn btn-secondary btn-block">></button>
+                                    </fieldset>
+                                    <br />
+                                    <fieldset class="planfieldset p-1">
+                                        <legend>Tipo de plano:</legend>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <input type="radio" checked="" name="plantype" value="1" id="plantype1"> <label class="mb-0" for="plantype1">Manual</label> <br />
+                                                <input type="radio" name="plantype" value="2" id="plantype2"> <label class="mb-1" for="plantype2">Predefinido</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="row newplangtreino" style="display:none">
+                                                    <label class="col-md-5 col-form-label">Nome do treino:</label>
+                                                    <div class="col-md-5">
+                                                        @Html.DropDownListFor(x => Model.GTTreinoId, Model.GTTreinoList, "", new { @class = "form-control form-control-sm" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <br />
+                                    <fieldset class="planfieldset p-1">
+                                        <legend>Tipo de planeamento:</legend>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <input type="radio" checked="" name="planningtype" class="" id="planningtype1"> <label class="mb-0" for="planningtype1">Sem fases</label> <br />
+                                                <input type="radio" name="planningtype" class="" id="planningtype2"> <label class="mb-1" for="planningtype2">Com fases</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="row newplanfasetreino" style="display:none">
+                                                    <label class="col-md-5 col-form-label">Fases treino:</label>
+                                                    <div class="col-md-5">
+                                                        @Html.DropDownListFor(x => Model.FaseTreinoId, Model.FaseTreinoList, "",new { @class = "form-control form-control-sm"})
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
                                 </div>
                             </div>
 
-                            <div class="col-md-5">
-                                <fieldset class="planfieldset p-1">
-                                    <legend>Exercícios Musculação:</legend>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <p class="text-center"> <img class="planimg" src="~/Assets/images/user-avatar.jpg" width="100" /></p>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <div class="col-md-12">
-                                            <!--  DATATABLE START -->
-                                            <div class="card mb-32pt">
-                                                <div class="table-responsive">
-                                                    <table id="" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                                                        <thead>
-                                                            <tr>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td><input type="text" id="DateIni" class="form-control form-control-sm" /></td>
-                                                                <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
-                                                                <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
-                                                                <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
-                                                                <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th></th>
-                                                                <th></th>
-                                                                <th data-name="DateIni">Data de início</th>
-                                                                <th data-name="Insercao">Inserção</th>
-                                                                <th data-name="DataInsercao">Data Inserção</th>
-                                                                <th data-name="Actualizacao">Actualização</th>
-                                                                <th data-name="DataActualizacao">Data Actualização</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
+                            <div class="row mt-3">
+                                <div class="col-md-5">
+                                    <fieldset class="planfieldset p-1">
+                                        <legend>Exercícios disponíveis:</legend>
+
+                                        <div class="row mt-2">
+                                            <div class="col-md-12">
+
+
+                                                <div class="">
+                                                    <select style="display:none" class="form-control form-control-sm" multiple="">
+                                                        <option value=""></option>
+                                                        @foreach (var item in ViewBag.exercises)
+                                                        {
+                                                            <option value="@item.ID">@item.NOME</option>
+                                                        }
+                                                    </select>
+                                                    <ul class="gaclassul p-2 mb-0" id="" style="height: 300px; top: 10px; bottom: 10px; width: 100%;overflow-y:auto;">
+                                                        @foreach (var item in ViewBag.exercises)
+                                                        {
+                                                            //bool Disabled = (item.TURMA_TOTAL_EST > 0) ? true : false;
+                                                            <li class="sidebar-menu-item hide-long-text" style="">
+                                                                <img class="planimg" src="~/Assets/images/user-avatar.jpg" width="50" />
+                                                                <input type="hidden" name="ucIds[]" value="@item.ID" />
+                                                                <button type="button" disabled class="addlistplan1 btn btn-sm btn-success"><i class="fa fa-plus-circle"></i></button>
+                                                                &nbsp;<a href="@Url.Action("viewsubjects", "gamanagement", new { Id = item.ID })" title="@item.NOME" target="_blank"><i class="fa fa-external-link-square-alt"></i></a>
+                                                                <a title="" href="@Url.Action("viewexercises", "gtmanagement", new {Id=item.ID})" target="_blank" class="text-50">@item.NOME</a>
+                                                            </li>
+                                                        }
+                                                    </ul>
                                                 </div>
-                                                <div class="card-footer p-8pt">
-                                                    <span class="paginateInfoDadosPessoais paginateInfo mr-12pt" style="float:right"></span>
-                                                    <div id="paginateDadosPessoais" class="pagination justify-content-start pagination-xsm m-0"></div>
-                                                </div>
+
+
+
                                             </div>
-                                            <!--  DATATABLE START -->
                                         </div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="">
+                                        <button disabled class="btn btn-secondary btn-block"><i class="fa fa-floppy-o"></i></button>
+                                        <button type="button" class="btn btn-secondary btn-block"><<</button>
+                                        <button type="button" class="btn btn-secondary btn-block"><</button>
+                                        <button type="button" class="btn btn-secondary btn-block">></button>
                                     </div>
-                                </fieldset>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <fieldset class="planfieldset p-1">
+                                        <legend>Exercícios do plano Musculação:</legend>
+                                        <div class="row mt-2">
+                                            <div class="col-md-12">
+                                                <ul class="gaclassul p-2 mb-0" id="list1"  style="height: 300px; top: 10px; bottom: 10px; width: 100%;overflow-y:auto;">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
         </div>
-    <div class="col-md-12 col-sm-12 ">
-                    <!--  DATATABLE START -->
-                    <div class="card mb-32pt">
-                        <div class="card-header">
-                            <div class="form-inline">
-                                <label class="" for="length_change">Mostrar</label>
-                                <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="">
-                                    <option value='10'>10</option>
-                                    <option value='25'>25</option>
-                                    <option value='50'>50</option>
-                                    <option value='100'>100</option>
-                                    <option value='500'>500</option>
-                                    <option value='1000'>1000</option>
-                                    <option value='2000'>2000</option>
-                                    <option value='5000'>5000</option>
-                                    <option value='10000'>10000</option>
-                                </select>
-                                <label class="" for="length_change">registos</label>
-                                <div class="btn-group">
-                                    <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id=""><i class="fa fa-check-square"></i></button>
-                                    <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="users" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                    <button title="Pesquisar" class="btnSearch btn btn-default" data-id=""><i class="fa fa-search"></i></button>
-                                    <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id=""><i class="fa fa-eraser"></i></button>
-                                    <!--Separator-->
-                                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
-                                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <table id="" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                                <thead>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td><input type="text" id="DateIni" class="form-control form-control-sm" /></td>
-                                        <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
-                                        <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
-                                        <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
-                                        <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
-                                    </tr>
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th data-name="DateIni">Data de início</th>
-                                        <th data-name="Insercao">Inserção</th>
-                                        <th data-name="DataInsercao">Data Inserção</th>
-                                        <th data-name="Actualizacao">Actualização</th>
-                                        <th data-name="DataActualizacao">Data Actualização</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                        <div class="card-footer p-8pt">
-                            <span class="paginateInfoDadosPessoais paginateInfo mr-12pt" style="float:right"></span>
-                            <div id="paginateDadosPessoais" class="pagination justify-content-start pagination-xsm m-0"></div>
+        <div class="col-md-12 col-sm-12 ">
+            <!--  DATATABLE START -->
+            <div class="card mb-32pt">
+                <div class="card-header">
+                    <div class="form-inline">
+                        <label class="" for="length_change">Mostrar</label>
+                        <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="">
+                            <option value='10'>10</option>
+                            <option value='25'>25</option>
+                            <option value='50'>50</option>
+                            <option value='100'>100</option>
+                            <option value='500'>500</option>
+                            <option value='1000'>1000</option>
+                            <option value='2000'>2000</option>
+                            <option value='5000'>5000</option>
+                            <option value='10000'>10000</option>
+                        </select>
+                        <label class="" for="length_change">registos</label>
+                        <div class="btn-group">
+                            <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id=""><i class="fa fa-check-square"></i></button>
+                            <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="users" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                            <button title="Pesquisar" class="btnSearch btn btn-default" data-id=""><i class="fa fa-search"></i></button>
+                            <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id=""><i class="fa fa-eraser"></i></button>
+                            <!--Separator-->
+                            <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "courses", applyFilter = "true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                            <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "courses", applyFilter = "false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
                         </div>
                     </div>
-                    <!--  DATATABLE START -->
+                </div>
+                <div class="table-responsive">
+                    <table id="" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                        <thead>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td><input type="text" id="DateIni" class="form-control form-control-sm" /></td>
+                                <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
+                                <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
+                                <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th data-name="DateIni">Data de início</th>
+                                <th data-name="Insercao">Inserção</th>
+                                <th data-name="DataInsercao">Data Inserção</th>
+                                <th data-name="Actualizacao">Actualização</th>
+                                <th data-name="DataActualizacao">Data Actualização</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="card-footer p-8pt">
+                    <span class="paginateInfoDadosPessoais paginateInfo mr-12pt" style="float:right"></span>
+                    <div id="paginateDadosPessoais" class="pagination justify-content-start pagination-xsm m-0"></div>
                 </div>
             </div>
-            <h2>&nbsp;</h2>
+            <!--  DATATABLE START -->
         </div>
-        <!-- /page content -->
+    </div>
+    }
+    <h2>&nbsp;</h2>
+</div>
+<!-- /page content -->
+@if (string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)))
+{
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        $('#selecionaravaliado').click();
+    });
+</script>
+}

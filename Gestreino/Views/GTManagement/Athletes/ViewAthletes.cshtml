@@ -347,7 +347,7 @@
                         <a href="#tab_contentd1" id="" role="tab" data-toggle="tab" aria-expanded="true">Dados gerais</a>
                     </li>
                     <li role="presentation" class="">
-                        <a style="cursor:not-allowed" href="#tab_contentd2" role="tab" id="" data-toggle="tab" aria-expanded="false">Identificação pessoal</a>
+                        <a href="#tab_contentd2" role="tab" id="" data-toggle="tab" aria-expanded="false">Identificação pessoal</a>
                     </li>
                     <li role="presentation" class="">
                         <a href="#tab_contentd3" role="tab" id="" data-toggle="tab" aria-expanded="false">Agregados</a>
@@ -862,6 +862,7 @@
 <!-- /page content -->
 <script>
     document.addEventListener("DOMContentLoaded", function (event) {
+        handleDataGPUsersIdent();
         handleDataGPUsersProfissao();
         handleDataGPUsersFamily();
         handleDataGPUsersDisability();

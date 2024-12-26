@@ -8,6 +8,7 @@ using DocumentFormat.OpenXml.Vml.Office;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Gestreino.Classes;
 using Gestreino.Models;
+using JeanPiagetSGA;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using System;
@@ -304,6 +305,38 @@ namespace Gestreino.Controllers
             return View("GTManagement/Athletes/GPManagementUserDisability", MODEL);
         }
 
+        public ActionResult PESDadosPessoaisIdent(PES_Dados_Pessoais_Ident MODEL, string action, int? id, int?[] bulkids)
+        {
+            MODEL.ID = id;
+            if (action == "Editar")
+            {
+                var data = databaseManager.PES_IDENTIFICACAO.Where(x => x.ID == id).ToList();
+                var dataLocal = databaseManager.PES_IDENTIFICACAO_LOCAL_EM.Where(x => x.PES_IDENTIFICACAO_ID == id).ToList();
+                MODEL.PES_PESSOAS_ID= data.First().PES_PESSOAS_ID;
+                MODEL.Numero = data.First().NUMERO;
+                MODEL.Observacao = data.First().OBSERVACOES;
+                MODEL.PES_TIPO_IDENTIFICACAO= data.First().PES_TIPO_IDENTIFICACAO_ID;
+                MODEL.OrgaoEmissor = data.First().ORGAO_EMISSOR;
+                MODEL.DateIssue = string.IsNullOrEmpty(data.First().DATA_EMISSAO.ToString()) ? null : DateTime.Parse(data.First().DATA_EMISSAO.ToString()).ToString("dd-MM-yyyy");
+                MODEL.DateExpire = string.IsNullOrEmpty(data.First().DATA_VALIDADE.ToString()) ? null : DateTime.Parse(data.First().DATA_VALIDADE.ToString()).ToString("dd-MM-yyyy");
+                MODEL.PaisId= dataLocal.First().GRL_ENDERECO_PAIS_ID;
+                MODEL.CidadeId = dataLocal.First().GRL_ENDERECO_CIDADE_ID;
+                //MODEL.PES_DEFICIENCIA_ID = data.First().PES_PESSOAS_CARACT_TIPO_DEF_ID;
+                //MODEL.PES_DEFICIENCIA_GRAU_ID = data.First().PES_PESSOAS_CARACT_GRAU_DEF_ID;
+            }
+
+            MODEL.PES_TIPO_IDENTIFICACAO_LIST = databaseManager.PES_TIPO_IDENTIFICACAO.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            MODEL.PaisList = databaseManager.GRL_ENDERECO_PAIS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            MODEL.CidadeList = databaseManager.GRL_ENDERECO_CIDADE.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("GTManagement/Athletes/GPManagementUserIdent", MODEL);
+        }
+
 
         public ActionResult GRLIdentType(PES_TIPO_IDENTIFICACAO MODEL, string action, int? id, int?[] bulkids)
         {
@@ -499,7 +532,86 @@ namespace Gestreino.Controllers
             return View("administration/Parameters/GRLGTFaseTreino", MODEL);
         }
 
+        public ActionResult GRLGTTipoTreino(GT_TipoTreino MODEL, string action, int? id, int?[] bulkids)
+        {
+            if (action == "Editar")
+            {
+                var data = databaseManager.GT_TipoTreino.Where(x => x.ID == id).ToList();
+                MODEL.ID = id.Value;
+                MODEL.SIGLA = data.First().SIGLA;
+                MODEL.NOME = data.First().NOME;
+            }
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
 
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("administration/Parameters/GRLGTTipoTreino", MODEL);
+        }
+        public ActionResult GTExercicio(GTExercicio MODEL, string action, int? id, int?[] bulkids)
+        {
+            if (action == "Editar")
+            {
+                var data = databaseManager.GT_Exercicio.Where(x => x.ID == id).ToList();
+                MODEL.ID = id.Value;
+                MODEL.TipoTreinoId = data.First().GT_TipoTreino_ID;
+                MODEL.Nome = data.First().NOME;
+                MODEL.Alongamento= data.First().ALONGAMENTO;
+                MODEL.Sequencia = data.First().SEQUENCIA;
+            }
+
+            MODEL.TipoList = databaseManager.GT_TipoTreino.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("GTManagement/Exercises/GTExercise", MODEL);
+        }
+
+
+        public ActionResult GTAvaliado(GTAvaliado MODEL, string action, int? id, int?[] bulkids)
+        {
+            MODEL.AthleteId = string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) 
+                ? 0 : int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO));
+            MODEL.AthleteList = databaseManager.SP_PES_ENT_PESSOAS(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, Convert.ToChar('R').ToString()).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("GTManagement/Athletes/GTAvaliado", MODEL);
+        }
+        private void SetGTAvaliado(int PesId)
+        {
+            if (PesId > 0)
+            {
+                var Age = 0;
+                var av1 = databaseManager.SP_PES_ENT_PESSOAS(PesId, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, Convert.ToChar('R').ToString()).Select(x => new { x.NOME_PROPIO, x.APELIDO, x.DATA_NASCIMENTO }).ToList();
+                var av2 = databaseManager.PES_PESSOAS_CARACT.Where(x => x.PES_PESSOAS_ID == PesId).Select(x => new { x.ALTURA, x.PESO }).ToList();
+
+                if (av1.Any())
+                {
+                    var DateofBirth = string.IsNullOrEmpty(av1.First().DATA_NASCIMENTO) ? (DateTime?)null : DateTime.ParseExact(av1.First().DATA_NASCIMENTO, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    if (DateofBirth != null)
+                        Age = Converters.CalculateAge(DateofBirth.Value);
+
+                    Configs.GESTREINO_AVALIDO_NOME = av1.First().NOME_PROPIO + " " + av1.First().APELIDO;
+                    Configs.GESTREINO_AVALIDO_IDADE = Age.ToString();
+                }
+                if (av2.Any())
+                {
+                    Configs.GESTREINO_AVALIDO_PESO = av2.First().PESO.Value.ToString("G29");
+                    Configs.GESTREINO_AVALIDO_ALTURA = av2.First().ALTURA.Value.ToString("G29");
+                }
+            }
+
+        }
 
 
 
@@ -514,6 +626,13 @@ namespace Gestreino.Controllers
                 Cookies c = new Cookies();
                 c.WriteCookie(entity, value);
                 string cookievalue;
+
+                if (entity == Cookies.COOKIES_GESTREINO_AVALIADO)
+                {
+                    SetGTAvaliado(int.Parse(value));
+                    return Json(new { result = true, error = string.Empty, reload=true,showToastr = true, toastrMessage = "Submetido com sucesso!" });
+                }
+
                 if (Request.Cookies["cookie"] != null)
                 {
                   //  cookievalue = Request.Cookies["cookie"].ToString();
@@ -530,6 +649,12 @@ namespace Gestreino.Controllers
             }
             return Json(new { result = true, error = string.Empty, showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
+
+
+
+ 
+
+
 
 
 

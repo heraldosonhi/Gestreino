@@ -413,7 +413,13 @@
     <Compile Include="SP_GT_ENT_DURACAO_TIPO_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_GT_ENT_EXERCICIO_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_GT_ENT_FaseTreino_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GT_ENT_TIPOTREINO_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_INST_APLICACAO_Result.cs">
@@ -438,6 +444,9 @@
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_PES_ENT_PESSOAS_FAM_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_PES_ENT_PESSOAS_IDENTIFICACAO_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_PES_ENT_PESSOAS_PROFISSOES_Result.cs">
@@ -679,6 +688,11 @@
     <Content Include="Views\GTManagement\Plans\BodyMass\NewPlan.cshtml" />
     <Content Include="Views\GTManagement\Plans\Cardio\NewPlan.cshtml" />
     <Content Include="Views\Ajax\FileManagement.cshtml" />
+    <Content Include="Views\Ajax\Administration\Parameters\GRLGTTipoTreino.cshtml" />
+    <Content Include="Views\GTManagement\Plans\Exercises\Index.cshtml" />
+    <Content Include="Views\GTManagement\Plans\Exercises\ViewExercise.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Exercises\GTExercise.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Athletes\GTAvaliado.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

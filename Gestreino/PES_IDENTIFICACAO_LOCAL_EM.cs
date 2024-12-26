@@ -18,7 +18,7 @@ namespace Gestreino
         public int PES_IDENTIFICACAO_ID { get; set; }
         public int GRL_ENDERECO_PAIS_ID { get; set; }
         public int GRL_ENDERECO_CIDADE_ID { get; set; }
-        public int GRL_ENDERECO_MUN_DISTR_ID { get; set; }
+        public Nullable<int> GRL_ENDERECO_MUN_DISTR_ID { get; set; }
     
         public virtual GRL_ENDERECO_CIDADE GRL_ENDERECO_CIDADE { get; set; }
         public virtual GRL_ENDERECO_MUN_DISTR GRL_ENDERECO_MUN_DISTR { get; set; }

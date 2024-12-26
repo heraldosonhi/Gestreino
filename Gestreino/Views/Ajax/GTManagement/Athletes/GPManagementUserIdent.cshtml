@@ -1,5 +1,5 @@
-﻿@using JeanPiagetSGA.Models
-@using JeanPiagetSGA.Classes
+﻿@using Gestreino.Models
+@using Gestreino.Classes
 @model  PES_Dados_Pessoais_Ident
 @{Layout = null; }
 <div class="card-header card-reader-radius bg-primary-pickled-bluewood">
@@ -26,7 +26,7 @@
     </div>
     @if (ViewBag.Action == "Adicionar")
     {
-        using (Html.BeginForm("AddIdentification", "gpmanagement", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { enctype = "multipart/form-data", role = "form", id = "FileUploader" }))
+        using (Html.BeginForm("AddIdentification", "gtmanagement", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { enctype = "multipart/form-data", role = "form", id = "FileUploader" }))
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.ID)
@@ -72,12 +72,12 @@
             <!-- ADDRESS HELPER START -->
             <div class="AddressHelperContainer">
                 <div class="form-group row">
-                    @Html.LabelFor(m => m.Pais, new { @class = "col-sm-2 col-form-label text-right required" })
+                    @Html.LabelFor(m => m.PaisId, new { @class = "col-sm-2 col-form-label text-right required" })
                     <div class="col-sm-10">
                         @Html.DropDownListFor(x => Model.PaisId, Model.PaisList, "Selecionar uma opção", new { @class = "form-control SelectCountry", required = "" })
                     </div>
                 </div>
-                <div class="AddressHelper" style="display:none">
+                <div class="AddressHelper">
                     <div class="form-group row">
                         <div class="col-sm-2"></div>
                         <div class="col-sm-2 btn-group">
@@ -86,7 +86,7 @@
                         </div>
                     </div>
                     <div class="form-group row mt-2">
-                        @Html.LabelFor(m => m.Cidade, new { @class = "col-sm-2 col-form-label text-right required" })
+                        @Html.LabelFor(m => m.CidadeId, new { @class = "col-sm-2 col-form-label text-right required" })
                         <div class="col-sm-10 AddressHelperCity">
                             @Html.DropDownListFor(x => Model.CidadeId, Model.CidadeList, "Selecionar uma opção", new { @class = "form-control SelectCity", required = "required" })
                         </div>
@@ -137,7 +137,7 @@
     }
     @if (ViewBag.Action == "Editar")
     {
-        using (Ajax.BeginForm("../gpmanagement/UpdateIdentification", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
+        using (Ajax.BeginForm("../gtmanagement/UpdateIdentification", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.ID)
@@ -184,12 +184,12 @@
             <!-- ADDRESS HELPER START -->
             <div class="AddressHelperContainer">
                 <div class="form-group row">
-                    @Html.LabelFor(m => m.Pais, new { @class = "col-sm-2 col-form-label text-right required" })
+                    @Html.LabelFor(m => m.PaisId, new { @class = "col-sm-2 col-form-label text-right required" })
                     <div class="col-sm-10">
                         @Html.DropDownListFor(x => Model.PaisId, Model.PaisList, "Selecionar uma opção", new { @class = "form-control SelectCountry", required = "" })
                     </div>
                 </div>
-                <div class="AddressHelper" style="display:none">
+                <div class="AddressHelper">
                     <div class="form-group row">
                         <div class="col-sm-2"></div>
                         <div class="col-sm-2 btn-group">
@@ -198,7 +198,7 @@
                         </div>
                     </div>
                     <div class="form-group row mt-2">
-                        @Html.LabelFor(m => m.Cidade, new { @class = "col-sm-2 col-form-label text-right required" })
+                        @Html.LabelFor(m => m.CidadeId, new { @class = "col-sm-2 col-form-label text-right required" })
                         <div class="col-sm-10 AddressHelperCity">
                             @Html.DropDownListFor(x => Model.CidadeId, Model.CidadeList, "Selecionar uma opção", new { @class = "form-control SelectCity", required = "required" })
                         </div>
@@ -220,11 +220,11 @@
     }
     @if (ViewBag.Action == "Remover")
     {
-        using (Ajax.BeginForm("../gpmanagement/DeleteIdentification", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
+        using (Ajax.BeginForm("../gtmanagement/DeleteIdentification", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "loadIn", OnComplete = "loadOut", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
         {
             @Html.AntiForgeryToken()
             <div class="row col-lg-12">
-                @{ foreach (var id in ViewBag.Ids)
+                @{ foreach (var id in ViewBag.bulkids)
                     {
                         <input type="hidden" name="Ids[]" value="@id" />
                     }

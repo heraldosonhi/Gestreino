@@ -19,7 +19,6 @@
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_ESTADO_CIVIL" Width="1.5" PointX="0.75" PointY="32.875" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_FAMILIARES_GRUPOS" Width="1.5" PointX="3" PointY="28.875" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_IDENTIFICACAO" Width="1.5" PointX="8.25" PointY="32.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="GESTREINO_ORM.PES_IDENTIFICACAO_LOCAL_EM" Width="1.5" PointX="16.5" PointY="32.875" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_NACIONALIDADE" Width="1.5" PointX="8.25" PointY="42.75" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_NATURALIDADE" Width="1.5" PointX="11.25" PointY="31.375" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_CARACT_DEFICIENCIA" Width="1.5" PointX="11.25" PointY="43.5" IsExpanded="true" />
@@ -44,17 +43,14 @@
         <AssociationConnector Association="GESTREINO_ORM.FKGRL_ARQUIV868408" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKINST_APLIC331316" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_ENDERE742543" ManuallyRouted="false" />
-        <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI565101" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_NATURA422334" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA932046" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKINST_APLIC69096" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_ENDERE72444" ManuallyRouted="false" />
-        <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI736389" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_NATURA92434" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA261947" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKINST_APLIC939798" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_ENDERE879575" ManuallyRouted="false" />
-        <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI215630" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_NACION768793" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_NATURA927136" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA281518" ManuallyRouted="false" />
@@ -62,7 +58,6 @@
         <AssociationConnector Association="GESTREINO_ORM.FKPES_ENDERE404884" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA888362" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI220268" ManuallyRouted="false" />
-        <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI377525" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA215063" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA365702" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA815594" ManuallyRouted="false" />
@@ -143,6 +138,11 @@
         <AssociationConnector Association="GESTREINO_ORM.FKUTILIZADOR331508" />
         <AssociationConnector Association="GESTREINO_ORM.FKUTILIZADOR769774" />
         <AssociationConnector Association="GESTREINO_ORM.UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.PES_IDENTIFICACAO_LOCAL_EM" Width="1.5" PointX="16.5" PointY="33.375" />
+        <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI565101" />
+        <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI736389" />
+        <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI215630" />
+        <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI377525" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

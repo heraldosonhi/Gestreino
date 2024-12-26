@@ -684,3 +684,7 @@ legend {
     border:1px solid #ccc
 }
 
+
+.bg-primary-pickled-bluewood {
+    background:var(--INST_PER_TEMA_2) !important;
+}

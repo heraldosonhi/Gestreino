@@ -1,0 +1,59 @@
+﻿@using Gestreino.Models
+@using Gestreino.Classes
+@model  GTAvaliado
+@{Layout = null; }
+<div class="card-header card-reader-radius bg-primary-pickled-bluewood">
+    <h3 class="text-white mb-0">Selecionar avaliado</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="handle-error alert alert-accent"
+                 role="alert" style="display:none;">
+                <div class="d-flex flex-wrap align-items-start">
+                    <div class="mr-8pt">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="flex"
+                         style="min-width: 180px">
+                        <small class="text-black-100">
+                            <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12">
+            <div class="handle-error alert alert-accent"
+                 role="alert">
+                <div class="d-flex flex-wrap align-items-start">
+                    <div class="mr-8pt">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="flex"
+                         style="min-width: 180px">
+                        <small class="text-black-100">
+                            <strong>Atenção!</strong> Deve fechar as janelas antigas para um novo avaliado.<span class="handle-error-message"></span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @using (Ajax.BeginForm("../ajax/SetCookies", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "", OnComplete = "", OnSuccess = "handleSuccess", OnFailure = "handleFailure", UpdateTargetId = "" }, new { id = "" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" value="@Cookies.COOKIES_GESTREINO_AVALIADO" name="entity" />
+        <div class="form-group row">
+            @Html.LabelFor(m => m.AthleteId, new { @class = "col-sm-2 col-form-label text-right required" })
+            <div class="col-sm-10">
+                @Html.DropDownListFor(x => Model.AthleteId, Model.AthleteList, "Selecionar o avaliado", new { @class = "form-control ", required = "",Name="value" })
+            </div>
+        </div>
+        <div>
+            <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+        </div>
+    }
+</div>

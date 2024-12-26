@@ -1,4 +1,4 @@
-﻿@model GRL_ARQUIVOS_TIPO_DOCS
+﻿@model GT_TipoTreino
 @{
     Layout = null;
 }
@@ -8,7 +8,7 @@
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel" style="border:none">
                 <div class="x_title">
-                    <h2>@ViewBag.Action tipo de documento</h2>
+                    <h2>@ViewBag.Action tipo de treino</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
@@ -45,7 +45,7 @@
                     <br />
                     @if (ViewBag.Action == "Adicionar")
                     {
-                        using (Ajax.BeginForm("NewGRLDocTypes", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        using (Ajax.BeginForm("NewGRLGTTipoTreino", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
                             <div class="row">
@@ -56,7 +56,7 @@
                             </div>
                             <div class="row">
                                 <label class="col-md-2 col-form-label">Nome</label>
-                                <div class="col-md-10">
+                                <div class="col-md-6">
                                     @Html.TextBoxFor(m => m.NOME, new { @class = "form-control form-control-sm", required = "" })
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                     }
                     @if (ViewBag.Action == "Editar")
                     {
-                        using (Ajax.BeginForm("UpdateGRLDocTypes", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        using (Ajax.BeginForm("UpdateGRLGTTipoTreino", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.ID)
@@ -83,7 +83,7 @@
                             </div>
                             <div class="row">
                                 <label class="col-md-2 col-form-label">Nome</label>
-                                <div class="col-md-10">
+                                <div class="col-md-6">
                                     @Html.TextBoxFor(m => m.NOME, new { @class = "form-control form-control-sm", required = "" })
                                 </div>
                             </div>
@@ -98,7 +98,7 @@
                     }
                     @if (ViewBag.Action == "Remover")
                     {
-                        using (Ajax.BeginForm("DeleteGRLDocTypes", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                        using (Ajax.BeginForm("DeleteGRLGTTipoTreino", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.ID)

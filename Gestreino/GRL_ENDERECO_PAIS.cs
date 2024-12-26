@@ -19,11 +19,11 @@ namespace Gestreino
         {
             this.INST_APLICACAO_ENDERECOS = new HashSet<INST_APLICACAO_ENDERECOS>();
             this.PES_ENDERECOS = new HashSet<PES_ENDERECOS>();
-            this.PES_IDENTIFICACAO_LOCAL_EM = new HashSet<PES_IDENTIFICACAO_LOCAL_EM>();
             this.PES_NACIONALIDADE = new HashSet<PES_NACIONALIDADE>();
             this.PES_NATURALIDADE = new HashSet<PES_NATURALIDADE>();
             this.PES_PESSOAS_FAM_ENDERECOS = new HashSet<PES_PESSOAS_FAM_ENDERECOS>();
             this.GRL_ENDERECO_CIDADE = new HashSet<GRL_ENDERECO_CIDADE>();
+            this.PES_IDENTIFICACAO_LOCAL_EM = new HashSet<PES_IDENTIFICACAO_LOCAL_EM>();
         }
     
         public int ID { get; set; }
@@ -45,8 +45,6 @@ namespace Gestreino
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PES_ENDERECOS> PES_ENDERECOS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PES_IDENTIFICACAO_LOCAL_EM> PES_IDENTIFICACAO_LOCAL_EM { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PES_NACIONALIDADE> PES_NACIONALIDADE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PES_NATURALIDADE> PES_NATURALIDADE { get; set; }
@@ -54,5 +52,7 @@ namespace Gestreino
         public virtual ICollection<PES_PESSOAS_FAM_ENDERECOS> PES_PESSOAS_FAM_ENDERECOS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GRL_ENDERECO_CIDADE> GRL_ENDERECO_CIDADE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PES_IDENTIFICACAO_LOCAL_EM> PES_IDENTIFICACAO_LOCAL_EM { get; set; }
     }
 }

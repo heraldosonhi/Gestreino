@@ -20,7 +20,7 @@
             <div class="flex"
                  style="min-width: 180px">
                 <span class="text-black-100">
-                    <strong>Parâmetros GT!</strong> Fases do Treino / Duração de planos
+                    <strong>Parâmetros GT!</strong> Fases do Treino / Duração de planos / Tipo de treinos 
                 </span>
             </div>
         </div>
@@ -95,7 +95,7 @@
         </div>
     </div>
     <!--  DATATABLE START -->
-    <br/>
+    <br />
     <!-- DOCS TIPO -->
     <!--  DATATABLE START -->
     <div class="card mb-32pt">
@@ -156,6 +156,69 @@
         </div>
     </div>
     <!--  DATATABLE START -->
+    <br />
+    <!-- TIPOS DE TREINO -->
+    <!--  DATATABLE START -->
+    <div class="card mb-32pt">
+        <div class="card-header">
+            <div class="form-inline">
+                <label class="" for="length_change">Mostrar</label>
+                <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GRLTipoTreinoTable">
+                    <option value='10'>10</option>
+                    <option value='25'>25</option>
+                    <option value='50'>50</option>
+                    <option value='100'>100</option>
+                    <option value='500'>500</option>
+                    <option value='1000'>1000</option>
+                    <option value='2000'>2000</option>
+                    <option value='5000'>5000</option>
+                    <option value='10000'>10000</option>
+                </select>
+                <label class="" for="length_change">registos</label>
+                <div class="btn-group">
+                    <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GRLTipoTreinoTable"><i class="fa fa-check-square"></i></button>
+                    <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="grlgttipotreino" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                    <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GRLTipoTreinoTable"><i class="fa fa-search"></i></button>
+                    <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GRLTipoTreinoTable"><i class="fa fa-eraser"></i></button>
+                    <a title="Adicionar tipo de treino" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="grlgttipotreino" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
+                    <!--Separator-->
+                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="GRLTipoTreinoTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><input type="text" id="GRLTipoTreinoTableSigla" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLTipoTreinoTableNome" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLTipoTreinoTableInsercao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLTipoTreinoTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
+                        <td><input type="text" id="GRLTipoTreinoTableActualizacao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="GRLTipoTreinoTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th data-name="GRLTipoTreinoTableSigla">Sigla</th>
+                        <th data-name="GRLTipoTreinoTableNome">Nome</th>
+                        <th data-name="GRLTipoTreinoTableInsercao">Inserção</th>
+                        <th data-name="GRLTipoTreinoTableDataInsercao">Data Inserção</th>
+                        <th data-name="GRLTipoTreinoTableActualizacao">Actualização</th>
+                        <th data-name="GRLTipoTreinoTableDataActualizacao">Data Actualização</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="card-footer p-8pt">
+            <span class="paginateInfoGRLTipoTreinoTable paginateInfo mr-12pt" style="float:right"></span>
+            <div id="paginateGRLTipoTreinoTable" class="pagination justify-content-start pagination-xsm m-0"></div>
+        </div>
+    </div>
+    <!--  DATATABLE START -->
     <h2>&nbsp;</h2>
     <h2>&nbsp;</h2>
 </div>
@@ -164,5 +227,6 @@
         document.addEventListener("DOMContentLoaded", function (event) {
             handleDataGRLGTDuracaoTable();
             handleDataGRLGTFaseTreinoTable();
+            handleDataGRLTipoTreinoTable();
         });
 </script>

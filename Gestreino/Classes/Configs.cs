@@ -1,8 +1,11 @@
 ﻿using DocumentFormat.OpenXml.EMMA;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Gestreino.Controllers;
+using JeanPiagetSGA;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using static Gestreino.Classes.SelectValues;
@@ -26,6 +29,15 @@ namespace Gestreino.Classes
         public static int? INST_PER_LOGOTIPO_WIDTH;
 
         public static int? INST_MDL_ADM_VLRID_ADDR_STANDARD_COUNTRY=11;
+
+        public static int? GT_EXERCISE_TYPE_BODYMASS = 1;//"Musculação";
+        public static int? GT_EXERCISE_TYPE_CARDIO = 2;//"Cardiovascular";
+
+        public static string GESTREINO_AVALIDO_NOME;
+        public static string GESTREINO_AVALIDO_IDADE;
+        public static string GESTREINO_AVALIDO_PESO;
+        public static string GESTREINO_AVALIDO_ALTURA;
+
         // ADM
         /*
         public static int? INST_MDL_ADM_VLRID_MODULO_CAND;
@@ -271,7 +283,7 @@ namespace Gestreino.Classes
                 API_SMS_SENDER_ID = configvalues[0].x.API_SMS_SENDER_ID;*/
                 //-
                 //GRL_A_LECTIVO = alectivo.Any() ? alectivo[0].VALOR : DateTime.Now.Year;
-                
+
             }
         }
     }

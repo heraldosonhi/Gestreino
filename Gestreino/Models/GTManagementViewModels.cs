@@ -517,6 +517,49 @@ namespace Gestreino.Models
         public string Descricao { get; set; }
 
     }
+    public class GTAvaliado
+    {
+        public int? ID { get; set; }
+
+        [Display(Name = "Avaliado")]
+        public int? AthleteId { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> AthleteList { get; set; }
+    }
+    public class PES_Dados_Pessoais_Ident
+    {
+        public int? ID { get; set; }
+        public int? PES_PESSOAS_ID { get; set; }
+
+        [Display(Name = "Tipo de Identificação")]
+        public int? PES_TIPO_IDENTIFICACAO { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> PES_TIPO_IDENTIFICACAO_LIST { get; set; }
+        [Display(Name = "Número")]
+        public string Numero { get; set; }
+
+        //[Required]
+        [Display(Name = "Data de Emissão")]
+        [DataType(DataType.Text)]
+        public string DateIssue { get; set; }
+
+        [Display(Name = "Data de Caducidade")]
+        [DataType(DataType.Text)]
+        public string DateExpire { get; set; }
+
+        [Display(Name = "Órgão Emissor")]
+        public string OrgaoEmissor { get; set; }
+
+        [Display(Name = "País")]
+        public int? PaisId { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> PaisList { get; set; }
+
+        [Display(Name = "Cidade")]
+        public int? CidadeId { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> CidadeList { get; set; }
+
+        [Display(Name = "Observação")]
+        [DataType(DataType.Text)]
+        public string Observacao { get; set; }
+    }
     public class GT_FaseTreino
     {
         public int? ID { get; set; }
@@ -540,7 +583,23 @@ namespace Gestreino.Models
         public int? GT_TempoDescanso_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> GT_TempoDescanso_List { get; set; }
     }
+    public class GTExercicio
+    {
+        public int? ID { get; set; }
 
+        [Display(Name = "Nome")]
+        public string Nome { get; set; }
+
+        [Display(Name = "Treino")]
+        public int? TipoTreinoId { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> TipoList { get; set; }
+
+        [Display(Name = "Alongamento")]
+        public int? Alongamento { get; set; }
+        [Display(Name = "Sequência")]
+        public int? Sequencia { get; set; }
+        
+    }
     public class GT_TreinoBodyMass
     {
         public int? ID { get; set; }
@@ -563,5 +622,9 @@ namespace Gestreino.Models
         [Display(Name = "Descanso")]
         public int? GT_TempoDescanso_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> GT_TempoDescanso_List { get; set; }
+        public int? FaseTreinoId { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> FaseTreinoList { get; set; }
+        public int? GTTreinoId { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem>GTTreinoList { get; set; }
     }
 }

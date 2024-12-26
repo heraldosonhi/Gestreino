@@ -41,7 +41,6 @@ namespace Gestreino
         public virtual DbSet<PES_ESTADO_CIVIL> PES_ESTADO_CIVIL { get; set; }
         public virtual DbSet<PES_FAMILIARES_GRUPOS> PES_FAMILIARES_GRUPOS { get; set; }
         public virtual DbSet<PES_IDENTIFICACAO> PES_IDENTIFICACAO { get; set; }
-        public virtual DbSet<PES_IDENTIFICACAO_LOCAL_EM> PES_IDENTIFICACAO_LOCAL_EM { get; set; }
         public virtual DbSet<PES_NACIONALIDADE> PES_NACIONALIDADE { get; set; }
         public virtual DbSet<PES_NATURALIDADE> PES_NATURALIDADE { get; set; }
         public virtual DbSet<PES_PESSOAS_CARACT_DEFICIENCIA> PES_PESSOAS_CARACT_DEFICIENCIA { get; set; }
@@ -86,6 +85,7 @@ namespace Gestreino
         public virtual DbSet<INST_APLICACAO_ARQUIVOS> INST_APLICACAO_ARQUIVOS { get; set; }
         public virtual DbSet<PES_ARQUIVOS> PES_ARQUIVOS { get; set; }
         public virtual DbSet<UTILIZADORES> UTILIZADORES { get; set; }
+        public virtual DbSet<PES_IDENTIFICACAO_LOCAL_EM> PES_IDENTIFICACAO_LOCAL_EM { get; set; }
     
         public virtual ObjectResult<SP_UTILIZADORES_LOGIN_LOGS_Result> SP_UTILIZADORES_LOGIN_LOGS(Nullable<int> userId, string action)
         {
@@ -1439,6 +1439,117 @@ namespace Gestreino
                 new ObjectParameter("Action", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ASSOC_ARQUIVOS_Result>("SP_ASSOC_ARQUIVOS", idParameter, arquivoIdParameter, nomeParameter, arquivoDescricaoParameter, arquivoActivoParameter, arquivoDataActParameter, arquivoDataDesactParameter, arquivoTipoDocIdParameter, arquivoNomeParameter, arquivoAltParameter, arquivoTipoParameter, arquivoTamanhoParameter, arquivoUrlParameter, tablenameParameter, fieldnameParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_PES_ENT_PESSOAS_IDENTIFICACAO_Result> SP_PES_ENT_PESSOAS_IDENTIFICACAO(Nullable<int> iD, Nullable<int> tipoIdentificacaoId, string numero, Nullable<System.DateTime> dataEmissao, Nullable<System.DateTime> dataValidade, string observacao, string orgaoEmissor, Nullable<int> paisId, Nullable<int> cidadeId, Nullable<int> municipioId, Nullable<int> userId, string action)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            var tipoIdentificacaoIdParameter = tipoIdentificacaoId.HasValue ?
+                new ObjectParameter("TipoIdentificacaoId", tipoIdentificacaoId) :
+                new ObjectParameter("TipoIdentificacaoId", typeof(int));
+    
+            var numeroParameter = numero != null ?
+                new ObjectParameter("Numero", numero) :
+                new ObjectParameter("Numero", typeof(string));
+    
+            var dataEmissaoParameter = dataEmissao.HasValue ?
+                new ObjectParameter("DataEmissao", dataEmissao) :
+                new ObjectParameter("DataEmissao", typeof(System.DateTime));
+    
+            var dataValidadeParameter = dataValidade.HasValue ?
+                new ObjectParameter("DataValidade", dataValidade) :
+                new ObjectParameter("DataValidade", typeof(System.DateTime));
+    
+            var observacaoParameter = observacao != null ?
+                new ObjectParameter("Observacao", observacao) :
+                new ObjectParameter("Observacao", typeof(string));
+    
+            var orgaoEmissorParameter = orgaoEmissor != null ?
+                new ObjectParameter("OrgaoEmissor", orgaoEmissor) :
+                new ObjectParameter("OrgaoEmissor", typeof(string));
+    
+            var paisIdParameter = paisId.HasValue ?
+                new ObjectParameter("PaisId", paisId) :
+                new ObjectParameter("PaisId", typeof(int));
+    
+            var cidadeIdParameter = cidadeId.HasValue ?
+                new ObjectParameter("CidadeId", cidadeId) :
+                new ObjectParameter("CidadeId", typeof(int));
+    
+            var municipioIdParameter = municipioId.HasValue ?
+                new ObjectParameter("MunicipioId", municipioId) :
+                new ObjectParameter("MunicipioId", typeof(int));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_PESSOAS_IDENTIFICACAO_Result>("SP_PES_ENT_PESSOAS_IDENTIFICACAO", iDParameter, tipoIdentificacaoIdParameter, numeroParameter, dataEmissaoParameter, dataValidadeParameter, observacaoParameter, orgaoEmissorParameter, paisIdParameter, cidadeIdParameter, municipioIdParameter, userIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_GT_ENT_EXERCICIO_Result> SP_GT_ENT_EXERCICIO(Nullable<int> id, Nullable<int> tipoTreinoId, string nome, Nullable<int> alongamento, Nullable<int> sequencia, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var tipoTreinoIdParameter = tipoTreinoId.HasValue ?
+                new ObjectParameter("TipoTreinoId", tipoTreinoId) :
+                new ObjectParameter("TipoTreinoId", typeof(int));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var alongamentoParameter = alongamento.HasValue ?
+                new ObjectParameter("Alongamento", alongamento) :
+                new ObjectParameter("Alongamento", typeof(int));
+    
+            var sequenciaParameter = sequencia.HasValue ?
+                new ObjectParameter("Sequencia", sequencia) :
+                new ObjectParameter("Sequencia", typeof(int));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_ENT_EXERCICIO_Result>("SP_GT_ENT_EXERCICIO", idParameter, tipoTreinoIdParameter, nomeParameter, alongamentoParameter, sequenciaParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_GT_ENT_TIPOTREINO_Result> SP_GT_ENT_TIPOTREINO(Nullable<int> id, string sigla, string nome, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var siglaParameter = sigla != null ?
+                new ObjectParameter("Sigla", sigla) :
+                new ObjectParameter("Sigla", typeof(string));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_ENT_TIPOTREINO_Result>("SP_GT_ENT_TIPOTREINO", idParameter, siglaParameter, nomeParameter, userInsercaoIdParameter, actionParameter);
         }
     }
 }
