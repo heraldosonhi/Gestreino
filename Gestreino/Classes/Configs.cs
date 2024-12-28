@@ -32,6 +32,7 @@ namespace Gestreino.Classes
 
         public static int? GT_EXERCISE_TYPE_BODYMASS = 1;//"Musculação";
         public static int? GT_EXERCISE_TYPE_CARDIO = 2;//"Cardiovascular";
+        public static int? INST_MDL_ADM_VLRID_ARQUIVO_LOGOTIPO=2;
 
         public static string GESTREINO_AVALIDO_NOME;
         public static string GESTREINO_AVALIDO_IDADE;
@@ -97,7 +98,6 @@ namespace Gestreino.Classes
         public static int? INST_MDL_ADM_VLRID_ESTUDO_PROCEDENCIA_ESTRANGEIRO;
         public static int? INST_MDL_ADM_VLRID_ADDR_STANDARD_COUNTRY;
         public static int? INST_MDL_ADM_VLRID_ARQUIVO_FOTOGRAFIA;
-        public static int? INST_MDL_ADM_VLRID_ARQUIVO_LOGOTIPO;
         public static int? INST_MDL_ADM_VLRID_TIPODOC_BI;
         public static int? INST_MDL_ADM_VLRID_PAUTAS_OBSERVACOES_FALTOU;
         // GA
@@ -146,22 +146,7 @@ namespace Gestreino.Classes
         // GRL and TMP
         public static int[] TOKENS = { 1 }; // 0 => Recuperacao da Senha de acesso
 
-        // EPOCAS DE EXAMES
-        /*
-        public static int? GA_PAUTAS_EPOCAS_EXAME_PROCESSOS = 1;
-        public static int? GA_EPOCAS_EXAME_REC = 4;
-        public static int? GA_EPOCAS_EXAME_EXT = 5;
-        public static int? GA_EPOCAS_EXAME_REC_ESPECIAL = 6; 
-
-        // SUPLEMENTAR [dbo].[GA_ALUNOS_TIPO_INSCRICAO]
-        public static int? GA_ALUNOS_TIPO_INSCRICAO_ANUAL_NORMAL = 1;
-        public static int? GA_ALUNOS_TIPO_INSCRICAO_ANUAL_EQ = 2;
-        public static int? GA_ALUNOS_TIPO_INSCRICAO_UC_FREQUENCIA = 4;
-        public static int? GA_ALUNOS_TIPO_INSCRICAO_UC_EXAME = 5;
-        public static int? GA_ALUNOS_TIPO_INSCRICAO_TIPO_ANUAL = (int)System.Enum.Parse(typeof(GATipoInscricao), "Anual");
-        public static int? GA_ALUNOS_TIPO_INSCRICAO_TIPO_UC = (int)System.Enum.Parse(typeof(GATipoInscricao), "UC");
-        */
-      
+    
 
 
         public void BeginConfig()

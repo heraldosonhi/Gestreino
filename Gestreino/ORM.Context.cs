@@ -1551,5 +1551,90 @@ namespace Gestreino
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_ENT_TIPOTREINO_Result>("SP_GT_ENT_TIPOTREINO", idParameter, siglaParameter, nomeParameter, userInsercaoIdParameter, actionParameter);
         }
+    
+        public virtual ObjectResult<SP_GT_ENT_TREINO_Result> SP_GT_ENT_TREINO(Nullable<int> id, Nullable<int> pesID, Nullable<int> gT_TipoTreino_ID, string nome, Nullable<int> gT_FaseTreino_ID, Nullable<int> pERIODIZACAO, Nullable<System.DateTime> dataIni, Nullable<System.DateTime> dateEnd, string observacoes, Nullable<int> gT_Exercicio_ID, Nullable<int> gT_Series_ID, Nullable<int> gT_Repeticoes_ID, Nullable<int> gT_TempoDescanso_ID, Nullable<int> gT_Carga_ID, Nullable<int> rEPETICOES_COMPLETADAS, Nullable<int> cARGA_USADA, Nullable<decimal> oNERM, Nullable<int> ordem, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var pesIDParameter = pesID.HasValue ?
+                new ObjectParameter("PesID", pesID) :
+                new ObjectParameter("PesID", typeof(int));
+    
+            var gT_TipoTreino_IDParameter = gT_TipoTreino_ID.HasValue ?
+                new ObjectParameter("GT_TipoTreino_ID", gT_TipoTreino_ID) :
+                new ObjectParameter("GT_TipoTreino_ID", typeof(int));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var gT_FaseTreino_IDParameter = gT_FaseTreino_ID.HasValue ?
+                new ObjectParameter("GT_FaseTreino_ID", gT_FaseTreino_ID) :
+                new ObjectParameter("GT_FaseTreino_ID", typeof(int));
+    
+            var pERIODIZACAOParameter = pERIODIZACAO.HasValue ?
+                new ObjectParameter("PERIODIZACAO", pERIODIZACAO) :
+                new ObjectParameter("PERIODIZACAO", typeof(int));
+    
+            var dataIniParameter = dataIni.HasValue ?
+                new ObjectParameter("DataIni", dataIni) :
+                new ObjectParameter("DataIni", typeof(System.DateTime));
+    
+            var dateEndParameter = dateEnd.HasValue ?
+                new ObjectParameter("DateEnd", dateEnd) :
+                new ObjectParameter("DateEnd", typeof(System.DateTime));
+    
+            var observacoesParameter = observacoes != null ?
+                new ObjectParameter("Observacoes", observacoes) :
+                new ObjectParameter("Observacoes", typeof(string));
+    
+            var gT_Exercicio_IDParameter = gT_Exercicio_ID.HasValue ?
+                new ObjectParameter("GT_Exercicio_ID", gT_Exercicio_ID) :
+                new ObjectParameter("GT_Exercicio_ID", typeof(int));
+    
+            var gT_Series_IDParameter = gT_Series_ID.HasValue ?
+                new ObjectParameter("GT_Series_ID", gT_Series_ID) :
+                new ObjectParameter("GT_Series_ID", typeof(int));
+    
+            var gT_Repeticoes_IDParameter = gT_Repeticoes_ID.HasValue ?
+                new ObjectParameter("GT_Repeticoes_ID", gT_Repeticoes_ID) :
+                new ObjectParameter("GT_Repeticoes_ID", typeof(int));
+    
+            var gT_TempoDescanso_IDParameter = gT_TempoDescanso_ID.HasValue ?
+                new ObjectParameter("GT_TempoDescanso_ID", gT_TempoDescanso_ID) :
+                new ObjectParameter("GT_TempoDescanso_ID", typeof(int));
+    
+            var gT_Carga_IDParameter = gT_Carga_ID.HasValue ?
+                new ObjectParameter("GT_Carga_ID", gT_Carga_ID) :
+                new ObjectParameter("GT_Carga_ID", typeof(int));
+    
+            var rEPETICOES_COMPLETADASParameter = rEPETICOES_COMPLETADAS.HasValue ?
+                new ObjectParameter("REPETICOES_COMPLETADAS", rEPETICOES_COMPLETADAS) :
+                new ObjectParameter("REPETICOES_COMPLETADAS", typeof(int));
+    
+            var cARGA_USADAParameter = cARGA_USADA.HasValue ?
+                new ObjectParameter("CARGA_USADA", cARGA_USADA) :
+                new ObjectParameter("CARGA_USADA", typeof(int));
+    
+            var oNERMParameter = oNERM.HasValue ?
+                new ObjectParameter("ONERM", oNERM) :
+                new ObjectParameter("ONERM", typeof(decimal));
+    
+            var ordemParameter = ordem.HasValue ?
+                new ObjectParameter("ordem", ordem) :
+                new ObjectParameter("ordem", typeof(int));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_ENT_TREINO_Result>("SP_GT_ENT_TREINO", idParameter, pesIDParameter, gT_TipoTreino_IDParameter, nomeParameter, gT_FaseTreino_IDParameter, pERIODIZACAOParameter, dataIniParameter, dateEndParameter, observacoesParameter, gT_Exercicio_IDParameter, gT_Series_IDParameter, gT_Repeticoes_IDParameter, gT_TempoDescanso_IDParameter, gT_Carga_IDParameter, rEPETICOES_COMPLETADASParameter, cARGA_USADAParameter, oNERMParameter, ordemParameter, userInsercaoIdParameter, actionParameter);
+        }
     }
 }

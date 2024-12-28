@@ -1984,6 +1984,28 @@
           <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
           <Parameter Name="Action" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_GT_ENT_TREINO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="PesID" Type="int" Mode="In" />
+          <Parameter Name="GT_TipoTreino_ID" Type="int" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="GT_FaseTreino_ID" Type="int" Mode="In" />
+          <Parameter Name="PERIODIZACAO" Type="int" Mode="In" />
+          <Parameter Name="DataIni" Type="date" Mode="In" />
+          <Parameter Name="DateEnd" Type="date" Mode="In" />
+          <Parameter Name="Observacoes" Type="varchar" Mode="In" />
+          <Parameter Name="GT_Exercicio_ID" Type="int" Mode="In" />
+          <Parameter Name="GT_Series_ID" Type="int" Mode="In" />
+          <Parameter Name="GT_Repeticoes_ID" Type="int" Mode="In" />
+          <Parameter Name="GT_TempoDescanso_ID" Type="int" Mode="In" />
+          <Parameter Name="GT_Carga_ID" Type="int" Mode="In" />
+          <Parameter Name="REPETICOES_COMPLETADAS" Type="int" Mode="In" />
+          <Parameter Name="CARGA_USADA" Type="int" Mode="In" />
+          <Parameter Name="ONERM" Type="decimal" Mode="In" />
+          <Parameter Name="ordem" Type="int" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_INST_APLICACAO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="Sigla" Type="varchar" Mode="In" />
@@ -4401,6 +4423,28 @@
             <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="SP_GT_ENT_TREINO" ReturnType="Collection(GESTREINO_ORM.SP_GT_ENT_TREINO_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="PesID" Mode="In" Type="Int32" />
+            <Parameter Name="GT_TipoTreino_ID" Mode="In" Type="Int32" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="GT_FaseTreino_ID" Mode="In" Type="Int32" />
+            <Parameter Name="PERIODIZACAO" Mode="In" Type="Int32" />
+            <Parameter Name="DataIni" Mode="In" Type="DateTime" />
+            <Parameter Name="DateEnd" Mode="In" Type="DateTime" />
+            <Parameter Name="Observacoes" Mode="In" Type="String" />
+            <Parameter Name="GT_Exercicio_ID" Mode="In" Type="Int32" />
+            <Parameter Name="GT_Series_ID" Mode="In" Type="Int32" />
+            <Parameter Name="GT_Repeticoes_ID" Mode="In" Type="Int32" />
+            <Parameter Name="GT_TempoDescanso_ID" Mode="In" Type="Int32" />
+            <Parameter Name="GT_Carga_ID" Mode="In" Type="Int32" />
+            <Parameter Name="REPETICOES_COMPLETADAS" Mode="In" Type="Int32" />
+            <Parameter Name="CARGA_USADA" Mode="In" Type="Int32" />
+            <Parameter Name="ONERM" Mode="In" Type="Decimal" />
+            <Parameter Name="ordem" Mode="In" Type="Int32" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -5944,6 +5988,24 @@
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="sigla" Nullable="false" MaxLength="3" />
           <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_GT_ENT_TREINO_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="GT_TipoTreino_ID" Nullable="false" />
+          <Property Type="String" Name="nome" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="GT_FaseTreino_ID" Nullable="true" />
+          <Property Type="Int32" Name="PERIODIZACAO" Nullable="true" />
+          <Property Type="Int32" Name="GT_SOCIOS_ID" Nullable="false" />
+          <Property Type="String" Name="NOME_PROPIO" Nullable="false" MaxLength="48" />
+          <Property Type="String" Name="APELIDO" Nullable="false" MaxLength="48" />
+          <Property Type="Int32" Name="NUMERO" Nullable="false" />
+          <Property Type="String" Name="DATA_INICIO" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="DATA_FIM" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="OBSERVACOES" Nullable="true" MaxLength="4000" />
           <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
           <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
           <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
@@ -7553,6 +7615,28 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="sigla" ColumnName="sigla" />
                 <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GT_ENT_TREINO" FunctionName="GESTREINO_ORM.Store.SP_GT_ENT_TREINO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GT_ENT_TREINO_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="GT_TipoTreino_ID" ColumnName="GT_TipoTreino_ID" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="GT_FaseTreino_ID" ColumnName="GT_FaseTreino_ID" />
+                <ScalarProperty Name="PERIODIZACAO" ColumnName="PERIODIZACAO" />
+                <ScalarProperty Name="GT_SOCIOS_ID" ColumnName="GT_SOCIOS_ID" />
+                <ScalarProperty Name="NOME_PROPIO" ColumnName="NOME_PROPIO" />
+                <ScalarProperty Name="APELIDO" ColumnName="APELIDO" />
+                <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
+                <ScalarProperty Name="DATA_INICIO" ColumnName="DATA_INICIO" />
+                <ScalarProperty Name="DATA_FIM" ColumnName="DATA_FIM" />
+                <ScalarProperty Name="OBSERVACOES" ColumnName="OBSERVACOES" />
                 <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
                 <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
                 <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />

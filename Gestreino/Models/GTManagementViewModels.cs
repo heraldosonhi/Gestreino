@@ -603,6 +603,9 @@ namespace Gestreino.Models
     public class GT_TreinoBodyMass
     {
         public int? ID { get; set; }
+        public int? PEsId { get; set; }
+        public int? Periodizacao { get; set; }
+        public string Observacoes { get; set; }
 
         [Display(Name = "Fase do treino")]
         public string SIGLA { get; set; }
@@ -622,9 +625,51 @@ namespace Gestreino.Models
         [Display(Name = "Descanso")]
         public int? GT_TempoDescanso_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> GT_TempoDescanso_List { get; set; }
+        [Display(Name = "Fases de treino:")]
         public int? FaseTreinoId { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> FaseTreinoList { get; set; }
+        [Display(Name = "Nome do treino:")]
         public int? GTTreinoId { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem>GTTreinoList { get; set; }
+
+        public List<ExerciseArq> ExerciseArqList { get; set; }
+        public List<ExerciseArq> ExerciseArqListTreino { get; set; }
+
+        //[Required]
+        [Display(Name = "Data de início:")]
+        [DataType(DataType.Text)]
+        public string DateIni { get; set; }
+
+        [Display(Name = "Data de fim:")]
+        [DataType(DataType.Text)]
+        public string DateEnd { get; set; }
+        [Display(Name = "RM")]
+        public string RM { get; set; }
+
+        [Display(Name = "Carga")]
+        public int? CargaUsada { get; set; }
+
+        [Display(Name = "Rep's:")]
+        public int? Reps { get; set; }
+        [Display(Name = "Nome:")]
+        public string Nome { get; set; }
     }
+
+    public class ExerciseArq
+    {
+        public int? ExerciseId { get; set; }
+        public string Name { get; set; }
+        public string LogoPath { get; set; }
+
+        public int? GT_Treino_ID { get; set; }
+        public int? GT_Series_ID { get; set; }
+        public int? GT_Repeticoes_ID { get; set; }
+        public int? GT_TempoDescanso_ID { get; set; }
+        public int? GT_Carga_ID { get; set; }
+        public int? REPETICOES_COMPLETADAS { get; set; }
+        public int? CARGA_USADA { get; set; }
+        public decimal? ONERM { get; set; }
+        public int? ORDEM { get; set; }
+    }
+
 }

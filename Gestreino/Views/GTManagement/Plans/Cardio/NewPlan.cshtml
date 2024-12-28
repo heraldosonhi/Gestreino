@@ -3,24 +3,25 @@
 @{
     ViewBag.Title = "Plano de treino cardiovascular";
 }
-<!-- page content -->
-<div class="right_col" role="main">
-    <div class="handle-error alert alert-accent"
-         role="alert" style="display:none;">
-        <div class="d-flex flex-wrap align-items-start">
-            <div class="mr-8pt">
-                <i class="fa fa-warning"></i>
-            </div>
-            <div class="flex"
-                 style="min-width: 180px">
-                <span class="text-black-100">
-                    <strong>Atenção!</strong> <span class="handle-error-message"></span>
-                </span>
+
+@if (!string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
+{
+    <!-- page content -->
+    <div class="right_col" role="main">
+        <div class="handle-error alert alert-accent"
+             role="alert" style="display:none;">
+            <div class="d-flex flex-wrap align-items-start">
+                <div class="mr-8pt">
+                    <i class="fa fa-warning"></i>
+                </div>
+                <div class="flex"
+                     style="min-width: 180px">
+                    <span class="text-black-100">
+                        <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                    </span>
+                </div>
             </div>
         </div>
-    </div>
-    @if (!string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)))
-    {
         <div class="row">
             <div class="col-md-12 col-sm-12 ">
                 @using (Ajax.BeginForm("", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
@@ -314,16 +315,17 @@
 
             </div>
         </div>
+        <h2>&nbsp;</h2>
+    </div>
+    <!-- /page content -->
 
-    }
-    <h2>&nbsp;</h2>
-</div>
-<!-- /page content -->
-@if (string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)))
-{
-    <script>
-    document.addEventListener("DOMContentLoaded", function (event) {
-        $('#selecionaravaliado').click();
-    });
-    </script>
+
 }
+else
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function (event) {
+                $('#selecionaravaliado').click();
+            });
+        </script>
+    }

@@ -727,8 +727,7 @@ namespace Gestreino.Controllers
             string tablename = FileUploader.DecoderFactory(upload)[0];
             string fieldname = FileUploader.DecoderFactory(upload)[1];
 
-
-            var v = (from a in databaseManager.SP_ASSOC_ARQUIVOS(null, null, null, null, null, null, null, null, null, null, null, null, null, tablename, fieldname , null, "R").ToList() select a);
+            var v = (from a in databaseManager.SP_ASSOC_ARQUIVOS(EntityId, ArquivoId, null, null, null, null, null, null, null, null, null, null, null, tablename, fieldname , null, "R").ToList() select a);
             TempData["QUERYRESULT_ALL"] = v.ToList();
 
             //SEARCH RESULT SET

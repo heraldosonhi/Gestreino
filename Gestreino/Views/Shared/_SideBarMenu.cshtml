@@ -11,13 +11,16 @@
                     <a style="border-left:3px dotted #00ff21"><i class="fa fa-tags"></i> Atletas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive==201?"block":"")">
                         <li class="@(ViewBag.LeftBarLinkActive==201?"current-page":"")"><a href="@Url.Action("athletes","gtmanagement")">Dados biográficos</a></li>
+                        <li>
+                            <a href="javascript:" title="Selecionar Avaliado" class="open-modal-crud"  data-id="0" data-action="Adicionar" data-entity="gtavaliado" data-toggle="modal" data-target="#crudControlModal">Selecionar avaliado</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="@(ViewBag.LeftBarLinkActive==202 || ViewBag.LeftBarLinkActive==203 ?"active":"")">
                     <a style="border-left:3px dotted #ff6a00"><i class="fa fa-book"></i> Prescrição <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive==202 ||ViewBag.LeftBarLinkActive==203 ||ViewBag.LeftBarLinkActive==204 ?"block":"")">
-                        <li class="@(ViewBag.LeftBarLinkActive==202?"current-page":"")"><a href="@Url.Action("bodymassplans","gtmanagement")">Plano de Musculação</a></li>
-                        <li class="@(ViewBag.LeftBarLinkActive==203?"current-page":"")"><a href="@Url.Action("cardioplans","gtmanagement")">Plano de Cardiovascular</a></li>
+                        <li class="@(ViewBag.LeftBarLinkActive==202?"current-page":"")"><a href="@Url.Action("bodymassplans", "gtmanagement", new {Id=string.Empty})">Plano de Musculação</a></li>
+                        <li class="@(ViewBag.LeftBarLinkActive==203?"current-page":"")"><a href="@Url.Action("cardioplans","gtmanagement", new {Id=string.Empty})">Plano de Cardiovascular</a></li>
                         <li class="@(ViewBag.LeftBarLinkActive==204?"current-page":"")"><a href="@Url.Action("exercises","gtmanagement")">Exercícios</a></li>
                     </ul>
                 </li>

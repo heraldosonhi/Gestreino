@@ -422,6 +422,9 @@
     <Compile Include="SP_GT_ENT_TIPOTREINO_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_GT_ENT_TREINO_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_INST_APLICACAO_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>

@@ -2943,6 +2943,78 @@ function handleDataGRLExercicioTable() {
         },
     });
 };
+function handleDataGTTreinoTable() {
+    var table = $("#GTTreinoTable").DataTable({
+        "processing": true, // Para exibir mensagem de processamento a cada requisição
+        "serverSide": true, // Para processar as requisições no back-end
+        //"filter": false, // : está comentado porque estamos a usar filtros que enviamos no back-end
+        "orderMulti": false, // Opção de ordenação para uma coluna de cada vez.
+        //Linguagem PT
+        "language": {
+            "url": "/Assets/lib/datatable/pt-PT.json"
+        },
+        fixedHeader: {
+            header: true,
+            footer: true
+        },
+        "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
+        "ajax": {
+            "url": "../../gtmanagement/GetGTTreinoTable", // POST TO CONTROLLER
+            "type": "POST",
+            "datatype": "json",
+            data: { "PesId": $('#PEsId').val() }
+        },
+        "columns": [
+            { "data": "Id", "name": null, "autoWidth": true },
+            //Column customizada
+            {
+                sortable: false,
+                "render": function (data, type, full, meta) {
+                    return '<a title="Visualizar" href="/gtmanagement/bodymassplans/' + full.Id + '"><i class="fa fa-search"/></i></a>';
+                 }
+            },
+            //Cada dado representa uma coluna da tabela
+            { "data": "DATEINI", "name": "DATEINI", "autoWidth": true },
+            { "data": "DATEFIM", "name": "DATEFIM", "autoWidth": true },
+            { "data": "OBS", "name": "OBS", "autoWidth": true },
+            { "data": "INSERCAO", "name": "INSERCAO", "autoWidth": true },
+            { "data": "DATAINSERCAO", "name": "DATAINSERCAO", "autoWidth": true },
+            { "data": "ACTUALIZACAO", "name": "ACTUALIZACAO", "autoWidth": true },
+            { "data": "DATAACTUALIZACAO", "name": "DATAACTUALIZACAO", "autoWidth": true },
+        ],
+        //Configuração da tabela para os checkboxes
+        'columnDefs': [
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                },
+            }
+        ], 'select': {
+            'style': 'multi'
+        },
+        'order': [[1, 'false']],
+        'rowCallback': function (row, data, dataIndex) {
+            // Get row ID
+            var rowId = data["Id"];
+            //console.log(rowId)
+            //Dra table and add selected option to previously selected checkboxes
+            $.each(values, function (i, r) {
+                if (rowId == r) {
+                    $(row).find('input[type="checkbox"]').prop('checked', true);
+                    $(row).closest("tr").addClass("selected");
+                }
+            })
+        },
+        drawCallback: function () {
+            processInfo(this.api().page.info(), 'paginateInfoGTTreinoTable');
+        },
+        //Remove pagination from table and add to custom Div
+        initComplete: (settings, json) => {
+            $('#GTTreinoTable_paginate').appendTo('#paginateGTTreinoTable');
+        },
+    });
+};
 /*
 * 
 #####################################################
@@ -3640,15 +3712,41 @@ $(document).on('click', '.addlistplan1', function () {
     $(this).removeClass('addlistplan1').addClass('removegaclass1');
     $(this).removeClass('btn-success').addClass('btn-danger');
     $(this).find('i').removeClass('fa-plus-circle').addClass('fa-times');
-    $(this).parent().find('input').attr('name', 'ucIds[]');
-    $(this).parent().clone(true).appendTo('#list1');
-    //$(this).parent().remove();
-});
-$(document).on('click', '.removegaclass1', function () {
+    //$(this).parent().find('input').attr('name', 'exIds[]');
+
+    var dataid = $(this).data('id');
+    var html = '<div class="inputs_' + dataid + '"><table><tr><td></td> <td>N° de séries:</td><td>N° de repetições:</td><td>% 1RM:</td><td>Tempo descanso:</td><td>Reps:</td><td>Carga</td><td>RM</td></tr><tr>';
+    html += '<td><input readonly type="hidden" name="exIds[]" value="' + dataid +'"></td>';
+    html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exSeries[]" value="'+$('#GT_Series_ID').val()+'"></td>';
+    html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exRepeticoes[]" value="' + $('#GT_Repeticoes_ID').val() + '"></td>';
+    html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exCarga[]" value="' + $('#GT_Carga_ID').val() + '"></td>';
+    html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exTempo[]" value="' + $('#GT_TempoDescanso_ID').val() + '"></td>';
+    html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exReps[]" value="' + $('#Reps').val() + '"></td>';
+    html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exCargaUsada[]" value="' + $('#CargaUsada').val() + '"></td>';
+    html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exRM[]" value="' + $('#RM').val() + '"></td>';
+    html += '</tr></table></div>';
+
+    $(this).parent().append(html)
+
+    $(this).parent().clone(true).appendTo('#list2');
+    //Reverse
+    $(this).attr("disabled", true);
     $(this).removeClass('removegaclass1').addClass('addlistplan1');
     $(this).removeClass('btn-danger').addClass('btn-success');
     $(this).find('i').removeClass('fa-times').addClass('fa-plus-circle');
+
+    $(this).parent().find('.inputs_' + dataid + '').remove()
+    //$(this).parent().find('input').attr('name', 'ucIds[]');
+    //$(this).parent().remove();
+});
+$(document).on('click', '.removegaclass1', function () {
+   /* $(this).removeClass('removegaclass1').addClass('addlistplan1');
+    $(this).removeClass('btn-danger').addClass('btn-success');
+    $(this).find('i').removeClass('fa-times').addClass('fa-plus-circle');
     $(this).parent().find('input').attr('name', '');
-    $(this).parent().clone(true).appendTo('#list2');
+    $(this).parent().clone(true).appendTo('#list2');*/
+    //
+    var dataid = $(this).data('id');
+    $('#ex_' + dataid+' button').attr("disabled", false);
     $(this).parent().remove();
 });

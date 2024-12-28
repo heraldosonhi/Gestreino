@@ -105,7 +105,7 @@
             @if (Request.IsAuthenticated)
             {
                 string Athlete = "Atleta: Nenhum selecionado";
-                if (!string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)))
+                if (!string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
                 {
                     Athlete = "Atleta: " + Configs.GESTREINO_AVALIDO_NOME + "  Idade: " + Configs.GESTREINO_AVALIDO_IDADE + "   Peso: " + Configs.GESTREINO_AVALIDO_PESO + " kg    Altura: " + Configs.GESTREINO_AVALIDO_ALTURA+" cm";
                 }

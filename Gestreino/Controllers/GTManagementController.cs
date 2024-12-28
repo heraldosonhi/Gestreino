@@ -1819,19 +1819,217 @@ namespace Gestreino.Controllers
 
         //PRESCRICAO
         // GET: GTManagement
-        public ActionResult BodyMassPlans(Gestreino.Models.GT_TreinoBodyMass MODEL)
+        public ActionResult BodyMassPlans(Gestreino.Models.GT_TreinoBodyMass MODEL,int? Id)
         {
+            //if (!AcessControl.Authorized(AcessControl.GP_USERS_LIST_VIEW_SEARCH)) return View("Lockout");
+            //if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
+
             MODEL.GT_Series_List = databaseManager.GT_Series.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.SERIES.ToString() });
             MODEL.GT_Repeticoes_List = databaseManager.GT_Repeticoes.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.REPETICOES.ToString() });
             MODEL.GT_Carga_List = databaseManager.GT_Carga.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.CARGA.ToString() });
             MODEL.GT_TempoDescanso_List = databaseManager.GT_TempoDescanso.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.TEMPO_DESCANSO });
             MODEL.FaseTreinoList = databaseManager.GT_FaseTreino.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.SIGLA });
             MODEL.GTTreinoList = databaseManager.GT_Treino.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            MODEL.DateIni =  DateTime.Parse(DateTime.Now.ToString()).ToString("dd-MM-yyyy");
 
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
             ViewBag.exercises = databaseManager.GT_Exercicio.Where(x => x.DATA_REMOCAO==null && x.GT_TipoTreino_ID==Configs.GT_EXERCISE_TYPE_BODYMASS).ToList();
+           
+            var upload = "gtexercicios";
+            List<ExerciseArq> ExerciseArqList = new List<ExerciseArq>();
+            List<ExerciseArq> ExerciseArqListTreino = new List<ExerciseArq>();
+            // Define tablename and fieldname for Stored Procedure
+            string tablename = FileUploader.DecoderFactory(upload)[0];
+            string fieldname = FileUploader.DecoderFactory(upload)[1];
+            ExerciseArqList =
+                              (from j1 in databaseManager.GT_Exercicio
+                               join j2 in databaseManager.GT_Exercicio_ARQUIVOS on j1.ID equals j2.GT_Exercicio_ID
+                               join j3 in databaseManager.GRL_ARQUIVOS on j2.ARQUIVOS_ID equals j3.ID
+                               where j1.DATA_REMOCAO == null && j2.DATA_REMOCAO == null && j1.GT_TipoTreino_ID==Configs.GT_EXERCISE_TYPE_BODYMASS && j3.GRL_ARQUIVOS_TIPO_DOCS_ID == Configs.INST_MDL_ADM_VLRID_ARQUIVO_LOGOTIPO && j2.ACTIVO==true
+                               select new ExerciseArq() { ExerciseId = j1.ID, Name = j1.NOME, LogoPath = string.IsNullOrEmpty(j3.CAMINHO_URL) ? "" : "/"+j3.CAMINHO_URL }).ToList();
+
+
+            if (Id > 0)
+            {
+                if(databaseManager.GT_Treino.Where(x=>x.ID==Id).Count()==0)
+                    return RedirectToAction("", "home");
+
+                MODEL.ID = Id;
+                var treino = databaseManager.SP_GT_ENT_TREINO(Id, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "R").ToList();
+                ViewBag.treino = treino;
+                MODEL.ExerciseArqListTreino = (from j1 in databaseManager.GT_ExercicioTreino
+                                           join j2 in databaseManager.GT_Exercicio on j1.GT_Exercicio_ID equals j2.ID
+                                           where j1.GT_Treino_ID==Id
+                                           select new ExerciseArq() { Name=j2.NOME,ExerciseId=j1.GT_Exercicio_ID,GT_Series_ID=j1.GT_Series_ID ,GT_Repeticoes_ID=j1.GT_Repeticoes_ID,GT_TempoDescanso_ID=j1.GT_TempoDescanso_ID,GT_Carga_ID=j1.GT_Carga_ID,REPETICOES_COMPLETADAS=j1.REPETICOES_COMPLETADAS,CARGA_USADA=j1.CARGA_USADA,ONERM=j1.ONERM,ORDEM=j1.ORDEM }).ToList();
+
+                if(!string.IsNullOrEmpty(treino.First().DATA_INICIO.ToString()))
+                   MODEL.DateIni= DateTime.Parse(treino.First().DATA_INICIO.ToString()).ToString("dd-MM-yyyy");
+
+            }
+
+
+            MODEL.ExerciseArqList = ExerciseArqList;
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_PlanBodyMass;
             return View("Plans/BodyMass/NewPlan",MODEL);
         }
+        [HttpPost]
+        public ActionResult GetGTTreinoTable(int? PesId)
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var DateIni = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var DateEnd = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Obs = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            PesId = PesId > 0 ? PesId : null;
+            var v = (from a in databaseManager.SP_GT_ENT_TREINO(null, PesId, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(DateIni)) v = v.Where(a => a.DATA_INICIO != null && a.DATA_INICIO.ToUpper().Contains(DateIni.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(DateEnd)) v = v.Where(a => a.DATA_FIM != null && a.DATA_FIM.ToUpper().Contains(DateEnd.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Obs)) v = v.Where(a => a.OBSERVACOES != null && a.OBSERVACOES.ToUpper().Contains(Obs.ToUpper()));
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "DATEINI": v = v.OrderBy(s => s.DATA_INICIO); break;
+                        case "DATEFIM": v = v.OrderBy(s => s.DATA_FIM); break;
+                        case "OBS": v = v.OrderBy(s => s.OBSERVACOES); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "DATEINI": v = v.OrderByDescending(s => s.DATA_INICIO); break;
+                        case "DATEFIM": v = v.OrderByDescending(s => s.DATA_FIM); break;
+                        case "OBS": v = v.OrderByDescending(s => s.OBSERVACOES); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    DATEINI = x.DATA_INICIO,
+                    DATEFIM = x.DATA_FIM,
+                    OBS = x.OBSERVACOES,
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult BodyMassPlans(GT_TreinoBodyMass MODEL, int?[] exIds, int?[] exSeries, int?[] exRepeticoes, int?[] exCarga, int?[] exTempo, int?[] exReps, int?[] exCargaUsada, string[] exRM)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                if(exIds==null)
+                    return Json(new { result = false, error = "Não tem exercício alocado no plano!" });
+
+
+                var DateIni = string.IsNullOrWhiteSpace(MODEL.DateIni) ? (DateTime?)null : DateTime.ParseExact(MODEL.DateIni, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                var DateEnd = string.IsNullOrWhiteSpace(MODEL.DateEnd) ? (DateTime?)null : DateTime.ParseExact(MODEL.DateEnd, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+                if (!string.IsNullOrEmpty(MODEL.DateEnd))
+                {
+                    if (!string.IsNullOrWhiteSpace(MODEL.DateIni) && DateTime.ParseExact(MODEL.DateEnd, "dd-MM-yyyy", CultureInfo.InvariantCulture) < DateTime.ParseExact(MODEL.DateIni, "dd-MM-yyyy", CultureInfo.InvariantCulture))
+                      return Json(new { result = false, error = "Data de início deve ser inferior a Data de fim!" });
+                }
+
+                if (MODEL.ID > 0)
+                {
+                    //Update
+                    var update = databaseManager.SP_GT_ENT_TREINO(MODEL.ID, null, null, MODEL.Nome, MODEL.FaseTreinoId, MODEL.Periodizacao, DateIni, DateEnd, MODEL.Observacoes, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                }
+                else
+                {
+                    // Create
+                    var create = databaseManager.SP_GT_ENT_TREINO(null, MODEL.PEsId, Configs.GT_EXERCISE_TYPE_BODYMASS, MODEL.Nome, MODEL.FaseTreinoId, MODEL.Periodizacao, DateIni, DateEnd, MODEL.Observacoes, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                    MODEL.ID = create.First().ID;
+                }
+
+                //Remove first
+                var delete = databaseManager.SP_GT_ENT_TREINO(MODEL.ID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), "DE").ToList();
+
+                for (int x= 0;x < exIds.Length;x++)
+                {
+                    Decimal RMs = (!string.IsNullOrEmpty(exRM[x])) ? Convert.ToDecimal(exRM[x].Replace(".",",")) : 0;
+                    databaseManager.SP_GT_ENT_TREINO(MODEL.ID, null, null, null, null, null, null, null, null, exIds[x], exSeries[x], exRepeticoes[x], exTempo[x], exCarga[x], exReps[x], exCargaUsada[x], RMs, x, int.Parse(User.Identity.GetUserId()), "E").ToList();
+                }
+
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, reload=true, showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+
+
         //PRESCRICAO
         // GET: GTManagement
         public ActionResult CardioPlans(Gestreino.Models.GT_TreinoBodyMass MODEL)
