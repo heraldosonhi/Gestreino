@@ -258,10 +258,16 @@
     <Compile Include="GT_DuracaoPlano.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_DuracaoTreinoCardio.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="GT_Exercicio.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="GT_ExercicioTreino.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_ExercicioTreinoCardio.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="GT_Exercicio_ARQUIVOS.cs">
@@ -696,6 +702,7 @@
     <Content Include="Views\GTManagement\Plans\Exercises\ViewExercise.cshtml" />
     <Content Include="Views\Ajax\GTManagement\Exercises\GTExercise.cshtml" />
     <Content Include="Views\Ajax\GTManagement\Athletes\GTAvaliado.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Plans\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

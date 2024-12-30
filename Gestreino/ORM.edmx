@@ -173,6 +173,13 @@
           <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
           <Property Name="DATA_REMOCAO" Type="datetime" />
         </EntityType>
+        <EntityType Name="GT_DuracaoTreinoCardio">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DURACAO" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="GT_Exercicio">
           <Key>
             <PropertyRef Name="ID" />
@@ -222,6 +229,25 @@
           <Property Name="REPETICOES_COMPLETADAS" Type="int" Nullable="false" />
           <Property Name="CARGA_USADA" Type="int" />
           <Property Name="ONERM" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ORDEM" Type="int" Nullable="false" />
+          <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="int" />
+          <Property Name="REMOVIDO_POR" Type="int" />
+          <Property Name="DATA_INSERCAO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
+          <Property Name="DATA_REMOCAO" Type="datetime" />
+        </EntityType>
+        <EntityType Name="GT_ExercicioTreinoCardio">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GT_Treino_ID" Type="int" Nullable="false" />
+          <Property Name="GT_Exercicio_ID" Type="int" Nullable="false" />
+          <Property Name="GT_DuracaoTreinoCardio_ID" Type="int" Nullable="false" />
+          <Property Name="FC" Type="int" />
+          <Property Name="NIVEL" Type="int" />
+          <Property Name="DISTANCIA" Type="decimal" Precision="18" Scale="2" />
           <Property Name="ORDEM" Type="int" Nullable="false" />
           <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
           <Property Name="ACTUALIZADO_POR" Type="int" />
@@ -1749,6 +1775,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="GT_ExercicioTreinoCardio_GT_Exercicio_ID">
+          <End Role="GT_Exercicio" Type="Self.GT_Exercicio" Multiplicity="1" />
+          <End Role="GT_ExercicioTreinoCardio" Type="Self.GT_ExercicioTreinoCardio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Exercicio">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreinoCardio">
+              <PropertyRef Name="GT_Exercicio_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="GT_FaseTreino_GT_Carga_ID">
           <End Role="GT_Carga" Type="Self.GT_Carga" Multiplicity="1" />
           <End Role="GT_FaseTreino" Type="Self.GT_FaseTreino" Multiplicity="*" />
@@ -2002,6 +2040,10 @@
           <Parameter Name="REPETICOES_COMPLETADAS" Type="int" Mode="In" />
           <Parameter Name="CARGA_USADA" Type="int" Mode="In" />
           <Parameter Name="ONERM" Type="decimal" Mode="In" />
+          <Parameter Name="GT_DuracaoTreinoCardio_ID" Type="int" Mode="In" />
+          <Parameter Name="FC" Type="int" Mode="In" />
+          <Parameter Name="NIVEL" Type="int" Mode="In" />
+          <Parameter Name="DISTANCIA" Type="decimal" Mode="In" />
           <Parameter Name="ordem" Type="int" Mode="In" />
           <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
           <Parameter Name="Action" Type="varchar" Mode="In" />
@@ -2321,9 +2363,11 @@
           <EntitySet Name="GRL_TOKENS_TIPOS" EntityType="Self.GRL_TOKENS_TIPOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_Carga" EntityType="Self.GT_Carga" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_DuracaoPlano" EntityType="Self.GT_DuracaoPlano" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_DuracaoTreinoCardio" EntityType="Self.GT_DuracaoTreinoCardio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_Exercicio" EntityType="Self.GT_Exercicio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_Exercicio_ARQUIVOS" EntityType="Self.GT_Exercicio_ARQUIVOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_ExercicioTreino" EntityType="Self.GT_ExercicioTreino" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_ExercicioTreinoCardio" EntityType="Self.GT_ExercicioTreinoCardio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_FaseTreino" EntityType="Self.GT_FaseTreino" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_Repeticoes" EntityType="Self.GT_Repeticoes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_Series" EntityType="Self.GT_Series" Schema="dbo" store:Type="Tables" />
@@ -2636,6 +2680,10 @@
           <AssociationSet Name="GT_ExercicioTreino_GT_Treino_ID" Association="Self.GT_ExercicioTreino_GT_Treino_ID">
             <End Role="GT_Treino" EntitySet="GT_Treino" />
             <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreinoCardio_GT_Exercicio_ID" Association="Self.GT_ExercicioTreinoCardio_GT_Exercicio_ID">
+            <End Role="GT_Exercicio" EntitySet="GT_Exercicio" />
+            <End Role="GT_ExercicioTreinoCardio" EntitySet="GT_ExercicioTreinoCardio" />
           </AssociationSet>
           <AssociationSet Name="GT_FaseTreino_GT_Carga_ID" Association="Self.GT_FaseTreino_GT_Carga_ID">
             <End Role="GT_Carga" EntitySet="GT_Carga" />
@@ -4423,6 +4471,7 @@
             <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="GT_DuracaoTreinoCardio" EntityType="GESTREINO_ORM.GT_DuracaoTreinoCardio" />
           <FunctionImport Name="SP_GT_ENT_TREINO" ReturnType="Collection(GESTREINO_ORM.SP_GT_ENT_TREINO_Result)">
             <Parameter Name="Id" Mode="In" Type="Int32" />
             <Parameter Name="PesID" Mode="In" Type="Int32" />
@@ -4441,10 +4490,19 @@
             <Parameter Name="REPETICOES_COMPLETADAS" Mode="In" Type="Int32" />
             <Parameter Name="CARGA_USADA" Mode="In" Type="Int32" />
             <Parameter Name="ONERM" Mode="In" Type="Decimal" />
+            <Parameter Name="GT_DuracaoTreinoCardio_ID" Mode="In" Type="Int32" />
+            <Parameter Name="FC" Mode="In" Type="Int32" />
+            <Parameter Name="NIVEL" Mode="In" Type="Int32" />
+            <Parameter Name="DISTANCIA" Mode="In" Type="Decimal" />
             <Parameter Name="ordem" Mode="In" Type="Int32" />
             <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="GT_ExercicioTreinoCardio" EntityType="GESTREINO_ORM.GT_ExercicioTreinoCardio" />
+          <AssociationSet Name="GT_ExercicioTreinoCardio_GT_Exercicio_ID" Association="GESTREINO_ORM.GT_ExercicioTreinoCardio_GT_Exercicio_ID">
+            <End Role="GT_Exercicio" EntitySet="GT_Exercicio" />
+            <End Role="GT_ExercicioTreinoCardio" EntitySet="GT_ExercicioTreinoCardio" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -5211,6 +5269,7 @@
           <NavigationProperty Name="GT_Exercicio_ARQUIVOS" Relationship="GESTREINO_ORM.GT_Exercicio_ARQUIVOS_GT_Exercicio_ID" FromRole="GT_Exercicio" ToRole="GT_Exercicio_ARQUIVOS" />
           <NavigationProperty Name="GT_TipoTreino" Relationship="GESTREINO_ORM.GT_Exercicio_GT_TipoTreino_ID" FromRole="GT_Exercicio" ToRole="GT_TipoTreino" />
           <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Exercicio_ID" FromRole="GT_Exercicio" ToRole="GT_ExercicioTreino" />
+          <NavigationProperty Name="GT_ExercicioTreinoCardio" Relationship="GESTREINO_ORM.GT_ExercicioTreinoCardio_GT_Exercicio_ID" FromRole="GT_Exercicio" ToRole="GT_ExercicioTreinoCardio" />
         </EntityType>
         <EntityType Name="GT_Exercicio_ARQUIVOS">
           <Key>
@@ -5993,6 +6052,13 @@
           <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
           <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
         </ComplexType>
+        <EntityType Name="GT_DuracaoTreinoCardio">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DURACAO" Type="Int32" Nullable="false" />
+        </EntityType>
         <ComplexType Name="SP_GT_ENT_TREINO_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="Int32" Name="GT_TipoTreino_ID" Nullable="false" />
@@ -6003,6 +6069,7 @@
           <Property Type="String" Name="NOME_PROPIO" Nullable="false" MaxLength="48" />
           <Property Type="String" Name="APELIDO" Nullable="false" MaxLength="48" />
           <Property Type="Int32" Name="NUMERO" Nullable="false" />
+          <Property Type="Int32" Name="pes_id" Nullable="false" />
           <Property Type="String" Name="DATA_INICIO" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="DATA_FIM" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="OBSERVACOES" Nullable="true" MaxLength="4000" />
@@ -6011,6 +6078,38 @@
           <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
           <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
         </ComplexType>
+        <EntityType Name="GT_ExercicioTreinoCardio">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GT_Treino_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_Exercicio_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_DuracaoTreinoCardio_ID" Type="Int32" Nullable="false" />
+          <Property Name="FC" Type="Int32" />
+          <Property Name="NIVEL" Type="Int32" />
+          <Property Name="DISTANCIA" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ORDEM" Type="Int32" Nullable="false" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GT_Exercicio" Relationship="GESTREINO_ORM.GT_ExercicioTreinoCardio_GT_Exercicio_ID" FromRole="GT_ExercicioTreinoCardio" ToRole="GT_Exercicio" />
+        </EntityType>
+        <Association Name="GT_ExercicioTreinoCardio_GT_Exercicio_ID">
+          <End Type="GESTREINO_ORM.GT_Exercicio" Role="GT_Exercicio" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_ExercicioTreinoCardio" Role="GT_ExercicioTreinoCardio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Exercicio">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreinoCardio">
+              <PropertyRef Name="GT_Exercicio_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7622,6 +7721,14 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="GT_DuracaoTreinoCardio">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_DuracaoTreinoCardio">
+              <MappingFragment StoreEntitySet="GT_DuracaoTreinoCardio">
+                <ScalarProperty Name="DURACAO" ColumnName="DURACAO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_GT_ENT_TREINO" FunctionName="GESTREINO_ORM.Store.SP_GT_ENT_TREINO">
             <ResultMapping>
               <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GT_ENT_TREINO_Result">
@@ -7634,6 +7741,7 @@
                 <ScalarProperty Name="NOME_PROPIO" ColumnName="NOME_PROPIO" />
                 <ScalarProperty Name="APELIDO" ColumnName="APELIDO" />
                 <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
+                <ScalarProperty Name="pes_id" ColumnName="pes_id" />
                 <ScalarProperty Name="DATA_INICIO" ColumnName="DATA_INICIO" />
                 <ScalarProperty Name="DATA_FIM" ColumnName="DATA_FIM" />
                 <ScalarProperty Name="OBSERVACOES" ColumnName="OBSERVACOES" />
@@ -7644,6 +7752,26 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="GT_ExercicioTreinoCardio">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_ExercicioTreinoCardio">
+              <MappingFragment StoreEntitySet="GT_ExercicioTreinoCardio">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="ORDEM" ColumnName="ORDEM" />
+                <ScalarProperty Name="DISTANCIA" ColumnName="DISTANCIA" />
+                <ScalarProperty Name="NIVEL" ColumnName="NIVEL" />
+                <ScalarProperty Name="FC" ColumnName="FC" />
+                <ScalarProperty Name="GT_DuracaoTreinoCardio_ID" ColumnName="GT_DuracaoTreinoCardio_ID" />
+                <ScalarProperty Name="GT_Exercicio_ID" ColumnName="GT_Exercicio_ID" />
+                <ScalarProperty Name="GT_Treino_ID" ColumnName="GT_Treino_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

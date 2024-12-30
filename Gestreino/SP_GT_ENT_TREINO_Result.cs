@@ -22,6 +22,7 @@ namespace Gestreino
         public string NOME_PROPIO { get; set; }
         public string APELIDO { get; set; }
         public int NUMERO { get; set; }
+        public int pes_id { get; set; }
         public string DATA_INICIO { get; set; }
         public string DATA_FIM { get; set; }
         public string OBSERVACOES { get; set; }

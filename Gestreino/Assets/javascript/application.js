@@ -286,6 +286,8 @@ $(document).on('click', '.open-modal-crud', function (e) {
             break;
         case 'gtavaliado': url = '../../Ajax/GTAvaliado'
             break;
+        case 'gttreinos': url = '../../Ajax/GTTreinos'
+            break;
         default: null
     }
     $.ajax({
@@ -2962,7 +2964,7 @@ function handleDataGTTreinoTable() {
             "url": "../../gtmanagement/GetGTTreinoTable", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
-            data: { "PesId": $('#PEsId').val() }
+            data: { "PesId": $('#PEsId').val(), "GTTipoTreinoId": $('#GTTipoTreinoId').val() }
         },
         "columns": [
             { "data": "Id", "name": null, "autoWidth": true },
@@ -2970,8 +2972,9 @@ function handleDataGTTreinoTable() {
             {
                 sortable: false,
                 "render": function (data, type, full, meta) {
-                    return '<a title="Visualizar" href="/gtmanagement/bodymassplans/' + full.Id + '"><i class="fa fa-search"/></i></a>';
-                 }
+                    return '<a title="Visualizar" href="' + full.LINK + '"><i class="fa fa-search"/></i></a>' +
+                        ' <a style="display:' + full.AccessControlAddGroup + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="gttreinos" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
+                }
             },
             //Cada dado representa uma coluna da tabela
             { "data": "DATEINI", "name": "DATEINI", "autoWidth": true },
@@ -3691,13 +3694,59 @@ function updateCityIdList(CidadeId, thisvar) {
 
 
 //PLANOS 
+$(document).on("click", "#gttreinoclr", function () {
+    $("#list2 li").remove();
+    $("#list1 li button").attr("disabled",false);
+})
+$(document).on("change", "#FaseTreinoId", function () {
+    if ($(this).val() != '') {
+        if ($("#list2 li").length == 0) {
+            jsonObj = [];
+            var response = { result: false, error: "Não existem exercícios no plano!" };
+            handleSuccess(response);
+            $("#FaseTreinoId > option").prop("selected", "");
+        } else {
+            $.ajax({
+                type: "GET",
+                url: "/gtmanagement/GetFasesTreino",
+                data: { "id": $(this).val() },
+                cache: false,
+                beforeSend: function () {
+                    //loadIn();
+                },
+                complete: function () {
+                },
+                success: function (data) {
+                    $("#list2").find(("input[name='exSeries[]']")).val(data[0].GT_Series_ID);
+                    $("#list2").find(("input[name='exRepeticoes[]']")).val(data[0].GT_Repeticoes_ID);
+                    $("#list2").find(("input[name='exCarga[]']")).val(data[0].GT_Carga_ID);
+                    $("#list2").find(("input[name='exTempo[]']")).val(data[0].GT_TempoDescanso_ID);
+                    //loadOut();
+                }
+            });
+        }
+    }
+})
+$(document).on("change", "#GTTreinoId", function () {
+    if ($(this).val() != '') {
+        var gttipotreino = $('#GT_EXERCISE_TYPE_BODYMASS').val();
+        if (gttipotreino == $('#GTTipoTreinoId').val()) 
+            window.location = "/gtmanagement/bodymassplans/" + $(this).val() + "?predefined=true";
+        else
+            window.location = "/gtmanagement/cardioplans/" + $(this).val() + "?predefined=true";
+    }
+})
 $(document).on("change", "#plantype1", function () {
         $(".newplangtreino").hide();
-        $('#GTTreinoId').attr("required", false);
+    $('#GTTreinoId').attr("required", false);
+    $('#Nome').attr("disabled", false);
+    $('#Nome').val("");
 })
 $(document).on("change", "#plantype2", function () {
         $(".newplangtreino").show();
-        $('#GTTreinoId').attr("required", true);
+    $('#GTTreinoId').attr("required", true);
+    $('#Nome').attr("disabled", true);
+    $('#Nome').val("");
 })
 $(document).on("change", "#planningtype1", function () {
     $(".newplanfasetreino").hide();
@@ -3707,45 +3756,50 @@ $(document).on("change", "#planningtype2", function () {
     $(".newplanfasetreino").show();
     $('#FaseTreinoId').attr("required", true);
 })
-//
 $(document).on('click', '.addlistplan1', function () {
+    var gttipotreino = $('#GT_EXERCISE_TYPE_BODYMASS').val();
     $(this).removeClass('addlistplan1').addClass('removegaclass1');
     $(this).removeClass('btn-success').addClass('btn-danger');
     $(this).find('i').removeClass('fa-plus-circle').addClass('fa-times');
     //$(this).parent().find('input').attr('name', 'exIds[]');
 
     var dataid = $(this).data('id');
-    var html = '<div class="inputs_' + dataid + '"><table><tr><td></td> <td>N° de séries:</td><td>N° de repetições:</td><td>% 1RM:</td><td>Tempo descanso:</td><td>Reps:</td><td>Carga</td><td>RM</td></tr><tr>';
-    html += '<td><input readonly type="hidden" name="exIds[]" value="' + dataid +'"></td>';
-    html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exSeries[]" value="'+$('#GT_Series_ID').val()+'"></td>';
-    html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exRepeticoes[]" value="' + $('#GT_Repeticoes_ID').val() + '"></td>';
-    html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exCarga[]" value="' + $('#GT_Carga_ID').val() + '"></td>';
-    html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exTempo[]" value="' + $('#GT_TempoDescanso_ID').val() + '"></td>';
-    html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exReps[]" value="' + $('#Reps').val() + '"></td>';
-    html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exCargaUsada[]" value="' + $('#CargaUsada').val() + '"></td>';
-    html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exRM[]" value="' + $('#RM').val() + '"></td>';
+    var html = '<div class="inputs_' + dataid + '"><table><tr>';
+    if (gttipotreino == $('#GTTipoTreinoId').val()) {
+         html +='<td></td> <td>N° de séries:</td><td>N° de repetições:</td><td>% 1RM:</td><td>Tempo descanso:</td><td>Reps:</td><td>Carga</td><td>RM</td>';
+    } else {
+         html += '<td></td> <td>Duração (Min.):</td><td>FC (Min/Máx) bpm:</td><td>Nível / Resist. / Velocidade::</td><td>Inclinação:</td>';
+    }
+    html+='</tr>';
+    html += '<tr><td><input readonly type="hidden" name="exIds[]" value="' + dataid + '"></td>';
+
+    if (gttipotreino == $('#GTTipoTreinoId').val()) {
+        html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exSeries[]" value="' + $('#GT_Series_ID').val() + '"></td>';
+        html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exRepeticoes[]" value="' + $('#GT_Repeticoes_ID').val() + '"></td>';
+        html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exCarga[]" value="' + $('#GT_Carga_ID').val() + '"></td>';
+        html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exTempo[]" value="' + $('#GT_TempoDescanso_ID').val() + '"></td>';
+        html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exReps[]" value="' + $('#Reps').val() + '"></td>';
+        html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exCargaUsada[]" value="' + $('#CargaUsada').val() + '"></td>';
+        html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exRM[]" value="' + $('#RM').val() + '"></td>';
+    } else {
+        html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exDuracao[]" value="' + $('#GT_DuracaoTreinoCardio_ID').val() + '"></td>';
+        html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exFC[]" value="' + $('#FC').val() + '"></td>';
+        html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exNivel[]" value="' + $('#Nivel').val() + '"></td>';
+        html += '<td><input class="form-control form-control-sm w-70" readonly type="" name="exDistancia[]" value="' + $('#Distancia').val() + '"></td>';
+    }
+
     html += '</tr></table></div>';
 
     $(this).parent().append(html)
-
     $(this).parent().clone(true).appendTo('#list2');
     //Reverse
     $(this).attr("disabled", true);
     $(this).removeClass('removegaclass1').addClass('addlistplan1');
     $(this).removeClass('btn-danger').addClass('btn-success');
     $(this).find('i').removeClass('fa-times').addClass('fa-plus-circle');
-
     $(this).parent().find('.inputs_' + dataid + '').remove()
-    //$(this).parent().find('input').attr('name', 'ucIds[]');
-    //$(this).parent().remove();
 });
 $(document).on('click', '.removegaclass1', function () {
-   /* $(this).removeClass('removegaclass1').addClass('addlistplan1');
-    $(this).removeClass('btn-danger').addClass('btn-success');
-    $(this).find('i').removeClass('fa-times').addClass('fa-plus-circle');
-    $(this).parent().find('input').attr('name', '');
-    $(this).parent().clone(true).appendTo('#list2');*/
-    //
     var dataid = $(this).data('id');
     $('#ex_' + dataid+' button').attr("disabled", false);
     $(this).parent().remove();

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Gestreino.Models.GTExercicio
+@{
     ViewBag.Title = "Exercícios";
 }
 <!-- page content -->
@@ -39,7 +40,9 @@
                     <tr>
                         <td></td>
                         <td></td>
-                        <td><input type="text" id="GRLExercicioTableTreino" class="form-control form-control-sm" /></td>
+                        <td>
+                            @Html.DropDownListFor(x => Model.ID, Model.TipoList, "Sem filtro", new { @class = "form-control form-control-sm", Id = "GRLExercicioTableTreino" })
+                        </td>
                         <td><input type="text" id="GRLExercicioTableNome" class="form-control form-control-sm" /></td>
                         <td><input type="text" id="GRLExercicioTableAlongamento" class="form-control form-control-sm" /></td>
                         <td><input type="text" id="GRLExercicioTableSeq" class="form-control form-control-sm" /></td>

@@ -603,26 +603,25 @@ namespace Gestreino.Models
     public class GT_TreinoBodyMass
     {
         public int? ID { get; set; }
+        public bool? predefined { get; set; }
+        public int? GTTipoTreinoId { get; set; }
         public int? PEsId { get; set; }
+        [Display(Name = "Periodização:")]
         public int? Periodizacao { get; set; }
-        public string Observacoes { get; set; }
 
-        [Display(Name = "Fase do treino")]
-        public string SIGLA { get; set; }
-
-        [Display(Name = "Séries")]
+        [Display(Name = "N° de séries:")]
         public int? GT_Series_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> GT_Series_List { get; set; }
 
-        [Display(Name = "Repetições")]
+        [Display(Name = "N° de repetições:")]
         public int? GT_Repeticoes_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> GT_Repeticoes_List { get; set; }
 
-        [Display(Name = "Perc. RM")]
+        [Display(Name = "% 1RM:")]
         public int? GT_Carga_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> GT_Carga_List { get; set; }
 
-        [Display(Name = "Descanso")]
+        [Display(Name = "Tempo descanso:")]
         public int? GT_TempoDescanso_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> GT_TempoDescanso_List { get; set; }
         [Display(Name = "Fases de treino:")]
@@ -631,6 +630,10 @@ namespace Gestreino.Models
         [Display(Name = "Nome do treino:")]
         public int? GTTreinoId { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem>GTTreinoList { get; set; }
+
+        [Display(Name = "Duração (Min.):")]
+        public int? GT_DuracaoTreinoCardio_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> GT_DuracaoTreinoCardioList { get; set; }
 
         public List<ExerciseArq> ExerciseArqList { get; set; }
         public List<ExerciseArq> ExerciseArqListTreino { get; set; }
@@ -653,6 +656,18 @@ namespace Gestreino.Models
         public int? Reps { get; set; }
         [Display(Name = "Nome:")]
         public string Nome { get; set; }
+
+        [Display(Name = "Observações:")]
+        public string Observacoes { get; set; }
+
+        [Display(Name = "FC (Min/Máx) bpm:")]
+        public int? FC { get; set; }
+
+        [Display(Name = "Nível / Resist. / Velocidade:")]
+        public int? Nivel { get; set; }
+
+        [Display(Name = "Inclinação:")]
+        public string Distancia { get; set; }
     }
 
     public class ExerciseArq
@@ -669,6 +684,10 @@ namespace Gestreino.Models
         public int? REPETICOES_COMPLETADAS { get; set; }
         public int? CARGA_USADA { get; set; }
         public decimal? ONERM { get; set; }
+        public int? GT_DuracaoTreinoCardio_ID { get; set; }
+        public int? FC { get; set; }
+        public int? Nivel { get; set; }
+        public decimal? Distancia { get; set; }
         public int? ORDEM { get; set; }
     }
 

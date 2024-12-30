@@ -21,10 +21,8 @@ namespace Gestreino.Classes
         }
         public enum Duration
         {
-            Dia = 1,
-            Semana = 2,
-            Mês = 3,
-            Ano = 4
+            Semanas = 1,
+            Aulas = 2
         }
         public enum InternoExterno
         {

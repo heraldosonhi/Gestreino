@@ -86,6 +86,8 @@ namespace Gestreino
         public virtual DbSet<PES_ARQUIVOS> PES_ARQUIVOS { get; set; }
         public virtual DbSet<UTILIZADORES> UTILIZADORES { get; set; }
         public virtual DbSet<PES_IDENTIFICACAO_LOCAL_EM> PES_IDENTIFICACAO_LOCAL_EM { get; set; }
+        public virtual DbSet<GT_DuracaoTreinoCardio> GT_DuracaoTreinoCardio { get; set; }
+        public virtual DbSet<GT_ExercicioTreinoCardio> GT_ExercicioTreinoCardio { get; set; }
     
         public virtual ObjectResult<SP_UTILIZADORES_LOGIN_LOGS_Result> SP_UTILIZADORES_LOGIN_LOGS(Nullable<int> userId, string action)
         {
@@ -1552,7 +1554,7 @@ namespace Gestreino
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_ENT_TIPOTREINO_Result>("SP_GT_ENT_TIPOTREINO", idParameter, siglaParameter, nomeParameter, userInsercaoIdParameter, actionParameter);
         }
     
-        public virtual ObjectResult<SP_GT_ENT_TREINO_Result> SP_GT_ENT_TREINO(Nullable<int> id, Nullable<int> pesID, Nullable<int> gT_TipoTreino_ID, string nome, Nullable<int> gT_FaseTreino_ID, Nullable<int> pERIODIZACAO, Nullable<System.DateTime> dataIni, Nullable<System.DateTime> dateEnd, string observacoes, Nullable<int> gT_Exercicio_ID, Nullable<int> gT_Series_ID, Nullable<int> gT_Repeticoes_ID, Nullable<int> gT_TempoDescanso_ID, Nullable<int> gT_Carga_ID, Nullable<int> rEPETICOES_COMPLETADAS, Nullable<int> cARGA_USADA, Nullable<decimal> oNERM, Nullable<int> ordem, Nullable<int> userInsercaoId, string action)
+        public virtual ObjectResult<SP_GT_ENT_TREINO_Result> SP_GT_ENT_TREINO(Nullable<int> id, Nullable<int> pesID, Nullable<int> gT_TipoTreino_ID, string nome, Nullable<int> gT_FaseTreino_ID, Nullable<int> pERIODIZACAO, Nullable<System.DateTime> dataIni, Nullable<System.DateTime> dateEnd, string observacoes, Nullable<int> gT_Exercicio_ID, Nullable<int> gT_Series_ID, Nullable<int> gT_Repeticoes_ID, Nullable<int> gT_TempoDescanso_ID, Nullable<int> gT_Carga_ID, Nullable<int> rEPETICOES_COMPLETADAS, Nullable<int> cARGA_USADA, Nullable<decimal> oNERM, Nullable<int> gT_DuracaoTreinoCardio_ID, Nullable<int> fC, Nullable<int> nIVEL, Nullable<decimal> dISTANCIA, Nullable<int> ordem, Nullable<int> userInsercaoId, string action)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
@@ -1622,6 +1624,22 @@ namespace Gestreino
                 new ObjectParameter("ONERM", oNERM) :
                 new ObjectParameter("ONERM", typeof(decimal));
     
+            var gT_DuracaoTreinoCardio_IDParameter = gT_DuracaoTreinoCardio_ID.HasValue ?
+                new ObjectParameter("GT_DuracaoTreinoCardio_ID", gT_DuracaoTreinoCardio_ID) :
+                new ObjectParameter("GT_DuracaoTreinoCardio_ID", typeof(int));
+    
+            var fCParameter = fC.HasValue ?
+                new ObjectParameter("FC", fC) :
+                new ObjectParameter("FC", typeof(int));
+    
+            var nIVELParameter = nIVEL.HasValue ?
+                new ObjectParameter("NIVEL", nIVEL) :
+                new ObjectParameter("NIVEL", typeof(int));
+    
+            var dISTANCIAParameter = dISTANCIA.HasValue ?
+                new ObjectParameter("DISTANCIA", dISTANCIA) :
+                new ObjectParameter("DISTANCIA", typeof(decimal));
+    
             var ordemParameter = ordem.HasValue ?
                 new ObjectParameter("ordem", ordem) :
                 new ObjectParameter("ordem", typeof(int));
@@ -1634,7 +1652,7 @@ namespace Gestreino
                 new ObjectParameter("Action", action) :
                 new ObjectParameter("Action", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_ENT_TREINO_Result>("SP_GT_ENT_TREINO", idParameter, pesIDParameter, gT_TipoTreino_IDParameter, nomeParameter, gT_FaseTreino_IDParameter, pERIODIZACAOParameter, dataIniParameter, dateEndParameter, observacoesParameter, gT_Exercicio_IDParameter, gT_Series_IDParameter, gT_Repeticoes_IDParameter, gT_TempoDescanso_IDParameter, gT_Carga_IDParameter, rEPETICOES_COMPLETADASParameter, cARGA_USADAParameter, oNERMParameter, ordemParameter, userInsercaoIdParameter, actionParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_ENT_TREINO_Result>("SP_GT_ENT_TREINO", idParameter, pesIDParameter, gT_TipoTreino_IDParameter, nomeParameter, gT_FaseTreino_IDParameter, pERIODIZACAOParameter, dataIniParameter, dateEndParameter, observacoesParameter, gT_Exercicio_IDParameter, gT_Series_IDParameter, gT_Repeticoes_IDParameter, gT_TempoDescanso_IDParameter, gT_Carga_IDParameter, rEPETICOES_COMPLETADASParameter, cARGA_USADAParameter, oNERMParameter, gT_DuracaoTreinoCardio_IDParameter, fCParameter, nIVELParameter, dISTANCIAParameter, ordemParameter, userInsercaoIdParameter, actionParameter);
         }
     }
 }

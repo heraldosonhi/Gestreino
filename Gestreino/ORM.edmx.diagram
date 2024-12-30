@@ -143,7 +143,10 @@
         <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI736389" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI215630" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI377525" />
-      </Diagram>
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_DuracaoTreinoCardio" Width="1.5" PointX="9.25" PointY="74.625" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_ExercicioTreinoCardio" Width="1.5" PointX="11.5" PointY="69.5" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_ExercicioTreinoCardio_GT_Exercicio_ID" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
