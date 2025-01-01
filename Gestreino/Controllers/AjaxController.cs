@@ -583,6 +583,16 @@ namespace Gestreino.Controllers
             ViewBag.Action = action;
             return View("GTManagement/Plans/Index");
         }
+        public ActionResult GTQuest(GT_Quest_Anxient MODEL,string action, int? id, int?[] bulkids)
+        {
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("GTManagement/Quest/Index", MODEL);
+        }
         public ActionResult GTAvaliado(GTAvaliado MODEL, string action, int? id, int?[] bulkids)
         {
             MODEL.AthleteId = string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) 

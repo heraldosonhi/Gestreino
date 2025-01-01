@@ -88,6 +88,7 @@ namespace Gestreino
         public virtual DbSet<PES_IDENTIFICACAO_LOCAL_EM> PES_IDENTIFICACAO_LOCAL_EM { get; set; }
         public virtual DbSet<GT_DuracaoTreinoCardio> GT_DuracaoTreinoCardio { get; set; }
         public virtual DbSet<GT_ExercicioTreinoCardio> GT_ExercicioTreinoCardio { get; set; }
+        public virtual DbSet<GT_RespAnsiedadeDepressao> GT_RespAnsiedadeDepressao { get; set; }
     
         public virtual ObjectResult<SP_UTILIZADORES_LOGIN_LOGS_Result> SP_UTILIZADORES_LOGIN_LOGS(Nullable<int> userId, string action)
         {
@@ -1653,6 +1654,31 @@ namespace Gestreino
                 new ObjectParameter("Action", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_ENT_TREINO_Result>("SP_GT_ENT_TREINO", idParameter, pesIDParameter, gT_TipoTreino_IDParameter, nomeParameter, gT_FaseTreino_IDParameter, pERIODIZACAOParameter, dataIniParameter, dateEndParameter, observacoesParameter, gT_Exercicio_IDParameter, gT_Series_IDParameter, gT_Repeticoes_IDParameter, gT_TempoDescanso_IDParameter, gT_Carga_IDParameter, rEPETICOES_COMPLETADASParameter, cARGA_USADAParameter, oNERMParameter, gT_DuracaoTreinoCardio_IDParameter, fCParameter, nIVELParameter, dISTANCIAParameter, ordemParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_GT_ENT_Resp_Result> SP_GT_ENT_Resp(Nullable<int> id, Nullable<int> pesId, string gT_Res, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var pesIdParameter = pesId.HasValue ?
+                new ObjectParameter("PesId", pesId) :
+                new ObjectParameter("PesId", typeof(int));
+    
+            var gT_ResParameter = gT_Res != null ?
+                new ObjectParameter("GT_Res", gT_Res) :
+                new ObjectParameter("GT_Res", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_ENT_Resp_Result>("SP_GT_ENT_Resp", idParameter, pesIdParameter, gT_ResParameter, userInsercaoIdParameter, actionParameter);
         }
     }
 }

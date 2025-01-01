@@ -279,6 +279,9 @@
     <Compile Include="GT_Repeticoes.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_RespAnsiedadeDepressao.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="GT_Series.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -423,6 +426,9 @@
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_GT_ENT_FaseTreino_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GT_ENT_Resp_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_GT_ENT_TIPOTREINO_Result.cs">
@@ -703,6 +709,8 @@
     <Content Include="Views\Ajax\GTManagement\Exercises\GTExercise.cshtml" />
     <Content Include="Views\Ajax\GTManagement\Athletes\GTAvaliado.cshtml" />
     <Content Include="Views\Ajax\GTManagement\Plans\Index.cshtml" />
+    <Content Include="Views\GTManagement\Quest\Anxient\Index.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Quest\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -30,5 +30,7 @@ namespace Gestreino
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
     
         public virtual GT_Exercicio GT_Exercicio { get; set; }
+        public virtual GT_DuracaoTreinoCardio GT_DuracaoTreinoCardio { get; set; }
+        public virtual GT_Treino GT_Treino { get; set; }
     }
 }

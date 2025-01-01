@@ -7,6 +7,7 @@ using Gestreino.Models;
 using JeanPiagetSGA;
 using Microsoft.AspNet.Identity;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -17,6 +18,9 @@ using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using static Gestreino.Classes.SelectValues;
+//
+using System.Reflection;
+using DocumentFormat.OpenXml.Drawing.Charts;
 
 namespace Gestreino.Controllers
 {
@@ -24,11 +28,14 @@ namespace Gestreino.Controllers
     public class GTManagementController : Controller
     {
         private GESTREINO_Entities databaseManager = new GESTREINO_Entities();
+        private System.Collections.Specialized.StringDictionary DictRespostas;
+
         // _MenuLeftBarLink
         int _MenuLeftBarLink_Athletes = 201;
         int _MenuLeftBarLink_PlanBodyMass = 202;
         int _MenuLeftBarLink_PlanCardio = 203;
         int _MenuLeftBarLink_Exercices = 204;
+        int _MenuLeftBarLink_Quest_Anxient = 205;
         int _MenuLeftBarLink_FileManagement = 0;
 
         // GET: GTManagement
@@ -2035,6 +2042,7 @@ namespace Gestreino.Controllers
                         case "DATEINI": v = v.OrderByDescending(s => s.DATA_INICIO); break;
                         case "DATEFIM": v = v.OrderByDescending(s => s.DATA_FIM); break;
                         case "OBS": v = v.OrderByDescending(s => s.OBSERVACOES); break;
+                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
                         case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
                         case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
                         case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
@@ -2169,6 +2177,432 @@ namespace Gestreino.Controllers
             }
             return Json(new { result = true, error = string.Empty, table = "GTTreinoTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
+
+
+
+
+
+
+        // Ansiedade e Depressao
+        public ActionResult Anxient(GT_Quest_Anxient MODEL,int? Id)
+        {
+
+            if (Id > 0)
+            {
+                var data = databaseManager.GT_RespAnsiedadeDepressao.Where(x => x.ID == Id).ToList();
+                if (data.Count() == 0)
+                    return RedirectToAction("anxient", "gtmanagement", new { Id = string.Empty });
+                ViewBag.data = data;
+                MODEL.ID = Id;
+                MODEL.q1 = data.First().RESP_01;
+                MODEL.q2 = data.First().RESP_02;
+                MODEL.q3 = data.First().RESP_03;
+                MODEL.q4 = data.First().RESP_04;
+                MODEL.q5 = data.First().RESP_05;
+                MODEL.q6 = data.First().RESP_06;
+                MODEL.q7 = data.First().RESP_07;
+                MODEL.q8 = data.First().RESP_08;
+                MODEL.q9 = data.First().RESP_09;
+                MODEL.q10 = data.First().RESP_10;
+                MODEL.q11 = data.First().RESP_11;
+                MODEL.q12 = data.First().RESP_12;
+                MODEL.q13 = data.First().RESP_13;
+                MODEL.q14 = data.First().RESP_14;
+
+            }
+
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
+
+
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Anxient;
+            return View("Quest/Anxient/Index",MODEL);
+        }
+        public ActionResult GetGTQuestTable(int? PesId, string GT_Res)
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Insercao = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            PesId = PesId > 0 ? PesId : null;
+            var v = (from a in databaseManager.SP_GT_ENT_Resp(null, PesId, null,  null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
+            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
+
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
+                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
+                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = x.ID,
+                    INSERCAO = x.INSERCAO,
+                    DATAINSERCAO = x.DATA_INSERCAO,
+                    ACTUALIZACAO = x.ACTUALIZACAO,
+                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO,
+                    LINK = "/gtmanagement/anxient/" + x.ID// : "/gtmanagement/cardioplans/" + x.ID
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Anxient(GT_Quest_Anxient MODEL,int? frmaction,string returnUrl)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                //You could possibly use Reflection to do this.
+                //As far as I understand it, you could enumerate the properties of your class and set the values
+                //GT_Quest_Anxient savePatt = new GT_Quest_Anxient();
+                PropertyInfo[] properties = typeof(GT_Quest_Anxient).GetProperties();
+                List<string> f = new List<string> { };
+
+                foreach (PropertyInfo property in properties)
+                {
+                    var val = property.GetValue(MODEL);
+                    if (val != null)
+                        f.Add(val.ToString());
+                }
+
+                int totalPropertiesInClass =  MODEL.ID>0?16:15;
+               
+                if (frmaction == 1)
+                {
+                    if (f.Count() < totalPropertiesInClass)
+                        return Json(new { result = false, error = "Existem perguntas por responder!" });
+
+                    if (MODEL.ID > 0)
+                    {
+                        (from c in databaseManager.GT_RespAnsiedadeDepressao
+                         where c.ID == MODEL.ID
+                         select c).ToList().ForEach(fx => {
+                             fx.RESP_01 = MODEL.q1;
+                             fx.RESP_02 = MODEL.q2;
+                             fx.RESP_03 = MODEL.q3;
+                             fx.RESP_04 = MODEL.q4;
+                             fx.RESP_05 = MODEL.q5;
+                             fx.RESP_06 = MODEL.q6;
+                             fx.RESP_07 = MODEL.q7;
+                             fx.RESP_08 = MODEL.q8;
+                             fx.RESP_09 = MODEL.q9;
+                             fx.RESP_10 = MODEL.q10;
+                             fx.RESP_11 = MODEL.q11;
+                             fx.RESP_12 = MODEL.q12;
+                             fx.RESP_13 = MODEL.q13;
+                             fx.RESP_14 = MODEL.q14;
+                             fx.RESP_SUMMARY = int.Parse(GetResult(MODEL));
+                             fx.RESP_DESCRICAO = GetResultQuest(MODEL);
+                             fx.ACTUALIZADO_POR = int.Parse(User.Identity.GetUserId()); fx.DATA_ACTUALIZACAO = DateTime.Now; });
+                        databaseManager.SaveChanges();
+                    }
+                    else
+                    {
+
+                        GT_RespAnsiedadeDepressao fx = new GT_RespAnsiedadeDepressao();
+                        fx.GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
+                        fx.RESP_01 = MODEL.q1;
+                        fx.RESP_02 = MODEL.q2;
+                        fx.RESP_03 = MODEL.q3;
+                        fx.RESP_04 = MODEL.q4;
+                        fx.RESP_05 = MODEL.q5;
+                        fx.RESP_06 = MODEL.q6;
+                        fx.RESP_07 = MODEL.q7;
+                        fx.RESP_08 = MODEL.q8;
+                        fx.RESP_09 = MODEL.q9;
+                        fx.RESP_10 = MODEL.q10;
+                        fx.RESP_11 = MODEL.q11;
+                        fx.RESP_12 = MODEL.q12;
+                        fx.RESP_13 = MODEL.q13;
+                        fx.RESP_14 = MODEL.q14;
+                        fx.RESP_SUMMARY = int.Parse(GetResult(MODEL));
+                        fx.RESP_DESCRICAO = GetResultQuest(MODEL);
+                        fx.INSERIDO_POR = int.Parse(User.Identity.GetUserId());
+                        fx.DATA_INSERCAO = DateTime.Now;
+                        databaseManager.GT_RespAnsiedadeDepressao.Add(fx);
+                        databaseManager.SaveChanges();
+                    }
+                }
+                else {
+                    if (f.Count() < totalPropertiesInClass)
+                        return Json(new { result = false, error = "Existem perguntas por responder!" });
+
+                    return Json(new { result = true, success = GetResultQuest(MODEL) });
+                }
+           
+
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GTQuestTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteGTQuest(int?[] ids)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                // Delete
+                foreach (var i in ids)
+                {
+                    databaseManager.SP_GT_ENT_Resp(i, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
+                }
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GTQuestTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+
+        private string GetResult(GT_Quest_Anxient MODEL)
+        {
+            string sResultAns;
+            string sResultDep;
+            int iResultAns;
+            int iResultDep;
+
+            sResultAns = String.Empty;
+            sResultDep = String.Empty;
+            iResultAns = 0;
+            iResultDep = 0;
+
+            PropertyInfo[] properties = typeof(GT_Quest_Anxient).GetProperties();
+            List<string> f = new List<string> { };
+            int countpos = 0;
+
+            foreach (PropertyInfo property in properties)
+            {
+                countpos++;
+                var val = property.GetValue(MODEL);
+                if (val != null)
+                {
+
+                    if (Math.IEEERemainder(Convert.ToInt32(countpos.ToString()), 2) != 0)
+                    {
+                        iResultDep += GetResultDepressao(val.ToString());
+                    }
+                    else
+                    {
+                        iResultAns += GetResultAnsiedade(val.ToString());
+                    }
+
+                }
+            }
+
+            /*foreach (DictionaryEntry de in DictRespostas)
+            {
+                if (Math.IEEERemainder(Convert.ToInt32(de.Key.ToString()), 2) != 0)
+                {
+                    iResultDep += GetResultDepressao(de.Value.ToString());
+                }
+                else
+                {
+                    iResultAns += GetResultAnsiedade(de.Value.ToString());
+                }
+            }*/
+
+            //Criar as strings de resultados - Ansiedade
+            if (iResultAns >= 8)
+                sResultAns = "1";
+            else
+                sResultAns = "0";
+
+            //Criar as strings de resultados - Depressão
+            if (iResultDep >= 8)
+                sResultDep = "1";
+            else
+                sResultDep = "0";
+
+            //return Convert.ToString(iResultDep) + " " + Convert.ToString(iResultAns);
+            return sResultAns + sResultDep;
+        }
+
+        private string GetResultQuest(GT_Quest_Anxient MODEL)
+        {
+            string sResultAns;
+            string sResultDep;
+            int iResultAns;
+            int iResultDep;
+
+            sResultAns = String.Empty;
+            sResultDep = String.Empty;
+            iResultAns = 0;
+            iResultDep = 0;
+
+
+
+            PropertyInfo[] properties = typeof(GT_Quest_Anxient).GetProperties();
+            List<string> f = new List<string> { };
+            int countpos = 0;
+
+            foreach (PropertyInfo property in properties)
+            {
+                countpos++;
+                var val = property.GetValue(MODEL);
+                if (val != null)
+                {
+
+                    if (Math.IEEERemainder(Convert.ToInt32(countpos.ToString()), 2) != 0)
+                    {
+                        iResultDep += GetResultDepressao(val.ToString());
+                    }
+                    else
+                    {
+                        iResultAns += GetResultAnsiedade(val.ToString());
+                    }
+
+                }
+            }
+
+
+            /*foreach (DictionaryEntry de in DictRespostas)
+            {
+                if (Math.IEEERemainder(Convert.ToInt32(de.Key.ToString()), 2) != 0)
+                {
+                    iResultDep += GetResultDepressao(de.Value.ToString());
+                }
+                else
+                {
+                    iResultAns += GetResultAnsiedade(de.Value.ToString());
+                }
+            }*/
+
+            //Criar as strings de resultados - Ansiedade
+            if (iResultAns >= 8)
+                sResultAns = "O paciente encontra-se num estado de ansiedade.\n";
+            else
+                sResultAns = "O paciente não se encontra num estado de ansiedade.\n";
+
+            //Criar as strings de resultados - Depressão
+            if (iResultDep >= 8)
+                sResultDep = "O paciente encontra-se num estado depressivo.\n";
+            else
+                sResultDep = "O paciente não se encontra num estado depressivo.\n";
+
+            //return Convert.ToString(iResultDep) + " " + Convert.ToString(iResultAns);
+            return sResultAns + sResultDep;
+        }
+
+        private int GetResultAnsiedade(string sQuestion)
+        {
+
+            switch (sQuestion)
+            {
+                case "1":
+                    return 3;
+                //break;
+                case "2":
+                    return 2;
+                //break;
+                case "3":
+                    return 1;
+                //break;
+                case "4":
+                    return 0;
+                    //break;
+
+            }
+            return 0;
+        }
+
+        private int GetResultDepressao(string sQuestion)
+        {
+            switch (sQuestion)
+            {
+                case "1":
+                    return 0;
+                //break;
+                case "2":
+                    return 1;
+                //break;
+                case "3":
+                    return 2;
+                //break;
+                case "4":
+                    return 3;
+                    //break;
+            }
+
+            return 0;
+        }
+
+
 
 
 

@@ -14,7 +14,16 @@ namespace Gestreino
     
     public partial class GT_DuracaoTreinoCardio
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public GT_DuracaoTreinoCardio()
+        {
+            this.GT_ExercicioTreinoCardio = new HashSet<GT_ExercicioTreinoCardio>();
+        }
+    
         public int ID { get; set; }
         public int DURACAO { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GT_ExercicioTreinoCardio> GT_ExercicioTreinoCardio { get; set; }
     }
 }
