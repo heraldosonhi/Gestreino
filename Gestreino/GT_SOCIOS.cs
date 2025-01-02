@@ -19,6 +19,7 @@ namespace Gestreino
         {
             this.GT_TreinosPessoa = new HashSet<GT_TreinosPessoa>();
             this.GT_RespAnsiedadeDepressao = new HashSet<GT_RespAnsiedadeDepressao>();
+            this.GT_RespAutoConceito = new HashSet<GT_RespAutoConceito>();
         }
     
         public int ID { get; set; }
@@ -30,5 +31,7 @@ namespace Gestreino
         public virtual ICollection<GT_TreinosPessoa> GT_TreinosPessoa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GT_RespAnsiedadeDepressao> GT_RespAnsiedadeDepressao { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GT_RespAutoConceito> GT_RespAutoConceito { get; set; }
     }
 }

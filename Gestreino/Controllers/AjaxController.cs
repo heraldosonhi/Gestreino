@@ -583,7 +583,7 @@ namespace Gestreino.Controllers
             ViewBag.Action = action;
             return View("GTManagement/Plans/Index");
         }
-        public ActionResult GTQuest(GT_Quest_Anxient MODEL,string action, int? id, int?[] bulkids)
+        public ActionResult GTQuest(string action, int? id, int?[] bulkids,string upload)
         {
             int?[] ids = new int?[] { id.Value };
             if (action.Contains("Multiplos")) ids = bulkids;
@@ -591,7 +591,8 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
-            return View("GTManagement/Quest/Index", MODEL);
+            ViewBag.upload = upload;
+            return View("GTManagement/Quest/Index");
         }
         public ActionResult GTAvaliado(GTAvaliado MODEL, string action, int? id, int?[] bulkids)
         {

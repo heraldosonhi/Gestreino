@@ -24,17 +24,17 @@
                         <li class="@(ViewBag.LeftBarLinkActive==204?"current-page":"")"><a href="@Url.Action("exercises","gtmanagement")">Exercícios</a></li>
                     </ul>
                 </li>
-                <li>
+                <li class="@(ViewBag.LeftBarLinkActive==205 || ViewBag.LeftBarLinkActive==206 ?"active":"")">
                     <a style="border-left: 3px dotted #ff6a00"><i class="fa fa-anchor"></i> Avaliação <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
+                    <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive==205 ||ViewBag.LeftBarLinkActive==206?"block":"")">
                         <li>
-                            <a>Estado Psicológico<span class="fa fa-chevron-down"></span></a>
-                            <ul class="nav child_menu">
-                                <li class="sub_menu">
-                                    <a href="@Url.Action("anxient", "gtmanagement", new {Id=string.Empty})">Ansiedade e Depressão</a>
+                            <a  style="border-left: 3px dotted #00ff21">Estado Psicológico<span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive==205 ||ViewBag.LeftBarLinkActive==206?"block":"")">
+                                <li class="@(ViewBag.LeftBarLinkActive==205?"current-page":"") sub_menu">
+                                    <a href="@Url.Action("anxiety", "gtmanagement", new {Id=string.Empty})">Ansiedade e Depressão</a>
                                 </li>
-                                <li>
-                                    <a href="#">Auto Conceito</a>
+                                <li class="@(ViewBag.LeftBarLinkActive==206?"current-page":"")">
+                                    <a href="@Url.Action("selfconcept", "gtmanagement", new {Id=string.Empty})">Auto Conceito</a>
                                 </li>
                             </ul>
                         </li>

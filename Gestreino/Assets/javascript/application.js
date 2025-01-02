@@ -311,6 +311,7 @@ $(document).on('click', '.open-modal-crud', function (e) {
             //quillEditor();
             checkDisabled("ScheduledStatus");
             //ajax();
+            anxientForm();
             handleDataUsers();
             handleDataAtomos();
             handleDataGrupos();
@@ -3048,7 +3049,7 @@ function handleDataGTQuestTable() {
                 sortable: false,
                 "render": function (data, type, full, meta) {
                     return '<a title="Visualizar" href="' + full.LINK + '"><i class="fa fa-search"/></i></a>' +
-                        ' <a style="display:' + full.AccessControlAddGroup + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
+                        ' <a style="display:' + full.AccessControlAddGroup + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="gtquest" data-upload="'+full.UPLOAD+'"  data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
                 }
             },
             //Cada dado representa uma coluna da tabela
@@ -3876,3 +3877,12 @@ $(document).on('click', '.removegaclass1', function () {
     $('#ex_' + dataid+' button').attr("disabled", false);
     $(this).parent().remove();
 });
+
+
+//Avalicao psicologica
+function anxientForm() {
+    $('#anxientForm').clone(true).appendTo('#anxientFormClone');
+    $("#anxientFormClone form:first-child").submit();
+    $('#anxientFormClone input[name="frmaction"] ').val('1')
+}
+function submitanxientForm() { $("#anxientFormClone form:first-child").submit(); }

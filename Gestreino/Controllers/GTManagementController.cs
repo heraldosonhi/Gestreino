@@ -36,6 +36,7 @@ namespace Gestreino.Controllers
         int _MenuLeftBarLink_PlanCardio = 203;
         int _MenuLeftBarLink_Exercices = 204;
         int _MenuLeftBarLink_Quest_Anxient = 205;
+        int _MenuLeftBarLink_Quest_SelfConcept = 206;
         int _MenuLeftBarLink_FileManagement = 0;
 
         // GET: GTManagement
@@ -2183,10 +2184,9 @@ namespace Gestreino.Controllers
 
 
 
-        // Ansiedade e Depressao
-        public ActionResult Anxient(GT_Quest_Anxient MODEL,int? Id)
+        // Avaliacao psicologica
+        public ActionResult Anxiety(GT_Quest_Anxient MODEL,int? Id)
         {
-
             if (Id > 0)
             {
                 var data = databaseManager.GT_RespAnsiedadeDepressao.Where(x => x.ID == Id).ToList();
@@ -2208,14 +2208,11 @@ namespace Gestreino.Controllers
                 MODEL.q12 = data.First().RESP_12;
                 MODEL.q13 = data.First().RESP_13;
                 MODEL.q14 = data.First().RESP_14;
-
             }
 
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
-
-
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Anxient;
-            return View("Quest/Anxient/Index",MODEL);
+            return View("Quest/Anxiety", MODEL);
         }
         public ActionResult GetGTQuestTable(int? PesId, string GT_Res)
         {
@@ -2240,7 +2237,7 @@ namespace Gestreino.Controllers
             int totalRecords = 0;
 
             PesId = PesId > 0 ? PesId : null;
-            var v = (from a in databaseManager.SP_GT_ENT_Resp(null, PesId, null,  null, "R").ToList() select a);
+            var v = (from a in databaseManager.SP_GT_ENT_Resp(null, PesId, GT_Res,  null, "R").ToList() select a);
             TempData["QUERYRESULT_ALL"] = v.ToList();
 
             //SEARCH RESULT SET
@@ -2294,7 +2291,8 @@ namespace Gestreino.Controllers
                     DATAINSERCAO = x.DATA_INSERCAO,
                     ACTUALIZACAO = x.ACTUALIZACAO,
                     DATAACTUALIZACAO = x.DATA_ACTUALIZACAO,
-                    LINK = "/gtmanagement/anxient/" + x.ID// : "/gtmanagement/cardioplans/" + x.ID
+                    UPLOAD= GT_Res,
+                    LINK = GT_Res== "GT_RespAnsiedadeDepressao"? "/gtmanagement/anxient/" + x.ID : "/gtmanagement/selfconcept/" + x.ID
                 }),
                 sortColumn = sortColumn,
                 sortColumnDir = sortColumnDir,
@@ -2302,7 +2300,7 @@ namespace Gestreino.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Anxient(GT_Quest_Anxient MODEL,int? frmaction,string returnUrl)
+        public ActionResult Anxiety(GT_Quest_Anxient MODEL,int? frmaction,string returnUrl)
         {
             try
             {
@@ -2315,19 +2313,17 @@ namespace Gestreino.Controllers
                 }
 
                 //You could possibly use Reflection to do this.
-                //As far as I understand it, you could enumerate the properties of your class and set the values
-                //GT_Quest_Anxient savePatt = new GT_Quest_Anxient();
                 PropertyInfo[] properties = typeof(GT_Quest_Anxient).GetProperties();
                 List<string> f = new List<string> { };
 
                 foreach (PropertyInfo property in properties)
                 {
                     var val = property.GetValue(MODEL);
-                    if (val != null)
+                    if (val != null && property.Name.Contains("q"))
                         f.Add(val.ToString());
                 }
 
-                int totalPropertiesInClass =  MODEL.ID>0?16:15;
+                int totalPropertiesInClass = 14;
                
                 if (frmaction == 1)
                 {
@@ -2356,11 +2352,10 @@ namespace Gestreino.Controllers
                              fx.RESP_SUMMARY = int.Parse(GetResult(MODEL));
                              fx.RESP_DESCRICAO = GetResultQuest(MODEL);
                              fx.ACTUALIZADO_POR = int.Parse(User.Identity.GetUserId()); fx.DATA_ACTUALIZACAO = DateTime.Now; });
-                        databaseManager.SaveChanges();
+                             databaseManager.SaveChanges();
                     }
                     else
                     {
-
                         GT_RespAnsiedadeDepressao fx = new GT_RespAnsiedadeDepressao();
                         fx.GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
                         fx.RESP_01 = MODEL.q1;
@@ -2388,11 +2383,9 @@ namespace Gestreino.Controllers
                 else {
                     if (f.Count() < totalPropertiesInClass)
                         return Json(new { result = false, error = "Existem perguntas por responder!" });
-
                     return Json(new { result = true, success = GetResultQuest(MODEL) });
                 }
            
-
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -2403,7 +2396,7 @@ namespace Gestreino.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteGTQuest(int?[] ids)
+        public ActionResult DeleteGTQuest(int?[] ids,string upload)
         {
             try
             {
@@ -2418,7 +2411,7 @@ namespace Gestreino.Controllers
                 // Delete
                 foreach (var i in ids)
                 {
-                    databaseManager.SP_GT_ENT_Resp(i, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
+                    databaseManager.SP_GT_ENT_Resp(i, null, upload, int.Parse(User.Identity.GetUserId()), "D").ToList();
                 }
                 ModelState.Clear();
             }
@@ -2429,7 +2422,157 @@ namespace Gestreino.Controllers
             return Json(new { result = true, error = string.Empty, table = "GTQuestTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
 
+        public ActionResult SelfConcept(GT_Quest_SelfConcept MODEL, int? Id)
+        {
 
+            if (Id > 0)
+            {
+                var data = databaseManager.GT_RespAutoConceito.Where(x => x.ID == Id).ToList();
+                if (data.Count() == 0)
+                    return RedirectToAction("selfconcept", "gtmanagement", new { Id = string.Empty });
+                ViewBag.data = data;
+                MODEL.ID = Id;
+                MODEL.q1 = data.First().RESP_01;
+                MODEL.q2 = data.First().RESP_02;
+                MODEL.q3 = data.First().RESP_03;
+                MODEL.q4 = data.First().RESP_04;
+                MODEL.q5 = data.First().RESP_05;
+                MODEL.q6 = data.First().RESP_06;
+                MODEL.q7 = data.First().RESP_07;
+                MODEL.q8 = data.First().RESP_08;
+                MODEL.q9 = data.First().RESP_09;
+                MODEL.q10 = data.First().RESP_10;
+                MODEL.q11 = data.First().RESP_11;
+                MODEL.q12 = data.First().RESP_12;
+                MODEL.q13 = data.First().RESP_13;
+                MODEL.q14 = data.First().RESP_14;
+                MODEL.q15 = data.First().RESP_15;
+                MODEL.q16 = data.First().RESP_16;
+                MODEL.q17 = data.First().RESP_17;
+                MODEL.q18 = data.First().RESP_18;
+                MODEL.q19 = data.First().RESP_19;
+                MODEL.q20 = data.First().RESP_20;
+            }
+
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_SelfConcept;
+            return View("Quest/SelfConcept", MODEL);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SelfConcept(GT_Quest_SelfConcept MODEL, int? frmaction, string returnUrl)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                //You could possibly use Reflection to do this.
+                PropertyInfo[] properties = typeof(GT_Quest_SelfConcept).GetProperties();
+                List<string> f = new List<string> { };
+                int iValue;
+
+                foreach (PropertyInfo property in properties)
+                {
+                    var val = property.GetValue(MODEL);
+                    if (val != null && property.Name.Contains("q"))
+                        f.Add(val.ToString());
+                }
+
+                int totalPropertiesInClass = 20;
+
+                if (frmaction == 1)
+                {
+                    if (f.Count() < totalPropertiesInClass)
+                        return Json(new { result = false, error = "Existem perguntas por responder!" });
+
+                    if (MODEL.ID > 0)
+                    {
+                        (from c in databaseManager.GT_RespAutoConceito
+                         where c.ID == MODEL.ID
+                         select c).ToList().ForEach(fx => {
+                             fx.RESP_01 = MODEL.q1;
+                             fx.RESP_02 = MODEL.q2;
+                             fx.RESP_03 = MODEL.q3;
+                             fx.RESP_04 = MODEL.q4;
+                             fx.RESP_05 = MODEL.q5;
+                             fx.RESP_06 = MODEL.q6;
+                             fx.RESP_07 = MODEL.q7;
+                             fx.RESP_08 = MODEL.q8;
+                             fx.RESP_09 = MODEL.q9;
+                             fx.RESP_10 = MODEL.q10;
+                             fx.RESP_11 = MODEL.q11;
+                             fx.RESP_12 = MODEL.q12;
+                             fx.RESP_13 = MODEL.q13;
+                             fx.RESP_14 = MODEL.q14;
+                             fx.RESP_15 = MODEL.q15;
+                             fx.RESP_16 = MODEL.q16;
+                             fx.RESP_17 = MODEL.q17;
+                             fx.RESP_18 = MODEL.q18;
+                             fx.RESP_19 = MODEL.q19;
+                             fx.RESP_20 = MODEL.q20;
+                             fx.RESP_DESCRICAO = GetResultQuestSelfConcept(MODEL,out iValue);
+                             fx.RESP_SUMMARY = iValue;
+                             fx.ACTUALIZADO_POR = int.Parse(User.Identity.GetUserId()); fx.DATA_ACTUALIZACAO = DateTime.Now;
+                         });
+                        databaseManager.SaveChanges();
+                    }
+                    else
+                    {
+                        GT_RespAutoConceito fx = new GT_RespAutoConceito();
+                        fx.GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
+                        fx.RESP_01 = MODEL.q1;
+                        fx.RESP_02 = MODEL.q2;
+                        fx.RESP_03 = MODEL.q3;
+                        fx.RESP_04 = MODEL.q4;
+                        fx.RESP_05 = MODEL.q5;
+                        fx.RESP_06 = MODEL.q6;
+                        fx.RESP_07 = MODEL.q7;
+                        fx.RESP_08 = MODEL.q8;
+                        fx.RESP_09 = MODEL.q9;
+                        fx.RESP_10 = MODEL.q10;
+                        fx.RESP_11 = MODEL.q11;
+                        fx.RESP_12 = MODEL.q12;
+                        fx.RESP_13 = MODEL.q13;
+                        fx.RESP_14 = MODEL.q14;
+                        fx.RESP_15 = MODEL.q15;
+                        fx.RESP_16 = MODEL.q16;
+                        fx.RESP_17 = MODEL.q17;
+                        fx.RESP_18 = MODEL.q18;
+                        fx.RESP_19 = MODEL.q19;
+                        fx.RESP_20 = MODEL.q20;
+                        fx.RESP_DESCRICAO = GetResultQuestSelfConcept(MODEL, out iValue);
+                        fx.RESP_SUMMARY = iValue;
+                        fx.INSERIDO_POR = int.Parse(User.Identity.GetUserId());
+                        fx.DATA_INSERCAO = DateTime.Now;
+                        databaseManager.GT_RespAutoConceito.Add(fx);
+                        databaseManager.SaveChanges();
+                    }
+                }
+                else
+                {
+                    if (f.Count() < totalPropertiesInClass)
+                        return Json(new { result = false, error = "Existem perguntas por responder!" });
+
+                    return Json(new { result = true, success = GetResultQuestSelfConcept(MODEL, out iValue) });
+                }
+
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GTQuestTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+
+        //Formulas exported from legacy projecto
         private string GetResult(GT_Quest_Anxient MODEL)
         {
             string sResultAns;
@@ -2450,7 +2593,7 @@ namespace Gestreino.Controllers
             {
                 countpos++;
                 var val = property.GetValue(MODEL);
-                if (val != null)
+                if (val != null && property.Name.Contains("q"))
                 {
 
                     if (Math.IEEERemainder(Convert.ToInt32(countpos.ToString()), 2) != 0)
@@ -2492,7 +2635,6 @@ namespace Gestreino.Controllers
             //return Convert.ToString(iResultDep) + " " + Convert.ToString(iResultAns);
             return sResultAns + sResultDep;
         }
-
         private string GetResultQuest(GT_Quest_Anxient MODEL)
         {
             string sResultAns;
@@ -2515,7 +2657,7 @@ namespace Gestreino.Controllers
             {
                 countpos++;
                 var val = property.GetValue(MODEL);
-                if (val != null)
+                if (val != null && property.Name.Contains("q"))
                 {
 
                     if (Math.IEEERemainder(Convert.ToInt32(countpos.ToString()), 2) != 0)
@@ -2558,7 +2700,6 @@ namespace Gestreino.Controllers
             //return Convert.ToString(iResultDep) + " " + Convert.ToString(iResultAns);
             return sResultAns + sResultDep;
         }
-
         private int GetResultAnsiedade(string sQuestion)
         {
 
@@ -2580,7 +2721,6 @@ namespace Gestreino.Controllers
             }
             return 0;
         }
-
         private int GetResultDepressao(string sQuestion)
         {
             switch (sQuestion)
@@ -2601,8 +2741,102 @@ namespace Gestreino.Controllers
 
             return 0;
         }
+        private string GetResultQuestSelfConcept(GT_Quest_SelfConcept MODEL,out int iValue)
+        {
+            string sResultQuest;
+            int iResultQuest;
 
+            sResultQuest = String.Empty;
+            iResultQuest = 0;
 
+            PropertyInfo[] properties = typeof(GT_Quest_SelfConcept).GetProperties();
+            List<string> f = new List<string> { };
+            int countpos = 0;
+
+            foreach (PropertyInfo property in properties)
+            {
+                countpos++;
+                var val = property.GetValue(MODEL);
+                if (val != null && property.Name.Contains("q"))
+                {
+
+                    //Para as perguntas 3,12 e 18 o resultado das perguntas é invertido
+                    if (countpos.ToString() == "3" || countpos.ToString() == "12" || countpos.ToString() == "18")
+                    {
+                        iResultQuest += GetResultInvertidoSelfConcept(val.ToString());
+                    }
+                    else
+                    {
+                        iResultQuest += GetResultSelfConcept(val.ToString());
+                    }
+
+                }
+            }
+            /*foreach (DictionaryEntry de in DictRespostas)
+            {
+                //Para as perguntas 3,12 e 18 o resultado das perguntas é invertido
+                if (de.Key.ToString() == "3" || de.Key.ToString() == "12" || de.Key.ToString() == "18")
+                {
+                    iResultQuest += GetResultInvertidoSelfConcept(de.Value.ToString());
+                }
+                else
+                {
+                    iResultQuest += GetResultSelfConcept(de.Value.ToString());
+                }
+            }*/
+
+            //Criar as strings de resultados - Auto Conceito
+            iValue = iResultQuest;
+            if (iResultQuest <= 67)
+                sResultQuest = "Baixo auto-conceito.\n";
+            else
+                sResultQuest = "Bom auto-conceito.\n";
+
+            return sResultQuest;
+        }
+        private int GetResultInvertidoSelfConcept(string sQuestion)
+        {
+            switch (sQuestion)
+            {
+                case "1":
+                    return 5;
+                //break;
+                case "2":
+                    return 4;
+                //break;
+                case "3":
+                    return 3;
+                //break;
+                case "4":
+                    return 2;
+                //break;
+                case "5":
+                    return 1;
+                    //break;
+            }
+            return 0;
+        }
+        private int GetResultSelfConcept(string sQuestion)
+        {
+            switch (sQuestion)
+            {
+                case "1":
+                    return 1;
+                //break;
+                case "2":
+                    return 2;
+                //break;
+                case "3":
+                    return 3;
+                //break;
+                case "4":
+                    return 4;
+                //break;
+                case "5":
+                    return 5;
+            }
+            return 0;
+        }
 
 
 

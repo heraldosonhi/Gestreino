@@ -9,7 +9,7 @@
 <div class="right_col" role="main">
     <div class="row">
         <div class="col-md-12 col-sm-12 ">
-            @using (Ajax.BeginForm("anxient", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }, new { Id = "anxientForm" }))
+            @using (Ajax.BeginForm("anxiety", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }, new { Id = "anxientForm" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(m => m.PEsId)
@@ -19,10 +19,10 @@
                 <div class="row">
                     <div class="col-md-2">
                         <div class="">
-                            <a href="javascript:" data-placement="top" title="" class="open-modal-crud btn btn-success btn-block" data-id="0" data-action="Resultado" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal">
+                            <a href="javascript:" data-placement="top" title="" class="open-modal-crud btn btn-success btn-block" data-id="0" data-action="anxiety" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal">
                                 <i class="fa fa-search"></i>   Ver resultado..
                             </a>
-                            <a class="btn btn-secondary btn-block" href="@Url.Action("anxient", "gtmanagement", new {Id=string.Empty})"><i class="fa fa-plus-circle"></i> Novo</a>
+                            <a class="btn btn-secondary btn-block" href="@Url.Action("anxiety", "gtmanagement", new {Id=string.Empty})"><i class="fa fa-plus-circle"></i> Novo</a>
                         </div>
                     </div>
                     <div class="col-md-10">
@@ -172,8 +172,6 @@
                             </div>
                         </div>
 
-
-
                         <h3>Avaliação de @Configs.GESTREINO_AVALIDO_NOME</h3>
                         <!--  DATATABLE START -->
                         <div class="card mb-32pt">
@@ -193,10 +191,10 @@
                                     </select>
                                     <label class="" for="length_change">registos</label>
                                     <div class="btn-group">
-                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GTQuestTable"><i class="fa fa-check-square"></i></button>
-                                        <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GTQuestTable"><i class="fa fa-search"></i></button>
-                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GTQuestTable"><i class="fa fa-eraser"></i></button>
+                                        <button type="button" title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GTQuestTable"><i class="fa fa-check-square"></i></button>
+                                        <button type="button" title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-upload="GT_RespAnsiedadeDepressao" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                        <button type="button" title="Pesquisar" class="btnSearch btn btn-default" data-id="GTQuestTable"><i class="fa fa-search"></i></button>
+                                        <button type="button" title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GTQuestTable"><i class="fa fa-eraser"></i></button>
                                         <!--Separator-->
                                         <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "courses", applyFilter = "true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
                                         <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "courses", applyFilter = "false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>

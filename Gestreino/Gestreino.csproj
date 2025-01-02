@@ -282,6 +282,9 @@
     <Compile Include="GT_RespAnsiedadeDepressao.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_RespAutoConceito.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="GT_Series.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -709,8 +712,9 @@
     <Content Include="Views\Ajax\GTManagement\Exercises\GTExercise.cshtml" />
     <Content Include="Views\Ajax\GTManagement\Athletes\GTAvaliado.cshtml" />
     <Content Include="Views\Ajax\GTManagement\Plans\Index.cshtml" />
-    <Content Include="Views\GTManagement\Quest\Anxient\Index.cshtml" />
     <Content Include="Views\Ajax\GTManagement\Quest\Index.cshtml" />
+    <Content Include="Views\GTManagement\Quest\Anxiety.cshtml" />
+    <Content Include="Views\GTManagement\Quest\SelfConcept.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
