@@ -738,4 +738,27 @@ namespace Gestreino.Models
         public int? Summary { get; set; }
         public string SummaryDesc { get; set; }
     }
+    public class CoronaryRisk
+    {
+        public int? ID { get; set; }
+        public int? PEsId { get; set; }
+        public int? q1 { get; set; }
+        public int? q2 { get; set; }
+        public int? q3 { get; set; }
+        public int? q4 { get; set; }
+        public int? q5 { get; set; }
+        public int? q6 { get; set; }
+        public int? q7 { get; set; }
+        public int? q8 { get; set; }
+        public int? q9 { get; set; }
+        public int? q10 { get; set; }
+        public int? q11 { get; set; }
+        public int? q12 { get; set; }
+        public int? q13 { get; set; }
+        public int? q14 { get; set; }
+        public int? q15 { get; set; }
+        public int? q16 { get; set; }
+        public int? Summary { get; set; }
+        public string SummaryDesc { get; set; }
+    }
 }

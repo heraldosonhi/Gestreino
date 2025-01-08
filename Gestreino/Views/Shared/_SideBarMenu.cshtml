@@ -39,7 +39,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#">Risco Coronário</a>
+                            <a class="@(ViewBag.LeftBarLinkActive==207?"current-page":"")" href="@Url.Action("coronaryrisk", "gtmanagement", new {Id=string.Empty})">Risco Coronário</a>
                         </li>
                         <li>
                             <a href="#">Problemas de Saúde</a>

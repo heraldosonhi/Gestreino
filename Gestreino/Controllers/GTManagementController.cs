@@ -37,6 +37,7 @@ namespace Gestreino.Controllers
         int _MenuLeftBarLink_Exercices = 204;
         int _MenuLeftBarLink_Quest_Anxient = 205;
         int _MenuLeftBarLink_Quest_SelfConcept = 206;
+        int _MenuLeftBarLink_Quest_CoronaryRisk = 207;
         int _MenuLeftBarLink_FileManagement = 0;
 
         // GET: GTManagement
@@ -2292,7 +2293,7 @@ namespace Gestreino.Controllers
                     ACTUALIZACAO = x.ACTUALIZACAO,
                     DATAACTUALIZACAO = x.DATA_ACTUALIZACAO,
                     UPLOAD= GT_Res,
-                    LINK = GT_Res== "GT_RespAnsiedadeDepressao"? "/gtmanagement/anxient/" + x.ID : "/gtmanagement/selfconcept/" + x.ID
+                    LINK = GT_Res== "GT_RespAnsiedadeDepressao"? "/gtmanagement/anxiety/" + x.ID : "/gtmanagement/selfconcept/" + x.ID
                 }),
                 sortColumn = sortColumn,
                 sortColumnDir = sortColumnDir,
@@ -2571,6 +2572,29 @@ namespace Gestreino.Controllers
             return Json(new { result = true, error = string.Empty, table = "GTQuestTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
 
+
+
+
+        public ActionResult CoronaryRisk(CoronaryRisk MODEL, int? Id)
+        {
+            if(!string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_IDADE))
+               MODEL.q1 = int.Parse(Configs.GESTREINO_AVALIDO_IDADE) > 45 ?1:2;
+
+            if (Id > 0)
+            {
+                var data = databaseManager.GT_RespAnsiedadeDepressao.Where(x => x.ID == Id).ToList();
+                if (data.Count() == 0)
+                    return RedirectToAction("anxient", "gtmanagement", new { Id = string.Empty });
+                ViewBag.data = data;
+                MODEL.ID = Id;
+               
+               
+            }
+
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_CoronaryRisk;
+            return View("Quest/CoronaryRisk", MODEL);
+        }
 
         //Formulas exported from legacy projecto
         private string GetResult(GT_Quest_Anxient MODEL)

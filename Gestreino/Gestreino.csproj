@@ -715,6 +715,7 @@
     <Content Include="Views\Ajax\GTManagement\Quest\Index.cshtml" />
     <Content Include="Views\GTManagement\Quest\Anxiety.cshtml" />
     <Content Include="Views\GTManagement\Quest\SelfConcept.cshtml" />
+    <Content Include="Views\GTManagement\Quest\CoronaryRisk.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
