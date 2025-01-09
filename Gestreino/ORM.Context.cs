@@ -90,6 +90,7 @@ namespace Gestreino
         public virtual DbSet<GT_ExercicioTreinoCardio> GT_ExercicioTreinoCardio { get; set; }
         public virtual DbSet<GT_RespAnsiedadeDepressao> GT_RespAnsiedadeDepressao { get; set; }
         public virtual DbSet<GT_RespAutoConceito> GT_RespAutoConceito { get; set; }
+        public virtual DbSet<GT_RespRisco> GT_RespRisco { get; set; }
     
         public virtual ObjectResult<SP_UTILIZADORES_LOGIN_LOGS_Result> SP_UTILIZADORES_LOGIN_LOGS(Nullable<int> userId, string action)
         {

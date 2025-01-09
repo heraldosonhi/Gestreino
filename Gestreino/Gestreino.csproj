@@ -285,6 +285,9 @@
     <Compile Include="GT_RespAutoConceito.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_RespRisco.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="GT_Series.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>

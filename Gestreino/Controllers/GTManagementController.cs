@@ -341,6 +341,9 @@ namespace Gestreino.Controllers
                 var Peso = (MODEL.Caract_Peso != null) ? decimal.Parse(MODEL.Caract_Peso, CultureInfo.InvariantCulture) : (Decimal?)null;
                 var Altura = (MODEL.Caract_Altura != null) ? decimal.Parse(MODEL.Caract_Altura, CultureInfo.InvariantCulture) : (Decimal?)null;
 
+                if (Peso!=null && Altura!=null)
+                    MODEL.Caract_IMC = Convert.ToInt32(Peso / ((Altura / 100) * (Altura / 100)));
+              
                 //Create or update User
                 var Login = Converters.GetFirstAndLastName(MODEL.Nome).Replace(" ", "").ToLower();
 
@@ -432,6 +435,9 @@ namespace Gestreino.Controllers
                 Decimal Fax = (!string.IsNullOrEmpty(MODEL.Fax)) ? Convert.ToDecimal(MODEL.Fax) : 0; ;
                 var Peso = (MODEL.Caract_Peso != null) ? decimal.Parse(MODEL.Caract_Peso, CultureInfo.InvariantCulture) : (Decimal?)null;
                 var Altura = (MODEL.Caract_Altura != null) ? decimal.Parse(MODEL.Caract_Altura, CultureInfo.InvariantCulture) : (Decimal?)null;
+
+                if (Peso != null && Altura != null)
+                    MODEL.Caract_IMC = Convert.ToInt32(Peso / ((Altura / 100) * (Altura / 100)));
 
                 // Create User and Pes
                 var UpdatePes = databaseManager.SP_PES_ENT_PESSOAS(MODEL.ID, MODEL.Nome, MODEL.Sexo == 1 ? "M" : "F", DateofBirth, MODEL.EstadoCivil, MODEL.NIF, null, MODEL.NAT_PAIS_ID, MODEL.NAT_CIDADE_ID, MODEL.NAT_MUN_ID, Telephone, TelephoneAlternativo, Fax, MODEL.Email, MODEL.CodigoPostal, MODEL.URL, MODEL.Numero, int.Parse(User.Identity.GetUserId()), "U").ToList();
@@ -2238,6 +2244,11 @@ namespace Gestreino.Controllers
             int totalRecords = 0;
 
             PesId = PesId > 0 ? PesId : null;
+            var Link = string.Empty;
+            if (GT_Res == "GT_RespAnsiedadeDepressao") Link = "/gtmanagement/anxiety/";
+            if (GT_Res == "GT_RespAutoConceito") Link = "/gtmanagement/selfconcept/";
+            if (GT_Res == "GT_RespRisco") Link = "/gtmanagement/coronaryrisk/";
+            
             var v = (from a in databaseManager.SP_GT_ENT_Resp(null, PesId, GT_Res,  null, "R").ToList() select a);
             TempData["QUERYRESULT_ALL"] = v.ToList();
 
@@ -2293,7 +2304,7 @@ namespace Gestreino.Controllers
                     ACTUALIZACAO = x.ACTUALIZACAO,
                     DATAACTUALIZACAO = x.DATA_ACTUALIZACAO,
                     UPLOAD= GT_Res,
-                    LINK = GT_Res== "GT_RespAnsiedadeDepressao"? "/gtmanagement/anxiety/" + x.ID : "/gtmanagement/selfconcept/" + x.ID
+                    LINK = Link + x.ID
                 }),
                 sortColumn = sortColumn,
                 sortColumnDir = sortColumnDir,
@@ -2572,29 +2583,248 @@ namespace Gestreino.Controllers
             return Json(new { result = true, error = string.Empty, table = "GTQuestTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
 
-
-
-
+        //Risco coronario
         public ActionResult CoronaryRisk(CoronaryRisk MODEL, int? Id)
         {
-            if(!string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_IDADE))
-               MODEL.q1 = int.Parse(Configs.GESTREINO_AVALIDO_IDADE) > 45 ?1:2;
+
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
+            MODEL.txtIMC = databaseManager.PES_PESSOAS_CARACT.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(X => X.IMC).FirstOrDefault();
+            string sex = databaseManager.PES_PESSOAS.Where(x => x.ID == MODEL.PEsId).Select(X => X.SEXO).FirstOrDefault();
+            MODEL.IdadeQuery = sex == "M" ? "Tem idade superior a 45 anos?" : "Tem idade superior a 55 anos?";
+
+            if (!string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_IDADE))
+            {
+                if(sex=="M")
+                    MODEL.q1 = int.Parse(Configs.GESTREINO_AVALIDO_IDADE) > 45 ? 1 : 2;
+                else
+                    MODEL.q1 = int.Parse(Configs.GESTREINO_AVALIDO_IDADE) > 55 ? 1 : 2;
+            }
 
             if (Id > 0)
             {
-                var data = databaseManager.GT_RespAnsiedadeDepressao.Where(x => x.ID == Id).ToList();
+                var data = databaseManager.GT_RespRisco.Where(x => x.ID == Id).ToList();
                 if (data.Count() == 0)
-                    return RedirectToAction("anxient", "gtmanagement", new { Id = string.Empty });
+                    return RedirectToAction("coronaryrisk", "gtmanagement", new { Id = string.Empty });
                 ViewBag.data = data;
                 MODEL.ID = Id;
-               
-               
+                MODEL.q2 = Convert.ToInt32(data.First().radHeredMasc);
+                MODEL.q16 = Convert.ToInt32(data.First().radHeredFem);
+                MODEL.q3 = Convert.ToInt32(data.First().radTabacFuma);
+                MODEL.q4 = Convert.ToInt32(data.First().radTabacFuma6);
+                MODEL.txtCigarrosMedia = data.First().txtCigarrosMedia;
+                MODEL.q5 = Convert.ToInt32(data.First().radTensao);
+                MODEL.txtMaxSistolica = data.First().txtMaxSistolica ;
+                MODEL.txtMinSistolica = data.First().txtMinSistolica;
+                MODEL.txtMaxDistolica = data.First().txtMaxDistolica;
+                MODEL.txtMinDistolica = data.First().txtMinDistolica;
+                MODEL.q6 = Convert.ToInt32(data.First().radMedicacao);
+                MODEL.txtMedicamento = data.First().txtMedicamento;
+                MODEL.q7 = Convert.ToInt32(data.First().radColesterol1);
+                MODEL.q8 = Convert.ToInt32(data.First().radColesterol2);
+                MODEL.q9 = Convert.ToInt32(data.First().radColesterol3);
+                MODEL.q10 = Convert.ToInt32(data.First().radColesterol4);
+                MODEL.q11 = Convert.ToInt32(data.First().radColesterol5);
+                MODEL.q12 = Convert.ToInt32(data.First().radGlicose);
+                MODEL.txtGlicose1 = data.First().txtGlicose1;
+                MODEL.txtGlicose2 = data.First().txtGlicose2;
+                MODEL.q13 = Convert.ToInt32(data.First().radInactividade1);
+                MODEL.q14 = Convert.ToInt32(data.First().radInactividade2);
+                MODEL.q15 = Convert.ToInt32(data.First().radInactividade3);
+                MODEL.txtPerimetro = data.First().txtPerimetro;
+                MODEL.txtCardiaca = data.First().txtCardiaca;
+                MODEL.txtVascular = data.First().txtVascular;
+                MODEL.txtCerebroVascular = data.First().txtCerebroVascular;
+                MODEL.txtCardioVascularOutras = data.First().txtCardioVascularOutras;
+                MODEL.txtObstrucao = data.First().txtObstrucao;
+                MODEL.txtAsma = data.First().txtAsma;
+                MODEL.txtFibrose = data.First().txtFibrose;
+                MODEL.txtPulmomarOutras = data.First().txtPulmomarOutras;
+                MODEL.txtDiabetes1 = data.First().txtDiabetes1;
+                MODEL.txtDiabetes2 = data.First().txtDiabetes2;
+                MODEL.txtTiroide = data.First().txtTiroide;
+                MODEL.txtRenais = data.First().txtRenais;
+                MODEL.txtFigado = data.First().txtFigado;
+                MODEL.txtMetabolicaOutras = data.First().txtMetabolicaOutras;
+                MODEL.chkCardiaca = !string.IsNullOrEmpty(data.First().txtCardiaca) ? true : false;
+                MODEL.chkVascular = !string.IsNullOrEmpty(data.First().txtVascular) ? true : false;
+                MODEL.chkCerebroVascular = !string.IsNullOrEmpty(data.First().txtCerebroVascular) ? true : false;
+                MODEL.chkCardioVascularOutras = !string.IsNullOrEmpty(data.First().txtCardioVascularOutras) ? true : false;
+                MODEL.chkObstrucao = !string.IsNullOrEmpty(data.First().txtObstrucao) ? true : false;
+                MODEL.chkAsma = !string.IsNullOrEmpty(data.First().txtAsma) ? true : false;
+                MODEL.chkFibrose = !string.IsNullOrEmpty(data.First().txtFibrose) ? true : false;
+                MODEL.chkPulmomarOutras = !string.IsNullOrEmpty(data.First().txtPulmomarOutras) ? true : false;
+                MODEL.chkDiabetes1 = !string.IsNullOrEmpty(data.First().txtDiabetes1) ? true : false;
+                MODEL.chkDiabetes2 = !string.IsNullOrEmpty(data.First().txtDiabetes2) ? true : false;
+                MODEL.chkTiroide = !string.IsNullOrEmpty(data.First().txtTiroide) ? true : false;
+                MODEL.chkRenais = !string.IsNullOrEmpty(data.First().txtRenais) ? true : false;
+                MODEL.chkFigado = !string.IsNullOrEmpty(data.First().txtFigado) ? true : false;
+                MODEL.chkMetabolicaOutras = !string.IsNullOrEmpty(data.First().txtMetabolicaOutras) ? true : false;
+                MODEL.chkDor = data.First().chkDor.Value;
+                MODEL.chkRespiracao = data.First().chkRespiracao.Value;
+                MODEL.chkTonturas = data.First().chkTonturas.Value;
+                MODEL.chkDispeneia = data.First().chkDispeneia.Value;
+                MODEL.chkEdema = data.First().chkEdema.Value;
+                MODEL.chkPalpitacoes = data.First().chkPalpitacoes.Value;
+                MODEL.chkClaudicacao = data.First().chkClaudicacao.Value;
+                MODEL.chkMurmurio = data.First().chkMurmurio.Value;
+                MODEL.chkfadiga = data.First().chkfadiga.Value;
             }
 
-            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_CoronaryRisk;
             return View("Quest/CoronaryRisk", MODEL);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CoronaryRisk(CoronaryRisk MODEL, int? frmaction, string returnUrl)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                string sValue = string.Empty;
+                GetResultQuestCoronaryRisk(MODEL, out sValue);
+
+                if (frmaction == 1)
+                {
+                    if (MODEL.ID > 0)
+                    {
+                        (from c in databaseManager.GT_RespRisco
+                         where c.ID == MODEL.ID
+                         select c).ToList().ForEach(fx => {
+                             fx.radIdade = MODEL.q1!=null? Convert.ToBoolean(MODEL.q1): (Boolean?)null;
+                             fx.radHeredMasc = MODEL.q2 != null ? Convert.ToBoolean(MODEL.q2) : (Boolean?)null;
+                             fx.radHeredFem = MODEL.q16 != null ? Convert.ToBoolean(MODEL.q16) : (Boolean?)null;
+                             fx.radTabacFuma = MODEL.q3 != null ? Convert.ToBoolean(MODEL.q3) : (Boolean?)null;
+                             fx.radTabacFuma6 = MODEL.q4 != null ? Convert.ToBoolean(MODEL.q4) : (Boolean?)null;
+                             fx.txtCigarrosMedia = MODEL.txtCigarrosMedia;
+                             fx.radTensao = MODEL.q5 != null ? Convert.ToBoolean(MODEL.q5) : (Boolean?)null;
+                             fx.txtMaxSistolica = MODEL.txtMaxSistolica;
+                             fx.txtMinSistolica = MODEL.txtMinSistolica;
+                             fx.txtMaxDistolica = MODEL.txtMaxDistolica;
+                             fx.txtMinDistolica = MODEL.txtMinDistolica;
+                             fx.radMedicacao = MODEL.q6 != null ? Convert.ToBoolean(MODEL.q6) : (Boolean?)null;
+                             fx.txtMedicamento = MODEL.txtMedicamento;
+                             fx.radColesterol1 = MODEL.q7 != null ? Convert.ToBoolean(MODEL.q7) : (Boolean?)null;
+                             fx.radColesterol2 = MODEL.q8 != null ? Convert.ToBoolean(MODEL.q8) : (Boolean?)null;
+                             fx.radColesterol3 = MODEL.q9 != null ? Convert.ToBoolean(MODEL.q9) : (Boolean?)null;
+                             fx.radColesterol4 = MODEL.q10 != null ? Convert.ToBoolean(MODEL.q10) : (Boolean?)null;
+                             fx.radColesterol5 = MODEL.q11 != null ? Convert.ToBoolean(MODEL.q11) : (Boolean?)null;
+                             fx.radGlicose = MODEL.q12 != null ? Convert.ToBoolean(MODEL.q12) : (Boolean?)null;
+                             fx.txtGlicose1 = MODEL.txtGlicose1;
+                             fx.txtGlicose2 = MODEL.txtGlicose2;
+                             fx.radInactividade1 = MODEL.q13 != null ? Convert.ToBoolean(MODEL.q13) : (Boolean?)null;
+                             fx.radInactividade2 = MODEL.q14 != null ? Convert.ToBoolean(MODEL.q14) : (Boolean?)null;
+                             fx.radInactividade3 = MODEL.q15 != null ? Convert.ToBoolean(MODEL.q15) : (Boolean?)null;
+                             fx.txtPerimetro = MODEL.txtPerimetro;
+                             fx.txtCardiaca = MODEL.txtCardiaca;
+                             fx.txtVascular = MODEL.txtVascular;
+                             fx.txtCerebroVascular = MODEL.txtCerebroVascular;
+                             fx.txtCardioVascularOutras = MODEL.txtCardioVascularOutras;
+                             fx.txtObstrucao = MODEL.txtObstrucao;
+                             fx.txtAsma = MODEL.txtAsma;
+                             fx.txtFibrose = MODEL.txtFibrose;
+                             fx.txtPulmomarOutras = MODEL.txtPulmomarOutras;
+                             fx.txtDiabetes1 = MODEL.txtDiabetes1;
+                             fx.txtDiabetes2 = MODEL.txtDiabetes2;
+                             fx.txtTiroide = MODEL.txtTiroide;
+                             fx.txtRenais = MODEL.txtRenais;
+                             fx.txtFigado = MODEL.txtFigado;
+                             fx.txtMetabolicaOutras = MODEL.txtMetabolicaOutras;
+                             fx.chkDor = MODEL.chkDor;
+                             fx.chkRespiracao = MODEL.chkRespiracao;
+                             fx.chkTonturas = MODEL.chkTonturas;
+                             fx.chkDispeneia = MODEL.chkDispeneia;
+                             fx.chkEdema = MODEL.chkEdema;
+                             fx.chkPalpitacoes = MODEL.chkPalpitacoes;
+                             fx.chkClaudicacao = MODEL.chkClaudicacao;
+                             fx.chkMurmurio = MODEL.chkMurmurio;
+                             fx.chkfadiga = MODEL.chkfadiga;
+                             fx.RESP_DESCRICAO = GetResultQuestCoronaryRisk(MODEL, out sValue);
+                             fx.RESP_SUMMARY = Convert.ToInt32(sValue);
+                             fx.ACTUALIZADO_POR = int.Parse(User.Identity.GetUserId()); fx.DATA_ACTUALIZACAO = DateTime.Now;
+                         });
+                        databaseManager.SaveChanges();
+                    }
+                    else
+                    {
+                        GT_RespRisco fx = new GT_RespRisco();
+                        fx.GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
+                        fx.radIdade = MODEL.q1 != null ? Convert.ToBoolean(MODEL.q1) : (Boolean?)null;
+                        fx.radHeredMasc = MODEL.q2 != null ? Convert.ToBoolean(MODEL.q2) : (Boolean?)null;
+                        fx.radHeredFem = MODEL.q16 != null ? Convert.ToBoolean(MODEL.q16) : (Boolean?)null;
+                        fx.radTabacFuma = MODEL.q3 != null ? Convert.ToBoolean(MODEL.q3) : (Boolean?)null;
+                        fx.radTabacFuma6 = MODEL.q4 != null ? Convert.ToBoolean(MODEL.q4) : (Boolean?)null;
+                        fx.txtCigarrosMedia = MODEL.txtCigarrosMedia;
+                        fx.radTensao = MODEL.q5 != null ? Convert.ToBoolean(MODEL.q5) : (Boolean?)null;
+                        fx.txtMaxSistolica = MODEL.txtMaxSistolica;
+                        fx.txtMinSistolica = MODEL.txtMinSistolica;
+                        fx.txtMaxDistolica = MODEL.txtMaxDistolica;
+                        fx.txtMinDistolica = MODEL.txtMinDistolica;
+                        fx.radMedicacao = MODEL.q6 != null ? Convert.ToBoolean(MODEL.q6) : (Boolean?)null;
+                        fx.txtMedicamento = MODEL.txtMedicamento;
+                        fx.radColesterol1 = MODEL.q7 != null ? Convert.ToBoolean(MODEL.q7) : (Boolean?)null;
+                        fx.radColesterol2 = MODEL.q8 != null ? Convert.ToBoolean(MODEL.q8) : (Boolean?)null;
+                        fx.radColesterol3 = MODEL.q9 != null ? Convert.ToBoolean(MODEL.q9) : (Boolean?)null;
+                        fx.radColesterol4 = MODEL.q10 != null ? Convert.ToBoolean(MODEL.q10) : (Boolean?)null;
+                        fx.radColesterol5 = MODEL.q11 != null ? Convert.ToBoolean(MODEL.q11) : (Boolean?)null;
+                        fx.radGlicose = MODEL.q12 != null ? Convert.ToBoolean(MODEL.q12) : (Boolean?)null;
+                        fx.txtGlicose1 = MODEL.txtGlicose1;
+                        fx.txtGlicose2 = MODEL.txtGlicose2;
+                        fx.radInactividade1 = MODEL.q13 != null ? Convert.ToBoolean(MODEL.q13) : (Boolean?)null;
+                        fx.radInactividade2 = MODEL.q14 != null ? Convert.ToBoolean(MODEL.q14) : (Boolean?)null;
+                        fx.radInactividade3 = MODEL.q15 != null ? Convert.ToBoolean(MODEL.q15) : (Boolean?)null;
+                        fx.txtPerimetro = MODEL.txtPerimetro;
+                        fx.txtCardiaca = MODEL.txtCardiaca;
+                        fx.txtVascular = MODEL.txtVascular;
+                        fx.txtCerebroVascular = MODEL.txtCerebroVascular;
+                        fx.txtCardioVascularOutras = MODEL.txtCardioVascularOutras;
+                        fx.txtObstrucao = MODEL.txtObstrucao;
+                        fx.txtAsma = MODEL.txtAsma;
+                        fx.txtFibrose = MODEL.txtFibrose;
+                        fx.txtPulmomarOutras = MODEL.txtPulmomarOutras;
+                        fx.txtDiabetes1 = MODEL.txtDiabetes1;
+                        fx.txtDiabetes2 = MODEL.txtDiabetes2;
+                        fx.txtTiroide = MODEL.txtTiroide;
+                        fx.txtRenais = MODEL.txtRenais;
+                        fx.txtFigado = MODEL.txtFigado;
+                        fx.txtMetabolicaOutras = MODEL.txtMetabolicaOutras;
+                        fx.chkDor = MODEL.chkDor;
+                        fx.chkRespiracao = MODEL.chkRespiracao;
+                        fx.chkTonturas = MODEL.chkTonturas;
+                        fx.chkDispeneia = MODEL.chkDispeneia;
+                        fx.chkEdema = MODEL.chkEdema;
+                        fx.chkPalpitacoes = MODEL.chkPalpitacoes;
+                        fx.chkClaudicacao = MODEL.chkClaudicacao;
+                        fx.chkMurmurio = MODEL.chkMurmurio;
+                        fx.chkfadiga = MODEL.chkfadiga;
+                        fx.RESP_DESCRICAO = GetResultQuestCoronaryRisk(MODEL, out sValue);
+                        fx.RESP_SUMMARY = Convert.ToInt32(sValue);
+                        fx.INSERIDO_POR = int.Parse(User.Identity.GetUserId());
+                        fx.DATA_INSERCAO = DateTime.Now;
+                        databaseManager.GT_RespRisco.Add(fx);
+                        databaseManager.SaveChanges();
+                    }
+                }
+                else
+                {
+                    return Json(new { result = true, success = sValue, risk=true });
+                }
+
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GTQuestTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
 
         //Formulas exported from legacy projecto
         private string GetResult(GT_Quest_Anxient MODEL)
@@ -2861,8 +3091,78 @@ namespace Gestreino.Controllers
             }
             return 0;
         }
+        //
+        private string GetResultQuestCoronaryRisk(CoronaryRisk MODEL, out string sValue)
+        {
+            string sResultRisco = string.Empty;
+            string sRisco = string.Empty;
+            int iFactores = 0;
+            bool bSintomas = false;
 
+            //FACTORES POSITIVOS
+            //Historia Familiar
+            if (MODEL.q2 == 1 || MODEL.q16==1)
+                iFactores += 1;
 
+            //Hábitos Tabágicos
+            if ((MODEL.q3==1) || (MODEL.q4==1))
+                iFactores += 1;
+
+            //Hipertensão
+            if ((MODEL.q5==1) || (MODEL.q6==1))
+                iFactores += 1;
+
+            //HiperColesterolemia
+            //if ((radColesterol1S.Checked) || (radColesterol3S.Checked) || (radColesterol5S.Checked))
+            if (MODEL.q7==1 || MODEL.q9==1 || MODEL.q11==1)
+                iFactores += 1;
+
+            //Glicose
+            if ((MODEL.q12==1))
+                iFactores += 1;
+
+            //Obesidade
+            if (MODEL.txtIMC >= 30)
+                iFactores += 1;
+
+            //Estilo de Vida/Inactividade Física
+            if (MODEL.q13==1)
+                iFactores += 1;
+
+            //FACTORES NEGATIVOS
+            if (MODEL.q10==1)
+                iFactores -= 1;
+
+            bSintomas = (MODEL.chkDor || MODEL.chkRespiracao
+                        || MODEL.chkTonturas || MODEL.chkDispeneia
+                        || MODEL.chkEdema || MODEL.chkPalpitacoes
+                        || MODEL.chkClaudicacao || MODEL.chkMurmurio
+                        || MODEL.chkfadiga
+                        //Doenças conhecidas associadas ao risco coronário
+                        || MODEL.chkCardiaca || MODEL.chkVascular || MODEL.chkCerebroVascular
+                        || MODEL.chkCardioVascularOutras || MODEL.chkObstrucao || MODEL.chkAsma
+                        || MODEL.chkFibrose || MODEL.chkPulmomarOutras || MODEL.chkDiabetes1
+                        || MODEL.chkDiabetes2 || MODEL.chkRenais || MODEL.chkFigado || MODEL.chkMetabolicaOutras);
+
+            if (bSintomas)
+            {
+                sResultRisco = "Risco Elevado";
+                sRisco = "2";
+            }
+            else if (MODEL.q1==1 || iFactores >= 2)
+            {
+                sResultRisco = "Risco Moderado";
+                sRisco = "1";
+            }
+            else
+            {
+                sResultRisco = "Risco Baixo";
+                sRisco = "0";
+            }
+
+            sValue = sRisco;
+            return sResultRisco;
+        }
 
     }
 }

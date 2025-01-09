@@ -742,6 +742,7 @@ namespace Gestreino.Models
     {
         public int? ID { get; set; }
         public int? PEsId { get; set; }
+        public string IdadeQuery { get; set; }
         public int? q1 { get; set; }
         public int? q2 { get; set; }
         public int? q3 { get; set; }
@@ -760,5 +761,85 @@ namespace Gestreino.Models
         public int? q16 { get; set; }
         public int? Summary { get; set; }
         public string SummaryDesc { get; set; }
-    }
+        public int? txtCigarrosMedia { get; set; }
+        public int? txtMaxSistolica { get; set; }
+        public int? txtMinSistolica { get; set; }
+        public int? txtMaxDistolica { get; set; }
+        public int? txtMinDistolica { get; set; }
+        public string txtMedicamento { get; set; }
+        public int? txtGlicose1 { get; set; }
+        public int? txtGlicose2 { get; set; }
+        public int? txtPerimetro { get; set; }
+        public int? txtIMC { get; set; }
+        public string txtCardiaca { get; set; }
+        public string txtVascular { get; set; }
+        public string txtCerebroVascular { get; set; }
+        public string txtCardioVascularOutras { get; set; }
+        public string txtObstrucao { get; set; }
+        public string txtAsma { get; set; }
+        public string txtFibrose { get; set; }
+        public string txtPulmomarOutras { get; set; }
+        public string txtDiabetes1 { get; set; }
+        public string txtDiabetes2 { get; set; }
+        public string txtTiroide { get; set; }
+        public string txtRenais { get; set; }
+        public string txtFigado { get; set; }
+        public string txtMetabolicaOutras { get; set; }
+
+        [Display(Name = "Dor, desconforto no peito, pescoço, queixo, braços ou áreas, que possa ser devido a isquémia (falta de irrigação sanguínea)")]
+        public bool chkDor { get; set; }
+
+        [Display(Name = "Respiração curta em repouso ou em actividade de média intensidade")]
+        public bool chkRespiracao { get; set; }
+
+        [Display(Name = "Tonturas ou síncope (desamaio)")]
+        public bool chkTonturas { get; set; }
+
+        [Display(Name = "Dispeneia nocturna (ressonar)")]
+        public bool chkDispeneia { get; set; }
+
+        [Display(Name = "Edema no tornozelo")]
+        public bool chkEdema { get; set; }
+
+        [Display(Name = "Palpitações (ritmo anormalmente rápido ou irregular) e taquicárdia (ritmo cardíaco anormalmente acelerado)")]
+        public bool chkPalpitacoes { get; set; }
+
+        [Display(Name = "Claudicação intermitente (coxear ocasional, acompanhado de dores nas pernas, vulgarmente causado por doença arterial)")]
+        public bool chkClaudicacao { get; set; }
+
+        [Display(Name = "Murmúrio no coração")]
+        public bool chkMurmurio { get; set; }
+
+        [Display(Name = "Fadiga invulgar")]
+        public bool chkfadiga { get; set; }
+        //
+        [Display(Name = "Cardíaca")]
+        public bool chkCardiaca { get; set; }
+        [Display(Name = "Vascular Periférica")]
+        public bool chkVascular { get; set; }
+        [Display(Name = "Cerebrovascular")]
+        public bool chkCerebroVascular { get; set; }
+        [Display(Name = "Outras")]
+        public bool chkCardioVascularOutras { get; set; }
+        [Display(Name = "Obstrução pulmonar crónica")]
+        public bool chkObstrucao { get; set; }
+        [Display(Name = "Asma")]
+        public bool chkAsma { get; set; }
+        [Display(Name = "Fibrose quística")]
+        public bool chkFibrose { get; set; }
+        [Display(Name = "Outras")]
+        public bool chkPulmomarOutras { get; set; }
+        [Display(Name = "Diabetes Tipo I")]
+        public bool chkDiabetes1 { get; set; }
+        [Display(Name = "Diabetes Tipo II")]
+        public bool chkDiabetes2 { get; set; }
+        [Display(Name = "Problemas de tiróide")]
+        public bool chkTiroide { get; set; }
+        [Display(Name = "Doenças renais")]
+        public bool chkRenais { get; set; }
+        [Display(Name = "Doenças de fígado")]
+        public bool chkFigado { get; set; }
+        [Display(Name = "Outras")]
+        public bool chkMetabolicaOutras { get; set; }
+  }
 }

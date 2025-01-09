@@ -152,6 +152,8 @@
         <AssociationConnector Association="GESTREINO_ORM.GT_RespAnsiedadeDepressao_GT_SOCIOS_ID" />
         <EntityTypeShape EntityType="GESTREINO_ORM.GT_RespAutoConceito" Width="1.5" PointX="7.5" PointY="85.125" />
         <AssociationConnector Association="GESTREINO_ORM.GT_RespAutoConceito_GT_SOCIOS_ID" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_RespRisco" Width="1.5" PointX="7.5" PointY="93.5" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_RespRisco_GT_SOCIOS_ID" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

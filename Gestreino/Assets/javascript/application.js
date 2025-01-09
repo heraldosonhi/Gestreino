@@ -375,9 +375,8 @@ function handleSuccess(response) {
         if (response.calendar) {
             //refreshCalendar('#' + response.calendar, response.calendarColumn)
         }
-        if (response.cand) {
-            //courseModels(response.validationId, 3, response.processId, response.PesId, null);
-            //refreshCalendar('#' + response.calendar, response.calendarColumn)
+        if (response.risk) {
+            processquest(response.success);
         }
         if (response.reload) {
             location.reload();
@@ -3879,10 +3878,41 @@ $(document).on('click', '.removegaclass1', function () {
 });
 
 
-//Avalicao psicologica
+//Avalicao psicologica e risco coronario
 function anxientForm() {
     $('#anxientForm').clone(true).appendTo('#anxientFormClone');
     $("#anxientFormClone form:first-child").submit();
-    $('#anxientFormClone input[name="frmaction"] ').val('1')
+    $('#anxientFormClone input[name="frmaction"] ').val('1');
+}
+function processquest(result){
+    if (result == "0") {
+        $('#riskRB1').css("background", "green").css("color","#ddd")
+        $('#riskRB2').css("background", "green").css("color", "#ddd")
+        $('#riskRB3').css("background", "green").css("color", "#ddd")
+        $('#riskRB4').css("background", "green").css("color", "#ddd")
+    }
+    if (result == "1") {
+        $('#riskRM1').css("background", "green").css("color", "#ddd")
+        $('#riskRM2').css("background", "green").css("color", "#ddd")
+        $('#riskRM3').css("background", "green").css("color", "#ddd")
+        $('#riskRM4').css("background", "green").css("color", "#ddd")
+    }
+    if (result == "2") {
+        $('#riskRE1').css("background", "green").css("color", "#ddd")
+        $('#riskRE2').css("background", "green").css("color", "#ddd")
+        $('#riskRE3').css("background", "green").css("color", "#ddd")
+        $('#riskRE4').css("background", "green").css("color", "#ddd")
+    }
 }
 function submitanxientForm() { $("#anxientFormClone form:first-child").submit(); }
+
+$(document).on('change', '.chkcoronaryRisk', function () {
+   
+    if ($(this).is(":checked")) {
+        $(this).parent().parent().find('input[type="text"]').attr("disabled", false);
+        //$(this).parent().parent().find('input[type="text"]').val('');
+    } else {
+        $(this).parent().parent().find('input[type="text"]').attr("disabled", true);
+        //$(this).parent().parent().find('input[type="text"]').val('');
+    }
+});

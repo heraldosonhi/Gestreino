@@ -6,31 +6,35 @@
 @if (!string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
 {
     <style>
-        .table td, .table th { border-top:none !important;
-                               padding:.25rem .75rem !important
+        .table td, .table th:not(#GTQuestTable) {
+            border-top: none !important;
+            padding: .25rem .75rem !important;
         }
     </style>
     <!-- page content -->
     <div class="right_col" role="main">
         <div class="row">
             <div class="col-md-12 col-sm-12 ">
-                @using (Ajax.BeginForm("anxiety", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }, new { Id = "anxientForm" }))
+                @using (Ajax.BeginForm("coronaryrisk", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }, new { Id = "anxientForm" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.PEsId)
                     @Html.HiddenFor(m => m.ID)
                     <input type="hidden" value="2" name="frmaction" />
-                    <input type="hidden" value="GT_RespAnsiedadeDepressao" id="GT_Res" />
+                    <input type="hidden" value="GT_RespRisco" id="GT_Res" />
                     <div class="row">
-                        <div class="col-md-2">
-                            <div class="">
-                                <a href="javascript:" data-placement="top" title="" class="open-modal-crud btn btn-success btn-block" data-id="0" data-action="anxiety" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal">
+                        <div class="col-md-4">
+                            <div class="btn-group">
+                                <a href="javascript:" data-placement="top" title="" class="open-modal-crud btn btn-success" data-id="0" data-action="risk" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal">
                                     <i class="fa fa-search"></i>   Ver resultado..
                                 </a>
-                                <a class="btn btn-secondary btn-block" href="@Url.Action("anxiety", "gtmanagement", new {Id=string.Empty})"><i class="fa fa-plus-circle"></i> Novo</a>
+                                <button type="submit" value="1" name="frmaction" class="btn btn-success btn-sm"><i class="fa fa-floppy-o"></i> Guardar</button>
+                                <a class="btn btn-secondary" href="@Url.Action("coronaryrisk", "gtmanagement", new {Id=string.Empty})"><i class="fa fa-plus-circle"></i> Novo</a>
                             </div>
                         </div>
-                        <div class="col-md-10">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9 mt-2">
                             <div class="animated flipInY">
                                 <div class="tile-stats">
                                     <div class="icon">
@@ -43,438 +47,568 @@
                                         <h6 class="p-2 bg-light mt-2 text-success"><i class="fa fa-floppy-o"></i> Questionário registado: @ViewBag.data[0].DATA_INSERCAO</h6>
                                     }
 
-                                <table class="table mt-3">
-                                    <tr>
-                                        <td>
-                                            <h5> 1. Idade</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td> Tem idade superior a 45 anos?</td>
-                                        <td>
-                                            <input type="radio" id="q1_1" name="q1" value="1" @(Model.q1 != null && Model.q1 == 1 ? "checked" : "") /> <label for="q1_1">Sim</label>
-                                            &nbsp;&nbsp;<input type="radio" id="q1_2" name="q1" value="2" @(Model.q1 != null && Model.q1 == 2 ? "checked" : "") /> <label for="q1_2">Não</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>  2. Hereditariedade</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Tem algum familiar em primeiro grau do sexo masculino (pai, irmão, filho) que tenha tido enfarte do miocárdio, revascularização coronária, ou morte súbita antes dos 55 anos?
-                                        </td>
-                                        <td>
-                                            <input type="radio" id="q2_1" name="q2" value="1" @(Model.q2 != null && Model.q2 == 1 ? "checked" : "") /> <label for="q2_1">Sim</label>
-                                            &nbsp;&nbsp;<input type="radio" id="q2_2" name="q2" value="2" @(Model.q2 != null && Model.q2 == 2 ? "checked" : "") /> <label for="q2_2">Não</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Tem algum familiar em primeiro grau do sexo feminino (mãe, irmã, filha) que tenha tido enfarte do miocárdio, revascularização coronária, ou morte súbita antes dos 55 anos?
-                                        </td>
-                                        <td>
-                                            <input type="radio" id="q16_1" name="q16" value="1" @(Model.q16 != null && Model.q16 == 1 ? "checked" : "") /> <label for="q16_1">Sim</label>
-                                            &nbsp;&nbsp;<input type="radio" id="q16_2" name="q16" value="2" @(Model.q16 != null && Model.q16 == 2 ? "checked" : "") /> <label for="q16_2">Não</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>  3. Tabagismo</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Fuma actualmente?
-                                        </td>
-                                        <td>
-                                            <input type="radio" id="q3_1" name="q3" value="1" @(Model.q3 != null && Model.q3 == 1 ? "checked" : "") /> <label for="q3_1">Sim</label>
-                                            &nbsp;&nbsp;<input type="radio" id="q3_2" name="q3" value="2" @(Model.q3 != null && Model.q3 == 2 ? "checked" : "") /> <label for="q3_2">Não</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Deixou de fumar nos últimos 6 meses?
-                                        </td>
-                                        <td>
-                                            <input type="radio" id="q4_1" name="q4" value="1" @(Model.q4 != null && Model.q4 == 1 ? "checked" : "") /> <label for="q4_1">Sim</label>
-                                            &nbsp;&nbsp;<input type="radio" id="q4_2" name="q4" value="2" @(Model.q4 != null && Model.q4 == 2 ? "checked" : "") /> <label for="q4_2">Não</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Quantos cigarros fuma/fumava diariamente(em média)?
-                                        </td>
-                                        <td>
-                                            <input type="number" min="1" class="form-control form-control-sm w-25" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>    4. Tensão Arterial</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Tem tensão arterial sistólica (máxima) superior a 140 mm Hg ou tensão arterial distólica (mínima) superior 90 mm Hg (confirmada em duas ocasiões diferentes)?
-                                        </td>
-                                        <td>
-                                            <input type="radio" id="q5_1" name="q5" value="1" @(Model.q5 != null && Model.q5 == 1 ? "checked" : "") /> <label for="q5_1">Sim</label>
-                                            &nbsp;&nbsp;<input type="radio" id="q5_2" name="q5" value="2" @(Model.q5 != null && Model.q5 == 2 ? "checked" : "") /> <label for="q5_2">Não</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Indique os valores:
-                                        </td>
-                                        <td>
-                                            máx/min:
-                                            <div class="row">
-                                                <div class="col-md-4">  <input type="number" min="1" class="form-control form-control-sm" /></div>
-                                                <div class="col-md-1"> / </div>
-                                                <div class="col-md-4">  <input type="number" min="1" class="form-control form-control-sm" /></div>
-                                            </div>
-                                            máx/min:
-                                            <div class="row">
-                                                <div class="col-md-4">  <input type="number" min="1" class="form-control form-control-sm" /></div>
-                                                <div class="col-md-1"> / </div>
-                                                <div class="col-md-4">  <input type="number" min="1" class="form-control form-control-sm" /></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Está sob efeito de medicação para o controlo da tensão arterial?
-                                        </td>
-                                        <td>
-                                            <input type="radio" id="q6_1" name="q6" value="1" @(Model.q6 != null && Model.q6 == 1 ? "checked" : "") /> <label for="q6_1">Sim</label>
-                                            &nbsp;&nbsp;<input type="radio" id="q6_2" name="q6" value="2" @(Model.q6 != null && Model.q6 == 2 ? "checked" : "") /> <label for="q6_2">Não</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Se sim qual o nome do medicamento?
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm w-75" />
-                                        </td>
-                                    </tr>
+                                    <table class="table mt-3">
+                                        <tr>
+                                            <td>
+                                                <h5> 1. Idade</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>@Model.IdadeQuery</td>
+                                            <td>
+                                                <input type="radio" id="q1_1" name="q1" value="1" @(Model.q1 != null && Model.q1 == 1 ? "checked" : "") /> <label for="q1_1">Sim</label>
+                                                &nbsp;&nbsp;<input type="radio" id="q1_2" name="q1" value="0" @(Model.q1 != null && Model.q1 == 2 ? "checked" : "") /> <label for="q1_2">Não</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>  2. Hereditariedade</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Tem algum familiar em primeiro grau do sexo masculino (pai, irmão, filho) que tenha tido enfarte do miocárdio, revascularização coronária, ou morte súbita antes dos 55 anos?
+                                            </td>
+                                            <td>
+                                                <input type="radio" id="q2_1" name="q2" value="1" @(Model.q2 != null && Model.q2 == 1 ? "checked" : "") /> <label for="q2_1">Sim</label>
+                                                &nbsp;&nbsp;<input type="radio" id="q2_2" name="q2" value="0" @(Model.q2 != null && Model.q2 == 0 ? "checked" : "") /> <label for="q2_2">Não</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Tem algum familiar em primeiro grau do sexo feminino (mãe, irmã, filha) que tenha tido enfarte do miocárdio, revascularização coronária, ou morte súbita antes dos 55 anos?
+                                            </td>
+                                            <td>
+                                                <input type="radio" id="q16_1" name="q16" value="1" @(Model.q16 != null && Model.q16 == 1 ? "checked" : "") /> <label for="q16_1">Sim</label>
+                                                &nbsp;&nbsp;<input type="radio" id="q16_2" name="q16" value="0" @(Model.q16 != null && Model.q16 == 2 ? "checked" : "") /> <label for="q16_2">Não</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>  3. Tabagismo</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Fuma actualmente?
+                                            </td>
+                                            <td>
+                                                <input type="radio" id="q3_1" name="q3" value="1" @(Model.q3 != null && Model.q3 == 1 ? "checked" : "") /> <label for="q3_1">Sim</label>
+                                                &nbsp;&nbsp;<input type="radio" id="q3_2" name="q3" value="0" @(Model.q3 != null && Model.q3 == 2 ? "checked" : "") /> <label for="q3_2">Não</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Deixou de fumar nos últimos 6 meses?
+                                            </td>
+                                            <td>
+                                                <input type="radio" id="q4_1" name="q4" value="1" @(Model.q4 != null && Model.q4 == 1 ? "checked" : "") /> <label for="q4_1">Sim</label>
+                                                &nbsp;&nbsp;<input type="radio" id="q4_2" name="q4" value="0" @(Model.q4 != null && Model.q4 == 2 ? "checked" : "") /> <label for="q4_2">Não</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Quantos cigarros fuma/fumava diariamente(em média)?
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(m => m.txtCigarrosMedia, new { type = "number", min = "1", @class = "form-control form-control-sm w-25" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>    4. Tensão Arterial</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Tem tensão arterial sistólica (máxima) superior a 140 mm Hg ou tensão arterial distólica (mínima) superior 90 mm Hg (confirmada em duas ocasiões diferentes)?
+                                            </td>
+                                            <td>
+                                                <input type="radio" id="q5_1" name="q5" value="1" @(Model.q5 != null && Model.q5 == 1 ? "checked" : "") /> <label for="q5_1">Sim</label>
+                                                &nbsp;&nbsp;<input type="radio" id="q5_2" name="q5" value="0" @(Model.q5 != null && Model.q5 == 2 ? "checked" : "") /> <label for="q5_2">Não</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Indique os valores:
+                                            </td>
+                                            <td>
+                                                máx/min:
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        @Html.TextBoxFor(m => m.txtMaxSistolica, new { type = "number", min = "1", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                    <div class="col-md-1"> / </div>
+                                                    <div class="col-md-4">
+                                                        @Html.TextBoxFor(m => m.txtMinSistolica, new { type = "number", min = "1", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                </div>
+                                                máx/min:
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        @Html.TextBoxFor(m => m.txtMaxDistolica, new { type = "number", min = "1", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                    <div class="col-md-1"> / </div>
+                                                    <div class="col-md-4">
+                                                        @Html.TextBoxFor(m => m.txtMinDistolica, new { type = "number", min = "1", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Está sob efeito de medicação para o controlo da tensão arterial?
+                                            </td>
+                                            <td>
+                                                <input type="radio" id="q6_1" name="q6" value="1" @(Model.q6 != null && Model.q6 == 1 ? "checked" : "") /> <label for="q6_1">Sim</label>
+                                                &nbsp;&nbsp;<input type="radio" id="q6_2" name="q6" value="0" @(Model.q6 != null && Model.q6 == 2 ? "checked" : "") /> <label for="q6_2">Não</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Se sim qual o nome do medicamento?
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(m => m.txtMedicamento, new { @class = "form-control form-control-sm w-75\"" })
+                                            </td>
+                                        </tr>
 
-                                    <tr>
-                                        <td>
-                                            <h5> 5. Hipercolesterolémia</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Tem colesterol superior a 200  mg/dl?
-                                        </td>
-                                        <td>
-                                            <input type="radio" id="q7_1" name="q7" value="1" @(Model.q7 != null && Model.q7 == 1 ? "checked" : "") /> <label for="q7_1">Sim</label>
-                                            &nbsp;&nbsp;<input type="radio" id="q7_2" name="q7" value="2" @(Model.q7 != null && Model.q7 == 2 ? "checked" : "") /> <label for="q7_2">Não</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Tem LDL (colesterol mau) superior a 130 mg/dl?
-                                        </td>
-                                        <td>
-                                            <input type="radio" id="q8_1" name="q8" value="1" @(Model.q8 != null && Model.q8 == 1 ? "checked" : "") /> <label for="q8_1">Sim</label>
-                                            &nbsp;&nbsp;<input type="radio" id="q8_2" name="q8" value="2" @(Model.q8 != null && Model.q8 == 2 ? "checked" : "") /> <label for="q8_2">Não</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Tem HDL (colesterol bom) inferior a 35 mg/dl?
-                                        </td>
-                                        <td>
-                                            <input type="radio" id="q9_1" name="q9" value="1" @(Model.q9 != null && Model.q9 == 1 ? "checked" : "") /> <label for="q9_1">Sim</label>
-                                            &nbsp;&nbsp;<input type="radio" id="q9_2" name="q9" value="2" @(Model.q9 != null && Model.q9 == 2 ? "checked" : "") /> <label for="q9_2">Não</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Tem HDL (colesterol bom) superior a 60 mg/dl?
-                                        </td>
-                                        <td>
-                                            <input type="radio" id="q10_1" name="q10" value="1" @(Model.q10 != null && Model.q10 == 1 ? "checked" : "") /> <label for="q10_1">Sim</label>
-                                            &nbsp;&nbsp;<input type="radio" id="q10_2" name="q10" value="2" @(Model.q10 != null && Model.q10 == 2 ? "checked" : "") /> <label for="q10_2">Não</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Está medicado(a) para controlo do colesterol?
-                                        </td>
-                                        <td>
-                                            <input type="radio" id="q11_1" name="q11" value="1" @(Model.q11 != null && Model.q11 == 1 ? "checked" : "") /> <label for="q11_1">Sim</label>
-                                            &nbsp;&nbsp;<input type="radio" id="q11_2" name="q11" value="2" @(Model.q11 != null && Model.q11 == 2 ? "checked" : "") /> <label for="q11_2">Não</label>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td>
+                                                <h5> 5. Hipercolesterolémia</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Tem colesterol superior a 200  mg/dl?
+                                            </td>
+                                            <td>
+                                                <input type="radio" id="q7_1" name="q7" value="1" @(Model.q7 != null && Model.q7 == 1 ? "checked" : "") /> <label for="q7_1">Sim</label>
+                                                &nbsp;&nbsp;<input type="radio" id="q7_2" name="q7" value="0" @(Model.q7 != null && Model.q7 == 2 ? "checked" : "") /> <label for="q7_2">Não</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Tem LDL (colesterol mau) superior a 130 mg/dl?
+                                            </td>
+                                            <td>
+                                                <input type="radio" id="q8_1" name="q8" value="1" @(Model.q8 != null && Model.q8 == 1 ? "checked" : "") /> <label for="q8_1">Sim</label>
+                                                &nbsp;&nbsp;<input type="radio" id="q8_2" name="q8" value="0" @(Model.q8 != null && Model.q8 == 2 ? "checked" : "") /> <label for="q8_2">Não</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Tem HDL (colesterol bom) inferior a 35 mg/dl?
+                                            </td>
+                                            <td>
+                                                <input type="radio" id="q9_1" name="q9" value="1" @(Model.q9 != null && Model.q9 == 1 ? "checked" : "") /> <label for="q9_1">Sim</label>
+                                                &nbsp;&nbsp;<input type="radio" id="q9_2" name="q9" value="0" @(Model.q9 != null && Model.q9 == 2 ? "checked" : "") /> <label for="q9_2">Não</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Tem HDL (colesterol bom) superior a 60 mg/dl?
+                                            </td>
+                                            <td>
+                                                <input type="radio" id="q10_1" name="q10" value="1" @(Model.q10 != null && Model.q10 == 1 ? "checked" : "") /> <label for="q10_1">Sim</label>
+                                                &nbsp;&nbsp;<input type="radio" id="q10_2" name="q10" value="0" @(Model.q10 != null && Model.q10 == 2 ? "checked" : "") /> <label for="q10_2">Não</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Está medicado(a) para controlo do colesterol?
+                                            </td>
+                                            <td>
+                                                <input type="radio" id="q11_1" name="q11" value="1" @(Model.q11 != null && Model.q11 == 1 ? "checked" : "") /> <label for="q11_1">Sim</label>
+                                                &nbsp;&nbsp;<input type="radio" id="q11_2" name="q11" value="0" @(Model.q11 != null && Model.q11 == 2 ? "checked" : "") /> <label for="q11_2">Não</label>
+                                            </td>
+                                        </tr>
 
-                                    <tr>
-                                        <td>
-                                            <h5> 6. Intolerância à Glicose</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Apresenta glicose sanguínea em jejum superior a 110 mg/dl (confirmada em duas ocasiões diferentes)?
-                                        </td>
-                                        <td>
-                                            <input type="radio" id="q12_1" name="q12" value="1" @(Model.q12 != null && Model.q12 == 1 ? "checked" : "") /> <label for="q12_1">Sim</label>
-                                            &nbsp;&nbsp;<input type="radio" id="q12_2" name="q12" value="2" @(Model.q12 != null && Model.q12 == 2 ? "checked" : "") /> <label for="q12_2">Não</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Indique os valores:
-                                        </td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-1">1ª:</div>
-                                                <div class="col-md-4"><input type="number" min="1" class="form-control form-control-sm" /></div>
-                                                <div class="col-md-1">2ª:</div>
-                                                <div class="col-md-4"><input type="number" min="1" class="form-control form-control-sm" /></div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td>
+                                                <h5> 6. Intolerância à Glicose</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Apresenta glicose sanguínea em jejum superior a 110 mg/dl (confirmada em duas ocasiões diferentes)?
+                                            </td>
+                                            <td>
+                                                <input type="radio" id="q12_1" name="q12" value="1" @(Model.q12 != null && Model.q12 == 1 ? "checked" : "") /> <label for="q12_1">Sim</label>
+                                                &nbsp;&nbsp;<input type="radio" id="q12_2" name="q12" value="0" @(Model.q12 != null && Model.q12 == 2 ? "checked" : "") /> <label for="q12_2">Não</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Indique os valores:
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-md-1">1ª:</div>
+                                                    <div class="col-md-4">
+                                                        @Html.TextBoxFor(m => m.txtGlicose1, new { type = "number", min = "1", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                    <div class="col-md-1">2ª:</div>
+                                                    <div class="col-md-4">
+                                                        @Html.TextBoxFor(m => m.txtGlicose2, new { type = "number", min = "1", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
 
-                                    <tr>
-                                        <td>
-                                            <h5>  7. Inactividade Física</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Acumula mais de 30 min/dia de actividade física, na maior parte dos dias?
-                                        </td>
-                                        <td>
-                                            <input type="radio" id="q13_1" name="q13" value="1" @(Model.q13 != null && Model.q13 == 1 ? "checked" : "") /> <label for="q13_1">Sim</label>
-                                            &nbsp;&nbsp;<input type="radio" id="q13_2" name="q13" value="2" @(Model.q13 != null && Model.q13 == 2 ? "checked" : "") /> <label for="q13_2">Não</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Passa a maior parte do dia sentado(a)?
-                                        </td>
-                                        <td>
-                                            <input type="radio" id="q14_1" name="q14" value="1" @(Model.q14 != null && Model.q14 == 1 ? "checked" : "") /> <label for="q14_1">Sim</label>
-                                            &nbsp;&nbsp;<input type="radio" id="q14_2" name="q14" value="2" @(Model.q14 != null && Model.q14 == 2 ? "checked" : "") /> <label for="q14_2">Não</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Faz exercício regularmente?
-                                        </td>
-                                        <td>
-                                            <input type="radio" id="q15_1" name="q15" value="1" @(Model.q15 != null && Model.q15 == 1 ? "checked" : "") /> <label for="q15_1">Sim</label>
-                                            &nbsp;&nbsp;<input type="radio" id="q15_2" name="q15" value="2" @(Model.q15 != null && Model.q15 == 2 ? "checked" : "") /> <label for="q15_2">Não</label>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>  7. Inactividade Física</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Acumula mais de 30 min/dia de actividade física, na maior parte dos dias?
+                                            </td>
+                                            <td>
+                                                <input type="radio" id="q13_1" name="q13" value="1" @(Model.q13 != null && Model.q13 == 1 ? "checked" : "") /> <label for="q13_1">Sim</label>
+                                                &nbsp;&nbsp;<input type="radio" id="q13_2" name="q13" value="0" @(Model.q13 != null && Model.q13 == 2 ? "checked" : "") /> <label for="q13_2">Não</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Passa a maior parte do dia sentado(a)?
+                                            </td>
+                                            <td>
+                                                <input type="radio" id="q14_1" name="q14" value="1" @(Model.q14 != null && Model.q14 == 1 ? "checked" : "") /> <label for="q14_1">Sim</label>
+                                                &nbsp;&nbsp;<input type="radio" id="q14_2" name="q14" value="0" @(Model.q14 != null && Model.q14 == 2 ? "checked" : "") /> <label for="q14_2">Não</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Faz exercício regularmente?
+                                            </td>
+                                            <td>
+                                                <input type="radio" id="q15_1" name="q15" value="1" @(Model.q15 != null && Model.q15 == 1 ? "checked" : "") /> <label for="q15_1">Sim</label>
+                                                &nbsp;&nbsp;<input type="radio" id="q15_2" name="q15" value="0" @(Model.q15 != null && Model.q15 == 2 ? "checked" : "") /> <label for="q15_2">Não</label>
+                                            </td>
+                                        </tr>
 
-                                    <tr>
-                                        <td>
-                                            <h5> 8. Obesidade</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Qual a medida do seu perímetro abdominal?
-                                        </td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-4"><input type="number" min="1" class="form-control form-control-sm" /> </div>
-                                                <div class="col-md-1">cm</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Qual o seu IMC?
-                                        </td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-4"><input type="number" min="1" class="form-control form-control-sm" /> </div>
-                                                <div class="col-md-1">kg/m2</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>Doenças conhecidas associadas ao risco coronário</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>Doença Cardiovascular</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />  Cardíaca
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm w-75" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />    Vascular Periférica
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm w-75" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />     Cerebrovascular
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm w-75" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />     Outras
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm w-75" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>Doença Pulmonar</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />       Obstrução pulmonar crónica
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm w-75" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />         Asma
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm w-75" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />           Fibrose quística
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm w-75" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />         Outras
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm w-75" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>Doença Metabólica</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />           Diabetes Tipo I
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm w-75" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />            Diabetes Tipo II
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm w-75" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />            Problemas de tiróide
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm w-75" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />             Doenças renais
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm w-75" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />           Doenças de fígado
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm w-75" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" />         Outras
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm w-75" />
-                                        </td>
-                                    </tr>
-                                </table>
+                                        <tr>
+                                            <td>
+                                                <h5> 8. Obesidade</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Qual a medida do seu perímetro abdominal?
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        @Html.TextBoxFor(m => m.txtPerimetro, new { type = "number", min = "1", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                    <div class="col-md-1">cm</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Qual o seu IMC?
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        @Html.TextBoxFor(m => m.txtIMC, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                    <div class="col-md-1">kg/m2</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>Doenças conhecidas associadas ao risco coronário</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table class="table">
+                                        <tr>
+                                            <td style="width:30%">
+                                                <h5>Doença Cardiovascular</h5>
+                                            </td>
+                                            <td style="width:70%">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.CheckBoxFor(m => m.chkCardiaca, new { @class = "chkcoronaryRisk" })
+                                                @Html.LabelFor(m => m.chkCardiaca, new { @class = " col-form-label" })
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(Model.txtCardiaca))
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtCardiaca, new { @class = "form-control form-control-sm w-75" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtCardiaca, new { disabled = "", @class = "form-control form-control-sm w-75" })
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.CheckBoxFor(m => m.chkVascular, new { @class = "chkcoronaryRisk" })
+                                                @Html.LabelFor(m => m.chkVascular, new { @class = " col-form-label" })
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(Model.txtVascular))
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtVascular, new { @class = "form-control form-control-sm w-75" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtVascular, new { disabled = "", @class = "form-control form-control-sm w-75" })
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.CheckBoxFor(m => m.chkCerebroVascular, new { @class = "chkcoronaryRisk" })
+                                                @Html.LabelFor(m => m.chkCerebroVascular, new { @class = " col-form-label" })
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(Model.txtCerebroVascular))
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtCerebroVascular, new { @class = "form-control form-control-sm w-75" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtCerebroVascular, new { disabled = "", @class = "form-control form-control-sm w-75" })
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.CheckBoxFor(m => m.chkCardioVascularOutras, new { @class = "chkcoronaryRisk" })
+                                                @Html.LabelFor(m => m.chkCardioVascularOutras, new { @class = " col-form-label" })
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(Model.txtCardioVascularOutras))
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtCardioVascularOutras, new { @class = "form-control form-control-sm w-75" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtCardioVascularOutras, new { disabled = "", @class = "form-control form-control-sm w-75" })
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>Doença Pulmonar</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.CheckBoxFor(m => m.chkObstrucao, new { @class = "chkcoronaryRisk" })
+                                                @Html.LabelFor(m => m.chkObstrucao, new { @class = " col-form-label" })
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(Model.txtObstrucao))
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtObstrucao, new { @class = "form-control form-control-sm w-75" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtObstrucao, new { disabled = "", @class = "form-control form-control-sm w-75" })
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.CheckBoxFor(m => m.chkAsma, new { @class = "chkcoronaryRisk" })
+                                                @Html.LabelFor(m => m.chkAsma, new { @class = " col-form-label" })
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(Model.txtAsma))
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtAsma, new { @class = "form-control form-control-sm w-75" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtAsma, new { disabled = "", @class = "form-control form-control-sm w-75" })
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.CheckBoxFor(m => m.chkFibrose, new { @class = "chkcoronaryRisk" })
+                                                @Html.LabelFor(m => m.chkFibrose, new { @class = " col-form-label" })
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(Model.txtFibrose))
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtFibrose, new { @class = "form-control form-control-sm w-75" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtFibrose, new { disabled = "", @class = "form-control form-control-sm w-75" })
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.CheckBoxFor(m => m.chkPulmomarOutras, new { @class = "chkcoronaryRisk" })
+                                                @Html.LabelFor(m => m.chkPulmomarOutras, new { @class = " col-form-label" })
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(Model.txtPulmomarOutras))
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtPulmomarOutras, new { @class = "form-control form-control-sm w-75" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtPulmomarOutras, new { disabled = "", @class = "form-control form-control-sm w-75" })
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>Doença Metabólica</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.CheckBoxFor(m => m.chkDiabetes1, new { @class = "chkcoronaryRisk" })
+                                                @Html.LabelFor(m => m.chkDiabetes1, new { @class = " col-form-label" })
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(Model.txtDiabetes1))
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtDiabetes1, new { @class = "form-control form-control-sm w-75" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtDiabetes1, new { disabled = "", @class = "form-control form-control-sm w-75" })
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.CheckBoxFor(m => m.chkDiabetes2, new { @class = "chkcoronaryRisk" })
+                                                @Html.LabelFor(m => m.chkDiabetes2, new { @class = " col-form-label" })
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(Model.txtDiabetes2))
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtDiabetes2, new { @class = "form-control form-control-sm w-75" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtDiabetes2, new { disabled = "", @class = "form-control form-control-sm w-75" })
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.CheckBoxFor(m => m.chkTiroide, new { @class = "chkcoronaryRisk" })
+                                                @Html.LabelFor(m => m.chkTiroide, new { @class = " col-form-label" })
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(Model.txtTiroide))
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtTiroide, new { @class = "form-control form-control-sm w-75" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtTiroide, new { disabled = "", @class = "form-control form-control-sm w-75" })
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.CheckBoxFor(m => m.chkRenais, new { @class = "chkcoronaryRisk" })
+                                                @Html.LabelFor(m => m.chkRenais, new { @class = " col-form-label" })
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(Model.txtRenais))
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtRenais, new { @class = "form-control form-control-sm w-75" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtRenais, new { disabled = "", @class = "form-control form-control-sm w-75" })
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.CheckBoxFor(m => m.chkFigado, new { @class = "chkcoronaryRisk" })
+                                                @Html.LabelFor(m => m.chkFigado, new { @class = " col-form-label" })
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(Model.txtFibrose))
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtFibrose, new { @class = "form-control form-control-sm w-75" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtFibrose, new { disabled = "", @class = "form-control form-control-sm w-75" })
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.CheckBoxFor(m => m.chkMetabolicaOutras, new { @class = "chkcoronaryRisk" })
+                                                @Html.LabelFor(m => m.chkMetabolicaOutras, new { @class = " col-form-label" })
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(Model.txtMetabolicaOutras))
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtMetabolicaOutras, new { @class = "form-control form-control-sm w-75" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m.txtMetabolicaOutras, new { disabled = "", @class = "form-control form-control-sm w-75" })
+                                                }
+                                            </td>
+                                        </tr>
+                                    </table>
                                     <table class="table">
                                         <tr>
                                             <td>
@@ -485,63 +619,72 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" /> Dor, desconforto no peito, pescoço, queixo, braços ou áreas, que possa ser devido a isquémia (falta de irrigação sanguínea)
+                                                @Html.CheckBoxFor(m => m.chkDor, new { @class = "" })
+                                                @Html.LabelFor(m => m.chkDor, new { @class = " col-form-label" })
                                             </td>
                                             <td>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" />  Respiração curta em repouso ou em actividade de média intensidade
+                                                @Html.CheckBoxFor(m => m.chkRespiracao, new { @class = "" })
+                                                @Html.LabelFor(m => m.chkRespiracao, new { @class = " col-form-label" })
                                             </td>
                                             <td>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" />    Tonturas ou síncope (desamaio)
+                                                @Html.CheckBoxFor(m => m.chkTonturas, new { @class = "" })
+                                                @Html.LabelFor(m => m.chkTonturas, new { @class = " col-form-label" })
                                             </td>
                                             <td>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" />    Dispeneia nocturna (ressonar)
+                                                @Html.CheckBoxFor(m => m.chkDispeneia, new { @class = "" })
+                                                @Html.LabelFor(m => m.chkDispeneia, new { @class = " col-form-label" })
                                             </td>
                                             <td>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" />    Edema no tornozelo
+                                                @Html.CheckBoxFor(m => m.chkEdema, new { @class = "" })
+                                                @Html.LabelFor(m => m.chkEdema, new { @class = " col-form-label" })
                                             </td>
                                             <td>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" />  Palpitações (ritmo anormalmente rápido ou irregular) e taquicárdia (ritmo cardíaco anormalmente acelerado)
+                                                @Html.CheckBoxFor(m => m.chkPalpitacoes, new { @class = "" })
+                                                @Html.LabelFor(m => m.chkPalpitacoes, new { @class = " col-form-label" })
                                             </td>
                                             <td>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" />    Claudicação intermitente (coxear ocasional, acompanhado de dores nas pernas, vulgarmente causado por doença arterial)
+                                                @Html.CheckBoxFor(m => m.chkClaudicacao, new { @class = "" })
+                                                @Html.LabelFor(m => m.chkClaudicacao, new { @class = " col-form-label" })
                                             </td>
                                             <td>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" />   Murmúrio no coração
+                                                @Html.CheckBoxFor(m => m.chkMurmurio, new { @class = "" })
+                                                @Html.LabelFor(m => m.chkMurmurio, new { @class = " col-form-label" })
                                             </td>
                                             <td>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" />    Fadiga invulgar
+                                                @Html.CheckBoxFor(m => m.chkfadiga, new { @class = "" })
+                                                @Html.LabelFor(m => m.chkfadiga, new { @class = " col-form-label" })
                                             </td>
                                             <td>
                                             </td>
@@ -550,7 +693,12 @@
                                 </div>
                             </div>
 
-                            <h3 class="mt-5">Avaliação de @Configs.GESTREINO_AVALIDO_NOME</h3>
+
+
+
+                        </div>
+                        <div class="col-md-3">
+                            <h3>Avaliação de @Configs.GESTREINO_AVALIDO_NOME</h3>
                             <!--  DATATABLE START -->
                             <div class="card mb-32pt">
                                 <div class="card-header">
@@ -570,7 +718,7 @@
                                         <label class="" for="length_change">registos</label>
                                         <div class="btn-group">
                                             <button type="button" title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GTQuestTable"><i class="fa fa-check-square"></i></button>
-                                            <button type="button" title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-upload="GT_RespAnsiedadeDepressao" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                            <button type="button" title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-upload="GT_RespRisco" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
                                             <button type="button" title="Pesquisar" class="btnSearch btn btn-default" data-id="GTQuestTable"><i class="fa fa-search"></i></button>
                                             <button type="button" title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GTQuestTable"><i class="fa fa-eraser"></i></button>
                                             <!--Separator-->

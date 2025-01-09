@@ -344,6 +344,69 @@
           <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
           <Property Name="DATA_REMOCAO" Type="datetime" />
         </EntityType>
+        <EntityType Name="GT_RespRisco">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GT_SOCIOS_ID" Type="int" Nullable="false" />
+          <Property Name="radIdade" Type="bit" />
+          <Property Name="radHeredMasc" Type="bit" />
+          <Property Name="radHeredFem" Type="bit" />
+          <Property Name="radTabacFuma" Type="bit" />
+          <Property Name="radTabacFuma6" Type="bit" />
+          <Property Name="txtCigarrosMedia" Type="int" />
+          <Property Name="radTensao" Type="bit" />
+          <Property Name="txtMaxSistolica" Type="int" />
+          <Property Name="txtMinSistolica" Type="int" />
+          <Property Name="txtMaxDistolica" Type="int" />
+          <Property Name="txtMinDistolica" Type="int" />
+          <Property Name="radMedicacao" Type="bit" />
+          <Property Name="txtMedicamento" Type="varchar" MaxLength="255" />
+          <Property Name="radColesterol1" Type="bit" />
+          <Property Name="radColesterol2" Type="bit" />
+          <Property Name="radColesterol3" Type="bit" />
+          <Property Name="radColesterol4" Type="bit" />
+          <Property Name="radColesterol5" Type="bit" />
+          <Property Name="radGlicose" Type="bit" />
+          <Property Name="txtGlicose1" Type="int" />
+          <Property Name="txtGlicose2" Type="int" />
+          <Property Name="radInactividade1" Type="bit" />
+          <Property Name="radInactividade2" Type="bit" />
+          <Property Name="radInactividade3" Type="bit" />
+          <Property Name="txtPerimetro" Type="int" />
+          <Property Name="txtCardiaca" Type="varchar" MaxLength="255" />
+          <Property Name="txtVascular" Type="varchar" MaxLength="255" />
+          <Property Name="txtCerebroVascular" Type="varchar" MaxLength="255" />
+          <Property Name="txtCardioVascularOutras" Type="varchar" MaxLength="255" />
+          <Property Name="txtObstrucao" Type="varchar" MaxLength="255" />
+          <Property Name="txtAsma" Type="varchar" MaxLength="255" />
+          <Property Name="txtFibrose" Type="varchar" MaxLength="255" />
+          <Property Name="txtPulmomarOutras" Type="varchar" MaxLength="255" />
+          <Property Name="txtDiabetes1" Type="varchar" MaxLength="255" />
+          <Property Name="txtDiabetes2" Type="varchar" MaxLength="255" />
+          <Property Name="txtTiroide" Type="varchar" MaxLength="255" />
+          <Property Name="txtRenais" Type="varchar" MaxLength="255" />
+          <Property Name="txtFigado" Type="varchar" MaxLength="255" />
+          <Property Name="txtMetabolicaOutras" Type="varchar" MaxLength="255" />
+          <Property Name="chkDor" Type="bit" />
+          <Property Name="chkRespiracao" Type="bit" />
+          <Property Name="chkTonturas" Type="bit" />
+          <Property Name="chkDispeneia" Type="bit" />
+          <Property Name="chkEdema" Type="bit" />
+          <Property Name="chkPalpitacoes" Type="bit" />
+          <Property Name="chkClaudicacao" Type="bit" />
+          <Property Name="chkMurmurio" Type="bit" />
+          <Property Name="chkfadiga" Type="bit" />
+          <Property Name="RESP_SUMMARY" Type="int" />
+          <Property Name="RESP_DESCRICAO" Type="varchar" MaxLength="4000" />
+          <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="int" />
+          <Property Name="REMOVIDO_POR" Type="int" />
+          <Property Name="DATA_INSERCAO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
+          <Property Name="DATA_REMOCAO" Type="datetime" />
+        </EntityType>
         <EntityType Name="GT_Series">
           <Key>
             <PropertyRef Name="ID" />
@@ -1947,6 +2010,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="GT_RespRisco_GT_SOCIOS_ID">
+          <End Role="GT_SOCIOS" Type="Self.GT_SOCIOS" Multiplicity="1" />
+          <End Role="GT_RespRisco" Type="Self.GT_RespRisco" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_SOCIOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespRisco">
+              <PropertyRef Name="GT_SOCIOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="GT_SOCIOS_PES_PESSOAS_ID">
           <End Role="PES_PESSOAS" Type="Self.PES_PESSOAS" Multiplicity="1" />
           <End Role="GT_SOCIOS" Type="Self.GT_SOCIOS" Multiplicity="*" />
@@ -2491,6 +2566,7 @@
           <EntitySet Name="GT_Repeticoes" EntityType="Self.GT_Repeticoes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespAnsiedadeDepressao" EntityType="Self.GT_RespAnsiedadeDepressao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespAutoConceito" EntityType="Self.GT_RespAutoConceito" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_RespRisco" EntityType="Self.GT_RespRisco" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_Series" EntityType="Self.GT_Series" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_SOCIOS" EntityType="Self.GT_SOCIOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_TempoDescanso" EntityType="Self.GT_TempoDescanso" Schema="dbo" store:Type="Tables" />
@@ -2837,6 +2913,10 @@
           <AssociationSet Name="GT_RespAutoConceito_GT_SOCIOS_ID" Association="Self.GT_RespAutoConceito_GT_SOCIOS_ID">
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
             <End Role="GT_RespAutoConceito" EntitySet="GT_RespAutoConceito" />
+          </AssociationSet>
+          <AssociationSet Name="GT_RespRisco_GT_SOCIOS_ID" Association="Self.GT_RespRisco_GT_SOCIOS_ID">
+            <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+            <End Role="GT_RespRisco" EntitySet="GT_RespRisco" />
           </AssociationSet>
           <AssociationSet Name="GT_SOCIOS_PES_PESSOAS_ID" Association="Self.GT_SOCIOS_PES_PESSOAS_ID">
             <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
@@ -4665,6 +4745,11 @@
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
             <End Role="GT_RespAutoConceito" EntitySet="GT_RespAutoConceito" />
           </AssociationSet>
+          <EntitySet Name="GT_RespRisco" EntityType="GESTREINO_ORM.GT_RespRisco" />
+          <AssociationSet Name="GT_RespRisco_GT_SOCIOS_ID" Association="GESTREINO_ORM.GT_RespRisco_GT_SOCIOS_ID">
+            <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+            <End Role="GT_RespRisco" EntitySet="GT_RespRisco" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -5493,6 +5578,7 @@
           <NavigationProperty Name="GT_TreinosPessoa" Relationship="GESTREINO_ORM.GT_TreinosPessoa_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_TreinosPessoa" />
           <NavigationProperty Name="GT_RespAnsiedadeDepressao" Relationship="GESTREINO_ORM.GT_RespAnsiedadeDepressao_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespAnsiedadeDepressao" />
           <NavigationProperty Name="GT_RespAutoConceito" Relationship="GESTREINO_ORM.GT_RespAutoConceito_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespAutoConceito" />
+          <NavigationProperty Name="GT_RespRisco" Relationship="GESTREINO_ORM.GT_RespRisco_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespRisco" />
         </EntityType>
         <EntityType Name="GT_TipoTreino">
           <Key>
@@ -6400,6 +6486,82 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="GT_RespAutoConceito">
+              <PropertyRef Name="GT_SOCIOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GT_RespRisco">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GT_SOCIOS_ID" Type="Int32" Nullable="false" />
+          <Property Name="radIdade" Type="Boolean" />
+          <Property Name="radHeredMasc" Type="Boolean" />
+          <Property Name="radHeredFem" Type="Boolean" />
+          <Property Name="radTabacFuma" Type="Boolean" />
+          <Property Name="radTabacFuma6" Type="Boolean" />
+          <Property Name="txtCigarrosMedia" Type="Int32" />
+          <Property Name="radTensao" Type="Boolean" />
+          <Property Name="txtMaxSistolica" Type="Int32" />
+          <Property Name="txtMinSistolica" Type="Int32" />
+          <Property Name="txtMaxDistolica" Type="Int32" />
+          <Property Name="txtMinDistolica" Type="Int32" />
+          <Property Name="radMedicacao" Type="Boolean" />
+          <Property Name="txtMedicamento" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="radColesterol1" Type="Boolean" />
+          <Property Name="radColesterol2" Type="Boolean" />
+          <Property Name="radColesterol3" Type="Boolean" />
+          <Property Name="radColesterol4" Type="Boolean" />
+          <Property Name="radColesterol5" Type="Boolean" />
+          <Property Name="radGlicose" Type="Boolean" />
+          <Property Name="txtGlicose1" Type="Int32" />
+          <Property Name="txtGlicose2" Type="Int32" />
+          <Property Name="radInactividade1" Type="Boolean" />
+          <Property Name="radInactividade2" Type="Boolean" />
+          <Property Name="radInactividade3" Type="Boolean" />
+          <Property Name="txtPerimetro" Type="Int32" />
+          <Property Name="txtCardiaca" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtVascular" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtCerebroVascular" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtCardioVascularOutras" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtObstrucao" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtAsma" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtFibrose" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtPulmomarOutras" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtDiabetes1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtDiabetes2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtTiroide" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtRenais" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtFigado" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtMetabolicaOutras" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="chkDor" Type="Boolean" />
+          <Property Name="chkRespiracao" Type="Boolean" />
+          <Property Name="chkTonturas" Type="Boolean" />
+          <Property Name="chkDispeneia" Type="Boolean" />
+          <Property Name="chkEdema" Type="Boolean" />
+          <Property Name="chkPalpitacoes" Type="Boolean" />
+          <Property Name="chkClaudicacao" Type="Boolean" />
+          <Property Name="chkMurmurio" Type="Boolean" />
+          <Property Name="chkfadiga" Type="Boolean" />
+          <Property Name="RESP_SUMMARY" Type="Int32" />
+          <Property Name="RESP_DESCRICAO" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GT_SOCIOS" Relationship="GESTREINO_ORM.GT_RespRisco_GT_SOCIOS_ID" FromRole="GT_RespRisco" ToRole="GT_SOCIOS" />
+        </EntityType>
+        <Association Name="GT_RespRisco_GT_SOCIOS_ID">
+          <End Type="GESTREINO_ORM.GT_SOCIOS" Role="GT_SOCIOS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_RespRisco" Role="GT_RespRisco" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_SOCIOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespRisco">
               <PropertyRef Name="GT_SOCIOS_ID" />
             </Dependent>
           </ReferentialConstraint>
@@ -8143,6 +8305,70 @@
                 <ScalarProperty Name="RESP_03" ColumnName="RESP_03" />
                 <ScalarProperty Name="RESP_02" ColumnName="RESP_02" />
                 <ScalarProperty Name="RESP_01" ColumnName="RESP_01" />
+                <ScalarProperty Name="GT_SOCIOS_ID" ColumnName="GT_SOCIOS_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_RespRisco">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_RespRisco">
+              <MappingFragment StoreEntitySet="GT_RespRisco">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="RESP_DESCRICAO" ColumnName="RESP_DESCRICAO" />
+                <ScalarProperty Name="RESP_SUMMARY" ColumnName="RESP_SUMMARY" />
+                <ScalarProperty Name="chkfadiga" ColumnName="chkfadiga" />
+                <ScalarProperty Name="chkMurmurio" ColumnName="chkMurmurio" />
+                <ScalarProperty Name="chkClaudicacao" ColumnName="chkClaudicacao" />
+                <ScalarProperty Name="chkPalpitacoes" ColumnName="chkPalpitacoes" />
+                <ScalarProperty Name="chkEdema" ColumnName="chkEdema" />
+                <ScalarProperty Name="chkDispeneia" ColumnName="chkDispeneia" />
+                <ScalarProperty Name="chkTonturas" ColumnName="chkTonturas" />
+                <ScalarProperty Name="chkRespiracao" ColumnName="chkRespiracao" />
+                <ScalarProperty Name="chkDor" ColumnName="chkDor" />
+                <ScalarProperty Name="txtMetabolicaOutras" ColumnName="txtMetabolicaOutras" />
+                <ScalarProperty Name="txtFigado" ColumnName="txtFigado" />
+                <ScalarProperty Name="txtRenais" ColumnName="txtRenais" />
+                <ScalarProperty Name="txtTiroide" ColumnName="txtTiroide" />
+                <ScalarProperty Name="txtDiabetes2" ColumnName="txtDiabetes2" />
+                <ScalarProperty Name="txtDiabetes1" ColumnName="txtDiabetes1" />
+                <ScalarProperty Name="txtPulmomarOutras" ColumnName="txtPulmomarOutras" />
+                <ScalarProperty Name="txtFibrose" ColumnName="txtFibrose" />
+                <ScalarProperty Name="txtAsma" ColumnName="txtAsma" />
+                <ScalarProperty Name="txtObstrucao" ColumnName="txtObstrucao" />
+                <ScalarProperty Name="txtCardioVascularOutras" ColumnName="txtCardioVascularOutras" />
+                <ScalarProperty Name="txtCerebroVascular" ColumnName="txtCerebroVascular" />
+                <ScalarProperty Name="txtVascular" ColumnName="txtVascular" />
+                <ScalarProperty Name="txtCardiaca" ColumnName="txtCardiaca" />
+                <ScalarProperty Name="txtPerimetro" ColumnName="txtPerimetro" />
+                <ScalarProperty Name="radInactividade3" ColumnName="radInactividade3" />
+                <ScalarProperty Name="radInactividade2" ColumnName="radInactividade2" />
+                <ScalarProperty Name="radInactividade1" ColumnName="radInactividade1" />
+                <ScalarProperty Name="txtGlicose2" ColumnName="txtGlicose2" />
+                <ScalarProperty Name="txtGlicose1" ColumnName="txtGlicose1" />
+                <ScalarProperty Name="radGlicose" ColumnName="radGlicose" />
+                <ScalarProperty Name="radColesterol5" ColumnName="radColesterol5" />
+                <ScalarProperty Name="radColesterol4" ColumnName="radColesterol4" />
+                <ScalarProperty Name="radColesterol3" ColumnName="radColesterol3" />
+                <ScalarProperty Name="radColesterol2" ColumnName="radColesterol2" />
+                <ScalarProperty Name="radColesterol1" ColumnName="radColesterol1" />
+                <ScalarProperty Name="txtMedicamento" ColumnName="txtMedicamento" />
+                <ScalarProperty Name="radMedicacao" ColumnName="radMedicacao" />
+                <ScalarProperty Name="txtMinDistolica" ColumnName="txtMinDistolica" />
+                <ScalarProperty Name="txtMaxDistolica" ColumnName="txtMaxDistolica" />
+                <ScalarProperty Name="txtMinSistolica" ColumnName="txtMinSistolica" />
+                <ScalarProperty Name="txtMaxSistolica" ColumnName="txtMaxSistolica" />
+                <ScalarProperty Name="radTensao" ColumnName="radTensao" />
+                <ScalarProperty Name="txtCigarrosMedia" ColumnName="txtCigarrosMedia" />
+                <ScalarProperty Name="radTabacFuma6" ColumnName="radTabacFuma6" />
+                <ScalarProperty Name="radTabacFuma" ColumnName="radTabacFuma" />
+                <ScalarProperty Name="radHeredFem" ColumnName="radHeredFem" />
+                <ScalarProperty Name="radHeredMasc" ColumnName="radHeredMasc" />
+                <ScalarProperty Name="radIdade" ColumnName="radIdade" />
                 <ScalarProperty Name="GT_SOCIOS_ID" ColumnName="GT_SOCIOS_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

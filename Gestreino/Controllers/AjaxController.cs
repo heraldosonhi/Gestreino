@@ -643,7 +643,6 @@ namespace Gestreino.Controllers
         {
             try
             {
-
                 Cookies c = new Cookies();
                 c.WriteCookie(entity, value);
                 string cookievalue;
