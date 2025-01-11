@@ -3878,7 +3878,7 @@ $(document).on('click', '.removegaclass1', function () {
 });
 
 
-//Avalicao psicologica e risco coronario
+//Avalicao psicologica e diversos
 function anxientForm() {
     $('#anxientForm').clone(true).appendTo('#anxientFormClone');
     $("#anxientFormClone form:first-child").submit();
@@ -3913,6 +3913,16 @@ $(document).on('change', '.chkcoronaryRisk', function () {
         //$(this).parent().parent().find('input[type="text"]').val('');
     } else {
         $(this).parent().parent().find('input[type="text"]').attr("disabled", true);
+        //$(this).parent().parent().find('input[type="text"]').val('');
+    }
+});
+$(document).on('change', '.radhealth', function () {
+
+    if ($(this).val()=='1') {
+        $(this).parent().parent().find('fieldset').attr("disabled", false);
+        //$(this).parent().parent().find('input[type="text"]').val('');
+    } else {
+        $(this).parent().parent().find('fieldset').attr("disabled", true);
         //$(this).parent().parent().find('input[type="text"]').val('');
     }
 });

@@ -285,6 +285,9 @@
     <Compile Include="GT_RespAutoConceito.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_RespProblemasSaude.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="GT_RespRisco.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -719,6 +722,7 @@
     <Content Include="Views\GTManagement\Quest\Anxiety.cshtml" />
     <Content Include="Views\GTManagement\Quest\SelfConcept.cshtml" />
     <Content Include="Views\GTManagement\Quest\CoronaryRisk.cshtml" />
+    <Content Include="Views\GTManagement\Quest\Health.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

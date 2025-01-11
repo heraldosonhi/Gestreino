@@ -344,6 +344,97 @@
           <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
           <Property Name="DATA_REMOCAO" Type="datetime" />
         </EntityType>
+        <EntityType Name="GT_RespProblemasSaude">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GT_SOCIOS_ID" Type="int" Nullable="false" />
+          <Property Name="radOsteoporose" Type="bit" />
+          <Property Name="dtOsteoporoseI" Type="date" />
+          <Property Name="dtOsteoporoseF" Type="date" />
+          <Property Name="txtOsteoporose" Type="varchar" MaxLength="255" />
+          <Property Name="radOsteoartose" Type="bit" />
+          <Property Name="dtOsteoartoseI" Type="date" />
+          <Property Name="dtOsteoartoseF" Type="date" />
+          <Property Name="txtOsteoartose" Type="varchar" MaxLength="255" />
+          <Property Name="radArticulares" Type="bit" />
+          <Property Name="dtArticularesI" Type="date" />
+          <Property Name="dtArticularesF" Type="date" />
+          <Property Name="txtArticulares" Type="varchar" MaxLength="255" />
+          <Property Name="radLesoes" Type="bit" />
+          <Property Name="dtLesoesI" Type="date" />
+          <Property Name="dtLesoesF" Type="date" />
+          <Property Name="txtLesoes" Type="varchar" MaxLength="255" />
+          <Property Name="radDor" Type="bit" />
+          <Property Name="dtDorI" Type="date" />
+          <Property Name="dtDorF" Type="date" />
+          <Property Name="txtDor" Type="varchar" MaxLength="255" />
+          <Property Name="txtCausaDor" Type="varchar" MaxLength="255" />
+          <Property Name="radEscoliose" Type="bit" />
+          <Property Name="dtEscolioseI" Type="date" />
+          <Property Name="dtEscolioseF" Type="date" />
+          <Property Name="radHiperlordose" Type="bit" />
+          <Property Name="dtHiperlordoseI" Type="date" />
+          <Property Name="dtHiperlordoseF" Type="date" />
+          <Property Name="radHipercifose" Type="bit" />
+          <Property Name="dtHipercifoseI" Type="date" />
+          <Property Name="dtHipercifoseF" Type="date" />
+          <Property Name="radJoelho" Type="bit" />
+          <Property Name="dtJoelhoI" Type="date" />
+          <Property Name="dtJoelhoF" Type="date" />
+          <Property Name="txtJoelho" Type="varchar" MaxLength="255" />
+          <Property Name="radOmbro" Type="bit" />
+          <Property Name="dtOmbroI" Type="date" />
+          <Property Name="dtOmbroF" Type="date" />
+          <Property Name="txtOmbro" Type="varchar" MaxLength="255" />
+          <Property Name="radPunho" Type="bit" />
+          <Property Name="dtPunhoI" Type="date" />
+          <Property Name="dtPunhoF" Type="date" />
+          <Property Name="txtPunho" Type="varchar" MaxLength="255" />
+          <Property Name="radTornozelo" Type="bit" />
+          <Property Name="dtTornozeloI" Type="date" />
+          <Property Name="dtTornozeloF" Type="date" />
+          <Property Name="txtTornozelo" Type="varchar" MaxLength="255" />
+          <Property Name="radOutraArtic" Type="bit" />
+          <Property Name="dtOutraArticI" Type="date" />
+          <Property Name="dtOutraArticF" Type="date" />
+          <Property Name="txtOutraArtic1" Type="varchar" MaxLength="255" />
+          <Property Name="txtOutraArtic2" Type="varchar" MaxLength="255" />
+          <Property Name="radParkinson" Type="bit" />
+          <Property Name="dtParkinsonI" Type="date" />
+          <Property Name="radVisual" Type="bit" />
+          <Property Name="dtVisualI" Type="date" />
+          <Property Name="dtVisualF" Type="date" />
+          <Property Name="txtVisual" Type="varchar" MaxLength="255" />
+          <Property Name="radAuditivo" Type="bit" />
+          <Property Name="dtAuditivoI" Type="date" />
+          <Property Name="dtAuditivoF" Type="date" />
+          <Property Name="txtAuditivo" Type="varchar" MaxLength="255" />
+          <Property Name="radGastro" Type="bit" />
+          <Property Name="dtGastroI" Type="date" />
+          <Property Name="dtGastroF" Type="date" />
+          <Property Name="txtGastro" Type="varchar" MaxLength="255" />
+          <Property Name="radCirugia" Type="bit" />
+          <Property Name="txtCirugiaIdade1" Type="int" />
+          <Property Name="txtCirugiaOnde1" Type="varchar" MaxLength="255" />
+          <Property Name="txtCirugiaCausa1" Type="varchar" MaxLength="255" />
+          <Property Name="txtCirugiaRestricao1" Type="varchar" MaxLength="255" />
+          <Property Name="txtCirugiaIdade2" Type="int" />
+          <Property Name="txtCirugiaOnde2" Type="varchar" MaxLength="255" />
+          <Property Name="txtCirugiaCausa2" Type="varchar" MaxLength="255" />
+          <Property Name="txtCirugiaRestricao2" Type="varchar" MaxLength="255" />
+          <Property Name="radProbSaude" Type="bit" />
+          <Property Name="txtProbSaude" Type="varchar" MaxLength="4000" />
+          <Property Name="radInactividade" Type="bit" />
+          <Property Name="txtInactividade" Type="varchar" MaxLength="4000" />
+          <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="int" />
+          <Property Name="REMOVIDO_POR" Type="int" />
+          <Property Name="DATA_INSERCAO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
+          <Property Name="DATA_REMOCAO" Type="datetime" />
+        </EntityType>
         <EntityType Name="GT_RespRisco">
           <Key>
             <PropertyRef Name="ID" />
@@ -2010,6 +2101,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="GT_RespProblemasSaude_GT_SOCIOS_ID">
+          <End Role="GT_SOCIOS" Type="Self.GT_SOCIOS" Multiplicity="1" />
+          <End Role="GT_RespProblemasSaude" Type="Self.GT_RespProblemasSaude" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_SOCIOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespProblemasSaude">
+              <PropertyRef Name="GT_SOCIOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="GT_RespRisco_GT_SOCIOS_ID">
           <End Role="GT_SOCIOS" Type="Self.GT_SOCIOS" Multiplicity="1" />
           <End Role="GT_RespRisco" Type="Self.GT_RespRisco" Multiplicity="*" />
@@ -2566,6 +2669,7 @@
           <EntitySet Name="GT_Repeticoes" EntityType="Self.GT_Repeticoes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespAnsiedadeDepressao" EntityType="Self.GT_RespAnsiedadeDepressao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespAutoConceito" EntityType="Self.GT_RespAutoConceito" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_RespProblemasSaude" EntityType="Self.GT_RespProblemasSaude" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespRisco" EntityType="Self.GT_RespRisco" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_Series" EntityType="Self.GT_Series" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_SOCIOS" EntityType="Self.GT_SOCIOS" Schema="dbo" store:Type="Tables" />
@@ -2913,6 +3017,10 @@
           <AssociationSet Name="GT_RespAutoConceito_GT_SOCIOS_ID" Association="Self.GT_RespAutoConceito_GT_SOCIOS_ID">
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
             <End Role="GT_RespAutoConceito" EntitySet="GT_RespAutoConceito" />
+          </AssociationSet>
+          <AssociationSet Name="GT_RespProblemasSaude_GT_SOCIOS_ID" Association="Self.GT_RespProblemasSaude_GT_SOCIOS_ID">
+            <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+            <End Role="GT_RespProblemasSaude" EntitySet="GT_RespProblemasSaude" />
           </AssociationSet>
           <AssociationSet Name="GT_RespRisco_GT_SOCIOS_ID" Association="Self.GT_RespRisco_GT_SOCIOS_ID">
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
@@ -4750,6 +4858,11 @@
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
             <End Role="GT_RespRisco" EntitySet="GT_RespRisco" />
           </AssociationSet>
+          <EntitySet Name="GT_RespProblemasSaude" EntityType="GESTREINO_ORM.GT_RespProblemasSaude" />
+          <AssociationSet Name="GT_RespProblemasSaude_GT_SOCIOS_ID" Association="GESTREINO_ORM.GT_RespProblemasSaude_GT_SOCIOS_ID">
+            <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+            <End Role="GT_RespProblemasSaude" EntitySet="GT_RespProblemasSaude" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -5579,6 +5692,7 @@
           <NavigationProperty Name="GT_RespAnsiedadeDepressao" Relationship="GESTREINO_ORM.GT_RespAnsiedadeDepressao_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespAnsiedadeDepressao" />
           <NavigationProperty Name="GT_RespAutoConceito" Relationship="GESTREINO_ORM.GT_RespAutoConceito_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespAutoConceito" />
           <NavigationProperty Name="GT_RespRisco" Relationship="GESTREINO_ORM.GT_RespRisco_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespRisco" />
+          <NavigationProperty Name="GT_RespProblemasSaude" Relationship="GESTREINO_ORM.GT_RespProblemasSaude_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespProblemasSaude" />
         </EntityType>
         <EntityType Name="GT_TipoTreino">
           <Key>
@@ -6562,6 +6676,110 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="GT_RespRisco">
+              <PropertyRef Name="GT_SOCIOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GT_RespProblemasSaude">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GT_SOCIOS_ID" Type="Int32" Nullable="false" />
+          <Property Name="radOsteoporose" Type="Boolean" />
+          <Property Name="dtOsteoporoseI" Type="DateTime" Precision="0" />
+          <Property Name="dtOsteoporoseF" Type="DateTime" Precision="0" />
+          <Property Name="txtOsteoporose" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="radOsteoartose" Type="Boolean" />
+          <Property Name="dtOsteoartoseI" Type="DateTime" Precision="0" />
+          <Property Name="dtOsteoartoseF" Type="DateTime" Precision="0" />
+          <Property Name="txtOsteoartose" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="radArticulares" Type="Boolean" />
+          <Property Name="dtArticularesI" Type="DateTime" Precision="0" />
+          <Property Name="dtArticularesF" Type="DateTime" Precision="0" />
+          <Property Name="txtArticulares" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="radLesoes" Type="Boolean" />
+          <Property Name="dtLesoesI" Type="DateTime" Precision="0" />
+          <Property Name="dtLesoesF" Type="DateTime" Precision="0" />
+          <Property Name="txtLesoes" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="radDor" Type="Boolean" />
+          <Property Name="dtDorI" Type="DateTime" Precision="0" />
+          <Property Name="dtDorF" Type="DateTime" Precision="0" />
+          <Property Name="txtDor" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtCausaDor" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="radEscoliose" Type="Boolean" />
+          <Property Name="dtEscolioseI" Type="DateTime" Precision="0" />
+          <Property Name="dtEscolioseF" Type="DateTime" Precision="0" />
+          <Property Name="radHiperlordose" Type="Boolean" />
+          <Property Name="dtHiperlordoseI" Type="DateTime" Precision="0" />
+          <Property Name="dtHiperlordoseF" Type="DateTime" Precision="0" />
+          <Property Name="radHipercifose" Type="Boolean" />
+          <Property Name="dtHipercifoseI" Type="DateTime" Precision="0" />
+          <Property Name="dtHipercifoseF" Type="DateTime" Precision="0" />
+          <Property Name="radJoelho" Type="Boolean" />
+          <Property Name="dtJoelhoI" Type="DateTime" Precision="0" />
+          <Property Name="dtJoelhoF" Type="DateTime" Precision="0" />
+          <Property Name="txtJoelho" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="radOmbro" Type="Boolean" />
+          <Property Name="dtOmbroI" Type="DateTime" Precision="0" />
+          <Property Name="dtOmbroF" Type="DateTime" Precision="0" />
+          <Property Name="txtOmbro" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="radPunho" Type="Boolean" />
+          <Property Name="dtPunhoI" Type="DateTime" Precision="0" />
+          <Property Name="dtPunhoF" Type="DateTime" Precision="0" />
+          <Property Name="txtPunho" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="radTornozelo" Type="Boolean" />
+          <Property Name="dtTornozeloI" Type="DateTime" Precision="0" />
+          <Property Name="dtTornozeloF" Type="DateTime" Precision="0" />
+          <Property Name="txtTornozelo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="radOutraArtic" Type="Boolean" />
+          <Property Name="dtOutraArticI" Type="DateTime" Precision="0" />
+          <Property Name="dtOutraArticF" Type="DateTime" Precision="0" />
+          <Property Name="txtOutraArtic1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtOutraArtic2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="radParkinson" Type="Boolean" />
+          <Property Name="dtParkinsonI" Type="DateTime" Precision="0" />
+          <Property Name="radVisual" Type="Boolean" />
+          <Property Name="dtVisualI" Type="DateTime" Precision="0" />
+          <Property Name="dtVisualF" Type="DateTime" Precision="0" />
+          <Property Name="txtVisual" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="radAuditivo" Type="Boolean" />
+          <Property Name="dtAuditivoI" Type="DateTime" Precision="0" />
+          <Property Name="dtAuditivoF" Type="DateTime" Precision="0" />
+          <Property Name="txtAuditivo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="radGastro" Type="Boolean" />
+          <Property Name="dtGastroI" Type="DateTime" Precision="0" />
+          <Property Name="dtGastroF" Type="DateTime" Precision="0" />
+          <Property Name="txtGastro" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="radCirugia" Type="Boolean" />
+          <Property Name="txtCirugiaIdade1" Type="Int32" />
+          <Property Name="txtCirugiaOnde1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtCirugiaCausa1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtCirugiaRestricao1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtCirugiaIdade2" Type="Int32" />
+          <Property Name="txtCirugiaOnde2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtCirugiaCausa2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="txtCirugiaRestricao2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="radProbSaude" Type="Boolean" />
+          <Property Name="txtProbSaude" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="radInactividade" Type="Boolean" />
+          <Property Name="txtInactividade" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GT_SOCIOS" Relationship="GESTREINO_ORM.GT_RespProblemasSaude_GT_SOCIOS_ID" FromRole="GT_RespProblemasSaude" ToRole="GT_SOCIOS" />
+        </EntityType>
+        <Association Name="GT_RespProblemasSaude_GT_SOCIOS_ID">
+          <End Type="GESTREINO_ORM.GT_SOCIOS" Role="GT_SOCIOS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_RespProblemasSaude" Role="GT_RespProblemasSaude" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_SOCIOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespProblemasSaude">
               <PropertyRef Name="GT_SOCIOS_ID" />
             </Dependent>
           </ReferentialConstraint>
@@ -8369,6 +8587,98 @@
                 <ScalarProperty Name="radHeredFem" ColumnName="radHeredFem" />
                 <ScalarProperty Name="radHeredMasc" ColumnName="radHeredMasc" />
                 <ScalarProperty Name="radIdade" ColumnName="radIdade" />
+                <ScalarProperty Name="GT_SOCIOS_ID" ColumnName="GT_SOCIOS_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_RespProblemasSaude">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_RespProblemasSaude">
+              <MappingFragment StoreEntitySet="GT_RespProblemasSaude">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="txtInactividade" ColumnName="txtInactividade" />
+                <ScalarProperty Name="radInactividade" ColumnName="radInactividade" />
+                <ScalarProperty Name="txtProbSaude" ColumnName="txtProbSaude" />
+                <ScalarProperty Name="radProbSaude" ColumnName="radProbSaude" />
+                <ScalarProperty Name="txtCirugiaRestricao2" ColumnName="txtCirugiaRestricao2" />
+                <ScalarProperty Name="txtCirugiaCausa2" ColumnName="txtCirugiaCausa2" />
+                <ScalarProperty Name="txtCirugiaOnde2" ColumnName="txtCirugiaOnde2" />
+                <ScalarProperty Name="txtCirugiaIdade2" ColumnName="txtCirugiaIdade2" />
+                <ScalarProperty Name="txtCirugiaRestricao1" ColumnName="txtCirugiaRestricao1" />
+                <ScalarProperty Name="txtCirugiaCausa1" ColumnName="txtCirugiaCausa1" />
+                <ScalarProperty Name="txtCirugiaOnde1" ColumnName="txtCirugiaOnde1" />
+                <ScalarProperty Name="txtCirugiaIdade1" ColumnName="txtCirugiaIdade1" />
+                <ScalarProperty Name="radCirugia" ColumnName="radCirugia" />
+                <ScalarProperty Name="txtGastro" ColumnName="txtGastro" />
+                <ScalarProperty Name="dtGastroF" ColumnName="dtGastroF" />
+                <ScalarProperty Name="dtGastroI" ColumnName="dtGastroI" />
+                <ScalarProperty Name="radGastro" ColumnName="radGastro" />
+                <ScalarProperty Name="txtAuditivo" ColumnName="txtAuditivo" />
+                <ScalarProperty Name="dtAuditivoF" ColumnName="dtAuditivoF" />
+                <ScalarProperty Name="dtAuditivoI" ColumnName="dtAuditivoI" />
+                <ScalarProperty Name="radAuditivo" ColumnName="radAuditivo" />
+                <ScalarProperty Name="txtVisual" ColumnName="txtVisual" />
+                <ScalarProperty Name="dtVisualF" ColumnName="dtVisualF" />
+                <ScalarProperty Name="dtVisualI" ColumnName="dtVisualI" />
+                <ScalarProperty Name="radVisual" ColumnName="radVisual" />
+                <ScalarProperty Name="dtParkinsonI" ColumnName="dtParkinsonI" />
+                <ScalarProperty Name="radParkinson" ColumnName="radParkinson" />
+                <ScalarProperty Name="txtOutraArtic2" ColumnName="txtOutraArtic2" />
+                <ScalarProperty Name="txtOutraArtic1" ColumnName="txtOutraArtic1" />
+                <ScalarProperty Name="dtOutraArticF" ColumnName="dtOutraArticF" />
+                <ScalarProperty Name="dtOutraArticI" ColumnName="dtOutraArticI" />
+                <ScalarProperty Name="radOutraArtic" ColumnName="radOutraArtic" />
+                <ScalarProperty Name="txtTornozelo" ColumnName="txtTornozelo" />
+                <ScalarProperty Name="dtTornozeloF" ColumnName="dtTornozeloF" />
+                <ScalarProperty Name="dtTornozeloI" ColumnName="dtTornozeloI" />
+                <ScalarProperty Name="radTornozelo" ColumnName="radTornozelo" />
+                <ScalarProperty Name="txtPunho" ColumnName="txtPunho" />
+                <ScalarProperty Name="dtPunhoF" ColumnName="dtPunhoF" />
+                <ScalarProperty Name="dtPunhoI" ColumnName="dtPunhoI" />
+                <ScalarProperty Name="radPunho" ColumnName="radPunho" />
+                <ScalarProperty Name="txtOmbro" ColumnName="txtOmbro" />
+                <ScalarProperty Name="dtOmbroF" ColumnName="dtOmbroF" />
+                <ScalarProperty Name="dtOmbroI" ColumnName="dtOmbroI" />
+                <ScalarProperty Name="radOmbro" ColumnName="radOmbro" />
+                <ScalarProperty Name="txtJoelho" ColumnName="txtJoelho" />
+                <ScalarProperty Name="dtJoelhoF" ColumnName="dtJoelhoF" />
+                <ScalarProperty Name="dtJoelhoI" ColumnName="dtJoelhoI" />
+                <ScalarProperty Name="radJoelho" ColumnName="radJoelho" />
+                <ScalarProperty Name="dtHipercifoseF" ColumnName="dtHipercifoseF" />
+                <ScalarProperty Name="dtHipercifoseI" ColumnName="dtHipercifoseI" />
+                <ScalarProperty Name="radHipercifose" ColumnName="radHipercifose" />
+                <ScalarProperty Name="dtHiperlordoseF" ColumnName="dtHiperlordoseF" />
+                <ScalarProperty Name="dtHiperlordoseI" ColumnName="dtHiperlordoseI" />
+                <ScalarProperty Name="radHiperlordose" ColumnName="radHiperlordose" />
+                <ScalarProperty Name="dtEscolioseF" ColumnName="dtEscolioseF" />
+                <ScalarProperty Name="dtEscolioseI" ColumnName="dtEscolioseI" />
+                <ScalarProperty Name="radEscoliose" ColumnName="radEscoliose" />
+                <ScalarProperty Name="txtCausaDor" ColumnName="txtCausaDor" />
+                <ScalarProperty Name="txtDor" ColumnName="txtDor" />
+                <ScalarProperty Name="dtDorF" ColumnName="dtDorF" />
+                <ScalarProperty Name="dtDorI" ColumnName="dtDorI" />
+                <ScalarProperty Name="radDor" ColumnName="radDor" />
+                <ScalarProperty Name="txtLesoes" ColumnName="txtLesoes" />
+                <ScalarProperty Name="dtLesoesF" ColumnName="dtLesoesF" />
+                <ScalarProperty Name="dtLesoesI" ColumnName="dtLesoesI" />
+                <ScalarProperty Name="radLesoes" ColumnName="radLesoes" />
+                <ScalarProperty Name="txtArticulares" ColumnName="txtArticulares" />
+                <ScalarProperty Name="dtArticularesF" ColumnName="dtArticularesF" />
+                <ScalarProperty Name="dtArticularesI" ColumnName="dtArticularesI" />
+                <ScalarProperty Name="radArticulares" ColumnName="radArticulares" />
+                <ScalarProperty Name="txtOsteoartose" ColumnName="txtOsteoartose" />
+                <ScalarProperty Name="dtOsteoartoseF" ColumnName="dtOsteoartoseF" />
+                <ScalarProperty Name="dtOsteoartoseI" ColumnName="dtOsteoartoseI" />
+                <ScalarProperty Name="radOsteoartose" ColumnName="radOsteoartose" />
+                <ScalarProperty Name="txtOsteoporose" ColumnName="txtOsteoporose" />
+                <ScalarProperty Name="dtOsteoporoseF" ColumnName="dtOsteoporoseF" />
+                <ScalarProperty Name="dtOsteoporoseI" ColumnName="dtOsteoporoseI" />
+                <ScalarProperty Name="radOsteoporose" ColumnName="radOsteoporose" />
                 <ScalarProperty Name="GT_SOCIOS_ID" ColumnName="GT_SOCIOS_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

@@ -21,6 +21,7 @@ using static Gestreino.Classes.SelectValues;
 //
 using System.Reflection;
 using DocumentFormat.OpenXml.Drawing.Charts;
+using static Gestreino.Models.CoronaryRisk;
 
 namespace Gestreino.Controllers
 {
@@ -38,6 +39,7 @@ namespace Gestreino.Controllers
         int _MenuLeftBarLink_Quest_Anxient = 205;
         int _MenuLeftBarLink_Quest_SelfConcept = 206;
         int _MenuLeftBarLink_Quest_CoronaryRisk = 207;
+        int _MenuLeftBarLink_Quest_Health= 208;
         int _MenuLeftBarLink_FileManagement = 0;
 
         // GET: GTManagement
@@ -2248,7 +2250,8 @@ namespace Gestreino.Controllers
             if (GT_Res == "GT_RespAnsiedadeDepressao") Link = "/gtmanagement/anxiety/";
             if (GT_Res == "GT_RespAutoConceito") Link = "/gtmanagement/selfconcept/";
             if (GT_Res == "GT_RespRisco") Link = "/gtmanagement/coronaryrisk/";
-            
+            if (GT_Res == "GT_RespProblemasSaude") Link = "/gtmanagement/health/";
+
             var v = (from a in databaseManager.SP_GT_ENT_Resp(null, PesId, GT_Res,  null, "R").ToList() select a);
             TempData["QUERYRESULT_ALL"] = v.ToList();
 
@@ -2595,9 +2598,9 @@ namespace Gestreino.Controllers
             if (!string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_IDADE))
             {
                 if(sex=="M")
-                    MODEL.q1 = int.Parse(Configs.GESTREINO_AVALIDO_IDADE) > 45 ? 1 : 2;
+                    MODEL.q1 = int.Parse(Configs.GESTREINO_AVALIDO_IDADE) > 45 ? 1 : 0;
                 else
-                    MODEL.q1 = int.Parse(Configs.GESTREINO_AVALIDO_IDADE) > 55 ? 1 : 2;
+                    MODEL.q1 = int.Parse(Configs.GESTREINO_AVALIDO_IDADE) > 55 ? 1 : 0;
             }
 
             if (Id > 0)
@@ -2607,29 +2610,29 @@ namespace Gestreino.Controllers
                     return RedirectToAction("coronaryrisk", "gtmanagement", new { Id = string.Empty });
                 ViewBag.data = data;
                 MODEL.ID = Id;
-                MODEL.q2 = Convert.ToInt32(data.First().radHeredMasc);
-                MODEL.q16 = Convert.ToInt32(data.First().radHeredFem);
-                MODEL.q3 = Convert.ToInt32(data.First().radTabacFuma);
-                MODEL.q4 = Convert.ToInt32(data.First().radTabacFuma6);
+                MODEL.q2 = data.First().radHeredMasc.HasValue? Convert.ToInt32(data.First().radHeredMasc): (int?)null;
+                MODEL.q16 = data.First().radHeredFem.HasValue ? Convert.ToInt32(data.First().radHeredFem) : (int?)null;
+                MODEL.q3 = data.First().radTabacFuma.HasValue ? Convert.ToInt32(data.First().radTabacFuma) : (int?)null;
+                MODEL.q4 = data.First().radTabacFuma6.HasValue ? Convert.ToInt32(data.First().radTabacFuma6) : (int?)null;
                 MODEL.txtCigarrosMedia = data.First().txtCigarrosMedia;
-                MODEL.q5 = Convert.ToInt32(data.First().radTensao);
+                MODEL.q5 = data.First().radTensao.HasValue ? Convert.ToInt32(data.First().radTensao) : (int?)null;
                 MODEL.txtMaxSistolica = data.First().txtMaxSistolica ;
                 MODEL.txtMinSistolica = data.First().txtMinSistolica;
                 MODEL.txtMaxDistolica = data.First().txtMaxDistolica;
                 MODEL.txtMinDistolica = data.First().txtMinDistolica;
-                MODEL.q6 = Convert.ToInt32(data.First().radMedicacao);
+                MODEL.q6 = data.First().radMedicacao.HasValue ? Convert.ToInt32(data.First().radMedicacao) : (int?)null;
                 MODEL.txtMedicamento = data.First().txtMedicamento;
-                MODEL.q7 = Convert.ToInt32(data.First().radColesterol1);
-                MODEL.q8 = Convert.ToInt32(data.First().radColesterol2);
-                MODEL.q9 = Convert.ToInt32(data.First().radColesterol3);
-                MODEL.q10 = Convert.ToInt32(data.First().radColesterol4);
-                MODEL.q11 = Convert.ToInt32(data.First().radColesterol5);
-                MODEL.q12 = Convert.ToInt32(data.First().radGlicose);
+                MODEL.q7 = data.First().radColesterol1.HasValue ? Convert.ToInt32(data.First().radColesterol1) : (int?)null;
+                MODEL.q8 = data.First().radColesterol2.HasValue ? Convert.ToInt32(data.First().radColesterol2) : (int?)null;
+                MODEL.q9 = data.First().radColesterol3.HasValue ? Convert.ToInt32(data.First().radColesterol3) : (int?)null;
+                MODEL.q10 = data.First().radColesterol4.HasValue ? Convert.ToInt32(data.First().radColesterol4) : (int?)null;
+                MODEL.q11 = data.First().radColesterol5.HasValue ? Convert.ToInt32(data.First().radColesterol5) : (int?)null;
+                MODEL.q12 = data.First().radGlicose.HasValue ? Convert.ToInt32(data.First().radGlicose) : (int?)null;
                 MODEL.txtGlicose1 = data.First().txtGlicose1;
                 MODEL.txtGlicose2 = data.First().txtGlicose2;
-                MODEL.q13 = Convert.ToInt32(data.First().radInactividade1);
-                MODEL.q14 = Convert.ToInt32(data.First().radInactividade2);
-                MODEL.q15 = Convert.ToInt32(data.First().radInactividade3);
+                MODEL.q13 = data.First().radInactividade1.HasValue ? Convert.ToInt32(data.First().radInactividade1) : (int?)null;
+                MODEL.q14 = data.First().radInactividade2.HasValue ? Convert.ToInt32(data.First().radInactividade2) : (int?)null;
+                MODEL.q15 = data.First().radInactividade3.HasValue ? Convert.ToInt32(data.First().radInactividade3) : (int?)null;
                 MODEL.txtPerimetro = data.First().txtPerimetro;
                 MODEL.txtCardiaca = data.First().txtCardiaca;
                 MODEL.txtVascular = data.First().txtVascular;
@@ -2816,6 +2819,324 @@ namespace Gestreino.Controllers
                     return Json(new { result = true, success = sValue, risk=true });
                 }
 
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, table = "GTQuestTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
+
+        //Outros problemas de saude
+         public ActionResult Health(Health MODEL, int? Id)
+        {
+
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
+           
+            /*
+            if (Id > 0)
+            {
+                var data = databaseManager.GT_RespRisco.Where(x => x.ID == Id).ToList();
+                if (data.Count() == 0)
+                    return RedirectToAction("coronaryrisk", "gtmanagement", new { Id = string.Empty });
+                ViewBag.data = data;
+                MODEL.ID = Id;
+                MODEL.q2 = Convert.ToInt32(data.First().radHeredMasc);
+                MODEL.q16 = Convert.ToInt32(data.First().radHeredFem);
+                MODEL.q3 = Convert.ToInt32(data.First().radTabacFuma);
+                MODEL.q4 = Convert.ToInt32(data.First().radTabacFuma6);
+                MODEL.txtCigarrosMedia = data.First().txtCigarrosMedia;
+                MODEL.q5 = Convert.ToInt32(data.First().radTensao);
+                MODEL.txtMaxSistolica = data.First().txtMaxSistolica;
+                MODEL.txtMinSistolica = data.First().txtMinSistolica;
+                MODEL.txtMaxDistolica = data.First().txtMaxDistolica;
+                MODEL.txtMinDistolica = data.First().txtMinDistolica;
+                MODEL.q6 = Convert.ToInt32(data.First().radMedicacao);
+                MODEL.txtMedicamento = data.First().txtMedicamento;
+                MODEL.q7 = Convert.ToInt32(data.First().radColesterol1);
+                MODEL.q8 = Convert.ToInt32(data.First().radColesterol2);
+                MODEL.q9 = Convert.ToInt32(data.First().radColesterol3);
+                MODEL.q10 = Convert.ToInt32(data.First().radColesterol4);
+                MODEL.q11 = Convert.ToInt32(data.First().radColesterol5);
+                MODEL.q12 = Convert.ToInt32(data.First().radGlicose);
+                MODEL.txtGlicose1 = data.First().txtGlicose1;
+                MODEL.txtGlicose2 = data.First().txtGlicose2;
+                MODEL.q13 = Convert.ToInt32(data.First().radInactividade1);
+                MODEL.q14 = Convert.ToInt32(data.First().radInactividade2);
+                MODEL.q15 = Convert.ToInt32(data.First().radInactividade3);
+                MODEL.txtPerimetro = data.First().txtPerimetro;
+                MODEL.txtCardiaca = data.First().txtCardiaca;
+                MODEL.txtVascular = data.First().txtVascular;
+                MODEL.txtCerebroVascular = data.First().txtCerebroVascular;
+                MODEL.txtCardioVascularOutras = data.First().txtCardioVascularOutras;
+                MODEL.txtObstrucao = data.First().txtObstrucao;
+                MODEL.txtAsma = data.First().txtAsma;
+                MODEL.txtFibrose = data.First().txtFibrose;
+                MODEL.txtPulmomarOutras = data.First().txtPulmomarOutras;
+                MODEL.txtDiabetes1 = data.First().txtDiabetes1;
+                MODEL.txtDiabetes2 = data.First().txtDiabetes2;
+                MODEL.txtTiroide = data.First().txtTiroide;
+                MODEL.txtRenais = data.First().txtRenais;
+                MODEL.txtFigado = data.First().txtFigado;
+                MODEL.txtMetabolicaOutras = data.First().txtMetabolicaOutras;
+                MODEL.chkCardiaca = !string.IsNullOrEmpty(data.First().txtCardiaca) ? true : false;
+                MODEL.chkVascular = !string.IsNullOrEmpty(data.First().txtVascular) ? true : false;
+                MODEL.chkCerebroVascular = !string.IsNullOrEmpty(data.First().txtCerebroVascular) ? true : false;
+                MODEL.chkCardioVascularOutras = !string.IsNullOrEmpty(data.First().txtCardioVascularOutras) ? true : false;
+                MODEL.chkObstrucao = !string.IsNullOrEmpty(data.First().txtObstrucao) ? true : false;
+                MODEL.chkAsma = !string.IsNullOrEmpty(data.First().txtAsma) ? true : false;
+                MODEL.chkFibrose = !string.IsNullOrEmpty(data.First().txtFibrose) ? true : false;
+                MODEL.chkPulmomarOutras = !string.IsNullOrEmpty(data.First().txtPulmomarOutras) ? true : false;
+                MODEL.chkDiabetes1 = !string.IsNullOrEmpty(data.First().txtDiabetes1) ? true : false;
+                MODEL.chkDiabetes2 = !string.IsNullOrEmpty(data.First().txtDiabetes2) ? true : false;
+                MODEL.chkTiroide = !string.IsNullOrEmpty(data.First().txtTiroide) ? true : false;
+                MODEL.chkRenais = !string.IsNullOrEmpty(data.First().txtRenais) ? true : false;
+                MODEL.chkFigado = !string.IsNullOrEmpty(data.First().txtFigado) ? true : false;
+                MODEL.chkMetabolicaOutras = !string.IsNullOrEmpty(data.First().txtMetabolicaOutras) ? true : false;
+                MODEL.chkDor = data.First().chkDor.Value;
+                MODEL.chkRespiracao = data.First().chkRespiracao.Value;
+                MODEL.chkTonturas = data.First().chkTonturas.Value;
+                MODEL.chkDispeneia = data.First().chkDispeneia.Value;
+                MODEL.chkEdema = data.First().chkEdema.Value;
+                MODEL.chkPalpitacoes = data.First().chkPalpitacoes.Value;
+                MODEL.chkClaudicacao = data.First().chkClaudicacao.Value;
+                MODEL.chkMurmurio = data.First().chkMurmurio.Value;
+                MODEL.chkfadiga = data.First().chkfadiga.Value;
+            }
+            */
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Health;
+            return View("Quest/Health", MODEL);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Health(Health MODEL, string returnUrl)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                    if (MODEL.ID > 0)
+                    {
+                        (from c in databaseManager.GT_RespProblemasSaude
+                         where c.ID == MODEL.ID
+                         select c).ToList().ForEach(fx => {
+                             fx.radOsteoporose = MODEL.q1 != null ? Convert.ToBoolean(MODEL.q1) : (Boolean?)null;
+                             fx.dtOsteoporoseI = string.IsNullOrWhiteSpace(MODEL.dtOsteoporoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoporoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.dtOsteoporoseF = string.IsNullOrWhiteSpace(MODEL.dtOsteoporoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoporoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.txtOsteoporose = MODEL.txtOsteoporose;
+
+                             fx.radOsteoartose = MODEL.q2 != null ? Convert.ToBoolean(MODEL.q2) : (Boolean?)null;
+                             fx.dtOsteoartoseI = string.IsNullOrWhiteSpace(MODEL.dtOsteoartoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoartoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.dtOsteoartoseF = string.IsNullOrWhiteSpace(MODEL.dtOsteoartoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoartoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.txtOsteoartose = MODEL.txtOsteoartose;
+
+                             fx.radArticulares = MODEL.q3 != null ? Convert.ToBoolean(MODEL.q3) : (Boolean?)null;
+                             fx.dtArticularesI = string.IsNullOrWhiteSpace(MODEL.dtArticularesI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtArticularesI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.dtArticularesF = string.IsNullOrWhiteSpace(MODEL.dtArticularesF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtArticularesF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.txtArticulares = MODEL.txtOsteoartose;
+
+                             fx.radLesoes = MODEL.q4 != null ? Convert.ToBoolean(MODEL.q4) : (Boolean?)null;
+                             fx.dtLesoesI = string.IsNullOrWhiteSpace(MODEL.dtLesoesI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtLesoesI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.dtLesoesF = string.IsNullOrWhiteSpace(MODEL.dtLesoesF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtLesoesF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.txtLesoes = MODEL.txtLesoes;
+
+                             fx.radDor = MODEL.q5 != null ? Convert.ToBoolean(MODEL.q5) : (Boolean?)null;
+                             fx.dtDorI = string.IsNullOrWhiteSpace(MODEL.dtDorI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtDorI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.dtDorF = string.IsNullOrWhiteSpace(MODEL.dtDorF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtDorF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.txtDor = MODEL.txtDor;
+                             fx.txtCausaDor = MODEL.txtCausaDor;
+
+                             fx.radEscoliose = MODEL.q5_1 != null ? Convert.ToBoolean(MODEL.q5_1) : (Boolean?)null;
+                             fx.dtEscolioseI = string.IsNullOrWhiteSpace(MODEL.dtEscolioseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtEscolioseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.dtEscolioseF = string.IsNullOrWhiteSpace(MODEL.dtEscolioseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtEscolioseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+                             fx.radHiperlordose = MODEL.q5_2 != null ? Convert.ToBoolean(MODEL.q5_2) : (Boolean?)null;
+                             fx.dtHiperlordoseI = string.IsNullOrWhiteSpace(MODEL.dtHiperlordoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHiperlordoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.dtHiperlordoseF = string.IsNullOrWhiteSpace(MODEL.dtHiperlordoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHiperlordoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+                             fx.radHipercifose = MODEL.q5_3 != null ? Convert.ToBoolean(MODEL.q5_3) : (Boolean?)null;
+                             fx.dtHipercifoseI = string.IsNullOrWhiteSpace(MODEL.dtHipercifoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHipercifoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.dtHipercifoseF = string.IsNullOrWhiteSpace(MODEL.dtHipercifoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHipercifoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+                             fx.radJoelho = MODEL.q6 != null ? Convert.ToBoolean(MODEL.q6) : (Boolean?)null;
+                             fx.dtJoelhoI = string.IsNullOrWhiteSpace(MODEL.dtJoelhoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtJoelhoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.dtJoelhoF = string.IsNullOrWhiteSpace(MODEL.dtJoelhoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtJoelhoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.txtJoelho = MODEL.txtJoelho;
+
+                             fx.radOmbro = MODEL.q7 != null ? Convert.ToBoolean(MODEL.q7) : (Boolean?)null;
+                             fx.dtOmbroI = string.IsNullOrWhiteSpace(MODEL.dtOmbroI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOmbroI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.dtOmbroF = string.IsNullOrWhiteSpace(MODEL.dtOmbroF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOmbroF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.txtOmbro = MODEL.txtOmbro;
+
+                             fx.radPunho = MODEL.q8 != null ? Convert.ToBoolean(MODEL.q8) : (Boolean?)null;
+                             fx.dtPunhoI = string.IsNullOrWhiteSpace(MODEL.dtPunhoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtPunhoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.dtPunhoF = string.IsNullOrWhiteSpace(MODEL.dtPunhoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtPunhoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.txtPunho = MODEL.txtPunho;
+
+                             fx.radTornozelo = MODEL.q9 != null ? Convert.ToBoolean(MODEL.q9) : (Boolean?)null;
+                             fx.dtTornozeloI = string.IsNullOrWhiteSpace(MODEL.dtTornozeloI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtTornozeloI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.dtTornozeloF = string.IsNullOrWhiteSpace(MODEL.dtTornozeloF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtTornozeloF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.txtTornozelo = MODEL.txtTornozelo;
+
+                             fx.radOutraArtic = MODEL.q10 != null ? Convert.ToBoolean(MODEL.q10) : (Boolean?)null;
+                             fx.dtOutraArticI = string.IsNullOrWhiteSpace(MODEL.dtOutraArticI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOutraArticI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.dtOutraArticF = string.IsNullOrWhiteSpace(MODEL.dtOutraArticF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOutraArticF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.txtOutraArtic1 = MODEL.txtOutraArtic1;
+                             fx.txtOutraArtic2 = MODEL.txtOutraArtic2;
+
+                             fx.radParkinson = MODEL.q11 != null ? Convert.ToBoolean(MODEL.q11) : (Boolean?)null;
+                             fx.dtParkinsonI = string.IsNullOrWhiteSpace(MODEL.dtParkinsonI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtParkinsonI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+                             fx.radVisual = MODEL.q12 != null ? Convert.ToBoolean(MODEL.q12) : (Boolean?)null;
+                             fx.dtVisualI = string.IsNullOrWhiteSpace(MODEL.dtVisualI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtVisualI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.dtVisualF = string.IsNullOrWhiteSpace(MODEL.dtVisualF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtVisualF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.txtVisual = MODEL.txtVisual;
+
+                             fx.radAuditivo = MODEL.q13 != null ? Convert.ToBoolean(MODEL.q13) : (Boolean?)null;
+                             fx.dtAuditivoI = string.IsNullOrWhiteSpace(MODEL.dtAuditivoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtAuditivoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.dtAuditivoF = string.IsNullOrWhiteSpace(MODEL.dtAuditivoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtAuditivoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.txtAuditivo = MODEL.txtAuditivo;
+
+                             fx.radGastro = MODEL.q14 != null ? Convert.ToBoolean(MODEL.q14) : (Boolean?)null;
+                             fx.dtGastroI = string.IsNullOrWhiteSpace(MODEL.dtGastroI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtGastroI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.dtGastroF = string.IsNullOrWhiteSpace(MODEL.dtGastroF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtGastroF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                             fx.txtGastro = MODEL.txtGastro;
+
+                             fx.radCirugia = MODEL.q15 != null ? Convert.ToBoolean(MODEL.q15) : (Boolean?)null;
+                             fx.txtCirugiaIdade1 = MODEL.txtCirugiaIdade1;
+                             fx.txtCirugiaOnde1 = MODEL.txtCirugiaOnde1;
+                             fx.txtCirugiaCausa1 = MODEL.txtCirugiaCausa1;
+                             fx.txtCirugiaRestricao1 = MODEL.txtCirugiaRestricao1;
+                             fx.txtCirugiaIdade2 = MODEL.txtCirugiaIdade2;
+                             fx.txtCirugiaOnde2 = MODEL.txtCirugiaOnde2;
+                             fx.txtCirugiaCausa2 = MODEL.txtCirugiaCausa2;
+                             fx.txtCirugiaRestricao2 = MODEL.txtCirugiaRestricao2;
+
+                             fx.radProbSaude = MODEL.q16 != null ? Convert.ToBoolean(MODEL.q16) : (Boolean?)null;
+                             fx.txtProbSaude = MODEL.txtProbSaude;
+
+                             fx.radInactividade = MODEL.q17 != null ? Convert.ToBoolean(MODEL.q17) : (Boolean?)null;
+                             fx.txtInactividade = MODEL.txtInactividade;
+                             fx.ACTUALIZADO_POR = int.Parse(User.Identity.GetUserId()); fx.DATA_ACTUALIZACAO = DateTime.Now;
+                         });
+                        databaseManager.SaveChanges();
+                    }
+                    else
+                    {
+                        GT_RespProblemasSaude fx = new GT_RespProblemasSaude();
+                        fx.GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
+                        
+                        fx.radOsteoporose = MODEL.q1 != null ? Convert.ToBoolean(MODEL.q1) : (Boolean?)null;
+                        fx.dtOsteoporoseI = string.IsNullOrWhiteSpace(MODEL.dtOsteoporoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoporoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.dtOsteoporoseF = string.IsNullOrWhiteSpace(MODEL.dtOsteoporoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoporoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.txtOsteoporose = MODEL.txtOsteoporose;
+
+                        fx.radOsteoartose = MODEL.q2 != null ? Convert.ToBoolean(MODEL.q2) : (Boolean?)null;
+                        fx.dtOsteoartoseI = string.IsNullOrWhiteSpace(MODEL.dtOsteoartoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoartoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.dtOsteoartoseF = string.IsNullOrWhiteSpace(MODEL.dtOsteoartoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoartoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.txtOsteoartose = MODEL.txtOsteoartose;
+
+                        fx.radArticulares = MODEL.q3 != null ? Convert.ToBoolean(MODEL.q3) : (Boolean?)null;
+                        fx.dtArticularesI = string.IsNullOrWhiteSpace(MODEL.dtArticularesI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtArticularesI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.dtArticularesF = string.IsNullOrWhiteSpace(MODEL.dtArticularesF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtArticularesF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.txtArticulares = MODEL.txtOsteoartose;
+
+                        fx.radLesoes = MODEL.q4 != null ? Convert.ToBoolean(MODEL.q4) : (Boolean?)null;
+                        fx.dtLesoesI = string.IsNullOrWhiteSpace(MODEL.dtLesoesI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtLesoesI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.dtLesoesF = string.IsNullOrWhiteSpace(MODEL.dtLesoesF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtLesoesF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.txtLesoes = MODEL.txtLesoes;
+
+                        fx.radDor = MODEL.q5 != null ? Convert.ToBoolean(MODEL.q5) : (Boolean?)null;
+                        fx.dtDorI = string.IsNullOrWhiteSpace(MODEL.dtDorI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtDorI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.dtDorF = string.IsNullOrWhiteSpace(MODEL.dtDorF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtDorF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.txtDor = MODEL.txtDor;
+                        fx.txtCausaDor = MODEL.txtCausaDor;
+
+                        fx.radEscoliose = MODEL.q5_1 != null ? Convert.ToBoolean(MODEL.q5_1) : (Boolean?)null;
+                        fx.dtEscolioseI = string.IsNullOrWhiteSpace(MODEL.dtEscolioseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtEscolioseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.dtEscolioseF = string.IsNullOrWhiteSpace(MODEL.dtEscolioseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtEscolioseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        
+                        fx.radHiperlordose = MODEL.q5_2 != null ? Convert.ToBoolean(MODEL.q5_2) : (Boolean?)null;
+                        fx.dtHiperlordoseI = string.IsNullOrWhiteSpace(MODEL.dtHiperlordoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHiperlordoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.dtHiperlordoseF = string.IsNullOrWhiteSpace(MODEL.dtHiperlordoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHiperlordoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+                        fx.radHipercifose = MODEL.q5_3 != null ? Convert.ToBoolean(MODEL.q5_3) : (Boolean?)null;
+                        fx.dtHipercifoseI = string.IsNullOrWhiteSpace(MODEL.dtHipercifoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHipercifoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.dtHipercifoseF = string.IsNullOrWhiteSpace(MODEL.dtHipercifoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHipercifoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+                        fx.radJoelho = MODEL.q6 != null ? Convert.ToBoolean(MODEL.q6) : (Boolean?)null;
+                        fx.dtJoelhoI = string.IsNullOrWhiteSpace(MODEL.dtJoelhoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtJoelhoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.dtJoelhoF = string.IsNullOrWhiteSpace(MODEL.dtJoelhoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtJoelhoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.txtJoelho = MODEL.txtJoelho;
+
+                        fx.radOmbro = MODEL.q7 != null ? Convert.ToBoolean(MODEL.q7) : (Boolean?)null;
+                        fx.dtOmbroI = string.IsNullOrWhiteSpace(MODEL.dtOmbroI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOmbroI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.dtOmbroF = string.IsNullOrWhiteSpace(MODEL.dtOmbroF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOmbroF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.txtOmbro = MODEL.txtOmbro;
+
+                        fx.radPunho = MODEL.q8 != null ? Convert.ToBoolean(MODEL.q8) : (Boolean?)null;
+                        fx.dtPunhoI = string.IsNullOrWhiteSpace(MODEL.dtPunhoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtPunhoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.dtPunhoF = string.IsNullOrWhiteSpace(MODEL.dtPunhoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtPunhoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.txtPunho = MODEL.txtPunho;
+
+                        fx.radTornozelo = MODEL.q9 != null ? Convert.ToBoolean(MODEL.q9) : (Boolean?)null;
+                        fx.dtTornozeloI = string.IsNullOrWhiteSpace(MODEL.dtTornozeloI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtTornozeloI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.dtTornozeloF = string.IsNullOrWhiteSpace(MODEL.dtTornozeloF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtTornozeloF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.txtTornozelo = MODEL.txtTornozelo;
+
+                        fx.radOutraArtic = MODEL.q10 != null ? Convert.ToBoolean(MODEL.q10) : (Boolean?)null;
+                        fx.dtOutraArticI = string.IsNullOrWhiteSpace(MODEL.dtOutraArticI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOutraArticI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.dtOutraArticF = string.IsNullOrWhiteSpace(MODEL.dtOutraArticF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOutraArticF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.txtOutraArtic1 = MODEL.txtOutraArtic1;
+                        fx.txtOutraArtic2 = MODEL.txtOutraArtic2;
+
+                        fx.radParkinson = MODEL.q11 != null ? Convert.ToBoolean(MODEL.q11) : (Boolean?)null;
+                        fx.dtParkinsonI = string.IsNullOrWhiteSpace(MODEL.dtParkinsonI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtParkinsonI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        
+                        fx.radVisual = MODEL.q12 != null ? Convert.ToBoolean(MODEL.q12) : (Boolean?)null;
+                        fx.dtVisualI = string.IsNullOrWhiteSpace(MODEL.dtVisualI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtVisualI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.dtVisualF = string.IsNullOrWhiteSpace(MODEL.dtVisualF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtVisualF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.txtVisual = MODEL.txtVisual;
+
+                        fx.radAuditivo = MODEL.q13 != null ? Convert.ToBoolean(MODEL.q13) : (Boolean?)null;
+                        fx.dtAuditivoI = string.IsNullOrWhiteSpace(MODEL.dtAuditivoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtAuditivoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.dtAuditivoF = string.IsNullOrWhiteSpace(MODEL.dtAuditivoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtAuditivoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.txtAuditivo = MODEL.txtAuditivo;
+
+                        fx.radGastro = MODEL.q14 != null ? Convert.ToBoolean(MODEL.q14) : (Boolean?)null;
+                        fx.dtGastroI = string.IsNullOrWhiteSpace(MODEL.dtGastroI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtGastroI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.dtGastroF = string.IsNullOrWhiteSpace(MODEL.dtGastroF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtGastroF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        fx.txtGastro = MODEL.txtGastro;
+
+                        fx.radCirugia = MODEL.q15 != null ? Convert.ToBoolean(MODEL.q15) : (Boolean?)null;
+                        fx.txtCirugiaIdade1 = MODEL.txtCirugiaIdade1;
+                        fx.txtCirugiaOnde1 = MODEL.txtCirugiaOnde1;
+                        fx.txtCirugiaCausa1 = MODEL.txtCirugiaCausa1;
+                        fx.txtCirugiaRestricao1 = MODEL.txtCirugiaRestricao1;
+                        fx.txtCirugiaIdade2 = MODEL.txtCirugiaIdade2;
+                        fx.txtCirugiaOnde2 = MODEL.txtCirugiaOnde2;
+                        fx.txtCirugiaCausa2 = MODEL.txtCirugiaCausa2;
+                        fx.txtCirugiaRestricao2 = MODEL.txtCirugiaRestricao2;
+
+                        fx.radProbSaude = MODEL.q16 != null ? Convert.ToBoolean(MODEL.q16) : (Boolean?)null;
+                        fx.txtProbSaude = MODEL.txtProbSaude;
+
+                        fx.radInactividade = MODEL.q17 != null ? Convert.ToBoolean(MODEL.q17) : (Boolean?)null;
+                        fx.txtInactividade = MODEL.txtInactividade;
+
+                        fx.INSERIDO_POR = int.Parse(User.Identity.GetUserId());
+                        fx.DATA_INSERCAO = DateTime.Now;
+                        databaseManager.GT_RespProblemasSaude.Add(fx);
+                        databaseManager.SaveChanges();
+                    }
+               
                 ModelState.Clear();
             }
             catch (Exception ex)

@@ -353,7 +353,7 @@ namespace Gestreino.Models
         public bool FR_Heriditariedade { get; set; }
 
         [Display(Name = "Exames complementares")]
-        public bool FR_Examescomplementares{ get; set; }
+        public bool FR_Examescomplementares { get; set; }
 
         [Display(Name = "Outros")]
         public bool FR_Outros { get; set; }
@@ -365,10 +365,10 @@ namespace Gestreino.Models
         public bool OB_Controlopeso { get; set; }
 
         [Display(Name = "Predevenir a \"Idade\"")]
-        public bool OB_PrevenirIdade{ get; set; }
+        public bool OB_PrevenirIdade { get; set; }
 
         [Display(Name = "Treino desportivo")]
-        public bool OB_TreinoDesporto{ get; set; }
+        public bool OB_TreinoDesporto { get; set; }
 
         [Display(Name = "Aumentar a massa muscular")]
         public bool OB_AumentarMassa { get; set; }
@@ -404,7 +404,7 @@ namespace Gestreino.Models
 
         [Display(Name = "Profissao")]
         public int? PES_PROFISSAO_ID { get; set; }
-        
+
         [Display(Name = "Data Inicio")]
         public string DateIni { get; set; }
 
@@ -598,7 +598,7 @@ namespace Gestreino.Models
         public int? Alongamento { get; set; }
         [Display(Name = "Sequência")]
         public int? Sequencia { get; set; }
-        
+
     }
     public class GT_TreinoBodyMass
     {
@@ -629,7 +629,7 @@ namespace Gestreino.Models
         public IEnumerable<System.Web.Mvc.SelectListItem> FaseTreinoList { get; set; }
         [Display(Name = "Nome do treino:")]
         public int? GTTreinoId { get; set; }
-        public IEnumerable<System.Web.Mvc.SelectListItem>GTTreinoList { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> GTTreinoList { get; set; }
 
         [Display(Name = "Duração (Min.):")]
         public int? GT_DuracaoTreinoCardio_ID { get; set; }
@@ -705,7 +705,7 @@ namespace Gestreino.Models
         public int? q9 { get; set; }
         public int? q10 { get; set; }
         public int? q11 { get; set; }
-        public int? q12{ get; set; }
+        public int? q12 { get; set; }
         public int? q13 { get; set; }
         public int? q14 { get; set; }
         public int? Summary { get; set; }
@@ -841,5 +841,169 @@ namespace Gestreino.Models
         public bool chkFigado { get; set; }
         [Display(Name = "Outras")]
         public bool chkMetabolicaOutras { get; set; }
-  }
+    }
+
+    public class Health
+    {
+        public int? ID { get; set; }
+        public int? PEsId { get; set; }
+        public int? q1 { get; set; }
+        public int? q2 { get; set; }
+        public int? q3 { get; set; }
+        public int? q4 { get; set; }
+        public int? q5 { get; set; }
+        public int? q5_1 { get; set; }
+        public int? q5_2 { get; set; }
+        public int? q5_3 { get; set; }
+        public int? q6 { get; set; }
+        public int? q7 { get; set; }
+        public int? q8 { get; set; }
+        public int? q9 { get; set; }
+        public int? q10 { get; set; }
+        public int? q11 { get; set; }
+        public int? q12 { get; set; }
+        public int? q13 { get; set; }
+        public int? q14 { get; set; }
+        public int? q15 { get; set; }
+        public int? q16 { get; set; }
+        public int? q17 { get; set; }
+
+        [Display(Name = "Início")]
+        public string dtOsteoporoseI { get; set; }
+        [Display(Name = "Fim")]
+        public string dtOsteoporoseF { get; set; }
+        [Display(Name = "Onde?")]
+        public string txtOsteoporose { get; set; }
+        //
+        [Display(Name = "Início")]
+        public string dtOsteoartoseI { get; set; }
+        [Display(Name = "Fim")]
+        public string dtOsteoartoseF { get; set; }
+        [Display(Name = "Onde?")]
+        public string txtOsteoartose { get; set; }
+        //
+        [Display(Name = "Início")]
+        public string dtArticularesI { get; set; }
+        [Display(Name = "Fim")]
+        public string dtArticularesF { get; set; }
+        [Display(Name = "Onde?")]
+        public string txtArticulares { get; set; }
+        //
+        [Display(Name = "Início")]
+        public string dtLesoesI { get; set; }
+        [Display(Name = "Fim")]
+        public string dtLesoesF { get; set; }
+        [Display(Name = "Onde?")]
+        public string txtLesoes { get; set; }
+        //
+        [Display(Name = "Início")]
+        public string dtDorI { get; set; }
+        [Display(Name = "Fim")]
+        public string dtDorF { get; set; }
+        [Display(Name = "Onde?")]
+        public string txtDor { get; set; }
+        [Display(Name = "Causa")]
+        public string txtCausaDor { get; set; }
+        [Display(Name = "Início")]
+        public string dtEscolioseI { get; set; }
+        [Display(Name = "Fim")]
+        public string dtEscolioseF { get; set; }
+        [Display(Name = "Início")]
+        public string dtHiperlordoseI { get; set; }
+        [Display(Name = "Fim")]
+        public string dtHiperlordoseF { get; set; }
+        [Display(Name = "Início")]
+        public string dtHipercifoseI { get; set; }
+        [Display(Name = "Fim")]
+        public string dtHipercifoseF { get; set; }
+        //
+        [Display(Name = "Início")]
+        public string dtJoelhoI { get; set; }
+        [Display(Name = "Fim")]
+        public string dtJoelhoF { get; set; }
+        [Display(Name = "causa?")]
+        public string txtJoelho { get; set; }
+        //
+        [Display(Name = "Início")]
+        public string dtOmbroI { get; set; }
+        [Display(Name = "Fim")]
+        public string dtOmbroF { get; set; }
+        [Display(Name = "causa?")]
+        public string txtOmbro { get; set; }
+        //
+        [Display(Name = "Início")]
+        public string dtPunhoI { get; set; }
+        [Display(Name = "Fim")]
+        public string dtPunhoF { get; set; }
+        [Display(Name = "causa?")]
+        public string txtPunho { get; set; }
+        //
+        [Display(Name = "Início")]
+        public string dtTornozeloI { get; set; }
+        [Display(Name = "Fim")]
+        public string dtTornozeloF { get; set; }
+        [Display(Name = "causa?")]
+        public string txtTornozelo { get; set; }
+        //
+        [Display(Name = "Início")]
+        public string dtOutraArticI { get; set; }
+        [Display(Name = "Fim")]
+        public string dtOutraArticF { get; set; }
+        [Display(Name = "1.Qual?")]
+        public string txtOutraArtic1 { get; set; }
+        [Display(Name = "2.Qual?")]
+        public string txtOutraArtic2 { get; set; }
+        //
+        [Display(Name = "Início")]
+        public string dtParkinsonI { get; set; }
+        //
+        [Display(Name = "Início")]
+        public string dtVisualI { get; set; }
+        [Display(Name = "Fim")]
+        public string dtVisualF { get; set; }
+        [Display(Name = "Tipo?")]
+        public string txtVisual { get; set; }
+        //
+        [Display(Name = "Início")]
+        public string dtAuditivoI { get; set; }
+        [Display(Name = "Fim")]
+        public string dtAuditivoF { get; set; }
+        [Display(Name = "Tipo?")]
+        public string txtAuditivo { get; set; }
+        //
+        [Display(Name = "Início")]
+        public string dtGastroI { get; set; }
+        [Display(Name = "Fim")]
+        public string dtGastroF { get; set; }
+        [Display(Name = "Tipo?")]
+        public string txtGastro { get; set; }
+        //
+        [Display(Name = "Idade")]
+        public int? txtCirugiaIdade1 { get; set; }
+        [Display(Name = "Onde?")]
+        public string txtCirugiaOnde1 { get; set; }
+        [Display(Name = "Causa?")]
+        public string txtCirugiaCausa1 { get; set; }
+        [Display(Name = "Restrições?")]
+        public string txtCirugiaRestricao1 { get; set; }
+        [Display(Name = "Idade")]
+        public int? txtCirugiaIdade2 { get; set; }
+        [Display(Name = "Onde?")]
+        public string txtCirugiaOnde2 { get; set; }
+        [Display(Name = "Causa?")]
+        public string txtCirugiaCausa2 { get; set; }
+        [Display(Name = "Restrições?")]
+        public string txtCirugiaRestricao2 { get; set; }
+        //
+        [Display(Name = "Quais?")]
+        public string txtProbSaude { get; set; }
+        //
+        [Display(Name = "Qual?")]
+        public string txtInactividade { get; set; }
+    }
+
+
+
+
+
 }
