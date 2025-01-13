@@ -24,9 +24,9 @@
                         <li class="@(ViewBag.LeftBarLinkActive==204?"current-page":"")"><a href="@Url.Action("exercises","gtmanagement")">Exercícios</a></li>
                     </ul>
                 </li>
-                <li class="@(ViewBag.LeftBarLinkActive==205 || ViewBag.LeftBarLinkActive==206 || ViewBag.LeftBarLinkActive==207 || ViewBag.LeftBarLinkActive==208 ?"active":"")">
-                    <a style="border-left: 3px dotted #ff6a00"><i class="fa fa-anchor"></i> Avaliação <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive==205 ||ViewBag.LeftBarLinkActive==206||ViewBag.LeftBarLinkActive==207||ViewBag.LeftBarLinkActive==208?"block":"")">
+                <li class="@(ViewBag.LeftBarLinkActive==205 || ViewBag.LeftBarLinkActive==206 || ViewBag.LeftBarLinkActive==207 || ViewBag.LeftBarLinkActive==208 || ViewBag.LeftBarLinkActive==209 ?"active":"")">
+                    <a style="border-left: 3px dotted #00ff21"><i class="fa fa-anchor"></i> Avaliação <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive==205 ||ViewBag.LeftBarLinkActive==206||ViewBag.LeftBarLinkActive==207||ViewBag.LeftBarLinkActive==208||ViewBag.LeftBarLinkActive==209?"block":"")">
                         <li>
                             <a  style="border-left: 3px dotted #00ff21">Estado Psicológico<span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive==205 ||ViewBag.LeftBarLinkActive==206?"block":"")">
@@ -44,8 +44,8 @@
                         <li class="@(ViewBag.LeftBarLinkActive==208?"current-page":"")">
                             <a style="border-left: 3px dotted #00ff21" href="@Url.Action("health", "gtmanagement", new {Id=string.Empty})">Problemas de Saúde</a>
                         </li>
-                        <li>
-                            <a href="#">Flexibilidade</a>
+                        <li class="@(ViewBag.LeftBarLinkActive==209?"current-page":"")">
+                            <a style="border-left: 3px dotted #00ff21" href="@Url.Action("flexibility", "gtmanagement", new {Id=string.Empty})">Flexibilidade</a>
                         </li>
                         <li>
                             <a href="#">Composição Corporal</a>

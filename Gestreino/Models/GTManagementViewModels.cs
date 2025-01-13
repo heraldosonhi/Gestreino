@@ -1002,7 +1002,16 @@ namespace Gestreino.Models
         public string txtInactividade { get; set; }
     }
 
-
+    public class Flexibility
+    {
+        public int? ID { get; set; }
+        public int? PEsId { get; set; }
+        [Display(Name = "Teste:")]
+        public int? TipoId { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> TipoList { get; set; }
+        public int? iFlexiAct { get; set; }
+        public string lblResActualFlexi { get; set; }
+    }
 
 
 

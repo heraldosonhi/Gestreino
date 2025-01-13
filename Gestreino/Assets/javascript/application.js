@@ -360,10 +360,13 @@ function handleSuccess(response) {
                 tree.reload();
                 disableFancytreeButtons();
             }
-            if (response.table == "manageProfilesAndGroups") {
-                $("#fancyProfile").fancytree('getTree').reload();
-                $("#fancyGroup").fancytree('getTree').reload();
-                FancyTreeLoadProfilesAndGroups($("#Id").val());
+            if (response.flexAct) { //Flexitest
+                var progressperc = Number(response.flexAct.split("-", 1)[0]);
+                var progressbar = (progressperc * 1.25)
+                $('#pgrflexActual').css("width", progressbar + '%')
+                $('#pgrflexActual').text(progressperc)
+                //text(response.flexAct.substring(0, response.flexAct.indexOf("-")))
+                $('#lblflexActual').text(response.flexAct.split("-", 2)[1])
             }
         }
         if (response.url) {
@@ -3926,3 +3929,84 @@ $(document).on('change', '.radhealth', function () {
         //$(this).parent().parent().find('input[type="text"]').val('');
     }
 });
+//Flexibility
+var flexArrs = [];
+$("input:checkbox").change(function () {
+    var group = ":checkbox[name='" + $(this).attr("name") + "']";
+    if ($(this).is(':checked')) {
+        $(group).not($(this)).attr("checked", false);
+        flexSetClassificacao($(this).val());
+        let s = Number($('#flexNumber').val());
+        $('#flexflexNumberArr_' + s).val($(this).val())
+    }
+});
+function flexLoadNumberArr() {
+    let s = Number($('#flexNumber').val());
+    let ss = $('#flexflexNumberArr_' + s).val()
+    if (ss != '') {
+        $("input:checkbox[value=" + ss + "]").prop('checked', true);
+        flexSetClassificacao(ss);
+    }
+}
+function flexProximo(btn) {
+    let s = Number($('#flexNumber').val());
+    let ss = s + 1;
+    flexUpDown(ss)
+}
+function flexUltimo(btn) {
+    let max = Number($('#flexNumber').attr('max'));
+    flexUpDown(max)
+}
+function flexAnterior(btn) {
+    let s = Number($('#flexNumber').val());
+    let ss = s - 1;
+    flexUpDown(ss)
+}
+function flexPrimeiro(btn) {
+    let min = Number($('#flexNumber').attr('min'));
+    flexUpDown(min)
+}
+function flexUpDown(ss) {
+    let s = Number($('#flexNumber').val());
+    let min = Number($('#flexNumber').attr('min'));
+    let max = Number($('#flexNumber').attr('max'));
+    //let ss = s + 1;
+    if (ss <= max && ss >= min) {
+        $('#flexNumber').val(ss)
+        $('#flexDesc').val("Teste " + ss + " de " + max)
+        flexClearCheck();
+        flexSetClassificacao();
+        flexLoadImg(ss);
+        flexLoadNumberArr();
+    }
+}
+function flexClearCheck() {
+    var group = ":checkbox[name='flex']";
+        $(group).attr("checked", false);
+}
+function flexSetClassificacao(val) {
+    var cl = '';
+
+        switch (val) {
+            case "0":
+                cl ='Muito Fraco'
+                break;
+            case "1":
+                cl = 'Fraco'
+                break;
+            case "2":
+                cl = 'Médio'
+                break;
+            case "3":
+                cl = 'Bom'
+                break;
+            case "4":
+                cl = 'Excelente'
+                break;
+            default:
+        }
+        $('#flexClassificacao').val(cl)
+}
+function flexLoadImg(id) {
+    $("#flexImg").attr('src', '/Assets/images/imagesflexi/f' + id + '.jpg').width("100%").height("100%")
+}

@@ -92,6 +92,8 @@ namespace Gestreino
         public virtual DbSet<GT_RespAutoConceito> GT_RespAutoConceito { get; set; }
         public virtual DbSet<GT_RespRisco> GT_RespRisco { get; set; }
         public virtual DbSet<GT_RespProblemasSaude> GT_RespProblemasSaude { get; set; }
+        public virtual DbSet<GT_TipoTesteFlexibilidade> GT_TipoTesteFlexibilidade { get; set; }
+        public virtual DbSet<GT_RespFlexiTeste> GT_RespFlexiTeste { get; set; }
     
         public virtual ObjectResult<SP_UTILIZADORES_LOGIN_LOGS_Result> SP_UTILIZADORES_LOGIN_LOGS(Nullable<int> userId, string action)
         {

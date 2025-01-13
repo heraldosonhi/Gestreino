@@ -285,6 +285,9 @@
     <Compile Include="GT_RespAutoConceito.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_RespFlexiTeste.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="GT_RespProblemasSaude.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -298,6 +301,9 @@
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="GT_TempoDescanso.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_TipoTesteFlexibilidade.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="GT_TipoTreino.cs">
@@ -560,6 +566,26 @@
     <Content Include="Assets\css\dataTables.dataTables.min.css" />
     <Content Include="Assets\css\font-awesome.min.css" />
     <Content Include="Assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="Assets\images\imagesflexi\f1.jpg" />
+    <Content Include="Assets\images\imagesflexi\f10.jpg" />
+    <Content Include="Assets\images\imagesflexi\f11.jpg" />
+    <Content Include="Assets\images\imagesflexi\f12.jpg" />
+    <Content Include="Assets\images\imagesflexi\f13.jpg" />
+    <Content Include="Assets\images\imagesflexi\f14.jpg" />
+    <Content Include="Assets\images\imagesflexi\f15.jpg" />
+    <Content Include="Assets\images\imagesflexi\f16.jpg" />
+    <Content Include="Assets\images\imagesflexi\f17.jpg" />
+    <Content Include="Assets\images\imagesflexi\f18.jpg" />
+    <Content Include="Assets\images\imagesflexi\f19.jpg" />
+    <Content Include="Assets\images\imagesflexi\f2.jpg" />
+    <Content Include="Assets\images\imagesflexi\f20.jpg" />
+    <Content Include="Assets\images\imagesflexi\f3.jpg" />
+    <Content Include="Assets\images\imagesflexi\f4.jpg" />
+    <Content Include="Assets\images\imagesflexi\f5.jpg" />
+    <Content Include="Assets\images\imagesflexi\f6.jpg" />
+    <Content Include="Assets\images\imagesflexi\f7.jpg" />
+    <Content Include="Assets\images\imagesflexi\f8.jpg" />
+    <Content Include="Assets\images\imagesflexi\f9.jpg" />
     <Content Include="Assets\images\loading.gif" />
     <Content Include="Assets\images\user-avatar.jpg" />
     <Content Include="Assets\images\home.jpg" />
@@ -723,6 +749,7 @@
     <Content Include="Views\GTManagement\Quest\SelfConcept.cshtml" />
     <Content Include="Views\GTManagement\Quest\CoronaryRisk.cshtml" />
     <Content Include="Views\GTManagement\Quest\Health.cshtml" />
+    <Content Include="Views\GTManagement\Quest\Flexibility.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

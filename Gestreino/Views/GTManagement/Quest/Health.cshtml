@@ -57,7 +57,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q1_2" name="q1" value="0" @(Model.q1 != null && Model.q1 == 0 ? "checked" : "") /> <label for="q1_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q1 != 1?"disabled":"")>
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.dtOsteoporoseI, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-4">
@@ -90,7 +90,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q2_2" name="q2" value="0" @(Model.q2 != null && Model.q2 == 0 ? "checked" : "") /> <label for="q2_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q2 !=1 ? "disabled" : "")>
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.dtOsteoartoseI, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-4">
@@ -123,7 +123,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q3_2" name="q3" value="0" @(Model.q3 != null && Model.q3 == 0 ? "checked" : "") /> <label for="q3_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q3 !=1 ? "disabled" : "")>
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.dtArticularesI, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-4">
@@ -156,7 +156,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q4_2" name="q4" value="0" @(Model.q4 != null && Model.q4 == 0 ? "checked" : "") /> <label for="q4_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q4 !=1 ? "disabled" : "")>
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.dtLesoesI, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-4">
@@ -189,7 +189,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q5_2" name="q5" value="0" @(Model.q5 != null && Model.q5 == 0 ? "checked" : "") /> <label for="q5_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q5 !=1 ? "disabled" : "")>
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.dtDorI, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-4">
@@ -222,7 +222,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q5_1_2" name="q5_1" value="0" @(Model.q5_1 != null && Model.q5_1 == 0 ? "checked" : "") /> <label for="q5_1_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q5_1 !=1 ? "disabled" : "")>
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.dtEscolioseI, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-4">
@@ -243,7 +243,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q5_2_2" name="q5_2" value="0" @(Model.q5_2 != null && Model.q5_2 == 0 ? "checked" : "") /> <label for="q5_2_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q5_2 !=1 ? "disabled" : "")>
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.dtHiperlordoseI, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-4">
@@ -264,7 +264,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q5_3_2" name="q5_3" value="0" @(Model.q5_3 != null && Model.q5_3 == 0 ? "checked" : "") /> <label for="q5_3_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q5_3 !=1 ? "disabled" : "")>
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.dtHipercifoseI, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-4">
@@ -291,7 +291,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q6_2" name="q6" value="0" @(Model.q6 != null && Model.q6 == 0 ? "checked" : "") /> <label for="q6_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q6 !=1 ? "disabled" : "")>
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.dtJoelhoI, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-4">
@@ -324,7 +324,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q7_2" name="q7" value="0" @(Model.q7 != null && Model.q7 == 0 ? "checked" : "") /> <label for="q7_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q7 !=1 ? "disabled" : "")>
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.dtOmbroI, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-4">
@@ -357,7 +357,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q8_2" name="q8" value="0" @(Model.q8 != null && Model.q8 == 0 ? "checked" : "") /> <label for="q8_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q8 !=1 ? "disabled" : "")>
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.dtPunhoI, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-4">
@@ -390,7 +390,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q9_2" name="q9" value="0" @(Model.q9 != null && Model.q9 == 0 ? "checked" : "") /> <label for="q9_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q9 !=1 ? "disabled" : "")>
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.dtTornozeloI, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-4">
@@ -423,7 +423,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q10_2" name="q10" value="0" @(Model.q10 != null && Model.q10 == 0 ? "checked" : "") /> <label for="q10_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q10 !=1 ? "disabled" : "")>
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.dtOutraArticI, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-4">
@@ -462,7 +462,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q11_2" name="q11" value="0" @(Model.q11 != null && Model.q11 == 0 ? "checked" : "") /> <label for="q11_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q11 !=1 ? "disabled" : "")>
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.dtParkinsonI, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-4">
@@ -485,7 +485,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q12_2" name="q12" value="0" @(Model.q12 != null && Model.q12 == 0 ? "checked" : "") /> <label for="q12_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q12 !=1 ? "disabled" : "")>
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.dtVisualI, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-4">
@@ -518,7 +518,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q13_2" name="q13" value="0" @(Model.q13 != null && Model.q13 == 0 ? "checked" : "") /> <label for="q13_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q13 !=1 ? "disabled" : "")>
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.dtAuditivoI, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-4">
@@ -551,7 +551,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q14_2" name="q14" value="0" @(Model.q14 != null && Model.q14 == 0 ? "checked" : "") /> <label for="q14_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q14 !=1 ? "disabled" : "")>
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.dtGastroI, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-4">
@@ -584,7 +584,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q15_2" name="q15" value="0" @(Model.q15 != null && Model.q15 == 0 ? "checked" : "") /> <label for="q15_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q15 !=1 ? "disabled" : "")>
                                                 <div class="row">
                                                     <b>@Html.LabelFor(m => m.txtCirugiaIdade1, new { @class = "col-sm-2 col-form-label" })</b>
                                                     <div class="col-sm-4">
@@ -652,13 +652,13 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q16_2" name="q16" value="0" @(Model.q16 != null && Model.q16 == 0 ? "checked" : "") /> <label for="q16_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q16 !=1 ? "disabled" : "")>
                                                 <div class="row mt-1">
                                                     @Html.LabelFor(m => m.txtProbSaude, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-10">
                                                         @Html.TextAreaFor(x => Model.txtProbSaude, new { @class = "form-control form-control-sm" })
                                                     </div>
-                                                 </div>
+                                                </div>
                                             </fieldset>
                                         </td>
                                     </tr>
@@ -675,7 +675,7 @@
                                             &nbsp;&nbsp;<input class="radhealth" type="radio" id="q17_2" name="q17" value="0" @(Model.q17 != null && Model.q17 == 0 ? "checked" : "") /> <label for="q17_2">Não</label>
                                         </td>
                                         <td>
-                                            <fieldset disabled>
+                                            <fieldset @(Model.q17 !=1 ? "disabled" : "")>
                                                 <div class="row mt-1">
                                                     @Html.LabelFor(m => m.txtInactividade, new { @class = "col-sm-2 col-form-label" })
                                                     <div class="col-sm-10">
