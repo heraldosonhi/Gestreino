@@ -22,6 +22,7 @@ using static Gestreino.Classes.SelectValues;
 using System.Reflection;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using static Gestreino.Models.CoronaryRisk;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 
 namespace Gestreino.Controllers
 {
@@ -3201,6 +3202,8 @@ namespace Gestreino.Controllers
                 MODEL.ID = Id;
                 MODEL.iFlexiAct = data.First().RESP_SUMMARY;
                 MODEL.lblResActualFlexi = data.First().RESP_DESCRICAO;
+                MODEL.iFlexiAnt = GetFlexiIndiceAnterior(data.First().GT_SOCIOS_ID,Id);
+                MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt!=null?GetResultadoFlexiIndice(MODEL.iFlexiAnt.Value):string.Empty;
 
                 var flexflexNumberArr = data.Select(x => new List<int?>
                 {   
@@ -3234,8 +3237,11 @@ namespace Gestreino.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Flexibility(Flexibility MODEL, int?[] flexflexNumberArr)
         {
-            var iFlexiAct = 0;
-            var lblResActualFlexi = string.Empty;
+            //var iFlexiAct = 0;
+            //var lblResActualFlexi = string.Empty;
+            //var iFlexiAnt = 0;
+            //var lblResAnteriorFlexi = string.Empty;
+            var GT_SOCIOS_ID = 0;
 
             try
             {
@@ -3247,8 +3253,9 @@ namespace Gestreino.Controllers
                     return Json(new { result = false, error = errors });
                 }
 
-                 iFlexiAct = GetFlexiIndice(flexflexNumberArr);
-                 lblResActualFlexi = GetResultadoFlexiIndice(iFlexiAct);
+                 MODEL.iFlexiAct = GetFlexiIndice(flexflexNumberArr);
+                 MODEL.lblResActualFlexi = GetResultadoFlexiIndice(MODEL.iFlexiAct.Value);
+                 GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
 
                 if (MODEL.ID > 0)
                 {
@@ -3278,9 +3285,9 @@ namespace Gestreino.Controllers
                              fx.RESP_19 = flexflexNumberArr[18];
                              fx.RESP_20 = flexflexNumberArr[19];
                          }
-                         fx.RESP_SUMMARY = iFlexiAct;
-                         fx.RESP_DESCRICAO = lblResActualFlexi;
-                         fx.PERCENTIL = iFlexiAct;
+                         fx.RESP_SUMMARY = MODEL.iFlexiAct;
+                         fx.RESP_DESCRICAO = MODEL.lblResActualFlexi;
+                         fx.PERCENTIL = MODEL.iFlexiAct;
                          fx.ACTUALIZADO_POR = int.Parse(User.Identity.GetUserId()); fx.DATA_ACTUALIZACAO = DateTime.Now;
                      });
                     databaseManager.SaveChanges();
@@ -3288,7 +3295,7 @@ namespace Gestreino.Controllers
                 else
                 {
                     GT_RespFlexiTeste fx = new GT_RespFlexiTeste();
-                    fx.GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
+                    fx.GT_SOCIOS_ID = GT_SOCIOS_ID;
                     if (flexflexNumberArr != null)
                     {
                         fx.RESP_01 = flexflexNumberArr[0];
@@ -3312,27 +3319,26 @@ namespace Gestreino.Controllers
                         fx.RESP_19 = flexflexNumberArr[18];
                         fx.RESP_20 = flexflexNumberArr[19];
                     }
-                    fx.RESP_SUMMARY = iFlexiAct;
-                    fx.RESP_DESCRICAO = lblResActualFlexi;
-                    fx.PERCENTIL = iFlexiAct;
+                    fx.RESP_SUMMARY = MODEL.iFlexiAct;
+                    fx.RESP_DESCRICAO = MODEL.lblResActualFlexi;
+                    fx.PERCENTIL = MODEL.iFlexiAct;
                     fx.INSERIDO_POR = int.Parse(User.Identity.GetUserId());
                     fx.DATA_INSERCAO = DateTime.Now;
                     databaseManager.GT_RespFlexiTeste.Add(fx);
                     databaseManager.SaveChanges();
+                    //
+                    MODEL.ID = fx.ID;
                 }
 
-                //int iFlexiAnt = GetFlexiIndiceAnterior();
-                //CriaGraficoFlexiAnterior(iFlexiAnt);
-                //lblResAnteriorFlexi.Text = string.Empty;
-                //lblResAnteriorFlexi.Text = GetResultadoFlexiIndice(iFlexiAnt);
-
+                MODEL.iFlexiAnt = GetFlexiIndiceAnterior(GT_SOCIOS_ID, MODEL.ID);
+                MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoFlexiIndice(MODEL.iFlexiAnt.Value) : string.Empty;
                 ModelState.Clear();
             }
             catch (Exception ex)
             {
                 return Json(new { result = false, error = ex.Message });
             }
-            return Json(new { result = true, error = string.Empty,flexAct= iFlexiAct+"-"+ lblResActualFlexi, table = "GTQuestTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+            return Json(new { result = true, error = string.Empty,flexAct= MODEL.iFlexiAct+"-"+ MODEL.lblResActualFlexi, flexAnt = MODEL.iFlexiAnt + "-" + MODEL.lblResAnteriorFlexi, table = "GTQuestTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
 
 
@@ -3702,8 +3708,58 @@ namespace Gestreino.Controllers
 
             return retValue;
         }
+        private int? GetFlexiIndiceAnterior(int GT_SOCIOS_ID,int? Id)
+        {
+            int? iFlexi = 0;
+            var data = databaseManager.GT_RespFlexiTeste.Where(x => x.GT_SOCIOS_ID == GT_SOCIOS_ID && x.ID<Id).OrderByDescending(x => x.DATA_INSERCAO).Take(1).ToList();
 
+            var flexflexNumberArr = data.Select(x => new List<int?>
+                {
+                    x.RESP_01,
+                    x.RESP_02,
+                    x.RESP_03,
+                    x.RESP_04,
+                    x.RESP_05,
+                    x.RESP_06,
+                    x.RESP_07,
+                    x.RESP_08,
+                    x.RESP_09,
+                    x.RESP_10,
+                    x.RESP_11,
+                    x.RESP_12,
+                    x.RESP_13,
+                    x.RESP_14,
+                    x.RESP_15,
+                    x.RESP_16,
+                    x.RESP_17,
+                    x.RESP_18,
+                    x.RESP_19,
+                    x.RESP_20
+                }).ToArray();
 
+            if (flexflexNumberArr.Any())
+            {
+                var flexflexNumberArrList = flexflexNumberArr.First().ToList();
+
+                if (flexflexNumberArrList.Any())
+                {
+                    foreach (var x in flexflexNumberArrList)
+                    {
+                        if (x != null)
+                            iFlexi = iFlexi + Convert.ToInt32(x);
+                    }
+                }
+                else
+                    iFlexi = null;
+            }
+            else
+                iFlexi = null;
+            return iFlexi;
+        }
+
+       
+        
+        
         private ArrayList a20_29M = new ArrayList(9);
         private ArrayList a20_29F = new ArrayList(9);
 
@@ -3773,114 +3829,13 @@ namespace Gestreino.Controllers
         }
     
 
-        private void CriaGraficoFlexiActual(int iPercentil)
-        {
-            int SizeX = (iPercentil * 500) / 80;
-
-            /*LabelGradient.LabelGradient labelGradient1;
-            labelGradient1 = new LabelGradient.LabelGradient();
-
-            labelGradient1.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
-            labelGradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            //labelGradient1.Font = new System.Drawing.Font("Arial Black", 13.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-            labelGradient1.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-            labelGradient1.GradientColorTwo = System.Drawing.Color.White;
-            labelGradient1.GradientColorOne = System.Drawing.Color.FromArgb(27, 78, 169);
-            labelGradient1.Location = new System.Drawing.Point(0, 0);
-            labelGradient1.ForeColor = System.Drawing.Color.White;
-            labelGradient1.Name = "labelGradient1";
-            labelGradient1.Size = new System.Drawing.Size(SizeX, 24);
-            labelGradient1.TabIndex = 0;
-            labelGradient1.Text = Convert.ToString(iPercentil);
-            labelGradient1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-
-            if (pnlFlexitesteActual.Controls.Count > 0)
-                pnlFlexitesteActual.Controls.RemoveAt(0);
-            pnlFlexitesteActual.Controls.Add(labelGradient1);
-            pnlFlexitesteActual.Refresh();*/
-
-        }
-
-        private void CriaGraficoFlexiAnterior(int iPercentil)
-        {
-            /*
-             * int SizeX = (iPercentil * 500) / 80;
-
-            LabelGradient.LabelGradient labelGradient1;
-            labelGradient1 = new LabelGradient.LabelGradient();
-
-            labelGradient1.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
-            labelGradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            labelGradient1.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-            labelGradient1.GradientColorTwo = System.Drawing.Color.White;
-            labelGradient1.GradientColorOne = System.Drawing.Color.Red;//System.Drawing.Color.FromArgb(27,78,169);
-            labelGradient1.Location = new System.Drawing.Point(0, 0);
-            labelGradient1.ForeColor = System.Drawing.Color.White;
-            labelGradient1.Name = "labelGradient1";
-            labelGradient1.Size = new System.Drawing.Size(SizeX, 24);
-            labelGradient1.TabIndex = 0;
-            labelGradient1.Text = Convert.ToString(iPercentil);
-            labelGradient1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-
-            if (pnlFlexitesteAnt.Controls.Count > 0)
-                pnlFlexitesteAnt.Controls.RemoveAt(0);
-            pnlFlexitesteAnt.Controls.Add(labelGradient1);
-            pnlFlexitesteAnt.Refresh();
-            */
-        }
+    
 
       
 
-        private int GetFlexiIndiceAnterior()
-        {
-            try
-            {
-                string strSQL;
-                string strConn;
-                int iFlexi = -1;
+      
 
-                /*StringDictionary DicResultAnterior;
-
-                DicResultAnterior = new StringDictionary();
-
-                OleDbDataReader oDataReader;
-                OleDbDataAdapter DBcommand;
-
-                strConn = General.getConnectionString();
-                OleDbConnection myConnection = new OleDbConnection(strConn);
-
-                strSQL = "SELECT TOP 1 resp0,resp1,resp2,resp3,resp4,resp5,resp6,resp7,resp8,resp9,resp10";
-                strSQL += ",resp11,resp12,resp13,resp14,resp15,resp16,resp17,resp18,resp19 FROM tbl_RespFlexiTeste ";
-                strSQL += " WHERE IDSocio=" + Atleta_ + " AND CDate(Data) < #" + General.GetFormatData(Data_) + "# ORDER BY CDate(Data) DESC";
-
-                General.TrataConnection(myConnection);
-
-                DBcommand = new OleDbDataAdapter();
-                DBcommand.SelectCommand = new OleDbCommand();
-                DBcommand.SelectCommand.Connection = myConnection;
-                DBcommand.SelectCommand.CommandText = strSQL;
-                DBcommand.SelectCommand.CommandType = CommandType.Text;
-                oDataReader = DBcommand.SelectCommand.ExecuteReader();
-
-                while (oDataReader.Read())
-                {
-                    int i;
-                    iFlexi = 0;
-                    for (i = 0; i < oDataReader.FieldCount; i++)
-                    {
-                        if (oDataReader.GetString(i) != string.Empty)
-                            iFlexi = iFlexi + Convert.ToInt32(oDataReader.GetString(i));
-                    }
-                }
-                */
-                return iFlexi;
-
-            }
-            catch
-            {
-                return 0;
-            }
-        }
+      
 
     
 

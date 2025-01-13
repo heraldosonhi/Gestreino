@@ -1011,6 +1011,9 @@ namespace Gestreino.Models
         public IEnumerable<System.Web.Mvc.SelectListItem> TipoList { get; set; }
         public int? iFlexiAct { get; set; }
         public string lblResActualFlexi { get; set; }
+
+        public int? iFlexiAnt { get; set; }
+        public string lblResAnteriorFlexi { get; set; }
     }
 
 

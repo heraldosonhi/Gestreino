@@ -363,10 +363,14 @@ function handleSuccess(response) {
             if (response.flexAct) { //Flexitest
                 var progressperc = Number(response.flexAct.split("-", 1)[0]);
                 var progressbar = (progressperc * 1.25)
+                var progresspercAnt = Number(response.flexAnt.split("-", 1)[0]);
+                var progressbarAnt = (progresspercAnt * 1.25)
                 $('#pgrflexActual').css("width", progressbar + '%')
                 $('#pgrflexActual').text(progressperc)
-                //text(response.flexAct.substring(0, response.flexAct.indexOf("-")))
                 $('#lblflexActual').text(response.flexAct.split("-", 2)[1])
+                $('#pgrflexAnterior').css("width", progressbarAnt + '%')
+                $('#pgrflexAnterior').text(progresspercAnt)
+                $('#lblflexAnterior').text(response.flexAnt.split("-", 2)[1])
             }
         }
         if (response.url) {
