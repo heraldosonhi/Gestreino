@@ -1007,13 +1007,17 @@ namespace Gestreino.Models
         public int? ID { get; set; }
         public int? PEsId { get; set; }
         [Display(Name = "Teste:")]
-        public int? TipoId { get; set; }
+        public int TipoId { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> TipoList { get; set; }
         public int? iFlexiAct { get; set; }
         public string lblResActualFlexi { get; set; }
-
         public int? iFlexiAnt { get; set; }
         public string lblResAnteriorFlexi { get; set; }
+        //
+        public int? TENTATIVA1 { get; set; }
+        public int? TENTATIVA2 { get; set; }
+        public int? ESPERADO { get; set; }
+        public int? RESULTADO { get; set; }
     }
 
 

@@ -16,6 +16,7 @@ namespace Gestreino
     {
         public int ID { get; set; }
         public int GT_SOCIOS_ID { get; set; }
+        public int GT_TipoTesteFlexibilidade_ID { get; set; }
         public Nullable<int> RESP_01 { get; set; }
         public Nullable<int> RESP_02 { get; set; }
         public Nullable<int> RESP_03 { get; set; }
@@ -36,6 +37,9 @@ namespace Gestreino
         public Nullable<int> RESP_18 { get; set; }
         public Nullable<int> RESP_19 { get; set; }
         public Nullable<int> RESP_20 { get; set; }
+        public Nullable<int> TENTATIVA1 { get; set; }
+        public Nullable<int> TENTATIVA2 { get; set; }
+        public Nullable<int> ESPERADO { get; set; }
         public Nullable<int> RESP_SUMMARY { get; set; }
         public string RESP_DESCRICAO { get; set; }
         public Nullable<int> PERCENTIL { get; set; }
@@ -47,5 +51,6 @@ namespace Gestreino
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
     
         public virtual GT_SOCIOS GT_SOCIOS { get; set; }
+        public virtual GT_TipoTesteFlexibilidade GT_TipoTesteFlexibilidade { get; set; }
     }
 }

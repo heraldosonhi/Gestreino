@@ -38,6 +38,7 @@ namespace Gestreino.Classes
         public static string GESTREINO_AVALIDO_IDADE;
         public static string GESTREINO_AVALIDO_PESO;
         public static string GESTREINO_AVALIDO_ALTURA;
+        public static string GESTREINO_AVALIDO_SEXO;
 
         // ADM
         /*

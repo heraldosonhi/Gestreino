@@ -2229,7 +2229,7 @@ namespace Gestreino.Controllers
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Anxient;
             return View("Quest/Anxiety", MODEL);
         }
-        public ActionResult GetGTQuestTable(int? PesId, string GT_Res)
+        public ActionResult GetGTQuestTable(int? PesId, string GT_Res,int? TipoId)
         {
             //UI DATATABLE PAGINATION BUTTONS
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
@@ -2259,7 +2259,8 @@ namespace Gestreino.Controllers
             if (GT_Res == "GT_RespProblemasSaude") Link = "/gtmanagement/health/";
             if (GT_Res == "GT_RespFlexiTeste") Link = "/gtmanagement/flexibility/";
 
-            var v = (from a in databaseManager.SP_GT_ENT_Resp(null, PesId, GT_Res,  null, "R").ToList() select a);
+            TipoId = TipoId > 0 ? TipoId : null;
+            var v = (from a in databaseManager.SP_GT_ENT_Resp(TipoId, PesId, GT_Res,  null, "R").ToList() select a);
             TempData["QUERYRESULT_ALL"] = v.ToList();
 
             //SEARCH RESULT SET
@@ -3188,11 +3189,22 @@ namespace Gestreino.Controllers
         }
 
         //Flexibilidade
-        public ActionResult Flexibility(Flexibility MODEL, int? Id)
+        public ActionResult Flexibility(Flexibility MODEL, int? Id,int? flexiType)
         {
-            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
-            MODEL.TipoList = databaseManager.GT_TipoTesteFlexibilidade.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+            var tipoList = databaseManager.GT_TipoTesteFlexibilidade.ToList();
+            MODEL.TipoList = tipoList.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+            MODEL.TipoId = MODEL.TipoList.Any()? Convert.ToInt32(MODEL.TipoList.FirstOrDefault().Value):0;
 
+            if (flexiType != null && flexiType > 0)
+            {
+                var data = tipoList.Where(x => x.ID == flexiType).ToList();
+                if (data.Count() == 0)
+                    return RedirectToAction("home", "gtmanagement", new { Id = string.Empty });
+                MODEL.TipoId = flexiType.Value;
+            }
+
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
+          
             if (Id > 0)
             {
                 var data = databaseManager.GT_RespFlexiTeste.Where(x => x.ID == Id).ToList();
@@ -3200,13 +3212,17 @@ namespace Gestreino.Controllers
                     return RedirectToAction("flexibility", "gtmanagement", new { Id = string.Empty });
                 ViewBag.data = data;
                 MODEL.ID = Id;
-                MODEL.iFlexiAct = data.First().RESP_SUMMARY;
-                MODEL.lblResActualFlexi = data.First().RESP_DESCRICAO;
-                MODEL.iFlexiAnt = GetFlexiIndiceAnterior(data.First().GT_SOCIOS_ID,Id);
-                MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt!=null?GetResultadoFlexiIndice(MODEL.iFlexiAnt.Value):string.Empty;
+                MODEL.TipoId = data.First().GT_TipoTesteFlexibilidade_ID;
 
-                var flexflexNumberArr = data.Select(x => new List<int?>
-                {   
+                if (MODEL.TipoId == 1)
+                {
+                    MODEL.iFlexiAct = data.First().RESP_SUMMARY;
+                    MODEL.lblResActualFlexi = data.First().RESP_DESCRICAO;
+                    MODEL.iFlexiAnt = GetFlexiIndiceAnterior(data.First().GT_SOCIOS_ID, Id);
+                    MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoFlexiIndice(MODEL.iFlexiAnt.Value) : string.Empty;
+
+                    var flexflexNumberArr = data.Select(x => new List<int?>
+                {
                     x.RESP_01,
                     x.RESP_02,
                     x.RESP_03,
@@ -3228,7 +3244,28 @@ namespace Gestreino.Controllers
                     x.RESP_19,
                     x.RESP_20
                 }).ToArray();
-                ViewBag.flexflexNumberArr = flexflexNumberArr.First().ToList();
+                    ViewBag.flexflexNumberArr = flexflexNumberArr.First().ToList();
+                }
+                if (MODEL.TipoId == 2)
+                {
+                    int iPerc;
+                    int iValue;
+                    string sRes;
+                    MODEL.TENTATIVA1 = data.First().TENTATIVA1;
+                    MODEL.TENTATIVA2 = data.First().TENTATIVA2;
+                    MODEL.ESPERADO = data.First().ESPERADO;
+                    DoLoadValuesPercentilAlcancar();
+                    DoGraficoActualSentar(MODEL.TENTATIVA1.Value, MODEL.TENTATIVA2.Value, out iPerc, out iValue, out sRes);
+                    MODEL.iFlexiAct = iPerc;
+                    MODEL.RESULTADO = iValue;
+                    MODEL.lblResActualFlexi = sRes;
+
+                    if (GetFlexiIndiceAnteriorType2(data.First().GT_SOCIOS_ID, MODEL.ID) != null)
+                    {
+                        MODEL.iFlexiAnt = GetPercentil(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), GetFlexiIndiceAnteriorType2(data.First().GT_SOCIOS_ID, MODEL.ID).Value);
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoSentarAlcancar(MODEL.iFlexiAnt.Value) : string.Empty;
+                    }
+                }
             }
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Flex;
             return View("Quest/Flexibility", MODEL);
@@ -3237,10 +3274,6 @@ namespace Gestreino.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Flexibility(Flexibility MODEL, int?[] flexflexNumberArr)
         {
-            //var iFlexiAct = 0;
-            //var lblResActualFlexi = string.Empty;
-            //var iFlexiAnt = 0;
-            //var lblResAnteriorFlexi = string.Empty;
             var GT_SOCIOS_ID = 0;
 
             try
@@ -3253,9 +3286,27 @@ namespace Gestreino.Controllers
                     return Json(new { result = false, error = errors });
                 }
 
-                 MODEL.iFlexiAct = GetFlexiIndice(flexflexNumberArr);
-                 MODEL.lblResActualFlexi = GetResultadoFlexiIndice(MODEL.iFlexiAct.Value);
-                 GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
+                DoLoadValuesPercentilAlcancar();
+                GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
+
+                if (MODEL.TipoId == 1)
+                {
+                    //Type1
+                    MODEL.iFlexiAct = GetFlexiIndice(flexflexNumberArr);
+                    MODEL.lblResActualFlexi = GetResultadoFlexiIndice(MODEL.iFlexiAct.Value);
+                }
+                if (MODEL.TipoId == 2)
+                {
+                    //Type2
+                    int iPerc;
+                    int iValue;
+                    string sRes;
+                    MODEL.ESPERADO = DoSetEsperado(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
+                    DoGraficoActualSentar(MODEL.TENTATIVA1.Value, MODEL.TENTATIVA2.Value, out iPerc, out iValue, out sRes);
+                    MODEL.iFlexiAct = iPerc;
+                    MODEL.RESULTADO = iValue;
+                    MODEL.lblResActualFlexi = sRes;
+                }
 
                 if (MODEL.ID > 0)
                 {
@@ -3285,6 +3336,10 @@ namespace Gestreino.Controllers
                              fx.RESP_19 = flexflexNumberArr[18];
                              fx.RESP_20 = flexflexNumberArr[19];
                          }
+                         //Type2
+                         fx.TENTATIVA1 = MODEL.TENTATIVA1;
+                         fx.TENTATIVA2 = MODEL.TENTATIVA2;
+                         fx.ESPERADO = MODEL.ESPERADO;
                          fx.RESP_SUMMARY = MODEL.iFlexiAct;
                          fx.RESP_DESCRICAO = MODEL.lblResActualFlexi;
                          fx.PERCENTIL = MODEL.iFlexiAct;
@@ -3296,6 +3351,7 @@ namespace Gestreino.Controllers
                 {
                     GT_RespFlexiTeste fx = new GT_RespFlexiTeste();
                     fx.GT_SOCIOS_ID = GT_SOCIOS_ID;
+                    fx.GT_TipoTesteFlexibilidade_ID = MODEL.TipoId;
                     if (flexflexNumberArr != null)
                     {
                         fx.RESP_01 = flexflexNumberArr[0];
@@ -3319,6 +3375,10 @@ namespace Gestreino.Controllers
                         fx.RESP_19 = flexflexNumberArr[18];
                         fx.RESP_20 = flexflexNumberArr[19];
                     }
+                    //Type2
+                    fx.TENTATIVA1 = MODEL.TENTATIVA1;
+                    fx.TENTATIVA2 = MODEL.TENTATIVA2;
+                    fx.ESPERADO = MODEL.ESPERADO;
                     fx.RESP_SUMMARY = MODEL.iFlexiAct;
                     fx.RESP_DESCRICAO = MODEL.lblResActualFlexi;
                     fx.PERCENTIL = MODEL.iFlexiAct;
@@ -3326,19 +3386,33 @@ namespace Gestreino.Controllers
                     fx.DATA_INSERCAO = DateTime.Now;
                     databaseManager.GT_RespFlexiTeste.Add(fx);
                     databaseManager.SaveChanges();
-                    //
+
                     MODEL.ID = fx.ID;
                 }
 
-                MODEL.iFlexiAnt = GetFlexiIndiceAnterior(GT_SOCIOS_ID, MODEL.ID);
-                MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoFlexiIndice(MODEL.iFlexiAnt.Value) : string.Empty;
+                if (MODEL.TipoId == 1)
+                {
+                    //Type1
+                    MODEL.iFlexiAnt = GetFlexiIndiceAnterior(GT_SOCIOS_ID, MODEL.ID);
+                    MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoFlexiIndice(MODEL.iFlexiAnt.Value) : string.Empty;
+                }
+                if (MODEL.TipoId == 2)
+                {
+                    //Type2
+                    MODEL.iFlexiAnt = GetPercentil(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), GetFlexiIndiceAnteriorType2(GT_SOCIOS_ID, MODEL.ID).Value);
+                    MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoSentarAlcancar(MODEL.iFlexiAnt.Value) : string.Empty;
+                }
+
                 ModelState.Clear();
             }
             catch (Exception ex)
             {
                 return Json(new { result = false, error = ex.Message });
             }
-            return Json(new { result = true, error = string.Empty,flexAct= MODEL.iFlexiAct+"-"+ MODEL.lblResActualFlexi, flexAnt = MODEL.iFlexiAnt + "-" + MODEL.lblResAnteriorFlexi, table = "GTQuestTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
+            return Json(new { result = true, error = string.Empty,
+                flexAct= MODEL.iFlexiAct+"-"+ MODEL.lblResActualFlexi, flexAnt = MODEL.iFlexiAnt + "-" + MODEL.lblResAnteriorFlexi,
+                tentativas = MODEL.ESPERADO+"-"+MODEL.RESULTADO,
+                table = "GTQuestTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
 
 
@@ -3711,7 +3785,7 @@ namespace Gestreino.Controllers
         private int? GetFlexiIndiceAnterior(int GT_SOCIOS_ID,int? Id)
         {
             int? iFlexi = 0;
-            var data = databaseManager.GT_RespFlexiTeste.Where(x => x.GT_SOCIOS_ID == GT_SOCIOS_ID && x.ID<Id).OrderByDescending(x => x.DATA_INSERCAO).Take(1).ToList();
+            var data = databaseManager.GT_RespFlexiTeste.Where(x => x.GT_SOCIOS_ID == GT_SOCIOS_ID && x.ID<Id && x.GT_TipoTesteFlexibilidade_ID==1).OrderByDescending(x => x.DATA_INSERCAO).Take(1).ToList();
 
             var flexflexNumberArr = data.Select(x => new List<int?>
                 {
@@ -3756,10 +3830,7 @@ namespace Gestreino.Controllers
                 iFlexi = null;
             return iFlexi;
         }
-
-       
-        
-        
+        //
         private ArrayList a20_29M = new ArrayList(9);
         private ArrayList a20_29F = new ArrayList(9);
 
@@ -3777,12 +3848,55 @@ namespace Gestreino.Controllers
 
         private ArrayList aPercentil = new ArrayList(10);
         private ArrayList aEscolhido = new ArrayList(9);
-        private int GetPercentil(int IDSexo, int Idade, int valor)
+
+        private void DoLoadValuesPercentilAlcancar()
+        {
+            a20_29M.Clear();
+            a20_29F.Clear();
+            a30_39M.Clear();
+            a30_39F.Clear();
+            a40_49M.Clear();
+            a40_49F.Clear();
+            a50_59M.Clear();
+            a50_59F.Clear();
+            a60_69M.Clear();
+            a60_69F.Clear();
+            aPercentil.Clear();
+            aEscolhido.Clear();
+
+            //Carregamento de Valores
+            a20_29M.Add(new Object[9] { 42, 38, 36, 33, 31, 29, 26, 23, 18 });
+            a20_29F.Add(new Object[9] { 43, 40, 38, 36, 34, 32, 29, 26, 22 });
+
+            a30_39M.Add(new Object[9] { 40, 37, 34, 32, 29, 27, 24, 21, 17 });
+            a30_39F.Add(new Object[9] { 42, 39, 37, 35, 33, 31, 28, 25, 21 });
+
+            a40_49M.Add(new Object[9] { 37, 34, 30, 28, 25, 23, 20, 16, 12 });
+            a40_49F.Add(new Object[9] { 40, 37, 35, 33, 31, 29, 26, 14, 19 });
+
+            a50_59M.Add(new Object[9] { 38, 32, 29, 27, 25, 22, 18, 15, 12 });
+            a50_59F.Add(new Object[9] { 40, 37, 35, 32, 30, 29, 26, 13, 19 });
+
+            a60_69M.Add(new Object[9] { 35, 30, 26, 24, 22, 18, 16, 14, 11 });
+            a60_69F.Add(new Object[9] { 37, 34, 31, 30, 28, 26, 24, 23, 18 });
+
+            aPercentil.Add(100);
+            aPercentil.Add(90);
+            aPercentil.Add(80);
+            aPercentil.Add(70);
+            aPercentil.Add(60);
+            aPercentil.Add(50);
+            aPercentil.Add(40);
+            aPercentil.Add(30);
+            aPercentil.Add(20);
+            aPercentil.Add(10);
+        }
+        private int GetPercentil(string Sexo, int Idade, int valor)
         {
 
-            switch (IDSexo)
+            switch (Sexo)
             {
-                case 1:
+                case "Masculino":
                     if (Idade >= 17 && Idade <= 29)
                         aEscolhido = a20_29M;
                     else if (Idade >= 30 && Idade <= 39)
@@ -3794,7 +3908,7 @@ namespace Gestreino.Controllers
                     else if (Idade >= 60 && Idade <= 69)
                         aEscolhido = a60_69M;
                     break;
-                case 2:
+                case "Feminino":
                     if (Idade >= 17 && Idade <= 29)
                         aEscolhido = a20_29F;
                     else if (Idade >= 30 && Idade <= 39)
@@ -3811,10 +3925,9 @@ namespace Gestreino.Controllers
             Array arrTemp;
             arrTemp = (Array)aEscolhido[0];
             int indice = 0;
-            //Detectar o valor
+
             foreach (Object i in arrTemp)
             {
-                //Console.Write( "\t{0}", i );
                 if (valor > Convert.ToInt32(i))
                 {
                     break;
@@ -3822,22 +3935,112 @@ namespace Gestreino.Controllers
                 indice += 1;
 
             }
-            //			if (indice == 9) 
-            //				indice = (indice -1);
-
             return Convert.ToInt32(aPercentil[indice]);
         }
-    
+        private int DoSetEsperado(string Sexo, int Idade)
+        {
+            int y = 0;
+            switch (Sexo)
+            {
+                case "Masculino":
+                    if (Idade >= 17 && Idade <= 29)
+                        aEscolhido = a20_29M;
+                    else if (Idade >= 30 && Idade <= 39)
+                        aEscolhido = a30_39M;
+                    else if (Idade >= 40 && Idade <= 49)
+                        aEscolhido = a40_49M;
+                    else if (Idade >= 50 && Idade <= 59)
+                        aEscolhido = a50_59M;
+                    else if (Idade >= 60 && Idade <= 69)
+                        aEscolhido = a60_69M;
+                    break;
+                case "Feminino":
+                    if (Idade >= 17 && Idade <= 29)
+                        aEscolhido = a20_29F;
+                    else if (Idade >= 30 && Idade <= 39)
+                        aEscolhido = a30_39F;
+                    else if (Idade >= 40 && Idade <= 49)
+                        aEscolhido = a40_49F;
+                    else if (Idade >= 50 && Idade <= 59)
+                        aEscolhido = a50_59F;
+                    else if (Idade >= 60 && Idade <= 69)
+                        aEscolhido = a60_69F;
+                    break;
+            }
 
-    
+            Array arrTemp;
+            arrTemp = (Array)aEscolhido[0];
+            y = Convert.ToInt32(Convert.ToString(arrTemp.GetValue(2)));
+            return y;
+        }
+        private void DoGraficoActualSentar(int txtTentativa1, int txtTentativa2,  out int iPerc, out int iValue, out string sRes)
+        {
+            int iPercentilAct;
+            int ValorAct = 0;
+            
+            ValorAct = Convert.ToInt32((txtTentativa1 + txtTentativa2) / 2);
+            iPercentilAct = GetPercentil(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), ValorAct);
+            iPerc = iPercentilAct;
+            iValue = ValorAct;
+            sRes = GetResultadoSentarAlcancar(iPercentilAct);
+        }
+        private string GetResultadoSentarAlcancar(int iSentar)
+        {
+            string retValue = string.Empty;
+            if (iSentar < 30)
+                retValue = "Muito Fraco";
+            else if (iSentar < 50 && iSentar >= 30)
+                retValue = "Fraco";
+            else if (iSentar <= 70 && iSentar >= 50)
+                retValue = "Médio";
+            else if (iSentar <= 90 && iSentar >= 71)
+                retValue = "Bom";
+            else if (iSentar > 90)
+                retValue = "Excelente";
+            return retValue;
+        }
+        private int? GetFlexiIndiceAnteriorType2(int GT_SOCIOS_ID, int? Id)
+        {
+            int? iFlexi = 0;
+            var data = databaseManager.GT_RespFlexiTeste.Where(x => x.GT_SOCIOS_ID == GT_SOCIOS_ID && x.ID < Id && x.GT_TipoTesteFlexibilidade_ID==2).OrderByDescending(x => x.DATA_INSERCAO).Take(1).ToList();
 
+            var flexflexNumberArr = data.Select(x => new List<int?>
+                { 
+                    x.TENTATIVA1,
+                    x.TENTATIVA2
+                }).ToArray();
+
+            if (flexflexNumberArr.Any())
+            {
+                var flexflexNumberArrList = flexflexNumberArr.First().ToList();
+
+                if (flexflexNumberArrList.Any())
+                {
+                    foreach (var x in flexflexNumberArrList)
+                    {
+                        if (x != null)
+                            iFlexi = iFlexi + Convert.ToInt32(x);
+                    }
+                    iFlexi = iFlexi / 2;
+                }
+                else
+                    iFlexi = null;
+            }
+            else
+                iFlexi = null;
+            return iFlexi;
+        }
+
+
+
+
+       
       
 
-      
 
-      
 
-    
+
+
 
 
     }

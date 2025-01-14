@@ -157,8 +157,9 @@
         <EntityTypeShape EntityType="GESTREINO_ORM.GT_RespProblemasSaude" Width="1.5" PointX="7.5" PointY="106.875" />
         <AssociationConnector Association="GESTREINO_ORM.GT_RespProblemasSaude_GT_SOCIOS_ID" />
         <EntityTypeShape EntityType="GESTREINO_ORM.GT_TipoTesteFlexibilidade" Width="1.5" PointX="0.75" PointY="9.75" />
-        <EntityTypeShape EntityType="GESTREINO_ORM.GT_RespFlexiTeste" Width="1.5" PointX="7.5" PointY="126.25" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_RespFlexiTeste" Width="1.5" PointX="19.5" PointY="38.5" />
         <AssociationConnector Association="GESTREINO_ORM.GT_RespFlexiTeste_GT_SOCIOS_ID" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_RespFlexiTeste_GT_TipoTesteFlexibilidade_ID" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

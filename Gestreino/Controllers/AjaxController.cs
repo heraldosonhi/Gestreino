@@ -613,7 +613,7 @@ namespace Gestreino.Controllers
             if (PesId > 0)
             {
                 var Age = 0;
-                var av1 = databaseManager.SP_PES_ENT_PESSOAS(PesId, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, Convert.ToChar('R').ToString()).Select(x => new { x.NOME_PROPIO, x.APELIDO, x.DATA_NASCIMENTO }).ToList();
+                var av1 = databaseManager.SP_PES_ENT_PESSOAS(PesId, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, Convert.ToChar('R').ToString()).Select(x => new { x.NOME_PROPIO, x.APELIDO, x.DATA_NASCIMENTO,x.SEXO }).ToList();
                 var av2 = databaseManager.PES_PESSOAS_CARACT.Where(x => x.PES_PESSOAS_ID == PesId).Select(x => new { x.ALTURA, x.PESO }).ToList();
 
                 if (av1.Any())
@@ -624,6 +624,7 @@ namespace Gestreino.Controllers
 
                     Configs.GESTREINO_AVALIDO_NOME = av1.First().NOME_PROPIO + " " + av1.First().APELIDO;
                     Configs.GESTREINO_AVALIDO_IDADE = Age.ToString();
+                    Configs.GESTREINO_AVALIDO_SEXO = av1.First().SEXO;
                 }
                 if (av2.Any())
                 {

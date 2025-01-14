@@ -350,6 +350,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GT_SOCIOS_ID" Type="int" Nullable="false" />
+          <Property Name="GT_TipoTesteFlexibilidade_ID" Type="int" Nullable="false" />
           <Property Name="RESP_01" Type="int" />
           <Property Name="RESP_02" Type="int" />
           <Property Name="RESP_03" Type="int" />
@@ -370,6 +371,9 @@
           <Property Name="RESP_18" Type="int" />
           <Property Name="RESP_19" Type="int" />
           <Property Name="RESP_20" Type="int" />
+          <Property Name="TENTATIVA1" Type="int" />
+          <Property Name="TENTATIVA2" Type="int" />
+          <Property Name="ESPERADO" Type="int" />
           <Property Name="RESP_SUMMARY" Type="int" />
           <Property Name="RESP_DESCRICAO" Type="varchar" MaxLength="4000" />
           <Property Name="PERCENTIL" Type="int" />
@@ -2156,6 +2160,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="GT_RespFlexiTeste_GT_TipoTesteFlexibilidade_ID">
+          <End Role="GT_TipoTesteFlexibilidade" Type="Self.GT_TipoTesteFlexibilidade" Multiplicity="1" />
+          <End Role="GT_RespFlexiTeste" Type="Self.GT_RespFlexiTeste" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoTesteFlexibilidade">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespFlexiTeste">
+              <PropertyRef Name="GT_TipoTesteFlexibilidade_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="GT_RespProblemasSaude_GT_SOCIOS_ID">
           <End Role="GT_SOCIOS" Type="Self.GT_SOCIOS" Multiplicity="1" />
           <End Role="GT_RespProblemasSaude" Type="Self.GT_RespProblemasSaude" Multiplicity="*" />
@@ -3077,6 +3093,10 @@
           </AssociationSet>
           <AssociationSet Name="GT_RespFlexiTeste_GT_SOCIOS_ID" Association="Self.GT_RespFlexiTeste_GT_SOCIOS_ID">
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+            <End Role="GT_RespFlexiTeste" EntitySet="GT_RespFlexiTeste" />
+          </AssociationSet>
+          <AssociationSet Name="GT_RespFlexiTeste_GT_TipoTesteFlexibilidade_ID" Association="Self.GT_RespFlexiTeste_GT_TipoTesteFlexibilidade_ID">
+            <End Role="GT_TipoTesteFlexibilidade" EntitySet="GT_TipoTesteFlexibilidade" />
             <End Role="GT_RespFlexiTeste" EntitySet="GT_RespFlexiTeste" />
           </AssociationSet>
           <AssociationSet Name="GT_RespProblemasSaude_GT_SOCIOS_ID" Association="Self.GT_RespProblemasSaude_GT_SOCIOS_ID">
@@ -4928,6 +4948,10 @@
           <EntitySet Name="GT_RespFlexiTeste" EntityType="GESTREINO_ORM.GT_RespFlexiTeste" />
           <AssociationSet Name="GT_RespFlexiTeste_GT_SOCIOS_ID" Association="GESTREINO_ORM.GT_RespFlexiTeste_GT_SOCIOS_ID">
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+            <End Role="GT_RespFlexiTeste" EntitySet="GT_RespFlexiTeste" />
+          </AssociationSet>
+          <AssociationSet Name="GT_RespFlexiTeste_GT_TipoTesteFlexibilidade_ID" Association="GESTREINO_ORM.GT_RespFlexiTeste_GT_TipoTesteFlexibilidade_ID">
+            <End Role="GT_TipoTesteFlexibilidade" EntitySet="GT_TipoTesteFlexibilidade" />
             <End Role="GT_RespFlexiTeste" EntitySet="GT_RespFlexiTeste" />
           </AssociationSet>
         </EntityContainer>
@@ -6858,6 +6882,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DESCRICAO" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GT_RespFlexiTeste" Relationship="GESTREINO_ORM.GT_RespFlexiTeste_GT_TipoTesteFlexibilidade_ID" FromRole="GT_TipoTesteFlexibilidade" ToRole="GT_RespFlexiTeste" />
         </EntityType>
         <EntityType Name="GT_RespFlexiTeste">
           <Key>
@@ -6865,6 +6890,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GT_SOCIOS_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_TipoTesteFlexibilidade_ID" Type="Int32" Nullable="false" />
           <Property Name="RESP_01" Type="Int32" />
           <Property Name="RESP_02" Type="Int32" />
           <Property Name="RESP_03" Type="Int32" />
@@ -6885,6 +6911,9 @@
           <Property Name="RESP_18" Type="Int32" />
           <Property Name="RESP_19" Type="Int32" />
           <Property Name="RESP_20" Type="Int32" />
+          <Property Name="TENTATIVA1" Type="Int32" />
+          <Property Name="TENTATIVA2" Type="Int32" />
+          <Property Name="ESPERADO" Type="Int32" />
           <Property Name="RESP_SUMMARY" Type="Int32" />
           <Property Name="RESP_DESCRICAO" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
           <Property Name="PERCENTIL" Type="Int32" />
@@ -6895,6 +6924,7 @@
           <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
           <NavigationProperty Name="GT_SOCIOS" Relationship="GESTREINO_ORM.GT_RespFlexiTeste_GT_SOCIOS_ID" FromRole="GT_RespFlexiTeste" ToRole="GT_SOCIOS" />
+          <NavigationProperty Name="GT_TipoTesteFlexibilidade" Relationship="GESTREINO_ORM.GT_RespFlexiTeste_GT_TipoTesteFlexibilidade_ID" FromRole="GT_RespFlexiTeste" ToRole="GT_TipoTesteFlexibilidade" />
         </EntityType>
         <Association Name="GT_RespFlexiTeste_GT_SOCIOS_ID">
           <End Type="GESTREINO_ORM.GT_SOCIOS" Role="GT_SOCIOS" Multiplicity="1" />
@@ -6905,6 +6935,18 @@
             </Principal>
             <Dependent Role="GT_RespFlexiTeste">
               <PropertyRef Name="GT_SOCIOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_RespFlexiTeste_GT_TipoTesteFlexibilidade_ID">
+          <End Type="GESTREINO_ORM.GT_TipoTesteFlexibilidade" Role="GT_TipoTesteFlexibilidade" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_RespFlexiTeste" Role="GT_RespFlexiTeste" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoTesteFlexibilidade">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespFlexiTeste">
+              <PropertyRef Name="GT_TipoTesteFlexibilidade_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8828,6 +8870,9 @@
                 <ScalarProperty Name="PERCENTIL" ColumnName="PERCENTIL" />
                 <ScalarProperty Name="RESP_DESCRICAO" ColumnName="RESP_DESCRICAO" />
                 <ScalarProperty Name="RESP_SUMMARY" ColumnName="RESP_SUMMARY" />
+                <ScalarProperty Name="ESPERADO" ColumnName="ESPERADO" />
+                <ScalarProperty Name="TENTATIVA2" ColumnName="TENTATIVA2" />
+                <ScalarProperty Name="TENTATIVA1" ColumnName="TENTATIVA1" />
                 <ScalarProperty Name="RESP_20" ColumnName="RESP_20" />
                 <ScalarProperty Name="RESP_19" ColumnName="RESP_19" />
                 <ScalarProperty Name="RESP_18" ColumnName="RESP_18" />
@@ -8848,6 +8893,7 @@
                 <ScalarProperty Name="RESP_03" ColumnName="RESP_03" />
                 <ScalarProperty Name="RESP_02" ColumnName="RESP_02" />
                 <ScalarProperty Name="RESP_01" ColumnName="RESP_01" />
+                <ScalarProperty Name="GT_TipoTesteFlexibilidade_ID" ColumnName="GT_TipoTesteFlexibilidade_ID" />
                 <ScalarProperty Name="GT_SOCIOS_ID" ColumnName="GT_SOCIOS_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

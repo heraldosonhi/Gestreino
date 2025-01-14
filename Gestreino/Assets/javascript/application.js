@@ -360,17 +360,20 @@ function handleSuccess(response) {
                 tree.reload();
                 disableFancytreeButtons();
             }
-            if (response.flexAct) { //Flexitest
+            if (response.flexAct) { 
+                //Flexitest
                 var progressperc = Number(response.flexAct.split("-", 1)[0]);
-                var progressbar = (progressperc * 1.25)
+                var progressbar = response.tentativas == '' ? (progressperc * 1.25) : progressperc;
                 var progresspercAnt = Number(response.flexAnt.split("-", 1)[0]);
-                var progressbarAnt = (progresspercAnt * 1.25)
+                var progressbarAnt = response.tentativas == '' ? (progresspercAnt * 1.25) : progresspercAnt;
                 $('#pgrflexActual').css("width", progressbar + '%')
                 $('#pgrflexActual').text(progressperc)
                 $('#lblflexActual').text(response.flexAct.split("-", 2)[1])
                 $('#pgrflexAnterior').css("width", progressbarAnt + '%')
                 $('#pgrflexAnterior').text(progresspercAnt)
                 $('#lblflexAnterior').text(response.flexAnt.split("-", 2)[1])
+                $('#ESPERADO').val(response.tentativas.split("-", 1)[0]);
+                $('#RESULTADO').val(response.tentativas.split("-", 2)[1]);
             }
         }
         if (response.url) {
@@ -3046,7 +3049,7 @@ function handleDataGTQuestTable() {
             "url": "../../gtmanagement/GetGTQuestTable", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
-            data: { "PesId": $('#PEsId').val(), "GT_Res": $('#GT_Res').val() }
+            data: { "PesId": $('#PEsId').val(), "GT_Res": $('#GT_Res').val(), "TipoId": $('#TipoId').val() }
         },
         "columns": [
             { "data": "Id", "name": null, "autoWidth": true },
@@ -3934,7 +3937,6 @@ $(document).on('change', '.radhealth', function () {
     }
 });
 //Flexibility
-var flexArrs = [];
 $("input:checkbox").change(function () {
     var group = ":checkbox[name='" + $(this).attr("name") + "']";
     if ($(this).is(':checked')) {
@@ -4013,4 +4015,9 @@ function flexSetClassificacao(val) {
 }
 function flexLoadImg(id) {
     $("#flexImg").attr('src', '/Assets/images/imagesflexi/f' + id + '.jpg').width("100%").height("100%")
+}
+function loadflexitype(id) {
+    //if (confirm('Tem a certeza que pretende mudar de avaliação?')) {
+        window.location = '/gtmanagement/flexibility?flexitype=' + id;
+    //} else {}
 }
