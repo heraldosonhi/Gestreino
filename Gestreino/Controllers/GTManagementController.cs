@@ -3199,7 +3199,7 @@ namespace Gestreino.Controllers
             {
                 var data = tipoList.Where(x => x.ID == flexiType).ToList();
                 if (data.Count() == 0)
-                    return RedirectToAction("home", "gtmanagement", new { Id = string.Empty });
+                    return RedirectToAction("", "home", new { Id = string.Empty });
                 MODEL.TipoId = flexiType.Value;
             }
 
@@ -3399,8 +3399,11 @@ namespace Gestreino.Controllers
                 if (MODEL.TipoId == 2)
                 {
                     //Type2
-                    MODEL.iFlexiAnt = GetPercentil(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), GetFlexiIndiceAnteriorType2(GT_SOCIOS_ID, MODEL.ID).Value);
-                    MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoSentarAlcancar(MODEL.iFlexiAnt.Value) : string.Empty;
+                    if (GetFlexiIndiceAnteriorType2(GT_SOCIOS_ID, MODEL.ID) != null)
+                    {
+                        MODEL.iFlexiAnt = GetPercentil(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), GetFlexiIndiceAnteriorType2(GT_SOCIOS_ID, MODEL.ID).Value);
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoSentarAlcancar(MODEL.iFlexiAnt.Value) : string.Empty;
+                    }
                 }
 
                 ModelState.Clear();
@@ -3414,6 +3417,21 @@ namespace Gestreino.Controllers
                 tentativas = MODEL.ESPERADO+"-"+MODEL.RESULTADO,
                 table = "GTQuestTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         //Formulas exported from legacy projecto
