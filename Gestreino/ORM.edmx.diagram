@@ -160,6 +160,14 @@
         <EntityTypeShape EntityType="GESTREINO_ORM.GT_RespFlexiTeste" Width="1.5" PointX="19.5" PointY="38.5" />
         <AssociationConnector Association="GESTREINO_ORM.GT_RespFlexiTeste_GT_SOCIOS_ID" />
         <AssociationConnector Association="GESTREINO_ORM.GT_RespFlexiTeste_GT_TipoTesteFlexibilidade_ID" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_TipoMetodoComposicao" Width="1.5" PointX="10" PointY="77.375" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_TipoNivelActividade" Width="1.5" PointX="12.25" PointY="66.75" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_TipoTesteComposicao" Width="1.5" PointX="12.25" PointY="77.125" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_TipoTesteComposicao_GT_TipoMetodoComposicao_ID" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_RespComposicao" Width="1.5" PointX="14.5" PointY="61.75" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_RespComposicao_GT_SOCIOS_ID" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_RespComposicao_GT_TipoNivelActividade_ID" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_RespComposicao_GT_TipoTesteComposicao_ID" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

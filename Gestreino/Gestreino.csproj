@@ -285,6 +285,9 @@
     <Compile Include="GT_RespAutoConceito.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_RespComposicao.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="GT_RespFlexiTeste.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -301,6 +304,15 @@
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="GT_TempoDescanso.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_TipoMetodoComposicao.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_TipoNivelActividade.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_TipoTesteComposicao.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="GT_TipoTesteFlexibilidade.cs">
@@ -750,6 +762,7 @@
     <Content Include="Views\GTManagement\Quest\CoronaryRisk.cshtml" />
     <Content Include="Views\GTManagement\Quest\Health.cshtml" />
     <Content Include="Views\GTManagement\Quest\Flexibility.cshtml" />
+    <Content Include="Views\GTManagement\Quest\BodyComposition.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

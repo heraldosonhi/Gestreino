@@ -344,6 +344,44 @@
           <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
           <Property Name="DATA_REMOCAO" Type="datetime" />
         </EntityType>
+        <EntityType Name="GT_RespComposicao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GT_SOCIOS_ID" Type="int" Nullable="false" />
+          <Property Name="GT_TipoTesteComposicao_ID" Type="int" Nullable="false" />
+          <Property Name="PESO" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PESODESEJAVEL" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PESOPERDER" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PERIMETRO_ABDOMINAL" Type="int" />
+          <Property Name="PERIMETRO_CINTURA" Type="int" />
+          <Property Name="PERIMETRO_UMBIGO" Type="int" />
+          <Property Name="ABDOMINAL" Type="int" />
+          <Property Name="TRICIPITAL" Type="int" />
+          <Property Name="RESISTENCIA" Type="int" />
+          <Property Name="PREGASTRICIPITAL" Type="int" />
+          <Property Name="PREGASSUPRALLIACA" Type="int" />
+          <Property Name="PREGAS_ABDOMINAL" Type="int" />
+          <Property Name="PREGAS_SUBESCAPULAR" Type="int" />
+          <Property Name="PREGAS_PEITO" Type="int" />
+          <Property Name="PERCMG" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MIG" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MG" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MGDESEJAVEL" Type="varchar" MaxLength="255" />
+          <Property Name="METABOLISMO" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ESTIMACAO" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="GT_TipoNivelActividade_ID" Type="int" />
+          <Property Name="RESP_SUMMARY" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="RESP_DESCRICAO" Type="varchar" MaxLength="4000" />
+          <Property Name="PERCENTIL" Type="int" />
+          <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="int" />
+          <Property Name="REMOVIDO_POR" Type="int" />
+          <Property Name="DATA_INSERCAO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
+          <Property Name="DATA_REMOCAO" Type="datetime" />
+        </EntityType>
         <EntityType Name="GT_RespFlexiTeste">
           <Key>
             <PropertyRef Name="ID" />
@@ -559,6 +597,28 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TEMPO_DESCANSO" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GT_TipoMetodoComposicao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DESCRICAO" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GT_TipoNivelActividade">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DESCRICAO" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GT_TipoTesteComposicao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GT_TipoMetodoComposicao_ID" Type="int" Nullable="false" />
+          <Property Name="DESCRICAO" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="GT_TipoTesteFlexibilidade">
           <Key>
@@ -2148,6 +2208,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="GT_RespComposicao_GT_SOCIOS_ID">
+          <End Role="GT_SOCIOS" Type="Self.GT_SOCIOS" Multiplicity="1" />
+          <End Role="GT_RespComposicao" Type="Self.GT_RespComposicao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_SOCIOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespComposicao">
+              <PropertyRef Name="GT_SOCIOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_RespComposicao_GT_TipoNivelActividade_ID">
+          <End Role="GT_TipoNivelActividade" Type="Self.GT_TipoNivelActividade" Multiplicity="0..1" />
+          <End Role="GT_RespComposicao" Type="Self.GT_RespComposicao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoNivelActividade">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespComposicao">
+              <PropertyRef Name="GT_TipoNivelActividade_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_RespComposicao_GT_TipoTesteComposicao_ID">
+          <End Role="GT_TipoTesteComposicao" Type="Self.GT_TipoTesteComposicao" Multiplicity="1" />
+          <End Role="GT_RespComposicao" Type="Self.GT_RespComposicao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoTesteComposicao">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespComposicao">
+              <PropertyRef Name="GT_TipoTesteComposicao_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="GT_RespFlexiTeste_GT_SOCIOS_ID">
           <End Role="GT_SOCIOS" Type="Self.GT_SOCIOS" Multiplicity="1" />
           <End Role="GT_RespFlexiTeste" Type="Self.GT_RespFlexiTeste" Multiplicity="*" />
@@ -2205,6 +2301,18 @@
             </Principal>
             <Dependent Role="GT_SOCIOS">
               <PropertyRef Name="PES_PESSOAS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_TipoTesteComposicao_GT_TipoMetodoComposicao_ID">
+          <End Role="GT_TipoMetodoComposicao" Type="Self.GT_TipoMetodoComposicao" Multiplicity="1" />
+          <End Role="GT_TipoTesteComposicao" Type="Self.GT_TipoTesteComposicao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoMetodoComposicao">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_TipoTesteComposicao">
+              <PropertyRef Name="GT_TipoMetodoComposicao_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2740,12 +2848,16 @@
           <EntitySet Name="GT_Repeticoes" EntityType="Self.GT_Repeticoes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespAnsiedadeDepressao" EntityType="Self.GT_RespAnsiedadeDepressao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespAutoConceito" EntityType="Self.GT_RespAutoConceito" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_RespComposicao" EntityType="Self.GT_RespComposicao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespFlexiTeste" EntityType="Self.GT_RespFlexiTeste" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespProblemasSaude" EntityType="Self.GT_RespProblemasSaude" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespRisco" EntityType="Self.GT_RespRisco" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_Series" EntityType="Self.GT_Series" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_SOCIOS" EntityType="Self.GT_SOCIOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_TempoDescanso" EntityType="Self.GT_TempoDescanso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_TipoMetodoComposicao" EntityType="Self.GT_TipoMetodoComposicao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_TipoNivelActividade" EntityType="Self.GT_TipoNivelActividade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_TipoTesteComposicao" EntityType="Self.GT_TipoTesteComposicao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_TipoTesteFlexibilidade" EntityType="Self.GT_TipoTesteFlexibilidade" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_TipoTreino" EntityType="Self.GT_TipoTreino" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_Treino" EntityType="Self.GT_Treino" Schema="dbo" store:Type="Tables" />
@@ -3091,6 +3203,18 @@
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
             <End Role="GT_RespAutoConceito" EntitySet="GT_RespAutoConceito" />
           </AssociationSet>
+          <AssociationSet Name="GT_RespComposicao_GT_SOCIOS_ID" Association="Self.GT_RespComposicao_GT_SOCIOS_ID">
+            <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+            <End Role="GT_RespComposicao" EntitySet="GT_RespComposicao" />
+          </AssociationSet>
+          <AssociationSet Name="GT_RespComposicao_GT_TipoNivelActividade_ID" Association="Self.GT_RespComposicao_GT_TipoNivelActividade_ID">
+            <End Role="GT_TipoNivelActividade" EntitySet="GT_TipoNivelActividade" />
+            <End Role="GT_RespComposicao" EntitySet="GT_RespComposicao" />
+          </AssociationSet>
+          <AssociationSet Name="GT_RespComposicao_GT_TipoTesteComposicao_ID" Association="Self.GT_RespComposicao_GT_TipoTesteComposicao_ID">
+            <End Role="GT_TipoTesteComposicao" EntitySet="GT_TipoTesteComposicao" />
+            <End Role="GT_RespComposicao" EntitySet="GT_RespComposicao" />
+          </AssociationSet>
           <AssociationSet Name="GT_RespFlexiTeste_GT_SOCIOS_ID" Association="Self.GT_RespFlexiTeste_GT_SOCIOS_ID">
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
             <End Role="GT_RespFlexiTeste" EntitySet="GT_RespFlexiTeste" />
@@ -3110,6 +3234,10 @@
           <AssociationSet Name="GT_SOCIOS_PES_PESSOAS_ID" Association="Self.GT_SOCIOS_PES_PESSOAS_ID">
             <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+          </AssociationSet>
+          <AssociationSet Name="GT_TipoTesteComposicao_GT_TipoMetodoComposicao_ID" Association="Self.GT_TipoTesteComposicao_GT_TipoMetodoComposicao_ID">
+            <End Role="GT_TipoMetodoComposicao" EntitySet="GT_TipoMetodoComposicao" />
+            <End Role="GT_TipoTesteComposicao" EntitySet="GT_TipoTesteComposicao" />
           </AssociationSet>
           <AssociationSet Name="GT_Treino_GT_GT_FaseTreino_ID" Association="Self.GT_Treino_GT_GT_FaseTreino_ID">
             <End Role="GT_FaseTreino" EntitySet="GT_FaseTreino" />
@@ -4954,7 +5082,27 @@
             <End Role="GT_TipoTesteFlexibilidade" EntitySet="GT_TipoTesteFlexibilidade" />
             <End Role="GT_RespFlexiTeste" EntitySet="GT_RespFlexiTeste" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="GT_TipoMetodoComposicao" EntityType="GESTREINO_ORM.GT_TipoMetodoComposicao" />
+          <EntitySet Name="GT_TipoNivelActividade" EntityType="GESTREINO_ORM.GT_TipoNivelActividade" />
+          <EntitySet Name="GT_TipoTesteComposicao" EntityType="GESTREINO_ORM.GT_TipoTesteComposicao" />
+          <AssociationSet Name="GT_TipoTesteComposicao_GT_TipoMetodoComposicao_ID" Association="GESTREINO_ORM.GT_TipoTesteComposicao_GT_TipoMetodoComposicao_ID">
+            <End Role="GT_TipoMetodoComposicao" EntitySet="GT_TipoMetodoComposicao" />
+            <End Role="GT_TipoTesteComposicao" EntitySet="GT_TipoTesteComposicao" />
+          </AssociationSet>
+          <EntitySet Name="GT_RespComposicao" EntityType="GESTREINO_ORM.GT_RespComposicao" />
+          <AssociationSet Name="GT_RespComposicao_GT_SOCIOS_ID" Association="GESTREINO_ORM.GT_RespComposicao_GT_SOCIOS_ID">
+            <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+            <End Role="GT_RespComposicao" EntitySet="GT_RespComposicao" />
+          </AssociationSet>
+          <AssociationSet Name="GT_RespComposicao_GT_TipoNivelActividade_ID" Association="GESTREINO_ORM.GT_RespComposicao_GT_TipoNivelActividade_ID">
+            <End Role="GT_TipoNivelActividade" EntitySet="GT_TipoNivelActividade" />
+            <End Role="GT_RespComposicao" EntitySet="GT_RespComposicao" />
+          </AssociationSet>
+          <AssociationSet Name="GT_RespComposicao_GT_TipoTesteComposicao_ID" Association="GESTREINO_ORM.GT_RespComposicao_GT_TipoTesteComposicao_ID">
+            <End Role="GT_TipoTesteComposicao" EntitySet="GT_TipoTesteComposicao" />
+            <End Role="GT_RespComposicao" EntitySet="GT_RespComposicao" />
+          </AssociationSet>
+          </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="LOGIN" Nullable="false" MaxLength="32" />
@@ -5785,6 +5933,7 @@
           <NavigationProperty Name="GT_RespRisco" Relationship="GESTREINO_ORM.GT_RespRisco_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespRisco" />
           <NavigationProperty Name="GT_RespProblemasSaude" Relationship="GESTREINO_ORM.GT_RespProblemasSaude_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespProblemasSaude" />
           <NavigationProperty Name="GT_RespFlexiTeste" Relationship="GESTREINO_ORM.GT_RespFlexiTeste_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespFlexiTeste" />
+          <NavigationProperty Name="GT_RespComposicao" Relationship="GESTREINO_ORM.GT_RespComposicao_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespComposicao" />
         </EntityType>
         <EntityType Name="GT_TipoTreino">
           <Key>
@@ -6950,7 +7099,122 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="GT_TipoMetodoComposicao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DESCRICAO" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GT_TipoTesteComposicao" Relationship="GESTREINO_ORM.GT_TipoTesteComposicao_GT_TipoMetodoComposicao_ID" FromRole="GT_TipoMetodoComposicao" ToRole="GT_TipoTesteComposicao" />
+        </EntityType>
+        <EntityType Name="GT_TipoNivelActividade">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DESCRICAO" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GT_RespComposicao" Relationship="GESTREINO_ORM.GT_RespComposicao_GT_TipoNivelActividade_ID" FromRole="GT_TipoNivelActividade" ToRole="GT_RespComposicao" />
+        </EntityType>
+        <EntityType Name="GT_TipoTesteComposicao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GT_TipoMetodoComposicao_ID" Type="Int32" Nullable="false" />
+          <Property Name="DESCRICAO" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GT_TipoMetodoComposicao" Relationship="GESTREINO_ORM.GT_TipoTesteComposicao_GT_TipoMetodoComposicao_ID" FromRole="GT_TipoTesteComposicao" ToRole="GT_TipoMetodoComposicao" />
+          <NavigationProperty Name="GT_RespComposicao" Relationship="GESTREINO_ORM.GT_RespComposicao_GT_TipoTesteComposicao_ID" FromRole="GT_TipoTesteComposicao" ToRole="GT_RespComposicao" />
+        </EntityType>
+        <Association Name="GT_TipoTesteComposicao_GT_TipoMetodoComposicao_ID">
+          <End Type="GESTREINO_ORM.GT_TipoMetodoComposicao" Role="GT_TipoMetodoComposicao" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_TipoTesteComposicao" Role="GT_TipoTesteComposicao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoMetodoComposicao">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_TipoTesteComposicao">
+              <PropertyRef Name="GT_TipoMetodoComposicao_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GT_RespComposicao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GT_SOCIOS_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_TipoTesteComposicao_ID" Type="Int32" Nullable="false" />
+          <Property Name="PESO" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PESODESEJAVEL" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PESOPERDER" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PERIMETRO_ABDOMINAL" Type="Int32" />
+          <Property Name="PERIMETRO_CINTURA" Type="Int32" />
+          <Property Name="PERIMETRO_UMBIGO" Type="Int32" />
+          <Property Name="ABDOMINAL" Type="Int32" />
+          <Property Name="TRICIPITAL" Type="Int32" />
+          <Property Name="RESISTENCIA" Type="Int32" />
+          <Property Name="PREGASTRICIPITAL" Type="Int32" />
+          <Property Name="PREGASSUPRALLIACA" Type="Int32" />
+          <Property Name="PREGAS_ABDOMINAL" Type="Int32" />
+          <Property Name="PREGAS_SUBESCAPULAR" Type="Int32" />
+          <Property Name="PREGAS_PEITO" Type="Int32" />
+          <Property Name="PERCMG" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MIG" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MG" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MGDESEJAVEL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="METABOLISMO" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ESTIMACAO" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="GT_TipoNivelActividade_ID" Type="Int32" />
+          <Property Name="RESP_SUMMARY" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RESP_DESCRICAO" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="PERCENTIL" Type="Int32" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GT_SOCIOS" Relationship="GESTREINO_ORM.GT_RespComposicao_GT_SOCIOS_ID" FromRole="GT_RespComposicao" ToRole="GT_SOCIOS" />
+          <NavigationProperty Name="GT_TipoNivelActividade" Relationship="GESTREINO_ORM.GT_RespComposicao_GT_TipoNivelActividade_ID" FromRole="GT_RespComposicao" ToRole="GT_TipoNivelActividade" />
+          <NavigationProperty Name="GT_TipoTesteComposicao" Relationship="GESTREINO_ORM.GT_RespComposicao_GT_TipoTesteComposicao_ID" FromRole="GT_RespComposicao" ToRole="GT_TipoTesteComposicao" />
+        </EntityType>
+        <Association Name="GT_RespComposicao_GT_SOCIOS_ID">
+          <End Type="GESTREINO_ORM.GT_SOCIOS" Role="GT_SOCIOS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_RespComposicao" Role="GT_RespComposicao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_SOCIOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespComposicao">
+              <PropertyRef Name="GT_SOCIOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_RespComposicao_GT_TipoNivelActividade_ID">
+          <End Type="GESTREINO_ORM.GT_TipoNivelActividade" Role="GT_TipoNivelActividade" Multiplicity="0..1" />
+          <End Type="GESTREINO_ORM.GT_RespComposicao" Role="GT_RespComposicao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoNivelActividade">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespComposicao">
+              <PropertyRef Name="GT_TipoNivelActividade_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_RespComposicao_GT_TipoTesteComposicao_ID">
+          <End Type="GESTREINO_ORM.GT_TipoTesteComposicao" Role="GT_TipoTesteComposicao" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_RespComposicao" Role="GT_RespComposicao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoTesteComposicao">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespComposicao">
+              <PropertyRef Name="GT_TipoTesteComposicao_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -8894,6 +9158,70 @@
                 <ScalarProperty Name="RESP_02" ColumnName="RESP_02" />
                 <ScalarProperty Name="RESP_01" ColumnName="RESP_01" />
                 <ScalarProperty Name="GT_TipoTesteFlexibilidade_ID" ColumnName="GT_TipoTesteFlexibilidade_ID" />
+                <ScalarProperty Name="GT_SOCIOS_ID" ColumnName="GT_SOCIOS_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_TipoMetodoComposicao">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_TipoMetodoComposicao">
+              <MappingFragment StoreEntitySet="GT_TipoMetodoComposicao">
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_TipoNivelActividade">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_TipoNivelActividade">
+              <MappingFragment StoreEntitySet="GT_TipoNivelActividade">
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_TipoTesteComposicao">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_TipoTesteComposicao">
+              <MappingFragment StoreEntitySet="GT_TipoTesteComposicao">
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="GT_TipoMetodoComposicao_ID" ColumnName="GT_TipoMetodoComposicao_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_RespComposicao">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_RespComposicao">
+              <MappingFragment StoreEntitySet="GT_RespComposicao">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="PERCENTIL" ColumnName="PERCENTIL" />
+                <ScalarProperty Name="RESP_DESCRICAO" ColumnName="RESP_DESCRICAO" />
+                <ScalarProperty Name="RESP_SUMMARY" ColumnName="RESP_SUMMARY" />
+                <ScalarProperty Name="GT_TipoNivelActividade_ID" ColumnName="GT_TipoNivelActividade_ID" />
+                <ScalarProperty Name="ESTIMACAO" ColumnName="ESTIMACAO" />
+                <ScalarProperty Name="METABOLISMO" ColumnName="METABOLISMO" />
+                <ScalarProperty Name="MGDESEJAVEL" ColumnName="MGDESEJAVEL" />
+                <ScalarProperty Name="MG" ColumnName="MG" />
+                <ScalarProperty Name="MIG" ColumnName="MIG" />
+                <ScalarProperty Name="PERCMG" ColumnName="PERCMG" />
+                <ScalarProperty Name="PREGAS_PEITO" ColumnName="PREGAS_PEITO" />
+                <ScalarProperty Name="PREGAS_SUBESCAPULAR" ColumnName="PREGAS_SUBESCAPULAR" />
+                <ScalarProperty Name="PREGAS_ABDOMINAL" ColumnName="PREGAS_ABDOMINAL" />
+                <ScalarProperty Name="PREGASSUPRALLIACA" ColumnName="PREGASSUPRALLIACA" />
+                <ScalarProperty Name="PREGASTRICIPITAL" ColumnName="PREGASTRICIPITAL" />
+                <ScalarProperty Name="RESISTENCIA" ColumnName="RESISTENCIA" />
+                <ScalarProperty Name="TRICIPITAL" ColumnName="TRICIPITAL" />
+                <ScalarProperty Name="ABDOMINAL" ColumnName="ABDOMINAL" />
+                <ScalarProperty Name="PERIMETRO_UMBIGO" ColumnName="PERIMETRO_UMBIGO" />
+                <ScalarProperty Name="PERIMETRO_CINTURA" ColumnName="PERIMETRO_CINTURA" />
+                <ScalarProperty Name="PERIMETRO_ABDOMINAL" ColumnName="PERIMETRO_ABDOMINAL" />
+                <ScalarProperty Name="PESOPERDER" ColumnName="PESOPERDER" />
+                <ScalarProperty Name="PESODESEJAVEL" ColumnName="PESODESEJAVEL" />
+                <ScalarProperty Name="PESO" ColumnName="PESO" />
+                <ScalarProperty Name="GT_TipoTesteComposicao_ID" ColumnName="GT_TipoTesteComposicao_ID" />
                 <ScalarProperty Name="GT_SOCIOS_ID" ColumnName="GT_SOCIOS_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

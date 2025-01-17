@@ -4021,3 +4021,77 @@ function loadflexitype(id) {
         window.location = '/gtmanagement/flexibility?flexitype=' + id;
     //} else {}
 }
+//Bodycomposition
+function loadGT_TipoMetodoComposicao_List(id) {
+    $.ajax({
+        type: "GET", url: "/gtmanagement/loadGT_TipoTesteComposicao_List",
+        data: {  "id": id },
+        cache: false,
+        beforeSend: function () {
+        },
+        complete: function () {
+        },
+        success: function (data) {
+            $('#GT_TipoTesteComposicao_ID option').remove();
+            var s = '';
+            for (var i = 0; i < data.length; i++) {
+                s += '<option value="' + data[i].ID + '">' + data[i].DESCRICAO + '</option>';
+            }
+            $('#GT_TipoTesteComposicao_ID').html(s);
+            $('#GT_TipoTesteComposicao_ID').trigger('change');
+        },
+        error: function () {
+        }
+    });
+}
+function loadGT_TipoTesteComposicao_List(id) {
+    if (id == '1')//Jackson e Pollock
+    {
+        $('#jackson').show();
+        $('#weltman').hide(); 
+        $('#Deurenberg').hide(); 
+
+        $('#PerimetroUmbigo').attr("required", false);
+        $('#jackson').find('input').attr("required", true);
+        $('#Resistencia').attr("required", false);
+        $('#PercMG').attr("readonly", true);
+        $('#PercMG').attr("required", false);
+    }
+    if (id == '2')//Weltman et al
+    {
+        $('#jackson').hide();
+        $('#weltman').show(); 
+        $('#Deurenberg').hide(); 
+
+        $('#PerimetroUmbigo').attr("required", true);
+        $('#jackson').find('input').attr("required", false);
+        $('#Resistencia').attr("required", false);
+        $('#PercMG').attr("readonly", true);
+        $('#PercMG').attr("required", false);
+    }
+    if (id == '3')//Deurenberg et al
+    {
+        $('#jackson').hide();
+        $('#weltman').hide();
+        $('#Deurenberg').show();
+
+        $('#PerimetroUmbigo').attr("required", false);
+        $('#jackson').find('input').attr("required", false);
+        $('#Resistencia').attr("required", true);
+        $('#PercMG').attr("readonly", true);
+        $('#PercMG').attr("required", false);
+    }
+    if (id == '4' || id == '5' || id == '6' || id == '7')//Jackson e Pollock
+    {
+        $('#jackson').hide();
+        $('#weltman').hide();
+        $('#Deurenberg').hide();
+
+        $('#PerimetroUmbigo').attr("required", false);
+        $('#jackson').find('input').attr("required", false);
+        $('#Resistencia').attr("required", false);
+
+        $('#PercMG').attr("readonly", false);
+        $('#PercMG').attr("required", true);
+    }
+}

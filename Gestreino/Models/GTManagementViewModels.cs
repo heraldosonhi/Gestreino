@@ -1020,6 +1020,78 @@ namespace Gestreino.Models
         public int? RESULTADO { get; set; }
     }
 
+    public class BodyComposition
+    {
+        public int? ID { get; set; }
+        public int? PEsId { get; set; }
+        
+        [Display(Name = "Nível Actividade Diária:")]
+        public int GT_TipoNivelActividade_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> GT_TipoNivelActividade_List { get; set; }
 
+        [Display(Name = "Método:")]
+        public int GT_TipoMetodoComposicao_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> GT_TipoMetodoComposicao_List { get; set; }
+
+        [Display(Name = "Protocolo:")]
+        public int GT_TipoTesteComposicao_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> GT_TipoTesteComposicao_List { get; set; }
+
+        [Display(Name = "Peso:")]
+        public string Peso { get; set; }
+        [Display(Name = "Perímetro:")]
+        public int? Perimetro { get; set; }
+        [Display(Name = "Actual:")]
+        public string Actual { get; set; }
+        [Display(Name = "Abdominal:")]
+        public int? Abdominal { get; set; }
+        [Display(Name = "Desejável:")]
+        public string Desejavel { get; set; }
+        [Display(Name = "Cintura:")]
+        public int? Cintura { get; set; }
+        [Display(Name = "A perder:")]
+        public decimal? Aperder { get; set; }
+        [Display(Name = "Circunferências:")]
+        public int? Circunferencia { get; set; }
+        [Display(Name = "Perímetro entre a apêndice xifóide e umbigo?:")]
+        public int? PerimetroUmbigo { get; set; }
+        [Display(Name = "Resistência:")]
+        public int? Resistencia { get; set; }
+        [Display(Name = "Pregas:")]
+        public int? Pregas { get; set; }
+        [Display(Name = "Peitoral:")]
+        public int? Peitoral { get; set; }
+        [Display(Name = "Tricipital:")]
+        public int? Tricipital { get; set; }
+        [Display(Name = "Subescapular:")]
+        public int? Subescapular { get; set; }
+        [Display(Name = "% MG:")]
+        public decimal? PercMG { get; set; }
+        [Display(Name = "MIG:")]
+        public decimal? MIG { get; set; }
+        [Display(Name = "MG:")]
+        public decimal? MG { get; set; }
+        [Display(Name = "IMC:")]
+        public int? IMC { get; set; }
+
+        [Display(Name = "Metabolismo de Repouso:")]
+        public decimal? MetabolismoRepouso { get; set; }
+        [Display(Name = "Estimação:")]
+        public decimal? Estimacao { get; set; }
+        [Display(Name = "% MG Desejável:")]
+        public string PercMGDesejavel { get; set; }
+
+        [Display(Name = "Tricipital:")]
+        public int? TricipitalFem { get; set; }
+        [Display(Name = "SupraIlíaca:")]
+        public int? SupraIliacaFem { get; set; }
+        [Display(Name = "Abdominal:")]
+        public int? AbdominalFem { get; set; }
+        public int? iFlexiAct { get; set; }
+        public string lblResActualFlexi { get; set; }
+        public int? iFlexiAnt { get; set; }
+        public string lblResAnteriorFlexi { get; set; }
+
+    }
 
 }

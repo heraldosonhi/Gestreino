@@ -42,6 +42,7 @@ namespace Gestreino.Controllers
         int _MenuLeftBarLink_Quest_CoronaryRisk = 207;
         int _MenuLeftBarLink_Quest_Health= 208;
         int _MenuLeftBarLink_Quest_Flex = 209;
+        int _MenuLeftBarLink_Quest_BodyComposition = 210;
         int _MenuLeftBarLink_FileManagement = 0;
 
         // GET: GTManagement
@@ -3419,7 +3420,146 @@ namespace Gestreino.Controllers
         }
 
 
+        //Composicao Corporal
+        public ActionResult BodyComposition(BodyComposition MODEL, int? Id, int? flexiType)
+        {
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
 
+            MODEL.GT_TipoNivelActividade_List = databaseManager.GT_TipoNivelActividade.OrderBy(x => x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+            MODEL.GT_TipoMetodoComposicao_List = databaseManager.GT_TipoMetodoComposicao.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+            int tipoComp = MODEL.GT_TipoMetodoComposicao_List.Any()?Convert.ToInt32(MODEL.GT_TipoMetodoComposicao_List.Select(X => X.Value).FirstOrDefault()):0;
+            MODEL.GT_TipoTesteComposicao_List = databaseManager.GT_TipoTesteComposicao.Where(x=>x.GT_TipoMetodoComposicao_ID== tipoComp).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+            MODEL.Actual = !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_PESO)?decimal.Parse(Configs.GESTREINO_AVALIDO_PESO).ToString("G29").Replace(",","."):string.Empty;
+           
+            if (flexiType != null && flexiType > 0)
+            {
+                //
+            }
+
+            
+            if (Id > 0)
+            {
+               //
+            }
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_BodyComposition;
+            return View("Quest/BodyComposition", MODEL);
+        }
+        [HttpGet]
+        public ActionResult loadGT_TipoTesteComposicao_List(int? Id)
+        {
+            return Json(databaseManager.GT_TipoTesteComposicao.Where(x => x.GT_TipoMetodoComposicao_ID == Id).Select(x => new
+            {  x.ID, x.DESCRICAO
+            }).ToArray(), JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult BodyComposition(BodyComposition MODEL)
+        {
+            var GT_SOCIOS_ID = 0;
+
+            MODEL.GT_TipoNivelActividade_List = databaseManager.GT_TipoNivelActividade.OrderBy(x=>x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+            MODEL.GT_TipoMetodoComposicao_List = databaseManager.GT_TipoMetodoComposicao.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+            int tipoComp = MODEL.GT_TipoMetodoComposicao_List.Any() ? Convert.ToInt32(MODEL.GT_TipoMetodoComposicao_List.Select(X => X.Value).FirstOrDefault()) : 0;
+            MODEL.GT_TipoTesteComposicao_List = databaseManager.GT_TipoTesteComposicao.Where(x => x.GT_TipoMetodoComposicao_ID == tipoComp).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+            //MODEL.Actual = !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_PESO) ? decimal.Parse(Configs.GESTREINO_AVALIDO_PESO).ToString("G29").Replace(",", ".") : string.Empty;
+            MODEL.IMC = databaseManager.PES_PESSOAS_CARACT.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.IMC).FirstOrDefault();
+
+
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
+                DoLoadValuesPercentilComposicao();
+                DoCalculaValores(MODEL);
+
+
+                int iPerc;
+                decimal iValue;
+                string sRes;
+
+                DoGetActualComposicao(MODEL.PercMG,out iPerc, out iValue, out sRes);
+
+                MODEL.iFlexiAct = iPerc;
+                MODEL.lblResActualFlexi = sRes;
+
+                //if (Sexo_ == "1")
+                //    Triciptal = txtTricipitalMasc.Text;
+                //else
+                //    Triciptal = txtTricipitalFem.Text;
+
+
+                if (MODEL.ID > 0)
+                {
+                    
+                }
+                else
+                {
+                    GT_RespComposicao fx = new GT_RespComposicao();
+                    fx.GT_SOCIOS_ID = GT_SOCIOS_ID;
+                    //fx.PESO = (!string.IsNullOrEmpty(MODEL.Actual)) ? decimal.Parse(MODEL.Actual, CultureInfo.InvariantCulture) : (Decimal?)null;
+                    //fx.PESODESEJAVEL = (!string.IsNullOrEmpty(MODEL.Desejavel)) ? decimal.Parse(MODEL.Desejavel, CultureInfo.InvariantCulture) : (Decimal?)null;
+                    /*fx.PESOPERDER = MODEL.Aperder;
+                    fx.PERIMETRO_ABDOMINAL = MODEL.Abdominal;
+                    fx.PERIMETRO_CINTURA = MODEL.Cintura;
+                    fx.PERIMETRO_UMBIGO = MODEL.PerimetroUmbigo;
+                    fx.ABDOMINAL = MODEL.Abdominal;
+                    fx.TRICIPITAL = MODEL.Tricipital;
+                    fx.RESISTENCIA = MODEL.Resistencia;
+                    fx.PREGASTRICIPITAL = MODEL.Pregas;
+                    fx.PREGASSUPRALLIACA = MODEL.SupraIliacaFem;
+                    fx.PREGAS_ABDOMINAL = MODEL.Abdominal;
+                    fx.PREGAS_SUBESCAPULAR = MODEL.Subescapular;
+                    fx.PREGAS_PEITO = MODEL.Peitoral;
+                    fx.PERCMG = MODEL.PercMG;
+                    fx.MIG = MODEL.MIG;
+                    fx.MG = MODEL.MG;
+                    fx.MGDESEJAVEL = MODEL.PercMGDesejavel;
+                    fx.METABOLISMO = MODEL.MetabolismoRepouso;
+                    fx.ESTIMACAO = MODEL.Estimacao;
+                    fx.GT_TipoNivelActividade_ID = MODEL.GT_TipoNivelActividade_ID;
+                    fx.RESP_SUMMARY = iValue;
+                    fx.RESP_DESCRICAO = sRes;
+                    fx.PERCENTIL = iPerc;
+                    fx.INSERIDO_POR = int.Parse(User.Identity.GetUserId());
+                    fx.DATA_INSERCAO = DateTime.Now;
+                    databaseManager.GT_RespComposicao.Add(fx);
+                    //databaseManager.SaveChanges();*/
+
+                    //MODEL.ID = fx.ID;
+                }
+
+
+
+               
+
+
+
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_BodyComposition;
+            return View("Quest/BodyComposition", MODEL);
+            /*return Json(new
+            {
+                result = true,
+                error = string.Empty,
+                //flexAct = MODEL.iFlexiAct + "-" + MODEL.lblResActualFlexi,
+                //flexAnt = MODEL.iFlexiAnt + "-" + MODEL.lblResAnteriorFlexi,
+                table = "GTQuestTable",
+                showToastr = true,
+                toastrMessage = "Submetido com sucesso!"
+            });*/
+        }
 
 
 
@@ -4049,11 +4189,381 @@ namespace Gestreino.Controllers
             return iFlexi;
         }
 
+        //Bodycomposition
+        private void DoCalculaValores(BodyComposition MODEL)
+        {
+            Decimal DC;
+            Decimal SumPregas;
+            string sTempPesoDesejado1 = string.Empty;
+            string sTempPesoDesejado2 = string.Empty;
+
+            if (MODEL.GT_TipoTesteComposicao_ID == 1)
+            {
+                //Cálculo de Densidade Corporal (DC)
+                if (Configs.GESTREINO_AVALIDO_SEXO == "Masculino")
+                {
+                    SumPregas = Convert.ToDecimal(MODEL.Peitoral) + Convert.ToDecimal(MODEL.Tricipital) + Convert.ToDecimal(MODEL.Subescapular);
+                    DC = Convert.ToDecimal(1.1125025) - (Convert.ToDecimal(0.0013125) * (SumPregas)) + (Convert.ToDecimal(0.0000055) * (SumPregas * SumPregas)) - Convert.ToDecimal(0.000244) * Convert.ToDecimal(Configs.GESTREINO_AVALIDO_IDADE);
+
+                    //Cálculo de %MG (txtPercMG)
+                    MODEL.PercMG = ((Convert.ToDecimal(495) / DC) - 450);
+                }
+                else
+                {
+                    SumPregas = Convert.ToDecimal(MODEL.TricipitalFem) + Convert.ToDecimal(MODEL.SupraIliacaFem) + Convert.ToDecimal(MODEL.AbdominalFem);
+                    DC = Convert.ToDecimal(1.089733) - (Convert.ToDecimal(0.0009245) * (SumPregas)) + (Convert.ToDecimal(0.0000025) * (SumPregas * SumPregas)) - Convert.ToDecimal(0.000979) * Convert.ToDecimal(Configs.GESTREINO_AVALIDO_IDADE);
+
+                    //Cálculo de %MG (txtPercMG)
+                    MODEL.PercMG = ((Convert.ToDecimal(501) / DC) - 457);
+                }
+                MODEL.PercMG = MODEL.PercMG.ToString().Length > 5 ? Convert.ToDecimal(MODEL.PercMG.ToString().Substring(0, 5)) : MODEL.PercMG;
+            }
+            //WELTMAN ET AL
+            else if  (MODEL.GT_TipoTesteComposicao_ID == 2)
+            {
+                //Cálculo de Densidade Corporal (DC)
+                if (Configs.GESTREINO_AVALIDO_SEXO == "Masculino")
+                    MODEL.PercMG = Convert.ToDecimal(0.31457) * ((Convert.ToDecimal(MODEL.PerimetroUmbigo) + Convert.ToDecimal(MODEL.Abdominal)) / 2) - (Convert.ToDecimal(0.10969) * (Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO))) + Convert.ToDecimal(10.8336);
+                else
+                    MODEL.PercMG = Convert.ToDecimal(0.11077) * ((Convert.ToDecimal(MODEL.PerimetroUmbigo) + Convert.ToDecimal(MODEL.Abdominal)) / 2) - (Convert.ToDecimal(0.11077) * (Convert.ToDecimal(Configs.GESTREINO_AVALIDO_ALTURA))) + (Convert.ToDecimal(0.11077) * Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO));
+                
+                MODEL.PercMG = MODEL.PercMG.ToString().Length > 5 ? Convert.ToDecimal(MODEL.PercMG.ToString().Substring(0, 5)) : MODEL.PercMG;
+            }
+            //Gray e Col passou a Deurenberg et al
+            else if (MODEL.GT_TipoTesteComposicao_ID == 3)
+            {
+                decimal dMIG = Convert.ToDecimal(-12.44) + Convert.ToDecimal(0.340) * (Convert.ToDecimal(Configs.GESTREINO_AVALIDO_ALTURA) * Convert.ToDecimal(Configs.GESTREINO_AVALIDO_ALTURA)) / Convert.ToDecimal(MODEL.Resistencia);
+                dMIG = dMIG + Convert.ToDecimal(0.273) * Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO);
+                dMIG = dMIG + (Convert.ToDecimal(15.34) * Convert.ToDecimal(Configs.GESTREINO_AVALIDO_ALTURA)) * Convert.ToDecimal(0.01);
+                dMIG = dMIG - (Convert.ToDecimal(0.127) * Convert.ToDecimal(Configs.GESTREINO_AVALIDO_IDADE));
+                MODEL.MIG = dMIG;
+                MODEL.MIG= MODEL.MIG.ToString().Length>5? Convert.ToDecimal(MODEL.MIG.ToString().Substring(0, 5)): MODEL.MIG;
+                MODEL.MG =Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO) - dMIG;
+                MODEL.PercMG =(Convert.ToDecimal(MODEL.MG) * Convert.ToDecimal(100)) / Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO);
+                MODEL.PercMG = MODEL.PercMG.ToString().Length > 5 ? Convert.ToDecimal(MODEL.PercMG.ToString().Substring(0, 5)) : MODEL.PercMG;
+            }
+            //Guo e Col
+            //			else if (cmbTipoTeste.SelectedValue.ToString()=="4")
+            //			{
+            //				txtPercMG.Text = "25";	//TODO
+            //				if (txtPercMG.Text.Length > 5) txtPercMG.Text = txtPercMG.Text.Substring(0,5);
+            //			}
+
+            //%MG Desejável
+            MODEL.PercMGDesejavel=  DoSetEsperadoComposicao(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
+
+
+            //Apenas para != de  Deurenberg et al
+            if(MODEL.GT_TipoTesteComposicao_ID != 3)
+            {
+                //Calculo do MG (txtMG)
+                MODEL.MG = (Convert.ToDecimal(MODEL.PercMG) / 100) * Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO);
+                MODEL.MG = MODEL.MG.ToString().Length > 5 ? Convert.ToDecimal(MODEL.MG.ToString().Substring(0, 5)) : MODEL.MG;
+
+                //Cálculo de MIG (txtMIG)
+                MODEL.MIG = Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO) - Convert.ToDecimal(MODEL.MG);
+                MODEL.MIG = MODEL.MIG.ToString().Length > 5 ? Convert.ToDecimal(MODEL.MIG.ToString().Substring(0, 5)) : MODEL.MIG;
+            }
+            //Cálculo do Peso desejável (txtPesoDesejado)
+            Array arrTemp;
+            arrTemp = (Array)aCompEscolhido[0];
+
+            sTempPesoDesejado1 = Convert.ToString(Convert.ToDecimal(MODEL.MIG) / (1 - (Convert.ToDecimal(0.01) * Convert.ToDecimal(arrTemp.GetValue(2)))));
+            if (sTempPesoDesejado1.Length > 6) sTempPesoDesejado1 = sTempPesoDesejado1.Substring(0, 6);
+
+            sTempPesoDesejado2 = Convert.ToString(Convert.ToDecimal(MODEL.MIG) / (1 - (Convert.ToDecimal(0.01) * Convert.ToDecimal(arrTemp.GetValue(4)))));
+            if (sTempPesoDesejado2.Length > 6) sTempPesoDesejado2 = sTempPesoDesejado2.Substring(0, 6);
+
+            MODEL.Desejavel = sTempPesoDesejado1 + " a " + sTempPesoDesejado2;
+
+            //Cálculo do Peso a Perder (txtPesoPerder)
+            if (Convert.ToDecimal(MODEL.Peso) > Convert.ToDecimal(sTempPesoDesejado2))
+                MODEL.Aperder = Convert.ToDecimal(MODEL.Actual) - Convert.ToDecimal(sTempPesoDesejado2);
+            else
+                MODEL.Aperder =0;
+
+            MODEL.Aperder = MODEL.Aperder.ToString().Length > 5 ? Convert.ToDecimal(MODEL.Aperder.ToString().Substring(0, 5)) : MODEL.Aperder;
+          
+            //Se o peso a perder for negativo então é pq tem peso a menos, Logo atribuo "0"
+            if (Convert.ToDecimal(MODEL.Aperder) < 0)
+                MODEL.Aperder =0;
+
+            //Cálculo do Metabolismo de repouso (txtRepouso)
+            MODEL.MetabolismoRepouso = Convert.ToDecimal(638) + (Convert.ToDecimal(MODEL.MIG) * Convert.ToDecimal(15.9));
+            MODEL.MetabolismoRepouso = MODEL.MetabolismoRepouso.ToString().Length > 8 ? Convert.ToDecimal(MODEL.MetabolismoRepouso.ToString().Substring(0, 8)) : MODEL.MetabolismoRepouso;
+
+            //Cálculo do Estimação (txtEstimacao)
+            if (MODEL.GT_TipoNivelActividade_ID == 1)
+               MODEL.Estimacao= Convert.ToDecimal(MODEL.MetabolismoRepouso) * Convert.ToDecimal(1.2);
+            else if (MODEL.GT_TipoNivelActividade_ID == 3)
+                MODEL.Estimacao = Convert.ToDecimal(MODEL.MetabolismoRepouso) * Convert.ToDecimal(1.375);
+            else if (MODEL.GT_TipoNivelActividade_ID == 3)
+                MODEL.Estimacao = Convert.ToDecimal(MODEL.MetabolismoRepouso) * Convert.ToDecimal(1.55);
+            else if (MODEL.GT_TipoNivelActividade_ID == 4)
+                MODEL.Estimacao = Convert.ToDecimal(MODEL.MetabolismoRepouso * Convert.ToDecimal(1.725));
+            else if (MODEL.GT_TipoNivelActividade_ID == 5)
+                MODEL.Estimacao = Convert.ToDecimal(MODEL.MetabolismoRepouso) * Convert.ToDecimal(1.9);
+
+            MODEL.Estimacao = MODEL.Estimacao.ToString().Length > 8 ? Convert.ToDecimal(MODEL.Estimacao.ToString().Substring(0, 8)) : MODEL.Estimacao;
+}
+
+
+        //JACKSON E POLLOCK | WELTMAN ETAL
+        private ArrayList aComp20_29M = new ArrayList(9);
+        private ArrayList aComp20_29F = new ArrayList(9);
+        private ArrayList aComp30_39M = new ArrayList(9);
+        private ArrayList aComp30_39F = new ArrayList(9);
+        private ArrayList aComp40_49M = new ArrayList(9);
+        private ArrayList aComp40_49F = new ArrayList(9);
+        private ArrayList aComp50_59M = new ArrayList(9);
+        private ArrayList aComp50_59F = new ArrayList(9);
+        private ArrayList aComp60_69M = new ArrayList(9);
+        private ArrayList aComp60_69F = new ArrayList(9);
+        private ArrayList aCompPercentil = new ArrayList(9);
+        private ArrayList aCompEscolhido = new ArrayList(9);
+
+        private void DoLoadValuesPercentilComposicao()
+        {
+            aComp20_29M.Clear();
+            aComp20_29F.Clear();
+            aComp30_39M.Clear();
+            aComp30_39F.Clear();
+            aComp40_49M.Clear();
+            aComp40_49F.Clear();
+            aComp50_59M.Clear();
+            aComp50_59F.Clear();
+            aComp60_69M.Clear();
+            aComp60_69F.Clear();
+            aCompPercentil.Clear();
+            aCompEscolhido.Clear();
+
+            //Carregamento de Valores
+            aComp20_29M.Add(new Object[9] { 7.1, 9.4, 11.8, 14.1, 15.9, 17.4, 19.5, 22.4, 25.9 });
+            aComp20_29F.Add(new Object[9] { 14.5, 17.1, 19.0, 20.6, 22.1, 23.7, 25.4, 27.7, 32.1 });
+
+            aComp30_39M.Add(new Object[9] { 11.3, 13.9, 15.9, 17.5, 19, 20.5, 22.3, 24.2, 27.3 });
+            aComp30_39F.Add(new Object[9] { 15.5, 18, 20, 21.6, 23.1, 24.9, 27, 29.3, 32.8 });
+
+            aComp40_49M.Add(new Object[9] { 13.6, 16.3, 18.1, 19.6, 21.1, 22.5, 24.1, 26.1, 28.9 });
+            aComp40_49F.Add(new Object[9] { 18.5, 21.3, 23.5, 24.9, 26.4, 28.1, 30.1, 32.1, 35 });
+
+            aComp50_59M.Add(new Object[9] { 15.3, 17.9, 19.8, 21.3, 22.7, 24.1, 25.7, 27.5, 30.3 });
+            aComp50_59F.Add(new Object[9] { 21.6, 25, 26.6, 28.5, 30.1, 31.6, 33.5, 35.6, 37.9 });
+
+            aComp60_69M.Add(new Object[9] { 15.3, 18.4, 20.3, 22, 23.5, 25, 26.7, 28.5, 31.2 });
+            aComp60_69F.Add(new Object[9] { 21.1, 25.1, 27.5, 29.3, 30.9, 32.5, 34.3, 36.6, 39.3 });
+
+            aCompPercentil.Add(100);
+            aCompPercentil.Add(90);
+            aCompPercentil.Add(80);
+            aCompPercentil.Add(70);
+            aCompPercentil.Add(60);
+            aCompPercentil.Add(50);
+            aCompPercentil.Add(40);
+            aCompPercentil.Add(30);
+            aCompPercentil.Add(20);
+            aCompPercentil.Add(10);
+        }
+        private string DoSetEsperadoComposicao(string Sexo, int Idade)
+        {
+            switch (Sexo)
+            {
+                case "Masculino":
+                    if (Idade >= 17 && Idade <= 29)
+                        aCompEscolhido = aComp20_29M;
+                    else if (Idade >= 30 && Idade <= 39)
+                        aCompEscolhido = aComp30_39M;
+                    else if (Idade >= 40 && Idade <= 49)
+                        aCompEscolhido = aComp40_49M;
+                    else if (Idade >= 50 && Idade <= 59)
+                        aCompEscolhido = aComp50_59M;
+                    else if (Idade >= 60 && Idade <= 69)
+                        aCompEscolhido = aComp60_69M;
+                    break;
+                case "Feminino":
+                    if (Idade >= 17 && Idade <= 29)
+                        aCompEscolhido = aComp20_29F;
+                    else if (Idade >= 30 && Idade <= 39)
+                        aCompEscolhido = aComp30_39F;
+                    else if (Idade >= 40 && Idade <= 49)
+                        aCompEscolhido = aComp40_49F;
+                    else if (Idade >= 50 && Idade <= 59)
+                        aCompEscolhido = aComp50_59F;
+                    else if (Idade >= 60 && Idade <= 69)
+                        aCompEscolhido = aComp60_69F;
+                    break;
+            }
+
+            Array arrTemp;
+            arrTemp = (Array)aCompEscolhido[0];
+            return Convert.ToString(arrTemp.GetValue(2)) + " a " + Convert.ToString(arrTemp.GetValue(4));
+
+        }
+        private int GetPercentilComposicao(string Sexo, int Idade, decimal valor)
+        {
+            switch (Sexo)
+            {
+                case "Masculino":
+                    if (Idade >= 17 && Idade <= 29)
+                        aCompEscolhido = aComp20_29M;
+                    else if (Idade >= 30 && Idade <= 39)
+                        aCompEscolhido = aComp30_39M;
+                    else if (Idade >= 40 && Idade <= 49)
+                        aCompEscolhido = aComp40_49M;
+                    else if (Idade >= 50 && Idade <= 59)
+                        aCompEscolhido = aComp50_59M;
+                    else if (Idade >= 60 && Idade <= 69)
+                        aCompEscolhido = aComp60_69M;
+                    break;
+                case "Feminino":
+                    if (Idade >= 17 && Idade <= 29)
+                        aCompEscolhido = aComp20_29F;
+                    else if (Idade >= 30 && Idade <= 39)
+                        aCompEscolhido = aComp30_39F;
+                    else if (Idade >= 40 && Idade <= 49)
+                        aCompEscolhido = aComp40_49F;
+                    else if (Idade >= 50 && Idade <= 59)
+                        aCompEscolhido = aComp50_59F;
+                    else if (Idade >= 60 && Idade <= 69)
+                        aCompEscolhido = aComp60_69F;
+                    break;
+            }
+
+            Array arrTemp;
+            arrTemp = (Array)aCompEscolhido[0];
+            int indice = 0;
+            //Detectar o valor
+            foreach (Object i in arrTemp)
+            {
+                if (valor < Convert.ToDecimal(i))
+                {
+                    break;
+                }
+                indice += 1;
+
+            }
+            //			if (indice == 9) 
+            //				indice = (indice -1);
+
+            return Convert.ToInt32(aCompPercentil[indice]);
+            //return 0;
+        }
 
 
 
-       
-      
+
+        private void DoGraficoActualComposicao(decimal? PercMG)
+        {
+            int iPercentilAct;
+            decimal ValorAct = 0;
+
+            ValorAct = PercMG.Value;
+
+            iPercentilAct = GetPercentilComposicao(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), ValorAct);
+            //CriaGraficoCompActual(iPercentilAct);
+
+            //Descrição do Resultado Actual
+            //lblResActualComposicao.Text = GetResultadoComposicao(iPercentilAct);
+        }
+
+        private void DoGetActualComposicao(decimal? PercMG,out int iPerc, out decimal iValue, out string sRes)
+        {
+            int iPercentilAct;
+            decimal ValorAct = 0;
+            ValorAct = PercMG.Value;
+            iPercentilAct = GetPercentilComposicao(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), ValorAct);
+            sRes = GetResultadoComposicao(iPercentilAct);
+            iPerc = iPercentilAct;
+            iValue = ValorAct;
+        }
+
+        private void DoGraficoAnteriorComposicao()
+        {
+            int iPercentilAnt = 0;
+            decimal ValorAnt = 0;
+            /*
+            ValorAnt = GetValorAnteriorComposicao();
+
+            if (ValorAnt == 0) return;
+
+            iPercentilAnt = GetPercentilComposicao(Convert.ToInt32(Sexo_), Idade_, ValorAnt);
+            CriaGraficoCompAnterior(iPercentilAnt);
+
+            //Descrição do Resultado Anterior
+            lblResAnteriorComposicao.Text = GetResultadoComposicao(iPercentilAnt);*/
+        }
+
+        private string GetResultadoComposicao(int dRes)
+        {
+            string retValue = string.Empty;
+
+            if (dRes < 30)
+                retValue = "Muito Fraco";
+            else if (dRes < 50 && dRes >= 30)
+                retValue = "Fraco";
+            else if (dRes <= 70 && dRes >= 50)
+                retValue = "Médio";
+            else if (dRes <= 90 && dRes >= 71)
+                retValue = "Bom";
+            else if (dRes > 90)
+                retValue = "Excelente";
+            return retValue;
+        }
+
+        private decimal GetValorAnteriorComposicao()
+        {
+            try
+            {
+                /*
+                string strSQL;
+                string strConn;
+                string sTable = string.Empty;
+
+                OleDbDataReader oDataReader;
+                OleDbDataAdapter DBcommand;
+
+                strConn = General.getConnectionString();
+                OleDbConnection myConnection = new OleDbConnection(strConn);
+
+                if (cmbTipoTeste.SelectedValue.ToString() == "1")
+                    sTable = " tbl_RespComposicaoJack ";
+                else if (cmbTipoTeste.SelectedValue.ToString() == "2")
+                    sTable = " tbl_RespComposicaoWeltman ";
+                else if (cmbTipoTeste.SelectedValue.ToString() == "3")
+                    sTable = " tbl_RespComposicaoGray ";
+                else if (cmbTipoTeste.SelectedValue.ToString() == "4")
+                    sTable = " tbl_RespComposicaoGuo ";
+                else if (cmbTipoTeste.SelectedValue.ToString() == "5")
+                    sTable = " tbl_RespComposicaoDirecta ";
+
+                strSQL = "SELECT TOP 1 PercMG FROM " + sTable;
+                strSQL += " WHERE IDSocio=" + Atleta_ + " AND CDate(Data) < #" + General.GetFormatData(Data_) + "# ORDER BY CDate(Data) DESC";
+
+                General.TrataConnection(myConnection);
+
+                DBcommand = new OleDbDataAdapter();
+                DBcommand.SelectCommand = new OleDbCommand();
+                DBcommand.SelectCommand.Connection = myConnection;
+                DBcommand.SelectCommand.CommandText = strSQL;
+                DBcommand.SelectCommand.CommandType = CommandType.Text;
+                oDataReader = DBcommand.SelectCommand.ExecuteReader();
+
+                while (oDataReader.Read())
+                {
+                    return Convert.ToDecimal(oDataReader["PercMG"]);
+                }
+                */
+                return 0;
+
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+
+
 
 
 
