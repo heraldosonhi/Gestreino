@@ -4056,6 +4056,10 @@ function loadGT_TipoTesteComposicao_List(id) {
         $('#Resistencia').attr("required", false);
         $('#PercMG').attr("readonly", true);
         $('#PercMG').attr("required", false);
+        //
+        $('#PerimetroUmbigo').val('');
+        $('#jackson').find('input').val('');
+        $('#Resistencia').val('');
     }
     if (id == '2')//Weltman et al
     {
@@ -4068,6 +4072,10 @@ function loadGT_TipoTesteComposicao_List(id) {
         $('#Resistencia').attr("required", false);
         $('#PercMG').attr("readonly", true);
         $('#PercMG').attr("required", false);
+        //
+        $('#PerimetroUmbigo').val('');
+        $('#jackson').find('input').val('');
+        $('#Resistencia').val('');
     }
     if (id == '3')//Deurenberg et al
     {
@@ -4080,6 +4088,10 @@ function loadGT_TipoTesteComposicao_List(id) {
         $('#Resistencia').attr("required", true);
         $('#PercMG').attr("readonly", true);
         $('#PercMG').attr("required", false);
+        //
+        $('#PerimetroUmbigo').val('');
+        $('#jackson').find('input').val('');
+        $('#Resistencia').val('');
     }
     if (id == '4' || id == '5' || id == '6' || id == '7')//Jackson e Pollock
     {
@@ -4093,5 +4105,9 @@ function loadGT_TipoTesteComposicao_List(id) {
 
         $('#PercMG').attr("readonly", false);
         $('#PercMG').attr("required", true);
+        //
+        $('#PerimetroUmbigo').val('');
+        $('#jackson').find('input').val('');
+        $('#Resistencia').val('');
     }
 }

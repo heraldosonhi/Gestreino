@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 namespace Gestreino.Models
 {
@@ -1065,7 +1066,7 @@ namespace Gestreino.Models
         public int? Tricipital { get; set; }
         [Display(Name = "Subescapular:")]
         public int? Subescapular { get; set; }
-        [Display(Name = "% MG:")]
+        [Display(Name = "%MG:")]
         public decimal? PercMG { get; set; }
         [Display(Name = "MIG:")]
         public decimal? MIG { get; set; }
@@ -1091,7 +1092,7 @@ namespace Gestreino.Models
         public string lblResActualFlexi { get; set; }
         public int? iFlexiAnt { get; set; }
         public string lblResAnteriorFlexi { get; set; }
-
+        public DateTime? lblDataInsercao { get; set; }
     }
 
 }

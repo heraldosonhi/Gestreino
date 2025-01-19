@@ -352,7 +352,7 @@
           <Property Name="GT_SOCIOS_ID" Type="int" Nullable="false" />
           <Property Name="GT_TipoTesteComposicao_ID" Type="int" Nullable="false" />
           <Property Name="PESO" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="PESODESEJAVEL" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PESODESEJAVEL" Type="varchar" MaxLength="255" />
           <Property Name="PESOPERDER" Type="decimal" Precision="18" Scale="2" />
           <Property Name="PERIMETRO_ABDOMINAL" Type="int" />
           <Property Name="PERIMETRO_CINTURA" Type="int" />
@@ -7145,7 +7145,7 @@
           <Property Name="GT_SOCIOS_ID" Type="Int32" Nullable="false" />
           <Property Name="GT_TipoTesteComposicao_ID" Type="Int32" Nullable="false" />
           <Property Name="PESO" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PESODESEJAVEL" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PESODESEJAVEL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="PESOPERDER" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PERIMETRO_ABDOMINAL" Type="Int32" />
           <Property Name="PERIMETRO_CINTURA" Type="Int32" />

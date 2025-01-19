@@ -2259,6 +2259,7 @@ namespace Gestreino.Controllers
             if (GT_Res == "GT_RespRisco") Link = "/gtmanagement/coronaryrisk/";
             if (GT_Res == "GT_RespProblemasSaude") Link = "/gtmanagement/health/";
             if (GT_Res == "GT_RespFlexiTeste") Link = "/gtmanagement/flexibility/";
+            if (GT_Res == "GT_RespComposicao") Link = "/gtmanagement/bodycomposition/";
 
             TipoId = TipoId > 0 ? TipoId : null;
             var v = (from a in databaseManager.SP_GT_ENT_Resp(TipoId, PesId, GT_Res,  null, "R").ToList() select a);
@@ -3431,15 +3432,51 @@ namespace Gestreino.Controllers
             MODEL.GT_TipoTesteComposicao_List = databaseManager.GT_TipoTesteComposicao.Where(x=>x.GT_TipoMetodoComposicao_ID== tipoComp).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
             MODEL.Actual = !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_PESO)?decimal.Parse(Configs.GESTREINO_AVALIDO_PESO).ToString("G29").Replace(",","."):string.Empty;
            
-            if (flexiType != null && flexiType > 0)
-            {
-                //
-            }
-
-            
             if (Id > 0)
             {
-               //
+                var data = databaseManager.GT_RespComposicao.Where(x => x.ID == Id).ToList();
+                if (data.Count() == 0)
+                    return RedirectToAction("bodycomposition", "gtmanagement", new { Id = string.Empty });
+                ViewBag.data = data;
+                MODEL.ID = Id;
+                MODEL.GT_TipoTesteComposicao_ID = data.First().GT_TipoTesteComposicao_ID;
+                MODEL.Actual = (!string.IsNullOrEmpty(data.First().PESO.ToString())) ? (data.First().PESO ?? 0).ToString("G29").Replace(",", ".") : null;
+                MODEL.Desejavel = data.First().PESODESEJAVEL;
+                MODEL.Aperder = data.First().PESOPERDER;
+                MODEL.Abdominal = data.First().PERIMETRO_ABDOMINAL;
+                MODEL.Cintura = data.First().PERIMETRO_CINTURA;
+                MODEL.PerimetroUmbigo = data.First().PERIMETRO_UMBIGO;
+                MODEL.Tricipital = data.First().TRICIPITAL;
+                MODEL.TricipitalFem = data.First().TRICIPITAL;
+                MODEL.AbdominalFem = data.First().PREGAS_ABDOMINAL;
+                MODEL.Resistencia = data.First().RESISTENCIA;
+                MODEL.Pregas = data.First().PREGASTRICIPITAL;
+                MODEL.SupraIliacaFem = data.First().PREGASSUPRALLIACA;
+                MODEL.Subescapular = data.First().PREGAS_SUBESCAPULAR;
+                MODEL.Peitoral = data.First().PREGAS_PEITO;
+                MODEL.PercMG = data.First().PERCMG;
+                MODEL.MIG = data.First().MIG;
+                MODEL.MG = data.First().MG;
+                MODEL.PercMGDesejavel = data.First().MGDESEJAVEL;
+                MODEL.MetabolismoRepouso = data.First().METABOLISMO;
+                MODEL.Estimacao = data.First().ESTIMACAO;
+                MODEL.GT_TipoNivelActividade_ID = data.First().GT_TipoNivelActividade_ID.Value;
+                MODEL.lblDataInsercao = data.First().DATA_INSERCAO;
+
+                int iPerc;
+                decimal iValue;
+                string sRes;
+                DoLoadValuesPercentilComposicao();
+                DoGetActualComposicao(MODEL.PercMG, out iPerc, out iValue, out sRes);
+
+                MODEL.iFlexiAct = iPerc;
+                MODEL.lblResActualFlexi = sRes;
+
+                if (GetValorAnteriorComposicao(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteComposicao_ID) != null)
+                {
+                    MODEL.iFlexiAnt = GetPercentilComposicao(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), GetValorAnteriorComposicao(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteComposicao_ID).Value);
+                    MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoComposicao(MODEL.iFlexiAnt.Value) : string.Empty;
+                }
             }
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_BodyComposition;
             return View("Quest/BodyComposition", MODEL);
@@ -3457,16 +3494,15 @@ namespace Gestreino.Controllers
         {
             var GT_SOCIOS_ID = 0;
 
-            MODEL.GT_TipoNivelActividade_List = databaseManager.GT_TipoNivelActividade.OrderBy(x=>x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
-            MODEL.GT_TipoMetodoComposicao_List = databaseManager.GT_TipoMetodoComposicao.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
-            int tipoComp = MODEL.GT_TipoMetodoComposicao_List.Any() ? Convert.ToInt32(MODEL.GT_TipoMetodoComposicao_List.Select(X => X.Value).FirstOrDefault()) : 0;
-            MODEL.GT_TipoTesteComposicao_List = databaseManager.GT_TipoTesteComposicao.Where(x => x.GT_TipoMetodoComposicao_ID == tipoComp).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
-            //MODEL.Actual = !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_PESO) ? decimal.Parse(Configs.GESTREINO_AVALIDO_PESO).ToString("G29").Replace(",", ".") : string.Empty;
-            MODEL.IMC = databaseManager.PES_PESSOAS_CARACT.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.IMC).FirstOrDefault();
-
-
             try
             {
+                MODEL.GT_TipoNivelActividade_List = databaseManager.GT_TipoNivelActividade.OrderBy(x => x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+                MODEL.GT_TipoMetodoComposicao_List = databaseManager.GT_TipoMetodoComposicao.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+                MODEL.GT_TipoTesteComposicao_List = databaseManager.GT_TipoTesteComposicao.Where(x => x.GT_TipoMetodoComposicao_ID == MODEL.GT_TipoMetodoComposicao_ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+                MODEL.IMC = databaseManager.PES_PESSOAS_CARACT.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.IMC).FirstOrDefault();
+
+                MODEL.PercMG = (MODEL.PercMG != null) ? decimal.Parse(MODEL.PercMG.ToString().Replace(",","."), CultureInfo.InvariantCulture) : (Decimal?)null;
+
                 //  VALIDATE FORM FIRST
                 if (!ModelState.IsValid)
                 {
@@ -3479,7 +3515,6 @@ namespace Gestreino.Controllers
                 DoLoadValuesPercentilComposicao();
                 DoCalculaValores(MODEL);
 
-
                 int iPerc;
                 decimal iValue;
                 string sRes;
@@ -3488,24 +3523,50 @@ namespace Gestreino.Controllers
 
                 MODEL.iFlexiAct = iPerc;
                 MODEL.lblResActualFlexi = sRes;
-
-                //if (Sexo_ == "1")
-                //    Triciptal = txtTricipitalMasc.Text;
-                //else
-                //    Triciptal = txtTricipitalFem.Text;
-
-
+                MODEL.Tricipital = Configs.GESTREINO_AVALIDO_SEXO == "Masculino" ? MODEL.Tricipital : MODEL.TricipitalFem;
+               
                 if (MODEL.ID > 0)
                 {
-                    
+                    (from c in databaseManager.GT_RespComposicao
+                     where c.ID == MODEL.ID
+                     select c).ToList().ForEach(fx => {
+                         fx.GT_TipoTesteComposicao_ID = MODEL.GT_TipoTesteComposicao_ID;
+                         fx.PESO = (!string.IsNullOrEmpty(MODEL.Actual)) ? decimal.Parse(MODEL.Actual, CultureInfo.InvariantCulture) : (Decimal?)null;
+                         fx.PESODESEJAVEL = MODEL.Desejavel;
+                         fx.PESOPERDER = MODEL.Aperder;
+                         fx.PERIMETRO_ABDOMINAL = MODEL.Abdominal;
+                         fx.PERIMETRO_CINTURA = MODEL.Cintura;
+                         fx.PERIMETRO_UMBIGO = MODEL.PerimetroUmbigo;
+                         fx.ABDOMINAL = MODEL.Abdominal;
+                         fx.TRICIPITAL = MODEL.Tricipital;
+                         fx.RESISTENCIA = MODEL.Resistencia;
+                         fx.PREGASTRICIPITAL = MODEL.Pregas;
+                         fx.PREGASSUPRALLIACA = MODEL.SupraIliacaFem;
+                         fx.PREGAS_ABDOMINAL = MODEL.AbdominalFem;
+                         fx.PREGAS_SUBESCAPULAR = MODEL.Subescapular;
+                         fx.PREGAS_PEITO = MODEL.Peitoral;
+                         fx.PERCMG = MODEL.PercMG;
+                         fx.MIG = MODEL.MIG;
+                         fx.MG = MODEL.MG;
+                         fx.MGDESEJAVEL = MODEL.PercMGDesejavel;
+                         fx.METABOLISMO = MODEL.MetabolismoRepouso;
+                         fx.ESTIMACAO = MODEL.Estimacao;
+                         fx.GT_TipoNivelActividade_ID = MODEL.GT_TipoNivelActividade_ID;
+                         fx.RESP_SUMMARY = iValue;
+                         fx.RESP_DESCRICAO = sRes;
+                         fx.PERCENTIL = iPerc;
+                         fx.ACTUALIZADO_POR = int.Parse(User.Identity.GetUserId()); fx.DATA_ACTUALIZACAO = DateTime.Now;
+                     });
+                    databaseManager.SaveChanges();
                 }
                 else
                 {
                     GT_RespComposicao fx = new GT_RespComposicao();
                     fx.GT_SOCIOS_ID = GT_SOCIOS_ID;
-                    //fx.PESO = (!string.IsNullOrEmpty(MODEL.Actual)) ? decimal.Parse(MODEL.Actual, CultureInfo.InvariantCulture) : (Decimal?)null;
-                    //fx.PESODESEJAVEL = (!string.IsNullOrEmpty(MODEL.Desejavel)) ? decimal.Parse(MODEL.Desejavel, CultureInfo.InvariantCulture) : (Decimal?)null;
-                    /*fx.PESOPERDER = MODEL.Aperder;
+                    fx.GT_TipoTesteComposicao_ID = MODEL.GT_TipoTesteComposicao_ID;
+                    fx.PESO = (!string.IsNullOrEmpty(MODEL.Actual)) ? decimal.Parse(MODEL.Actual, CultureInfo.InvariantCulture) : (Decimal?)null;
+                    fx.PESODESEJAVEL = MODEL.Desejavel;
+                    fx.PESOPERDER = MODEL.Aperder;
                     fx.PERIMETRO_ABDOMINAL = MODEL.Abdominal;
                     fx.PERIMETRO_CINTURA = MODEL.Cintura;
                     fx.PERIMETRO_UMBIGO = MODEL.PerimetroUmbigo;
@@ -3514,7 +3575,7 @@ namespace Gestreino.Controllers
                     fx.RESISTENCIA = MODEL.Resistencia;
                     fx.PREGASTRICIPITAL = MODEL.Pregas;
                     fx.PREGASSUPRALLIACA = MODEL.SupraIliacaFem;
-                    fx.PREGAS_ABDOMINAL = MODEL.Abdominal;
+                    fx.PREGAS_ABDOMINAL = MODEL.AbdominalFem;
                     fx.PREGAS_SUBESCAPULAR = MODEL.Subescapular;
                     fx.PREGAS_PEITO = MODEL.Peitoral;
                     fx.PERCMG = MODEL.PercMG;
@@ -3530,17 +3591,18 @@ namespace Gestreino.Controllers
                     fx.INSERIDO_POR = int.Parse(User.Identity.GetUserId());
                     fx.DATA_INSERCAO = DateTime.Now;
                     databaseManager.GT_RespComposicao.Add(fx);
-                    //databaseManager.SaveChanges();*/
+                    databaseManager.SaveChanges();
 
-                    //MODEL.ID = fx.ID;
+                    MODEL.ID = fx.ID;
                 }
 
+                if (GetValorAnteriorComposicao(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteComposicao_ID) != null)
+                {
+                    MODEL.iFlexiAnt = GetPercentilComposicao(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), GetValorAnteriorComposicao(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteComposicao_ID).Value);
+                    MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoComposicao(MODEL.iFlexiAnt.Value) : string.Empty;
+                }
 
-
-               
-
-
-
+                MODEL.lblDataInsercao = databaseManager.GT_RespComposicao.Where(x => x.ID == MODEL.ID).Select(X => X.DATA_INSERCAO).FirstOrDefault();
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -3549,16 +3611,6 @@ namespace Gestreino.Controllers
             }
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_BodyComposition;
             return View("Quest/BodyComposition", MODEL);
-            /*return Json(new
-            {
-                result = true,
-                error = string.Empty,
-                //flexAct = MODEL.iFlexiAct + "-" + MODEL.lblResActualFlexi,
-                //flexAnt = MODEL.iFlexiAnt + "-" + MODEL.lblResAnteriorFlexi,
-                table = "GTQuestTable",
-                showToastr = true,
-                toastrMessage = "Submetido com sucesso!"
-            });*/
         }
 
 
@@ -4277,7 +4329,7 @@ namespace Gestreino.Controllers
             MODEL.Desejavel = sTempPesoDesejado1 + " a " + sTempPesoDesejado2;
 
             //Cálculo do Peso a Perder (txtPesoPerder)
-            if (Convert.ToDecimal(MODEL.Peso) > Convert.ToDecimal(sTempPesoDesejado2))
+            if (Convert.ToDecimal(MODEL.Actual) > Convert.ToDecimal(sTempPesoDesejado2))
                 MODEL.Aperder = Convert.ToDecimal(MODEL.Actual) - Convert.ToDecimal(sTempPesoDesejado2);
             else
                 MODEL.Aperder =0;
@@ -4307,8 +4359,6 @@ namespace Gestreino.Controllers
             MODEL.Estimacao = MODEL.Estimacao.ToString().Length > 8 ? Convert.ToDecimal(MODEL.Estimacao.ToString().Substring(0, 8)) : MODEL.Estimacao;
 }
 
-
-        //JACKSON E POLLOCK | WELTMAN ETAL
         private ArrayList aComp20_29M = new ArrayList(9);
         private ArrayList aComp20_29F = new ArrayList(9);
         private ArrayList aComp30_39M = new ArrayList(9);
@@ -4448,24 +4498,14 @@ namespace Gestreino.Controllers
             return Convert.ToInt32(aCompPercentil[indice]);
             //return 0;
         }
-
-
-
-
         private void DoGraficoActualComposicao(decimal? PercMG)
         {
             int iPercentilAct;
             decimal ValorAct = 0;
-
             ValorAct = PercMG.Value;
-
             iPercentilAct = GetPercentilComposicao(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), ValorAct);
-            //CriaGraficoCompActual(iPercentilAct);
 
-            //Descrição do Resultado Actual
-            //lblResActualComposicao.Text = GetResultadoComposicao(iPercentilAct);
         }
-
         private void DoGetActualComposicao(decimal? PercMG,out int iPerc, out decimal iValue, out string sRes)
         {
             int iPercentilAct;
@@ -4476,23 +4516,6 @@ namespace Gestreino.Controllers
             iPerc = iPercentilAct;
             iValue = ValorAct;
         }
-
-        private void DoGraficoAnteriorComposicao()
-        {
-            int iPercentilAnt = 0;
-            decimal ValorAnt = 0;
-            /*
-            ValorAnt = GetValorAnteriorComposicao();
-
-            if (ValorAnt == 0) return;
-
-            iPercentilAnt = GetPercentilComposicao(Convert.ToInt32(Sexo_), Idade_, ValorAnt);
-            CriaGraficoCompAnterior(iPercentilAnt);
-
-            //Descrição do Resultado Anterior
-            lblResAnteriorComposicao.Text = GetResultadoComposicao(iPercentilAnt);*/
-        }
-
         private string GetResultadoComposicao(int dRes)
         {
             string retValue = string.Empty;
@@ -4509,58 +4532,36 @@ namespace Gestreino.Controllers
                 retValue = "Excelente";
             return retValue;
         }
-
-        private decimal GetValorAnteriorComposicao()
+        private decimal? GetValorAnteriorComposicao(int GT_SOCIOS_ID, int? Id,int? Type)
         {
-            try
-            {
-                /*
-                string strSQL;
-                string strConn;
-                string sTable = string.Empty;
+            decimal? iFlexi = 0;
+            var data = databaseManager.GT_RespComposicao.Where(x => x.GT_SOCIOS_ID == GT_SOCIOS_ID && x.ID < Id && x.GT_TipoTesteComposicao_ID == Type).OrderByDescending(x => x.DATA_INSERCAO).Take(1).ToList();
 
-                OleDbDataReader oDataReader;
-                OleDbDataAdapter DBcommand;
-
-                strConn = General.getConnectionString();
-                OleDbConnection myConnection = new OleDbConnection(strConn);
-
-                if (cmbTipoTeste.SelectedValue.ToString() == "1")
-                    sTable = " tbl_RespComposicaoJack ";
-                else if (cmbTipoTeste.SelectedValue.ToString() == "2")
-                    sTable = " tbl_RespComposicaoWeltman ";
-                else if (cmbTipoTeste.SelectedValue.ToString() == "3")
-                    sTable = " tbl_RespComposicaoGray ";
-                else if (cmbTipoTeste.SelectedValue.ToString() == "4")
-                    sTable = " tbl_RespComposicaoGuo ";
-                else if (cmbTipoTeste.SelectedValue.ToString() == "5")
-                    sTable = " tbl_RespComposicaoDirecta ";
-
-                strSQL = "SELECT TOP 1 PercMG FROM " + sTable;
-                strSQL += " WHERE IDSocio=" + Atleta_ + " AND CDate(Data) < #" + General.GetFormatData(Data_) + "# ORDER BY CDate(Data) DESC";
-
-                General.TrataConnection(myConnection);
-
-                DBcommand = new OleDbDataAdapter();
-                DBcommand.SelectCommand = new OleDbCommand();
-                DBcommand.SelectCommand.Connection = myConnection;
-                DBcommand.SelectCommand.CommandText = strSQL;
-                DBcommand.SelectCommand.CommandType = CommandType.Text;
-                oDataReader = DBcommand.SelectCommand.ExecuteReader();
-
-                while (oDataReader.Read())
+            var flexflexNumberArr = data.Select(x => new List<decimal?>
                 {
-                    return Convert.ToDecimal(oDataReader["PercMG"]);
-                }
-                */
-                return 0;
+                    x.PERCMG
+                }).ToArray();
 
-            }
-            catch
+            if (flexflexNumberArr.Any())
             {
-                return 0;
+                var flexflexNumberArrList = flexflexNumberArr.First().ToList();
+
+                if (flexflexNumberArrList.Any())
+                {
+                    foreach (var x in flexflexNumberArrList)
+                    {
+                        if (x != null)
+                            iFlexi = x;
+                    }
+                }
+                else
+                    iFlexi = null;
             }
+            else
+                iFlexi = null;
+            return iFlexi;
         }
+    
 
 
 

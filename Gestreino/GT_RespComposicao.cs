@@ -18,7 +18,7 @@ namespace Gestreino
         public int GT_SOCIOS_ID { get; set; }
         public int GT_TipoTesteComposicao_ID { get; set; }
         public Nullable<decimal> PESO { get; set; }
-        public Nullable<decimal> PESODESEJAVEL { get; set; }
+        public string PESODESEJAVEL { get; set; }
         public Nullable<decimal> PESOPERDER { get; set; }
         public Nullable<int> PERIMETRO_ABDOMINAL { get; set; }
         public Nullable<int> PERIMETRO_CINTURA { get; set; }
