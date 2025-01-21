@@ -309,6 +309,41 @@
           <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
           <Property Name="DATA_REMOCAO" Type="datetime" />
         </EntityType>
+        <EntityType Name="GT_RespAptidaoCardio">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GT_SOCIOS_ID" Type="int" Nullable="false" />
+          <Property Name="GT_TipoTesteCardio_ID" Type="int" Nullable="false" />
+          <Property Name="CARGA" Type="int" />
+          <Property Name="TEMPO" Type="int" />
+          <Property Name="FC4M" Type="int" />
+          <Property Name="FC5M" Type="int" />
+          <Property Name="FC400M" Type="int" />
+          <Property Name="FC3M" Type="int" />
+          <Property Name="FC15M" Type="int" />
+          <Property Name="FCFIMTESTE" Type="int" />
+          <Property Name="VELOCIDADE" Type="int" />
+          <Property Name="VELOCIDADEMPH" Type="int" />
+          <Property Name="DISTANCIA" Type="int" />
+          <Property Name="V02CARGA" Type="int" />
+          <Property Name="MEDIA" Type="int" />
+          <Property Name="VO2MAX" Type="int" />
+          <Property Name="CUSTO" Type="int" />
+          <Property Name="CUSTOCAL" Type="int" />
+          <Property Name="VO2DESEJAVEL" Type="int" />
+          <Property Name="CLASSIFICACAO" Type="int" />
+          <Property Name="RESP_SUMMARY" Type="int" />
+          <Property Name="RESP_DESCRICAO" Type="varchar" MaxLength="4000" />
+          <Property Name="PERCENTIL" Type="int" />
+          <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="int" />
+          <Property Name="REMOVIDO_POR" Type="int" />
+          <Property Name="DATA_INSERCAO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
+          <Property Name="DATA_REMOCAO" Type="datetime" />
+        </EntityType>
         <EntityType Name="GT_RespAutoConceito">
           <Key>
             <PropertyRef Name="ID" />
@@ -598,6 +633,13 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TEMPO_DESCANSO" Type="varchar" MaxLength="30" Nullable="false" />
         </EntityType>
+        <EntityType Name="GT_TipoMetodoCardio">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DESCRICAO" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
         <EntityType Name="GT_TipoMetodoComposicao">
           <Key>
             <PropertyRef Name="ID" />
@@ -610,6 +652,14 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DESCRICAO" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GT_TipoTesteCardio">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GT_TipoMetodoCardio_ID" Type="int" Nullable="false" />
           <Property Name="DESCRICAO" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="GT_TipoTesteComposicao">
@@ -2196,6 +2246,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="GT_RespAptidaoCardio_GT_SOCIOS_ID">
+          <End Role="GT_SOCIOS" Type="Self.GT_SOCIOS" Multiplicity="1" />
+          <End Role="GT_RespAptidaoCardio" Type="Self.GT_RespAptidaoCardio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_SOCIOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespAptidaoCardio">
+              <PropertyRef Name="GT_SOCIOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_RespAptidaoCardio_GT_TipoTesteCardio_ID">
+          <End Role="GT_TipoTesteCardio" Type="Self.GT_TipoTesteCardio" Multiplicity="1" />
+          <End Role="GT_RespAptidaoCardio" Type="Self.GT_RespAptidaoCardio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoTesteCardio">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespAptidaoCardio">
+              <PropertyRef Name="GT_TipoTesteCardio_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="GT_RespAutoConceito_GT_SOCIOS_ID">
           <End Role="GT_SOCIOS" Type="Self.GT_SOCIOS" Multiplicity="1" />
           <End Role="GT_RespAutoConceito" Type="Self.GT_RespAutoConceito" Multiplicity="*" />
@@ -2301,6 +2375,18 @@
             </Principal>
             <Dependent Role="GT_SOCIOS">
               <PropertyRef Name="PES_PESSOAS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_TipoTesteCardio_GT_TipoMetodoCardio_ID">
+          <End Role="GT_TipoMetodoCardio" Type="Self.GT_TipoMetodoCardio" Multiplicity="1" />
+          <End Role="GT_TipoTesteCardio" Type="Self.GT_TipoTesteCardio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoMetodoCardio">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_TipoTesteCardio">
+              <PropertyRef Name="GT_TipoMetodoCardio_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2847,6 +2933,7 @@
           <EntitySet Name="GT_FaseTreino" EntityType="Self.GT_FaseTreino" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_Repeticoes" EntityType="Self.GT_Repeticoes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespAnsiedadeDepressao" EntityType="Self.GT_RespAnsiedadeDepressao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_RespAptidaoCardio" EntityType="Self.GT_RespAptidaoCardio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespAutoConceito" EntityType="Self.GT_RespAutoConceito" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespComposicao" EntityType="Self.GT_RespComposicao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespFlexiTeste" EntityType="Self.GT_RespFlexiTeste" Schema="dbo" store:Type="Tables" />
@@ -2855,8 +2942,10 @@
           <EntitySet Name="GT_Series" EntityType="Self.GT_Series" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_SOCIOS" EntityType="Self.GT_SOCIOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_TempoDescanso" EntityType="Self.GT_TempoDescanso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_TipoMetodoCardio" EntityType="Self.GT_TipoMetodoCardio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_TipoMetodoComposicao" EntityType="Self.GT_TipoMetodoComposicao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_TipoNivelActividade" EntityType="Self.GT_TipoNivelActividade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_TipoTesteCardio" EntityType="Self.GT_TipoTesteCardio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_TipoTesteComposicao" EntityType="Self.GT_TipoTesteComposicao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_TipoTesteFlexibilidade" EntityType="Self.GT_TipoTesteFlexibilidade" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_TipoTreino" EntityType="Self.GT_TipoTreino" Schema="dbo" store:Type="Tables" />
@@ -3199,6 +3288,14 @@
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
             <End Role="GT_RespAnsiedadeDepressao" EntitySet="GT_RespAnsiedadeDepressao" />
           </AssociationSet>
+          <AssociationSet Name="GT_RespAptidaoCardio_GT_SOCIOS_ID" Association="Self.GT_RespAptidaoCardio_GT_SOCIOS_ID">
+            <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+            <End Role="GT_RespAptidaoCardio" EntitySet="GT_RespAptidaoCardio" />
+          </AssociationSet>
+          <AssociationSet Name="GT_RespAptidaoCardio_GT_TipoTesteCardio_ID" Association="Self.GT_RespAptidaoCardio_GT_TipoTesteCardio_ID">
+            <End Role="GT_TipoTesteCardio" EntitySet="GT_TipoTesteCardio" />
+            <End Role="GT_RespAptidaoCardio" EntitySet="GT_RespAptidaoCardio" />
+          </AssociationSet>
           <AssociationSet Name="GT_RespAutoConceito_GT_SOCIOS_ID" Association="Self.GT_RespAutoConceito_GT_SOCIOS_ID">
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
             <End Role="GT_RespAutoConceito" EntitySet="GT_RespAutoConceito" />
@@ -3234,6 +3331,10 @@
           <AssociationSet Name="GT_SOCIOS_PES_PESSOAS_ID" Association="Self.GT_SOCIOS_PES_PESSOAS_ID">
             <End Role="PES_PESSOAS" EntitySet="PES_PESSOAS" />
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+          </AssociationSet>
+          <AssociationSet Name="GT_TipoTesteCardio_GT_TipoMetodoCardio_ID" Association="Self.GT_TipoTesteCardio_GT_TipoMetodoCardio_ID">
+            <End Role="GT_TipoMetodoCardio" EntitySet="GT_TipoMetodoCardio" />
+            <End Role="GT_TipoTesteCardio" EntitySet="GT_TipoTesteCardio" />
           </AssociationSet>
           <AssociationSet Name="GT_TipoTesteComposicao_GT_TipoMetodoComposicao_ID" Association="Self.GT_TipoTesteComposicao_GT_TipoMetodoComposicao_ID">
             <End Role="GT_TipoMetodoComposicao" EntitySet="GT_TipoMetodoComposicao" />
@@ -5102,6 +5203,21 @@
             <End Role="GT_TipoTesteComposicao" EntitySet="GT_TipoTesteComposicao" />
             <End Role="GT_RespComposicao" EntitySet="GT_RespComposicao" />
           </AssociationSet>
+          <EntitySet Name="GT_RespAptidaoCardio" EntityType="GESTREINO_ORM.GT_RespAptidaoCardio" />
+          <EntitySet Name="GT_TipoMetodoCardio" EntityType="GESTREINO_ORM.GT_TipoMetodoCardio" />
+          <EntitySet Name="GT_TipoTesteCardio" EntityType="GESTREINO_ORM.GT_TipoTesteCardio" />
+          <AssociationSet Name="GT_RespAptidaoCardio_GT_SOCIOS_ID" Association="GESTREINO_ORM.GT_RespAptidaoCardio_GT_SOCIOS_ID">
+            <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+            <End Role="GT_RespAptidaoCardio" EntitySet="GT_RespAptidaoCardio" />
+          </AssociationSet>
+          <AssociationSet Name="GT_RespAptidaoCardio_GT_TipoTesteCardio_ID" Association="GESTREINO_ORM.GT_RespAptidaoCardio_GT_TipoTesteCardio_ID">
+            <End Role="GT_TipoTesteCardio" EntitySet="GT_TipoTesteCardio" />
+            <End Role="GT_RespAptidaoCardio" EntitySet="GT_RespAptidaoCardio" />
+          </AssociationSet>
+          <AssociationSet Name="GT_TipoTesteCardio_GT_TipoMetodoCardio_ID" Association="GESTREINO_ORM.GT_TipoTesteCardio_GT_TipoMetodoCardio_ID">
+            <End Role="GT_TipoMetodoCardio" EntitySet="GT_TipoMetodoCardio" />
+            <End Role="GT_TipoTesteCardio" EntitySet="GT_TipoTesteCardio" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -5934,6 +6050,7 @@
           <NavigationProperty Name="GT_RespProblemasSaude" Relationship="GESTREINO_ORM.GT_RespProblemasSaude_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespProblemasSaude" />
           <NavigationProperty Name="GT_RespFlexiTeste" Relationship="GESTREINO_ORM.GT_RespFlexiTeste_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespFlexiTeste" />
           <NavigationProperty Name="GT_RespComposicao" Relationship="GESTREINO_ORM.GT_RespComposicao_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespComposicao" />
+          <NavigationProperty Name="GT_RespAptidaoCardio" Relationship="GESTREINO_ORM.GT_RespAptidaoCardio_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespAptidaoCardio" />
         </EntityType>
         <EntityType Name="GT_TipoTreino">
           <Key>
@@ -7211,6 +7328,97 @@
             </Principal>
             <Dependent Role="GT_RespComposicao">
               <PropertyRef Name="GT_TipoTesteComposicao_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GT_RespAptidaoCardio">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GT_SOCIOS_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_TipoTesteCardio_ID" Type="Int32" Nullable="false" />
+          <Property Name="CARGA" Type="Int32" />
+          <Property Name="TEMPO" Type="Int32" />
+          <Property Name="FC4M" Type="Int32" />
+          <Property Name="FC5M" Type="Int32" />
+          <Property Name="FC400M" Type="Int32" />
+          <Property Name="FC3M" Type="Int32" />
+          <Property Name="FC15M" Type="Int32" />
+          <Property Name="FCFIMTESTE" Type="Int32" />
+          <Property Name="VELOCIDADE" Type="Int32" />
+          <Property Name="VELOCIDADEMPH" Type="Int32" />
+          <Property Name="DISTANCIA" Type="Int32" />
+          <Property Name="V02CARGA" Type="Int32" />
+          <Property Name="MEDIA" Type="Int32" />
+          <Property Name="VO2MAX" Type="Int32" />
+          <Property Name="CUSTO" Type="Int32" />
+          <Property Name="CUSTOCAL" Type="Int32" />
+          <Property Name="VO2DESEJAVEL" Type="Int32" />
+          <Property Name="CLASSIFICACAO" Type="Int32" />
+          <Property Name="RESP_SUMMARY" Type="Int32" />
+          <Property Name="RESP_DESCRICAO" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="PERCENTIL" Type="Int32" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GT_SOCIOS" Relationship="GESTREINO_ORM.GT_RespAptidaoCardio_GT_SOCIOS_ID" FromRole="GT_RespAptidaoCardio" ToRole="GT_SOCIOS" />
+          <NavigationProperty Name="GT_TipoTesteCardio" Relationship="GESTREINO_ORM.GT_RespAptidaoCardio_GT_TipoTesteCardio_ID" FromRole="GT_RespAptidaoCardio" ToRole="GT_TipoTesteCardio" />
+        </EntityType>
+        <EntityType Name="GT_TipoMetodoCardio">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DESCRICAO" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GT_TipoTesteCardio" Relationship="GESTREINO_ORM.GT_TipoTesteCardio_GT_TipoMetodoCardio_ID" FromRole="GT_TipoMetodoCardio" ToRole="GT_TipoTesteCardio" />
+        </EntityType>
+        <EntityType Name="GT_TipoTesteCardio">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GT_TipoMetodoCardio_ID" Type="Int32" Nullable="false" />
+          <Property Name="DESCRICAO" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GT_RespAptidaoCardio" Relationship="GESTREINO_ORM.GT_RespAptidaoCardio_GT_TipoTesteCardio_ID" FromRole="GT_TipoTesteCardio" ToRole="GT_RespAptidaoCardio" />
+          <NavigationProperty Name="GT_TipoMetodoCardio" Relationship="GESTREINO_ORM.GT_TipoTesteCardio_GT_TipoMetodoCardio_ID" FromRole="GT_TipoTesteCardio" ToRole="GT_TipoMetodoCardio" />
+        </EntityType>
+        <Association Name="GT_RespAptidaoCardio_GT_SOCIOS_ID">
+          <End Type="GESTREINO_ORM.GT_SOCIOS" Role="GT_SOCIOS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_RespAptidaoCardio" Role="GT_RespAptidaoCardio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_SOCIOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespAptidaoCardio">
+              <PropertyRef Name="GT_SOCIOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_RespAptidaoCardio_GT_TipoTesteCardio_ID">
+          <End Type="GESTREINO_ORM.GT_TipoTesteCardio" Role="GT_TipoTesteCardio" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_RespAptidaoCardio" Role="GT_RespAptidaoCardio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoTesteCardio">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespAptidaoCardio">
+              <PropertyRef Name="GT_TipoTesteCardio_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_TipoTesteCardio_GT_TipoMetodoCardio_ID">
+          <End Type="GESTREINO_ORM.GT_TipoMetodoCardio" Role="GT_TipoMetodoCardio" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_TipoTesteCardio" Role="GT_TipoTesteCardio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoMetodoCardio">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_TipoTesteCardio">
+              <PropertyRef Name="GT_TipoMetodoCardio_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9223,6 +9431,59 @@
                 <ScalarProperty Name="PESO" ColumnName="PESO" />
                 <ScalarProperty Name="GT_TipoTesteComposicao_ID" ColumnName="GT_TipoTesteComposicao_ID" />
                 <ScalarProperty Name="GT_SOCIOS_ID" ColumnName="GT_SOCIOS_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_RespAptidaoCardio">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_RespAptidaoCardio">
+              <MappingFragment StoreEntitySet="GT_RespAptidaoCardio">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="PERCENTIL" ColumnName="PERCENTIL" />
+                <ScalarProperty Name="RESP_DESCRICAO" ColumnName="RESP_DESCRICAO" />
+                <ScalarProperty Name="RESP_SUMMARY" ColumnName="RESP_SUMMARY" />
+                <ScalarProperty Name="CLASSIFICACAO" ColumnName="CLASSIFICACAO" />
+                <ScalarProperty Name="VO2DESEJAVEL" ColumnName="VO2DESEJAVEL" />
+                <ScalarProperty Name="CUSTOCAL" ColumnName="CUSTOCAL" />
+                <ScalarProperty Name="CUSTO" ColumnName="CUSTO" />
+                <ScalarProperty Name="VO2MAX" ColumnName="VO2MAX" />
+                <ScalarProperty Name="MEDIA" ColumnName="MEDIA" />
+                <ScalarProperty Name="V02CARGA" ColumnName="V02CARGA" />
+                <ScalarProperty Name="DISTANCIA" ColumnName="DISTANCIA" />
+                <ScalarProperty Name="VELOCIDADEMPH" ColumnName="VELOCIDADEMPH" />
+                <ScalarProperty Name="VELOCIDADE" ColumnName="VELOCIDADE" />
+                <ScalarProperty Name="FCFIMTESTE" ColumnName="FCFIMTESTE" />
+                <ScalarProperty Name="FC15M" ColumnName="FC15M" />
+                <ScalarProperty Name="FC3M" ColumnName="FC3M" />
+                <ScalarProperty Name="FC400M" ColumnName="FC400M" />
+                <ScalarProperty Name="FC5M" ColumnName="FC5M" />
+                <ScalarProperty Name="FC4M" ColumnName="FC4M" />
+                <ScalarProperty Name="TEMPO" ColumnName="TEMPO" />
+                <ScalarProperty Name="CARGA" ColumnName="CARGA" />
+                <ScalarProperty Name="GT_TipoTesteCardio_ID" ColumnName="GT_TipoTesteCardio_ID" />
+                <ScalarProperty Name="GT_SOCIOS_ID" ColumnName="GT_SOCIOS_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_TipoMetodoCardio">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_TipoMetodoCardio">
+              <MappingFragment StoreEntitySet="GT_TipoMetodoCardio">
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_TipoTesteCardio">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_TipoTesteCardio">
+              <MappingFragment StoreEntitySet="GT_TipoTesteCardio">
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="GT_TipoMetodoCardio_ID" ColumnName="GT_TipoMetodoCardio_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

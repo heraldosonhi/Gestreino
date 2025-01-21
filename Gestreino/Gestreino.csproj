@@ -282,6 +282,9 @@
     <Compile Include="GT_RespAnsiedadeDepressao.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_RespAptidaoCardio.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="GT_RespAutoConceito.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -306,10 +309,16 @@
     <Compile Include="GT_TempoDescanso.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_TipoMetodoCardio.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="GT_TipoMetodoComposicao.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="GT_TipoNivelActividade.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_TipoTesteCardio.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="GT_TipoTesteComposicao.cs">
@@ -763,6 +772,7 @@
     <Content Include="Views\GTManagement\Quest\Health.cshtml" />
     <Content Include="Views\GTManagement\Quest\Flexibility.cshtml" />
     <Content Include="Views\GTManagement\Quest\BodyComposition.cshtml" />
+    <Content Include="Views\GTManagement\Quest\Cardio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

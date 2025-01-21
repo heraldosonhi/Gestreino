@@ -455,7 +455,7 @@ namespace JeanPiagetSGA.Controllers
                         // Fetch User Details
                         var ProfilePhoto = databaseManager.PES_PESSOAS.Where(x => x.UTILIZADORES_ID == logindetails.ID).Select(x => x.FOTOGRAFIA).SingleOrDefault();
                         // SignInUser   
-                        this.SignInUser(logindetails.LOGIN, logindetails.ID.ToString(), false, lst_grupos, lst_subgrupos, lst_atomos, logindetails.ID, ProfilePhoto, returnUrl);
+                        this.SignInUser(logindetails.LOGIN, logindetails.ID.ToString(), true, lst_grupos, lst_subgrupos, lst_atomos, logindetails.ID, ProfilePhoto, returnUrl);
                         // Redirect if Needed    
                         return this.RedirectToLocal(returnUrl);
                     }

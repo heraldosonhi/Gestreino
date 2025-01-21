@@ -168,6 +168,12 @@
         <AssociationConnector Association="GESTREINO_ORM.GT_RespComposicao_GT_SOCIOS_ID" />
         <AssociationConnector Association="GESTREINO_ORM.GT_RespComposicao_GT_TipoNivelActividade_ID" />
         <AssociationConnector Association="GESTREINO_ORM.GT_RespComposicao_GT_TipoTesteComposicao_ID" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_RespAptidaoCardio" Width="1.5" PointX="21.875" PointY="27.625" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_TipoMetodoCardio" Width="1.5" PointX="9.375" PointY="7" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_TipoTesteCardio" Width="1.5" PointX="11.625" PointY="6.75" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_RespAptidaoCardio_GT_SOCIOS_ID" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_RespAptidaoCardio_GT_TipoTesteCardio_ID" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_TipoTesteCardio_GT_TipoMetodoCardio_ID" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -43,6 +43,7 @@ namespace Gestreino.Controllers
         int _MenuLeftBarLink_Quest_Health= 208;
         int _MenuLeftBarLink_Quest_Flex = 209;
         int _MenuLeftBarLink_Quest_BodyComposition = 210;
+        int _MenuLeftBarLink_Quest_Cardio = 211;
         int _MenuLeftBarLink_FileManagement = 0;
 
         // GET: GTManagement
@@ -3422,7 +3423,7 @@ namespace Gestreino.Controllers
 
 
         //Composicao Corporal
-        public ActionResult BodyComposition(BodyComposition MODEL, int? Id, int? flexiType)
+        public ActionResult BodyComposition(BodyComposition MODEL, int? Id)
         {
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
 
@@ -3614,6 +3615,169 @@ namespace Gestreino.Controllers
         }
 
 
+        //Cardio
+        public ActionResult Cardio(Cardio MODEL, int? Id, int? flexiType)
+        {
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
+
+            MODEL.GT_TipoNivelActividade_List = databaseManager.GT_TipoNivelActividade.OrderBy(x => x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+            MODEL.GT_TipoMetodoComposicao_List = databaseManager.GT_TipoMetodoComposicao.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+            int tipoComp = MODEL.GT_TipoMetodoComposicao_List.Any() ? Convert.ToInt32(MODEL.GT_TipoMetodoComposicao_List.Select(X => X.Value).FirstOrDefault()) : 0;
+            MODEL.GT_TipoTesteComposicao_List = databaseManager.GT_TipoTesteComposicao.Where(x => x.GT_TipoMetodoComposicao_ID == tipoComp).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+            MODEL.Actual = !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_PESO) ? decimal.Parse(Configs.GESTREINO_AVALIDO_PESO).ToString("G29").Replace(",", ".") : string.Empty;
+
+            if (Id > 0)
+            {
+                var data = databaseManager.GT_RespAptidaoCardio.Where(x => x.ID == Id).ToList();
+                if (data.Count() == 0)
+                    return RedirectToAction("bodycomposition", "gtmanagement", new { Id = string.Empty });
+                ViewBag.data = data;
+                MODEL.ID = Id;
+
+               
+               
+                int iPerc;
+                decimal iValue;
+                string sRes;
+                DoLoadValuesPercentilComposicao();
+                DoGetActualComposicao(MODEL.PercMG, out iPerc, out iValue, out sRes);
+
+                MODEL.iFlexiAct = iPerc;
+                MODEL.lblResActualFlexi = sRes;
+
+                if (GetValorAnteriorComposicao(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteComposicao_ID) != null)
+                {
+                    MODEL.iFlexiAnt = GetPercentilComposicao(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), GetValorAnteriorComposicao(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteComposicao_ID).Value);
+                    MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoComposicao(MODEL.iFlexiAnt.Value) : string.Empty;
+                }
+            }
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_BodyComposition;
+            return View("Quest/Cardio", MODEL);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Cardio(Cardio MODEL)
+        {
+            var GT_SOCIOS_ID = 0;
+
+            try
+            {
+                MODEL.GT_TipoNivelActividade_List = databaseManager.GT_TipoNivelActividade.OrderBy(x => x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+                MODEL.GT_TipoMetodoComposicao_List = databaseManager.GT_TipoMetodoComposicao.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+                MODEL.GT_TipoTesteComposicao_List = databaseManager.GT_TipoTesteComposicao.Where(x => x.GT_TipoMetodoComposicao_ID == MODEL.GT_TipoMetodoComposicao_ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+                MODEL.IMC = databaseManager.PES_PESSOAS_CARACT.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.IMC).FirstOrDefault();
+
+                MODEL.PercMG = (MODEL.PercMG != null) ? decimal.Parse(MODEL.PercMG.ToString().Replace(",", "."), CultureInfo.InvariantCulture) : (Decimal?)null;
+
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
+                DoLoadValuesPercentilComposicao();
+                DoCalculaValores(MODEL);
+
+                int iPerc;
+                decimal iValue;
+                string sRes;
+
+                DoGetActualComposicao(MODEL.PercMG, out iPerc, out iValue, out sRes);
+
+                MODEL.iFlexiAct = iPerc;
+                MODEL.lblResActualFlexi = sRes;
+                MODEL.Tricipital = Configs.GESTREINO_AVALIDO_SEXO == "Masculino" ? MODEL.Tricipital : MODEL.TricipitalFem;
+
+                if (MODEL.ID > 0)
+                {
+                    (from c in databaseManager.GT_RespComposicao
+                     where c.ID == MODEL.ID
+                     select c).ToList().ForEach(fx => {
+                         fx.GT_TipoTesteComposicao_ID = MODEL.GT_TipoTesteComposicao_ID;
+                         fx.PESO = (!string.IsNullOrEmpty(MODEL.Actual)) ? decimal.Parse(MODEL.Actual, CultureInfo.InvariantCulture) : (Decimal?)null;
+                         fx.PESODESEJAVEL = MODEL.Desejavel;
+                         fx.PESOPERDER = MODEL.Aperder;
+                         fx.PERIMETRO_ABDOMINAL = MODEL.Abdominal;
+                         fx.PERIMETRO_CINTURA = MODEL.Cintura;
+                         fx.PERIMETRO_UMBIGO = MODEL.PerimetroUmbigo;
+                         fx.ABDOMINAL = MODEL.Abdominal;
+                         fx.TRICIPITAL = MODEL.Tricipital;
+                         fx.RESISTENCIA = MODEL.Resistencia;
+                         fx.PREGASTRICIPITAL = MODEL.Pregas;
+                         fx.PREGASSUPRALLIACA = MODEL.SupraIliacaFem;
+                         fx.PREGAS_ABDOMINAL = MODEL.AbdominalFem;
+                         fx.PREGAS_SUBESCAPULAR = MODEL.Subescapular;
+                         fx.PREGAS_PEITO = MODEL.Peitoral;
+                         fx.PERCMG = MODEL.PercMG;
+                         fx.MIG = MODEL.MIG;
+                         fx.MG = MODEL.MG;
+                         fx.MGDESEJAVEL = MODEL.PercMGDesejavel;
+                         fx.METABOLISMO = MODEL.MetabolismoRepouso;
+                         fx.ESTIMACAO = MODEL.Estimacao;
+                         fx.GT_TipoNivelActividade_ID = MODEL.GT_TipoNivelActividade_ID;
+                         fx.RESP_SUMMARY = iValue;
+                         fx.RESP_DESCRICAO = sRes;
+                         fx.PERCENTIL = iPerc;
+                         fx.ACTUALIZADO_POR = int.Parse(User.Identity.GetUserId()); fx.DATA_ACTUALIZACAO = DateTime.Now;
+                     });
+                    databaseManager.SaveChanges();
+                }
+                else
+                {
+                    GT_RespComposicao fx = new GT_RespComposicao();
+                    fx.GT_SOCIOS_ID = GT_SOCIOS_ID;
+                    fx.GT_TipoTesteComposicao_ID = MODEL.GT_TipoTesteComposicao_ID;
+                    fx.PESO = (!string.IsNullOrEmpty(MODEL.Actual)) ? decimal.Parse(MODEL.Actual, CultureInfo.InvariantCulture) : (Decimal?)null;
+                    fx.PESODESEJAVEL = MODEL.Desejavel;
+                    fx.PESOPERDER = MODEL.Aperder;
+                    fx.PERIMETRO_ABDOMINAL = MODEL.Abdominal;
+                    fx.PERIMETRO_CINTURA = MODEL.Cintura;
+                    fx.PERIMETRO_UMBIGO = MODEL.PerimetroUmbigo;
+                    fx.ABDOMINAL = MODEL.Abdominal;
+                    fx.TRICIPITAL = MODEL.Tricipital;
+                    fx.RESISTENCIA = MODEL.Resistencia;
+                    fx.PREGASTRICIPITAL = MODEL.Pregas;
+                    fx.PREGASSUPRALLIACA = MODEL.SupraIliacaFem;
+                    fx.PREGAS_ABDOMINAL = MODEL.AbdominalFem;
+                    fx.PREGAS_SUBESCAPULAR = MODEL.Subescapular;
+                    fx.PREGAS_PEITO = MODEL.Peitoral;
+                    fx.PERCMG = MODEL.PercMG;
+                    fx.MIG = MODEL.MIG;
+                    fx.MG = MODEL.MG;
+                    fx.MGDESEJAVEL = MODEL.PercMGDesejavel;
+                    fx.METABOLISMO = MODEL.MetabolismoRepouso;
+                    fx.ESTIMACAO = MODEL.Estimacao;
+                    fx.GT_TipoNivelActividade_ID = MODEL.GT_TipoNivelActividade_ID;
+                    fx.RESP_SUMMARY = iValue;
+                    fx.RESP_DESCRICAO = sRes;
+                    fx.PERCENTIL = iPerc;
+                    fx.INSERIDO_POR = int.Parse(User.Identity.GetUserId());
+                    fx.DATA_INSERCAO = DateTime.Now;
+                    databaseManager.GT_RespComposicao.Add(fx);
+                    databaseManager.SaveChanges();
+
+                    MODEL.ID = fx.ID;
+                }
+
+                if (GetValorAnteriorComposicao(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteComposicao_ID) != null)
+                {
+                    MODEL.iFlexiAnt = GetPercentilComposicao(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), GetValorAnteriorComposicao(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteComposicao_ID).Value);
+                    MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoComposicao(MODEL.iFlexiAnt.Value) : string.Empty;
+                }
+
+                MODEL.lblDataInsercao = databaseManager.GT_RespComposicao.Where(x => x.ID == MODEL.ID).Select(X => X.DATA_INSERCAO).FirstOrDefault();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_BodyComposition;
+            return View("Quest/Cardio", MODEL);
+        }
 
 
 
@@ -3626,7 +3790,8 @@ namespace Gestreino.Controllers
 
 
 
-        //Formulas exported from legacy projecto
+
+        //Formulas exported from legacy project
         private string GetResult(GT_Quest_Anxient MODEL)
         {
             string sResultAns;
@@ -4329,7 +4494,7 @@ namespace Gestreino.Controllers
             MODEL.Desejavel = sTempPesoDesejado1 + " a " + sTempPesoDesejado2;
 
             //Cálculo do Peso a Perder (txtPesoPerder)
-            if (Convert.ToDecimal(MODEL.Actual) > Convert.ToDecimal(sTempPesoDesejado2))
+            if (Convert.ToDecimal(decimal.Parse(MODEL.Actual, CultureInfo.InvariantCulture)) > Convert.ToDecimal(sTempPesoDesejado2))
                 MODEL.Aperder = Convert.ToDecimal(MODEL.Actual) - Convert.ToDecimal(sTempPesoDesejado2);
             else
                 MODEL.Aperder =0;

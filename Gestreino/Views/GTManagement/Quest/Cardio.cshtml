@@ -1,7 +1,7 @@
-﻿@model Gestreino.Models.BodyComposition
+﻿@model Gestreino.Models.Cardio
 @using Gestreino.Classes
 @{
-    ViewBag.Title = "Composição Corporal";
+    ViewBag.Title = "Aptidão Cardiorespiratória";
 }
 @if (!string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
 {
@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 @using (Html.BeginForm("BodyComposition", "gtmanagement", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
-                    
+
                 //using (Ajax.BeginForm("BodyComposition", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                 {
                     @Html.AntiForgeryToken()
@@ -45,34 +45,34 @@
                                     <div class="icon">
                                         <i class="fa fa-anchor"></i>
                                     </div>
-                                    <h3 class="p-2">Composição Corporal</h3>
+                                    <h3 class="p-2">Aptidão Cardiorespiratória</h3>
                                     @if (Model.lblDataInsercao != null)
                                     {
                                         <h6 class="p-2 bg-light mt-2 text-success"><i class="fa fa-floppy-o"></i> Questionário registado:@Model.lblDataInsercao</h6>
                                     }
 
-                                <div class="p-4">
-                                    <fieldset class="bg-light p-2 border-r">
-                                        <legend>Perímetro</legend>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="row mb-2">
-                                                    @Html.LabelFor(m => m.GT_TipoMetodoComposicao_ID, new { @class = "col-md-3 col-form-label" })
-                                                    <div class="col-md-7">
-                                                        @Html.DropDownListFor(x => Model.GT_TipoMetodoComposicao_ID, Model.GT_TipoMetodoComposicao_List, new { @class = "form-control form-control-sm", required = "", onchange = "loadGT_TipoMetodoComposicao_List(this.value)" })
+                                    <div class="p-4">
+                                        <fieldset class="bg-light p-2 border-r">
+                                            <legend>Perímetro</legend>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="row mb-2">
+                                                        @Html.LabelFor(m => m.GT_TipoMetodoComposicao_ID, new { @class = "col-md-3 col-form-label" })
+                                                        <div class="col-md-7">
+                                                            @Html.DropDownListFor(x => Model.GT_TipoMetodoComposicao_ID, Model.GT_TipoMetodoComposicao_List, new { @class = "form-control form-control-sm", required = "", onchange = "loadGT_TipoMetodoComposicao_List(this.value)" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="row mb-2">
+                                                        @Html.LabelFor(m => m.GT_TipoTesteComposicao_ID, new { @class = "col-md-3 col-form-label" })
+                                                        <div class="col-md-7">
+                                                            @Html.DropDownListFor(x => Model.GT_TipoTesteComposicao_ID, Model.GT_TipoTesteComposicao_List, new { @class = "form-control form-control-sm", required = "", onchange = "loadGT_TipoTesteComposicao_List(this.value)" })
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="row mb-2">
-                                                    @Html.LabelFor(m => m.GT_TipoTesteComposicao_ID, new { @class = "col-md-3 col-form-label" })
-                                                    <div class="col-md-7">
-                                                        @Html.DropDownListFor(x => Model.GT_TipoTesteComposicao_ID, Model.GT_TipoTesteComposicao_List, new { @class = "form-control form-control-sm", required = "", onchange = "loadGT_TipoTesteComposicao_List(this.value)" })
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </fieldset>
+                                        </fieldset>
                                         <div class="row mt-2">
                                             <div class="col-md-6">
                                                 <fieldset class="bg-light p-2 border-r">
@@ -398,7 +398,7 @@
                                                 <label><b id="lblflexAnterior">@Model.lblResAnteriorFlexi</b></label>
                                             </div>
                                         </div>
-                                </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
