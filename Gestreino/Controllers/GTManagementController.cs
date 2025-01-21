@@ -3679,7 +3679,7 @@ namespace Gestreino.Controllers
 
                 GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
                 DoLoadValuesPercentilComposicao();
-                DoCalculaValores(MODEL);
+               
 
                 int iPerc;
                 decimal iValue;
