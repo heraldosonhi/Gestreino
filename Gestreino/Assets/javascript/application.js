@@ -4111,3 +4111,202 @@ function loadGT_TipoTesteComposicao_List(id) {
         $('#Resistencia').val('');
     }
 }
+//Cardio
+function loadGT_TipoMetodoCardio_List(id) {
+    $.ajax({
+        type: "GET", url: "/gtmanagement/loadGT_TipoMetodoCardio_List",
+        data: { "id": id },
+        cache: false,
+        beforeSend: function () {
+        },
+        complete: function () {
+        },
+        success: function (data) {
+            $('#GT_TipoTesteCardio_ID option').remove();
+            var s = '';
+            for (var i = 0; i < data.length; i++) {
+                s += '<option value="' + data[i].ID + '">' + data[i].DESCRICAO + '</option>';
+            }
+            $('#GT_TipoTesteCardio_ID').html(s);
+            $('#GT_TipoTesteCardio_ID').trigger('change');
+        },
+        error: function () {
+        }
+    });
+}
+function loadGT_TipoTesteCardio_List(id) {
+    if (id == '1') //2000 Metros
+    {
+        $('#200m').show();
+        $('#200m').find('input').attr("required", true);
+        $('#200m').find('input').val('');
+
+        $('#cooper').hide();
+        $('#cooper').find('input').attr("required", false);
+        $('#cooper').find('input').val('');
+
+        $('#rockport').hide();
+        $('#rockport').find('input').attr("required", false);
+        $('#rockport').find('input').val('');
+
+        $('#queens').hide();
+        $('#queens').find('input').attr("required", false);
+        $('#queens').find('input').val('');
+
+        $('#jogging').hide();
+        $('#jogging').find('input').attr("required", false);
+        $('#jogging').find('input').val('');
+
+        $('#astrand').hide();
+        $('#astrand').find('input').attr("required", false);
+        $('#astrand').find('input').val('');
+        
+    }
+    if (id == '2') //Cooper
+    {
+        $('#200m').hide();
+        $('#200m').find('input').attr("required", false);
+        $('#200m').find('input').val('');
+
+        $('#cooper').show();
+        $('#cooper').find('input').attr("required", true);
+        $('#cooper').find('input').val('');
+
+        $('#rockport').hide();
+        $('#rockport').find('input').attr("required", false);
+        $('#rockport').find('input').val('');
+
+        $('#queens').hide();
+        $('#queens').find('input').attr("required", false);
+        $('#queens').find('input').val('');
+
+        $('#jogging').hide();
+        $('#jogging').find('input').attr("required", false);
+        $('#jogging').find('input').val('');
+
+        $('#astrand').hide();
+        $('#astrand').find('input').attr("required", false);
+        $('#astrand').find('input').val('');
+    }
+    if (id == '3') //Caminhada de Rockport Institute
+    {
+        $('#200m').hide();
+        $('#200m').find('input').attr("required", false);
+        $('#200m').find('input').val('');
+
+        $('#cooper').hide();
+        $('#cooper').find('input').attr("required", false);
+        $('#cooper').find('input').val('');
+
+        $('#rockport').show();
+        $('#rockport').find('input').attr("required", true);
+        $('#rockport').find('input').val('');
+
+        $('#queens').hide();
+        $('#queens').find('input').attr("required", false);
+        $('#queens').find('input').val('');
+
+        $('#jogging').hide();
+        $('#jogging').find('input').attr("required", false);
+        $('#jogging').find('input').val('');
+
+        $('#astrand').hide();
+        $('#astrand').find('input').attr("required", false);
+        $('#astrand').find('input').val('');
+    }
+    if (id == '4') //Queens College
+    {
+        $('#200m').hide();
+        $('#200m').find('input').attr("required", false);
+        $('#200m').find('input').val('');
+
+        $('#cooper').hide();
+        $('#cooper').find('input').attr("required", false);
+        $('#cooper').find('input').val('');
+
+        $('#rockport').hide();
+        $('#rockport').find('input').attr("required", false);
+        $('#rockport').find('input').val('');
+
+        $('#queens').show();
+        $('#queens').find('input').attr("required", true);
+        $('#queens').find('input').val('');
+
+        $('#jogging').hide();
+        $('#jogging').find('input').attr("required", false);
+        $('#jogging').find('input').val('');
+
+        $('#astrand').hide();
+        $('#astrand').find('input').attr("required", false);
+        $('#astrand').find('input').val('');
+    }
+    if (id == '5') //Jogging
+    {
+        $('#200m').hide();
+        $('#200m').find('input').attr("required", false);
+        $('#200m').find('input').val('');
+
+        $('#cooper').hide();
+        $('#cooper').find('input').attr("required", false);
+        $('#cooper').find('input').val('');
+
+        $('#rockport').hide();
+        $('#rockport').find('input').attr("required", false);
+        $('#rockport').find('input').val('');
+
+        $('#queens').hide();
+        $('#queens').find('input').attr("required", false);
+        $('#queens').find('input').val('');
+
+        $('#jogging').show();
+        $('#jogging').find('input').attr("required", true);
+        $('#jogging').find('input').val('');
+
+        $('#astrand').hide();
+        $('#astrand').find('input').attr("required", false);
+        $('#astrand').find('input').val('');
+    }
+    if (id == '6') //Astrand
+    {
+        $('#200m').hide();
+        $('#200m').find('input').attr("required", false);
+        $('#200m').find('input').val('');
+
+        $('#cooper').hide();
+        $('#cooper').find('input').attr("required", false);
+        $('#cooper').find('input').val('');
+
+        $('#rockport').hide();
+        $('#rockport').find('input').attr("required", false);
+        $('#rockport').find('input').val('');
+
+        $('#queens').hide();
+        $('#queens').find('input').attr("required", false);
+        $('#queens').find('input').val('');
+
+        $('#jogging').hide();
+        $('#jogging').find('input').attr("required", false);
+        $('#jogging').find('input').val('');
+
+        $('#astrand').show();
+        $('#astrand').find('input').attr("required", true);
+        $('#astrand').find('input').val('');
+    }
+    if (id == '4' || id == '5' || id == '6' || id == '7') //YMCA
+    {
+        $('#jackson').hide();
+        $('#weltman').hide();
+        $('#Deurenberg').hide();
+
+        $('#PerimetroUmbigo').attr("required", false);
+        $('#jackson').find('input').attr("required", false);
+        $('#Resistencia').attr("required", false);
+
+        $('#PercMG').attr("readonly", false);
+        $('#PercMG').attr("required", true);
+        //
+        $('#PerimetroUmbigo').val('');
+        $('#jackson').find('input').val('');
+        $('#Resistencia').val('');
+    }
+}

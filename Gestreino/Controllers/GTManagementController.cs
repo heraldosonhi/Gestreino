@@ -23,6 +23,8 @@ using System.Reflection;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using static Gestreino.Models.CoronaryRisk;
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using System.ComponentModel.DataAnnotations;
+using System.Data.Entity.Infrastructure;
 
 namespace Gestreino.Controllers
 {
@@ -3432,7 +3434,7 @@ namespace Gestreino.Controllers
             int tipoComp = MODEL.GT_TipoMetodoComposicao_List.Any()?Convert.ToInt32(MODEL.GT_TipoMetodoComposicao_List.Select(X => X.Value).FirstOrDefault()):0;
             MODEL.GT_TipoTesteComposicao_List = databaseManager.GT_TipoTesteComposicao.Where(x=>x.GT_TipoMetodoComposicao_ID== tipoComp).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
             MODEL.Actual = !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_PESO)?decimal.Parse(Configs.GESTREINO_AVALIDO_PESO).ToString("G29").Replace(",","."):string.Empty;
-           
+          
             if (Id > 0)
             {
                 var data = databaseManager.GT_RespComposicao.Where(x => x.ID == Id).ToList();
@@ -3620,39 +3622,67 @@ namespace Gestreino.Controllers
         {
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
 
-            MODEL.GT_TipoNivelActividade_List = databaseManager.GT_TipoNivelActividade.OrderBy(x => x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
-            MODEL.GT_TipoMetodoComposicao_List = databaseManager.GT_TipoMetodoComposicao.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+            MODEL.GT_TipoMetodoComposicao_List = databaseManager.GT_TipoMetodoCardio.OrderBy(x => x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
             int tipoComp = MODEL.GT_TipoMetodoComposicao_List.Any() ? Convert.ToInt32(MODEL.GT_TipoMetodoComposicao_List.Select(X => X.Value).FirstOrDefault()) : 0;
-            MODEL.GT_TipoTesteComposicao_List = databaseManager.GT_TipoTesteComposicao.Where(x => x.GT_TipoMetodoComposicao_ID == tipoComp).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
-            MODEL.Actual = !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_PESO) ? decimal.Parse(Configs.GESTREINO_AVALIDO_PESO).ToString("G29").Replace(",", ".") : string.Empty;
-
+            MODEL.GT_TipoTesteCardio_List = databaseManager.GT_TipoTesteCardio.Where(x=>x.GT_TipoMetodoCardio_ID==tipoComp).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+          
             if (Id > 0)
             {
                 var data = databaseManager.GT_RespAptidaoCardio.Where(x => x.ID == Id).ToList();
                 if (data.Count() == 0)
-                    return RedirectToAction("bodycomposition", "gtmanagement", new { Id = string.Empty });
+                    return RedirectToAction("cardio", "gtmanagement", new { Id = string.Empty });
+
                 ViewBag.data = data;
                 MODEL.ID = Id;
+                MODEL.GT_TipoTesteCardio_ID = data.First().GT_TipoTesteCardio_ID;
+                MODEL.V02max = data.First().VO2MAX;
+                MODEL.V02desejavel = data.First().VO2DESEJAVEL;
+                MODEL.CustoCalorico = data.First().CUSTOCAL;
+                MODEL.TempoRealizacao200 = data.First().TEMPO;
+                MODEL.MediaWatts = data.First().MEDIA;
+                MODEL.Distancia12m = data.First().DISTANCIA;
+                MODEL.Tempo1600m = data.First().TEMPO;
+                MODEL.Frequencia400m = data.First().FC400M;
+                MODEL.FrequenciaFimTeste = data.First().FCFIMTESTE;
+                MODEL.MediaFrequencia = data.First().MEDIA;
+                MODEL.FC15sec = data.First().FC15M;
+                MODEL.FC3min = data.First().FC3M;
+                MODEL.Velocidade = data.First().VELOCIDADE;
+                MODEL.Carga = data.First().CARGA;
+                MODEL.FC4min = data.First().FC4M;
+                MODEL.FC5min = data.First().FC5M;
+                MODEL.ValorMedioFC = data.First().MEDIA;
+                MODEL.VO2Carga = data.First().V02CARGA;
 
-               
-               
                 int iPerc;
                 decimal iValue;
                 string sRes;
-                DoLoadValuesPercentilComposicao();
-                DoGetActualComposicao(MODEL.PercMG, out iPerc, out iValue, out sRes);
 
-                MODEL.iFlexiAct = iPerc;
-                MODEL.lblResActualFlexi = sRes;
+                //DoLoadValuesPercentilComposicao();
+                //DoGetActualComposicao(MODEL.PercMG, out iPerc, out iValue, out sRes);
 
+                //MODEL.iFlexiAct = iPerc;
+                //MODEL.lblResActualFlexi = sRes;
+
+                /*
                 if (GetValorAnteriorComposicao(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteComposicao_ID) != null)
                 {
                     MODEL.iFlexiAnt = GetPercentilComposicao(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), GetValorAnteriorComposicao(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteComposicao_ID).Value);
                     MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoComposicao(MODEL.iFlexiAnt.Value) : string.Empty;
                 }
+                */
             }
-            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_BodyComposition;
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Cardio;
             return View("Quest/Cardio", MODEL);
+        }
+        [HttpGet]
+        public ActionResult loadGT_TipoMetodoCardio_List(int? Id)
+        {
+            return Json(databaseManager.GT_TipoTesteCardio.Where(x => x.GT_TipoMetodoCardio_ID == Id).Select(x => new
+            {
+                x.ID,
+                x.DESCRICAO
+            }).ToArray(), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -3662,12 +3692,8 @@ namespace Gestreino.Controllers
 
             try
             {
-                MODEL.GT_TipoNivelActividade_List = databaseManager.GT_TipoNivelActividade.OrderBy(x => x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
-                MODEL.GT_TipoMetodoComposicao_List = databaseManager.GT_TipoMetodoComposicao.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
-                MODEL.GT_TipoTesteComposicao_List = databaseManager.GT_TipoTesteComposicao.Where(x => x.GT_TipoMetodoComposicao_ID == MODEL.GT_TipoMetodoComposicao_ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
-                MODEL.IMC = databaseManager.PES_PESSOAS_CARACT.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.IMC).FirstOrDefault();
-
-                MODEL.PercMG = (MODEL.PercMG != null) ? decimal.Parse(MODEL.PercMG.ToString().Replace(",", "."), CultureInfo.InvariantCulture) : (Decimal?)null;
+                MODEL.GT_TipoMetodoComposicao_List = databaseManager.GT_TipoMetodoCardio.OrderBy(x => x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+                MODEL.GT_TipoTesteCardio_List = databaseManager.GT_TipoTesteCardio.Where(x => x.GT_TipoMetodoCardio_ID == MODEL.GT_TipoTesteCardio_ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
 
                 //  VALIDATE FORM FIRST
                 if (!ModelState.IsValid)
@@ -3685,97 +3711,27 @@ namespace Gestreino.Controllers
                 decimal iValue;
                 string sRes;
 
-                DoGetActualComposicao(MODEL.PercMG, out iPerc, out iValue, out sRes);
 
-                MODEL.iFlexiAct = iPerc;
-                MODEL.lblResActualFlexi = sRes;
-                MODEL.Tricipital = Configs.GESTREINO_AVALIDO_SEXO == "Masculino" ? MODEL.Tricipital : MODEL.TricipitalFem;
+                //Cálculo de valores
+                CalculaValoresRemo2000(MODEL);
 
-                if (MODEL.ID > 0)
-                {
-                    (from c in databaseManager.GT_RespComposicao
-                     where c.ID == MODEL.ID
-                     select c).ToList().ForEach(fx => {
-                         fx.GT_TipoTesteComposicao_ID = MODEL.GT_TipoTesteComposicao_ID;
-                         fx.PESO = (!string.IsNullOrEmpty(MODEL.Actual)) ? decimal.Parse(MODEL.Actual, CultureInfo.InvariantCulture) : (Decimal?)null;
-                         fx.PESODESEJAVEL = MODEL.Desejavel;
-                         fx.PESOPERDER = MODEL.Aperder;
-                         fx.PERIMETRO_ABDOMINAL = MODEL.Abdominal;
-                         fx.PERIMETRO_CINTURA = MODEL.Cintura;
-                         fx.PERIMETRO_UMBIGO = MODEL.PerimetroUmbigo;
-                         fx.ABDOMINAL = MODEL.Abdominal;
-                         fx.TRICIPITAL = MODEL.Tricipital;
-                         fx.RESISTENCIA = MODEL.Resistencia;
-                         fx.PREGASTRICIPITAL = MODEL.Pregas;
-                         fx.PREGASSUPRALLIACA = MODEL.SupraIliacaFem;
-                         fx.PREGAS_ABDOMINAL = MODEL.AbdominalFem;
-                         fx.PREGAS_SUBESCAPULAR = MODEL.Subescapular;
-                         fx.PREGAS_PEITO = MODEL.Peitoral;
-                         fx.PERCMG = MODEL.PercMG;
-                         fx.MIG = MODEL.MIG;
-                         fx.MG = MODEL.MG;
-                         fx.MGDESEJAVEL = MODEL.PercMGDesejavel;
-                         fx.METABOLISMO = MODEL.MetabolismoRepouso;
-                         fx.ESTIMACAO = MODEL.Estimacao;
-                         fx.GT_TipoNivelActividade_ID = MODEL.GT_TipoNivelActividade_ID;
-                         fx.RESP_SUMMARY = iValue;
-                         fx.RESP_DESCRICAO = sRes;
-                         fx.PERCENTIL = iPerc;
-                         fx.ACTUALIZADO_POR = int.Parse(User.Identity.GetUserId()); fx.DATA_ACTUALIZACAO = DateTime.Now;
-                     });
-                    databaseManager.SaveChanges();
-                }
-                else
-                {
-                    GT_RespComposicao fx = new GT_RespComposicao();
-                    fx.GT_SOCIOS_ID = GT_SOCIOS_ID;
-                    fx.GT_TipoTesteComposicao_ID = MODEL.GT_TipoTesteComposicao_ID;
-                    fx.PESO = (!string.IsNullOrEmpty(MODEL.Actual)) ? decimal.Parse(MODEL.Actual, CultureInfo.InvariantCulture) : (Decimal?)null;
-                    fx.PESODESEJAVEL = MODEL.Desejavel;
-                    fx.PESOPERDER = MODEL.Aperder;
-                    fx.PERIMETRO_ABDOMINAL = MODEL.Abdominal;
-                    fx.PERIMETRO_CINTURA = MODEL.Cintura;
-                    fx.PERIMETRO_UMBIGO = MODEL.PerimetroUmbigo;
-                    fx.ABDOMINAL = MODEL.Abdominal;
-                    fx.TRICIPITAL = MODEL.Tricipital;
-                    fx.RESISTENCIA = MODEL.Resistencia;
-                    fx.PREGASTRICIPITAL = MODEL.Pregas;
-                    fx.PREGASSUPRALLIACA = MODEL.SupraIliacaFem;
-                    fx.PREGAS_ABDOMINAL = MODEL.AbdominalFem;
-                    fx.PREGAS_SUBESCAPULAR = MODEL.Subescapular;
-                    fx.PREGAS_PEITO = MODEL.Peitoral;
-                    fx.PERCMG = MODEL.PercMG;
-                    fx.MIG = MODEL.MIG;
-                    fx.MG = MODEL.MG;
-                    fx.MGDESEJAVEL = MODEL.PercMGDesejavel;
-                    fx.METABOLISMO = MODEL.MetabolismoRepouso;
-                    fx.ESTIMACAO = MODEL.Estimacao;
-                    fx.GT_TipoNivelActividade_ID = MODEL.GT_TipoNivelActividade_ID;
-                    fx.RESP_SUMMARY = iValue;
-                    fx.RESP_DESCRICAO = sRes;
-                    fx.PERCENTIL = iPerc;
-                    fx.INSERIDO_POR = int.Parse(User.Identity.GetUserId());
-                    fx.DATA_INSERCAO = DateTime.Now;
-                    databaseManager.GT_RespComposicao.Add(fx);
-                    databaseManager.SaveChanges();
+                //Cálculo do percentil, dá jeito ter na base de dados!!
+                ValorAct = Convert.ToDecimal(txtRemo2000Vo2.Text);
+                iPercentilAct = GetPercentilCardioresp(Convert.ToInt32(Sexo_), Idade_, ValorAct);
 
-                    MODEL.ID = fx.ID;
-                }
+                DoGetActualRemo2000(out iPerc, out iValue, out sRes);
 
-                if (GetValorAnteriorComposicao(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteComposicao_ID) != null)
-                {
-                    MODEL.iFlexiAnt = GetPercentilComposicao(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), GetValorAnteriorComposicao(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteComposicao_ID).Value);
-                    MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoComposicao(MODEL.iFlexiAnt.Value) : string.Empty;
-                }
 
-                MODEL.lblDataInsercao = databaseManager.GT_RespComposicao.Where(x => x.ID == MODEL.ID).Select(X => X.DATA_INSERCAO).FirstOrDefault();
+
+
+
                 ModelState.Clear();
             }
             catch (Exception ex)
             {
                 return Json(new { result = false, error = ex.Message });
             }
-            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_BodyComposition;
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Cardio;
             return View("Quest/Cardio", MODEL);
         }
 
@@ -4726,8 +4682,241 @@ namespace Gestreino.Controllers
                 iFlexi = null;
             return iFlexi;
         }
-    
 
+
+        //Cardio
+
+        private string DoGetDesejavel(string Sexo, int Idade)
+        {
+            switch (Sexo)
+            {
+                case "Masculino":
+                    if (Idade >= 17 && Idade <= 29)
+                        aCardioEscolhido = aCardio20_29M;
+                    else if (Idade >= 30 && Idade <= 39)
+                        aCardioEscolhido = aCardio30_39M;
+                    else if (Idade >= 40 && Idade <= 49)
+                        aCardioEscolhido = aCardio40_49M;
+                    else if (Idade >= 50 && Idade <= 59)
+                        aCardioEscolhido = aCardio50_59M;
+                    else if (Idade >= 60 && Idade <= 69)
+                        aCardioEscolhido = aCardio60_69M;
+                    break;
+                case "Feminino":
+                    if (Idade >= 17 && Idade <= 29)
+                        aCardioEscolhido = aCardio20_29F;
+                    else if (Idade >= 30 && Idade <= 39)
+                        aCardioEscolhido = aCardio30_39F;
+                    else if (Idade >= 40 && Idade <= 49)
+                        aCardioEscolhido = aCardio40_49F;
+                    else if (Idade >= 50 && Idade <= 59)
+                        aCardioEscolhido = aCardio50_59F;
+                    else if (Idade >= 60 && Idade <= 69)
+                        aCardioEscolhido = aCardio60_69F;
+                    break;
+            }
+
+            Array arrTemp;
+            arrTemp = (Array)aCardioEscolhido[0];
+            return Convert.ToString(arrTemp.GetValue(4)) + " a " + Convert.ToString(arrTemp.GetValue(2));
+        }
+
+        //2000 Metros
+        private void CalculaValoresRemo2000(Cardio MODEL)
+        {
+
+            MODEL.V02max= DoGetVo2MaxRemo2000();
+            MODEL.V02max = MODEL.V02max.ToString().Length > 5 ? Convert.ToDecimal(MODEL.V02max.ToString().Substring(0, 5)) : MODEL.V02max;
+
+            MODEL.V02Mets = DoGetVo2MetsRemo2000();
+            MODEL.V02Mets = MODEL.V02Mets.ToString().Length > 5 ? Convert.ToDecimal(MODEL.V02Mets.ToString().Substring(0, 5)) : MODEL.V02Mets;
+
+            MODEL.V02desejavel = DoGetDesejavel(Convert.ToInt32(Sexo_), Idade_);
+
+            MODEL.V02CustoCalMin = DoGetCustoCaloricoRemo2000()
+            MODEL.V02CustoCalMin = MODEL.V02CustoCalMin.ToString().Length > 5 ? Convert.ToDecimal(MODEL.V02CustoCalMin.ToString().Substring(0, 5)) : MODEL.V02CustoCalMin;
+
+        }
+
+
+        private decimal DoGetVo2MaxRemo2000()
+        {
+            decimal retValue;
+
+            retValue = ((Convert.ToDecimal(txtRemo2000Watts.Text) * Convert.ToDecimal(14.4) + 65) / Convert.ToDecimal(Peso_));
+
+            return retValue;
+
+        }
+
+
+        private decimal DoGetVo2MetsRemo2000()
+        {
+            decimal retValue;
+
+            retValue = DoGetVo2MaxRemo2000() / Convert.ToDecimal(3.5);
+
+            return retValue;
+        }
+
+
+        private decimal DoGetCustoCaloricoRemo2000()
+        {
+            decimal retValue;
+
+            retValue = (DoGetVo2MetsRemo2000() * Convert.ToDecimal(txtRemo2000Custo.Text)) / Convert.ToDecimal(100);
+
+            retValue = retValue - 1;
+
+            retValue = (retValue * Convert.ToDecimal(3.5) * Convert.ToDecimal(Peso_)) / Convert.ToDecimal(200);
+
+            return retValue;
+        }
+
+
+        private void DoGetActualRemo2000(out int iPerc, out decimal iValue, out string sRes)
+        {
+            int iPercentilAct;
+            decimal ValorAct = 0;
+
+            if (txtRemo2000Vo2.Text == string.Empty) txtRemo2000Vo2.Text = "0";
+            ValorAct = Convert.ToDecimal(txtRemo2000Vo2.Text);
+            iPercentilAct = GetPercentilCardioresp(Convert.ToInt32(Sexo_), Idade_, ValorAct);
+
+            sRes = GetResultadocardio(iPercentilAct);
+            iPerc = iPercentilAct;
+            iValue = ValorAct;
+        }
+
+        private void DoGraficoActualRemo2000()
+        {
+            int iPercentilAct;
+            decimal ValorAct = 0;
+
+            if (txtRemo2000Vo2.Text == string.Empty) return;
+            ValorAct = Convert.ToDecimal(txtRemo2000Vo2.Text);
+
+            iPercentilAct = GetPercentilCardioresp(Convert.ToInt32(Sexo_), Idade_, ValorAct);
+            CriaGraficoRemo2000Actual(iPercentilAct);
+
+            //Descrição do Resultado Actual
+            lblResActualRemo2000.Text = GetResultadocardio(iPercentilAct);
+
+        }
+
+
+        private void DoGraficoAnteriorRemo2000()
+        {
+            int iPercentilAnt = 0;
+            decimal ValorAnt = 0;
+
+            ValorAnt = GetValorAnteriorRemo2000();
+
+            if (ValorAnt == 0) return;
+
+            iPercentilAnt = GetPercentilCardioresp(Convert.ToInt32(Sexo_), Idade_, ValorAnt);
+            CriaGraficoremo2000Anterior(iPercentilAnt);
+
+            //Descrição do Resultado Anterior
+            lblResAnteriorRemo2000.Text = GetResultadocardio(iPercentilAnt);
+        }
+
+
+        private void CriaGraficoRemo2000Actual(int iPercentil)
+        {
+            //int iPercentil = GetPercentil(1,25,Convert.ToInt32(textBox1.Text));
+            int SizeX = (iPercentil * 500) / 100;
+
+            LabelGradient.LabelGradient labelGradient1;
+            labelGradient1 = new LabelGradient.LabelGradient();
+
+            labelGradient1.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
+            labelGradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            //labelGradient1.Font = new System.Drawing.Font("Arial Black", 13.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+            labelGradient1.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+            labelGradient1.GradientColorTwo = System.Drawing.Color.White;
+            labelGradient1.GradientColorOne = System.Drawing.Color.FromArgb(27, 78, 169);
+            labelGradient1.Location = new System.Drawing.Point(0, 0);
+            labelGradient1.ForeColor = System.Drawing.Color.White;
+            labelGradient1.Name = "labelGradient1";
+            labelGradient1.Size = new System.Drawing.Size(SizeX, 24);
+            labelGradient1.TabIndex = 0;
+            labelGradient1.Text = Convert.ToString(iPercentil) + "%";
+            labelGradient1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+
+            if (pnlGraficoRemo2000Act.Controls.Count > 0)
+                pnlGraficoRemo2000Act.Controls.RemoveAt(0);
+            pnlGraficoRemo2000Act.Controls.Add(labelGradient1);
+            pnlGraficoRemo2000Act.Refresh();
+        }
+
+
+        private void CriaGraficoremo2000Anterior(int iPercentil)
+        {
+            int SizeX = (iPercentil * 500) / 100;
+
+            LabelGradient.LabelGradient labelGradient1;
+            labelGradient1 = new LabelGradient.LabelGradient();
+
+            labelGradient1.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
+            labelGradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            //labelGradient1.Font = new System.Drawing.Font("Arial Black", 13.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+            labelGradient1.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+            labelGradient1.GradientColorTwo = System.Drawing.Color.White;
+            labelGradient1.GradientColorOne = System.Drawing.Color.Red;  //System.Drawing.Color.FromArgb(27,78,169);
+            labelGradient1.Location = new System.Drawing.Point(0, 0);
+            labelGradient1.ForeColor = System.Drawing.Color.White;
+            labelGradient1.Name = "labelGradient1";
+            labelGradient1.Size = new System.Drawing.Size(SizeX, 24);
+            labelGradient1.TabIndex = 0;
+            labelGradient1.Text = Convert.ToString(iPercentil) + "%";
+            labelGradient1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+
+            if (pnlGraficoRemo2000Ant.Controls.Count > 0)
+                pnlGraficoRemo2000Ant.Controls.RemoveAt(0);
+            pnlGraficoRemo2000Ant.Controls.Add(labelGradient1);
+            pnlGraficoRemo2000Ant.Refresh();
+        }
+
+
+        private decimal GetValorAnteriorRemo2000()
+        {
+            try
+            {
+                string strSQL;
+                string strConn;
+
+                OleDbDataReader oDataReader;
+                OleDbDataAdapter DBcommand;
+
+                strConn = General.getConnectionString();
+                OleDbConnection myConnection = new OleDbConnection(strConn);
+
+                strSQL = "SELECT TOP 1 Vo2Max FROM tbl_RespAptidaoCardio ";
+                strSQL += " WHERE IDSocio=" + Atleta_ + " AND CDate(Data) < #" + General.GetFormatData(Data_) + "# AND IDTipoTesteCardio= " + cmbTipoTeste.SelectedValue.ToString() + " ORDER BY CDate(Data) DESC";
+
+                General.TrataConnection(myConnection);
+
+                DBcommand = new OleDbDataAdapter();
+                DBcommand.SelectCommand = new OleDbCommand();
+                DBcommand.SelectCommand.Connection = myConnection;
+                DBcommand.SelectCommand.CommandText = strSQL;
+                DBcommand.SelectCommand.CommandType = CommandType.Text;
+                oDataReader = DBcommand.SelectCommand.ExecuteReader();
+
+                while (oDataReader.Read())
+                {
+                    return Convert.ToDecimal(oDataReader["Vo2Max"]);
+                }
+
+                return 0;
+
+            }
+            catch
+            {
+                return 0;
+            }
+        }
 
 
 

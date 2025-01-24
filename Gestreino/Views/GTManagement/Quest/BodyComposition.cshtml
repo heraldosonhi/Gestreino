@@ -140,11 +140,11 @@
                                                 </fieldset>
                                             </div>
                                         </div>
-
                                         <div class="row mb-2">
                                             <div class="col-md-12">
                                                 <fieldset class="mt-2">
                                                     <div id="weltman" style="display:@(Model.GT_TipoTesteComposicao_ID==2?"":"none")">
+                                                        <!--Weltman et al-->
                                                         <div class="row">
                                                             @Html.LabelFor(m => m.PerimetroUmbigo, new { @class = "col-md-5 col-form-label" })
                                                             <div class="col-md-2">
@@ -164,6 +164,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <!--Deurenberg et al-->
                                                     <div id="Deurenberg" class="row" style="display:@(Model.GT_TipoTesteComposicao_ID==3?"":"none")">
                                                         @Html.LabelFor(m => m.Resistencia, new { @class = "col-md-2 col-form-label" })
                                                         <div class="col-md-3">
@@ -297,7 +298,6 @@
                                                 </fieldset>
                                             </div>
                                         </div>
-
                                         <div class="row">
                                             @Html.LabelFor(m => m.PercMG, new { @class = "col-md-1 col-form-label" })
                                             <div class="col-md-2">

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 namespace Gestreino.Models
@@ -1099,68 +1100,74 @@ namespace Gestreino.Models
         public int? ID { get; set; }
         public int? PEsId { get; set; }
 
-        [Display(Name = "")]
-        public int GT_TipoNivelActividade_ID { get; set; }
-        public IEnumerable<System.Web.Mvc.SelectListItem> GT_TipoNivelActividade_List { get; set; }
-
         [Display(Name = "Método:")]
-        public int GT_TipoMetodoComposicao_ID { get; set; }
+        public int? GT_TipoMetodoComposicao_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> GT_TipoMetodoComposicao_List { get; set; }
 
         [Display(Name = "Protocolo:")]
-        public int GT_TipoTesteComposicao_ID { get; set; }
-        public IEnumerable<System.Web.Mvc.SelectListItem> GT_TipoTesteComposicao_List { get; set; }
+        public int? GT_TipoTesteCardio_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> GT_TipoTesteCardio_List { get; set; }
+        //
+        public decimal? V02Mets { get; set; }
+        public decimal? V02CustoCalMin { get; set; }
 
-        //[Display(Name = "Peso:")]
-        //public string Peso { get; set; }
-        [Display(Name = "Perímetro:")]
-        public int? Perimetro { get; set; }
-        [Display(Name = "Actual:")]
-        public string Actual { get; set; }
-        [Display(Name = "Abdominal:")]
-        public int? Abdominal { get; set; }
-        [Display(Name = "Desejável:")]
-        public string Desejavel { get; set; }
-        [Display(Name = "Cintura:")]
-        public int? Cintura { get; set; }
-        [Display(Name = "A perder:")]
-        public decimal? Aperder { get; set; }
-        //[Display(Name = "Circunferências:")]
-        //public int? Circunferencia { get; set; }
-        [Display(Name = "Perímetro entre a apêndice xifóide e umbigo?:")]
-        public int? PerimetroUmbigo { get; set; }
-        [Display(Name = "Resistência:")]
-        public int? Resistencia { get; set; }
-        [Display(Name = "Pregas:")]
-        public int? Pregas { get; set; }
-        [Display(Name = "Peitoral:")]
-        public int? Peitoral { get; set; }
-        [Display(Name = "Tricipital:")]
-        public int? Tricipital { get; set; }
-        [Display(Name = "Subescapular:")]
-        public int? Subescapular { get; set; }
-        [Display(Name = "%MG:")]
-        public decimal? PercMG { get; set; }
-        [Display(Name = "MIG:")]
-        public decimal? MIG { get; set; }
-        [Display(Name = "MG:")]
-        public decimal? MG { get; set; }
-        [Display(Name = "IMC:")]
-        public int? IMC { get; set; }
+        [Display(Name = "VO2 máx.:")]
+        public decimal? V02max { get; set; }
+        [Display(Name = "VO2 Desejável:")]
+        public int? V02desejavel { get; set; }
 
-        [Display(Name = "Metabolismo de Repouso:")]
-        public decimal? MetabolismoRepouso { get; set; }
-        [Display(Name = "Estimação:")]
-        public decimal? Estimacao { get; set; }
-        [Display(Name = "% MG Desejável:")]
-        public string PercMGDesejavel { get; set; }
+        [Display(Name = "Custo calórico do exercicío:")]
+        public int? CustoCalorico { get; set; }
 
-        [Display(Name = "Tricipital:")]
-        public int? TricipitalFem { get; set; }
-        [Display(Name = "SupraIlíaca:")]
-        public int? SupraIliacaFem { get; set; }
-        [Display(Name = "Abdominal:")]
-        public int? AbdominalFem { get; set; }
+        [Display(Name = "Tempo de realização dos 2000 M:")]
+        public int? TempoRealizacao200 { get; set; }
+
+        [Display(Name = "Média Watts:")]
+        public int? MediaWatts { get; set; }
+
+        [Display(Name = "Distância percorrida em 12 m:")]
+        public int? Distancia12m { get; set; }
+
+        [Display(Name = "Tempo a percorrer 1600 m:")]
+        public int? Tempo1600m { get; set; }
+
+        [Display(Name = "Frequência cardíaca no últimos 400m:")]
+        public int? Frequencia400m { get; set; }
+
+        [Display(Name = "Frequência cardíaca no fim do teste:")]
+        public int? FrequenciaFimTeste { get; set; }
+
+        [Display(Name = "Média da frequência cardíaca:")]
+        public int? MediaFrequencia { get; set; }
+
+        [Display(Name = "FC 15 seg. depois do teste:")]
+        public int? FC15sec { get; set; }
+
+        [Display(Name = "FC aos 3 minutos:")]
+        public int? FC3min { get; set; }
+
+        [Display(Name = "Velocidade:")]
+        public int? Velocidade { get; set; }
+
+        [Display(Name = "Factor de correcção:")]
+        public int? FactorCorrecao { get; set; }
+
+        [Display(Name = "Carga:")]
+        public int? Carga { get; set; }
+
+        [Display(Name = "FC 4º minuto:")]
+        public int? FC4min { get; set; }
+
+        [Display(Name = "FC 5º minuto:")]
+        public int? FC5min { get; set; }
+
+        [Display(Name = "Valor Médio FC:")]
+        public int? ValorMedioFC { get; set; }
+
+        [Display(Name = "VO2 Carga:")]
+        public int? VO2Carga { get; set; }
+
+        //
         public int? iFlexiAct { get; set; }
         public string lblResActualFlexi { get; set; }
         public int? iFlexiAnt { get; set; }
