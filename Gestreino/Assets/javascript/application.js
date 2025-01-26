@@ -4347,6 +4347,7 @@ function loadGT_TipoTesteCardio_List(id) {
         //$('#ymca').find('input').val('');
     }
 }
+//Elderly
 function loadGT_TipoTestePessoaIdosa_List(id) {
     if (id == '3') {
         $('#DesejavelShow').hide();

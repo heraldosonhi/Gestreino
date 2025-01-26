@@ -1238,13 +1238,13 @@ namespace Gestreino.Models
         public decimal? PesoDesejavel { get; set; }
 
         [Display(Name = "IMC:")]
-        public decimal? IMC { get; set; }
+        public int? IMC { get; set; }
 
         [Display(Name = "% MG:")]
         public decimal? MG { get; set; }
 
         [Display(Name = "% MG Desejável:")]
-        public decimal? MGDesejavel { get; set; }
+        public string MGDesejavel { get; set; }
 
         public decimal? Valor { get; set; }
         public int? iFlexiAct { get; set; }

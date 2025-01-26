@@ -27,6 +27,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Infrastructure;
 using System.Data.OleDb;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 
 namespace Gestreino.Controllers
 {
@@ -3718,6 +3719,7 @@ namespace Gestreino.Controllers
                 MODEL.CustoCalorico = data.First().CUSTO;
                 MODEL.V02CustoCalMin = data.First().CUSTOCAL;
                 MODEL.V02desejavel = data.First().VO2DESEJAVEL;
+                MODEL.lblDataInsercao = data.First().DATA_INSERCAO;
 
                 int iPerc = 0;
                 decimal iValue = 0;
@@ -4048,33 +4050,70 @@ namespace Gestreino.Controllers
 
             if (Id > 0)
             {
-                var data = databaseManager.GT_RespComposicao.Where(x => x.ID == Id).ToList();
+                var data = databaseManager.GT_RespPessoaIdosa.Where(x => x.ID == Id).ToList();
                 if (data.Count() == 0)
                     return RedirectToAction("elderly", "gtmanagement", new { Id = string.Empty });
                 ViewBag.data = data;
                 MODEL.ID = Id;
-               // MODEL.GT_TipoTesteComposicao_ID = data.First().GT_TipoTesteComposicao_ID;
-               // MODEL.GT_TipoMetodoComposicao_ID = databaseManager.GT_TipoTesteComposicao.Where(x => x.ID == MODEL.GT_TipoTesteComposicao_ID).Select(x => x.GT_TipoMetodoComposicao_ID).FirstOrDefault();
+                MODEL.GT_TipoTestePessoaIdosa_ID= data.First().GT_TipoTestePessoaIdosa_ID;
+                MODEL.NElevacoes= data.First().VALOR;
+                MODEL.NFlexoes= data.First().VALOR;
+                MODEL.DistanciaSentarAlcancar= data.First().VALOR;
+                MODEL.TempoAgilidade= data.First().VALOR;
+                MODEL.DistanciaAlcancar= data.First().VALOR;
+                MODEL.DistanciaAndar= data.First().VALOR;
+                MODEL.SubidasStep= data.First().VALOR;
+                MODEL.Desejavel = data.First().VALOR_DESEJAVEL;
+                MODEL.MGDesejavel= data.First().VALOR_DESEJAVEL;
+                MODEL.MG= data.First().PERCMG;
+                MODEL.PesoDesejavel= data.First().VALOR;
+                MODEL.lblDataInsercao = data.First().DATA_INSERCAO;
+                MODEL.Valor = data.First().VALOR;
+                if (MODEL.GT_TipoTestePessoaIdosa_ID==3)
+                    MODEL.IMC = databaseManager.PES_PESSOAS_CARACT.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(X => X.IMC).FirstOrDefault();
 
-              
+                DoLoadValuesPercentilElevacoes();
+                DoLoadValuesPercentilFlexoes();
+                DoLoadValuesPercentilPeso();
+                DoLoadValuesPercentilSentarAlcancar();
+                DoLoadValuesPercentilAgilidade();
+                DoLoadValuesPercentilAlcancarPessoaIdosa();
+                DoLoadValuesPercentilAndar();
+                DoLoadValuesPercentilStep();
+
+                SetValueDesejado(MODEL);
+
                 int iPerc;
                 decimal iValue;
                 string sRes;
-                //DoLoadValuesPercentilComposicao();
-                //DoGetActualComposicao(MODEL.PercMG, out iPerc, out iValue, out sRes);
 
-               // MODEL.iFlexiAct = iPerc;
-               // MODEL.lblResActualFlexi = sRes;
+                DoGetActualPessoaIdosa(MODEL.GT_TipoTestePessoaIdosa_ID == 3 ? MODEL.IMC : MODEL.Valor, MODEL.GT_TipoTestePessoaIdosa_ID, out iPerc, out iValue, out sRes);
+                MODEL.iFlexiAct = iPerc;
+                MODEL.lblResActualFlexi = sRes;
 
-                //if (GetValorAnteriorComposicao(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteComposicao_ID) != null)
-                //{
-               //     MODEL.iFlexiAnt = GetPercentilComposicao(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), GetValorAnteriorComposicao(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteComposicao_ID).Value);
-                //    MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoComposicao(MODEL.iFlexiAnt.Value) : string.Empty;
-               // }
+                if (GetValorAnteriorPessoaIdosa(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID) != null)
+                {
+                    if (MODEL.GT_TipoTestePessoaIdosa_ID == 1)
+                        MODEL.iFlexiAnt = GetPercentilElevacoes(GetValorAnteriorPessoaIdosa(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTestePessoaIdosa_ID == 2)
+                        MODEL.iFlexiAnt = GetPercentilFlexoes(GetValorAnteriorPessoaIdosa(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTestePessoaIdosa_ID == 3)
+                        MODEL.iFlexiAnt = GetPercentilPeso(GetValorAnteriorPessoaIdosa(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTestePessoaIdosa_ID == 4)
+                        MODEL.iFlexiAnt = GetPercentilSentarAlcancar(GetValorAnteriorPessoaIdosa(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTestePessoaIdosa_ID == 5)
+                        MODEL.iFlexiAnt = GetPercentilAgilidade(GetValorAnteriorPessoaIdosa(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTestePessoaIdosa_ID == 6)
+                        MODEL.iFlexiAnt = GetPercentilAlcancar(GetValorAnteriorPessoaIdosa(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTestePessoaIdosa_ID == 7)
+                        MODEL.iFlexiAnt = GetPercentilAndar(GetValorAnteriorPessoaIdosa(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTestePessoaIdosa_ID == 8)
+                        MODEL.iFlexiAnt = GetPercentilStep(GetValorAnteriorPessoaIdosa(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+
+                    MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoElderly(MODEL.iFlexiAnt.Value) : string.Empty;
+                }
+
             }
-
-            //MODEL.GT_TipoTesteComposicao_List = databaseManager.GT_TipoTesteComposicao.Where(x => x.GT_TipoMetodoComposicao_ID == MODEL.GT_TipoMetodoComposicao_ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
-
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Elderly;
             return View("Quest/Elderly", MODEL);
         }
@@ -4097,11 +4136,29 @@ namespace Gestreino.Controllers
                 }
 
                 GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
+                MODEL.IMC = databaseManager.PES_PESSOAS_CARACT.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(X => X.IMC).FirstOrDefault();
+
+                DoLoadValuesPercentilElevacoes();
+                DoLoadValuesPercentilFlexoes();
+                DoLoadValuesPercentilPeso();
+                DoLoadValuesPercentilSentarAlcancar();
+                DoLoadValuesPercentilAgilidade();
+                DoLoadValuesPercentilAlcancarPessoaIdosa();
+                DoLoadValuesPercentilAndar();
+                DoLoadValuesPercentilStep();
+
+                SetValueDesejado(MODEL);
+               
+                int iPerc;
+                decimal iValue;
+                string sRes;
 
                 if (MODEL.GT_TipoTestePessoaIdosa_ID == 1)
                     MODEL.Valor = MODEL.NElevacoes;
                 if (MODEL.GT_TipoTestePessoaIdosa_ID == 2)
                     MODEL.Valor = MODEL.NFlexoes;
+                if (MODEL.GT_TipoTestePessoaIdosa_ID == 3)
+                    MODEL.Valor = MODEL.PesoDesejavel;
                 if (MODEL.GT_TipoTestePessoaIdosa_ID == 4)
                     MODEL.Valor = MODEL.DistanciaSentarAlcancar;
                 if (MODEL.GT_TipoTestePessoaIdosa_ID == 5)
@@ -4113,29 +4170,27 @@ namespace Gestreino.Controllers
                 if (MODEL.GT_TipoTestePessoaIdosa_ID == 8)
                     MODEL.Valor = MODEL.SubidasStep;
 
-                //Colocar default values nos campos
-            
-
-                SetValueDesejado(MODEL);
-
-                DoGetActualPessoaIdosa(out iPerc, out iValue, out sRes);
-
-                DoLoadValuesPercentilComposicao();
-                DoCalculaValores(MODEL);
-
-                int iPerc;
-                decimal iValue;
-                string sRes;
-
-                DoGetActualComposicao(MODEL.PercMG, out iPerc, out iValue, out sRes);
-
+                DoGetActualPessoaIdosa(MODEL.GT_TipoTestePessoaIdosa_ID==3?MODEL.IMC:MODEL.Valor, MODEL.GT_TipoTestePessoaIdosa_ID,out iPerc, out iValue, out sRes);
                 MODEL.iFlexiAct = iPerc;
                 MODEL.lblResActualFlexi = sRes;
-                MODEL.Tricipital = Configs.GESTREINO_AVALIDO_SEXO == "Masculino" ? MODEL.Tricipital : MODEL.TricipitalFem;
-
+                
                 if (MODEL.ID > 0)
                 {
-                    
+                    (from c in databaseManager.GT_RespPessoaIdosa
+                     where c.ID == MODEL.ID
+                     select c).ToList().ForEach(fx => {
+                         fx.PERCMG = MODEL.MG;
+                         fx.VALOR = MODEL.Valor;
+                         fx.VALOR_DESEJAVEL =MODEL.GT_TipoTestePessoaIdosa_ID==3?MODEL.MGDesejavel: MODEL.Desejavel;
+                         if (MODEL.GT_TipoTestePessoaIdosa_ID == 3)
+                             fx.RESP_SUMMARY = Convert.ToDecimal(MODEL.IMC);
+                         else
+                             fx.RESP_SUMMARY = iValue;
+                         fx.RES_DESCRICAO = sRes;
+                         fx.PERCENTIL = iPerc;
+                         fx.ACTUALIZADO_POR = int.Parse(User.Identity.GetUserId()); fx.DATA_ACTUALIZACAO = DateTime.Now;
+                     });
+                    databaseManager.SaveChanges();
                 }
                 else
                 {
@@ -4144,8 +4199,11 @@ namespace Gestreino.Controllers
                     fx.GT_TipoTestePessoaIdosa_ID = MODEL.GT_TipoTestePessoaIdosa_ID;
                     fx.PERCMG = MODEL.MG;
                     fx.VALOR = MODEL.Valor;
-                    fx.VALOR_DESEJAVEL = MODEL.Desejavel;
-                    fx.RESP_SUMMARY = iValue;
+                    fx.VALOR_DESEJAVEL = MODEL.GT_TipoTestePessoaIdosa_ID == 3 ? MODEL.MGDesejavel : MODEL.Desejavel;
+                    if (MODEL.GT_TipoTestePessoaIdosa_ID == 3)
+                        fx.RESP_SUMMARY = Convert.ToDecimal(MODEL.IMC);
+                    else
+                        fx.RESP_SUMMARY = iValue;
                     fx.RES_DESCRICAO = sRes;
                     fx.PERCENTIL = iPerc;
                     fx.INSERIDO_POR = int.Parse(User.Identity.GetUserId());
@@ -4156,10 +4214,26 @@ namespace Gestreino.Controllers
                     MODEL.ID = fx.ID;
                 }
 
-                if (GetValorAnteriorComposicao(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteComposicao_ID) != null)
+                if (GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID) != null)
                 {
-                    MODEL.iFlexiAnt = GetPercentilComposicao(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), GetValorAnteriorComposicao(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteComposicao_ID).Value);
-                    MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoComposicao(MODEL.iFlexiAnt.Value) : string.Empty;
+                    if (MODEL.GT_TipoTestePessoaIdosa_ID == 1)
+                        MODEL.iFlexiAnt = GetPercentilElevacoes(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTestePessoaIdosa_ID == 2)
+                        MODEL.iFlexiAnt = GetPercentilFlexoes(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTestePessoaIdosa_ID == 3)
+                        MODEL.iFlexiAnt = GetPercentilPeso(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTestePessoaIdosa_ID == 4)
+                        MODEL.iFlexiAnt = GetPercentilSentarAlcancar(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTestePessoaIdosa_ID == 5)
+                        MODEL.iFlexiAnt = GetPercentilAgilidade(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTestePessoaIdosa_ID == 6)
+                        MODEL.iFlexiAnt = GetPercentilAlcancar(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTestePessoaIdosa_ID == 7)
+                        MODEL.iFlexiAnt = GetPercentilAndar(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTestePessoaIdosa_ID == 8)
+                        MODEL.iFlexiAnt = GetPercentilStep(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+
+                    MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoElderly(MODEL.iFlexiAnt.Value) : string.Empty;
                 }
 
                 MODEL.lblDataInsercao = databaseManager.GT_RespComposicao.Where(x => x.ID == MODEL.ID).Select(X => X.DATA_INSERCAO).FirstOrDefault();
@@ -4616,6 +4690,48 @@ namespace Gestreino.Controllers
         private ArrayList aPercentil = new ArrayList(10);
         private ArrayList aEscolhido = new ArrayList(9);
 
+        private void DoLoadValuesPercentilComposicao()
+        {
+            aComp20_29M.Clear();
+            aComp20_29F.Clear();
+            aComp30_39M.Clear();
+            aComp30_39F.Clear();
+            aComp40_49M.Clear();
+            aComp40_49F.Clear();
+            aComp50_59M.Clear();
+            aComp50_59F.Clear();
+            aComp60_69M.Clear();
+            aComp60_69F.Clear();
+            aCompPercentil.Clear();
+            aCompEscolhido.Clear();
+
+            //Carregamento de Valores
+            aComp20_29M.Add(new Object[9] { 7.1, 9.4, 11.8, 14.1, 15.9, 17.4, 19.5, 22.4, 25.9 });
+            aComp20_29F.Add(new Object[9] { 14.5, 17.1, 19.0, 20.6, 22.1, 23.7, 25.4, 27.7, 32.1 });
+
+            aComp30_39M.Add(new Object[9] { 11.3, 13.9, 15.9, 17.5, 19, 20.5, 22.3, 24.2, 27.3 });
+            aComp30_39F.Add(new Object[9] { 15.5, 18, 20, 21.6, 23.1, 24.9, 27, 29.3, 32.8 });
+
+            aComp40_49M.Add(new Object[9] { 13.6, 16.3, 18.1, 19.6, 21.1, 22.5, 24.1, 26.1, 28.9 });
+            aComp40_49F.Add(new Object[9] { 18.5, 21.3, 23.5, 24.9, 26.4, 28.1, 30.1, 32.1, 35 });
+
+            aComp50_59M.Add(new Object[9] { 15.3, 17.9, 19.8, 21.3, 22.7, 24.1, 25.7, 27.5, 30.3 });
+            aComp50_59F.Add(new Object[9] { 21.6, 25, 26.6, 28.5, 30.1, 31.6, 33.5, 35.6, 37.9 });
+
+            aComp60_69M.Add(new Object[9] { 15.3, 18.4, 20.3, 22, 23.5, 25, 26.7, 28.5, 31.2 });
+            aComp60_69F.Add(new Object[9] { 21.1, 25.1, 27.5, 29.3, 30.9, 32.5, 34.3, 36.6, 39.3 });
+
+            aCompPercentil.Add(100);
+            aCompPercentil.Add(90);
+            aCompPercentil.Add(80);
+            aCompPercentil.Add(70);
+            aCompPercentil.Add(60);
+            aCompPercentil.Add(50);
+            aCompPercentil.Add(40);
+            aCompPercentil.Add(30);
+            aCompPercentil.Add(20);
+            aCompPercentil.Add(10);
+        }
         private void DoLoadValuesPercentilAlcancar()
         {
             a20_29M.Clear();
@@ -4929,48 +5045,7 @@ namespace Gestreino.Controllers
         private ArrayList aCompPercentil = new ArrayList(9);
         private ArrayList aCompEscolhido = new ArrayList(9);
 
-        private void DoLoadValuesPercentilComposicao()
-        {
-            aComp20_29M.Clear();
-            aComp20_29F.Clear();
-            aComp30_39M.Clear();
-            aComp30_39F.Clear();
-            aComp40_49M.Clear();
-            aComp40_49F.Clear();
-            aComp50_59M.Clear();
-            aComp50_59F.Clear();
-            aComp60_69M.Clear();
-            aComp60_69F.Clear();
-            aCompPercentil.Clear();
-            aCompEscolhido.Clear();
-
-            //Carregamento de Valores
-            aComp20_29M.Add(new Object[9] { 7.1, 9.4, 11.8, 14.1, 15.9, 17.4, 19.5, 22.4, 25.9 });
-            aComp20_29F.Add(new Object[9] { 14.5, 17.1, 19.0, 20.6, 22.1, 23.7, 25.4, 27.7, 32.1 });
-
-            aComp30_39M.Add(new Object[9] { 11.3, 13.9, 15.9, 17.5, 19, 20.5, 22.3, 24.2, 27.3 });
-            aComp30_39F.Add(new Object[9] { 15.5, 18, 20, 21.6, 23.1, 24.9, 27, 29.3, 32.8 });
-
-            aComp40_49M.Add(new Object[9] { 13.6, 16.3, 18.1, 19.6, 21.1, 22.5, 24.1, 26.1, 28.9 });
-            aComp40_49F.Add(new Object[9] { 18.5, 21.3, 23.5, 24.9, 26.4, 28.1, 30.1, 32.1, 35 });
-
-            aComp50_59M.Add(new Object[9] { 15.3, 17.9, 19.8, 21.3, 22.7, 24.1, 25.7, 27.5, 30.3 });
-            aComp50_59F.Add(new Object[9] { 21.6, 25, 26.6, 28.5, 30.1, 31.6, 33.5, 35.6, 37.9 });
-
-            aComp60_69M.Add(new Object[9] { 15.3, 18.4, 20.3, 22, 23.5, 25, 26.7, 28.5, 31.2 });
-            aComp60_69F.Add(new Object[9] { 21.1, 25.1, 27.5, 29.3, 30.9, 32.5, 34.3, 36.6, 39.3 });
-
-            aCompPercentil.Add(100);
-            aCompPercentil.Add(90);
-            aCompPercentil.Add(80);
-            aCompPercentil.Add(70);
-            aCompPercentil.Add(60);
-            aCompPercentil.Add(50);
-            aCompPercentil.Add(40);
-            aCompPercentil.Add(30);
-            aCompPercentil.Add(20);
-            aCompPercentil.Add(10);
-        }
+       
         private string DoSetEsperadoComposicao(string Sexo, int Idade)
         {
             switch (Sexo)
@@ -5118,7 +5193,6 @@ namespace Gestreino.Controllers
                 iFlexi = null;
             return iFlexi;
         }
-
 
 
         //Cardio
@@ -5878,7 +5952,6 @@ namespace Gestreino.Controllers
         private ArrayList aElevacoesPercentil = new ArrayList(5);
         private ArrayList aElevacoesEscolhido = new ArrayList(5);
 
-        //Flexoes - 2
         private ArrayList aFlexoes60_64M = new ArrayList(5);
         private ArrayList aFlexoes60_64F = new ArrayList(5);
         private ArrayList aFlexoes65_69M = new ArrayList(5);
@@ -5897,7 +5970,6 @@ namespace Gestreino.Controllers
         private ArrayList aFlexoesPercentil = new ArrayList(5);
         private ArrayList aFlexoesEscolhido = new ArrayList(5);
 
-        //Peso - 3
         private ArrayList aIdades = new ArrayList(20);
         private ArrayList aValoresM = new ArrayList(20);
         private ArrayList aValoresF = new ArrayList(20);
@@ -5920,7 +5992,6 @@ namespace Gestreino.Controllers
         private ArrayList aPesoPercentil = new ArrayList(5);
         private ArrayList aPesoEscolhido = new ArrayList(5);
 
-        //Sentar Alcancar - 4
         private ArrayList aSentarAlcancar60_64M = new ArrayList(5);
         private ArrayList aSentarAlcancar60_64F = new ArrayList(5);
         private ArrayList aSentarAlcancar65_69M = new ArrayList(5);
@@ -5939,7 +6010,6 @@ namespace Gestreino.Controllers
         private ArrayList aSentarAlcancarPercentil = new ArrayList(5);
         private ArrayList aSentarAlcancarEscolhido = new ArrayList(5);
 
-        //AGILIDADE  - 5
         private ArrayList aAgilidade60_64M = new ArrayList(5);
         private ArrayList aAgilidade60_64F = new ArrayList(5);
         private ArrayList aAgilidade65_69M = new ArrayList(5);
@@ -5958,8 +6028,6 @@ namespace Gestreino.Controllers
         private ArrayList aAgilidadePercentil = new ArrayList(5);
         private ArrayList aAgilidadeEscolhido = new ArrayList(5);
 
-
-        //Alcancar  - 7
         private ArrayList aAlcancar60_64M = new ArrayList(5);
         private ArrayList aAlcancar60_64F = new ArrayList(5);
         private ArrayList aAlcancar65_69M = new ArrayList(5);
@@ -5978,7 +6046,6 @@ namespace Gestreino.Controllers
         private ArrayList aAlcancarPercentil = new ArrayList(5);
         private ArrayList aAlcancarEscolhido = new ArrayList(5);
 
-        //Alcancar  - 7
         private ArrayList aAndar60_64M = new ArrayList(5);
         private ArrayList aAndar60_64F = new ArrayList(5);
         private ArrayList aAndar65_69M = new ArrayList(5);
@@ -5997,7 +6064,6 @@ namespace Gestreino.Controllers
         private ArrayList aAndarPercentil = new ArrayList(5);
         private ArrayList aAndarEscolhido = new ArrayList(5);
 
-        //Alcancar  - 8
         private ArrayList aStep60_64M = new ArrayList(5);
         private ArrayList aStep60_64F = new ArrayList(5);
         private ArrayList aStep65_69M = new ArrayList(5);
@@ -6063,6 +6129,368 @@ namespace Gestreino.Controllers
             aElevacoesPercentil.Add(25);
             aElevacoesPercentil.Add(10);
         }
+        private void DoLoadValuesPercentilAlcancarPessoaIdosa()
+        {
+            aAlcancar60_64M.Clear();
+            aAlcancar60_64F.Clear();
+            aAlcancar65_69M.Clear();
+            aAlcancar65_69F.Clear();
+            aAlcancar70_74M.Clear();
+            aAlcancar70_74F.Clear();
+            aAlcancar75_79M.Clear();
+            aAlcancar75_79F.Clear();
+            aAlcancar80_84M.Clear();
+            aAlcancar80_84F.Clear();
+            aAlcancar85_89M.Clear();
+            aAlcancar85_89F.Clear();
+            aAlcancar90_94M.Clear();
+            aAlcancar90_94F.Clear();
+            aAlcancarPercentil.Clear();
+            aAlcancarEscolhido.Clear();
+
+            //Carregamento de Valores
+            aAlcancar60_64M.Add(new Object[5] { 6.35, 0, -8.89, -16.51, -25.40 });
+            aAlcancar60_64F.Add(new Object[5] { 10.16, 3.81, -1.27, -7.62, -13.97 });
+
+            aAlcancar65_69M.Add(new Object[5] { 5.08, -2.54, -10.16, -19.05, -26.67 });
+            aAlcancar65_69F.Add(new Object[5] { 8.89, 3.81, -2.54, -8.89, -15.24 });
+
+            aAlcancar70_74M.Add(new Object[5] { 5.08, -2.54, -11.43, -20.32, -27.94 });
+            aAlcancar70_74F.Add(new Object[5] { 7.62, 2.54, -3.81, -10.16, -16.51 });
+
+            aAlcancar75_79M.Add(new Object[5] { 2.54, -5.08, -13.97, -22.86, -30.48 });
+            aAlcancar75_79F.Add(new Object[5] { 7.62, 1.27, -5.08, -12.60, -19.05 });
+
+            aAlcancar80_84M.Add(new Object[5] { 2.54, -5.08, -13.97, -24.13, -31.75 });
+            aAlcancar80_84F.Add(new Object[5] { 6.35, 0, -6.35, -12.7, -20.32 });
+
+            aAlcancar85_89M.Add(new Object[5] { 0, -7.62, -15.24, -25.40, -31.75 });
+            aAlcancar85_89F.Add(new Object[5] { 5.08, -2.54, -10.16, -17.78, -25.40 });
+
+            aAlcancar90_94M.Add(new Object[5] { -2.54, -10.16, -17.78, -26.67, -34.29 });
+            aAlcancar90_94F.Add(new Object[5] { 5.08, -2.54, -11.43, -20.32, -29.21 });
+
+            aAlcancarPercentil.Add(100);
+            aAlcancarPercentil.Add(90);
+            aAlcancarPercentil.Add(75);
+            aAlcancarPercentil.Add(50);
+            aAlcancarPercentil.Add(25);
+            aAlcancarPercentil.Add(10);
+        }
+        private void DoLoadValuesPercentilFlexoes()
+        {
+            aFlexoes60_64M.Clear();
+            aFlexoes60_64F.Clear();
+            aFlexoes65_69M.Clear();
+            aFlexoes65_69F.Clear();
+            aFlexoes70_74M.Clear();
+            aFlexoes70_74F.Clear();
+            aFlexoes75_79M.Clear();
+            aFlexoes75_79F.Clear();
+            aFlexoes80_84M.Clear();
+            aFlexoes80_84F.Clear();
+            aFlexoes85_89M.Clear();
+            aFlexoes85_89F.Clear();
+            aFlexoes90_94M.Clear();
+            aFlexoes90_94F.Clear();
+            aFlexoesPercentil.Clear();
+            aFlexoesEscolhido.Clear();
+
+            //Carregamento de Valores
+            aFlexoes60_64M.Add(new Object[5] { 25, 22, 19, 16, 13 });
+            aFlexoes60_64F.Add(new Object[5] { 22, 19, 16, 13, 10 });
+
+            aFlexoes65_69M.Add(new Object[5] { 25, 21, 18, 15, 12 });
+            aFlexoes65_69F.Add(new Object[5] { 21, 18, 15, 12, 10 });
+
+            aFlexoes70_74M.Add(new Object[5] { 24, 21, 17, 14, 11 });
+            aFlexoes70_74F.Add(new Object[5] { 20, 17, 15, 12, 9 });
+
+            aFlexoes75_79M.Add(new Object[5] { 22, 19, 16, 13, 10 });
+            aFlexoes75_79F.Add(new Object[5] { 20, 17, 14, 11, 8 });
+
+            aFlexoes80_84M.Add(new Object[5] { 21, 19, 16, 13, 10 });
+            aFlexoes80_84F.Add(new Object[5] { 18, 16, 13, 10, 8 });
+
+            aFlexoes85_89M.Add(new Object[5] { 19, 17, 14, 11, 8 });
+            aFlexoes85_89F.Add(new Object[5] { 17, 15, 12, 10, 7 });
+
+            aFlexoes90_94M.Add(new Object[5] { 17, 14, 12, 10, 7 });
+            aFlexoes90_94F.Add(new Object[5] { 16, 13, 11, 8, 6 });
+
+            aFlexoesPercentil.Add(100);
+            aFlexoesPercentil.Add(90);
+            aFlexoesPercentil.Add(75);
+            aFlexoesPercentil.Add(50);
+            aFlexoesPercentil.Add(25);
+            aFlexoesPercentil.Add(10);
+        }
+        private void DoLoadValuesPercentilPeso()
+        {
+            aPeso60_64M.Clear();
+            aPeso60_64F.Clear();
+            aPeso65_69M.Clear();
+            aPeso65_69F.Clear();
+            aPeso70_74M.Clear();
+            aPeso70_74F.Clear();
+            aPeso75_79M.Clear();
+            aPeso75_79F.Clear();
+            aPeso80_84M.Clear();
+            aPeso80_84F.Clear();
+            aPeso85_89M.Clear();
+            aPeso85_89F.Clear();
+            aPeso90_94M.Clear();
+            aPeso90_94F.Clear();
+            aPesoPercentil.Clear();
+            aPesoEscolhido.Clear();
+
+            //Carregamento de Valores
+            aPeso60_64M.Add(new Object[5] { 32.8, 30.2, 27.4, 24.6, 22 });
+            aPeso60_64F.Add(new Object[5] { 33, 29.8, 26.3, 22.8, 19.6 });
+
+            aPeso65_69M.Add(new Object[5] { 32.9, 30.3, 27.5, 24.7, 22.1 });
+            aPeso65_69F.Add(new Object[5] { 33.2, 30, 26.5, 23, 19.8 });
+
+            aPeso70_74M.Add(new Object[5] { 31.6, 29.2, 26.6, 24, 21.6 });
+            aPeso70_74F.Add(new Object[5] { 31.9, 29.1, 26.1, 23.1, 20 });
+
+            aPeso75_79M.Add(new Object[5] { 31.4, 29, 26.4, 23.8, 21.4 });
+            aPeso75_79F.Add(new Object[5] { 31, 28.3, 5.4, 22.5, 19.8 });
+
+            aPeso80_84M.Add(new Object[5] { 30.5, 28.4, 26.1, 23.8, 21.7 });
+            aPeso80_84F.Add(new Object[5] { 30, 27.4, 24.7, 22, 19 });
+
+            aPeso85_89M.Add(new Object[5] { 28, 26.5, 24.9, 23.3, 21.8 });
+            aPeso85_89F.Add(new Object[5] { 29, 26.8, 24.3, 21.8, 19.5 });
+
+            aPeso90_94M.Add(new Object[5] { 29.6, 27.4, 24.9, 22.4, 20.2 });
+            aPeso90_94F.Add(new Object[5] { 29.5, 27.1, 24.1, 21.1, 18.3 });
+
+            aPesoPercentil.Add(100);
+            aPesoPercentil.Add(90);
+            aPesoPercentil.Add(75);
+            aPesoPercentil.Add(50);
+            aPesoPercentil.Add(25);
+            aPesoPercentil.Add(10);
+        }
+        private void DoLoadValuesPercentilSentarAlcancar()
+        {
+            aSentarAlcancar60_64M.Clear();
+            aSentarAlcancar60_64F.Clear();
+            aSentarAlcancar65_69M.Clear();
+            aSentarAlcancar65_69F.Clear();
+            aSentarAlcancar70_74M.Clear();
+            aSentarAlcancar70_74F.Clear();
+            aSentarAlcancar75_79M.Clear();
+            aSentarAlcancar75_79F.Clear();
+            aSentarAlcancar80_84M.Clear();
+            aSentarAlcancar80_84F.Clear();
+            aSentarAlcancar85_89M.Clear();
+            aSentarAlcancar85_89F.Clear();
+            aSentarAlcancar90_94M.Clear();
+            aSentarAlcancar90_94F.Clear();
+            aSentarAlcancarPercentil.Clear();
+            aSentarAlcancarEscolhido.Clear();
+
+            //Carregamento de Valores
+            aSentarAlcancar60_64M.Add(new Object[5] { 16.51, 10.16, 1.27, -6.35, -6 });
+            aSentarAlcancar60_64F.Add(new Object[5] { 17.78, 12.70, 5.08, -1.27, -7.62 });
+
+            aSentarAlcancar65_69M.Add(new Object[5] { 15.24, 7.62, 0, -7.62, -15.24 });
+            aSentarAlcancar65_69F.Add(new Object[5] { 16.51, 11.43, 5.08, -1.27, -7.62 });
+
+            aSentarAlcancar70_74M.Add(new Object[5] { 13.97, 6.35, -1.27, -8.89, -16.51 });
+            aSentarAlcancar70_74F.Add(new Object[5] { 15.24, 10.16, 3.81, -2.54, -8.89 });
+
+            aSentarAlcancar75_79M.Add(new Object[5] { 12.70, 5.08, -2.54, 10.16, -17.78 });
+            aSentarAlcancar75_79F.Add(new Object[5] { 13.97, 8.89, 2.54, -3.81, -10.16 });
+
+            aSentarAlcancar80_84M.Add(new Object[5] { 11.43, 3.81, -5.08, -13.97, -20.32 });
+            aSentarAlcancar80_84F.Add(new Object[5] { 12.70, 7.62, 1.27, -5.08, -11.43 });
+
+            aSentarAlcancar85_89M.Add(new Object[5] { 7.62, 1.27, -6.35, -13.97, -20.32 });
+            aSentarAlcancar85_89F.Add(new Object[5] { 11.43, 6.35, -1.27, -6.35, -11.43 });
+
+            aSentarAlcancar90_94M.Add(new Object[5] { 5.08, 1.27, -8.89, -16.51, -22.86 });
+            aSentarAlcancar90_94F.Add(new Object[5] { 8.89, 2.54, -5.08, -11.43, -17.78 });
+
+            aSentarAlcancarPercentil.Add(100);//TODO verificar se é apenas esta a correcção
+            aSentarAlcancarPercentil.Add(90);
+            aSentarAlcancarPercentil.Add(75);
+            aSentarAlcancarPercentil.Add(50);
+            aSentarAlcancarPercentil.Add(25);
+            aSentarAlcancarPercentil.Add(10);
+        }
+        private void DoLoadValuesPercentilAgilidade()
+        {
+            aAgilidade60_64M.Clear();
+            aAgilidade60_64F.Clear();
+            aAgilidade65_69M.Clear();
+            aAgilidade65_69F.Clear();
+            aAgilidade70_74M.Clear();
+            aAgilidade70_74F.Clear();
+            aAgilidade75_79M.Clear();
+            aAgilidade75_79F.Clear();
+            aAgilidade80_84M.Clear();
+            aAgilidade80_84F.Clear();
+            aAgilidade85_89M.Clear();
+            aAgilidade85_89F.Clear();
+            aAgilidade90_94M.Clear();
+            aAgilidade90_94F.Clear();
+            aAgilidadePercentil.Clear();
+            aAgilidadeEscolhido.Clear();
+
+            //Carregamento de Valores
+            aAgilidade60_64M.Add(new Object[5] { 6.4, 5.6, 4.7, 3.8, 3.0 });
+            aAgilidade60_64F.Add(new Object[5] { 6.7, 6, 5.2, 4.4, 3.7 });
+
+            aAgilidade65_69M.Add(new Object[5] { 6.5, 5.7, 5.1, 4.3, 3.8 });
+            aAgilidade65_69F.Add(new Object[5] { 7.1, 6.4, 5.6, 4.8, 4.1 });
+
+            aAgilidade70_74M.Add(new Object[5] { 6.8, 6.0, 5.3, 4.2, 3.6 });
+            aAgilidade70_74F.Add(new Object[5] { 8, 7.1, 6, 4.9, 4 });
+
+            aAgilidade75_79M.Add(new Object[5] { 8.3, 7.2, 5.9, 4.6, 3.5 });
+            aAgilidade75_79F.Add(new Object[5] { 8.3, 7.4, 6.3, 5.2, 4.3 });
+
+            aAgilidade80_84M.Add(new Object[5] { 8.7, 7.6, 6.4, 5.2, 4.1 });
+            aAgilidade80_84F.Add(new Object[5] { 10, 8.7, 7.2, 5.7, 4.4 });
+
+            aAgilidade85_89M.Add(new Object[5] { 10.5, 8.9, 7.2, 5.3, 3.9 });
+            aAgilidade85_89F.Add(new Object[5] { 11.1, 9.6, 7.9, 6.2, 5.1 });
+
+            aAgilidade90_94M.Add(new Object[5] { 11.8, 10.0, 8.1, 6.2, 5.4 });
+            aAgilidade90_94F.Add(new Object[5] { 13.5, 11.5, 9.4, 7.3, 5.3 });
+
+            aAgilidadePercentil.Add(10);
+            aAgilidadePercentil.Add(25);
+            aAgilidadePercentil.Add(50);
+            aAgilidadePercentil.Add(75);
+            aAgilidadePercentil.Add(90);
+            aAgilidadePercentil.Add(100);
+        }
+        private void DoLoadValuesPercentilAndar()
+        {
+            aAndar60_64M.Clear();
+            aAndar60_64F.Clear();
+            aAndar65_69M.Clear();
+            aAndar65_69F.Clear();
+            aAndar70_74M.Clear();
+            aAndar70_74F.Clear();
+            aAndar75_79M.Clear();
+            aAndar75_79F.Clear();
+            aAndar80_84M.Clear();
+            aAndar80_84F.Clear();
+            aAndar85_89M.Clear();
+            aAndar85_89F.Clear();
+            aAndar90_94M.Clear();
+            aAndar90_94F.Clear();
+            aAndarPercentil.Clear();
+            aAndarEscolhido.Clear();
+
+            //Carregamento de Valores
+            aAndar60_64M.Add(new Object[5] { 722.37, 672.08, 617.22, 557.49, 507.49 });
+            aAndar60_64F.Add(new Object[5] { 649.22, 603.50, 553.21, 498.34, 452.62 });
+
+            aAndar65_69M.Add(new Object[5] { 699.51, 640.08, 576.07, 512.06, 457.2 });
+            aAndar65_69F.Add(new Object[5] { 636.08, 580.64, 521.20, 457, 402.3 });
+
+            aAndar70_74M.Add(new Object[5] { 681.22, 621.79, 557.78, 498.34, 438.91 });
+            aAndar70_74F.Add(new Object[5] { 617.22, 562.35, 502.92, 438.91, 384.04 });
+
+            aAndar75_79M.Add(new Object[5] { 653.79, 585.21, 507.49, 429.76, 361.18 });
+            aAndar75_79F.Add(new Object[5] { 598.93, 534.92, 466.34, 393.19, 333.75 });
+
+            aAndar80_84M.Add(new Object[5] { 621.79, 553.21, 480.06, 406.90, 338.32 });
+            aAndar80_84F.Add(new Object[5] { 557.78, 493.77, 420.62, 352.04, 283.46 });
+
+            aAndar85_89M.Add(new Object[5] { 603.50, 521.20, 434.34, 347.47, 269.74 });
+            aAndar85_89F.Add(new Object[5] { 544.06, 466.34, 388.62, 310.89, 237.74 });
+
+            aAndar90_94M.Add(new Object[5] { 539.49, 457.20, 370.33, 278.89, 196.59 });
+            aAndar90_94F.Add(new Object[5] { 475.48, 402.33, 320.04, 251.46, 178.30 });
+
+            aAndarPercentil.Add(100);
+            aAndarPercentil.Add(90);
+            aAndarPercentil.Add(75);
+            aAndarPercentil.Add(50);
+            aAndarPercentil.Add(25);
+            aAndarPercentil.Add(10);
+        }
+        private void DoLoadValuesPercentilStep()
+        {
+            aStep60_64M.Clear();
+            aStep60_64F.Clear();
+            aStep65_69M.Clear();
+            aStep65_69F.Clear();
+            aStep70_74M.Clear();
+            aStep70_74F.Clear();
+            aStep75_79M.Clear();
+            aStep75_79F.Clear();
+            aStep80_84M.Clear();
+            aStep80_84F.Clear();
+            aStep85_89M.Clear();
+            aStep85_89F.Clear();
+            aStep90_94M.Clear();
+            aStep90_94F.Clear();
+            aStepPercentil.Clear();
+            aStepEscolhido.Clear();
+
+            //Carregamento de Valores
+            aStep60_64M.Add(new Object[5] { 128, 115, 101, 87, 74 });
+            aStep60_64F.Add(new Object[5] { 122, 107, 91, 75, 60 });
+
+            aStep65_69M.Add(new Object[5] { 130, 116, 101, 86, 72 });
+            aStep65_69F.Add(new Object[5] { 123, 107, 90, 73, 57 });
+
+            aStep70_74M.Add(new Object[5] { 125, 110, 95, 80, 66 });
+            aStep70_74F.Add(new Object[5] { 116, 101, 84, 68, 53 });
+
+            aStep75_79M.Add(new Object[5] { 125, 109, 91, 73, 56 });
+            aStep75_79F.Add(new Object[5] { 115, 100, 84, 68, 52 });
+
+            aStep80_84M.Add(new Object[5] { 118, 103, 87, 71, 56 });
+            aStep80_84F.Add(new Object[5] { 104, 91, 75, 60, 46 });
+
+            aStep85_89M.Add(new Object[5] { 106, 91, 75, 49, 44 });
+            aStep85_89F.Add(new Object[5] { 98, 85, 70, 55, 42 });
+
+            aStep90_94M.Add(new Object[5] { 102, 86, 69, 52, 36 });
+            aStep90_94F.Add(new Object[5] { 85, 72, 58, 44, 31 });
+
+            aStepPercentil.Add(100);
+            aStepPercentil.Add(90);
+            aStepPercentil.Add(75);
+            aStepPercentil.Add(50);
+            aStepPercentil.Add(25);
+            aStepPercentil.Add(10);
+        }
+        private void DoLoadPercMGPeso()
+        {
+            aIdades.Clear();
+            aValoresM.Clear();
+            aValoresF.Clear();
+            //Carregamento de Valores
+
+            aIdades.Add(new Object[20] { 20, 23, 29, 32, 35, 38, 41, 44, 47, 50, 53, 56, 59, 62, 65, 68, 71, 74, 77, 80 });
+            aValoresM.Add(new Object[20] { 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29 });
+            aValoresF.Add(new Object[20] { 0.20, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.30, 0.31, 0.32, 0.33, 0.34, 0.35, 0.36, 0.37, 0.38, 0.39 });
+        }
+        private string GetResultadoElderly(decimal dRes)
+        {
+            string retValue = string.Empty;
+            if (dRes < 25)
+                retValue = "Muito Fraco";
+            else if (dRes < 50 && dRes >= 25)
+                retValue = "Fraco";
+            else if (dRes <= 75 && dRes >= 50)
+                retValue = "Médio";
+            else if (dRes <= 90 && dRes >= 76)
+                retValue = "Bom";
+            else if (dRes > 90)
+                retValue = "Excelente";
+            return retValue;
+        }
         private void SelectGroupAgeElevacoes(string Sexo, int Idade)
         {
             switch (Sexo)
@@ -6102,28 +6530,684 @@ namespace Gestreino.Controllers
                     break;
             }
         }
+        private void SelectGroupAgeFlexoes(string Sexo, int Idade)
+        {
+            switch (Sexo)
+            {
+                case "Masculino":
+                    if (Idade >= 60 && Idade <= 64)
+                        aFlexoesEscolhido = aFlexoes60_64M;
+                    else if (Idade >= 65 && Idade <= 69)
+                        aFlexoesEscolhido = aFlexoes65_69M;
+                    else if (Idade >= 70 && Idade <= 74)
+                        aFlexoesEscolhido = aFlexoes70_74M;
+                    else if (Idade >= 75 && Idade <= 79)
+                        aFlexoesEscolhido = aFlexoes75_79M;
+                    else if (Idade >= 80 && Idade <= 84)
+                        aFlexoesEscolhido = aFlexoes80_84M;
+                    else if (Idade >= 85 && Idade <= 89)
+                        aFlexoesEscolhido = aFlexoes85_89M;
+                    else if (Idade >= 90 && Idade <= 94)
+                        aFlexoesEscolhido = aFlexoes90_94M;
+
+                    break;
+                case "Feminino":
+                    if (Idade >= 60 && Idade <= 64)
+                        aFlexoesEscolhido = aFlexoes60_64F;
+                    else if (Idade >= 65 && Idade <= 69)
+                        aFlexoesEscolhido = aFlexoes65_69F;
+                    else if (Idade >= 70 && Idade <= 74)
+                        aFlexoesEscolhido = aFlexoes70_74F;
+                    else if (Idade >= 75 && Idade <= 79)
+                        aFlexoesEscolhido = aFlexoes75_79F;
+                    else if (Idade >= 80 && Idade <= 84)
+                        aFlexoesEscolhido = aFlexoes80_84F;
+                    else if (Idade >= 85 && Idade <= 89)
+                        aFlexoesEscolhido = aFlexoes85_89F;
+                    else if (Idade >= 90 && Idade <= 94)
+                        aFlexoesEscolhido = aFlexoes90_94F;
+                    break;
+            }
+        }
+        private void SelectGroupAgePeso(string Sexo, int Idade)
+        {
+            switch (Sexo)
+            {
+                case "Masculino":
+                    if (Idade >= 60 && Idade <= 64)
+                        aPesoEscolhido = aPeso60_64M;
+                    else if (Idade >= 65 && Idade <= 69)
+                        aPesoEscolhido = aPeso65_69M;
+                    else if (Idade >= 70 && Idade <= 74)
+                        aPesoEscolhido = aPeso70_74M;
+                    else if (Idade >= 75 && Idade <= 79)
+                        aPesoEscolhido = aPeso75_79M;
+                    else if (Idade >= 80 && Idade <= 84)
+                        aPesoEscolhido = aPeso80_84M;
+                    else if (Idade >= 85 && Idade <= 89)
+                        aPesoEscolhido = aPeso85_89M;
+                    else if (Idade >= 90 && Idade <= 94)
+                        aPesoEscolhido = aPeso90_94M;
+
+                    break;
+                case "Feminino":
+                    if (Idade >= 60 && Idade <= 64)
+                        aPesoEscolhido = aPeso60_64F;
+                    else if (Idade >= 65 && Idade <= 69)
+                        aPesoEscolhido = aPeso65_69F;
+                    else if (Idade >= 70 && Idade <= 74)
+                        aPesoEscolhido = aPeso70_74F;
+                    else if (Idade >= 75 && Idade <= 79)
+                        aPesoEscolhido = aPeso75_79F;
+                    else if (Idade >= 80 && Idade <= 84)
+                        aPesoEscolhido = aPeso80_84F;
+                    else if (Idade >= 85 && Idade <= 89)
+                        aPesoEscolhido = aPeso85_89F;
+                    else if (Idade >= 90 && Idade <= 94)
+                        aPesoEscolhido = aPeso90_94F;
+                    break;
+            }
+        }
+        private void SelectGroupAgeSentarAlcancar(string Sexo, int Idade)
+        {
+            switch (Sexo)
+            {
+                case "Masculino":
+                    if (Idade >= 60 && Idade <= 64)
+                        aSentarAlcancarEscolhido = aSentarAlcancar60_64M;
+                    else if (Idade >= 65 && Idade <= 69)
+                        aSentarAlcancarEscolhido = aSentarAlcancar65_69M;
+                    else if (Idade >= 70 && Idade <= 74)
+                        aSentarAlcancarEscolhido = aSentarAlcancar70_74M;
+                    else if (Idade >= 75 && Idade <= 79)
+                        aSentarAlcancarEscolhido = aSentarAlcancar75_79M;
+                    else if (Idade >= 80 && Idade <= 84)
+                        aSentarAlcancarEscolhido = aSentarAlcancar80_84M;
+                    else if (Idade >= 85 && Idade <= 89)
+                        aSentarAlcancarEscolhido = aSentarAlcancar85_89M;
+                    else if (Idade >= 90 && Idade <= 94)
+                        aSentarAlcancarEscolhido = aSentarAlcancar90_94M;
+                    break;
+                case "Feminino":
+                    if (Idade >= 60 && Idade <= 64)
+                        aSentarAlcancarEscolhido = aSentarAlcancar60_64F;
+                    else if (Idade >= 65 && Idade <= 69)
+                        aSentarAlcancarEscolhido = aSentarAlcancar65_69F;
+                    else if (Idade >= 70 && Idade <= 74)
+                        aSentarAlcancarEscolhido = aSentarAlcancar70_74F;
+                    else if (Idade >= 75 && Idade <= 79)
+                        aSentarAlcancarEscolhido = aSentarAlcancar75_79F;
+                    else if (Idade >= 80 && Idade <= 84)
+                        aSentarAlcancarEscolhido = aSentarAlcancar80_84F;
+                    else if (Idade >= 85 && Idade <= 89)
+                        aSentarAlcancarEscolhido = aSentarAlcancar85_89F;
+                    else if (Idade >= 90 && Idade <= 94)
+                        aSentarAlcancarEscolhido = aSentarAlcancar90_94F;
+                    break;
+            }
+        }
+        private void SelectGroupAgeAgilidade(string Sexo, int Idade)
+        {
+            switch (Sexo)
+            {
+                case "Masculino":
+                    if (Idade >= 60 && Idade <= 64)
+                        aAgilidadeEscolhido = aAgilidade60_64M;
+                    else if (Idade >= 65 && Idade <= 69)
+                        aAgilidadeEscolhido = aAgilidade65_69M;
+                    else if (Idade >= 70 && Idade <= 74)
+                        aAgilidadeEscolhido = aAgilidade70_74M;
+                    else if (Idade >= 75 && Idade <= 79)
+                        aAgilidadeEscolhido = aAgilidade75_79M;
+                    else if (Idade >= 80 && Idade <= 84)
+                        aAgilidadeEscolhido = aAgilidade80_84M;
+                    else if (Idade >= 85 && Idade <= 89)
+                        aAgilidadeEscolhido = aAgilidade85_89M;
+                    else if (Idade >= 90 && Idade <= 94)
+                        aAgilidadeEscolhido = aAgilidade90_94M;
+
+                    break;
+                case "Feminino":
+                    if (Idade >= 60 && Idade <= 64)
+                        aAgilidadeEscolhido = aAgilidade60_64F;
+                    else if (Idade >= 65 && Idade <= 69)
+                        aAgilidadeEscolhido = aAgilidade65_69F;
+                    else if (Idade >= 70 && Idade <= 74)
+                        aAgilidadeEscolhido = aAgilidade70_74F;
+                    else if (Idade >= 75 && Idade <= 79)
+                        aAgilidadeEscolhido = aAgilidade75_79F;
+                    else if (Idade >= 80 && Idade <= 84)
+                        aAgilidadeEscolhido = aAgilidade80_84F;
+                    else if (Idade >= 85 && Idade <= 89)
+                        aAgilidadeEscolhido = aAgilidade85_89F;
+                    else if (Idade >= 90 && Idade <= 94)
+                        aAgilidadeEscolhido = aAgilidade90_94F;
+                    break;
+            }
+        }
+        private void SelectGroupAgeAlcancar(string Sexo, int Idade)
+        {
+            switch (Sexo)
+            {
+                case "Masculino":
+                    if (Idade >= 60 && Idade <= 64)
+                        aAlcancarEscolhido = aAlcancar60_64M;
+                    else if (Idade >= 65 && Idade <= 69)
+                        aAlcancarEscolhido = aAlcancar65_69M;
+                    else if (Idade >= 70 && Idade <= 74)
+                        aAlcancarEscolhido = aAlcancar70_74M;
+                    else if (Idade >= 75 && Idade <= 79)
+                        aAlcancarEscolhido = aAlcancar75_79M;
+                    else if (Idade >= 80 && Idade <= 84)
+                        aAlcancarEscolhido = aAlcancar80_84M;
+                    else if (Idade >= 85 && Idade <= 89)
+                        aAlcancarEscolhido = aAlcancar85_89M;
+                    else if (Idade >= 90 && Idade <= 94)
+                        aAlcancarEscolhido = aAlcancar90_94M;
+
+                    break;
+                case "Feminino":
+                    if (Idade >= 60 && Idade <= 64)
+                        aAlcancarEscolhido = aAlcancar60_64F;
+                    else if (Idade >= 65 && Idade <= 69)
+                        aAlcancarEscolhido = aAlcancar65_69F;
+                    else if (Idade >= 70 && Idade <= 74)
+                        aAlcancarEscolhido = aAlcancar70_74F;
+                    else if (Idade >= 75 && Idade <= 79)
+                        aAlcancarEscolhido = aAlcancar75_79F;
+                    else if (Idade >= 80 && Idade <= 84)
+                        aAlcancarEscolhido = aAlcancar80_84F;
+                    else if (Idade >= 85 && Idade <= 89)
+                        aAlcancarEscolhido = aAlcancar85_89F;
+                    else if (Idade >= 90 && Idade <= 94)
+                        aAlcancarEscolhido = aAlcancar90_94F;
+                    break;
+            }
+        }
+        private void SelectGroupAgeAndar(string Sexo, int Idade)
+        {
+            switch (Sexo)
+            {
+                case "Masculino":
+                    if (Idade >= 60 && Idade <= 64)
+                        aAndarEscolhido = aAndar60_64M;
+                    else if (Idade >= 65 && Idade <= 69)
+                        aAndarEscolhido = aAndar65_69M;
+                    else if (Idade >= 70 && Idade <= 74)
+                        aAndarEscolhido = aAndar70_74M;
+                    else if (Idade >= 75 && Idade <= 79)
+                        aAndarEscolhido = aAndar75_79M;
+                    else if (Idade >= 80 && Idade <= 84)
+                        aAndarEscolhido = aAndar80_84M;
+                    else if (Idade >= 85 && Idade <= 89)
+                        aAndarEscolhido = aAndar85_89M;
+                    else if (Idade >= 90 && Idade <= 94)
+                        aAndarEscolhido = aAndar90_94M;
+
+                    break;
+                case "Feminino":
+                    if (Idade >= 60 && Idade <= 64)
+                        aAndarEscolhido = aAndar60_64F;
+                    else if (Idade >= 65 && Idade <= 69)
+                        aAndarEscolhido = aAndar65_69F;
+                    else if (Idade >= 70 && Idade <= 74)
+                        aAndarEscolhido = aAndar70_74F;
+                    else if (Idade >= 75 && Idade <= 79)
+                        aAndarEscolhido = aAndar75_79F;
+                    else if (Idade >= 80 && Idade <= 84)
+                        aAndarEscolhido = aAndar80_84F;
+                    else if (Idade >= 85 && Idade <= 89)
+                        aAndarEscolhido = aAndar85_89F;
+                    else if (Idade >= 90 && Idade <= 94)
+                        aAndarEscolhido = aAndar90_94F;
+                    break;
+            }
+        }
+        private void SelectGroupAgeStep(string Sexo, int Idade)
+        {
+            switch (Sexo)
+            {
+                case "Masculino":
+                    if (Idade >= 60 && Idade <= 64)
+                        aStepEscolhido = aStep60_64M;
+                    else if (Idade >= 65 && Idade <= 69)
+                        aStepEscolhido = aStep65_69M;
+                    else if (Idade >= 70 && Idade <= 74)
+                        aStepEscolhido = aStep70_74M;
+                    else if (Idade >= 75 && Idade <= 79)
+                        aStepEscolhido = aStep75_79M;
+                    else if (Idade >= 80 && Idade <= 84)
+                        aStepEscolhido = aStep80_84M;
+                    else if (Idade >= 85 && Idade <= 89)
+                        aStepEscolhido = aStep85_89M;
+                    else if (Idade >= 90 && Idade <= 94)
+                        aStepEscolhido = aStep90_94M;
+
+                    break;
+                case "Feminino":
+                    if (Idade >= 60 && Idade <= 64)
+                        aStepEscolhido = aStep60_64F;
+                    else if (Idade >= 65 && Idade <= 69)
+                        aStepEscolhido = aStep65_69F;
+                    else if (Idade >= 70 && Idade <= 74)
+                        aStepEscolhido = aStep70_74F;
+                    else if (Idade >= 75 && Idade <= 79)
+                        aStepEscolhido = aStep75_79F;
+                    else if (Idade >= 80 && Idade <= 84)
+                        aStepEscolhido = aStep80_84F;
+                    else if (Idade >= 85 && Idade <= 89)
+                        aStepEscolhido = aStep85_89F;
+                    else if (Idade >= 90 && Idade <= 94)
+                        aStepEscolhido = aStep90_94F;
+                    break;
+            }
+        }
         private void SetValueDesejado(Elderly MODEL)
         {
-            DoSelectGroupBy_Sex_Idade();
+            DoSelectGroupBy_Sex_Idade(MODEL.GT_TipoTestePessoaIdosa_ID);
 
-            if (cmbTipoTeste.SelectedValue.ToString() == "1") txtElevacoesEsperado.Text = DoGetDesejavelElevacoes();
-            if (cmbTipoTeste.SelectedValue.ToString() == "2") txtFlexoesEsperado.Text = DoGetDesejavelFlexoes();
-            if (cmbTipoTeste.SelectedValue.ToString() == "3")
+            if (MODEL.GT_TipoTestePessoaIdosa_ID ==1)
+                MODEL.Desejavel=DoGetDesejavelElevacoes();
+            if (MODEL.GT_TipoTestePessoaIdosa_ID == 2)
+                MODEL.Desejavel = DoGetDesejavelFlexoes();
+            if (MODEL.GT_TipoTestePessoaIdosa_ID == 3)
             {
-                txtPesoDesejado.Text = DoGetDesejavelPeso();
-                SetIMC();
-                SetPesoSaudavel();
+                MODEL.MG = DoGetPercMGEstaturaPeso(MODEL.IMC);
+                MODEL.MG = MODEL.MG.ToString().Length > 5 ? Convert.ToDecimal(MODEL.MG.ToString().Substring(0, 5)) : MODEL.MG;                
+                MODEL.MGDesejavel = DoGetDesejavelPeso();
+                SetPesoSaudavel(MODEL);
             }
-            if (cmbTipoTeste.SelectedValue.ToString() == "4") txtDistanciaSentarAlcancarDesejado.Text = DoGetDesejavelSentarAlcancar();
-            if (cmbTipoTeste.SelectedValue.ToString() == "5") txtAgilidadeDesejado.Text = DoGetDesejavelAgilidade();
-            if (cmbTipoTeste.SelectedValue.ToString() == "6") txtAlcancarDesejado.Text = DoGetDesejavelAlcancar();
-            if (cmbTipoTeste.SelectedValue.ToString() == "7") txtAndarDesejado.Text = DoGetDesejavelAndar();
-            if (cmbTipoTeste.SelectedValue.ToString() == "8") txtSubirStepDesejado.Text = DoGetDesejavelStep();
-
+            if (MODEL.GT_TipoTestePessoaIdosa_ID == 4)
+                MODEL.Desejavel = DoGetDesejavelSentarAlcancar();
+            if (MODEL.GT_TipoTestePessoaIdosa_ID == 5)
+                MODEL.Desejavel = DoGetDesejavelAgilidade();
+            if (MODEL.GT_TipoTestePessoaIdosa_ID == 6)
+                MODEL.Desejavel = DoGetDesejavelAlcancar();
+            if (MODEL.GT_TipoTestePessoaIdosa_ID == 7)
+                MODEL.Desejavel = DoGetDesejavelAndar();
+            if (MODEL.GT_TipoTestePessoaIdosa_ID == 8)
+                MODEL.Desejavel = DoGetDesejavelStep();
         }
+        private int GetPercentilFlexoes(decimal valor)
+        {
+            Array arrTemp;
+            arrTemp = (Array)aFlexoesEscolhido[0];
+            int indice = 0;
+            //Detectar o valor
+            foreach (Object i in arrTemp)
+            {
+                if (valor > Convert.ToDecimal(i))
+                {
+                    break;
+                }
+                indice += 1;
 
+            }
+            //			if (indice == 5) 
+            //				indice = (indice -1);
 
+            return Convert.ToInt32(aFlexoesPercentil[indice]);
+            //return 0;
+        }
+        private int GetPercentilElevacoes(decimal valor)
+        {
+            Array arrTemp;
+            arrTemp = (Array)aElevacoesEscolhido[0];
+            int indice = 0;
+            //Detectar o valor
+            foreach (Object i in arrTemp)
+            {
+                if (valor > Convert.ToDecimal(i))
+                {
+                    break;
+                }
+                indice += 1;
 
+            }
+            //			if (indice == 5) 
+            //				indice = (indice -1);
+
+            return Convert.ToInt32(aElevacoesPercentil[indice]);
+            //return 0;
+        }
+        private int GetPercentilPeso(decimal valor)
+        {
+            Array arrTemp;
+            arrTemp = (Array)aPesoEscolhido[0];
+            int indice = 0;
+            //Detectar o valor
+            foreach (Object i in arrTemp)
+            {
+                if (valor > Convert.ToDecimal(i))
+                {
+                    break;
+                }
+                indice += 1;
+
+            }
+            //			if (indice == 5) 
+            //				indice = (indice -1);
+
+            return Convert.ToInt32(aPesoPercentil[indice]);
+            //return 0;
+        }
+        private int GetPercentilSentarAlcancar(decimal valor)
+        {
+            Array arrTemp;
+            arrTemp = (Array)aSentarAlcancarEscolhido[0];
+            int indice = 0;
+            //Detectar o valor
+            foreach (Object i in arrTemp)
+            {
+                if (valor > Convert.ToDecimal(i))
+                {
+                    break;
+                }
+                indice += 1;
+
+            }
+            //			if (indice == 5) 
+            //				indice = (indice -1);
+
+            return Convert.ToInt32(aSentarAlcancarPercentil[indice]);
+            //return 0;
+        }
+        private int GetPercentilAgilidade(decimal valor)
+        {
+            Array arrTemp;
+            arrTemp = (Array)aAgilidadeEscolhido[0];
+            int indice = 0;
+            //Detectar o valor
+            foreach (Object i in arrTemp)
+            {
+                if (valor >= Convert.ToDecimal(i))
+                {
+                    break;
+                }
+                indice += 1;
+
+            }
+            //			if (indice == 5) 
+            //				indice = (indice -1);
+
+            return Convert.ToInt32(aAgilidadePercentil[indice]);
+            //return 0;
+        }
+        private int GetPercentilAlcancar(decimal valor)
+        {
+            Array arrTemp;
+            arrTemp = (Array)aAlcancarEscolhido[0];
+            int indice = 0;
+            //Detectar o valor
+            foreach (Object i in arrTemp)
+            {
+                if (valor > Convert.ToDecimal(i))
+                {
+                    break;
+                }
+                indice += 1;
+
+            }
+            //			if (indice == 5) 
+            //				indice = (indice -1);
+
+            return Convert.ToInt32(aAlcancarPercentil[indice]);
+            //return 0;
+        }
+        private int GetPercentilAndar(decimal valor)
+        {
+            Array arrTemp;
+            arrTemp = (Array)aAndarEscolhido[0];
+            int indice = 0;
+            //Detectar o valor
+            foreach (Object i in arrTemp)
+            {
+                if (valor > Convert.ToDecimal(i))
+                {
+                    break;
+                }
+                indice += 1;
+
+            }
+            //			if (indice == 5) 
+            //				indice = (indice -1);
+
+            return Convert.ToInt32(aAndarPercentil[indice]);
+            //return 0;
+        }
+        private int GetPercentilStep(decimal valor)
+        {
+            Array arrTemp;
+            arrTemp = (Array)aStepEscolhido[0];
+            int indice = 0;
+            //Detectar o valor
+            foreach (Object i in arrTemp)
+            {
+                if (valor > Convert.ToDecimal(i))
+                {
+                    break;
+                }
+                indice += 1;
+
+            }
+            //			if (indice == 5) 
+            //				indice = (indice -1);
+
+            return Convert.ToInt32(aStepPercentil[indice]);
+            //return 0;
+        }
+        private string DoGetDesejavelElevacoes()
+        {
+            Array arrTemp;
+            arrTemp = (Array)aElevacoesEscolhido[0];
+            return Convert.ToString(arrTemp.GetValue(3)) + " a " + Convert.ToString(arrTemp.GetValue(1));
+        }
+        private string DoGetDesejavelFlexoes()
+        {
+            Array arrTemp;
+            arrTemp = (Array)aFlexoesEscolhido[0];
+            return Convert.ToString(arrTemp.GetValue(3)) + " a " + Convert.ToString(arrTemp.GetValue(1));
+        }
+        private string DoGetDesejavelSentarAlcancar()
+        {
+            Array arrTemp;
+            arrTemp = (Array)aSentarAlcancarEscolhido[0];
+            return Convert.ToString(arrTemp.GetValue(3)) + " a " + Convert.ToString(arrTemp.GetValue(2));
+        }
+        private string DoGetDesejavelAgilidade()
+        {
+            Array arrTemp;
+            arrTemp = (Array)aAgilidadeEscolhido[0];
+            return Convert.ToString(arrTemp.GetValue(3)) + " a " + Convert.ToString(arrTemp.GetValue(2));
+        }
+        private string DoGetDesejavelAlcancar()
+        {
+            Array arrTemp;
+            arrTemp = (Array)aAlcancarEscolhido[0];
+            return Convert.ToString(arrTemp.GetValue(3)) + " a " + Convert.ToString(arrTemp.GetValue(2));
+        }
+        private string DoGetDesejavelAndar()
+        {
+            Array arrTemp;
+            arrTemp = (Array)aAndarEscolhido[0];
+            return Convert.ToString(arrTemp.GetValue(2)) + " a " + Convert.ToString(arrTemp.GetValue(1));
+        }
+        private string DoGetDesejavelStep()
+        {
+            Array arrTemp;
+            arrTemp = (Array)aStepEscolhido[0];
+            return Convert.ToString(arrTemp.GetValue(2)) + " a " + Convert.ToString(arrTemp.GetValue(1));
+        }
+        private string DoGetDesejavelPeso()
+        {
+            Array arrTemp;
+            arrTemp = (Array)aPesoEscolhido[0];
+            return Convert.ToString(arrTemp.GetValue(3)) + " a " + Convert.ToString(arrTemp.GetValue(1));
+        }
+        private void DoGetActualPessoaIdosa(decimal? Valor, int? type, out int iPerc, out decimal iValue, out string sRes)
+        {
+            int iPercentilAct = 0;
+            decimal ValorAct = 0;
+
+            ValorAct = Convert.ToDecimal(Valor);
+
+            if (type == 1)
+                iPercentilAct = GetPercentilElevacoes(ValorAct);
+            if (type == 2)
+                iPercentilAct = GetPercentilFlexoes(ValorAct);
+            if (type == 3)
+                iPercentilAct = GetPercentilPeso(ValorAct);
+            if (type == 4)
+                iPercentilAct = GetPercentilSentarAlcancar(ValorAct);
+            if (type == 5)
+                iPercentilAct = GetPercentilAgilidade(ValorAct);
+            if (type == 6)
+                iPercentilAct = GetPercentilAlcancar(ValorAct);
+            if (type == 7)
+                iPercentilAct = GetPercentilAndar(ValorAct);
+            if (type == 8)
+                iPercentilAct = GetPercentilStep(ValorAct);
+
+            sRes = GetResultadoElderly(Convert.ToDecimal(iPercentilAct));
+            iPerc = iPercentilAct;
+            iValue = ValorAct;
+        }
+        private decimal GetPercMGPeso()
+        {
+            Array arrTemp;
+            arrTemp = (Array)aIdades[0];
+
+            int indice = 0;
+            //Detectar o valor
+            foreach (Object i in arrTemp)
+            {
+                if (Convert.ToInt32(i) >= Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE))
+                {
+                    break;
+                }
+                indice += 1;
+
+            }
+
+            if (Configs.GESTREINO_AVALIDO_SEXO == "Masculino")
+                return Convert.ToDecimal(((Array)aValoresM[0]).GetValue(indice));
+            else if (Configs.GESTREINO_AVALIDO_SEXO == "Feminino")
+                return Convert.ToDecimal(((Array)aValoresF[0]).GetValue(indice));
+            else
+                return Convert.ToDecimal(0);
+        }
+        private void SetPesoSaudavel(Elderly MODEL)
+        {
+            string sPesoDesejavel = string.Empty;
+            string sMG = string.Empty;
+            string sMIG = string.Empty;
+            decimal dPercMG = 0;
+
+            //			decimal PercMG25 = 0;
+            //			decimal PercMG50 = 0;
+            //			decimal Percentil25 = 0;
+            //			decimal Percentil50 = 0;
+            //			decimal PesoDesejado = 0;
+            //
+            //			Array arrTemp ;
+            //			arrTemp = (Array)aPesoEscolhido[0];
+            //			
+            //			Percentil25 = Convert.ToDecimal(arrTemp.GetValue(3));
+            //			Percentil50 = Convert.ToDecimal(arrTemp.GetValue(2));
+            //			
+            //			if (Sexo_ =="1")
+            //			{
+            //				PercMG25= (Convert.ToDecimal(1.281) * (Percentil25)) - Convert.ToDecimal(10.13);
+            //				PercMG50= (Convert.ToDecimal(1.281) * (Percentil50)) - Convert.ToDecimal(10.13);
+            //				PercMG = Convert.ToDecimal((PercMG25 + PercMG50) / 2);
+            //			}
+            //			else
+            //			{
+            //				PercMG25= (Convert.ToDecimal(1.480) * (Percentil25)) - Convert.ToDecimal(7);
+            //				PercMG50= (Convert.ToDecimal(1.480) * (Percentil50)) - Convert.ToDecimal(7);
+            //				PercMG = Convert.ToDecimal((PercMG25 + PercMG50) / 2);
+            //			}
+            //			PesoDesejado = Convert.ToDecimal(Peso_ * 100) / (Convert.ToDecimal(100) - PercMG); 
+            //			txtPeso.Text = Convert.ToString(PesoDesejado);
+            //			
+            //			if (txtPeso.Text.Length > 5) txtPeso.Text = txtPeso.Text.Substring(0,5);
+
+            //**************************************
+            //Depois de 13 de Agosto de 2005/Depois do Nando corrigir algumas fórmulas
+            //**************************************
+            //Calculo do MG (txtMG)
+            sMG = Convert.ToString((Convert.ToDecimal(MODEL.MG) / 100) * Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO));
+
+            //Cálculo de MIG (txtMIG)
+            sMIG = Convert.ToString(Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO) - Convert.ToDecimal(sMG));
+
+            //Calculo do sPercMG das Pessoas Idosas
+            DoLoadPercMGPeso();
+            dPercMG = GetPercMGPeso();
+
+            MODEL.PesoDesejavel = Convert.ToDecimal(sMIG) / (1 - Convert.ToDecimal(dPercMG));
+            MODEL.PesoDesejavel = MODEL.PesoDesejavel.ToString().Length > 5 ? Convert.ToDecimal(MODEL.PesoDesejavel.ToString().Substring(0, 5)) : MODEL.PesoDesejavel;
+        }
+        private decimal DoGetPercMGEstaturaPeso(int? IMC)
+        {
+            decimal PercMG = 0;
+
+            if (Configs.GESTREINO_AVALIDO_SEXO == "Masculino")
+                PercMG = (Convert.ToDecimal(1.281) * Convert.ToDecimal(IMC)) - Convert.ToDecimal(10.13);
+            else
+                PercMG = (Convert.ToDecimal(1.480) * Convert.ToDecimal(IMC)) - Convert.ToDecimal(7);
+
+            return PercMG;
+        }
+        private void DoSelectGroupBy_Sex_Idade(int? type)
+        {
+            if (type == 1)
+                SelectGroupAgeElevacoes(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
+            if (type == 2)
+                SelectGroupAgeFlexoes(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
+            if (type == 3)
+                SelectGroupAgePeso(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
+            if (type == 4)
+                SelectGroupAgeSentarAlcancar(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
+            if (type == 5)
+                SelectGroupAgeAgilidade(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
+            if (type == 6)
+                SelectGroupAgeAlcancar(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
+            if (type == 7)
+                SelectGroupAgeAndar(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
+            if (type == 8)
+                SelectGroupAgeStep(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
+        }
+        private decimal? GetValorAnteriorPessoaIdosa(int GT_SOCIOS_ID, int? Id, int? Type)
+        {
+            decimal? iFlexi = 0;
+            var data = databaseManager.GT_RespPessoaIdosa.Where(x => x.GT_SOCIOS_ID == GT_SOCIOS_ID && x.ID < Id && x.GT_TipoTestePessoaIdosa_ID == Type).OrderByDescending(x => x.DATA_INSERCAO).Take(1).ToList();
+
+            var flexflexNumberArr = data.Select(x => new List<decimal?>
+                {
+                   Type==3?x.RESP_SUMMARY:x.VALOR
+                }).ToArray();
+
+            if (flexflexNumberArr.Any())
+            {
+                var flexflexNumberArrList = flexflexNumberArr.First().ToList();
+
+                if (flexflexNumberArrList.Any())
+                {
+                    foreach (var x in flexflexNumberArrList)
+                    {
+                        if (x != null)
+                            iFlexi = x;
+                    }
+                }
+                else
+                    iFlexi = null;
+            }
+            else
+                iFlexi = null;
+            return iFlexi;
+        }
+        
 
 
 

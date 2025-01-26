@@ -90,20 +90,41 @@
                                         <div id="NElevacoes" style="display:@(Model.GT_TipoTestePessoaIdosa_ID==1?"":"none")">
                                             @Html.LabelFor(m => m.NElevacoes, new { @class = "col-md-4 col-form-label" })
                                             <div class="col-md-6">
-                                                @Html.TextBoxFor(m => m.NElevacoes, new { type = "number", min = "0", @class = "form-control form-control-sm" })
+                                                @if (Model.GT_TipoTestePessoaIdosa_ID == 1)
+                                                {
+                                                    @Html.TextBoxFor(m => m.NElevacoes, new { type = "number", min = "0", @class = "form-control form-control-sm",required="" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m.NElevacoes, new { type = "number", min = "0", @class = "form-control form-control-sm" })
+                                                }
                                             </div>
                                         </div>
                                         <div id="NFlexoes" style="display:@(Model.GT_TipoTestePessoaIdosa_ID==2?"":"none")">
                                             @Html.LabelFor(m => m.NFlexoes, new { @class = "col-md-4 col-form-label" })
                                             <div class="col-md-6">
-                                                @Html.TextBoxFor(m => m.NFlexoes, new { type = "number", min = "0", @class = "form-control form-control-sm" })
+                                                @if (Model.GT_TipoTestePessoaIdosa_ID == 2)
+                                                {
+                                                    @Html.TextBoxFor(m => m.NFlexoes, new { type = "number", min = "0", @class = "form-control form-control-sm",required="" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m.NFlexoes, new { type = "number", min = "0", @class = "form-control form-control-sm" })
+                                                }
                                             </div>
                                         </div>
                                         <div id="DistanciaSentarAlcancar" style="display:@(Model.GT_TipoTestePessoaIdosa_ID==4?"":"none")">
                                             @Html.LabelFor(m => m.DistanciaSentarAlcancar, new { @class = "col-md-4 col-form-label" })
                                             <div class="col-md-6">
                                                 <div class="input-group mb-3">
-                                                    @Html.TextBoxFor(m => m.DistanciaSentarAlcancar, new { type = "number", min = "0", @class = "form-control form-control-sm" })
+                                                    @if (Model.GT_TipoTestePessoaIdosa_ID == 4)
+                                                    {
+                                                        @Html.TextBoxFor(m => m.DistanciaSentarAlcancar, new { type = "number", min = "0", @class = "form-control form-control-sm",required="" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.TextBoxFor(m => m.DistanciaSentarAlcancar, new { type = "number", min = "0", @class = "form-control form-control-sm" })
+                                                    }
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text font-size-11" id="basic-addon1">cm</span>
                                                     </div>
@@ -114,7 +135,14 @@
                                             @Html.LabelFor(m => m.TempoAgilidade, new { @class = "col-md-4 col-form-label" })
                                             <div class="col-md-6">
                                                 <div class="input-group mb-3">
-                                                    @Html.TextBoxFor(m => m.TempoAgilidade, new { type = "number", min = "0", @class = "form-control form-control-sm" })
+                                                    @if (Model.GT_TipoTestePessoaIdosa_ID == 5)
+                                                    {
+                                                        @Html.TextBoxFor(m => m.TempoAgilidade, new { type = "number", min = "0", @class = "form-control form-control-sm",required="" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.TextBoxFor(m => m.TempoAgilidade, new { type = "number", min = "0", @class = "form-control form-control-sm" })
+                                                    }
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
                                                     </div>
@@ -125,7 +153,14 @@
                                             @Html.LabelFor(m => m.DistanciaAlcancar, new { @class = "col-md-4 col-form-label" })
                                             <div class="col-md-6">
                                                 <div class="input-group mb-3">
-                                                    @Html.TextBoxFor(m => m.DistanciaAlcancar, new { type = "number", min = "0", @class = "form-control form-control-sm" })
+                                                    @if (Model.GT_TipoTestePessoaIdosa_ID == 6)
+                                                    {
+                                                        @Html.TextBoxFor(m => m.DistanciaAlcancar, new { type = "number", min = "0", @class = "form-control form-control-sm",required="" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.TextBoxFor(m => m.DistanciaAlcancar, new { type = "number", min = "0", @class = "form-control form-control-sm" })
+                                                    }
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text font-size-11" id="basic-addon1">cm</span>
                                                     </div>
@@ -136,7 +171,14 @@
                                             @Html.LabelFor(m => m.DistanciaAndar, new { @class = "col-md-4 col-form-label" })
                                             <div class="col-md-6">
                                                 <div class="input-group mb-3">
-                                                    @Html.TextBoxFor(m => m.DistanciaAndar, new { type = "number", min = "0", @class = "form-control form-control-sm" })
+                                                    @if (Model.GT_TipoTestePessoaIdosa_ID == 7)
+                                                    {
+                                                        @Html.TextBoxFor(m => m.DistanciaAndar, new { type = "number", min = "0", @class = "form-control form-control-sm",required="" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.TextBoxFor(m => m.DistanciaAndar, new { type = "number", min = "0", @class = "form-control form-control-sm" })
+                                                    }
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text font-size-11" id="basic-addon1">m</span>
                                                     </div>
@@ -146,7 +188,14 @@
                                         <div id="SubidasStep" style="display:@(Model.GT_TipoTestePessoaIdosa_ID==8?"":"none")">
                                             @Html.LabelFor(m => m.SubidasStep, new { @class = "col-md-4 col-form-label" })
                                             <div class="col-md-6">
-                                                @Html.TextBoxFor(m => m.SubidasStep, new { type = "number", min = "0", @class = "form-control form-control-sm" })
+                                                @if (Model.GT_TipoTestePessoaIdosa_ID == 7)
+                                                {
+                                                    @Html.TextBoxFor(m => m.SubidasStep, new { type = "number", min = "0", @class = "form-control form-control-sm",required="" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(m => m.SubidasStep, new { type = "number", min = "0", @class = "form-control form-control-sm" })
+                                                }
                                             </div>
                                         </div>
                                         <div id="DesejavelShow" style="display:@(Model.GT_TipoTestePessoaIdosa_ID!=3?"":"none")">
@@ -158,24 +207,23 @@
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-12">
-                                                <label>FlexiÍndice Actual (0 a 100)</label>
+                                                <label>Classificação Actual (0 a 100)</label>
                                             </div>
                                             <div class="col-md-10">
                                                 <div class="progress">
-                                                    <div id="pgrflexActual" class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:@Model.iFlexiAct%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@Model.iFlexiAct</div>
+                                                    <div id="pgrflexActual" class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:@Model.iFlexiAct%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@Model.iFlexiAct%</div>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <label><b id="lblflexActual">@Model.lblResActualFlexi</b></label>
                                             </div>
                                             <div class="col-md-12 mt-2">
-                                                <label>FlexiÍndice Anterior  (0 a 100)</label>
+                                                <label>Classificação Anterior  (0 a 100)</label>
                                             </div>
                                             <div class="col-md-10">
                                                 <div class="progress">
-                                                    <div id="pgrflexAnterior" class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width:@Model.iFlexiAnt%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@Model.iFlexiAnt</div>
+                                                    <div id="pgrflexAnterior" class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width:@Model.iFlexiAnt%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@Model.iFlexiAnt%</div>
                                                 </div>
-
                                             </div>
                                             <div class="col-md-2">
                                                 <label><b id="lblflexAnterior">@Model.lblResAnteriorFlexi</b></label>
