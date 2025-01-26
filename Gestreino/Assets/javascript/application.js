@@ -4160,6 +4160,10 @@ function loadGT_TipoTesteCardio_List(id) {
         $('#astrand').hide();
         $('#astrand').find('input').attr("required", false);
         $('#astrand').find('input').val('');
+
+        $('#ymca').hide();
+        $('#ymca').find('input').attr("required", false);
+        //$('#ymca').find('input').val('');
         
     }
     if (id == '2') //Cooper
@@ -4187,6 +4191,10 @@ function loadGT_TipoTesteCardio_List(id) {
         $('#astrand').hide();
         $('#astrand').find('input').attr("required", false);
         $('#astrand').find('input').val('');
+
+        $('#ymca').hide();
+        $('#ymca').find('input').attr("required", false);
+        //$('#ymca').find('input').val('');
     }
     if (id == '3') //Caminhada de Rockport Institute
     {
@@ -4213,6 +4221,10 @@ function loadGT_TipoTesteCardio_List(id) {
         $('#astrand').hide();
         $('#astrand').find('input').attr("required", false);
         $('#astrand').find('input').val('');
+
+        $('#ymca').hide();
+        $('#ymca').find('input').attr("required", false);
+        //$('#ymca').find('input').val('');
     }
     if (id == '4') //Queens College
     {
@@ -4239,6 +4251,10 @@ function loadGT_TipoTesteCardio_List(id) {
         $('#astrand').hide();
         $('#astrand').find('input').attr("required", false);
         $('#astrand').find('input').val('');
+
+        $('#ymca').hide();
+        $('#ymca').find('input').attr("required", false);
+        //$('#ymca').find('input').val('');
     }
     if (id == '5') //Jogging
     {
@@ -4265,6 +4281,10 @@ function loadGT_TipoTesteCardio_List(id) {
         $('#astrand').hide();
         $('#astrand').find('input').attr("required", false);
         $('#astrand').find('input').val('');
+
+        $('#ymca').hide();
+        $('#ymca').find('input').attr("required", false);
+        //$('#ymca').find('input').val('');
     }
     if (id == '6') //Astrand
     {
@@ -4291,22 +4311,321 @@ function loadGT_TipoTesteCardio_List(id) {
         $('#astrand').show();
         $('#astrand').find('input').attr("required", true);
         $('#astrand').find('input').val('');
+
+        $('#ymca').hide();
+        $('#ymca').find('input').attr("required", false);
+        //$('#ymca').find('input').val('');
     }
-    if (id == '4' || id == '5' || id == '6' || id == '7') //YMCA
+    if (id == '7') //YMCA
     {
-        $('#jackson').hide();
-        $('#weltman').hide();
-        $('#Deurenberg').hide();
+        $('#200m').hide();
+        $('#200m').find('input').attr("required", false);
+        $('#200m').find('input').val('');
 
-        $('#PerimetroUmbigo').attr("required", false);
-        $('#jackson').find('input').attr("required", false);
-        $('#Resistencia').attr("required", false);
+        $('#cooper').hide();
+        $('#cooper').find('input').attr("required", false);
+        $('#cooper').find('input').val('');
 
-        $('#PercMG').attr("readonly", false);
-        $('#PercMG').attr("required", true);
-        //
-        $('#PerimetroUmbigo').val('');
-        $('#jackson').find('input').val('');
-        $('#Resistencia').val('');
+        $('#rockport').hide();
+        $('#rockport').find('input').attr("required", false);
+        $('#rockport').find('input').val('');
+
+        $('#queens').hide();
+        $('#queens').find('input').attr("required", false);
+        $('#queens').find('input').val('');
+
+        $('#jogging').hide();
+        $('#jogging').find('input').attr("required", false);
+        $('#jogging').find('input').val('');
+
+        $('#astrand').hide();
+        $('#astrand').find('input').attr("required", false);
+        $('#astrand').find('input').val('');
+
+        $('#ymca').show();
+        $('#ymca').find('input').attr("required", true);
+        //$('#ymca').find('input').val('');
+    }
+}
+function loadGT_TipoTestePessoaIdosa_List(id) {
+    if (id == '3') {
+        $('#DesejavelShow').hide();
+        $('#Desejavel').find('input').val('');
+    } else {
+        $('#DesejavelShow').show();
+        $('#Desejavel').find('input').val('');
+    }
+    if (id == '1') 
+    {
+        $('#NElevacoes').show();
+        $('#NElevacoes').find('input').attr("required", true);
+        $('#NElevacoes').find('input').val('');
+
+        $('#NFlexoes').hide();
+        $('#NFlexoes').find('input').attr("required", false);
+        $('#NFlexoes').find('input').val('');
+
+        $('#PesoDesejavel').hide();
+        //$('#PesoDesejavel').find('input').attr("required", false);
+        $('#PesoDesejavel').find('input').val('');
+
+        $('#DistanciaSentarAlcancar').hide();
+        $('#DistanciaSentarAlcancar').find('input').attr("required", false);
+        $('#DistanciaSentarAlcancar').find('input').val('');
+
+        $('#TempoAgilidade').hide();
+        $('#TempoAgilidade').find('input').attr("required", false);
+        $('#TempoAgilidade').find('input').val('');
+
+        $('#DistanciaAlcancar').hide();
+        $('#DistanciaAlcancar').find('input').attr("required", false);
+        $('#DistanciaAlcancar').find('input').val('');
+
+        $('#DistanciaAndar').hide();
+        $('#DistanciaAndar').find('input').attr("required", false);
+        $('#DistanciaAndar').find('input').val('');
+
+        $('#SubidasStep').hide();
+        $('#SubidasStep').find('input').attr("required", false);
+        $('#SubidasStep').find('input').val('');
+
+    }
+    if (id == '2')
+    {
+        $('#NElevacoes').hide();
+        $('#NElevacoes').find('input').attr("required", false);
+        $('#NElevacoes').find('input').val('');
+
+        $('#NFlexoes').show();
+        $('#NFlexoes').find('input').attr("required", true);
+        $('#NFlexoes').find('input').val('');
+
+        $('#PesoDesejavel').hide();
+        //$('#PesoDesejavel').find('input').attr("required", false);
+        $('#PesoDesejavel').find('input').val('');
+
+        $('#DistanciaSentarAlcancar').hide();
+        $('#DistanciaSentarAlcancar').find('input').attr("required", false);
+        $('#DistanciaSentarAlcancar').find('input').val('');
+
+        $('#TempoAgilidade').hide();
+        $('#TempoAgilidade').find('input').attr("required", false);
+        $('#TempoAgilidade').find('input').val('');
+
+        $('#DistanciaAlcancar').hide();
+        $('#DistanciaAlcancar').find('input').attr("required", false);
+        $('#DistanciaAlcancar').find('input').val('');
+
+        $('#DistanciaAndar').hide();
+        $('#DistanciaAndar').find('input').attr("required", false);
+        $('#DistanciaAndar').find('input').val('');
+
+        $('#SubidasStep').hide();
+        $('#SubidasStep').find('input').attr("required", false);
+        $('#SubidasStep').find('input').val('');
+
+    }
+    if (id == '3') 
+    {
+        $('#NElevacoes').hide();
+        $('#NElevacoes').find('input').attr("required", false);
+        $('#NElevacoes').find('input').val('');
+
+        $('#NFlexoes').hide();
+        $('#NFlexoes').find('input').attr("required", false);
+        $('#NFlexoes').find('input').val('');
+
+        $('#DistanciaSentarAlcancar').hide();
+        $('#DistanciaSentarAlcancar').find('input').attr("required", false);
+        $('#DistanciaSentarAlcancar').find('input').val('');
+
+        $('#PesoDesejavel').show();
+        //$('#PesoDesejavel').find('input').attr("required", false);
+        $('#PesoDesejavel').find('input').val('');
+        
+        $('#TempoAgilidade').hide();
+        $('#TempoAgilidade').find('input').attr("required", false);
+        $('#TempoAgilidade').find('input').val('');
+
+        $('#DistanciaAlcancar').hide();
+        $('#DistanciaAlcancar').find('input').attr("required", false);
+        $('#DistanciaAlcancar').find('input').val('');
+
+        $('#DistanciaAndar').hide();
+        $('#DistanciaAndar').find('input').attr("required", false);
+        $('#DistanciaAndar').find('input').val('');
+
+        $('#SubidasStep').hide();
+        $('#SubidasStep').find('input').attr("required", false);
+        $('#SubidasStep').find('input').val('');
+    }
+    if (id == '4') 
+    {
+        $('#NElevacoes').hide();
+        $('#NElevacoes').find('input').attr("required", false);
+        $('#NElevacoes').find('input').val('');
+
+        $('#NFlexoes').hide();
+        $('#NFlexoes').find('input').attr("required", false);
+        $('#NFlexoes').find('input').val('');
+
+        $('#PesoDesejavel').hide();
+        //$('#PesoDesejavel').find('input').attr("required", false);
+        $('#PesoDesejavel').find('input').val('');
+
+        $('#DistanciaSentarAlcancar').show();
+        $('#DistanciaSentarAlcancar').find('input').attr("required", true);
+        $('#DistanciaSentarAlcancar').find('input').val('');
+
+        $('#TempoAgilidade').hide();
+        $('#TempoAgilidade').find('input').attr("required", false);
+        $('#TempoAgilidade').find('input').val('');
+
+        $('#DistanciaAlcancar').hide();
+        $('#DistanciaAlcancar').find('input').attr("required", false);
+        $('#DistanciaAlcancar').find('input').val('');
+
+        $('#DistanciaAndar').hide();
+        $('#DistanciaAndar').find('input').attr("required", false);
+        $('#DistanciaAndar').find('input').val('');
+
+        $('#SubidasStep').hide();
+        $('#SubidasStep').find('input').attr("required", false);
+        $('#SubidasStep').find('input').val('');
+    }
+    if (id == '5') 
+    {
+        $('#NElevacoes').hide();
+        $('#NElevacoes').find('input').attr("required", false);
+        $('#NElevacoes').find('input').val('');
+
+        $('#NFlexoes').hide();
+        $('#NFlexoes').find('input').attr("required", false);
+        $('#NFlexoes').find('input').val('');
+
+        $('#PesoDesejavel').hide();
+        //$('#PesoDesejavel').find('input').attr("required", false);
+        $('#PesoDesejavel').find('input').val('');
+
+        $('#DistanciaSentarAlcancar').hide();
+        $('#DistanciaSentarAlcancar').find('input').attr("required", false);
+        $('#DistanciaSentarAlcancar').find('input').val('');
+
+        $('#TempoAgilidade').show();
+        $('#TempoAgilidade').find('input').attr("required", true);
+        $('#TempoAgilidade').find('input').val('');
+
+        $('#DistanciaAlcancar').hide();
+        $('#DistanciaAlcancar').find('input').attr("required", false);
+        $('#DistanciaAlcancar').find('input').val('');
+
+        $('#DistanciaAndar').hide();
+        $('#DistanciaAndar').find('input').attr("required", false);
+        $('#DistanciaAndar').find('input').val('');
+
+        $('#SubidasStep').hide();
+        $('#SubidasStep').find('input').attr("required", false);
+        $('#SubidasStep').find('input').val('');
+    }
+    if (id == '6') 
+    {
+        $('#NElevacoes').hide();
+        $('#NElevacoes').find('input').attr("required", false);
+        $('#NElevacoes').find('input').val('');
+
+        $('#NFlexoes').hide();
+        $('#NFlexoes').find('input').attr("required", false);
+        $('#NFlexoes').find('input').val('');
+
+        $('#PesoDesejavel').hide();
+        //$('#PesoDesejavel').find('input').attr("required", false);
+        $('#PesoDesejavel').find('input').val('');
+
+        $('#DistanciaSentarAlcancar').hide();
+        $('#DistanciaSentarAlcancar').find('input').attr("required", false);
+        $('#DistanciaSentarAlcancar').find('input').val('');
+
+        $('#TempoAgilidade').hide();
+        $('#TempoAgilidade').find('input').attr("required", false);
+        $('#TempoAgilidade').find('input').val('');
+
+        $('#DistanciaAlcancar').show();
+        $('#DistanciaAlcancar').find('input').attr("required", true);
+        $('#DistanciaAlcancar').find('input').val('');
+
+        $('#DistanciaAndar').hide();
+        $('#DistanciaAndar').find('input').attr("required", false);
+        $('#DistanciaAndar').find('input').val('');
+
+        $('#SubidasStep').hide();
+        $('#SubidasStep').find('input').attr("required", false);
+        $('#SubidasStep').find('input').val('');
+    }
+    if (id == '7') 
+    {
+        $('#NElevacoes').hide();
+        $('#NElevacoes').find('input').attr("required", false);
+        $('#NElevacoes').find('input').val('');
+
+        $('#NFlexoes').hide();
+        $('#NFlexoes').find('input').attr("required", false);
+        $('#NFlexoes').find('input').val('');
+
+        $('#PesoDesejavel').hide();
+        //$('#PesoDesejavel').find('input').attr("required", false);
+        $('#PesoDesejavel').find('input').val('');
+
+        $('#DistanciaSentarAlcancar').hide();
+        $('#DistanciaSentarAlcancar').find('input').attr("required", false);
+        $('#DistanciaSentarAlcancar').find('input').val('');
+
+        $('#TempoAgilidade').hide();
+        $('#TempoAgilidade').find('input').attr("required", false);
+        $('#TempoAgilidade').find('input').val('');
+
+        $('#DistanciaAlcancar').hide();
+        $('#DistanciaAlcancar').find('input').attr("required", false);
+        $('#DistanciaAlcancar').find('input').val('');
+
+        $('#DistanciaAndar').show();
+        $('#DistanciaAndar').find('input').attr("required", true);
+        $('#DistanciaAndar').find('input').val('');
+
+        $('#SubidasStep').hide();
+        $('#SubidasStep').find('input').attr("required", false);
+        $('#SubidasStep').find('input').val('');
+    }
+    if (id == '8') {
+        $('#NElevacoes').hide();
+        $('#NElevacoes').find('input').attr("required", false);
+        $('#NElevacoes').find('input').val('');
+
+        $('#NFlexoes').hide();
+        $('#NFlexoes').find('input').attr("required", false);
+        $('#NFlexoes').find('input').val('');
+
+        $('#PesoDesejavel').hide();
+        //$('#PesoDesejavel').find('input').attr("required", false);
+        $('#PesoDesejavel').find('input').val('');
+
+        $('#DistanciaSentarAlcancar').hide();
+        $('#DistanciaSentarAlcancar').find('input').attr("required", false);
+        $('#DistanciaSentarAlcancar').find('input').val('');
+
+        $('#TempoAgilidade').hide();
+        $('#TempoAgilidade').find('input').attr("required", false);
+        $('#TempoAgilidade').find('input').val('');
+
+        $('#DistanciaAlcancar').hide();
+        $('#DistanciaAlcancar').find('input').attr("required", false);
+        $('#DistanciaAlcancar').find('input').val('');
+
+        $('#DistanciaAndar').hide();
+        $('#DistanciaAndar').find('input').attr("required", false);
+        $('#DistanciaAndar').find('input').val('');
+
+        $('#SubidasStep').show();
+        $('#SubidasStep').find('input').attr("required", true);
+        $('#SubidasStep').find('input').val('');
     }
 }

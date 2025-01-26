@@ -25,6 +25,7 @@ namespace Gestreino
             this.GT_RespFlexiTeste = new HashSet<GT_RespFlexiTeste>();
             this.GT_RespComposicao = new HashSet<GT_RespComposicao>();
             this.GT_RespAptidaoCardio = new HashSet<GT_RespAptidaoCardio>();
+            this.GT_RespPessoaIdosa = new HashSet<GT_RespPessoaIdosa>();
         }
     
         public int ID { get; set; }
@@ -48,5 +49,7 @@ namespace Gestreino
         public virtual ICollection<GT_RespComposicao> GT_RespComposicao { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GT_RespAptidaoCardio> GT_RespAptidaoCardio { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GT_RespPessoaIdosa> GT_RespPessoaIdosa { get; set; }
     }
 }

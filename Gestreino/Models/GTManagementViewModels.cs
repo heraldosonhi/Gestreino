@@ -1107,67 +1107,146 @@ namespace Gestreino.Models
         [Display(Name = "Protocolo:")]
         public int? GT_TipoTesteCardio_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> GT_TipoTesteCardio_List { get; set; }
-        //
+
         public decimal? V02Mets { get; set; }
         public decimal? V02CustoCalMin { get; set; }
 
         [Display(Name = "VO2 máx.:")]
         public decimal? V02max { get; set; }
         [Display(Name = "VO2 Desejável:")]
-        public int? V02desejavel { get; set; }
+        public string V02desejavel { get; set; }
 
         [Display(Name = "Custo calórico do exercicío:")]
-        public int? CustoCalorico { get; set; }
+        public decimal? CustoCalorico { get; set; }
 
         [Display(Name = "Tempo de realização dos 2000 M:")]
-        public int? TempoRealizacao200 { get; set; }
+        public decimal? TempoRealizacao200 { get; set; }
 
         [Display(Name = "Média Watts:")]
-        public int? MediaWatts { get; set; }
+        public decimal? MediaWatts { get; set; }
 
         [Display(Name = "Distância percorrida em 12 m:")]
-        public int? Distancia12m { get; set; }
+        public decimal? Distancia12m { get; set; }
 
         [Display(Name = "Tempo a percorrer 1600 m:")]
-        public int? Tempo1600m { get; set; }
+        public decimal? Tempo1600m { get; set; }
 
         [Display(Name = "Frequência cardíaca no últimos 400m:")]
-        public int? Frequencia400m { get; set; }
+        public decimal? Frequencia400m { get; set; }
 
         [Display(Name = "Frequência cardíaca no fim do teste:")]
-        public int? FrequenciaFimTeste { get; set; }
+        public decimal? FrequenciaFimTeste { get; set; }
 
         [Display(Name = "Média da frequência cardíaca:")]
-        public int? MediaFrequencia { get; set; }
+        public decimal? MediaFrequencia { get; set; }
 
         [Display(Name = "FC 15 seg. depois do teste:")]
-        public int? FC15sec { get; set; }
+        public decimal? FC15sec { get; set; }
 
         [Display(Name = "FC aos 3 minutos:")]
-        public int? FC3min { get; set; }
+        public decimal? FC3min { get; set; }
 
         [Display(Name = "Velocidade:")]
-        public int? Velocidade { get; set; }
+        public decimal? Velocidade { get; set; }
+
+        [Display(Name = "Velocidade:")]
+        public decimal? VelocidadeMPH { get; set; }
 
         [Display(Name = "Factor de correcção:")]
         public int? FactorCorrecao { get; set; }
 
         [Display(Name = "Carga:")]
-        public int? Carga { get; set; }
+        public decimal? Carga { get; set; }
 
         [Display(Name = "FC 4º minuto:")]
-        public int? FC4min { get; set; }
+        public decimal? FC4min { get; set; }
 
         [Display(Name = "FC 5º minuto:")]
-        public int? FC5min { get; set; }
+        public decimal? FC5min { get; set; }
 
         [Display(Name = "Valor Médio FC:")]
-        public int? ValorMedioFC { get; set; }
+        public decimal? ValorMedioFC { get; set; }
 
         [Display(Name = "VO2 Carga:")]
-        public int? VO2Carga { get; set; }
+        public decimal? VO2Carga { get; set; }
 
-        //
+        [Display(Name = "Equação da Recta:")]
+        public decimal? EquacaoRecta { get; set; }
+        public int? iFlexiAct { get; set; }
+        public string lblResActualFlexi { get; set; }
+        public int? iFlexiAnt { get; set; }
+        public string lblResAnteriorFlexi { get; set; }
+        public DateTime? lblDataInsercao { get; set; }
+        public decimal? V02maxResp { get; set; }
+
+        public decimal? YMCACarga1 { get; set; }
+        public decimal? YMCACarga2 { get; set; }
+        public decimal? YMCACarga3 { get; set; }
+        public decimal? YMCACarga4 { get; set; }
+        public decimal? YMCATrab1{ get; set; }
+        public decimal? YMCATrab2 { get; set; }
+        public decimal? YMCATrab3 { get; set; }
+        public decimal? YMCATrab4 { get; set; }
+        public decimal? YMCAPot1 { get; set; }
+        public decimal? YMCAPot2 { get; set; }
+        public decimal? YMCAPot3 { get; set; }
+        public decimal? YMCAPot4 { get; set; }
+        public decimal? YMCAVO21 { get; set; }
+        public decimal? YMCAVO22 { get; set; }
+        public decimal? YMCAVO23 { get; set; }
+        public decimal? YMCAVO24 { get; set; }
+        public decimal? YMCAFC1 { get; set; }
+        public decimal? YMCAFC2 { get; set; }
+        public decimal? YMCAFC3 { get; set; }
+        public decimal? YMCAFC4 { get; set; }
+    }
+
+    public class Elderly
+    {
+        public int? ID { get; set; }
+        public int? PEsId { get; set; }
+
+        [Display(Name = "Teste:")]
+        public int GT_TipoTestePessoaIdosa_ID { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> GT_TipoTestePessoaIdosa_List { get; set; }
+
+        [Display(Name = "Desejável:")]
+        public string Desejavel { get; set; }
+
+        [Display(Name = "Nº Elevações:")]
+        public decimal? NElevacoes { get; set; }
+
+        [Display(Name = "Nº Flexões:")]
+        public decimal? NFlexoes { get; set; }
+
+        [Display(Name = "Distância:")]
+        public decimal? DistanciaSentarAlcancar { get; set; }
+
+        [Display(Name = "Tempo:")]
+        public decimal? TempoAgilidade { get; set; }
+
+        [Display(Name = "Distância:")]
+        public decimal? DistanciaAlcancar { get; set; }
+
+        [Display(Name = "Distância:")]
+        public decimal? DistanciaAndar { get; set; }
+
+        [Display(Name = "Nº Subidas Step:")]
+        public decimal? SubidasStep { get; set; }
+
+        [Display(Name = "Peso Desejável:")]
+        public decimal? PesoDesejavel { get; set; }
+
+        [Display(Name = "IMC:")]
+        public decimal? IMC { get; set; }
+
+        [Display(Name = "% MG:")]
+        public decimal? MG { get; set; }
+
+        [Display(Name = "% MG Desejável:")]
+        public decimal? MGDesejavel { get; set; }
+
+        public decimal? Valor { get; set; }
         public int? iFlexiAct { get; set; }
         public string lblResActualFlexi { get; set; }
         public int? iFlexiAnt { get; set; }

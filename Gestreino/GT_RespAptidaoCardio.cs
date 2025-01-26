@@ -14,28 +14,33 @@ namespace Gestreino
     
     public partial class GT_RespAptidaoCardio
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public GT_RespAptidaoCardio()
+        {
+            this.GT_RespAptidaoCardioYMCA = new HashSet<GT_RespAptidaoCardioYMCA>();
+        }
+    
         public int ID { get; set; }
         public int GT_SOCIOS_ID { get; set; }
         public int GT_TipoTesteCardio_ID { get; set; }
-        public Nullable<int> CARGA { get; set; }
-        public Nullable<int> TEMPO { get; set; }
-        public Nullable<int> FC4M { get; set; }
-        public Nullable<int> FC5M { get; set; }
-        public Nullable<int> FC400M { get; set; }
-        public Nullable<int> FC3M { get; set; }
-        public Nullable<int> FC15M { get; set; }
-        public Nullable<int> FCFIMTESTE { get; set; }
-        public Nullable<int> VELOCIDADE { get; set; }
-        public Nullable<int> VELOCIDADEMPH { get; set; }
-        public Nullable<int> DISTANCIA { get; set; }
-        public Nullable<int> V02CARGA { get; set; }
-        public Nullable<int> MEDIA { get; set; }
-        public Nullable<int> VO2MAX { get; set; }
-        public Nullable<int> CUSTO { get; set; }
-        public Nullable<int> CUSTOCAL { get; set; }
-        public Nullable<int> VO2DESEJAVEL { get; set; }
+        public Nullable<decimal> CARGA { get; set; }
+        public Nullable<decimal> TEMPO { get; set; }
+        public Nullable<decimal> FC4M { get; set; }
+        public Nullable<decimal> FC5M { get; set; }
+        public Nullable<decimal> FC400M { get; set; }
+        public Nullable<decimal> FC3M { get; set; }
+        public Nullable<decimal> FC15M { get; set; }
+        public Nullable<decimal> FCFIMTESTE { get; set; }
+        public Nullable<decimal> VELOCIDADE { get; set; }
+        public Nullable<decimal> VELOCIDADEMPH { get; set; }
+        public Nullable<decimal> MEDIA { get; set; }
+        public Nullable<decimal> VO2MAX { get; set; }
+        public Nullable<decimal> V02METS { get; set; }
+        public Nullable<decimal> CUSTO { get; set; }
+        public Nullable<decimal> CUSTOCAL { get; set; }
+        public string VO2DESEJAVEL { get; set; }
         public Nullable<int> CLASSIFICACAO { get; set; }
-        public Nullable<int> RESP_SUMMARY { get; set; }
+        public Nullable<decimal> RESP_SUMMARY { get; set; }
         public string RESP_DESCRICAO { get; set; }
         public Nullable<int> PERCENTIL { get; set; }
         public int INSERIDO_POR { get; set; }
@@ -47,5 +52,7 @@ namespace Gestreino
     
         public virtual GT_SOCIOS GT_SOCIOS { get; set; }
         public virtual GT_TipoTesteCardio GT_TipoTesteCardio { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GT_RespAptidaoCardioYMCA> GT_RespAptidaoCardioYMCA { get; set; }
     }
 }

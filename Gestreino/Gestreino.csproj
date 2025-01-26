@@ -285,6 +285,9 @@
     <Compile Include="GT_RespAptidaoCardio.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_RespAptidaoCardioYMCA.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="GT_RespAutoConceito.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -292,6 +295,9 @@
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="GT_RespFlexiTeste.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_RespPessoaIdosa.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="GT_RespProblemasSaude.cs">
@@ -325,6 +331,9 @@
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="GT_TipoTesteFlexibilidade.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_TipoTestePessoaIdosa.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="GT_TipoTreino.cs">
@@ -773,6 +782,7 @@
     <Content Include="Views\GTManagement\Quest\Flexibility.cshtml" />
     <Content Include="Views\GTManagement\Quest\BodyComposition.cshtml" />
     <Content Include="Views\GTManagement\Quest\Cardio.cshtml" />
+    <Content Include="Views\GTManagement\Quest\Elderly.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -98,9 +98,12 @@ namespace Gestreino
         public virtual DbSet<GT_TipoNivelActividade> GT_TipoNivelActividade { get; set; }
         public virtual DbSet<GT_TipoTesteComposicao> GT_TipoTesteComposicao { get; set; }
         public virtual DbSet<GT_RespComposicao> GT_RespComposicao { get; set; }
-        public virtual DbSet<GT_RespAptidaoCardio> GT_RespAptidaoCardio { get; set; }
         public virtual DbSet<GT_TipoMetodoCardio> GT_TipoMetodoCardio { get; set; }
         public virtual DbSet<GT_TipoTesteCardio> GT_TipoTesteCardio { get; set; }
+        public virtual DbSet<GT_RespAptidaoCardioYMCA> GT_RespAptidaoCardioYMCA { get; set; }
+        public virtual DbSet<GT_RespAptidaoCardio> GT_RespAptidaoCardio { get; set; }
+        public virtual DbSet<GT_RespPessoaIdosa> GT_RespPessoaIdosa { get; set; }
+        public virtual DbSet<GT_TipoTestePessoaIdosa> GT_TipoTestePessoaIdosa { get; set; }
     
         public virtual ObjectResult<SP_UTILIZADORES_LOGIN_LOGS_Result> SP_UTILIZADORES_LOGIN_LOGS(Nullable<int> userId, string action)
         {

@@ -53,8 +53,8 @@
                         <li class="@(ViewBag.LeftBarLinkActive==211?"current-page":"")">
                             <a style="border-left: 3px dotted #00ff21" href="@Url.Action("cardio", "gtmanagement", new {Id=string.Empty})">Aptidão Cardiorespiratória</a>
                         </li>
-                        <li>
-                            <a href="#">Pessoa Idosa</a>
+                        <li class="@(ViewBag.LeftBarLinkActive==212?"current-page":"")">
+                            <a style="border-left: 3px dotted #00ff21" href="@Url.Action("elderly", "gtmanagement", new {Id=string.Empty})">Pessoa Idosa</a>
                         </li>
                         <li>
                             <a href="#">Força</a>
@@ -68,10 +68,7 @@
                     <a><i class="fa fa-history"></i> Consultas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li><a href="#">Prescrições</a></li>
-                        <li><a href="#">Prescrições / Data</a></li>
                         <li><a href="#">Avaliações</a></li>
-                        <li><a href="#l">Avaliações / Data</a></li>
-                        <li><a href="#">Avaliações / Percentil</a></li>
                         <li><a href="#">Peso Médio</a></li>
                         <li><a href="#">Análise Descritiva</a></li>
                         <li><a href="#">Ranking Avaliações</a></li>

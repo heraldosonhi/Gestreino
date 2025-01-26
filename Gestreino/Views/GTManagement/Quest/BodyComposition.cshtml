@@ -103,7 +103,7 @@
                                                         @Html.LabelFor(m => m.Aperder, new { @class = "col-md-3 col-form-label" })
                                                         <div class="col-md-7">
                                                             <div class="input-group mb-3">
-                                                                @Html.TextBoxFor(m => m.Aperder, new { Value = Model.Aperder.HasValue ? (Model.Aperder ?? 0).ToString("F").Replace(".", ",") : "", type = "", @readonly = "", min = "0", @class = "form-control form-control-sm" })
+                                                                @Html.TextBoxFor(m => m.Aperder, new { type = "", @readonly = "", min = "0", @class = "form-control form-control-sm" })
                                                                 <div class="input-group-prepend">
                                                                     <span class="input-group-text font-size-11" id="basic-addon1">kg</span>
                                                                 </div>
@@ -307,13 +307,13 @@
                                                 }
                                                 else
                                                 {
-                                                    @Html.TextBoxFor(m => m.PercMG, new { Value = Model.PercMG.HasValue ? (Model.PercMG ?? 0).ToString("F3").Replace(".", ",") : "", type = "", @readonly = "", min = "0", @class = "form-control form-control-sm" })
+                                                    @Html.TextBoxFor(m => m.PercMG, new {  type = "", @readonly = "", min = "0", @class = "form-control form-control-sm" })
                                                 }
                                             </div>
                                             @Html.LabelFor(m => m.MIG, new { @class = "col-md-1 col-form-label" })
                                             <div class="col-md-2">
                                                 <div class="input-group mb-3">
-                                                    @Html.TextBoxFor(m => m.MIG, new { Value = Model.MIG.HasValue ? (Model.MIG ?? 0).ToString("F").Replace(".", ",") : "", type = "", @readonly = "", min = "0", @class = "form-control form-control-sm" })
+                                                    @Html.TextBoxFor(m => m.MIG, new { type = "", @readonly = "", min = "0", @class = "form-control form-control-sm" })
 
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text font-size-11" id="basic-addon1">kg</span>
@@ -323,7 +323,7 @@
                                             @Html.LabelFor(m => m.MG, new { @class = "col-md-1 col-form-label" })
                                             <div class="col-md-2">
                                                 <div class="input-group mb-3">
-                                                    @Html.TextBoxFor(m => m.MG, new { Value = Model.MG.HasValue ? (Model.MG ?? 0).ToString("F3").Replace(".", ",") : "", type = "", @readonly = "", min = "0", @class = "form-control form-control-sm" })
+                                                    @Html.TextBoxFor(m => m.MG, new { type = "", @readonly = "", min = "0", @class = "form-control form-control-sm" })
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text font-size-11" id="basic-addon1">kg</span>
                                                     </div>
@@ -343,7 +343,7 @@
                                             @Html.LabelFor(m => m.MetabolismoRepouso, new { @class = "col-md-3 col-form-label" })
                                             <div class="col-md-3">
                                                 <div class="input-group mb-3">
-                                                    @Html.TextBoxFor(m => m.MetabolismoRepouso, new { Value = Model.MetabolismoRepouso.HasValue ? (Model.MetabolismoRepouso ?? 0).ToString("F3").Replace(".", ",") : "", type = "", @readonly = "", min = "0", @class = "form-control form-control-sm" })
+                                                    @Html.TextBoxFor(m => m.MetabolismoRepouso, new { type = "", @readonly = "", min = "0", @class = "form-control form-control-sm" })
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text font-size-11" id="basic-addon1">Cal/Dia</span>
                                                     </div>
@@ -360,7 +360,7 @@
                                             @Html.LabelFor(m => m.Estimacao, new { @class = "col-md-3 col-form-label" })
                                             <div class="col-md-3">
                                                 <div class="input-group mb-3">
-                                                    @Html.TextBoxFor(m => m.Estimacao, new { Value = Model.Estimacao.HasValue ? (Model.Estimacao ?? 0).ToString("F3").Replace(".", ",") : "", type = "", @readonly = "", min = "0", @class = "form-control form-control-sm" })
+                                                    @Html.TextBoxFor(m => m.Estimacao, new {  type = "", @readonly = "", min = "0", @class = "form-control form-control-sm" })
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text font-size-11" id="basic-addon1">Cal/Dia</span>
                                                     </div>
