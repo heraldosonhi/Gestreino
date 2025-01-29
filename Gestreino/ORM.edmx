@@ -483,6 +483,40 @@
           <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
           <Property Name="DATA_REMOCAO" Type="datetime" />
         </EntityType>
+        <EntityType Name="GT_RespForca">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GT_SOCIOS_ID" Type="int" Nullable="false" />
+          <Property Name="GT_TipoTesteForca_ID" Type="int" Nullable="false" />
+          <Property Name="CARGA" Type="nchar" MaxLength="10" />
+          <Property Name="REPETICOES90" Type="nchar" MaxLength="10" />
+          <Property Name="VINICIAL" Type="nchar" MaxLength="10" />
+          <Property Name="NUM_ABDOMINAIS" Type="nchar" MaxLength="10" />
+          <Property Name="NUM_FLEXOES" Type="nchar" MaxLength="10" />
+          <Property Name="TENTATIVA1" Type="int" />
+          <Property Name="TENTATIVA2" Type="int" />
+          <Property Name="TENTATIVA3" Type="int" />
+          <Property Name="TENTATIVA4" Type="int" />
+          <Property Name="TENTATIVA5" Type="int" />
+          <Property Name="TENTATIVA6" Type="int" />
+          <Property Name="TENTATIVA7" Type="int" />
+          <Property Name="TENTATIVA8" Type="int" />
+          <Property Name="TENTATIVA9" Type="int" />
+          <Property Name="TENTATIVA10" Type="int" />
+          <Property Name="FADIGASPRINT" Type="int" />
+          <Property Name="DESEJAVEL" Type="varchar" MaxLength="255" />
+          <Property Name="RESP_SUMMARY" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="RESP_DESCRICAO" Type="varchar" MaxLength="4000" />
+          <Property Name="PERCENTIL" Type="int" />
+          <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="int" />
+          <Property Name="REMOVIDO_POR" Type="int" />
+          <Property Name="DATA_INSERCAO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
+          <Property Name="DATA_REMOCAO" Type="datetime" />
+        </EntityType>
         <EntityType Name="GT_RespPessoaIdosa">
           <Key>
             <PropertyRef Name="ID" />
@@ -717,6 +751,13 @@
           <Property Name="DESCRICAO" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="GT_TipoTesteFlexibilidade">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DESCRICAO" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GT_TipoTesteForca">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -2407,6 +2448,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="GT_RespForca_GT_SOCIOS_ID">
+          <End Role="GT_SOCIOS" Type="Self.GT_SOCIOS" Multiplicity="1" />
+          <End Role="GT_RespForca" Type="Self.GT_RespForca" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_SOCIOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespForca">
+              <PropertyRef Name="GT_SOCIOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_RespForca_GT_TipoTesteForca_ID">
+          <End Role="GT_TipoTesteForca" Type="Self.GT_TipoTesteForca" Multiplicity="1" />
+          <End Role="GT_RespForca" Type="Self.GT_RespForca" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoTesteForca">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespForca">
+              <PropertyRef Name="GT_TipoTesteForca_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="GT_RespPessoaIdosa_GT_SOCIOS_ID">
           <End Role="GT_SOCIOS" Type="Self.GT_SOCIOS" Multiplicity="1" />
           <End Role="GT_RespPessoaIdosa" Type="Self.GT_RespPessoaIdosa" Multiplicity="*" />
@@ -3027,6 +3092,7 @@
           <EntitySet Name="GT_RespAutoConceito" EntityType="Self.GT_RespAutoConceito" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespComposicao" EntityType="Self.GT_RespComposicao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespFlexiTeste" EntityType="Self.GT_RespFlexiTeste" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_RespForca" EntityType="Self.GT_RespForca" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespPessoaIdosa" EntityType="Self.GT_RespPessoaIdosa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespProblemasSaude" EntityType="Self.GT_RespProblemasSaude" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespRisco" EntityType="Self.GT_RespRisco" Schema="dbo" store:Type="Tables" />
@@ -3039,6 +3105,7 @@
           <EntitySet Name="GT_TipoTesteCardio" EntityType="Self.GT_TipoTesteCardio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_TipoTesteComposicao" EntityType="Self.GT_TipoTesteComposicao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_TipoTesteFlexibilidade" EntityType="Self.GT_TipoTesteFlexibilidade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_TipoTesteForca" EntityType="Self.GT_TipoTesteForca" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_TipoTestePessoaIdosa" EntityType="Self.GT_TipoTestePessoaIdosa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_TipoTreino" EntityType="Self.GT_TipoTreino" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_Treino" EntityType="Self.GT_Treino" Schema="dbo" store:Type="Tables" />
@@ -3415,6 +3482,14 @@
           <AssociationSet Name="GT_RespFlexiTeste_GT_TipoTesteFlexibilidade_ID" Association="Self.GT_RespFlexiTeste_GT_TipoTesteFlexibilidade_ID">
             <End Role="GT_TipoTesteFlexibilidade" EntitySet="GT_TipoTesteFlexibilidade" />
             <End Role="GT_RespFlexiTeste" EntitySet="GT_RespFlexiTeste" />
+          </AssociationSet>
+          <AssociationSet Name="GT_RespForca_GT_SOCIOS_ID" Association="Self.GT_RespForca_GT_SOCIOS_ID">
+            <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+            <End Role="GT_RespForca" EntitySet="GT_RespForca" />
+          </AssociationSet>
+          <AssociationSet Name="GT_RespForca_GT_TipoTesteForca_ID" Association="Self.GT_RespForca_GT_TipoTesteForca_ID">
+            <End Role="GT_TipoTesteForca" EntitySet="GT_TipoTesteForca" />
+            <End Role="GT_RespForca" EntitySet="GT_RespForca" />
           </AssociationSet>
           <AssociationSet Name="GT_RespPessoaIdosa_GT_SOCIOS_ID" Association="Self.GT_RespPessoaIdosa_GT_SOCIOS_ID">
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
@@ -5337,6 +5412,16 @@
             <End Role="GT_TipoTestePessoaIdosa" EntitySet="GT_TipoTestePessoaIdosa" />
             <End Role="GT_RespPessoaIdosa" EntitySet="GT_RespPessoaIdosa" />
           </AssociationSet>
+          <EntitySet Name="GT_RespForca" EntityType="GESTREINO_ORM.GT_RespForca" />
+          <EntitySet Name="GT_TipoTesteForca" EntityType="GESTREINO_ORM.GT_TipoTesteForca" />
+          <AssociationSet Name="GT_RespForca_GT_SOCIOS_ID" Association="GESTREINO_ORM.GT_RespForca_GT_SOCIOS_ID">
+            <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+            <End Role="GT_RespForca" EntitySet="GT_RespForca" />
+          </AssociationSet>
+          <AssociationSet Name="GT_RespForca_GT_TipoTesteForca_ID" Association="GESTREINO_ORM.GT_RespForca_GT_TipoTesteForca_ID">
+            <End Role="GT_TipoTesteForca" EntitySet="GT_TipoTesteForca" />
+            <End Role="GT_RespForca" EntitySet="GT_RespForca" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -6171,6 +6256,7 @@
           <NavigationProperty Name="GT_RespComposicao" Relationship="GESTREINO_ORM.GT_RespComposicao_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespComposicao" />
           <NavigationProperty Name="GT_RespAptidaoCardio" Relationship="GESTREINO_ORM.GT_RespAptidaoCardio_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespAptidaoCardio" />
           <NavigationProperty Name="GT_RespPessoaIdosa" Relationship="GESTREINO_ORM.GT_RespPessoaIdosa_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespPessoaIdosa" />
+          <NavigationProperty Name="GT_RespForca" Relationship="GESTREINO_ORM.GT_RespForca_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespForca" />
         </EntityType>
         <EntityType Name="GT_TipoTreino">
           <Key>
@@ -7633,6 +7719,74 @@
             </Principal>
             <Dependent Role="GT_RespPessoaIdosa">
               <PropertyRef Name="GT_TipoTestePessoaIdosa_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GT_RespForca">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GT_SOCIOS_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_TipoTesteForca_ID" Type="Int32" Nullable="false" />
+          <Property Name="CARGA" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="REPETICOES90" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="VINICIAL" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="NUM_ABDOMINAIS" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="NUM_FLEXOES" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="TENTATIVA1" Type="Int32" />
+          <Property Name="TENTATIVA2" Type="Int32" />
+          <Property Name="TENTATIVA3" Type="Int32" />
+          <Property Name="TENTATIVA4" Type="Int32" />
+          <Property Name="TENTATIVA5" Type="Int32" />
+          <Property Name="TENTATIVA6" Type="Int32" />
+          <Property Name="TENTATIVA7" Type="Int32" />
+          <Property Name="TENTATIVA8" Type="Int32" />
+          <Property Name="TENTATIVA9" Type="Int32" />
+          <Property Name="TENTATIVA10" Type="Int32" />
+          <Property Name="FADIGASPRINT" Type="Int32" />
+          <Property Name="DESEJAVEL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="RESP_SUMMARY" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RESP_DESCRICAO" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="PERCENTIL" Type="Int32" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GT_SOCIOS" Relationship="GESTREINO_ORM.GT_RespForca_GT_SOCIOS_ID" FromRole="GT_RespForca" ToRole="GT_SOCIOS" />
+          <NavigationProperty Name="GT_TipoTesteForca" Relationship="GESTREINO_ORM.GT_RespForca_GT_TipoTesteForca_ID" FromRole="GT_RespForca" ToRole="GT_TipoTesteForca" />
+        </EntityType>
+        <EntityType Name="GT_TipoTesteForca">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DESCRICAO" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GT_RespForca" Relationship="GESTREINO_ORM.GT_RespForca_GT_TipoTesteForca_ID" FromRole="GT_TipoTesteForca" ToRole="GT_RespForca" />
+        </EntityType>
+        <Association Name="GT_RespForca_GT_SOCIOS_ID">
+          <End Type="GESTREINO_ORM.GT_SOCIOS" Role="GT_SOCIOS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_RespForca" Role="GT_RespForca" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_SOCIOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespForca">
+              <PropertyRef Name="GT_SOCIOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_RespForca_GT_TipoTesteForca_ID">
+          <End Type="GESTREINO_ORM.GT_TipoTesteForca" Role="GT_TipoTesteForca" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_RespForca" Role="GT_RespForca" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TipoTesteForca">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespForca">
+              <PropertyRef Name="GT_TipoTesteForca_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9753,6 +9907,49 @@
           <EntitySetMapping Name="GT_TipoTestePessoaIdosa">
             <EntityTypeMapping TypeName="GESTREINO_ORM.GT_TipoTestePessoaIdosa">
               <MappingFragment StoreEntitySet="GT_TipoTestePessoaIdosa">
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_RespForca">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_RespForca">
+              <MappingFragment StoreEntitySet="GT_RespForca">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="PERCENTIL" ColumnName="PERCENTIL" />
+                <ScalarProperty Name="RESP_DESCRICAO" ColumnName="RESP_DESCRICAO" />
+                <ScalarProperty Name="RESP_SUMMARY" ColumnName="RESP_SUMMARY" />
+                <ScalarProperty Name="DESEJAVEL" ColumnName="DESEJAVEL" />
+                <ScalarProperty Name="FADIGASPRINT" ColumnName="FADIGASPRINT" />
+                <ScalarProperty Name="TENTATIVA10" ColumnName="TENTATIVA10" />
+                <ScalarProperty Name="TENTATIVA9" ColumnName="TENTATIVA9" />
+                <ScalarProperty Name="TENTATIVA8" ColumnName="TENTATIVA8" />
+                <ScalarProperty Name="TENTATIVA7" ColumnName="TENTATIVA7" />
+                <ScalarProperty Name="TENTATIVA6" ColumnName="TENTATIVA6" />
+                <ScalarProperty Name="TENTATIVA5" ColumnName="TENTATIVA5" />
+                <ScalarProperty Name="TENTATIVA4" ColumnName="TENTATIVA4" />
+                <ScalarProperty Name="TENTATIVA3" ColumnName="TENTATIVA3" />
+                <ScalarProperty Name="TENTATIVA2" ColumnName="TENTATIVA2" />
+                <ScalarProperty Name="TENTATIVA1" ColumnName="TENTATIVA1" />
+                <ScalarProperty Name="NUM_FLEXOES" ColumnName="NUM_FLEXOES" />
+                <ScalarProperty Name="NUM_ABDOMINAIS" ColumnName="NUM_ABDOMINAIS" />
+                <ScalarProperty Name="VINICIAL" ColumnName="VINICIAL" />
+                <ScalarProperty Name="REPETICOES90" ColumnName="REPETICOES90" />
+                <ScalarProperty Name="CARGA" ColumnName="CARGA" />
+                <ScalarProperty Name="GT_TipoTesteForca_ID" ColumnName="GT_TipoTesteForca_ID" />
+                <ScalarProperty Name="GT_SOCIOS_ID" ColumnName="GT_SOCIOS_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_TipoTesteForca">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_TipoTesteForca">
+              <MappingFragment StoreEntitySet="GT_TipoTesteForca">
                 <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

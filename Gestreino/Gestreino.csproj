@@ -297,6 +297,9 @@
     <Compile Include="GT_RespFlexiTeste.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_RespForca.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="GT_RespPessoaIdosa.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -331,6 +334,9 @@
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="GT_TipoTesteFlexibilidade.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GT_TipoTesteForca.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="GT_TipoTestePessoaIdosa.cs">
@@ -616,6 +622,36 @@
     <Content Include="Assets\images\imagesflexi\f7.jpg" />
     <Content Include="Assets\images\imagesflexi\f8.jpg" />
     <Content Include="Assets\images\imagesflexi\f9.jpg" />
+    <Content Include="Assets\images\imagesforca\forcagilidade.jpg" />
+    <Content Include="Assets\images\imagesforca\forcvresist.jpg" />
+    <Content Include="Assets\images\imagesfunc\func10.jpg" />
+    <Content Include="Assets\images\imagesfunc\func11.jpg" />
+    <Content Include="Assets\images\imagesfunc\func12.jpg" />
+    <Content Include="Assets\images\imagesfunc\func13.jpg" />
+    <Content Include="Assets\images\imagesfunc\func20.jpg" />
+    <Content Include="Assets\images\imagesfunc\func21.jpg" />
+    <Content Include="Assets\images\imagesfunc\func22.jpg" />
+    <Content Include="Assets\images\imagesfunc\func23.jpg" />
+    <Content Include="Assets\images\imagesfunc\func30.jpg" />
+    <Content Include="Assets\images\imagesfunc\func31.jpg" />
+    <Content Include="Assets\images\imagesfunc\func32.jpg" />
+    <Content Include="Assets\images\imagesfunc\func33.jpg" />
+    <Content Include="Assets\images\imagesfunc\func40.jpg" />
+    <Content Include="Assets\images\imagesfunc\func41.jpg" />
+    <Content Include="Assets\images\imagesfunc\func42.jpg" />
+    <Content Include="Assets\images\imagesfunc\func43.jpg" />
+    <Content Include="Assets\images\imagesfunc\func50.jpg" />
+    <Content Include="Assets\images\imagesfunc\func51.jpg" />
+    <Content Include="Assets\images\imagesfunc\func52.jpg" />
+    <Content Include="Assets\images\imagesfunc\func53.jpg" />
+    <Content Include="Assets\images\imagesfunc\func60.jpg" />
+    <Content Include="Assets\images\imagesfunc\func61.jpg" />
+    <Content Include="Assets\images\imagesfunc\func62.jpg" />
+    <Content Include="Assets\images\imagesfunc\func63.jpg" />
+    <Content Include="Assets\images\imagesfunc\func70.jpg" />
+    <Content Include="Assets\images\imagesfunc\func71.jpg" />
+    <Content Include="Assets\images\imagesfunc\func72.jpg" />
+    <Content Include="Assets\images\imagesfunc\func73.jpg" />
     <Content Include="Assets\images\loading.gif" />
     <Content Include="Assets\images\user-avatar.jpg" />
     <Content Include="Assets\images\home.jpg" />
@@ -783,6 +819,7 @@
     <Content Include="Views\GTManagement\Quest\BodyComposition.cshtml" />
     <Content Include="Views\GTManagement\Quest\Cardio.cshtml" />
     <Content Include="Views\GTManagement\Quest\Elderly.cshtml" />
+    <Content Include="Views\GTManagement\Quest\Force.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -5,8 +5,9 @@
 }
 @if (!string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
 {
-    <!-- page content -->
-    <div class="right_col" role="main">
+
+
+<!-- page content --><div class="right_col" role="main">
         <div class="row">
             <div class="col-md-12 col-sm-12 ">
                 <div class="handle-error alert alert-accent"
@@ -23,7 +24,13 @@
                         </div>
                     </div>
                 </div>
-                @using (Html.BeginForm("Elderly", "gtmanagement", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                @if (Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE) < 60)
+                {
+<p>O atleta seleccionado não tem idade suficiente para efectuar a avaliação!</p>
+                }
+                else
+                {
+                using (Html.BeginForm("Elderly", "gtmanagement", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
 
                 //using (Ajax.BeginForm("BodyComposition", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                 {
@@ -60,7 +67,7 @@
                                             </div>
                                         </div>
                                     </fieldset>
-                                    <div class="mt-4" id="PesoDesejavel" style="display:@(Model.GT_TipoTestePessoaIdosa_ID==3?"":"none")">
+                                    <div class="mt-4" id="PesoDesejavel" style="display:@(Model.GT_TipoTestePessoaIdosa_ID == 3 ? "" : "none")">
                                         <div class="row">
                                             @Html.LabelFor(m => m.PesoDesejavel, new { @class = "col-md-3 col-form-label" })
                                             <div class="col-md-3">
@@ -87,12 +94,12 @@
                                         </div>
                                     </div>
                                     <div class="row mt-4">
-                                        <div id="NElevacoes" style="display:@(Model.GT_TipoTestePessoaIdosa_ID==1?"":"none")">
+                                        <div id="NElevacoes" style="display:@(Model.GT_TipoTestePessoaIdosa_ID == 1 ? "" : "none")">
                                             @Html.LabelFor(m => m.NElevacoes, new { @class = "col-md-4 col-form-label" })
                                             <div class="col-md-6">
                                                 @if (Model.GT_TipoTestePessoaIdosa_ID == 1)
                                                 {
-                                                    @Html.TextBoxFor(m => m.NElevacoes, new { type = "number", min = "0", @class = "form-control form-control-sm",required="" })
+                                                    @Html.TextBoxFor(m => m.NElevacoes, new { type = "number", min = "0", @class = "form-control form-control-sm", required = "" })
                                                 }
                                                 else
                                                 {
@@ -100,12 +107,12 @@
                                                 }
                                             </div>
                                         </div>
-                                        <div id="NFlexoes" style="display:@(Model.GT_TipoTestePessoaIdosa_ID==2?"":"none")">
+                                        <div id="NFlexoes" style="display:@(Model.GT_TipoTestePessoaIdosa_ID == 2 ? "" : "none")">
                                             @Html.LabelFor(m => m.NFlexoes, new { @class = "col-md-4 col-form-label" })
                                             <div class="col-md-6">
                                                 @if (Model.GT_TipoTestePessoaIdosa_ID == 2)
                                                 {
-                                                    @Html.TextBoxFor(m => m.NFlexoes, new { type = "number", min = "0", @class = "form-control form-control-sm",required="" })
+                                                    @Html.TextBoxFor(m => m.NFlexoes, new { type = "number", min = "0", @class = "form-control form-control-sm", required = "" })
                                                 }
                                                 else
                                                 {
@@ -113,13 +120,13 @@
                                                 }
                                             </div>
                                         </div>
-                                        <div id="DistanciaSentarAlcancar" style="display:@(Model.GT_TipoTestePessoaIdosa_ID==4?"":"none")">
+                                        <div id="DistanciaSentarAlcancar" style="display:@(Model.GT_TipoTestePessoaIdosa_ID == 4 ? "" : "none")">
                                             @Html.LabelFor(m => m.DistanciaSentarAlcancar, new { @class = "col-md-4 col-form-label" })
                                             <div class="col-md-6">
                                                 <div class="input-group mb-3">
                                                     @if (Model.GT_TipoTestePessoaIdosa_ID == 4)
                                                     {
-                                                        @Html.TextBoxFor(m => m.DistanciaSentarAlcancar, new { type = "number", min = "0", @class = "form-control form-control-sm",required="" })
+                                                        @Html.TextBoxFor(m => m.DistanciaSentarAlcancar, new { type = "number", min = "0", @class = "form-control form-control-sm", required = "" })
                                                     }
                                                     else
                                                     {
@@ -131,13 +138,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="TempoAgilidade" style="display:@(Model.GT_TipoTestePessoaIdosa_ID==5?"":"none")">
+                                        <div id="TempoAgilidade" style="display:@(Model.GT_TipoTestePessoaIdosa_ID == 5 ? "" : "none")">
                                             @Html.LabelFor(m => m.TempoAgilidade, new { @class = "col-md-4 col-form-label" })
                                             <div class="col-md-6">
                                                 <div class="input-group mb-3">
                                                     @if (Model.GT_TipoTestePessoaIdosa_ID == 5)
                                                     {
-                                                        @Html.TextBoxFor(m => m.TempoAgilidade, new { type = "number", min = "0", @class = "form-control form-control-sm",required="" })
+                                                        @Html.TextBoxFor(m => m.TempoAgilidade, new { type = "number", min = "0", @class = "form-control form-control-sm", required = "" })
                                                     }
                                                     else
                                                     {
@@ -149,13 +156,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="DistanciaAlcancar" style="display:@(Model.GT_TipoTestePessoaIdosa_ID==6?"":"none")">
+                                        <div id="DistanciaAlcancar" style="display:@(Model.GT_TipoTestePessoaIdosa_ID == 6 ? "" : "none")">
                                             @Html.LabelFor(m => m.DistanciaAlcancar, new { @class = "col-md-4 col-form-label" })
                                             <div class="col-md-6">
                                                 <div class="input-group mb-3">
                                                     @if (Model.GT_TipoTestePessoaIdosa_ID == 6)
                                                     {
-                                                        @Html.TextBoxFor(m => m.DistanciaAlcancar, new { type = "number", min = "0", @class = "form-control form-control-sm",required="" })
+                                                        @Html.TextBoxFor(m => m.DistanciaAlcancar, new { type = "number", min = "0", @class = "form-control form-control-sm", required = "" })
                                                     }
                                                     else
                                                     {
@@ -167,13 +174,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="DistanciaAndar" style="display:@(Model.GT_TipoTestePessoaIdosa_ID==7?"":"none")">
+                                        <div id="DistanciaAndar" style="display:@(Model.GT_TipoTestePessoaIdosa_ID == 7 ? "" : "none")">
                                             @Html.LabelFor(m => m.DistanciaAndar, new { @class = "col-md-4 col-form-label" })
                                             <div class="col-md-6">
                                                 <div class="input-group mb-3">
                                                     @if (Model.GT_TipoTestePessoaIdosa_ID == 7)
                                                     {
-                                                        @Html.TextBoxFor(m => m.DistanciaAndar, new { type = "number", min = "0", @class = "form-control form-control-sm",required="" })
+                                                        @Html.TextBoxFor(m => m.DistanciaAndar, new { type = "number", min = "0", @class = "form-control form-control-sm", required = "" })
                                                     }
                                                     else
                                                     {
@@ -185,12 +192,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="SubidasStep" style="display:@(Model.GT_TipoTestePessoaIdosa_ID==8?"":"none")">
+                                        <div id="SubidasStep" style="display:@(Model.GT_TipoTestePessoaIdosa_ID == 8 ? "" : "none")">
                                             @Html.LabelFor(m => m.SubidasStep, new { @class = "col-md-4 col-form-label" })
                                             <div class="col-md-6">
                                                 @if (Model.GT_TipoTestePessoaIdosa_ID == 7)
                                                 {
-                                                    @Html.TextBoxFor(m => m.SubidasStep, new { type = "number", min = "0", @class = "form-control form-control-sm",required="" })
+                                                    @Html.TextBoxFor(m => m.SubidasStep, new { type = "number", min = "0", @class = "form-control form-control-sm", required = "" })
                                                 }
                                                 else
                                                 {
@@ -198,7 +205,7 @@
                                                 }
                                             </div>
                                         </div>
-                                        <div id="DesejavelShow" style="display:@(Model.GT_TipoTestePessoaIdosa_ID!=3?"":"none")">
+                                        <div id="DesejavelShow" style="display:@(Model.GT_TipoTestePessoaIdosa_ID != 3 ? "" : "none")">
                                             @Html.LabelFor(m => m.Desejavel, new { @class = "col-md-4 col-form-label" })
                                             <div class="col-md-7">
                                                 @Html.TextBoxFor(m => m.Desejavel, new { type = "", @readonly = "", min = "0", @class = "form-control form-control-sm" })
@@ -292,6 +299,7 @@
                             <!--  DATATABLE START -->
                         </div>
                     </div>
+                }
                 }
             </div>
         </div>

@@ -1,0 +1,875 @@
+﻿@model Gestreino.Models.Force
+@using Gestreino.Classes
+@{
+    ViewBag.Title = "Força";
+}
+@if (!string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
+{
+
+
+    <!-- page content --><div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+                <div class="handle-error alert alert-accent"
+                     role="alert" style="display:none;">
+                    <div class="d-flex flex-wrap align-items-start">
+                        <div class="mr-8pt">
+                            <i class="fa fa-warning"></i>
+                        </div>
+                        <div class="flex"
+                             style="min-width: 180px">
+                            <span class="text-black-100">
+                                <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                    @using (Html.BeginForm("Elderly", "gtmanagement", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+
+                    //using (Ajax.BeginForm("BodyComposition", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.PEsId)
+                        @Html.HiddenFor(m => m.ID)
+                        <input type="hidden" value="GT_RespPessoaIdosa" id="GT_Res" /><div class="row">
+                            <div class="col-md-4">
+                                <div class="btn-group">
+                                    <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-floppy-o"></i> Guardar</button>
+                                    <a class="btn btn-secondary" href="@Url.Action("elderly", "gtmanagement", new { Id = string.Empty })"><i class="fa fa-plus-circle"></i> Novo</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9 mt-2">
+                                <div class="animated flipInY">
+                                    <div class="tile-stats">
+                                        <div class="icon">
+                                            <i class="fa fa-anchor"></i>
+                                        </div>
+                                        <h3 class="p-2">Força</h3>
+                                        @if (Model.lblDataInsercao != null)
+                                        {
+                                            <h6 class="p-2 bg-light mt-2 text-success"><i class="fa fa-floppy-o"></i> Questionário registado:@Model.lblDataInsercao</h6>
+                                        }
+
+                                        <div class="p-4">
+                                            <fieldset class="bg-light p-2 border-r">
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.GT_TipoTesteForca_ID, new { @class = "col-md-1 col-form-label" })
+                                                    <div class="col-md-5">
+                                                        @Html.DropDownListFor(x => Model.GT_TipoTesteForca_ID, Model.GT_TipoTesteForca_List, new { @class = "form-control form-control-sm", required = "", onchange = "loadGT_TipoTesteForca_List(this.value)" })
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+                                            <div class="mt-4" id="RMBracos" style="display:@(Model.GT_TipoTesteForca_ID == 1 ? "" : "none")">
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.CargaBraco, new { @class = "col-md-3 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        <div class="input-group mb-3">
+                                                            @if (Model.GT_TipoTesteForca_ID == 1)
+                                                            {
+                                                                @Html.TextBoxFor(m => m.CargaBraco, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBoxFor(m => m.CargaBraco, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                            }
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">kg</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @Html.LabelFor(m => m.RazaoBraco, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(m => m.RazaoBraco, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.DesejavelBracos, new { @class = "col-md-3 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        <div class="input-group mb-3">
+                                                            @Html.TextBoxFor(m => m.DesejavelBracos, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">kg</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.DeficeBraco, new { @class = "col-md-3 col-form-label" })
+                                                    <div class="col-md-5">
+                                                        @Html.TextBoxFor(m => m.DeficeBraco, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.NoventaRMBraco, new { @class = "col-md-3 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(m => m.NoventaRMBraco, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                    @Html.LabelFor(m => m.NoventaRepsBraco, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(m => m.NoventaRepsBraco, new { type = "number", min = "1", max = "9", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.TrabalhoDesenvolverBraco, new { @class = "col-md-3 col-form-label" })
+                                                    <div class="col-md-5">
+                                                        @Html.TextBoxFor(m => m.TrabalhoDesenvolverBraco, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-4" id="RMPerna" style="display:@(Model.GT_TipoTesteForca_ID == 2 ? "" : "none")">
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.CargaPerna, new { @class = "col-md-3 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        <div class="input-group mb-3">
+                                                            @if (Model.GT_TipoTesteForca_ID == 2)
+                                                            {
+                                                                @Html.TextBoxFor(m => m.CargaPerna, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBoxFor(m => m.CargaPerna, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                            }
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">kg</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @Html.LabelFor(m => m.RazaoPerna, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(m => m.RazaoPerna, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.DesejavelPerna, new { @class = "col-md-3 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        <div class="input-group mb-3">
+                                                            @Html.TextBoxFor(m => m.DesejavelPerna, new { @readonly = "", @class = "form-control form-control-sm", required = "" })
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">kg</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.DeficePerna, new { @class = "col-md-3 col-form-label" })
+                                                    <div class="col-md-5">
+                                                        @Html.TextBoxFor(m => m.DeficePerna, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.NoventaRMPerna, new { @class = "col-md-3 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(m => m.NoventaRMPerna, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                    @Html.LabelFor(m => m.NoventaRepsPerna, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(m => m.NoventaRepsPerna, new { type = "number", min = "1", max = "9", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.TrabalhoDesenvolverPerna, new { @class = "col-md-3 col-form-label" })
+                                                    <div class="col-md-5">
+                                                        @Html.TextBoxFor(m => m.TrabalhoDesenvolverPerna, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-4" id="Abdominais" style="display:@(Model.GT_TipoTesteForca_ID == 3 ? "" : "none")">
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.NAbdominais, new { @class = "col-md-3 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        @if (Model.GT_TipoTesteForca_ID == 3)
+                                                        {
+                                                            @Html.TextBoxFor(m => m.NAbdominais, new { type = "number", min = "0", @class = "form-control form-control-sm", required = "" })
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.TextBoxFor(m => m.NAbdominais, new { type = "number", min = "0", @class = "form-control form-control-sm" })
+                                                        }
+                                                    </div>
+                                                    @Html.LabelFor(m => m.DesejavelAbdominais, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(m => m.DesejavelAbdominais, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-4" id="Flexoes" style="display:@(Model.GT_TipoTesteForca_ID == 4 ? "" : "none")">
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.NFlexoes, new { @class = "col-md-3 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        @if (Model.GT_TipoTesteForca_ID == 4)
+                                                        {
+                                                            @Html.TextBoxFor(m => m.NFlexoes, new { type = "number", min = "0", @class = "form-control form-control-sm", required = "" })
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.TextBoxFor(m => m.NFlexoes, new { type = "number", min = "0", @class = "form-control form-control-sm" })
+                                                        }
+                                                    </div>
+                                                    @Html.LabelFor(m => m.DesejavelFlexoes, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(m => m.DesejavelFlexoes, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-4" id="VelocidadeLinear" style="display:@(Model.GT_TipoTesteForca_ID == 5 ? "" : "none")">
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.PrimeraTentativaVLinear, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-2">
+                                                        <div class="input-group mb-3">
+                                                            @if (Model.GT_TipoTesteForca_ID == 5)
+                                                            {
+                                                                @Html.TextBoxFor(m => m.PrimeraTentativaVLinear, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBoxFor(m => m.PrimeraTentativaVLinear, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                            }
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @Html.LabelFor(m => m.SegundaTentativaVLinear, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-2">
+                                                        <div class="input-group mb-3">
+                                                            @if (Model.GT_TipoTesteForca_ID == 5)
+                                                            {
+                                                                @Html.TextBoxFor(m => m.SegundaTentativaVLinear, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBoxFor(m => m.SegundaTentativaVLinear, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                            }
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @Html.LabelFor(m => m.TerceiraTentativaVLinear, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-2">
+                                                        <div class="input-group mb-3">
+                                                            @if (Model.GT_TipoTesteForca_ID == 5)
+                                                            {
+                                                                @Html.TextBoxFor(m => m.TerceiraTentativaVLinear, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBoxFor(m => m.TerceiraTentativaVLinear, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                            }
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.ResultadoVLinear, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        <div class="input-group mb-3">
+                                                            @Html.TextBoxFor(m => m.ResultadoVLinear, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">kg</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @Html.LabelFor(m => m.DesejavelVLinear, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(m => m.DesejavelVLinear, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="mt-4" id="VelocidadeResistencia" style="display:@(Model.GT_TipoTesteForca_ID == 6 ? "" : "none")">
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.PrimeraTentativaVResist, new { @class = "col-md-3 col-form-label" })
+                                                            <div class="col-md-3">
+                                                                <div class="input-group mb-3">
+                                                                    @if (Model.GT_TipoTesteForca_ID == 6)
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.PrimeraTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.PrimeraTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                                    }
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @Html.LabelFor(m => m.SegundaTentativaVResist, new { @class = "col-md-3 col-form-label" })
+                                                            <div class="col-md-3">
+                                                                <div class="input-group mb-3">
+                                                                    @if (Model.GT_TipoTesteForca_ID == 6)
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.SegundaTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.SegundaTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                                    }
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.TerceiraTentativaVResist, new { @class = "col-md-3 col-form-label" })
+                                                            <div class="col-md-3">
+                                                                <div class="input-group mb-3">
+                                                                    @if (Model.GT_TipoTesteForca_ID == 6)
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.TerceiraTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.TerceiraTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                                    }
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @Html.LabelFor(m => m.QuartaTentativaVResist, new { @class = "col-md-3 col-form-label" })
+                                                            <div class="col-md-3">
+                                                                <div class="input-group mb-3">
+                                                                    @if (Model.GT_TipoTesteForca_ID == 6)
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.QuartaTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.QuartaTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                                    }
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.QuintaTentativaVResist, new { @class = "col-md-3 col-form-label" })
+                                                            <div class="col-md-3">
+                                                                <div class="input-group mb-3">
+                                                                    @if (Model.GT_TipoTesteForca_ID == 6)
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.QuintaTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.QuintaTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                                    }
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @Html.LabelFor(m => m.SextaTentativaVResist, new { @class = "col-md-3 col-form-label" })
+                                                            <div class="col-md-3">
+                                                                <div class="input-group mb-3">
+                                                                    @if (Model.GT_TipoTesteForca_ID == 6)
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.SextaTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.SextaTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                                    }
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.SetimaTentativaVResist, new { @class = "col-md-3 col-form-label" })
+                                                            <div class="col-md-3">
+                                                                <div class="input-group mb-3">
+                                                                    @if (Model.GT_TipoTesteForca_ID == 6)
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.SetimaTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.SetimaTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                                    }
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @Html.LabelFor(m => m.OitavaTentativaVResist, new { @class = "col-md-3 col-form-label" })
+                                                            <div class="col-md-3">
+                                                                <div class="input-group mb-3">
+                                                                    @if (Model.GT_TipoTesteForca_ID == 6)
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.OitavaTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.OitavaTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                                    }
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.NonaTentativaVResist, new { @class = "col-md-3 col-form-label" })
+                                                            <div class="col-md-3">
+                                                                <div class="input-group mb-3">
+                                                                    @if (Model.GT_TipoTesteForca_ID == 6)
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.NonaTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.NonaTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                                    }
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @Html.LabelFor(m => m.DecimaTentativaVResist, new { @class = "col-md-3 col-form-label" })
+                                                            <div class="col-md-3">
+                                                                <div class="input-group mb-3">
+                                                                    @if (Model.GT_TipoTesteForca_ID == 6)
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.DecimaTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.DecimaTentativaVResist, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                                    }
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.sprintVResist, new { @class = "col-md-6 col-form-label" })
+                                                            <div class="col-md-3">
+                                                                @Html.TextBoxFor(m => m.sprintVResist, new { @readonly = "", @class = "form-control form-control-sm", required = "" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.capacidadeVResist, new { @class = "col-md-6 col-form-label" })
+                                                            <div class="col-md-3">
+                                                                <div class="input-group mb-3">
+                                                                    @Html.TextBoxFor(m => m.capacidadeVResist, new { @readonly = "", @class = "form-control form-control-sm", required = "" })
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text font-size-11" id="basic-addon1">%</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.DesejavelVResist, new { @class = "col-md-3 col-form-label" })
+                                                            <div class="col-md-3">
+                                                                <div class="input-group mb-3">
+                                                                    @Html.TextBoxFor(m => m.DesejavelVResist, new { @readonly = "", @class = "form-control form-control-sm", required = "" })
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text font-size-11" id="basic-addon1">%</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <img class="planimg" src="~/Assets/images/imagesforca/forcvresist.jpg" />
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+
+
+                                            <div class="mt-4" id="Agilidade" style="display:@(Model.GT_TipoTesteForca_ID == 7 ? "" : "none")">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.PrimeraTentativaAgilidade, new { @class = "col-md-6 col-form-label" })
+                                                            <div class="col-md-6">
+                                                                <div class="input-group mb-3">
+                                                                    @if (Model.GT_TipoTesteForca_ID == 7)
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.PrimeraTentativaAgilidade, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.PrimeraTentativaAgilidade, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                                    }
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.SegundaTentativaAgilidade, new { @class = "col-md-6 col-form-label" })
+                                                            <div class="col-md-6">
+                                                                <div class="input-group mb-3">
+                                                                    @if (Model.GT_TipoTesteForca_ID == 7)
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.SegundaTentativaAgilidade, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.SegundaTentativaAgilidade, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                                    }
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.TerceiraTentativaAgilidade, new { @class = "col-md-6 col-form-label" })
+                                                            <div class="col-md-6">
+                                                                <div class="input-group mb-3">
+                                                                    @if (Model.GT_TipoTesteForca_ID == 7)
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.TerceiraTentativaAgilidade, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.TextBoxFor(m => m.TerceiraTentativaAgilidade, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                                    }
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.ResultadoAgilidade, new { @class = "col-md-6 col-form-label" })
+                                                            <div class="col-md-6">
+                                                                <div class="input-group mb-3">
+                                                                    @Html.TextBoxFor(m => m.ResultadoAgilidade, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text font-size-11" id="basic-addon1">seg.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.DesejavelAgilidade, new { @class = "col-md-6 col-form-label" })
+                                                            <div class="col-md-6">
+                                                                @Html.TextBoxFor(m => m.DesejavelAgilidade, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <img class="planimg" src="~/Assets/images/imagesforca/forcagilidade.jpg" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-4" id="ForcaExplosiva" style="display:@(Model.GT_TipoTesteForca_ID == 8 ? "" : "none")">
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.PrimeraTentativaExpH, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-2">
+                                                        <div class="input-group mb-3">
+                                                            @if (Model.GT_TipoTesteForca_ID == 8)
+                                                            {
+                                                                @Html.TextBoxFor(m => m.PrimeraTentativaExpH, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBoxFor(m => m.PrimeraTentativaExpH, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                            }
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">m</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @Html.LabelFor(m => m.SegundaTentativaExpH, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-2">
+                                                        <div class="input-group mb-3">
+                                                            @if (Model.GT_TipoTesteForca_ID == 8)
+                                                            {
+                                                                @Html.TextBoxFor(m => m.SegundaTentativaExpH, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBoxFor(m => m.SegundaTentativaExpH, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                            }
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">m</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @Html.LabelFor(m => m.TerceiraTentativaExpH, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-2">
+                                                        <div class="input-group mb-3">
+                                                            @if (Model.GT_TipoTesteForca_ID == 8)
+                                                            {
+                                                                @Html.TextBoxFor(m => m.TerceiraTentativaExpH, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBoxFor(m => m.TerceiraTentativaExpH, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                            }
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">m</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.ResultadoExpH, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        <div class="input-group mb-3">
+                                                            @Html.TextBoxFor(m => m.ResultadoExpH, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">m</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.DesejavelExpH, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        <div class="input-group mb-3">
+                                                            @Html.TextBoxFor(m => m.DesejavelExpH, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">m</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="mt-4" id="ForcaExplosivaV" style="display:@(Model.GT_TipoTesteForca_ID == 9 ? "" : "none")">
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.ValorInitExpV, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        <div class="input-group mb-3">
+                                                            @if (Model.GT_TipoTesteForca_ID == 9)
+                                                            {
+                                                                @Html.TextBoxFor(m => m.ValorInitExpV, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBoxFor(m => m.ValorInitExpV, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                            }
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">m</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.PrimeraTentativaExpV, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-2">
+                                                        <div class="input-group mb-3">
+                                                            @if (Model.GT_TipoTesteForca_ID == 9)
+                                                            {
+                                                                @Html.TextBoxFor(m => m.PrimeraTentativaExpV, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBoxFor(m => m.PrimeraTentativaExpV, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                            }
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">m</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @Html.LabelFor(m => m.SegundaTentativaExpV, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-2">
+                                                        <div class="input-group mb-3">
+                                                            @if (Model.GT_TipoTesteForca_ID == 9)
+                                                            {
+                                                                @Html.TextBoxFor(m => m.SegundaTentativaExpV, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBoxFor(m => m.SegundaTentativaExpV, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                            }
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">m</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @Html.LabelFor(m => m.TerceiraTentativaExpV, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-2">
+                                                        <div class="input-group mb-3">
+                                                            @if (Model.GT_TipoTesteForca_ID == 9)
+                                                            {
+                                                                @Html.TextBoxFor(m => m.TerceiraTentativaExpV, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBoxFor(m => m.TerceiraTentativaExpV, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm" })
+                                                            }
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">m</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.ResultadoExpV, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        <div class="input-group mb-3">
+                                                            @Html.TextBoxFor(m => m.ResultadoExpV, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">m</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.DesejavelExpV, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        <div class="input-group mb-3">
+                                                            @Html.TextBoxFor(m => m.DesejavelExpV, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">m</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.LabelFor(m => m.PotenciaExpV, new { @class = "col-md-2 col-form-label" })
+                                                    <div class="col-md-3">
+                                                        <div class="input-group mb-3">
+                                                            @Html.TextBoxFor(m => m.PotenciaExpV, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text font-size-11" id="basic-addon1">kg/m</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="animated flipInY">
+                                    <div class="tile-stats">
+                                        <div class="row mt-3 p-5">
+                                            <div class="col-md-12">
+                                                <label>Classificação Actual (0 a 100)</label>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <div class="progress">
+                                                    <div id="pgrflexActual" class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:@Model.iFlexiAct%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@Model.iFlexiAct%</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label><b id="lblflexActual">@Model.lblResActualFlexi</b></label>
+                                            </div>
+                                            <div class="col-md-12 mt-2">
+                                                <label>Classificação Anterior  (0 a 100)</label>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <div class="progress">
+                                                    <div id="pgrflexAnterior" class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width:@Model.iFlexiAnt%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@Model.iFlexiAnt%</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label><b id="lblflexAnterior">@Model.lblResAnteriorFlexi</b></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <!--  DATATABLE START -->
+                                    <div class="card mb-32pt mt-2">
+                                        <div class="card-header">
+                                            <div class="form-inline">
+                                                <label class="" for="length_change">Mostrar</label>
+                                                <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GTQuestTable">
+                                                    <option value='10'>10</option>
+                                                    <option value='25'>25</option>
+                                                    <option value='50'>50</option>
+                                                    <option value='100'>100</option>
+                                                    <option value='500'>500</option>
+                                                    <option value='1000'>1000</option>
+                                                    <option value='2000'>2000</option>
+                                                    <option value='5000'>5000</option>
+                                                    <option value='10000'>10000</option>
+                                                </select>
+                                                <label class="" for="length_change">registos</label>
+                                                <div class="btn-group">
+                                                    <button type="button" title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GTQuestTable"><i class="fa fa-check-square"></i></button>
+                                                    <button type="button" title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-upload="GT_RespPessoaIdosa" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                                    <button type="button" title="Pesquisar" class="btnSearch btn btn-default" data-id="GTQuestTable"><i class="fa fa-search"></i></button>
+                                                    <button type="button" title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GTQuestTable"><i class="fa fa-eraser"></i></button>
+                                                    <!--Separator-->
+                                                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "courses", applyFilter = "true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                                                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "courses", applyFilter = "false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table id="GTQuestTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><input type="text" id="GTQuestTableInsercao" class="form-control form-control-sm" /></td>
+                                                        <td><input type="text" id="GTQuestTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                                        <td><input type="text" id="GTQuestTableActualizacao" class="form-control form-control-sm" /></td>
+                                                        <td><input type="text" id="GTQuestTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th data-name="GTQuestTableInsercao">Inserção</th>
+                                                        <th data-name="GTQuestTableDataInsercao">Data Inserção</th>
+                                                        <th data-name="GTQuestTableActualizacao">Actualização</th>
+                                                        <th data-name="GTQuestTableDataActualizacao">Data Actualização</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <div class="card-footer p-8pt">
+                                            <span class="paginateInfoGTQuestTable paginateInfo mr-12pt" style="float:right"></span>
+                                            <div id="paginateGTQuestTable" class="pagination justify-content-start pagination-xsm m-0"></div>
+                                        </div>
+                                    </div>
+                                    <!--  DATATABLE START -->
+                                </div>
+                            </div>
+                    }
+            </div>
+        </div>
+        <h2>&nbsp;</h2>
+        <h2>&nbsp;</h2>
+    </div>
+    <!-- /page content -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            handleDataGTQuestTable();
+        });
+    </script>
+}
+else
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            $('#selecionaravaliado').click();
+        });
+    </script>
+}

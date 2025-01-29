@@ -4630,3 +4630,340 @@ function loadGT_TipoTestePessoaIdosa_List(id) {
         $('#SubidasStep').find('input').val('');
     }
 }
+//Force
+function loadGT_TipoTesteForca_List(id) {
+    if (id == '1') {
+        $('#RMBracos').show();
+        $('#RMBracos').find('input #CargaBraco').attr("required", true);
+        $('#RMBracos').find('input').val('');
+
+        $('#RMPerna').hide();
+        $('#RMPerna').find('input').attr("required", false);
+        $('#RMPerna').find('input').val('');
+
+        $('#Abdominais').hide();
+        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').val('');
+
+        $('#Flexoes').hide();
+        $('#Flexoes').find('input').attr("required", false);
+        $('#Flexoes').find('input').val('');
+
+        $('#VelocidadeLinear').hide();
+        $('#VelocidadeLinear').find('input').attr("required", false);
+        $('#VelocidadeLinear').find('input').val('');
+
+        $('#VelocidadeResistencia').hide();
+        $('#VelocidadeResistencia').find('input').attr("required", false);
+        $('#VelocidadeResistencia').find('input').val('');
+
+        $('#Agilidade').hide();
+        $('#Agilidade').find('input').attr("required", false);
+        $('#Agilidade').find('input').val('');
+
+        $('#ForcaExplosiva').hide();
+        $('#ForcaExplosiva').find('input').attr("required", false);
+        $('#ForcaExplosiva').find('input').val('');
+
+        $('#ForcaExplosivaV').hide();
+        $('#ForcaExplosivaV').find('input').attr("required", false);
+        $('#ForcaExplosivaV').find('input').val('');
+
+    }
+    if (id == '2') {
+        $('#RMBracos').hide();
+        $('#RMBracos').find('input #CargaBraco').attr("required", false);
+        $('#RMBracos').find('input').val('');
+
+        $('#RMPerna').show();
+        $('#RMPerna').find('input').attr("required", true);
+        $('#RMPerna').find('input').val('');
+
+        $('#Abdominais').hide();
+        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').val('');
+
+        $('#Flexoes').hide();
+        $('#Flexoes').find('input').attr("required", false);
+        $('#Flexoes').find('input').val('');
+
+        $('#VelocidadeLinear').hide();
+        $('#VelocidadeLinear').find('input').attr("required", false);
+        $('#VelocidadeLinear').find('input').val('');
+
+        $('#VelocidadeResistencia').hide();
+        $('#VelocidadeResistencia').find('input').attr("required", false);
+        $('#VelocidadeResistencia').find('input').val('');
+
+        $('#Agilidade').hide();
+        $('#Agilidade').find('input').attr("required", false);
+        $('#Agilidade').find('input').val('');
+
+        $('#ForcaExplosiva').hide();
+        $('#ForcaExplosiva').find('input').attr("required", false);
+        $('#ForcaExplosiva').find('input').val('');
+
+        $('#ForcaExplosivaV').hide();
+        $('#ForcaExplosivaV').find('input').attr("required", false);
+        $('#ForcaExplosivaV').find('input').val('');
+    }
+    if (id == '3') {
+        $('#RMBracos').hide();
+        $('#RMBracos').find('input #CargaBraco').attr("required", false);
+        $('#RMBracos').find('input').val('');
+
+        $('#RMPerna').hide();
+        $('#RMPerna').find('input').attr("required", false);
+        $('#RMPerna').find('input').val('');
+
+        $('#Abdominais').show();
+        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').val('');
+
+        $('#Flexoes').hide();
+        $('#Flexoes').find('input').attr("required", false);
+        $('#Flexoes').find('input').val('');
+
+        $('#VelocidadeLinear').hide();
+        $('#VelocidadeLinear').find('input').attr("required", false);
+        $('#VelocidadeLinear').find('input').val('');
+
+        $('#VelocidadeResistencia').hide();
+        $('#VelocidadeResistencia').find('input').attr("required", false);
+        $('#VelocidadeResistencia').find('input').val('');
+
+        $('#Agilidade').hide();
+        $('#Agilidade').find('input').attr("required", false);
+        $('#Agilidade').find('input').val('');
+
+        $('#ForcaExplosiva').hide();
+        $('#ForcaExplosiva').find('input').attr("required", false);
+        $('#ForcaExplosiva').find('input').val('');
+
+        $('#ForcaExplosivaV').hide();
+        $('#ForcaExplosivaV').find('input').attr("required", false);
+        $('#ForcaExplosivaV').find('input').val('');
+    }
+    if (id == '4') {
+        $('#RMBracos').hide();
+        $('#RMBracos').find('input #CargaBraco').attr("required", false);
+        $('#RMBracos').find('input').val('');
+
+        $('#RMPerna').hide();
+        $('#RMPerna').find('input').attr("required", false);
+        $('#RMPerna').find('input').val('');
+
+        $('#Abdominais').hide();
+        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').val('');
+
+        $('#Flexoes').show();
+        $('#Flexoes').find('input').attr("required", true);
+        $('#Flexoes').find('input').val('');
+
+        $('#VelocidadeLinear').hide();
+        $('#VelocidadeLinear').find('input').attr("required", false);
+        $('#VelocidadeLinear').find('input').val('');
+
+        $('#VelocidadeResistencia').hide();
+        $('#VelocidadeResistencia').find('input').attr("required", false);
+        $('#VelocidadeResistencia').find('input').val('');
+
+        $('#Agilidade').hide();
+        $('#Agilidade').find('input').attr("required", false);
+        $('#Agilidade').find('input').val('');
+
+        $('#ForcaExplosiva').hide();
+        $('#ForcaExplosiva').find('input').attr("required", false);
+        $('#ForcaExplosiva').find('input').val('');
+
+        $('#ForcaExplosivaV').hide();
+        $('#ForcaExplosivaV').find('input').attr("required", false);
+        $('#ForcaExplosivaV').find('input').val('');
+    }
+    if (id == '5') {
+        $('#RMBracos').hide();
+        $('#RMBracos').find('input #CargaBraco').attr("required", false);
+        $('#RMBracos').find('input').val('');
+
+        $('#RMPerna').hide();
+        $('#RMPerna').find('input').attr("required", false);
+        $('#RMPerna').find('input').val('');
+
+        $('#Abdominais').hide();
+        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').val('');
+
+        $('#Flexoes').hide();
+        $('#Flexoes').find('input').attr("required", false);
+        $('#Flexoes').find('input').val('');
+
+        $('#VelocidadeLinear').show();
+        $('#VelocidadeLinear').find('input').attr("required", true);
+        $('#VelocidadeLinear').find('input').val('');
+
+        $('#VelocidadeResistencia').hide();
+        $('#VelocidadeResistencia').find('input').attr("required", false);
+        $('#VelocidadeResistencia').find('input').val('');
+
+        $('#Agilidade').hide();
+        $('#Agilidade').find('input').attr("required", false);
+        $('#Agilidade').find('input').val('');
+
+        $('#ForcaExplosiva').hide();
+        $('#ForcaExplosiva').find('input').attr("required", false);
+        $('#ForcaExplosiva').find('input').val('');
+
+        $('#ForcaExplosivaV').hide();
+        $('#ForcaExplosivaV').find('input').attr("required", false);
+        $('#ForcaExplosivaV').find('input').val('');
+    }
+    if (id == '6') {
+        $('#RMBracos').hide();
+        $('#RMBracos').find('input #CargaBraco').attr("required", false);
+        $('#RMBracos').find('input').val('');
+
+        $('#RMPerna').hide();
+        $('#RMPerna').find('input').attr("required", false);
+        $('#RMPerna').find('input').val('');
+
+        $('#Abdominais').hide();
+        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').val('');
+
+        $('#Flexoes').hide();
+        $('#Flexoes').find('input').attr("required", false);
+        $('#Flexoes').find('input').val('');
+
+        $('#VelocidadeLinear').hide();
+        $('#VelocidadeLinear').find('input').attr("required", false);
+        $('#VelocidadeLinear').find('input').val('');
+
+        $('#VelocidadeResistencia').show();
+        $('#VelocidadeResistencia').find('input').attr("required", true);
+        $('#VelocidadeResistencia').find('input').val('');
+
+        $('#Agilidade').hide();
+        $('#Agilidade').find('input').attr("required", false);
+        $('#Agilidade').find('input').val('');
+
+        $('#ForcaExplosiva').hide();
+        $('#ForcaExplosiva').find('input').attr("required", false);
+        $('#ForcaExplosiva').find('input').val('');
+
+        $('#ForcaExplosivaV').hide();
+        $('#ForcaExplosivaV').find('input').attr("required", false);
+        $('#ForcaExplosivaV').find('input').val('');
+    }
+    if (id == '7') {
+        $('#RMBracos').hide();
+        $('#RMBracos').find('input #CargaBraco').attr("required", false);
+        $('#RMBracos').find('input').val('');
+
+        $('#RMPerna').hide();
+        $('#RMPerna').find('input').attr("required", false);
+        $('#RMPerna').find('input').val('');
+
+        $('#Abdominais').hide();
+        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').val('');
+
+        $('#Flexoes').hide();
+        $('#Flexoes').find('input').attr("required", false);
+        $('#Flexoes').find('input').val('');
+
+        $('#VelocidadeLinear').hide();
+        $('#VelocidadeLinear').find('input').attr("required", false);
+        $('#VelocidadeLinear').find('input').val('');
+
+        $('#VelocidadeResistencia').hide();
+        $('#VelocidadeResistencia').find('input').attr("required", false);
+        $('#VelocidadeResistencia').find('input').val('');
+
+        $('#Agilidade').show();
+        $('#Agilidade').find('input').attr("required", true);
+        $('#Agilidade').find('input').val('');
+
+        $('#ForcaExplosiva').hide();
+        $('#ForcaExplosiva').find('input').attr("required", false);
+        $('#ForcaExplosiva').find('input').val('');
+
+        $('#ForcaExplosivaV').hide();
+        $('#ForcaExplosivaV').find('input').attr("required", false);
+        $('#ForcaExplosivaV').find('input').val('');
+    }
+    if (id == '8') {
+        $('#RMBracos').hide();
+        $('#RMBracos').find('input #CargaBraco').attr("required", false);
+        $('#RMBracos').find('input').val('');
+
+        $('#RMPerna').hide();
+        $('#RMPerna').find('input').attr("required", false);
+        $('#RMPerna').find('input').val('');
+
+        $('#Abdominais').hide();
+        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').val('');
+
+        $('#Flexoes').hide();
+        $('#Flexoes').find('input').attr("required", false);
+        $('#Flexoes').find('input').val('');
+
+        $('#VelocidadeLinear').hide();
+        $('#VelocidadeLinear').find('input').attr("required", false);
+        $('#VelocidadeLinear').find('input').val('');
+
+        $('#VelocidadeResistencia').hide();
+        $('#VelocidadeResistencia').find('input').attr("required", false);
+        $('#VelocidadeResistencia').find('input').val('');
+
+        $('#Agilidade').hide();
+        $('#Agilidade').find('input').attr("required", false);
+        $('#Agilidade').find('input').val('');
+
+        $('#ForcaExplosiva').show();
+        $('#ForcaExplosiva').find('input').attr("required", true);
+        $('#ForcaExplosiva').find('input').val('');
+
+        $('#ForcaExplosivaV').hide();
+        $('#ForcaExplosivaV').find('input').attr("required", false);
+        $('#ForcaExplosivaV').find('input').val('');
+    }
+    if (id == '9') {
+        $('#RMBracos').hide();
+        $('#RMBracos').find('input #CargaBraco').attr("required", false);
+        $('#RMBracos').find('input').val('');
+
+        $('#RMPerna').hide();
+        $('#RMPerna').find('input').attr("required", false);
+        $('#RMPerna').find('input').val('');
+
+        $('#Abdominais').hide();
+        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').val('');
+
+        $('#Flexoes').hide();
+        $('#Flexoes').find('input').attr("required", false);
+        $('#Flexoes').find('input').val('');
+
+        $('#VelocidadeLinear').hide();
+        $('#VelocidadeLinear').find('input').attr("required", false);
+        $('#VelocidadeLinear').find('input').val('');
+
+        $('#VelocidadeResistencia').hide();
+        $('#VelocidadeResistencia').find('input').attr("required", false);
+        $('#VelocidadeResistencia').find('input').val('');
+
+        $('#Agilidade').hide();
+        $('#Agilidade').find('input').attr("required", false);
+        $('#Agilidade').find('input').val('');
+
+        $('#ForcaExplosiva').hide();
+        $('#ForcaExplosiva').find('input').attr("required", false);
+        $('#ForcaExplosiva').find('input').val('');
+
+        $('#ForcaExplosivaV').show();
+        $('#ForcaExplosivaV').find('input').attr("required", true);
+        $('#ForcaExplosivaV').find('input').val('');
+    }
+}

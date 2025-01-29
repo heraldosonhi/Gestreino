@@ -180,6 +180,10 @@
         <EntityTypeShape EntityType="GESTREINO_ORM.GT_TipoTestePessoaIdosa" Width="1.5" PointX="12.25" PointY="80.375" />
         <AssociationConnector Association="GESTREINO_ORM.GT_RespPessoaIdosa_GT_SOCIOS_ID" />
         <AssociationConnector Association="GESTREINO_ORM.GT_RespPessoaIdosa_GT_TipoTestePessoaIdosa_ID" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_RespForca" Width="1.5" PointX="14.5" PointY="43.75" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_TipoTesteForca" Width="1.5" PointX="12.25" PointY="14.375" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_RespForca_GT_SOCIOS_ID" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_RespForca_GT_TipoTesteForca_ID" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1253,4 +1253,184 @@ namespace Gestreino.Models
         public string lblResAnteriorFlexi { get; set; }
         public DateTime? lblDataInsercao { get; set; }
     }
+    public class Force
+    {
+        public int? ID { get; set; }
+        public int? PEsId { get; set; }
+
+        [Display(Name = "Teste:")]
+        public int GT_TipoTesteForca_ID { get; set; }
+        public int GT_TipoTestePessoaIdosa_ID { get; set; }
+        
+        public IEnumerable<System.Web.Mvc.SelectListItem> GT_TipoTesteForca_List { get; set; }
+
+        [Display(Name = "Nº. Abdominais:")]
+        public decimal? NAbdominais { get; set; }
+
+        [Display(Name = "Nº Flexões:")]
+        public decimal? NFlexoes { get; set; }
+
+        [Display(Name = "Carga Utilizada:")]
+        public decimal? CargaBraco { get; set; }
+
+        [Display(Name = "Razão:")]
+        public decimal? RazaoBraco { get; set; }
+
+        [Display(Name = "Défice de Força:")]
+        public decimal? DeficeBraco { get; set; }
+
+        [Display(Name = "90% RM:")]
+        public decimal? NoventaRMBraco { get; set; }
+
+        [Display(Name = "Nº Reps a 90%:")]
+        public decimal? NoventaRepsBraco { get; set; }
+
+        [Display(Name = "Tipo de Trabalho a Desenvolver:")]
+        public decimal? TrabalhoDesenvolverBraco { get; set; }
+        //
+
+        [Display(Name = "Carga Utilizada:")]
+        public decimal? CargaPerna { get; set; }
+
+        [Display(Name = "Razão:")]
+        public decimal? RazaoPerna { get; set; }
+
+        [Display(Name = "Défice de Força:")]
+        public decimal? DeficePerna { get; set; }
+
+        [Display(Name = "90% RM:")]
+        public decimal? NoventaRMPerna { get; set; }
+
+        [Display(Name = "Nº Reps a 90%:")]
+        public decimal? NoventaRepsPerna { get; set; }
+
+        [Display(Name = "Tipo de Trabalho a Desenvolver:")]
+        public decimal? TrabalhoDesenvolverPerna { get; set; }
+
+        [Display(Name = "Resultado:")]
+        public int? ResultadoVLinear { get; set; }
+
+        [Display(Name = "1ª Tentativa:")]
+        public decimal? PrimeraTentativaVLinear { get; set; }
+
+        [Display(Name = "2ª Tentativa:")]
+        public decimal? SegundaTentativaVLinear { get; set; }
+
+        [Display(Name = "3ª Tentativa:")]
+        public decimal? TerceiraTentativaVLinear { get; set; }
+
+
+        [Display(Name = "1ª Tentativa:")]
+        public decimal? PrimeraTentativaVResist { get; set; }
+
+        [Display(Name = "2ª Tentativa:")]
+        public decimal? SegundaTentativaVResist { get; set; }
+
+        [Display(Name = "3ª Tentativa:")]
+        public decimal? TerceiraTentativaVResist { get; set; }
+
+        [Display(Name = "4ª Tentativa:")]
+        public decimal? QuartaTentativaVResist { get; set; }
+
+        [Display(Name = "5ª Tentativa:")]
+        public decimal? QuintaTentativaVResist { get; set; }
+
+        [Display(Name = "6ª Tentativa:")]
+        public decimal? SextaTentativaVResist { get; set; }
+
+        [Display(Name = "7ª Tentativa:")]
+        public decimal? SetimaTentativaVResist { get; set; }
+
+        [Display(Name = "8ª Tentativa:")]
+        public decimal? OitavaTentativaVResist { get; set; }
+
+        [Display(Name = "9ª Tentativa:")]
+        public decimal? NonaTentativaVResist { get; set; }
+
+        [Display(Name = "10ª Tentativa:")]
+        public decimal? DecimaTentativaVResist { get; set; }
+
+        [Display(Name = "Fadiga de Sprint:")]
+        public string sprintVResist { get; set; }
+        [Display(Name = "Capacidade de manter a fadiga:")]
+        public string capacidadeVResist { get; set; }
+
+
+        [Display(Name = "1ª Tentativa:")]
+        public decimal? PrimeraTentativaAgilidade { get; set; }
+
+        [Display(Name = "2ª Tentativa:")]
+        public decimal? SegundaTentativaAgilidade { get; set; }
+
+        [Display(Name = "3ª Tentativa:")]
+        public decimal? TerceiraTentativaAgilidade { get; set; }
+
+        [Display(Name = "Resultado:")]
+        public decimal? ResultadoAgilidade { get; set; }
+
+        [Display(Name = "1ª Tentativa:")]
+        public decimal? PrimeraTentativaExpH { get; set; }
+
+        [Display(Name = "2ª Tentativa:")]
+        public decimal? SegundaTentativaExpH { get; set; }
+
+        [Display(Name = "3ª Tentativa:")]
+        public decimal? TerceiraTentativaExpH { get; set; }
+
+        [Display(Name = "Resultado:")]
+        public decimal? ResultadoExpH { get; set; }
+
+        [Display(Name = "1ª Tentativa:")]
+        public decimal? PrimeraTentativaExpV { get; set; }
+
+        [Display(Name = "2ª Tentativa:")]
+        public decimal? SegundaTentativaExpV { get; set; }
+
+        [Display(Name = "3ª Tentativa:")]
+        public decimal? TerceiraTentativaExpV { get; set; }
+
+        [Display(Name = "Resultado:")]
+        public decimal? ResultadoExpV { get; set; }
+
+        [Display(Name = "Valor Inicial:")]
+        public decimal? ValorInitExpV { get; set; }
+
+        [Display(Name = "Valor Inicial:")]
+        public decimal? PotenciaExpV { get; set; }
+
+
+        [Display(Name = "Desejável:")]
+        public string DesejavelAbdominais { get; set; }
+
+        [Display(Name = "Desejável:")]
+        public string DesejavelFlexoes { get; set; }
+
+        [Display(Name = "Desejável:")]
+        public string DesejavelBracos { get; set; }
+
+        [Display(Name = "Desejável:")]
+        public string DesejavelPerna { get; set; }
+
+        [Display(Name = "Desejável:")]
+        public string DesejavelVLinear { get; set; }
+
+        [Display(Name = "Desejável:")]
+        public string DesejavelVResist { get; set; }
+
+        [Display(Name = "Desejável:")]
+        public string DesejavelAgilidade { get; set; }
+
+        [Display(Name = "Desejável:")]
+        public string DesejavelExpH { get; set; }
+
+        [Display(Name = "Desejável:")]
+        public string DesejavelExpV { get; set; }
+
+        public decimal? Valor { get; set; }
+        public int? iFlexiAct { get; set; }
+        public string lblResActualFlexi { get; set; }
+        public int? iFlexiAnt { get; set; }
+        public string lblResAnteriorFlexi { get; set; }
+        public DateTime? lblDataInsercao { get; set; }
+    }
 }

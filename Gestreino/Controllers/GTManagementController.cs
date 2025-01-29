@@ -50,6 +50,7 @@ namespace Gestreino.Controllers
         int _MenuLeftBarLink_Quest_BodyComposition = 210;
         int _MenuLeftBarLink_Quest_Cardio = 211;
         int _MenuLeftBarLink_Quest_Elderly = 212;
+        int _MenuLeftBarLink_Quest_Force = 213;
         int _MenuLeftBarLink_FileManagement = 0;
 
         // GET: GTManagement
@@ -4248,7 +4249,64 @@ namespace Gestreino.Controllers
         }
 
 
+        //Forca
+        public ActionResult Force(Force MODEL, int? Id)
+        {
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
 
+            MODEL.GT_TipoTesteForca_List = databaseManager.GT_TipoTesteForca.OrderBy(x => x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
+            MODEL.GT_TipoTesteForca_ID = 1;
+
+            if (Id > 0)
+            {
+                var data = databaseManager.GT_RespPessoaIdosa.Where(x => x.ID == Id).ToList();
+                if (data.Count() == 0)
+                    return RedirectToAction("elderly", "gtmanagement", new { Id = string.Empty });
+                ViewBag.data = data;
+                MODEL.ID = Id;
+               // MODEL.GT_TipoTestePessoaIdosa_ID = data.First().GT_TipoTestePessoaIdosa_ID;
+                /*MODEL.NElevacoes = data.First().VALOR;
+                MODEL.NFlexoes = data.First().VALOR;
+                MODEL.DistanciaSentarAlcancar = data.First().VALOR;
+                MODEL.TempoAgilidade = data.First().VALOR;
+                MODEL.DistanciaAlcancar = data.First().VALOR;
+                MODEL.DistanciaAndar = data.First().VALOR;
+                MODEL.SubidasStep = data.First().VALOR;
+                MODEL.Desejavel = data.First().VALOR_DESEJAVEL;
+                MODEL.MGDesejavel = data.First().VALOR_DESEJAVEL;
+                MODEL.MG = data.First().PERCMG;
+                MODEL.PesoDesejavel = data.First().VALOR;
+                MODEL.lblDataInsercao = data.First().DATA_INSERCAO;
+                MODEL.Valor = data.First().VALOR;*/
+                
+                DoLoadValuesPercentilElevacoes();
+                DoLoadValuesPercentilFlexoes();
+                DoLoadValuesPercentilPeso();
+                DoLoadValuesPercentilSentarAlcancar();
+                DoLoadValuesPercentilAgilidade();
+                DoLoadValuesPercentilAlcancarPessoaIdosa();
+                DoLoadValuesPercentilAndar();
+                DoLoadValuesPercentilStep();
+
+                //SetValueDesejado(MODEL);
+
+                int iPerc;
+                decimal iValue;
+                string sRes;
+
+                //MODEL.iFlexiAct = iPerc;
+                //MODEL.lblResActualFlexi = sRes;
+
+               // if (GetValorAnteriorPessoaIdosa(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID) != null)
+              //  {
+                   
+              //      MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoElderly(MODEL.iFlexiAnt.Value) : string.Empty;
+              //  }
+
+            }
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Force;
+            return View("Quest/Force", MODEL);
+        }
 
 
 
@@ -7209,6 +7267,7 @@ namespace Gestreino.Controllers
         }
         
 
+        //Force
 
 
     }
