@@ -104,8 +104,8 @@ namespace Gestreino
         public virtual DbSet<GT_RespAptidaoCardio> GT_RespAptidaoCardio { get; set; }
         public virtual DbSet<GT_RespPessoaIdosa> GT_RespPessoaIdosa { get; set; }
         public virtual DbSet<GT_TipoTestePessoaIdosa> GT_TipoTestePessoaIdosa { get; set; }
-        public virtual DbSet<GT_RespForca> GT_RespForca { get; set; }
         public virtual DbSet<GT_TipoTesteForca> GT_TipoTesteForca { get; set; }
+        public virtual DbSet<GT_RespForca> GT_RespForca { get; set; }
     
         public virtual ObjectResult<SP_UTILIZADORES_LOGIN_LOGS_Result> SP_UTILIZADORES_LOGIN_LOGS(Nullable<int> userId, string action)
         {

@@ -4634,15 +4634,15 @@ function loadGT_TipoTestePessoaIdosa_List(id) {
 function loadGT_TipoTesteForca_List(id) {
     if (id == '1') {
         $('#RMBracos').show();
-        $('#RMBracos').find('input #CargaBraco').attr("required", true);
+        $('#RMBracos').find('#CargaBraco').attr("required", true);
         $('#RMBracos').find('input').val('');
 
         $('#RMPerna').hide();
-        $('#RMPerna').find('input').attr("required", false);
+        $('#RMPerna').find('#CargaPerna').attr("required", false);
         $('#RMPerna').find('input').val('');
 
         $('#Abdominais').hide();
-        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').attr("required", false);
         $('#Abdominais').find('input').val('');
 
         $('#Flexoes').hide();
@@ -4672,15 +4672,15 @@ function loadGT_TipoTesteForca_List(id) {
     }
     if (id == '2') {
         $('#RMBracos').hide();
-        $('#RMBracos').find('input #CargaBraco').attr("required", false);
+        $('#RMBracos').find('#CargaBraco').attr("required", false);
         $('#RMBracos').find('input').val('');
 
         $('#RMPerna').show();
-        $('#RMPerna').find('input').attr("required", true);
+        $('#RMPerna').find('#CargaPerna').attr("required", true);
         $('#RMPerna').find('input').val('');
 
         $('#Abdominais').hide();
-        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').attr("required", false);
         $('#Abdominais').find('input').val('');
 
         $('#Flexoes').hide();
@@ -4709,15 +4709,15 @@ function loadGT_TipoTesteForca_List(id) {
     }
     if (id == '3') {
         $('#RMBracos').hide();
-        $('#RMBracos').find('input #CargaBraco').attr("required", false);
+        $('#RMBracos').find('#CargaBraco').attr("required", false);
         $('#RMBracos').find('input').val('');
 
         $('#RMPerna').hide();
-        $('#RMPerna').find('input').attr("required", false);
+        $('#RMPerna').find('#CargaPerna').attr("required", false);
         $('#RMPerna').find('input').val('');
 
         $('#Abdominais').show();
-        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').attr("required", true);
         $('#Abdominais').find('input').val('');
 
         $('#Flexoes').hide();
@@ -4746,15 +4746,15 @@ function loadGT_TipoTesteForca_List(id) {
     }
     if (id == '4') {
         $('#RMBracos').hide();
-        $('#RMBracos').find('input #CargaBraco').attr("required", false);
+        $('#RMBracos').find('#CargaBraco').attr("required", false);
         $('#RMBracos').find('input').val('');
 
         $('#RMPerna').hide();
-        $('#RMPerna').find('input').attr("required", false);
+        $('#RMPerna').find('#CargaPerna').attr("required", false);
         $('#RMPerna').find('input').val('');
 
         $('#Abdominais').hide();
-        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').attr("required", false);
         $('#Abdominais').find('input').val('');
 
         $('#Flexoes').show();
@@ -4783,15 +4783,15 @@ function loadGT_TipoTesteForca_List(id) {
     }
     if (id == '5') {
         $('#RMBracos').hide();
-        $('#RMBracos').find('input #CargaBraco').attr("required", false);
+        $('#RMBracos').find('#CargaBraco').attr("required", false);
         $('#RMBracos').find('input').val('');
 
         $('#RMPerna').hide();
-        $('#RMPerna').find('input').attr("required", false);
+        $('#RMPerna').find('#CargaPerna').attr("required", false);
         $('#RMPerna').find('input').val('');
 
         $('#Abdominais').hide();
-        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').attr("required", false);
         $('#Abdominais').find('input').val('');
 
         $('#Flexoes').hide();
@@ -4820,15 +4820,15 @@ function loadGT_TipoTesteForca_List(id) {
     }
     if (id == '6') {
         $('#RMBracos').hide();
-        $('#RMBracos').find('input #CargaBraco').attr("required", false);
+        $('#RMBracos').find('#CargaBraco').attr("required", false);
         $('#RMBracos').find('input').val('');
 
         $('#RMPerna').hide();
-        $('#RMPerna').find('input').attr("required", false);
+        $('#RMPerna').find('#CargaPerna').attr("required", false);
         $('#RMPerna').find('input').val('');
 
         $('#Abdominais').hide();
-        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').attr("required", false);
         $('#Abdominais').find('input').val('');
 
         $('#Flexoes').hide();
@@ -4857,15 +4857,15 @@ function loadGT_TipoTesteForca_List(id) {
     }
     if (id == '7') {
         $('#RMBracos').hide();
-        $('#RMBracos').find('input #CargaBraco').attr("required", false);
+        $('#RMBracos').find('#CargaBraco').attr("required", false);
         $('#RMBracos').find('input').val('');
 
         $('#RMPerna').hide();
-        $('#RMPerna').find('input').attr("required", false);
+        $('#RMPerna').find('#CargaPerna').attr("required", false);
         $('#RMPerna').find('input').val('');
 
         $('#Abdominais').hide();
-        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').attr("required", false);
         $('#Abdominais').find('input').val('');
 
         $('#Flexoes').hide();
@@ -4894,15 +4894,15 @@ function loadGT_TipoTesteForca_List(id) {
     }
     if (id == '8') {
         $('#RMBracos').hide();
-        $('#RMBracos').find('input #CargaBraco').attr("required", false);
+        $('#RMBracos').find('#CargaBraco').attr("required", false);
         $('#RMBracos').find('input').val('');
 
         $('#RMPerna').hide();
-        $('#RMPerna').find('input').attr("required", false);
+        $('#RMPerna').find('#CargaPerna').attr("required", false);
         $('#RMPerna').find('input').val('');
 
         $('#Abdominais').hide();
-        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').attr("required", false);
         $('#Abdominais').find('input').val('');
 
         $('#Flexoes').hide();
@@ -4931,15 +4931,15 @@ function loadGT_TipoTesteForca_List(id) {
     }
     if (id == '9') {
         $('#RMBracos').hide();
-        $('#RMBracos').find('input #CargaBraco').attr("required", false);
+        $('#RMBracos').find('#CargaBraco').attr("required", false);
         $('#RMBracos').find('input').val('');
 
         $('#RMPerna').hide();
-        $('#RMPerna').find('input').attr("required", false);
+        $('#RMPerna').find('#CargaPerna').attr("required", false);
         $('#RMPerna').find('input').val('');
 
         $('#Abdominais').hide();
-        //$('#Abdominais').find('input').attr("required", false);
+        $('#Abdominais').find('input').attr("required", false);
         $('#Abdominais').find('input').val('');
 
         $('#Flexoes').hide();

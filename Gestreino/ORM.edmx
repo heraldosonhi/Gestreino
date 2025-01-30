@@ -490,22 +490,22 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GT_SOCIOS_ID" Type="int" Nullable="false" />
           <Property Name="GT_TipoTesteForca_ID" Type="int" Nullable="false" />
-          <Property Name="CARGA" Type="nchar" MaxLength="10" />
-          <Property Name="REPETICOES90" Type="nchar" MaxLength="10" />
-          <Property Name="VINICIAL" Type="nchar" MaxLength="10" />
-          <Property Name="NUM_ABDOMINAIS" Type="nchar" MaxLength="10" />
-          <Property Name="NUM_FLEXOES" Type="nchar" MaxLength="10" />
-          <Property Name="TENTATIVA1" Type="int" />
-          <Property Name="TENTATIVA2" Type="int" />
-          <Property Name="TENTATIVA3" Type="int" />
-          <Property Name="TENTATIVA4" Type="int" />
-          <Property Name="TENTATIVA5" Type="int" />
-          <Property Name="TENTATIVA6" Type="int" />
-          <Property Name="TENTATIVA7" Type="int" />
-          <Property Name="TENTATIVA8" Type="int" />
-          <Property Name="TENTATIVA9" Type="int" />
-          <Property Name="TENTATIVA10" Type="int" />
-          <Property Name="FADIGASPRINT" Type="int" />
+          <Property Name="CARGA" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="REPETICOES90" Type="int" />
+          <Property Name="VINICIAL" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="NUM_ABDOMINAIS" Type="int" />
+          <Property Name="NUM_FLEXOES" Type="int" />
+          <Property Name="TENTATIVA1" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA2" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA3" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA4" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA5" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA6" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA7" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA8" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA9" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA10" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="FADIGASPRINT" Type="decimal" Precision="18" Scale="2" />
           <Property Name="DESEJAVEL" Type="varchar" MaxLength="255" />
           <Property Name="RESP_SUMMARY" Type="decimal" Precision="18" Scale="2" />
           <Property Name="RESP_DESCRICAO" Type="varchar" MaxLength="4000" />
@@ -5412,8 +5412,8 @@
             <End Role="GT_TipoTestePessoaIdosa" EntitySet="GT_TipoTestePessoaIdosa" />
             <End Role="GT_RespPessoaIdosa" EntitySet="GT_RespPessoaIdosa" />
           </AssociationSet>
-          <EntitySet Name="GT_RespForca" EntityType="GESTREINO_ORM.GT_RespForca" />
           <EntitySet Name="GT_TipoTesteForca" EntityType="GESTREINO_ORM.GT_TipoTesteForca" />
+          <EntitySet Name="GT_RespForca" EntityType="GESTREINO_ORM.GT_RespForca" />
           <AssociationSet Name="GT_RespForca_GT_SOCIOS_ID" Association="GESTREINO_ORM.GT_RespForca_GT_SOCIOS_ID">
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
             <End Role="GT_RespForca" EntitySet="GT_RespForca" />
@@ -7722,6 +7722,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="GT_TipoTesteForca">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DESCRICAO" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GT_RespForca" Relationship="GESTREINO_ORM.GT_RespForca_GT_TipoTesteForca_ID" FromRole="GT_TipoTesteForca" ToRole="GT_RespForca" />
+        </EntityType>
         <EntityType Name="GT_RespForca">
           <Key>
             <PropertyRef Name="ID" />
@@ -7729,22 +7737,22 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GT_SOCIOS_ID" Type="Int32" Nullable="false" />
           <Property Name="GT_TipoTesteForca_ID" Type="Int32" Nullable="false" />
-          <Property Name="CARGA" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="REPETICOES90" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="VINICIAL" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="NUM_ABDOMINAIS" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="NUM_FLEXOES" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="TENTATIVA1" Type="Int32" />
-          <Property Name="TENTATIVA2" Type="Int32" />
-          <Property Name="TENTATIVA3" Type="Int32" />
-          <Property Name="TENTATIVA4" Type="Int32" />
-          <Property Name="TENTATIVA5" Type="Int32" />
-          <Property Name="TENTATIVA6" Type="Int32" />
-          <Property Name="TENTATIVA7" Type="Int32" />
-          <Property Name="TENTATIVA8" Type="Int32" />
-          <Property Name="TENTATIVA9" Type="Int32" />
-          <Property Name="TENTATIVA10" Type="Int32" />
-          <Property Name="FADIGASPRINT" Type="Int32" />
+          <Property Name="CARGA" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="REPETICOES90" Type="Int32" />
+          <Property Name="VINICIAL" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NUM_ABDOMINAIS" Type="Int32" />
+          <Property Name="NUM_FLEXOES" Type="Int32" />
+          <Property Name="TENTATIVA1" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA2" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA3" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA4" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA5" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA6" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA7" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA8" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA9" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TENTATIVA10" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FADIGASPRINT" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="DESEJAVEL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="RESP_SUMMARY" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="RESP_DESCRICAO" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
@@ -7757,14 +7765,6 @@
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
           <NavigationProperty Name="GT_SOCIOS" Relationship="GESTREINO_ORM.GT_RespForca_GT_SOCIOS_ID" FromRole="GT_RespForca" ToRole="GT_SOCIOS" />
           <NavigationProperty Name="GT_TipoTesteForca" Relationship="GESTREINO_ORM.GT_RespForca_GT_TipoTesteForca_ID" FromRole="GT_RespForca" ToRole="GT_TipoTesteForca" />
-        </EntityType>
-        <EntityType Name="GT_TipoTesteForca">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DESCRICAO" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="GT_RespForca" Relationship="GESTREINO_ORM.GT_RespForca_GT_TipoTesteForca_ID" FromRole="GT_TipoTesteForca" ToRole="GT_RespForca" />
         </EntityType>
         <Association Name="GT_RespForca_GT_SOCIOS_ID">
           <End Type="GESTREINO_ORM.GT_SOCIOS" Role="GT_SOCIOS" Multiplicity="1" />
@@ -9912,6 +9912,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="GT_TipoTesteForca">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_TipoTesteForca">
+              <MappingFragment StoreEntitySet="GT_TipoTesteForca">
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="GT_RespForca">
             <EntityTypeMapping TypeName="GESTREINO_ORM.GT_RespForca">
               <MappingFragment StoreEntitySet="GT_RespForca">
@@ -9943,14 +9951,6 @@
                 <ScalarProperty Name="CARGA" ColumnName="CARGA" />
                 <ScalarProperty Name="GT_TipoTesteForca_ID" ColumnName="GT_TipoTesteForca_ID" />
                 <ScalarProperty Name="GT_SOCIOS_ID" ColumnName="GT_SOCIOS_ID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GT_TipoTesteForca">
-            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_TipoTesteForca">
-              <MappingFragment StoreEntitySet="GT_TipoTesteForca">
-                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

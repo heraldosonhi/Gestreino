@@ -1260,15 +1260,14 @@ namespace Gestreino.Models
 
         [Display(Name = "Teste:")]
         public int GT_TipoTesteForca_ID { get; set; }
-        public int GT_TipoTestePessoaIdosa_ID { get; set; }
         
         public IEnumerable<System.Web.Mvc.SelectListItem> GT_TipoTesteForca_List { get; set; }
 
         [Display(Name = "Nº. Abdominais:")]
-        public decimal? NAbdominais { get; set; }
+        public int? NAbdominais { get; set; }
 
         [Display(Name = "Nº Flexões:")]
-        public decimal? NFlexoes { get; set; }
+        public int? NFlexoes { get; set; }
 
         [Display(Name = "Carga Utilizada:")]
         public decimal? CargaBraco { get; set; }
@@ -1277,16 +1276,16 @@ namespace Gestreino.Models
         public decimal? RazaoBraco { get; set; }
 
         [Display(Name = "Défice de Força:")]
-        public decimal? DeficeBraco { get; set; }
+        public string DeficeBraco { get; set; }
 
         [Display(Name = "90% RM:")]
         public decimal? NoventaRMBraco { get; set; }
 
         [Display(Name = "Nº Reps a 90%:")]
-        public decimal? NoventaRepsBraco { get; set; }
+        public int? NoventaRepsBraco { get; set; }
 
         [Display(Name = "Tipo de Trabalho a Desenvolver:")]
-        public decimal? TrabalhoDesenvolverBraco { get; set; }
+        public string TrabalhoDesenvolverBraco { get; set; }
         //
 
         [Display(Name = "Carga Utilizada:")]
@@ -1296,19 +1295,19 @@ namespace Gestreino.Models
         public decimal? RazaoPerna { get; set; }
 
         [Display(Name = "Défice de Força:")]
-        public decimal? DeficePerna { get; set; }
+        public string DeficePerna { get; set; }
 
         [Display(Name = "90% RM:")]
         public decimal? NoventaRMPerna { get; set; }
 
         [Display(Name = "Nº Reps a 90%:")]
-        public decimal? NoventaRepsPerna { get; set; }
+        public int? NoventaRepsPerna { get; set; }
 
         [Display(Name = "Tipo de Trabalho a Desenvolver:")]
-        public decimal? TrabalhoDesenvolverPerna { get; set; }
+        public string TrabalhoDesenvolverPerna { get; set; }
 
         [Display(Name = "Resultado:")]
-        public int? ResultadoVLinear { get; set; }
+        public string ResultadoVLinear { get; set; }
 
         [Display(Name = "1ª Tentativa:")]
         public decimal? PrimeraTentativaVLinear { get; set; }
@@ -1351,9 +1350,9 @@ namespace Gestreino.Models
         public decimal? DecimaTentativaVResist { get; set; }
 
         [Display(Name = "Fadiga de Sprint:")]
-        public string sprintVResist { get; set; }
+        public decimal? sprintVResist { get; set; }
         [Display(Name = "Capacidade de manter a fadiga:")]
-        public string capacidadeVResist { get; set; }
+        public decimal? capacidadeVResist { get; set; }
 
 
         [Display(Name = "1ª Tentativa:")]

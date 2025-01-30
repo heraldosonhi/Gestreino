@@ -17,22 +17,22 @@ namespace Gestreino
         public int ID { get; set; }
         public int GT_SOCIOS_ID { get; set; }
         public int GT_TipoTesteForca_ID { get; set; }
-        public string CARGA { get; set; }
-        public string REPETICOES90 { get; set; }
-        public string VINICIAL { get; set; }
-        public string NUM_ABDOMINAIS { get; set; }
-        public string NUM_FLEXOES { get; set; }
-        public Nullable<int> TENTATIVA1 { get; set; }
-        public Nullable<int> TENTATIVA2 { get; set; }
-        public Nullable<int> TENTATIVA3 { get; set; }
-        public Nullable<int> TENTATIVA4 { get; set; }
-        public Nullable<int> TENTATIVA5 { get; set; }
-        public Nullable<int> TENTATIVA6 { get; set; }
-        public Nullable<int> TENTATIVA7 { get; set; }
-        public Nullable<int> TENTATIVA8 { get; set; }
-        public Nullable<int> TENTATIVA9 { get; set; }
-        public Nullable<int> TENTATIVA10 { get; set; }
-        public Nullable<int> FADIGASPRINT { get; set; }
+        public Nullable<decimal> CARGA { get; set; }
+        public Nullable<int> REPETICOES90 { get; set; }
+        public Nullable<decimal> VINICIAL { get; set; }
+        public Nullable<int> NUM_ABDOMINAIS { get; set; }
+        public Nullable<int> NUM_FLEXOES { get; set; }
+        public Nullable<decimal> TENTATIVA1 { get; set; }
+        public Nullable<decimal> TENTATIVA2 { get; set; }
+        public Nullable<decimal> TENTATIVA3 { get; set; }
+        public Nullable<decimal> TENTATIVA4 { get; set; }
+        public Nullable<decimal> TENTATIVA5 { get; set; }
+        public Nullable<decimal> TENTATIVA6 { get; set; }
+        public Nullable<decimal> TENTATIVA7 { get; set; }
+        public Nullable<decimal> TENTATIVA8 { get; set; }
+        public Nullable<decimal> TENTATIVA9 { get; set; }
+        public Nullable<decimal> TENTATIVA10 { get; set; }
+        public Nullable<decimal> FADIGASPRINT { get; set; }
         public string DESEJAVEL { get; set; }
         public Nullable<decimal> RESP_SUMMARY { get; set; }
         public string RESP_DESCRICAO { get; set; }
