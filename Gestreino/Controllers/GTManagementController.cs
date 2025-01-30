@@ -2270,7 +2270,8 @@ namespace Gestreino.Controllers
             if (GT_Res == "GT_RespComposicao") Link = "/gtmanagement/bodycomposition/";
             if (GT_Res == "GT_RespAptidaoCardio") Link = "/gtmanagement/cardio/";
             if (GT_Res == "GT_RespPessoaIdosa") Link = "/gtmanagement/elderly/";
-
+            if (GT_Res == "GT_RespForca") Link = "/gtmanagement/force/";
+            
             TipoId = TipoId > 0 ? TipoId : null;
             var v = (from a in databaseManager.SP_GT_ENT_Resp(TipoId, PesId, GT_Res,  null, "R").ToList() select a);
             TempData["QUERYRESULT_ALL"] = v.ToList();
@@ -4333,25 +4334,138 @@ namespace Gestreino.Controllers
                 }
                 MODEL.lblDataInsercao = data.First().DATA_INSERCAO;
 
+                int iPerc = 0;
+                decimal iValue = 0;
+                string sRes = string.Empty;
+
                 DoLoadValuesPercentilBracos();
                 DoLoadValuesPercentilPernas();
                 DoLoadValuesPercentilAbdominais();
                 DoLoadValuesPercentilFlexoesForca();
 
-                //SetValueDesejado(MODEL);
+                if (MODEL.GT_TipoTesteForca_ID == 1)
+                {
+                    //Campo Razão
+                    MODEL.RazaoBraco = DoGetRazaoBracos(MODEL.CargaBraco.Value);
+                    MODEL.RazaoBraco = MODEL.RazaoBraco.ToString().Length > 4 ? Convert.ToDecimal(MODEL.RazaoBraco.ToString().Substring(0, 4)) : MODEL.RazaoBraco;
+                    //Defice da Força
+                    MODEL.DeficeBraco = DoGetDeficeForcaBracos(MODEL.NoventaRepsBraco);
+                    //Trabalho a Desenvolver
+                    MODEL.TrabalhoDesenvolverBraco = DoGetTrabalhoDesenvBracos(MODEL.NoventaRepsBraco);
+                    //90% do RM
+                    MODEL.NoventaRMBraco = DoSet90RMBracos(MODEL.CargaBraco);
 
-                int iPerc;
-                decimal iValue;
-                string sRes;
+                    DoGetActualBracos(MODEL.RazaoBraco, out iPerc, out iValue, out sRes);
+                    MODEL.DesejavelBracos = DoSetEsperadoBracos(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO));
 
-                //MODEL.iFlexiAct = iPerc;
-                //MODEL.lblResActualFlexi = sRes;
+                }
+                if (MODEL.GT_TipoTesteForca_ID == 2)
+                {
+                    //Campo Razão
+                    MODEL.RazaoPerna = DoGetRazaoPernas(MODEL.CargaPerna.Value);
+                    MODEL.RazaoPerna = MODEL.RazaoPerna.ToString().Length > 4 ? Convert.ToDecimal(MODEL.RazaoPerna.ToString().Substring(0, 4)) : MODEL.RazaoPerna;
+                    //Defice da Força
+                    MODEL.DeficePerna = DoGetDeficeForcaPernas(MODEL.NoventaRepsPerna);
+                    //Trabalho a Desenvolver
+                    MODEL.TrabalhoDesenvolverPerna = DoGetTrabalhoDesenvPernas(MODEL.NoventaRepsPerna);
+                    //90% do RM
+                    MODEL.NoventaRMPerna = DoSet90RMPernas(MODEL.CargaPerna);
 
-               // if (GetValorAnteriorPessoaIdosa(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID) != null)
-              //  {
-                   
-              //      MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoElderly(MODEL.iFlexiAnt.Value) : string.Empty;
-              //  }
+                    DoGetActualPernas(MODEL.RazaoPerna, out iPerc, out iValue, out sRes);
+                    MODEL.DesejavelPerna = DoSetEsperadoPernas(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO));
+                }
+                if (MODEL.GT_TipoTesteForca_ID == 3)
+                {
+                    //Colocar default values nos campos
+                    DoGetActualAbdominais(MODEL.NAbdominais, out iPerc, out iValue, out sRes);
+                    //Valores Desejados
+                    MODEL.DesejavelAbdominais = DoSetEsperadoAbdominais(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
+                }
+                if (MODEL.GT_TipoTesteForca_ID == 4)
+                {
+                    DoGetActualFlexoes(MODEL.NFlexoes, out iPerc, out iValue, out sRes);
+                    //Valores Desejados
+                    MODEL.DesejavelFlexoes = DoSetEsperadoFlexoes(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
+                }
+                if (MODEL.GT_TipoTesteForca_ID == 5)
+                {
+                    DoGetActualVLinear(MODEL, out iPerc, out iValue, out sRes);
+                    MODEL.ResultadoVLinear = Convert.ToString(iValue);
+
+                    //Valores Desejados
+                    MODEL.DesejavelVLinear = DoSetEsperadoVLinear();
+                }
+                if (MODEL.GT_TipoTesteForca_ID == 6)
+                {
+                    DoGetActualVResist(MODEL, out iPerc, out iValue, out sRes);
+
+                    //Valores Desejados
+                    MODEL.DesejavelVResist = DoSetEsperadoVResist();
+
+                    //Fadiga do String "Max Value" - "Min Value"
+                    MODEL.sprintVResist = (DoGetFadigaSprint(MODEL));
+                }
+                if (MODEL.GT_TipoTesteForca_ID == 7)
+                {
+                    DoGetActualAgilidade(MODEL, out iPerc, out iValue, out sRes);
+
+                    //Valores Desejados
+                    MODEL.DesejavelAgilidade = DoSetEsperadoAgilidade();
+                }
+                if (MODEL.GT_TipoTesteForca_ID == 8)
+                {
+                    DoGetActualExplosivaH(MODEL, out iPerc, out iValue, out sRes);
+
+                    //Valores Desejados
+                    MODEL.DesejavelExpH = DoSetEsperadoExplosivaH();
+                }
+                if (MODEL.GT_TipoTesteForca_ID == 9)
+                {
+                    DoGetActualExplosivaV(MODEL, out iPerc, out iValue, out sRes);
+
+                    //Valores Desejados
+                    MODEL.DesejavelExpV = DoSetEsperadoExplosivaV();
+                }
+
+
+                MODEL.iFlexiAct = iPerc;
+                MODEL.lblResActualFlexi = sRes;
+
+                if (GetValorAnteriorForca(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID) != null)
+                {
+                    if (MODEL.GT_TipoTesteForca_ID == 1)
+                    {
+                        MODEL.iFlexiAnt = GetPercentilBracos(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), DoGetRazaoBracos(GetValorAnteriorForca(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID).Value));
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoBracos(MODEL.iFlexiAnt.Value) : string.Empty;
+                    }
+                    if (MODEL.GT_TipoTesteForca_ID == 2)
+                    {
+                        MODEL.iFlexiAnt = GetPercentilPernas(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), DoGetRazaoPernas(GetValorAnteriorForca(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID).Value));
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoPernas(MODEL.iFlexiAnt.Value) : string.Empty;
+                    }
+                    if (MODEL.GT_TipoTesteForca_ID == 3)
+                    {
+                        MODEL.iFlexiAnt = GetPercentilAbdominais(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), Convert.ToInt32(GetValorAnteriorForca(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID)));
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoAbdominais(Convert.ToInt32(MODEL.iFlexiAnt.Value)) : string.Empty;
+                    }
+                    if (MODEL.GT_TipoTesteForca_ID == 4)
+                    {
+                        MODEL.iFlexiAnt = GetPercentilFlexoes(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), Convert.ToInt32(GetValorAnteriorForca(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID)));
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoFlexoes(Convert.ToInt32(MODEL.iFlexiAnt.Value)) : string.Empty;
+                    }/*if (MODEL.GT_TipoTesteForca_ID == 5)
+                        MODEL.iFlexiAnt = GetPercentilAgilidade(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTesteForca_ID == 6)
+                        MODEL.iFlexiAnt = GetPercentilAlcancar(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTesteForca_ID == 7)
+                        MODEL.iFlexiAnt = GetPercentilAndar(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTesteForca_ID == 8)
+                        MODEL.iFlexiAnt = GetPercentilStep(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    if (MODEL.GT_TipoTesteForca_ID == 9)
+                        MODEL.iFlexiAnt = GetPercentilStep(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    */
+                    MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoElderly(MODEL.iFlexiAnt.Value) : string.Empty;
+                }
+
 
             }
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Force;
@@ -4638,7 +4752,7 @@ namespace Gestreino.Controllers
                 {
                     if (MODEL.GT_TipoTesteForca_ID == 1)
                     {
-                        MODEL.iFlexiAnt = GetPercentilBracos(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), GetValorAnteriorForca(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID).Value);
+                     //   MODEL.iFlexiAnt = GetPercentilBracos(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), GetValorAnteriorForca(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID).Value);
                         MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoBracos(MODEL.iFlexiAnt.Value) : string.Empty;
                     }/*if (MODEL.GT_TipoTesteForca_ID == 2)
                         MODEL.iFlexiAnt = GetPercentilFlexoes(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
@@ -8867,12 +8981,45 @@ namespace Gestreino.Controllers
             decimal? iFlexi = 0;
             var data = databaseManager.GT_RespForca.Where(x => x.GT_SOCIOS_ID == GT_SOCIOS_ID && x.ID < Id && x.GT_TipoTesteForca_ID == Type).OrderByDescending(x => x.DATA_INSERCAO).Take(1).ToList();
 
+
             var flexflexNumberArr = data.Select(x => new List<decimal?>
                 {
-                x.CARGA,
-                x.NUM_ABDOMINAIS,
-                x.NUM_FLEXOES,
-                x.TENTATIVA1,
+                x.CARGA
+                }).ToArray();
+
+            if (Type == 1 || Type == 2)
+            {
+                flexflexNumberArr = data.Select(x => new List<decimal?>
+                {
+                x.CARGA
+                }).ToArray();
+            }
+            if (Type == 3)
+            {
+                flexflexNumberArr = data.Select(x => new List<decimal?>
+                {
+                x.NUM_ABDOMINAIS
+                }).ToArray();
+            }
+            if (Type == 4)
+            {
+                flexflexNumberArr = data.Select(x => new List<decimal?>
+                {
+                x.NUM_FLEXOES
+                }).ToArray();
+            }
+            if (Type == 5)
+            {
+                flexflexNumberArr = data.Select(x => new List<decimal?>
+                {
+                x.TENTATIVA3
+                }).ToArray();
+            }
+            if (Type == 6)
+            {
+                flexflexNumberArr = data.Select(x => new List<decimal?>
+                {
+               x.TENTATIVA1,
                 x.TENTATIVA2,
                 x.TENTATIVA3,
                 x.TENTATIVA4,
@@ -8882,8 +9029,9 @@ namespace Gestreino.Controllers
                 x.TENTATIVA8,
                 x.TENTATIVA9,
                 x.TENTATIVA10,
-                x.VINICIAL
                 }).ToArray();
+            }
+
 
             if (flexflexNumberArr.Any())
             {
@@ -8893,8 +9041,30 @@ namespace Gestreino.Controllers
                 {
                     foreach (var x in flexflexNumberArrList)
                     {
-                        if (x != null)
-                            iFlexi = x;
+                        if (Type == 6)
+                        {
+                            ArrayList aTentativas = new ArrayList(10);
+
+                            aTentativas.Add(x);
+                            aTentativas.Add(x);
+                            aTentativas.Add(x);
+                            aTentativas.Add(x);
+                            aTentativas.Add(x);
+                            aTentativas.Add(x);
+                            aTentativas.Add(x);
+                            aTentativas.Add(x);
+                            aTentativas.Add(x);
+                            aTentativas.Add(x);
+                            aTentativas.Sort();
+
+                            iFlexi = DoGetValorTentativas(aTentativas);
+                        }
+                        else
+                        {
+                            if (x != null)
+                                iFlexi = x;
+                        }
+                          
                     }
                 }
                 else

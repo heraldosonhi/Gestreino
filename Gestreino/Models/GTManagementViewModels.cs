@@ -1428,7 +1428,7 @@ namespace Gestreino.Models
         public decimal? Valor { get; set; }
         public int? iFlexiAct { get; set; }
         public string lblResActualFlexi { get; set; }
-        public int? iFlexiAnt { get; set; }
+        public decimal? iFlexiAnt { get; set; }
         public string lblResAnteriorFlexi { get; set; }
         public DateTime? lblDataInsercao { get; set; }
     }
