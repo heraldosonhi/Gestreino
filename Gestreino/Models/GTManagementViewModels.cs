@@ -1394,7 +1394,7 @@ namespace Gestreino.Models
         [Display(Name = "Valor Inicial:")]
         public decimal? ValorInitExpV { get; set; }
 
-        [Display(Name = "Valor Inicial:")]
+        [Display(Name = "Potênc. Muscular:")]
         public decimal? PotenciaExpV { get; set; }
 
 

@@ -45,7 +45,7 @@ namespace Gestreino.Controllers
         int _MenuLeftBarLink_Quest_Anxient = 205;
         int _MenuLeftBarLink_Quest_SelfConcept = 206;
         int _MenuLeftBarLink_Quest_CoronaryRisk = 207;
-        int _MenuLeftBarLink_Quest_Health= 208;
+        int _MenuLeftBarLink_Quest_Health = 208;
         int _MenuLeftBarLink_Quest_Flex = 209;
         int _MenuLeftBarLink_Quest_BodyComposition = 210;
         int _MenuLeftBarLink_Quest_Cardio = 211;
@@ -188,7 +188,7 @@ namespace Gestreino.Controllers
             MODEL.PES_Contracto_LIST = databaseManager.PES_PROFISSOES_TIPO_CONTRACTO.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             MODEL.PES_Regime_LIST = databaseManager.PES_PROFISSOES_REGIME_TRABALHO.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             MODEL.PES_FAMILIARES_GRUPOS_LIST = databaseManager.PES_FAMILIARES_GRUPOS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-           
+
 
             ViewBag.imgSrc = (string.IsNullOrEmpty(data.First().FOTOGRAFIA)) ? "/Assets/images/user-avatar.jpg" : "/" + data.First().FOTOGRAFIA;
             ViewBag.data = data;
@@ -354,9 +354,9 @@ namespace Gestreino.Controllers
                 var Peso = (MODEL.Caract_Peso != null) ? decimal.Parse(MODEL.Caract_Peso, CultureInfo.InvariantCulture) : (Decimal?)null;
                 var Altura = (MODEL.Caract_Altura != null) ? decimal.Parse(MODEL.Caract_Altura, CultureInfo.InvariantCulture) : (Decimal?)null;
 
-                if (Peso!=null && Altura!=null)
+                if (Peso != null && Altura != null)
                     MODEL.Caract_IMC = Convert.ToInt32(Peso / ((Altura / 100) * (Altura / 100)));
-              
+
                 //Create or update User
                 var Login = Converters.GetFirstAndLastName(MODEL.Nome).Replace(" ", "").ToLower();
 
@@ -680,7 +680,7 @@ namespace Gestreino.Controllers
 
             // GET TABLE CONTENT
 
-            var v = (from a in databaseManager.SP_PES_ENT_PESSOAS_PROFISSOES(null,Id, null, null, null, null, null, null, null, null, Convert.ToChar('R').ToString()).ToList() select a);
+            var v = (from a in databaseManager.SP_PES_ENT_PESSOAS_PROFISSOES(null, Id, null, null, null, null, null, null, null, null, Convert.ToChar('R').ToString()).ToList() select a);
             TempData["QUERYRESULT_ALL"] = v.ToList();
 
             //SEARCH RESULT SET
@@ -792,7 +792,7 @@ namespace Gestreino.Controllers
                 string Empresa = MODEL.Empresa;
 
                 // Create
-                var create = databaseManager.SP_PES_ENT_PESSOAS_PROFISSOES(null,MODEL.ID, MODEL.PES_PROFISSOES_REGIME_ID, MODEL.PES_PROFISSOES_CONTRACTO_ID, MODEL.PES_PROFISSAO_ID,Empresa, DateIni, DateEnd, MODEL.Descricao, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                var create = databaseManager.SP_PES_ENT_PESSOAS_PROFISSOES(null, MODEL.ID, MODEL.PES_PROFISSOES_REGIME_ID, MODEL.PES_PROFISSOES_CONTRACTO_ID, MODEL.PES_PROFISSAO_ID, Empresa, DateIni, DateEnd, MODEL.Descricao, int.Parse(User.Identity.GetUserId()), "C").ToList();
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -826,7 +826,7 @@ namespace Gestreino.Controllers
                 string Empresa = MODEL.Empresa;
 
                 // Update
-                var update = databaseManager.SP_PES_ENT_PESSOAS_PROFISSOES(MODEL.ID, null,MODEL.PES_PROFISSOES_REGIME_ID, MODEL.PES_PROFISSOES_CONTRACTO_ID, MODEL.PES_PROFISSAO_ID, Empresa, DateIni, DateEnd, MODEL.Descricao, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                var update = databaseManager.SP_PES_ENT_PESSOAS_PROFISSOES(MODEL.ID, null, MODEL.PES_PROFISSOES_REGIME_ID, MODEL.PES_PROFISSOES_CONTRACTO_ID, MODEL.PES_PROFISSAO_ID, Empresa, DateIni, DateEnd, MODEL.Descricao, int.Parse(User.Identity.GetUserId()), "U").ToList();
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -914,7 +914,7 @@ namespace Gestreino.Controllers
 
             // GET TABLE CONTENT
 
-            var v = (from a in databaseManager.SP_PES_ENT_PESSOAS_FAM(null,Id, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, Convert.ToChar('R').ToString()).ToList() select a);
+            var v = (from a in databaseManager.SP_PES_ENT_PESSOAS_FAM(null, Id, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, Convert.ToChar('R').ToString()).ToList() select a);
             TempData["QUERYRESULT_ALL"] = v.ToList();
 
             //SEARCH RESULT SET
@@ -1043,7 +1043,7 @@ namespace Gestreino.Controllers
                 Decimal Fax = (!string.IsNullOrEmpty(MODEL.Fax)) ? Convert.ToDecimal(MODEL.Fax) : 0; ;
 
                 // Create
-                var create = databaseManager.SP_PES_ENT_PESSOAS_FAM(null,MODEL.ID, MODEL.PES_FAMILIARES_GRUPOS_ID, MODEL.PES_PROFISSAO_ID, MODEL.Nome, Telephone, TelephoneAlternativo, Fax, (!string.IsNullOrEmpty(MODEL.Email)) ? MODEL.Email.Trim().ToLower() : MODEL.Email, (!string.IsNullOrEmpty(MODEL.URL)) ? MODEL.URL.Trim().ToLower() : MODEL.URL, MODEL.Numero, !string.IsNullOrEmpty(MODEL.Rua) ? MODEL.Rua.Trim() : MODEL.Rua, !string.IsNullOrEmpty(MODEL.Morada) ? MODEL.Morada.Trim() : MODEL.Morada, MODEL.PaisId, MODEL.CidadeId, MODEL.DistrictoId, MODEL.Isento, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                var create = databaseManager.SP_PES_ENT_PESSOAS_FAM(null, MODEL.ID, MODEL.PES_FAMILIARES_GRUPOS_ID, MODEL.PES_PROFISSAO_ID, MODEL.Nome, Telephone, TelephoneAlternativo, Fax, (!string.IsNullOrEmpty(MODEL.Email)) ? MODEL.Email.Trim().ToLower() : MODEL.Email, (!string.IsNullOrEmpty(MODEL.URL)) ? MODEL.URL.Trim().ToLower() : MODEL.URL, MODEL.Numero, !string.IsNullOrEmpty(MODEL.Rua) ? MODEL.Rua.Trim() : MODEL.Rua, !string.IsNullOrEmpty(MODEL.Morada) ? MODEL.Morada.Trim() : MODEL.Morada, MODEL.PaisId, MODEL.CidadeId, MODEL.DistrictoId, MODEL.Isento, int.Parse(User.Identity.GetUserId()), "C").ToList();
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -1076,7 +1076,7 @@ namespace Gestreino.Controllers
                 Decimal Fax = (!string.IsNullOrEmpty(MODEL.Fax)) ? Convert.ToDecimal(MODEL.Fax) : 0; ;
 
                 // Update
-                var update = databaseManager.SP_PES_ENT_PESSOAS_FAM(MODEL.ID,null, MODEL.PES_FAMILIARES_GRUPOS_ID, MODEL.PES_PROFISSAO_ID, MODEL.Nome, Telephone, TelephoneAlternativo, Fax, (!string.IsNullOrEmpty(MODEL.Email)) ? MODEL.Email.Trim().ToLower() : MODEL.Email, (!string.IsNullOrEmpty(MODEL.URL)) ? MODEL.URL.Trim().ToLower() : MODEL.URL, MODEL.Numero, !string.IsNullOrEmpty(MODEL.Rua) ? MODEL.Rua.Trim() : MODEL.Rua, !string.IsNullOrEmpty(MODEL.Morada) ? MODEL.Morada.Trim() : MODEL.Morada, MODEL.PaisId, MODEL.CidadeId, MODEL.DistrictoId, MODEL.Isento, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                var update = databaseManager.SP_PES_ENT_PESSOAS_FAM(MODEL.ID, null, MODEL.PES_FAMILIARES_GRUPOS_ID, MODEL.PES_PROFISSAO_ID, MODEL.Nome, Telephone, TelephoneAlternativo, Fax, (!string.IsNullOrEmpty(MODEL.Email)) ? MODEL.Email.Trim().ToLower() : MODEL.Email, (!string.IsNullOrEmpty(MODEL.URL)) ? MODEL.URL.Trim().ToLower() : MODEL.URL, MODEL.Numero, !string.IsNullOrEmpty(MODEL.Rua) ? MODEL.Rua.Trim() : MODEL.Rua, !string.IsNullOrEmpty(MODEL.Morada) ? MODEL.Morada.Trim() : MODEL.Morada, MODEL.PaisId, MODEL.CidadeId, MODEL.DistrictoId, MODEL.Isento, int.Parse(User.Identity.GetUserId()), "U").ToList();
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -1154,7 +1154,7 @@ namespace Gestreino.Controllers
 
             // GET TABLE CONTENT
 
-            var v = (from a in databaseManager.SP_PES_ENT_PESSOAS_DEFICIENCIA(null,Id, null,null, null, null, Convert.ToChar('R').ToString()).ToList() select a);
+            var v = (from a in databaseManager.SP_PES_ENT_PESSOAS_DEFICIENCIA(null, Id, null, null, null, null, Convert.ToChar('R').ToString()).ToList() select a);
             TempData["QUERYRESULT_ALL"] = v.ToList();
 
             //SEARCH RESULT SET
@@ -1243,7 +1243,7 @@ namespace Gestreino.Controllers
                 }
 
                 // Create
-                var create = databaseManager.SP_PES_ENT_PESSOAS_DEFICIENCIA(null,MODEL.ID,MODEL.PES_DEFICIENCIA_ID, MODEL.PES_DEFICIENCIA_GRAU_ID, (!string.IsNullOrEmpty(MODEL.Descricao)) ? MODEL.Descricao.Trim().ToLower() : MODEL.Descricao, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                var create = databaseManager.SP_PES_ENT_PESSOAS_DEFICIENCIA(null, MODEL.ID, MODEL.PES_DEFICIENCIA_ID, MODEL.PES_DEFICIENCIA_GRAU_ID, (!string.IsNullOrEmpty(MODEL.Descricao)) ? MODEL.Descricao.Trim().ToLower() : MODEL.Descricao, int.Parse(User.Identity.GetUserId()), "C").ToList();
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -1272,7 +1272,7 @@ namespace Gestreino.Controllers
                 }
 
                 // Update
-                var update = databaseManager.SP_PES_ENT_PESSOAS_DEFICIENCIA(MODEL.ID, null,MODEL.PES_DEFICIENCIA_ID, MODEL.PES_DEFICIENCIA_GRAU_ID, (!string.IsNullOrEmpty(MODEL.Descricao)) ? MODEL.Descricao.Trim().ToLower() : MODEL.Descricao, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                var update = databaseManager.SP_PES_ENT_PESSOAS_DEFICIENCIA(MODEL.ID, null, MODEL.PES_DEFICIENCIA_ID, MODEL.PES_DEFICIENCIA_GRAU_ID, (!string.IsNullOrEmpty(MODEL.Descricao)) ? MODEL.Descricao.Trim().ToLower() : MODEL.Descricao, int.Parse(User.Identity.GetUserId()), "U").ToList();
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -1300,7 +1300,7 @@ namespace Gestreino.Controllers
 
                 foreach (var i in Ids)
                 {
-                    var delete = databaseManager.SP_PES_ENT_PESSOAS_DEFICIENCIA(i, null, null,null, null, null, Convert.ToChar('D').ToString()).ToList();
+                    var delete = databaseManager.SP_PES_ENT_PESSOAS_DEFICIENCIA(i, null, null, null, null, null, Convert.ToChar('D').ToString()).ToList();
                 }
                 ModelState.Clear();
             }
@@ -1657,10 +1657,10 @@ namespace Gestreino.Controllers
             //if (!AcessControl.Authorized(AcessControl.GP_USERS_LIST_VIEW_SEARCH)) return View("Lockout");
             if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
 
-            var data = databaseManager.SP_GT_ENT_EXERCICIO(Id,null, null, null, null, null, Convert.ToChar('R').ToString()).ToList();
+            var data = databaseManager.SP_GT_ENT_EXERCICIO(Id, null, null, null, null, null, Convert.ToChar('R').ToString()).ToList();
             if (!data.Any()) return RedirectToAction("", "home");
             MODEL.ID = Id;
-          
+
             ViewBag.data = data;
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Exercices;
             return View("Plans/Exercises/ViewExercise", MODEL);
@@ -1756,8 +1756,8 @@ namespace Gestreino.Controllers
                     Id = x.ID,
                     TREINO = x.tr_nome,
                     NOME = x.nome,
-                    ALONGAMENTO=x.ALONGAMENTO,
-                    SEQUENCIA=x.SEQUENCIA,
+                    ALONGAMENTO = x.ALONGAMENTO,
+                    SEQUENCIA = x.SEQUENCIA,
                     INSERCAO = x.INSERCAO,
                     DATAINSERCAO = x.DATA_INSERCAO,
                     ACTUALIZACAO = x.ACTUALIZACAO,
@@ -1781,7 +1781,7 @@ namespace Gestreino.Controllers
                     return Json(new { result = false, error = errors });
                 }
                 // Create
-                var create = databaseManager.SP_GT_ENT_EXERCICIO(null, MODEL.TipoTreinoId, MODEL.Nome,MODEL.Alongamento,MODEL.Sequencia, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                var create = databaseManager.SP_GT_ENT_EXERCICIO(null, MODEL.TipoTreinoId, MODEL.Nome, MODEL.Alongamento, MODEL.Sequencia, int.Parse(User.Identity.GetUserId()), "C").ToList();
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -1803,7 +1803,7 @@ namespace Gestreino.Controllers
                     ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
                     return Json(new { result = false, error = errors });
                 }
-                
+
                 // Update
                 var create = databaseManager.SP_GT_ENT_EXERCICIO(MODEL.ID, MODEL.TipoTreinoId, MODEL.Nome, MODEL.Alongamento, MODEL.Sequencia, int.Parse(User.Identity.GetUserId()), "U").ToList();
                 ModelState.Clear();
@@ -1845,12 +1845,12 @@ namespace Gestreino.Controllers
 
 
         //PLANOS
-        public ActionResult BodyMassPlans(Gestreino.Models.GT_TreinoBodyMass MODEL,int? Id,string predefined)
+        public ActionResult BodyMassPlans(Gestreino.Models.GT_TreinoBodyMass MODEL, int? Id, string predefined)
         {
             //if (!AcessControl.Authorized(AcessControl.GP_USERS_LIST_VIEW_SEARCH)) return View("Lockout");
             //if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
 
-            
+
 
 
 
@@ -1859,13 +1859,13 @@ namespace Gestreino.Controllers
             MODEL.GT_Carga_List = databaseManager.GT_Carga.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.CARGA.ToString() });
             MODEL.GT_TempoDescanso_List = databaseManager.GT_TempoDescanso.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.TEMPO_DESCANSO });
             MODEL.FaseTreinoList = databaseManager.GT_FaseTreino.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.SIGLA });
-            MODEL.GTTreinoList = databaseManager.GT_Treino.Where(x=>x.DATA_REMOCAO==null && !string.IsNullOrEmpty(x.NOME) && x.GT_TipoTreino_ID == Configs.GT_EXERCISE_TYPE_BODYMASS).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-            MODEL.DateIni =  DateTime.Parse(DateTime.Now.ToString()).ToString("dd-MM-yyyy");
+            MODEL.GTTreinoList = databaseManager.GT_Treino.Where(x => x.DATA_REMOCAO == null && !string.IsNullOrEmpty(x.NOME) && x.GT_TipoTreino_ID == Configs.GT_EXERCISE_TYPE_BODYMASS).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            MODEL.DateIni = DateTime.Parse(DateTime.Now.ToString()).ToString("dd-MM-yyyy");
 
             MODEL.GTTipoTreinoId = Configs.GT_EXERCISE_TYPE_BODYMASS;
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
-            ViewBag.exercises = databaseManager.GT_Exercicio.Where(x => x.DATA_REMOCAO==null && x.GT_TipoTreino_ID==Configs.GT_EXERCISE_TYPE_BODYMASS).ToList();
-           
+            ViewBag.exercises = databaseManager.GT_Exercicio.Where(x => x.DATA_REMOCAO == null && x.GT_TipoTreino_ID == Configs.GT_EXERCISE_TYPE_BODYMASS).ToList();
+
             var upload = "gtexercicios";
             List<ExerciseArq> ExerciseArqList = new List<ExerciseArq>();
             List<ExerciseArq> ExerciseArqListTreino = new List<ExerciseArq>();
@@ -1876,21 +1876,21 @@ namespace Gestreino.Controllers
                               (from j1 in databaseManager.GT_Exercicio
                                join j2 in databaseManager.GT_Exercicio_ARQUIVOS on j1.ID equals j2.GT_Exercicio_ID
                                join j3 in databaseManager.GRL_ARQUIVOS on j2.ARQUIVOS_ID equals j3.ID
-                               where j1.DATA_REMOCAO == null && j2.DATA_REMOCAO == null && j1.GT_TipoTreino_ID==Configs.GT_EXERCISE_TYPE_BODYMASS && j3.GRL_ARQUIVOS_TIPO_DOCS_ID == Configs.INST_MDL_ADM_VLRID_ARQUIVO_LOGOTIPO && j2.ACTIVO==true
-                               select new ExerciseArq() { ExerciseId = j1.ID, Name = j1.NOME, LogoPath = string.IsNullOrEmpty(j3.CAMINHO_URL) ? "" : "/"+j3.CAMINHO_URL }).ToList();
+                               where j1.DATA_REMOCAO == null && j2.DATA_REMOCAO == null && j1.GT_TipoTreino_ID == Configs.GT_EXERCISE_TYPE_BODYMASS && j3.GRL_ARQUIVOS_TIPO_DOCS_ID == Configs.INST_MDL_ADM_VLRID_ARQUIVO_LOGOTIPO && j2.ACTIVO == true
+                               select new ExerciseArq() { ExerciseId = j1.ID, Name = j1.NOME, LogoPath = string.IsNullOrEmpty(j3.CAMINHO_URL) ? "" : "/" + j3.CAMINHO_URL }).ToList();
 
             if (Id > 0)
             {
-                if(databaseManager.GT_Treino.Where(x=>x.ID==Id).Count()==0)
-                    return RedirectToAction("bodymassplans", "gtmanagement", new { Id=string.Empty});
+                if (databaseManager.GT_Treino.Where(x => x.ID == Id).Count() == 0)
+                    return RedirectToAction("bodymassplans", "gtmanagement", new { Id = string.Empty });
 
                 MODEL.ID = Id;
                 var treino = databaseManager.SP_GT_ENT_TREINO(Id, null, MODEL.GTTipoTreinoId, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "R").ToList();
                 //ViewBag.treino = treino;
                 MODEL.ExerciseArqListTreino = (from j1 in databaseManager.GT_ExercicioTreino
-                                           join j2 in databaseManager.GT_Exercicio on j1.GT_Exercicio_ID equals j2.ID
-                                           where j1.GT_Treino_ID==Id
-                                           select new ExerciseArq() { Name=j2.NOME,ExerciseId=j1.GT_Exercicio_ID,GT_Series_ID=j1.GT_Series_ID ,GT_Repeticoes_ID=j1.GT_Repeticoes_ID,GT_TempoDescanso_ID=j1.GT_TempoDescanso_ID,GT_Carga_ID=j1.GT_Carga_ID,REPETICOES_COMPLETADAS=j1.REPETICOES_COMPLETADAS,CARGA_USADA=j1.CARGA_USADA,ONERM=j1.ONERM,ORDEM=j1.ORDEM }).ToList();
+                                               join j2 in databaseManager.GT_Exercicio on j1.GT_Exercicio_ID equals j2.ID
+                                               where j1.GT_Treino_ID == Id
+                                               select new ExerciseArq() { Name = j2.NOME, ExerciseId = j1.GT_Exercicio_ID, GT_Series_ID = j1.GT_Series_ID, GT_Repeticoes_ID = j1.GT_Repeticoes_ID, GT_TempoDescanso_ID = j1.GT_TempoDescanso_ID, GT_Carga_ID = j1.GT_Carga_ID, REPETICOES_COMPLETADAS = j1.REPETICOES_COMPLETADAS, CARGA_USADA = j1.CARGA_USADA, ONERM = j1.ONERM, ORDEM = j1.ORDEM }).ToList();
 
                 if (string.IsNullOrEmpty(predefined))
                 {
@@ -1902,9 +1902,9 @@ namespace Gestreino.Controllers
                 }
                 else
                 {
-                    Boolean n=false;
-                    if(!Boolean.TryParse(predefined,out n))
-                          return RedirectToAction("", "home");
+                    Boolean n = false;
+                    if (!Boolean.TryParse(predefined, out n))
+                        return RedirectToAction("", "home");
                     MODEL.predefined = Convert.ToBoolean(predefined);
                     MODEL.DateIni = DateTime.Parse(DateTime.Now.ToString()).ToString("dd-MM-yyyy");
                     MODEL.GTTreinoId = Id;
@@ -1913,7 +1913,7 @@ namespace Gestreino.Controllers
 
             MODEL.ExerciseArqList = ExerciseArqList;
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_PlanBodyMass;
-            return View("Plans/BodyMass/NewPlan",MODEL);
+            return View("Plans/BodyMass/NewPlan", MODEL);
         }
         public ActionResult CardioPlans(Gestreino.Models.GT_TreinoBodyMass MODEL, int? Id, string predefined)
         {
@@ -1988,15 +1988,15 @@ namespace Gestreino.Controllers
                      join j3 in databaseManager.GT_Repeticoes on j1.GT_Repeticoes_ID equals j3.ID
                      join j4 in databaseManager.GT_Carga on j1.GT_Carga_ID equals j4.ID
                      join j5 in databaseManager.GT_TempoDescanso on j1.GT_TempoDescanso_ID equals j5.ID
-                     where j1.ID==Id && j1.DATA_REMOCAO==null
-                     select new { j1.GT_Series_ID,j1.GT_Repeticoes_ID,j1.GT_Carga_ID,j1.GT_TempoDescanso_ID,j2.SERIES, j3.REPETICOES, j4.CARGA, j5.TEMPO_DESCANSO}).ToList();
-          
+                     where j1.ID == Id && j1.DATA_REMOCAO == null
+                     select new { j1.GT_Series_ID, j1.GT_Repeticoes_ID, j1.GT_Carga_ID, j1.GT_TempoDescanso_ID, j2.SERIES, j3.REPETICOES, j4.CARGA, j5.TEMPO_DESCANSO }).ToList();
+
             return Json(v.Select(x => new
             {
-                GT_Series_ID=x.GT_Series_ID,
-                GT_Repeticoes_ID=x.GT_Repeticoes_ID,
-                GT_Carga_ID=x.GT_Carga_ID,
-                GT_TempoDescanso_ID=x.GT_TempoDescanso_ID,
+                GT_Series_ID = x.GT_Series_ID,
+                GT_Repeticoes_ID = x.GT_Repeticoes_ID,
+                GT_Carga_ID = x.GT_Carga_ID,
+                GT_TempoDescanso_ID = x.GT_TempoDescanso_ID,
                 SERIES = x.SERIES,
                 REPETICOES = x.REPETICOES,
                 CARGA = x.CARGA,
@@ -2004,7 +2004,7 @@ namespace Gestreino.Controllers
             }).ToArray(), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public ActionResult GetGTTreinoTable(int? PesId,int? GTTipoTreinoId)
+        public ActionResult GetGTTreinoTable(int? PesId, int? GTTipoTreinoId)
         {
             //UI DATATABLE PAGINATION BUTTONS
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
@@ -2097,7 +2097,7 @@ namespace Gestreino.Controllers
                     DATAINSERCAO = x.DATA_INSERCAO,
                     ACTUALIZACAO = x.ACTUALIZACAO,
                     DATAACTUALIZACAO = x.DATA_ACTUALIZACAO,
-                    LINK=x.GT_TipoTreino_ID==Configs.GT_EXERCISE_TYPE_BODYMASS? "/gtmanagement/bodymassplans/"+x.ID : "/gtmanagement/cardioplans/" + x.ID
+                    LINK = x.GT_TipoTreino_ID == Configs.GT_EXERCISE_TYPE_BODYMASS ? "/gtmanagement/bodymassplans/" + x.ID : "/gtmanagement/cardioplans/" + x.ID
                 }),
                 sortColumn = sortColumn,
                 sortColumnDir = sortColumnDir,
@@ -2105,7 +2105,7 @@ namespace Gestreino.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult GTPlans(GT_TreinoBodyMass MODEL, int?[] exIds, int?[] exSeries, int?[] exRepeticoes, int?[] exCarga, int?[] exTempo, int?[] exReps, int?[] exCargaUsada, string[] exRM,/**/ int?[] exDuracao, int?[] exFC, int?[] exNivel, string[]exDistancia)
+        public ActionResult GTPlans(GT_TreinoBodyMass MODEL, int?[] exIds, int?[] exSeries, int?[] exRepeticoes, int?[] exCarga, int?[] exTempo, int?[] exReps, int?[] exCargaUsada, string[] exRM,/**/ int?[] exDuracao, int?[] exFC, int?[] exNivel, string[] exDistancia)
         {
             try
             {
@@ -2117,7 +2117,7 @@ namespace Gestreino.Controllers
                     return Json(new { result = false, error = errors });
                 }
 
-                if(exIds==null)
+                if (exIds == null)
                     return Json(new { result = false, error = "Não tem exercício alocado no plano!" });
 
 
@@ -2127,7 +2127,7 @@ namespace Gestreino.Controllers
                 if (!string.IsNullOrEmpty(MODEL.DateEnd))
                 {
                     if (!string.IsNullOrWhiteSpace(MODEL.DateIni) && DateTime.ParseExact(MODEL.DateEnd, "dd-MM-yyyy", CultureInfo.InvariantCulture) < DateTime.ParseExact(MODEL.DateIni, "dd-MM-yyyy", CultureInfo.InvariantCulture))
-                      return Json(new { result = false, error = "Data de início deve ser inferior a Data de fim!" });
+                        return Json(new { result = false, error = "Data de início deve ser inferior a Data de fim!" });
                 }
 
                 if (MODEL.ID > 0)
@@ -2143,19 +2143,19 @@ namespace Gestreino.Controllers
                 }
 
                 //Remove first
-                var delete = databaseManager.SP_GT_ENT_TREINO(MODEL.ID, null, MODEL.GTTipoTreinoId, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), MODEL.GTTipoTreinoId==Configs.GT_EXERCISE_TYPE_BODYMASS?"DB":"DC").ToList();
-                
+                var delete = databaseManager.SP_GT_ENT_TREINO(MODEL.ID, null, MODEL.GTTipoTreinoId, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), MODEL.GTTipoTreinoId == Configs.GT_EXERCISE_TYPE_BODYMASS ? "DB" : "DC").ToList();
+
                 Decimal RMs = 0;
                 Decimal Distancia = 0;
 
                 if (MODEL.GTTipoTreinoId == Configs.GT_EXERCISE_TYPE_BODYMASS)
                 {
-                     for (int x= 0;x < exIds.Length;x++)
-                {
-                    if (exRM!=null && !string.IsNullOrEmpty(exRM[x]))
-                                Convert.ToDecimal(exRM[x].Replace(".",","));
-                    databaseManager.SP_GT_ENT_TREINO(MODEL.ID, null, MODEL.GTTipoTreinoId, null, null, null, null, null, null, exIds[x], exSeries[x], exRepeticoes[x], exTempo[x], exCarga[x], exReps[x], exCargaUsada[x], RMs, null, null, null, null, x, int.Parse(User.Identity.GetUserId()), MODEL.GTTipoTreinoId == Configs.GT_EXERCISE_TYPE_BODYMASS ? "CB" : "CC").ToList();
-                }
+                    for (int x = 0; x < exIds.Length; x++)
+                    {
+                        if (exRM != null && !string.IsNullOrEmpty(exRM[x]))
+                            Convert.ToDecimal(exRM[x].Replace(".", ","));
+                        databaseManager.SP_GT_ENT_TREINO(MODEL.ID, null, MODEL.GTTipoTreinoId, null, null, null, null, null, null, exIds[x], exSeries[x], exRepeticoes[x], exTempo[x], exCarga[x], exReps[x], exCargaUsada[x], RMs, null, null, null, null, x, int.Parse(User.Identity.GetUserId()), MODEL.GTTipoTreinoId == Configs.GT_EXERCISE_TYPE_BODYMASS ? "CB" : "CC").ToList();
+                    }
                 }
                 if (MODEL.GTTipoTreinoId == Configs.GT_EXERCISE_TYPE_CARDIO)
                 {
@@ -2173,7 +2173,7 @@ namespace Gestreino.Controllers
             {
                 return Json(new { result = false, error = ex.Message });
             }
-            return Json(new { result = true, error = string.Empty, reload=true, showToastr = true, toastrMessage = "Submetido com sucesso!" });
+            return Json(new { result = true, error = string.Empty, reload = true, showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -2192,7 +2192,7 @@ namespace Gestreino.Controllers
                 // Delete
                 foreach (var i in ids)
                 {
-                    databaseManager.SP_GT_ENT_TREINO(i, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()),"D").ToList();
+                    databaseManager.SP_GT_ENT_TREINO(i, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
                 }
                 ModelState.Clear();
             }
@@ -2209,7 +2209,7 @@ namespace Gestreino.Controllers
 
 
         // Avaliacao psicologica
-        public ActionResult Anxiety(GT_Quest_Anxient MODEL,int? Id)
+        public ActionResult Anxiety(GT_Quest_Anxient MODEL, int? Id)
         {
             if (Id > 0)
             {
@@ -2238,7 +2238,7 @@ namespace Gestreino.Controllers
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Anxient;
             return View("Quest/Anxiety", MODEL);
         }
-        public ActionResult GetGTQuestTable(int? PesId, string GT_Res,int? TipoId)
+        public ActionResult GetGTQuestTable(int? PesId, string GT_Res, int? TipoId)
         {
             //UI DATATABLE PAGINATION BUTTONS
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
@@ -2271,9 +2271,9 @@ namespace Gestreino.Controllers
             if (GT_Res == "GT_RespAptidaoCardio") Link = "/gtmanagement/cardio/";
             if (GT_Res == "GT_RespPessoaIdosa") Link = "/gtmanagement/elderly/";
             if (GT_Res == "GT_RespForca") Link = "/gtmanagement/force/";
-            
+
             TipoId = TipoId > 0 ? TipoId : null;
-            var v = (from a in databaseManager.SP_GT_ENT_Resp(TipoId, PesId, GT_Res,  null, "R").ToList() select a);
+            var v = (from a in databaseManager.SP_GT_ENT_Resp(TipoId, PesId, GT_Res, null, "R").ToList() select a);
             TempData["QUERYRESULT_ALL"] = v.ToList();
 
             //SEARCH RESULT SET
@@ -2327,7 +2327,7 @@ namespace Gestreino.Controllers
                     DATAINSERCAO = x.DATA_INSERCAO,
                     ACTUALIZACAO = x.ACTUALIZACAO,
                     DATAACTUALIZACAO = x.DATA_ACTUALIZACAO,
-                    UPLOAD= GT_Res,
+                    UPLOAD = GT_Res,
                     LINK = Link + x.ID
                 }),
                 sortColumn = sortColumn,
@@ -2336,7 +2336,7 @@ namespace Gestreino.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Anxiety(GT_Quest_Anxient MODEL,int? frmaction,string returnUrl)
+        public ActionResult Anxiety(GT_Quest_Anxient MODEL, int? frmaction, string returnUrl)
         {
             try
             {
@@ -2360,7 +2360,7 @@ namespace Gestreino.Controllers
                 }
 
                 int totalPropertiesInClass = 14;
-               
+
                 if (frmaction == 1)
                 {
                     if (f.Count() < totalPropertiesInClass)
@@ -2388,7 +2388,7 @@ namespace Gestreino.Controllers
                              fx.RESP_SUMMARY = int.Parse(GetResult(MODEL));
                              fx.RESP_DESCRICAO = GetResultQuest(MODEL);
                              fx.ACTUALIZADO_POR = int.Parse(User.Identity.GetUserId()); fx.DATA_ACTUALIZACAO = DateTime.Now; });
-                             databaseManager.SaveChanges();
+                        databaseManager.SaveChanges();
                     }
                     else
                     {
@@ -2421,7 +2421,7 @@ namespace Gestreino.Controllers
                         return Json(new { result = false, error = "Existem perguntas por responder!" });
                     return Json(new { result = true, success = GetResultQuest(MODEL) });
                 }
-           
+
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -2432,7 +2432,7 @@ namespace Gestreino.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteGTQuest(int?[] ids,string upload)
+        public ActionResult DeleteGTQuest(int?[] ids, string upload)
         {
             try
             {
@@ -2552,7 +2552,7 @@ namespace Gestreino.Controllers
                              fx.RESP_18 = MODEL.q18;
                              fx.RESP_19 = MODEL.q19;
                              fx.RESP_20 = MODEL.q20;
-                             fx.RESP_DESCRICAO = GetResultQuestSelfConcept(MODEL,out iValue);
+                             fx.RESP_DESCRICAO = GetResultQuestSelfConcept(MODEL, out iValue);
                              fx.RESP_SUMMARY = iValue;
                              fx.ACTUALIZADO_POR = int.Parse(User.Identity.GetUserId()); fx.DATA_ACTUALIZACAO = DateTime.Now;
                          });
@@ -2618,7 +2618,7 @@ namespace Gestreino.Controllers
 
             if (!string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_IDADE))
             {
-                if(sex=="M")
+                if (sex == "M")
                     MODEL.q1 = int.Parse(Configs.GESTREINO_AVALIDO_IDADE) > 45 ? 1 : 0;
                 else
                     MODEL.q1 = int.Parse(Configs.GESTREINO_AVALIDO_IDADE) > 55 ? 1 : 0;
@@ -2631,13 +2631,13 @@ namespace Gestreino.Controllers
                     return RedirectToAction("coronaryrisk", "gtmanagement", new { Id = string.Empty });
                 ViewBag.data = data;
                 MODEL.ID = Id;
-                MODEL.q2 = data.First().radHeredMasc.HasValue? Convert.ToInt32(data.First().radHeredMasc): (int?)null;
+                MODEL.q2 = data.First().radHeredMasc.HasValue ? Convert.ToInt32(data.First().radHeredMasc) : (int?)null;
                 MODEL.q16 = data.First().radHeredFem.HasValue ? Convert.ToInt32(data.First().radHeredFem) : (int?)null;
                 MODEL.q3 = data.First().radTabacFuma.HasValue ? Convert.ToInt32(data.First().radTabacFuma) : (int?)null;
                 MODEL.q4 = data.First().radTabacFuma6.HasValue ? Convert.ToInt32(data.First().radTabacFuma6) : (int?)null;
                 MODEL.txtCigarrosMedia = data.First().txtCigarrosMedia;
                 MODEL.q5 = data.First().radTensao.HasValue ? Convert.ToInt32(data.First().radTensao) : (int?)null;
-                MODEL.txtMaxSistolica = data.First().txtMaxSistolica ;
+                MODEL.txtMaxSistolica = data.First().txtMaxSistolica;
                 MODEL.txtMinSistolica = data.First().txtMinSistolica;
                 MODEL.txtMaxDistolica = data.First().txtMaxDistolica;
                 MODEL.txtMinDistolica = data.First().txtMinDistolica;
@@ -2721,7 +2721,7 @@ namespace Gestreino.Controllers
                         (from c in databaseManager.GT_RespRisco
                          where c.ID == MODEL.ID
                          select c).ToList().ForEach(fx => {
-                             fx.radIdade = MODEL.q1!=null? Convert.ToBoolean(MODEL.q1): (Boolean?)null;
+                             fx.radIdade = MODEL.q1 != null ? Convert.ToBoolean(MODEL.q1) : (Boolean?)null;
                              fx.radHeredMasc = MODEL.q2 != null ? Convert.ToBoolean(MODEL.q2) : (Boolean?)null;
                              fx.radHeredFem = MODEL.q16 != null ? Convert.ToBoolean(MODEL.q16) : (Boolean?)null;
                              fx.radTabacFuma = MODEL.q3 != null ? Convert.ToBoolean(MODEL.q3) : (Boolean?)null;
@@ -2837,7 +2837,7 @@ namespace Gestreino.Controllers
                 }
                 else
                 {
-                    return Json(new { result = true, success = sValue, risk=true });
+                    return Json(new { result = true, success = sValue, risk = true });
                 }
 
                 ModelState.Clear();
@@ -2853,7 +2853,7 @@ namespace Gestreino.Controllers
         public ActionResult Health(Health MODEL, int? Id)
         {
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
-           
+
             if (Id > 0)
             {
                 var data = databaseManager.GT_RespProblemasSaude.Where(x => x.ID == Id).ToList();
@@ -2959,7 +2959,7 @@ namespace Gestreino.Controllers
                 MODEL.q17 = data.First().radInactividade.HasValue ? Convert.ToInt32(data.First().radInactividade) : (int?)null;
                 MODEL.txtInactividade = data.First().txtInactividade;
             }
-            
+
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Health;
             return View("Quest/Health", MODEL);
         }
@@ -2977,221 +2977,221 @@ namespace Gestreino.Controllers
                     return Json(new { result = false, error = errors });
                 }
 
-                    if (MODEL.ID > 0)
-                    {
-                        (from c in databaseManager.GT_RespProblemasSaude
-                         where c.ID == MODEL.ID
-                         select c).ToList().ForEach(fx => {
-                             fx.radOsteoporose = MODEL.q1 != null ? Convert.ToBoolean(MODEL.q1) : (Boolean?)null;
-                             fx.dtOsteoporoseI = string.IsNullOrWhiteSpace(MODEL.dtOsteoporoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoporoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.dtOsteoporoseF = string.IsNullOrWhiteSpace(MODEL.dtOsteoporoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoporoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.txtOsteoporose = MODEL.txtOsteoporose;
+                if (MODEL.ID > 0)
+                {
+                    (from c in databaseManager.GT_RespProblemasSaude
+                     where c.ID == MODEL.ID
+                     select c).ToList().ForEach(fx => {
+                         fx.radOsteoporose = MODEL.q1 != null ? Convert.ToBoolean(MODEL.q1) : (Boolean?)null;
+                         fx.dtOsteoporoseI = string.IsNullOrWhiteSpace(MODEL.dtOsteoporoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoporoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.dtOsteoporoseF = string.IsNullOrWhiteSpace(MODEL.dtOsteoporoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoporoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.txtOsteoporose = MODEL.txtOsteoporose;
 
-                             fx.radOsteoartose = MODEL.q2 != null ? Convert.ToBoolean(MODEL.q2) : (Boolean?)null;
-                             fx.dtOsteoartoseI = string.IsNullOrWhiteSpace(MODEL.dtOsteoartoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoartoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.dtOsteoartoseF = string.IsNullOrWhiteSpace(MODEL.dtOsteoartoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoartoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.txtOsteoartose = MODEL.txtOsteoartose;
+                         fx.radOsteoartose = MODEL.q2 != null ? Convert.ToBoolean(MODEL.q2) : (Boolean?)null;
+                         fx.dtOsteoartoseI = string.IsNullOrWhiteSpace(MODEL.dtOsteoartoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoartoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.dtOsteoartoseF = string.IsNullOrWhiteSpace(MODEL.dtOsteoartoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoartoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.txtOsteoartose = MODEL.txtOsteoartose;
 
-                             fx.radArticulares = MODEL.q3 != null ? Convert.ToBoolean(MODEL.q3) : (Boolean?)null;
-                             fx.dtArticularesI = string.IsNullOrWhiteSpace(MODEL.dtArticularesI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtArticularesI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.dtArticularesF = string.IsNullOrWhiteSpace(MODEL.dtArticularesF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtArticularesF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.txtArticulares = MODEL.txtArticulares;
+                         fx.radArticulares = MODEL.q3 != null ? Convert.ToBoolean(MODEL.q3) : (Boolean?)null;
+                         fx.dtArticularesI = string.IsNullOrWhiteSpace(MODEL.dtArticularesI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtArticularesI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.dtArticularesF = string.IsNullOrWhiteSpace(MODEL.dtArticularesF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtArticularesF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.txtArticulares = MODEL.txtArticulares;
 
-                             fx.radLesoes = MODEL.q4 != null ? Convert.ToBoolean(MODEL.q4) : (Boolean?)null;
-                             fx.dtLesoesI = string.IsNullOrWhiteSpace(MODEL.dtLesoesI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtLesoesI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.dtLesoesF = string.IsNullOrWhiteSpace(MODEL.dtLesoesF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtLesoesF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.txtLesoes = MODEL.txtLesoes;
+                         fx.radLesoes = MODEL.q4 != null ? Convert.ToBoolean(MODEL.q4) : (Boolean?)null;
+                         fx.dtLesoesI = string.IsNullOrWhiteSpace(MODEL.dtLesoesI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtLesoesI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.dtLesoesF = string.IsNullOrWhiteSpace(MODEL.dtLesoesF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtLesoesF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.txtLesoes = MODEL.txtLesoes;
 
-                             fx.radDor = MODEL.q5 != null ? Convert.ToBoolean(MODEL.q5) : (Boolean?)null;
-                             fx.dtDorI = string.IsNullOrWhiteSpace(MODEL.dtDorI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtDorI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.dtDorF = string.IsNullOrWhiteSpace(MODEL.dtDorF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtDorF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.txtDor = MODEL.txtDor;
-                             fx.txtCausaDor = MODEL.txtCausaDor;
+                         fx.radDor = MODEL.q5 != null ? Convert.ToBoolean(MODEL.q5) : (Boolean?)null;
+                         fx.dtDorI = string.IsNullOrWhiteSpace(MODEL.dtDorI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtDorI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.dtDorF = string.IsNullOrWhiteSpace(MODEL.dtDorF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtDorF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.txtDor = MODEL.txtDor;
+                         fx.txtCausaDor = MODEL.txtCausaDor;
 
-                             fx.radEscoliose = MODEL.q5_1 != null ? Convert.ToBoolean(MODEL.q5_1) : (Boolean?)null;
-                             fx.dtEscolioseI = string.IsNullOrWhiteSpace(MODEL.dtEscolioseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtEscolioseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.dtEscolioseF = string.IsNullOrWhiteSpace(MODEL.dtEscolioseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtEscolioseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.radEscoliose = MODEL.q5_1 != null ? Convert.ToBoolean(MODEL.q5_1) : (Boolean?)null;
+                         fx.dtEscolioseI = string.IsNullOrWhiteSpace(MODEL.dtEscolioseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtEscolioseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.dtEscolioseF = string.IsNullOrWhiteSpace(MODEL.dtEscolioseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtEscolioseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
-                             fx.radHiperlordose = MODEL.q5_2 != null ? Convert.ToBoolean(MODEL.q5_2) : (Boolean?)null;
-                             fx.dtHiperlordoseI = string.IsNullOrWhiteSpace(MODEL.dtHiperlordoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHiperlordoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.dtHiperlordoseF = string.IsNullOrWhiteSpace(MODEL.dtHiperlordoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHiperlordoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.radHiperlordose = MODEL.q5_2 != null ? Convert.ToBoolean(MODEL.q5_2) : (Boolean?)null;
+                         fx.dtHiperlordoseI = string.IsNullOrWhiteSpace(MODEL.dtHiperlordoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHiperlordoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.dtHiperlordoseF = string.IsNullOrWhiteSpace(MODEL.dtHiperlordoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHiperlordoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
-                             fx.radHipercifose = MODEL.q5_3 != null ? Convert.ToBoolean(MODEL.q5_3) : (Boolean?)null;
-                             fx.dtHipercifoseI = string.IsNullOrWhiteSpace(MODEL.dtHipercifoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHipercifoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.dtHipercifoseF = string.IsNullOrWhiteSpace(MODEL.dtHipercifoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHipercifoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.radHipercifose = MODEL.q5_3 != null ? Convert.ToBoolean(MODEL.q5_3) : (Boolean?)null;
+                         fx.dtHipercifoseI = string.IsNullOrWhiteSpace(MODEL.dtHipercifoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHipercifoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.dtHipercifoseF = string.IsNullOrWhiteSpace(MODEL.dtHipercifoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHipercifoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
-                             fx.radJoelho = MODEL.q6 != null ? Convert.ToBoolean(MODEL.q6) : (Boolean?)null;
-                             fx.dtJoelhoI = string.IsNullOrWhiteSpace(MODEL.dtJoelhoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtJoelhoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.dtJoelhoF = string.IsNullOrWhiteSpace(MODEL.dtJoelhoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtJoelhoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.txtJoelho = MODEL.txtJoelho;
+                         fx.radJoelho = MODEL.q6 != null ? Convert.ToBoolean(MODEL.q6) : (Boolean?)null;
+                         fx.dtJoelhoI = string.IsNullOrWhiteSpace(MODEL.dtJoelhoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtJoelhoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.dtJoelhoF = string.IsNullOrWhiteSpace(MODEL.dtJoelhoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtJoelhoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.txtJoelho = MODEL.txtJoelho;
 
-                             fx.radOmbro = MODEL.q7 != null ? Convert.ToBoolean(MODEL.q7) : (Boolean?)null;
-                             fx.dtOmbroI = string.IsNullOrWhiteSpace(MODEL.dtOmbroI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOmbroI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.dtOmbroF = string.IsNullOrWhiteSpace(MODEL.dtOmbroF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOmbroF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.txtOmbro = MODEL.txtOmbro;
+                         fx.radOmbro = MODEL.q7 != null ? Convert.ToBoolean(MODEL.q7) : (Boolean?)null;
+                         fx.dtOmbroI = string.IsNullOrWhiteSpace(MODEL.dtOmbroI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOmbroI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.dtOmbroF = string.IsNullOrWhiteSpace(MODEL.dtOmbroF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOmbroF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.txtOmbro = MODEL.txtOmbro;
 
-                             fx.radPunho = MODEL.q8 != null ? Convert.ToBoolean(MODEL.q8) : (Boolean?)null;
-                             fx.dtPunhoI = string.IsNullOrWhiteSpace(MODEL.dtPunhoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtPunhoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.dtPunhoF = string.IsNullOrWhiteSpace(MODEL.dtPunhoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtPunhoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.txtPunho = MODEL.txtPunho;
+                         fx.radPunho = MODEL.q8 != null ? Convert.ToBoolean(MODEL.q8) : (Boolean?)null;
+                         fx.dtPunhoI = string.IsNullOrWhiteSpace(MODEL.dtPunhoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtPunhoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.dtPunhoF = string.IsNullOrWhiteSpace(MODEL.dtPunhoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtPunhoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.txtPunho = MODEL.txtPunho;
 
-                             fx.radTornozelo = MODEL.q9 != null ? Convert.ToBoolean(MODEL.q9) : (Boolean?)null;
-                             fx.dtTornozeloI = string.IsNullOrWhiteSpace(MODEL.dtTornozeloI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtTornozeloI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.dtTornozeloF = string.IsNullOrWhiteSpace(MODEL.dtTornozeloF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtTornozeloF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.txtTornozelo = MODEL.txtTornozelo;
+                         fx.radTornozelo = MODEL.q9 != null ? Convert.ToBoolean(MODEL.q9) : (Boolean?)null;
+                         fx.dtTornozeloI = string.IsNullOrWhiteSpace(MODEL.dtTornozeloI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtTornozeloI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.dtTornozeloF = string.IsNullOrWhiteSpace(MODEL.dtTornozeloF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtTornozeloF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.txtTornozelo = MODEL.txtTornozelo;
 
-                             fx.radOutraArtic = MODEL.q10 != null ? Convert.ToBoolean(MODEL.q10) : (Boolean?)null;
-                             fx.dtOutraArticI = string.IsNullOrWhiteSpace(MODEL.dtOutraArticI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOutraArticI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.dtOutraArticF = string.IsNullOrWhiteSpace(MODEL.dtOutraArticF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOutraArticF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.txtOutraArtic1 = MODEL.txtOutraArtic1;
-                             fx.txtOutraArtic2 = MODEL.txtOutraArtic2;
+                         fx.radOutraArtic = MODEL.q10 != null ? Convert.ToBoolean(MODEL.q10) : (Boolean?)null;
+                         fx.dtOutraArticI = string.IsNullOrWhiteSpace(MODEL.dtOutraArticI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOutraArticI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.dtOutraArticF = string.IsNullOrWhiteSpace(MODEL.dtOutraArticF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOutraArticF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.txtOutraArtic1 = MODEL.txtOutraArtic1;
+                         fx.txtOutraArtic2 = MODEL.txtOutraArtic2;
 
-                             fx.radParkinson = MODEL.q11 != null ? Convert.ToBoolean(MODEL.q11) : (Boolean?)null;
-                             fx.dtParkinsonI = string.IsNullOrWhiteSpace(MODEL.dtParkinsonI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtParkinsonI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.radParkinson = MODEL.q11 != null ? Convert.ToBoolean(MODEL.q11) : (Boolean?)null;
+                         fx.dtParkinsonI = string.IsNullOrWhiteSpace(MODEL.dtParkinsonI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtParkinsonI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
-                             fx.radVisual = MODEL.q12 != null ? Convert.ToBoolean(MODEL.q12) : (Boolean?)null;
-                             fx.dtVisualI = string.IsNullOrWhiteSpace(MODEL.dtVisualI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtVisualI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.dtVisualF = string.IsNullOrWhiteSpace(MODEL.dtVisualF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtVisualF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.txtVisual = MODEL.txtVisual;
+                         fx.radVisual = MODEL.q12 != null ? Convert.ToBoolean(MODEL.q12) : (Boolean?)null;
+                         fx.dtVisualI = string.IsNullOrWhiteSpace(MODEL.dtVisualI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtVisualI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.dtVisualF = string.IsNullOrWhiteSpace(MODEL.dtVisualF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtVisualF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.txtVisual = MODEL.txtVisual;
 
-                             fx.radAuditivo = MODEL.q13 != null ? Convert.ToBoolean(MODEL.q13) : (Boolean?)null;
-                             fx.dtAuditivoI = string.IsNullOrWhiteSpace(MODEL.dtAuditivoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtAuditivoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.dtAuditivoF = string.IsNullOrWhiteSpace(MODEL.dtAuditivoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtAuditivoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.txtAuditivo = MODEL.txtAuditivo;
+                         fx.radAuditivo = MODEL.q13 != null ? Convert.ToBoolean(MODEL.q13) : (Boolean?)null;
+                         fx.dtAuditivoI = string.IsNullOrWhiteSpace(MODEL.dtAuditivoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtAuditivoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.dtAuditivoF = string.IsNullOrWhiteSpace(MODEL.dtAuditivoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtAuditivoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.txtAuditivo = MODEL.txtAuditivo;
 
-                             fx.radGastro = MODEL.q14 != null ? Convert.ToBoolean(MODEL.q14) : (Boolean?)null;
-                             fx.dtGastroI = string.IsNullOrWhiteSpace(MODEL.dtGastroI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtGastroI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.dtGastroF = string.IsNullOrWhiteSpace(MODEL.dtGastroF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtGastroF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                             fx.txtGastro = MODEL.txtGastro;
+                         fx.radGastro = MODEL.q14 != null ? Convert.ToBoolean(MODEL.q14) : (Boolean?)null;
+                         fx.dtGastroI = string.IsNullOrWhiteSpace(MODEL.dtGastroI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtGastroI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.dtGastroF = string.IsNullOrWhiteSpace(MODEL.dtGastroF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtGastroF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                         fx.txtGastro = MODEL.txtGastro;
 
-                             fx.radCirugia = MODEL.q15 != null ? Convert.ToBoolean(MODEL.q15) : (Boolean?)null;
-                             fx.txtCirugiaIdade1 = MODEL.txtCirugiaIdade1;
-                             fx.txtCirugiaOnde1 = MODEL.txtCirugiaOnde1;
-                             fx.txtCirugiaCausa1 = MODEL.txtCirugiaCausa1;
-                             fx.txtCirugiaRestricao1 = MODEL.txtCirugiaRestricao1;
-                             fx.txtCirugiaIdade2 = MODEL.txtCirugiaIdade2;
-                             fx.txtCirugiaOnde2 = MODEL.txtCirugiaOnde2;
-                             fx.txtCirugiaCausa2 = MODEL.txtCirugiaCausa2;
-                             fx.txtCirugiaRestricao2 = MODEL.txtCirugiaRestricao2;
+                         fx.radCirugia = MODEL.q15 != null ? Convert.ToBoolean(MODEL.q15) : (Boolean?)null;
+                         fx.txtCirugiaIdade1 = MODEL.txtCirugiaIdade1;
+                         fx.txtCirugiaOnde1 = MODEL.txtCirugiaOnde1;
+                         fx.txtCirugiaCausa1 = MODEL.txtCirugiaCausa1;
+                         fx.txtCirugiaRestricao1 = MODEL.txtCirugiaRestricao1;
+                         fx.txtCirugiaIdade2 = MODEL.txtCirugiaIdade2;
+                         fx.txtCirugiaOnde2 = MODEL.txtCirugiaOnde2;
+                         fx.txtCirugiaCausa2 = MODEL.txtCirugiaCausa2;
+                         fx.txtCirugiaRestricao2 = MODEL.txtCirugiaRestricao2;
 
-                             fx.radProbSaude = MODEL.q16 != null ? Convert.ToBoolean(MODEL.q16) : (Boolean?)null;
-                             fx.txtProbSaude = MODEL.txtProbSaude;
+                         fx.radProbSaude = MODEL.q16 != null ? Convert.ToBoolean(MODEL.q16) : (Boolean?)null;
+                         fx.txtProbSaude = MODEL.txtProbSaude;
 
-                             fx.radInactividade = MODEL.q17 != null ? Convert.ToBoolean(MODEL.q17) : (Boolean?)null;
-                             fx.txtInactividade = MODEL.txtInactividade;
-                             fx.ACTUALIZADO_POR = int.Parse(User.Identity.GetUserId()); fx.DATA_ACTUALIZACAO = DateTime.Now;
-                         });
-                        databaseManager.SaveChanges();
-                    }
-                    else
-                    {
-                        GT_RespProblemasSaude fx = new GT_RespProblemasSaude();
-                        fx.GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
-                        
-                        fx.radOsteoporose = MODEL.q1 != null ? Convert.ToBoolean(MODEL.q1) : (Boolean?)null;
-                        fx.dtOsteoporoseI = string.IsNullOrWhiteSpace(MODEL.dtOsteoporoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoporoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.dtOsteoporoseF = string.IsNullOrWhiteSpace(MODEL.dtOsteoporoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoporoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.txtOsteoporose = MODEL.txtOsteoporose;
+                         fx.radInactividade = MODEL.q17 != null ? Convert.ToBoolean(MODEL.q17) : (Boolean?)null;
+                         fx.txtInactividade = MODEL.txtInactividade;
+                         fx.ACTUALIZADO_POR = int.Parse(User.Identity.GetUserId()); fx.DATA_ACTUALIZACAO = DateTime.Now;
+                     });
+                    databaseManager.SaveChanges();
+                }
+                else
+                {
+                    GT_RespProblemasSaude fx = new GT_RespProblemasSaude();
+                    fx.GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
 
-                        fx.radOsteoartose = MODEL.q2 != null ? Convert.ToBoolean(MODEL.q2) : (Boolean?)null;
-                        fx.dtOsteoartoseI = string.IsNullOrWhiteSpace(MODEL.dtOsteoartoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoartoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.dtOsteoartoseF = string.IsNullOrWhiteSpace(MODEL.dtOsteoartoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoartoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.txtOsteoartose = MODEL.txtOsteoartose;
+                    fx.radOsteoporose = MODEL.q1 != null ? Convert.ToBoolean(MODEL.q1) : (Boolean?)null;
+                    fx.dtOsteoporoseI = string.IsNullOrWhiteSpace(MODEL.dtOsteoporoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoporoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.dtOsteoporoseF = string.IsNullOrWhiteSpace(MODEL.dtOsteoporoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoporoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.txtOsteoporose = MODEL.txtOsteoporose;
 
-                        fx.radArticulares = MODEL.q3 != null ? Convert.ToBoolean(MODEL.q3) : (Boolean?)null;
-                        fx.dtArticularesI = string.IsNullOrWhiteSpace(MODEL.dtArticularesI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtArticularesI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.dtArticularesF = string.IsNullOrWhiteSpace(MODEL.dtArticularesF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtArticularesF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.txtArticulares = MODEL.txtArticulares;
+                    fx.radOsteoartose = MODEL.q2 != null ? Convert.ToBoolean(MODEL.q2) : (Boolean?)null;
+                    fx.dtOsteoartoseI = string.IsNullOrWhiteSpace(MODEL.dtOsteoartoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoartoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.dtOsteoartoseF = string.IsNullOrWhiteSpace(MODEL.dtOsteoartoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOsteoartoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.txtOsteoartose = MODEL.txtOsteoartose;
 
-                        fx.radLesoes = MODEL.q4 != null ? Convert.ToBoolean(MODEL.q4) : (Boolean?)null;
-                        fx.dtLesoesI = string.IsNullOrWhiteSpace(MODEL.dtLesoesI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtLesoesI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.dtLesoesF = string.IsNullOrWhiteSpace(MODEL.dtLesoesF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtLesoesF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.txtLesoes = MODEL.txtLesoes;
+                    fx.radArticulares = MODEL.q3 != null ? Convert.ToBoolean(MODEL.q3) : (Boolean?)null;
+                    fx.dtArticularesI = string.IsNullOrWhiteSpace(MODEL.dtArticularesI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtArticularesI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.dtArticularesF = string.IsNullOrWhiteSpace(MODEL.dtArticularesF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtArticularesF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.txtArticulares = MODEL.txtArticulares;
 
-                        fx.radDor = MODEL.q5 != null ? Convert.ToBoolean(MODEL.q5) : (Boolean?)null;
-                        fx.dtDorI = string.IsNullOrWhiteSpace(MODEL.dtDorI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtDorI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.dtDorF = string.IsNullOrWhiteSpace(MODEL.dtDorF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtDorF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.txtDor = MODEL.txtDor;
-                        fx.txtCausaDor = MODEL.txtCausaDor;
+                    fx.radLesoes = MODEL.q4 != null ? Convert.ToBoolean(MODEL.q4) : (Boolean?)null;
+                    fx.dtLesoesI = string.IsNullOrWhiteSpace(MODEL.dtLesoesI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtLesoesI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.dtLesoesF = string.IsNullOrWhiteSpace(MODEL.dtLesoesF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtLesoesF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.txtLesoes = MODEL.txtLesoes;
 
-                        fx.radEscoliose = MODEL.q5_1 != null ? Convert.ToBoolean(MODEL.q5_1) : (Boolean?)null;
-                        fx.dtEscolioseI = string.IsNullOrWhiteSpace(MODEL.dtEscolioseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtEscolioseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.dtEscolioseF = string.IsNullOrWhiteSpace(MODEL.dtEscolioseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtEscolioseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        
-                        fx.radHiperlordose = MODEL.q5_2 != null ? Convert.ToBoolean(MODEL.q5_2) : (Boolean?)null;
-                        fx.dtHiperlordoseI = string.IsNullOrWhiteSpace(MODEL.dtHiperlordoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHiperlordoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.dtHiperlordoseF = string.IsNullOrWhiteSpace(MODEL.dtHiperlordoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHiperlordoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.radDor = MODEL.q5 != null ? Convert.ToBoolean(MODEL.q5) : (Boolean?)null;
+                    fx.dtDorI = string.IsNullOrWhiteSpace(MODEL.dtDorI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtDorI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.dtDorF = string.IsNullOrWhiteSpace(MODEL.dtDorF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtDorF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.txtDor = MODEL.txtDor;
+                    fx.txtCausaDor = MODEL.txtCausaDor;
 
-                        fx.radHipercifose = MODEL.q5_3 != null ? Convert.ToBoolean(MODEL.q5_3) : (Boolean?)null;
-                        fx.dtHipercifoseI = string.IsNullOrWhiteSpace(MODEL.dtHipercifoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHipercifoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.dtHipercifoseF = string.IsNullOrWhiteSpace(MODEL.dtHipercifoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHipercifoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.radEscoliose = MODEL.q5_1 != null ? Convert.ToBoolean(MODEL.q5_1) : (Boolean?)null;
+                    fx.dtEscolioseI = string.IsNullOrWhiteSpace(MODEL.dtEscolioseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtEscolioseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.dtEscolioseF = string.IsNullOrWhiteSpace(MODEL.dtEscolioseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtEscolioseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
-                        fx.radJoelho = MODEL.q6 != null ? Convert.ToBoolean(MODEL.q6) : (Boolean?)null;
-                        fx.dtJoelhoI = string.IsNullOrWhiteSpace(MODEL.dtJoelhoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtJoelhoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.dtJoelhoF = string.IsNullOrWhiteSpace(MODEL.dtJoelhoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtJoelhoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.txtJoelho = MODEL.txtJoelho;
+                    fx.radHiperlordose = MODEL.q5_2 != null ? Convert.ToBoolean(MODEL.q5_2) : (Boolean?)null;
+                    fx.dtHiperlordoseI = string.IsNullOrWhiteSpace(MODEL.dtHiperlordoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHiperlordoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.dtHiperlordoseF = string.IsNullOrWhiteSpace(MODEL.dtHiperlordoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHiperlordoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
-                        fx.radOmbro = MODEL.q7 != null ? Convert.ToBoolean(MODEL.q7) : (Boolean?)null;
-                        fx.dtOmbroI = string.IsNullOrWhiteSpace(MODEL.dtOmbroI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOmbroI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.dtOmbroF = string.IsNullOrWhiteSpace(MODEL.dtOmbroF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOmbroF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.txtOmbro = MODEL.txtOmbro;
+                    fx.radHipercifose = MODEL.q5_3 != null ? Convert.ToBoolean(MODEL.q5_3) : (Boolean?)null;
+                    fx.dtHipercifoseI = string.IsNullOrWhiteSpace(MODEL.dtHipercifoseI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHipercifoseI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.dtHipercifoseF = string.IsNullOrWhiteSpace(MODEL.dtHipercifoseF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtHipercifoseF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
-                        fx.radPunho = MODEL.q8 != null ? Convert.ToBoolean(MODEL.q8) : (Boolean?)null;
-                        fx.dtPunhoI = string.IsNullOrWhiteSpace(MODEL.dtPunhoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtPunhoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.dtPunhoF = string.IsNullOrWhiteSpace(MODEL.dtPunhoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtPunhoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.txtPunho = MODEL.txtPunho;
+                    fx.radJoelho = MODEL.q6 != null ? Convert.ToBoolean(MODEL.q6) : (Boolean?)null;
+                    fx.dtJoelhoI = string.IsNullOrWhiteSpace(MODEL.dtJoelhoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtJoelhoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.dtJoelhoF = string.IsNullOrWhiteSpace(MODEL.dtJoelhoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtJoelhoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.txtJoelho = MODEL.txtJoelho;
 
-                        fx.radTornozelo = MODEL.q9 != null ? Convert.ToBoolean(MODEL.q9) : (Boolean?)null;
-                        fx.dtTornozeloI = string.IsNullOrWhiteSpace(MODEL.dtTornozeloI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtTornozeloI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.dtTornozeloF = string.IsNullOrWhiteSpace(MODEL.dtTornozeloF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtTornozeloF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.txtTornozelo = MODEL.txtTornozelo;
+                    fx.radOmbro = MODEL.q7 != null ? Convert.ToBoolean(MODEL.q7) : (Boolean?)null;
+                    fx.dtOmbroI = string.IsNullOrWhiteSpace(MODEL.dtOmbroI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOmbroI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.dtOmbroF = string.IsNullOrWhiteSpace(MODEL.dtOmbroF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOmbroF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.txtOmbro = MODEL.txtOmbro;
 
-                        fx.radOutraArtic = MODEL.q10 != null ? Convert.ToBoolean(MODEL.q10) : (Boolean?)null;
-                        fx.dtOutraArticI = string.IsNullOrWhiteSpace(MODEL.dtOutraArticI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOutraArticI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.dtOutraArticF = string.IsNullOrWhiteSpace(MODEL.dtOutraArticF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOutraArticF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.txtOutraArtic1 = MODEL.txtOutraArtic1;
-                        fx.txtOutraArtic2 = MODEL.txtOutraArtic2;
+                    fx.radPunho = MODEL.q8 != null ? Convert.ToBoolean(MODEL.q8) : (Boolean?)null;
+                    fx.dtPunhoI = string.IsNullOrWhiteSpace(MODEL.dtPunhoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtPunhoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.dtPunhoF = string.IsNullOrWhiteSpace(MODEL.dtPunhoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtPunhoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.txtPunho = MODEL.txtPunho;
 
-                        fx.radParkinson = MODEL.q11 != null ? Convert.ToBoolean(MODEL.q11) : (Boolean?)null;
-                        fx.dtParkinsonI = string.IsNullOrWhiteSpace(MODEL.dtParkinsonI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtParkinsonI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        
-                        fx.radVisual = MODEL.q12 != null ? Convert.ToBoolean(MODEL.q12) : (Boolean?)null;
-                        fx.dtVisualI = string.IsNullOrWhiteSpace(MODEL.dtVisualI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtVisualI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.dtVisualF = string.IsNullOrWhiteSpace(MODEL.dtVisualF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtVisualF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.txtVisual = MODEL.txtVisual;
+                    fx.radTornozelo = MODEL.q9 != null ? Convert.ToBoolean(MODEL.q9) : (Boolean?)null;
+                    fx.dtTornozeloI = string.IsNullOrWhiteSpace(MODEL.dtTornozeloI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtTornozeloI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.dtTornozeloF = string.IsNullOrWhiteSpace(MODEL.dtTornozeloF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtTornozeloF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.txtTornozelo = MODEL.txtTornozelo;
 
-                        fx.radAuditivo = MODEL.q13 != null ? Convert.ToBoolean(MODEL.q13) : (Boolean?)null;
-                        fx.dtAuditivoI = string.IsNullOrWhiteSpace(MODEL.dtAuditivoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtAuditivoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.dtAuditivoF = string.IsNullOrWhiteSpace(MODEL.dtAuditivoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtAuditivoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.txtAuditivo = MODEL.txtAuditivo;
+                    fx.radOutraArtic = MODEL.q10 != null ? Convert.ToBoolean(MODEL.q10) : (Boolean?)null;
+                    fx.dtOutraArticI = string.IsNullOrWhiteSpace(MODEL.dtOutraArticI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOutraArticI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.dtOutraArticF = string.IsNullOrWhiteSpace(MODEL.dtOutraArticF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtOutraArticF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.txtOutraArtic1 = MODEL.txtOutraArtic1;
+                    fx.txtOutraArtic2 = MODEL.txtOutraArtic2;
 
-                        fx.radGastro = MODEL.q14 != null ? Convert.ToBoolean(MODEL.q14) : (Boolean?)null;
-                        fx.dtGastroI = string.IsNullOrWhiteSpace(MODEL.dtGastroI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtGastroI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.dtGastroF = string.IsNullOrWhiteSpace(MODEL.dtGastroF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtGastroF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                        fx.txtGastro = MODEL.txtGastro;
+                    fx.radParkinson = MODEL.q11 != null ? Convert.ToBoolean(MODEL.q11) : (Boolean?)null;
+                    fx.dtParkinsonI = string.IsNullOrWhiteSpace(MODEL.dtParkinsonI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtParkinsonI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
-                        fx.radCirugia = MODEL.q15 != null ? Convert.ToBoolean(MODEL.q15) : (Boolean?)null;
-                        fx.txtCirugiaIdade1 = MODEL.txtCirugiaIdade1;
-                        fx.txtCirugiaOnde1 = MODEL.txtCirugiaOnde1;
-                        fx.txtCirugiaCausa1 = MODEL.txtCirugiaCausa1;
-                        fx.txtCirugiaRestricao1 = MODEL.txtCirugiaRestricao1;
-                        fx.txtCirugiaIdade2 = MODEL.txtCirugiaIdade2;
-                        fx.txtCirugiaOnde2 = MODEL.txtCirugiaOnde2;
-                        fx.txtCirugiaCausa2 = MODEL.txtCirugiaCausa2;
-                        fx.txtCirugiaRestricao2 = MODEL.txtCirugiaRestricao2;
+                    fx.radVisual = MODEL.q12 != null ? Convert.ToBoolean(MODEL.q12) : (Boolean?)null;
+                    fx.dtVisualI = string.IsNullOrWhiteSpace(MODEL.dtVisualI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtVisualI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.dtVisualF = string.IsNullOrWhiteSpace(MODEL.dtVisualF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtVisualF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.txtVisual = MODEL.txtVisual;
 
-                        fx.radProbSaude = MODEL.q16 != null ? Convert.ToBoolean(MODEL.q16) : (Boolean?)null;
-                        fx.txtProbSaude = MODEL.txtProbSaude;
+                    fx.radAuditivo = MODEL.q13 != null ? Convert.ToBoolean(MODEL.q13) : (Boolean?)null;
+                    fx.dtAuditivoI = string.IsNullOrWhiteSpace(MODEL.dtAuditivoI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtAuditivoI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.dtAuditivoF = string.IsNullOrWhiteSpace(MODEL.dtAuditivoF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtAuditivoF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.txtAuditivo = MODEL.txtAuditivo;
 
-                        fx.radInactividade = MODEL.q17 != null ? Convert.ToBoolean(MODEL.q17) : (Boolean?)null;
-                        fx.txtInactividade = MODEL.txtInactividade;
+                    fx.radGastro = MODEL.q14 != null ? Convert.ToBoolean(MODEL.q14) : (Boolean?)null;
+                    fx.dtGastroI = string.IsNullOrWhiteSpace(MODEL.dtGastroI) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtGastroI, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.dtGastroF = string.IsNullOrWhiteSpace(MODEL.dtGastroF) ? (DateTime?)null : DateTime.ParseExact(MODEL.dtGastroF, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    fx.txtGastro = MODEL.txtGastro;
 
-                        fx.INSERIDO_POR = int.Parse(User.Identity.GetUserId());
-                        fx.DATA_INSERCAO = DateTime.Now;
-                        databaseManager.GT_RespProblemasSaude.Add(fx);
-                        databaseManager.SaveChanges();
-                    }
-               
+                    fx.radCirugia = MODEL.q15 != null ? Convert.ToBoolean(MODEL.q15) : (Boolean?)null;
+                    fx.txtCirugiaIdade1 = MODEL.txtCirugiaIdade1;
+                    fx.txtCirugiaOnde1 = MODEL.txtCirugiaOnde1;
+                    fx.txtCirugiaCausa1 = MODEL.txtCirugiaCausa1;
+                    fx.txtCirugiaRestricao1 = MODEL.txtCirugiaRestricao1;
+                    fx.txtCirugiaIdade2 = MODEL.txtCirugiaIdade2;
+                    fx.txtCirugiaOnde2 = MODEL.txtCirugiaOnde2;
+                    fx.txtCirugiaCausa2 = MODEL.txtCirugiaCausa2;
+                    fx.txtCirugiaRestricao2 = MODEL.txtCirugiaRestricao2;
+
+                    fx.radProbSaude = MODEL.q16 != null ? Convert.ToBoolean(MODEL.q16) : (Boolean?)null;
+                    fx.txtProbSaude = MODEL.txtProbSaude;
+
+                    fx.radInactividade = MODEL.q17 != null ? Convert.ToBoolean(MODEL.q17) : (Boolean?)null;
+                    fx.txtInactividade = MODEL.txtInactividade;
+
+                    fx.INSERIDO_POR = int.Parse(User.Identity.GetUserId());
+                    fx.DATA_INSERCAO = DateTime.Now;
+                    databaseManager.GT_RespProblemasSaude.Add(fx);
+                    databaseManager.SaveChanges();
+                }
+
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -3202,11 +3202,11 @@ namespace Gestreino.Controllers
         }
 
         //Flexibilidade
-        public ActionResult Flexibility(Flexibility MODEL, int? Id,int? flexiType)
+        public ActionResult Flexibility(Flexibility MODEL, int? Id, int? flexiType)
         {
             var tipoList = databaseManager.GT_TipoTesteFlexibilidade.ToList();
             MODEL.TipoList = tipoList.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
-            MODEL.TipoId = MODEL.TipoList.Any()? Convert.ToInt32(MODEL.TipoList.FirstOrDefault().Value):0;
+            MODEL.TipoId = MODEL.TipoList.Any() ? Convert.ToInt32(MODEL.TipoList.FirstOrDefault().Value) : 0;
 
             if (flexiType != null && flexiType > 0)
             {
@@ -3217,7 +3217,7 @@ namespace Gestreino.Controllers
             }
 
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
-          
+
             if (Id > 0)
             {
                 var data = databaseManager.GT_RespFlexiTeste.Where(x => x.ID == Id).ToList();
@@ -3426,8 +3426,8 @@ namespace Gestreino.Controllers
                 return Json(new { result = false, error = ex.Message });
             }
             return Json(new { result = true, error = string.Empty,
-                flexAct= MODEL.iFlexiAct+"-"+ MODEL.lblResActualFlexi, flexAnt = MODEL.iFlexiAnt + "-" + MODEL.lblResAnteriorFlexi,
-                tentativas = MODEL.ESPERADO+"-"+MODEL.RESULTADO,
+                flexAct = MODEL.iFlexiAct + "-" + MODEL.lblResActualFlexi, flexAnt = MODEL.iFlexiAnt + "-" + MODEL.lblResAnteriorFlexi,
+                tentativas = MODEL.ESPERADO + "-" + MODEL.RESULTADO,
                 table = "GTQuestTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
 
@@ -3439,7 +3439,7 @@ namespace Gestreino.Controllers
 
             MODEL.GT_TipoNivelActividade_List = databaseManager.GT_TipoNivelActividade.OrderBy(x => x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
             MODEL.GT_TipoMetodoComposicao_List = databaseManager.GT_TipoMetodoComposicao.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
-            MODEL.Actual = !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_PESO)?decimal.Parse(Configs.GESTREINO_AVALIDO_PESO).ToString("G29").Replace(",","."):string.Empty;
+            MODEL.Actual = !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_PESO) ? decimal.Parse(Configs.GESTREINO_AVALIDO_PESO).ToString("G29").Replace(",", ".") : string.Empty;
             MODEL.GT_TipoMetodoComposicao_ID = MODEL.GT_TipoMetodoComposicao_List.Any() ? Convert.ToInt32(MODEL.GT_TipoMetodoComposicao_List.Select(X => X.Value).FirstOrDefault()) : 0;
 
             if (Id > 0)
@@ -3500,7 +3500,7 @@ namespace Gestreino.Controllers
         public ActionResult loadGT_TipoTesteComposicao_List(int? Id)
         {
             return Json(databaseManager.GT_TipoTesteComposicao.Where(x => x.GT_TipoMetodoComposicao_ID == Id).Select(x => new
-            {  x.ID, x.DESCRICAO
+            { x.ID, x.DESCRICAO
             }).ToArray(), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
@@ -3532,12 +3532,12 @@ namespace Gestreino.Controllers
                 decimal iValue;
                 string sRes;
 
-                DoGetActualComposicao(MODEL.PercMG,out iPerc, out iValue, out sRes);
+                DoGetActualComposicao(MODEL.PercMG, out iPerc, out iValue, out sRes);
 
                 MODEL.iFlexiAct = iPerc;
                 MODEL.lblResActualFlexi = sRes;
                 MODEL.Tricipital = Configs.GESTREINO_AVALIDO_SEXO == "Masculino" ? MODEL.Tricipital : MODEL.TricipitalFem;
-               
+
                 if (MODEL.ID > 0)
                 {
                     (from c in databaseManager.GT_RespComposicao
@@ -3694,7 +3694,7 @@ namespace Gestreino.Controllers
                 {
                     var ymca = databaseManager.GT_RespAptidaoCardioYMCA.Where(x => x.GT_RespAptidaoCardio_ID == Id).ToList();
 
-                    MODEL.YMCACarga1= ymca.First().CARGA1;
+                    MODEL.YMCACarga1 = ymca.First().CARGA1;
                     MODEL.YMCACarga2 = ymca.First().CARGA2;
                     MODEL.YMCACarga3 = ymca.First().CARGA3;
                     MODEL.YMCACarga4 = ymca.First().CARGA4;
@@ -3807,9 +3807,9 @@ namespace Gestreino.Controllers
 
                 GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
 
-                int iPerc=0;
-                decimal iValue=0;
-                string sRes=string.Empty;
+                int iPerc = 0;
+                decimal iValue = 0;
+                string sRes = string.Empty;
                 DoLoadValuesPercentilCardioResp();
 
                 if (MODEL.GT_TipoTesteCardio_ID == 1) //200m
@@ -3940,7 +3940,7 @@ namespace Gestreino.Controllers
                     GT_RespAptidaoCardio fx = new GT_RespAptidaoCardio();
                     fx.GT_SOCIOS_ID = GT_SOCIOS_ID;
                     fx.GT_TipoTesteCardio_ID = MODEL.GT_TipoTesteCardio_ID.Value;
-                   
+
                     if (MODEL.GT_TipoTesteCardio_ID == 1) //200m
                     {
                         fx.TEMPO = MODEL.TempoRealizacao200;
@@ -3953,13 +3953,13 @@ namespace Gestreino.Controllers
                     else if (MODEL.GT_TipoTesteCardio_ID == 3) //Caminhada
                     {
                         fx.TEMPO = MODEL.Tempo1600m;
-                        fx.FC400M= MODEL.Frequencia400m;
+                        fx.FC400M = MODEL.Frequencia400m;
                         fx.FCFIMTESTE = MODEL.FrequenciaFimTeste;
                         fx.MEDIA = MODEL.MediaFrequencia;
                     }
                     else if (MODEL.GT_TipoTesteCardio_ID == 4) //Queens
                     {
-                       fx.FC15M= MODEL.FC15sec;
+                        fx.FC15M = MODEL.FC15sec;
                     }
                     else if (MODEL.GT_TipoTesteCardio_ID == 5) //Jogging
                     {
@@ -3976,7 +3976,7 @@ namespace Gestreino.Controllers
                     }
                     else if (MODEL.GT_TipoTesteCardio_ID == 7) //YMCA
                     {
-                        
+
                     }
                     fx.VO2MAX = MODEL.V02max;
                     fx.V02METS = MODEL.V02Mets;
@@ -4057,21 +4057,21 @@ namespace Gestreino.Controllers
                     return RedirectToAction("elderly", "gtmanagement", new { Id = string.Empty });
                 ViewBag.data = data;
                 MODEL.ID = Id;
-                MODEL.GT_TipoTestePessoaIdosa_ID= data.First().GT_TipoTestePessoaIdosa_ID;
-                MODEL.NElevacoes= data.First().VALOR;
-                MODEL.NFlexoes= data.First().VALOR;
-                MODEL.DistanciaSentarAlcancar= data.First().VALOR;
-                MODEL.TempoAgilidade= data.First().VALOR;
-                MODEL.DistanciaAlcancar= data.First().VALOR;
-                MODEL.DistanciaAndar= data.First().VALOR;
-                MODEL.SubidasStep= data.First().VALOR;
+                MODEL.GT_TipoTestePessoaIdosa_ID = data.First().GT_TipoTestePessoaIdosa_ID;
+                MODEL.NElevacoes = data.First().VALOR;
+                MODEL.NFlexoes = data.First().VALOR;
+                MODEL.DistanciaSentarAlcancar = data.First().VALOR;
+                MODEL.TempoAgilidade = data.First().VALOR;
+                MODEL.DistanciaAlcancar = data.First().VALOR;
+                MODEL.DistanciaAndar = data.First().VALOR;
+                MODEL.SubidasStep = data.First().VALOR;
                 MODEL.Desejavel = data.First().VALOR_DESEJAVEL;
-                MODEL.MGDesejavel= data.First().VALOR_DESEJAVEL;
-                MODEL.MG= data.First().PERCMG;
-                MODEL.PesoDesejavel= data.First().VALOR;
+                MODEL.MGDesejavel = data.First().VALOR_DESEJAVEL;
+                MODEL.MG = data.First().PERCMG;
+                MODEL.PesoDesejavel = data.First().VALOR;
                 MODEL.lblDataInsercao = data.First().DATA_INSERCAO;
                 MODEL.Valor = data.First().VALOR;
-                if (MODEL.GT_TipoTestePessoaIdosa_ID==3)
+                if (MODEL.GT_TipoTestePessoaIdosa_ID == 3)
                     MODEL.IMC = databaseManager.PES_PESSOAS_CARACT.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(X => X.IMC).FirstOrDefault();
 
                 DoLoadValuesPercentilElevacoes();
@@ -4150,7 +4150,7 @@ namespace Gestreino.Controllers
                 DoLoadValuesPercentilStep();
 
                 SetValueDesejado(MODEL);
-               
+
                 int iPerc;
                 decimal iValue;
                 string sRes;
@@ -4172,10 +4172,10 @@ namespace Gestreino.Controllers
                 if (MODEL.GT_TipoTestePessoaIdosa_ID == 8)
                     MODEL.Valor = MODEL.SubidasStep;
 
-                DoGetActualPessoaIdosa(MODEL.GT_TipoTestePessoaIdosa_ID==3?MODEL.IMC:MODEL.Valor, MODEL.GT_TipoTestePessoaIdosa_ID,out iPerc, out iValue, out sRes);
+                DoGetActualPessoaIdosa(MODEL.GT_TipoTestePessoaIdosa_ID == 3 ? MODEL.IMC : MODEL.Valor, MODEL.GT_TipoTestePessoaIdosa_ID, out iPerc, out iValue, out sRes);
                 MODEL.iFlexiAct = iPerc;
                 MODEL.lblResActualFlexi = sRes;
-                
+
                 if (MODEL.ID > 0)
                 {
                     (from c in databaseManager.GT_RespPessoaIdosa
@@ -4183,7 +4183,7 @@ namespace Gestreino.Controllers
                      select c).ToList().ForEach(fx => {
                          fx.PERCMG = MODEL.MG;
                          fx.VALOR = MODEL.Valor;
-                         fx.VALOR_DESEJAVEL =MODEL.GT_TipoTestePessoaIdosa_ID==3?MODEL.MGDesejavel: MODEL.Desejavel;
+                         fx.VALOR_DESEJAVEL = MODEL.GT_TipoTestePessoaIdosa_ID == 3 ? MODEL.MGDesejavel : MODEL.Desejavel;
                          if (MODEL.GT_TipoTestePessoaIdosa_ID == 3)
                              fx.RESP_SUMMARY = Convert.ToDecimal(MODEL.IMC);
                          else
@@ -4452,21 +4452,35 @@ namespace Gestreino.Controllers
                     {
                         MODEL.iFlexiAnt = GetPercentilFlexoes(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), Convert.ToInt32(GetValorAnteriorForca(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID)));
                         MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoFlexoes(Convert.ToInt32(MODEL.iFlexiAnt.Value)) : string.Empty;
-                    }/*if (MODEL.GT_TipoTesteForca_ID == 5)
-                        MODEL.iFlexiAnt = GetPercentilAgilidade(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    }
+                    if (MODEL.GT_TipoTesteForca_ID == 5)
+                    {
+                        MODEL.iFlexiAnt = GetPercentilVLinear(GetValorAnteriorForca(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID).Value);
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoVLinear(Convert.ToInt32(MODEL.iFlexiAnt.Value)) : string.Empty;
+                    }
                     if (MODEL.GT_TipoTesteForca_ID == 6)
-                        MODEL.iFlexiAnt = GetPercentilAlcancar(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    {
+                        MODEL.iFlexiAnt = GetPercentilVResist(GetValorAnteriorForca(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID).Value);
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoVResist(Convert.ToInt32(MODEL.iFlexiAnt.Value)) : string.Empty;
+                    }
                     if (MODEL.GT_TipoTesteForca_ID == 7)
-                        MODEL.iFlexiAnt = GetPercentilAndar(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
-                    if (MODEL.GT_TipoTesteForca_ID == 8)
-                        MODEL.iFlexiAnt = GetPercentilStep(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    {
+                        MODEL.iFlexiAnt = GetPercentilAgilidade(GetValorAnteriorForca(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID).Value);
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoAgilidade(Convert.ToInt32(MODEL.iFlexiAnt.Value)) : string.Empty;
+                    } 
+                   if (MODEL.GT_TipoTesteForca_ID == 8)
+                    {
+                        MODEL.iFlexiAnt = GetPercentilExplosivaH(GetValorAnteriorForca(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID).Value);
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoExplosivaH(Convert.ToInt32(MODEL.iFlexiAnt.Value)) : string.Empty;
+                    }
                     if (MODEL.GT_TipoTesteForca_ID == 9)
-                        MODEL.iFlexiAnt = GetPercentilStep(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
-                    */
-                    MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoElderly(MODEL.iFlexiAnt.Value) : string.Empty;
+                    {
+                        MODEL.iFlexiAnt = GetPercentilExplosivaV(GetValorAnteriorForca(data.First().GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID).Value);
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoExplosivaV(Convert.ToInt32(MODEL.iFlexiAnt.Value)) : string.Empty;
+                    }
                 }
-
-
+                //Potencia Muscular
+                MODEL.PotenciaExpV = Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO) * (Convert.ToDecimal(4.9) * DoGetValorResExplosivaV(MODEL)) * 2;
             }
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Force;
             return View("Quest/Force", MODEL);
@@ -4491,9 +4505,9 @@ namespace Gestreino.Controllers
 
                 GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
 
-                int iPerc=0;
-                decimal iValue=0;
-                string sRes=string.Empty;
+                int iPerc = 0;
+                decimal iValue = 0;
+                string sRes = string.Empty;
 
                 DoLoadValuesPercentilBracos();
                 DoLoadValuesPercentilPernas();
@@ -4505,14 +4519,14 @@ namespace Gestreino.Controllers
                     MODEL.RazaoBraco = DoGetRazaoBracos(MODEL.CargaBraco.Value);
                     MODEL.RazaoBraco = MODEL.RazaoBraco.ToString().Length > 4 ? Convert.ToDecimal(MODEL.RazaoBraco.ToString().Substring(0, 4)) : MODEL.RazaoBraco;
                     //Defice da Força
-                    MODEL.DeficeBraco= DoGetDeficeForcaBracos(MODEL.NoventaRepsBraco);
+                    MODEL.DeficeBraco = DoGetDeficeForcaBracos(MODEL.NoventaRepsBraco);
                     //Trabalho a Desenvolver
                     MODEL.TrabalhoDesenvolverBraco = DoGetTrabalhoDesenvBracos(MODEL.NoventaRepsBraco);
                     //90% do RM
-                    MODEL.NoventaRMBraco= DoSet90RMBracos(MODEL.CargaBraco);
+                    MODEL.NoventaRMBraco = DoSet90RMBracos(MODEL.CargaBraco);
 
-                    DoGetActualBracos(MODEL.RazaoBraco,out iPerc, out iValue, out sRes);
-                    MODEL.DesejavelBracos= DoSetEsperadoBracos(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO));
+                    DoGetActualBracos(MODEL.RazaoBraco, out iPerc, out iValue, out sRes);
+                    MODEL.DesejavelBracos = DoSetEsperadoBracos(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO));
 
                 }
                 if (MODEL.GT_TipoTesteForca_ID == 2)
@@ -4535,49 +4549,49 @@ namespace Gestreino.Controllers
                     //Colocar default values nos campos
                     DoGetActualAbdominais(MODEL.NAbdominais, out iPerc, out iValue, out sRes);
                     //Valores Desejados
-                    MODEL.DesejavelAbdominais=DoSetEsperadoAbdominais(Configs.GESTREINO_AVALIDO_SEXO,Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
+                    MODEL.DesejavelAbdominais = DoSetEsperadoAbdominais(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
                 }
                 if (MODEL.GT_TipoTesteForca_ID == 4)
                 {
-                    DoGetActualFlexoes(MODEL.NFlexoes,out iPerc, out iValue, out sRes);
+                    DoGetActualFlexoes(MODEL.NFlexoes, out iPerc, out iValue, out sRes);
                     //Valores Desejados
-                    MODEL.DesejavelFlexoes=DoSetEsperadoFlexoes(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
-               }
+                    MODEL.DesejavelFlexoes = DoSetEsperadoFlexoes(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
+                }
                 if (MODEL.GT_TipoTesteForca_ID == 5)
                 {
-                    DoGetActualVLinear(MODEL,out iPerc, out iValue, out sRes);
-                    MODEL.ResultadoVLinear= Convert.ToString(iValue);
+                    DoGetActualVLinear(MODEL, out iPerc, out iValue, out sRes);
+                    MODEL.ResultadoVLinear = Convert.ToString(iValue);
 
                     //Valores Desejados
-                    MODEL.DesejavelVLinear= DoSetEsperadoVLinear();
+                    MODEL.DesejavelVLinear = DoSetEsperadoVLinear();
                 }
                 if (MODEL.GT_TipoTesteForca_ID == 6)
                 {
-                    DoGetActualVResist(MODEL,out iPerc, out iValue, out sRes);
+                    DoGetActualVResist(MODEL, out iPerc, out iValue, out sRes);
 
                     //Valores Desejados
-                    MODEL.DesejavelVResist=DoSetEsperadoVResist();
+                    MODEL.DesejavelVResist = DoSetEsperadoVResist();
 
                     //Fadiga do String "Max Value" - "Min Value"
                     MODEL.sprintVResist = (DoGetFadigaSprint(MODEL));
                 }
                 if (MODEL.GT_TipoTesteForca_ID == 7)
                 {
-                    DoGetActualAgilidade(MODEL,out iPerc, out iValue, out sRes);
+                    DoGetActualAgilidade(MODEL, out iPerc, out iValue, out sRes);
 
                     //Valores Desejados
-                    MODEL.DesejavelAgilidade= DoSetEsperadoAgilidade();
+                    MODEL.DesejavelAgilidade = DoSetEsperadoAgilidade();
                 }
                 if (MODEL.GT_TipoTesteForca_ID == 8)
                 {
-                    DoGetActualExplosivaH(MODEL,out iPerc, out iValue, out sRes);
+                    DoGetActualExplosivaH(MODEL, out iPerc, out iValue, out sRes);
 
                     //Valores Desejados
                     MODEL.DesejavelExpH = DoSetEsperadoExplosivaH();
                 }
                 if (MODEL.GT_TipoTesteForca_ID == 9)
                 {
-                    DoGetActualExplosivaV(MODEL,out iPerc, out iValue, out sRes);
+                    DoGetActualExplosivaV(MODEL, out iPerc, out iValue, out sRes);
 
                     //Valores Desejados
                     MODEL.DesejavelExpV = DoSetEsperadoExplosivaV();
@@ -4694,7 +4708,7 @@ namespace Gestreino.Controllers
                     }
                     if (MODEL.GT_TipoTesteForca_ID == 5)
                     {
-                        fx.TENTATIVA1  = MODEL.PrimeraTentativaVLinear;
+                        fx.TENTATIVA1 = MODEL.PrimeraTentativaVLinear;
                         fx.TENTATIVA2 = MODEL.SegundaTentativaVLinear;
                         fx.TENTATIVA3 = MODEL.TerceiraTentativaVLinear;
                         fx.DESEJAVEL = MODEL.DesejavelVLinear;
@@ -4748,32 +4762,55 @@ namespace Gestreino.Controllers
                     MODEL.ID = fx.ID;
                 }
 
+
                 if (GetValorAnteriorForca(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID) != null)
                 {
                     if (MODEL.GT_TipoTesteForca_ID == 1)
                     {
-                     //   MODEL.iFlexiAnt = GetPercentilBracos(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), GetValorAnteriorForca(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID).Value);
+                        MODEL.iFlexiAnt = GetPercentilBracos(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), DoGetRazaoBracos(GetValorAnteriorForca(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID).Value));
                         MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoBracos(MODEL.iFlexiAnt.Value) : string.Empty;
-                    }/*if (MODEL.GT_TipoTesteForca_ID == 2)
-                        MODEL.iFlexiAnt = GetPercentilFlexoes(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    }
+                    if (MODEL.GT_TipoTesteForca_ID == 2)
+                    {
+                        MODEL.iFlexiAnt = GetPercentilPernas(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), DoGetRazaoPernas(GetValorAnteriorForca(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID).Value));
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoPernas(MODEL.iFlexiAnt.Value) : string.Empty;
+                    }
                     if (MODEL.GT_TipoTesteForca_ID == 3)
-                        MODEL.iFlexiAnt = GetPercentilPeso(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    {
+                        MODEL.iFlexiAnt = GetPercentilAbdominais(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), Convert.ToInt32(GetValorAnteriorForca(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID)));
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoAbdominais(Convert.ToInt32(MODEL.iFlexiAnt.Value)) : string.Empty;
+                    }
                     if (MODEL.GT_TipoTesteForca_ID == 4)
-                        MODEL.iFlexiAnt = GetPercentilSentarAlcancar(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    {
+                        MODEL.iFlexiAnt = GetPercentilFlexoes(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), Convert.ToInt32(GetValorAnteriorForca(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID)));
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoFlexoes(Convert.ToInt32(MODEL.iFlexiAnt.Value)) : string.Empty;
+                    }
                     if (MODEL.GT_TipoTesteForca_ID == 5)
-                        MODEL.iFlexiAnt = GetPercentilAgilidade(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    {
+                        MODEL.iFlexiAnt = GetPercentilVLinear(GetValorAnteriorForca(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID).Value);
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoVLinear(Convert.ToInt32(MODEL.iFlexiAnt.Value)) : string.Empty;
+                    }
                     if (MODEL.GT_TipoTesteForca_ID == 6)
-                        MODEL.iFlexiAnt = GetPercentilAlcancar(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    {
+                        MODEL.iFlexiAnt = GetPercentilVResist(GetValorAnteriorForca(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID).Value);
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoVResist(Convert.ToInt32(MODEL.iFlexiAnt.Value)) : string.Empty;
+                    }
                     if (MODEL.GT_TipoTesteForca_ID == 7)
-                        MODEL.iFlexiAnt = GetPercentilAndar(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    {
+                        MODEL.iFlexiAnt = GetPercentilAgilidade(GetValorAnteriorForca(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID).Value);
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoAgilidade(Convert.ToInt32(MODEL.iFlexiAnt.Value)) : string.Empty;
+                    }
                     if (MODEL.GT_TipoTesteForca_ID == 8)
-                        MODEL.iFlexiAnt = GetPercentilStep(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
+                    {
+                        MODEL.iFlexiAnt = GetPercentilExplosivaH(GetValorAnteriorForca(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID).Value);
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoExplosivaH(Convert.ToInt32(MODEL.iFlexiAnt.Value)) : string.Empty;
+                    }
                     if (MODEL.GT_TipoTesteForca_ID == 9)
-                        MODEL.iFlexiAnt = GetPercentilStep(GetValorAnteriorPessoaIdosa(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTestePessoaIdosa_ID).Value);
-                    */
-                    MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoElderly(MODEL.iFlexiAnt.Value) : string.Empty;
+                    {
+                        MODEL.iFlexiAnt = GetPercentilExplosivaV(GetValorAnteriorForca(GT_SOCIOS_ID, MODEL.ID, MODEL.GT_TipoTesteForca_ID).Value);
+                        MODEL.lblResAnteriorFlexi = MODEL.iFlexiAnt != null ? GetResultadoExplosivaV(Convert.ToInt32(MODEL.iFlexiAnt.Value)) : string.Empty;
+                    }
                 }
-
                 //Potencia Muscular
                 MODEL.PotenciaExpV = Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO) * (Convert.ToDecimal(4.9) * DoGetValorResExplosivaV(MODEL)) * 2;
                 MODEL.lblDataInsercao = databaseManager.GT_RespForca.Where(x => x.ID == MODEL.ID).Select(X => X.DATA_INSERCAO).FirstOrDefault();
@@ -4980,7 +5017,7 @@ namespace Gestreino.Controllers
 
             return 0;
         }
-        private string GetResultQuestSelfConcept(GT_Quest_SelfConcept MODEL,out int iValue)
+        private string GetResultQuestSelfConcept(GT_Quest_SelfConcept MODEL, out int iValue)
         {
             string sResultQuest;
             int iResultQuest;
@@ -5086,24 +5123,24 @@ namespace Gestreino.Controllers
 
             //FACTORES POSITIVOS
             //Historia Familiar
-            if (MODEL.q2 == 1 || MODEL.q16==1)
+            if (MODEL.q2 == 1 || MODEL.q16 == 1)
                 iFactores += 1;
 
             //Hábitos Tabágicos
-            if ((MODEL.q3==1) || (MODEL.q4==1))
+            if ((MODEL.q3 == 1) || (MODEL.q4 == 1))
                 iFactores += 1;
 
             //Hipertensão
-            if ((MODEL.q5==1) || (MODEL.q6==1))
+            if ((MODEL.q5 == 1) || (MODEL.q6 == 1))
                 iFactores += 1;
 
             //HiperColesterolemia
             //if ((radColesterol1S.Checked) || (radColesterol3S.Checked) || (radColesterol5S.Checked))
-            if (MODEL.q7==1 || MODEL.q9==1 || MODEL.q11==1)
+            if (MODEL.q7 == 1 || MODEL.q9 == 1 || MODEL.q11 == 1)
                 iFactores += 1;
 
             //Glicose
-            if ((MODEL.q12==1))
+            if ((MODEL.q12 == 1))
                 iFactores += 1;
 
             //Obesidade
@@ -5111,11 +5148,11 @@ namespace Gestreino.Controllers
                 iFactores += 1;
 
             //Estilo de Vida/Inactividade Física
-            if (MODEL.q13==1)
+            if (MODEL.q13 == 1)
                 iFactores += 1;
 
             //FACTORES NEGATIVOS
-            if (MODEL.q10==1)
+            if (MODEL.q10 == 1)
                 iFactores -= 1;
 
             bSintomas = (MODEL.chkDor || MODEL.chkRespiracao
@@ -5134,7 +5171,7 @@ namespace Gestreino.Controllers
                 sResultRisco = "Risco Elevado";
                 sRisco = "2";
             }
-            else if (MODEL.q1==1 || iFactores >= 2)
+            else if (MODEL.q1 == 1 || iFactores >= 2)
             {
                 sResultRisco = "Risco Moderado";
                 sRisco = "1";
@@ -5177,10 +5214,10 @@ namespace Gestreino.Controllers
 
             return retValue;
         }
-        private int? GetFlexiIndiceAnterior(int GT_SOCIOS_ID,int? Id)
+        private int? GetFlexiIndiceAnterior(int GT_SOCIOS_ID, int? Id)
         {
             int? iFlexi = 0;
-            var data = databaseManager.GT_RespFlexiTeste.Where(x => x.GT_SOCIOS_ID == GT_SOCIOS_ID && x.ID<Id && x.GT_TipoTesteFlexibilidade_ID==1).OrderByDescending(x => x.DATA_INSERCAO).Take(1).ToList();
+            var data = databaseManager.GT_RespFlexiTeste.Where(x => x.GT_SOCIOS_ID == GT_SOCIOS_ID && x.ID < Id && x.GT_TipoTesteFlexibilidade_ID == 1).OrderByDescending(x => x.DATA_INSERCAO).Take(1).ToList();
 
             var flexflexNumberArr = data.Select(x => new List<int?>
                 {
@@ -5410,11 +5447,11 @@ namespace Gestreino.Controllers
             y = Convert.ToInt32(Convert.ToString(arrTemp.GetValue(2)));
             return y;
         }
-        private void DoGraficoActualSentar(int txtTentativa1, int txtTentativa2,  out int iPerc, out int iValue, out string sRes)
+        private void DoGraficoActualSentar(int txtTentativa1, int txtTentativa2, out int iPerc, out int iValue, out string sRes)
         {
             int iPercentilAct;
             int ValorAct = 0;
-            
+
             ValorAct = Convert.ToInt32((txtTentativa1 + txtTentativa2) / 2);
             iPercentilAct = GetPercentil(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), ValorAct);
             iPerc = iPercentilAct;
@@ -5439,10 +5476,10 @@ namespace Gestreino.Controllers
         private int? GetFlexiIndiceAnteriorType2(int GT_SOCIOS_ID, int? Id)
         {
             int? iFlexi = 0;
-            var data = databaseManager.GT_RespFlexiTeste.Where(x => x.GT_SOCIOS_ID == GT_SOCIOS_ID && x.ID < Id && x.GT_TipoTesteFlexibilidade_ID==2).OrderByDescending(x => x.DATA_INSERCAO).Take(1).ToList();
+            var data = databaseManager.GT_RespFlexiTeste.Where(x => x.GT_SOCIOS_ID == GT_SOCIOS_ID && x.ID < Id && x.GT_TipoTesteFlexibilidade_ID == 2).OrderByDescending(x => x.DATA_INSERCAO).Take(1).ToList();
 
             var flexflexNumberArr = data.Select(x => new List<int?>
-                { 
+                {
                     x.TENTATIVA1,
                     x.TENTATIVA2
                 }).ToArray();
@@ -5498,14 +5535,14 @@ namespace Gestreino.Controllers
                 MODEL.PercMG = MODEL.PercMG.ToString().Length > 5 ? Convert.ToDecimal(MODEL.PercMG.ToString().Substring(0, 5)) : MODEL.PercMG;
             }
             //WELTMAN ET AL
-            else if  (MODEL.GT_TipoTesteComposicao_ID == 2)
+            else if (MODEL.GT_TipoTesteComposicao_ID == 2)
             {
                 //Cálculo de Densidade Corporal (DC)
                 if (Configs.GESTREINO_AVALIDO_SEXO == "Masculino")
                     MODEL.PercMG = Convert.ToDecimal(0.31457) * ((Convert.ToDecimal(MODEL.PerimetroUmbigo) + Convert.ToDecimal(MODEL.Abdominal)) / 2) - (Convert.ToDecimal(0.10969) * (Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO))) + Convert.ToDecimal(10.8336);
                 else
                     MODEL.PercMG = Convert.ToDecimal(0.11077) * ((Convert.ToDecimal(MODEL.PerimetroUmbigo) + Convert.ToDecimal(MODEL.Abdominal)) / 2) - (Convert.ToDecimal(0.11077) * (Convert.ToDecimal(Configs.GESTREINO_AVALIDO_ALTURA))) + (Convert.ToDecimal(0.11077) * Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO));
-                
+
                 MODEL.PercMG = MODEL.PercMG.ToString().Length > 5 ? Convert.ToDecimal(MODEL.PercMG.ToString().Substring(0, 5)) : MODEL.PercMG;
             }
             //Gray e Col passou a Deurenberg et al
@@ -5516,9 +5553,9 @@ namespace Gestreino.Controllers
                 dMIG = dMIG + (Convert.ToDecimal(15.34) * Convert.ToDecimal(Configs.GESTREINO_AVALIDO_ALTURA)) * Convert.ToDecimal(0.01);
                 dMIG = dMIG - (Convert.ToDecimal(0.127) * Convert.ToDecimal(Configs.GESTREINO_AVALIDO_IDADE));
                 MODEL.MIG = dMIG;
-                MODEL.MIG= MODEL.MIG.ToString().Length>5? Convert.ToDecimal(MODEL.MIG.ToString().Substring(0, 5)): MODEL.MIG;
-                MODEL.MG =Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO) - dMIG;
-                MODEL.PercMG =(Convert.ToDecimal(MODEL.MG) * Convert.ToDecimal(100)) / Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO);
+                MODEL.MIG = MODEL.MIG.ToString().Length > 5 ? Convert.ToDecimal(MODEL.MIG.ToString().Substring(0, 5)) : MODEL.MIG;
+                MODEL.MG = Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO) - dMIG;
+                MODEL.PercMG = (Convert.ToDecimal(MODEL.MG) * Convert.ToDecimal(100)) / Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO);
                 MODEL.PercMG = MODEL.PercMG.ToString().Length > 5 ? Convert.ToDecimal(MODEL.PercMG.ToString().Substring(0, 5)) : MODEL.PercMG;
             }
             //Guo e Col
@@ -5529,11 +5566,11 @@ namespace Gestreino.Controllers
             //			}
 
             //%MG Desejável
-            MODEL.PercMGDesejavel=  DoSetEsperadoComposicao(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
+            MODEL.PercMGDesejavel = DoSetEsperadoComposicao(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
 
 
             //Apenas para != de  Deurenberg et al
-            if(MODEL.GT_TipoTesteComposicao_ID != 3)
+            if (MODEL.GT_TipoTesteComposicao_ID != 3)
             {
                 //Calculo do MG (txtMG)
                 MODEL.MG = (Convert.ToDecimal(MODEL.PercMG) / 100) * Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO);
@@ -5559,13 +5596,13 @@ namespace Gestreino.Controllers
             if (Convert.ToDecimal(decimal.Parse(MODEL.Actual, CultureInfo.InvariantCulture)) > Convert.ToDecimal(sTempPesoDesejado2))
                 MODEL.Aperder = Convert.ToDecimal(MODEL.Actual) - Convert.ToDecimal(sTempPesoDesejado2);
             else
-                MODEL.Aperder =0;
+                MODEL.Aperder = 0;
 
             MODEL.Aperder = MODEL.Aperder.ToString().Length > 5 ? Convert.ToDecimal(MODEL.Aperder.ToString().Substring(0, 5)) : MODEL.Aperder;
-          
+
             //Se o peso a perder for negativo então é pq tem peso a menos, Logo atribuo "0"
             if (Convert.ToDecimal(MODEL.Aperder) < 0)
-                MODEL.Aperder =0;
+                MODEL.Aperder = 0;
 
             //Cálculo do Metabolismo de repouso (txtRepouso)
             MODEL.MetabolismoRepouso = Convert.ToDecimal(638) + (Convert.ToDecimal(MODEL.MIG) * Convert.ToDecimal(15.9));
@@ -5573,7 +5610,7 @@ namespace Gestreino.Controllers
 
             //Cálculo do Estimação (txtEstimacao)
             if (MODEL.GT_TipoNivelActividade_ID == 1)
-               MODEL.Estimacao= Convert.ToDecimal(MODEL.MetabolismoRepouso) * Convert.ToDecimal(1.2);
+                MODEL.Estimacao = Convert.ToDecimal(MODEL.MetabolismoRepouso) * Convert.ToDecimal(1.2);
             else if (MODEL.GT_TipoNivelActividade_ID == 3)
                 MODEL.Estimacao = Convert.ToDecimal(MODEL.MetabolismoRepouso) * Convert.ToDecimal(1.375);
             else if (MODEL.GT_TipoNivelActividade_ID == 3)
@@ -5584,7 +5621,7 @@ namespace Gestreino.Controllers
                 MODEL.Estimacao = Convert.ToDecimal(MODEL.MetabolismoRepouso) * Convert.ToDecimal(1.9);
 
             MODEL.Estimacao = MODEL.Estimacao.ToString().Length > 8 ? Convert.ToDecimal(MODEL.Estimacao.ToString().Substring(0, 8)) : MODEL.Estimacao;
-}
+        }
 
         private ArrayList aComp20_29M = new ArrayList(9);
         private ArrayList aComp20_29F = new ArrayList(9);
@@ -5599,7 +5636,7 @@ namespace Gestreino.Controllers
         private ArrayList aCompPercentil = new ArrayList(9);
         private ArrayList aCompEscolhido = new ArrayList(9);
 
-       
+
         private string DoSetEsperadoComposicao(string Sexo, int Idade)
         {
             switch (Sexo)
@@ -5692,7 +5729,7 @@ namespace Gestreino.Controllers
             iPercentilAct = GetPercentilComposicao(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), ValorAct);
 
         }
-        private void DoGetActualComposicao(decimal? PercMG,out int iPerc, out decimal iValue, out string sRes)
+        private void DoGetActualComposicao(decimal? PercMG, out int iPerc, out decimal iValue, out string sRes)
         {
             int iPercentilAct;
             decimal ValorAct = 0;
@@ -5718,7 +5755,7 @@ namespace Gestreino.Controllers
                 retValue = "Excelente";
             return retValue;
         }
-        private decimal? GetValorAnteriorComposicao(int GT_SOCIOS_ID, int? Id,int? Type)
+        private decimal? GetValorAnteriorComposicao(int GT_SOCIOS_ID, int? Id, int? Type)
         {
             decimal? iFlexi = 0;
             var data = databaseManager.GT_RespComposicao.Where(x => x.GT_SOCIOS_ID == GT_SOCIOS_ID && x.ID < Id && x.GT_TipoTesteComposicao_ID == Type).OrderByDescending(x => x.DATA_INSERCAO).Take(1).ToList();
@@ -5913,7 +5950,7 @@ namespace Gestreino.Controllers
         //2000 Metros
         private void CalculaValoresRemo2000(Cardio MODEL)
         {
-            MODEL.V02max= DoGetVo2MaxRemo2000(MODEL.MediaWatts);
+            MODEL.V02max = DoGetVo2MaxRemo2000(MODEL.MediaWatts);
             MODEL.V02maxResp = MODEL.V02max;
             MODEL.V02max = MODEL.V02max.ToString().Length > 5 ? Convert.ToDecimal(MODEL.V02max.ToString().Substring(0, 5)) : MODEL.V02max;
             MODEL.V02Mets = DoGetVo2MetsRemo2000(MODEL.MediaWatts);
@@ -5951,13 +5988,13 @@ namespace Gestreino.Controllers
 
             return retValue;
         }
-        private void DoGetActualCardio(decimal? V02max,out int iPerc, out decimal iValue, out string sRes)
+        private void DoGetActualCardio(decimal? V02max, out int iPerc, out decimal iValue, out string sRes)
         {
             int iPercentilAct;
             decimal ValorAct = 0;
 
             //if (txtRemo2000Vo2.Text == string.Empty) txtRemo2000Vo2.Text = "0";
-            ValorAct = V02max!=null?V02max.Value:0;
+            ValorAct = V02max != null ? V02max.Value : 0;
             iPercentilAct = GetPercentilCardioresp(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), ValorAct);
 
             sRes = GetResultadocardio(iPercentilAct);
@@ -6006,10 +6043,10 @@ namespace Gestreino.Controllers
 
             MODEL.V02desejavel = DoGetDesejavel(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE));
 
-            MODEL.V02CustoCalMin = DoGetCustoCaloricoTesteTerrenoCooper(MODEL.Distancia12m,MODEL.CustoCalorico);
+            MODEL.V02CustoCalMin = DoGetCustoCaloricoTesteTerrenoCooper(MODEL.Distancia12m, MODEL.CustoCalorico);
             MODEL.V02CustoCalMin = MODEL.V02CustoCalMin.ToString().Length > 5 ? Convert.ToDecimal(MODEL.V02CustoCalMin.ToString().Substring(0, 5)) : MODEL.V02CustoCalMin;
 
-         }
+        }
         private decimal DoGetVo2MaxTesteTerrenoCooper(decimal? Distancia12m)
         {
             decimal retValue;
@@ -6039,11 +6076,11 @@ namespace Gestreino.Controllers
 
             return retValue;
         }
-      
+
         //Caminhada
         private void CalculaValoresTerrenoCaminhada(Cardio MODEL)
         {
-            MODEL.MediaFrequencia = DoGetMediaFC(MODEL.Frequencia400m,MODEL.FrequenciaFimTeste);
+            MODEL.MediaFrequencia = DoGetMediaFC(MODEL.Frequencia400m, MODEL.FrequenciaFimTeste);
             MODEL.MediaFrequencia = MODEL.MediaFrequencia.ToString().Length > 5 ? Convert.ToDecimal(MODEL.MediaFrequencia.ToString().Substring(0, 5)) : MODEL.MediaFrequencia;
 
             MODEL.V02max = DoGetVo2MaxTerrenoCaminhada(MODEL.Tempo1600m, MODEL.FrequenciaFimTeste);
@@ -6090,7 +6127,7 @@ namespace Gestreino.Controllers
 
             return retValue;
         }
-        private decimal DoGetCustoCaloricoTerrenoCaminhada(decimal? Tempo1600m, decimal? FrequenciaFimTeste,decimal? CustoCalorico)
+        private decimal DoGetCustoCaloricoTerrenoCaminhada(decimal? Tempo1600m, decimal? FrequenciaFimTeste, decimal? CustoCalorico)
         {
             decimal retValue;
 
@@ -6102,7 +6139,7 @@ namespace Gestreino.Controllers
 
             return retValue;
         }
-       
+
         //Queens
         private void CalculaValoresStep(Cardio MODEL)
         {
@@ -6138,7 +6175,7 @@ namespace Gestreino.Controllers
 
             return retValue;
         }
-        private decimal DoGetCustoCaloricoStep(decimal? FC15sec,decimal? CustoCalorico)
+        private decimal DoGetCustoCaloricoStep(decimal? FC15sec, decimal? CustoCalorico)
         {
             decimal retValue;
 
@@ -6150,13 +6187,13 @@ namespace Gestreino.Controllers
 
             return retValue;
         }
-      
+
         //Jogging
         private void CalculaValoresPassadeira(Cardio MODEL)
         {
-            MODEL.VelocidadeMPH =Convert.ToDecimal(0.6214) * Convert.ToDecimal(MODEL.Velocidade);
+            MODEL.VelocidadeMPH = Convert.ToDecimal(0.6214) * Convert.ToDecimal(MODEL.Velocidade);
 
-            MODEL.V02max = DoGetVo2MaxPassadeira(MODEL.FC3min,MODEL.VelocidadeMPH);
+            MODEL.V02max = DoGetVo2MaxPassadeira(MODEL.FC3min, MODEL.VelocidadeMPH);
             MODEL.V02maxResp = MODEL.V02max;
             MODEL.V02max = MODEL.V02max.ToString().Length > 5 ? Convert.ToDecimal(MODEL.V02max.ToString().Substring(0, 5)) : MODEL.V02max;
 
@@ -6183,7 +6220,7 @@ namespace Gestreino.Controllers
         {
             decimal retValue;
 
-            retValue = DoGetVo2MaxPassadeira(FC3min,VelocidadeMPH) / Convert.ToDecimal(3.5);
+            retValue = DoGetVo2MaxPassadeira(FC3min, VelocidadeMPH) / Convert.ToDecimal(3.5);
 
             return retValue;
         }
@@ -6199,16 +6236,16 @@ namespace Gestreino.Controllers
 
             return retValue;
         }
-     
+
         //Astrand
         private void CalculaValoresCiclo(Cardio MODEL)
         {
             //FC Médio
-            MODEL.ValorMedioFC= (Convert.ToDecimal(MODEL.FC4min) + Convert.ToDecimal(MODEL.FC5min)) / Convert.ToDecimal(2);
+            MODEL.ValorMedioFC = (Convert.ToDecimal(MODEL.FC4min) + Convert.ToDecimal(MODEL.FC5min)) / Convert.ToDecimal(2);
             MODEL.ValorMedioFC = MODEL.ValorMedioFC.ToString().Length > 5 ? Convert.ToDecimal(MODEL.ValorMedioFC.ToString().Substring(0, 5)) : MODEL.ValorMedioFC;
 
             //VO2 Carga
-            MODEL.VO2Carga=DoGetVo2CargaCiclo(MODEL.Carga);
+            MODEL.VO2Carga = DoGetVo2CargaCiclo(MODEL.Carga);
 
             MODEL.V02max = DoGetVo2MaxCiclo(MODEL.ValorMedioFC, MODEL.VO2Carga);
             MODEL.V02maxResp = MODEL.V02max;
@@ -6223,7 +6260,7 @@ namespace Gestreino.Controllers
             MODEL.V02CustoCalMin = MODEL.V02CustoCalMin.ToString().Length > 5 ? Convert.ToDecimal(MODEL.V02CustoCalMin.ToString().Substring(0, 5)) : MODEL.V02CustoCalMin;
 
         }
-        private decimal DoGetVo2MaxCiclo(decimal? ValorMedioFC,decimal? VO2Carga)
+        private decimal DoGetVo2MaxCiclo(decimal? ValorMedioFC, decimal? VO2Carga)
         {
             try
             {
@@ -6307,21 +6344,21 @@ namespace Gestreino.Controllers
 
             return retValue;
         }
-        
+
         //YMCA
         private void CalculaPatamar1YMCA(Cardio MODEL)
         {
-            MODEL.YMCATrab1= Convert.ToDecimal(MODEL.YMCACarga1) * Convert.ToDecimal(CEDENCIA) * Convert.ToDecimal(DISTANCIA);
+            MODEL.YMCATrab1 = Convert.ToDecimal(MODEL.YMCACarga1) * Convert.ToDecimal(CEDENCIA) * Convert.ToDecimal(DISTANCIA);
             MODEL.YMCATrab1 = MODEL.YMCATrab1.ToString().Length > 6 ? Convert.ToDecimal(MODEL.YMCATrab1.ToString().Substring(0, 6)) : MODEL.YMCATrab1;
 
-            MODEL.YMCAPot1 = Convert.ToDecimal(MODEL.YMCACarga1) *  Convert.ToDecimal(CEDENCIA);
+            MODEL.YMCAPot1 = Convert.ToDecimal(MODEL.YMCACarga1) * Convert.ToDecimal(CEDENCIA);
             MODEL.YMCAPot1 = MODEL.YMCAPot1.ToString().Length > 6 ? Convert.ToDecimal(MODEL.YMCAPot1.ToString().Substring(0, 6)) : MODEL.YMCAPot1;
 
-            MODEL.YMCAVO21= Convert.ToDecimal(1.8) *  (Convert.ToDecimal(MODEL.YMCATrab1) / Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO ) + Convert.ToDecimal(7));
+            MODEL.YMCAVO21 = Convert.ToDecimal(1.8) * (Convert.ToDecimal(MODEL.YMCATrab1) / Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO) + Convert.ToDecimal(7));
             MODEL.YMCAVO21 = MODEL.YMCAVO21.ToString().Length > 6 ? Convert.ToDecimal(MODEL.YMCAVO21.ToString().Substring(0, 6)) : MODEL.YMCAVO21;
         }
         private void CalculaPatamar234YMCA(Cardio MODEL)
-		{
+        {
             //Patamar2
             MODEL.YMCATrab2 = Convert.ToDecimal(MODEL.YMCACarga2) * Convert.ToDecimal(CEDENCIA) * Convert.ToDecimal(DISTANCIA);
             MODEL.YMCATrab2 = MODEL.YMCATrab2.ToString().Length > 6 ? Convert.ToDecimal(MODEL.YMCATrab2.ToString().Substring(0, 6)) : MODEL.YMCATrab2;
@@ -6357,8 +6394,8 @@ namespace Gestreino.Controllers
             MODEL.YMCAVO24 = Convert.ToDecimal(1.8) * (Convert.ToDecimal(MODEL.YMCATrab4) / Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO) + Convert.ToDecimal(7));
             MODEL.YMCAVO24 = MODEL.YMCAVO24.ToString().Length > 6 ? Convert.ToDecimal(MODEL.YMCAVO24.ToString().Substring(0, 6)) : MODEL.YMCAVO24;
         }
-		private void CalculaValoresYMCA(Cardio MODEL)
-		{
+        private void CalculaValoresYMCA(Cardio MODEL)
+        {
             //FC Médio
             //txtYMCAFCMedio.Text =  Convert.ToString((Convert.ToDecimal(txtYMCAFC4min.Text) + Convert.ToDecimal(txtYMCAFC5min.Text)) / Convert.ToDecimal(2) ); 
             //if (txtYMCAFCMedio.Text.Length > 5) txtYMCAFCMedio.Text = txtYMCAFCMedio.Text.Substring(0,5); 
@@ -6380,95 +6417,95 @@ namespace Gestreino.Controllers
             //CHECK
             txtYMCAFC1_Validating(MODEL);
         }
-		private decimal DoGetVo2MaxYMCA(decimal? V02max)
-		{
-			try
-			{
-				decimal retValue;
-			
-				retValue = V02max!=null? V02max.Value:0;
+        private decimal DoGetVo2MaxYMCA(decimal? V02max)
+        {
+            try
+            {
+                decimal retValue;
+
+                retValue = V02max != null ? V02max.Value : 0;
 
 
                 return retValue;
-			}
-			catch
-			{
-				return Convert.ToDecimal(0);
-			}
-			
-		}
-		private decimal DoGetPrevisaoYMCA()
-		{
-			try
-			{
-				decimal retValue;
-				//Variaveis para cálculo uma previsão
-				//X = FcMáximo
-				//Conhecidos_X : txtYMCATrab, txtYMCATrab2, txtYMCATrab3,txtYMCATrab4
-				//Conhecidos_Y : txtYMCAFC1, txtYMCAFC2, txtYMCAFC3,txtYMCAFC4
-				
-				retValue = Convert.ToDecimal(2115);
-				 
-				 
-				return retValue;
-			}
-			catch
-			{
-				return Convert.ToDecimal(0);
-			}
-			
-		}
-		private decimal DoGetValorCorrecaoYMCA(decimal dValue)
-		{
-			decimal retValue = 0;
-			
-			if (dValue <=15)
-				retValue = Convert.ToDecimal(0);
-			else if ( dValue<=25 && dValue >15)
-				retValue = Convert.ToDecimal(1.10);
-			else if ( dValue<=35 && dValue >25)
-				retValue = Convert.ToDecimal(1);
-			else if ( dValue<=40 && dValue >35)
-				retValue = Convert.ToDecimal(0.87);
-			else if ( dValue<=45 && dValue >40)
-				retValue = Convert.ToDecimal(0.83);
-			else if ( dValue<=50 && dValue >45)
-				retValue = Convert.ToDecimal(0.78);
-			else if ( dValue<=55 && dValue >50)
-				retValue = Convert.ToDecimal(0.75);
-			else if ( dValue<=60 && dValue >55)
-				retValue = Convert.ToDecimal(0.71);
-			else if ( dValue<=65 && dValue >60)
-				retValue = Convert.ToDecimal(0.68);
-			else if ( dValue >65)
-				retValue = Convert.ToDecimal(0.65);
+            }
+            catch
+            {
+                return Convert.ToDecimal(0);
+            }
 
-			return retValue;			
-		}
-		private decimal DoGetVo2MetsYMCA(decimal? V02max)
-		{
-			decimal retValue;
+        }
+        private decimal DoGetPrevisaoYMCA()
+        {
+            try
+            {
+                decimal retValue;
+                //Variaveis para cálculo uma previsão
+                //X = FcMáximo
+                //Conhecidos_X : txtYMCATrab, txtYMCATrab2, txtYMCATrab3,txtYMCATrab4
+                //Conhecidos_Y : txtYMCAFC1, txtYMCAFC2, txtYMCAFC3,txtYMCAFC4
 
-			retValue = DoGetVo2MaxYMCA(V02max) / Convert.ToDecimal(3.5);
+                retValue = Convert.ToDecimal(2115);
 
-			return retValue;
-		}
-		private decimal DoGetCustoCaloricoYMCA(decimal? V02max,decimal? CustoCalorico)
-		{
-			decimal retValue;
 
-			retValue = (DoGetVo2MetsYMCA(V02max) *  Convert.ToDecimal(CustoCalorico)) / Convert.ToDecimal(100);
-			
-			retValue = retValue - 1;
+                return retValue;
+            }
+            catch
+            {
+                return Convert.ToDecimal(0);
+            }
 
-			retValue = (retValue * Convert.ToDecimal(3.5) * Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO)) /  Convert.ToDecimal(200);
-			
-			return retValue;
-		}
+        }
+        private decimal DoGetValorCorrecaoYMCA(decimal dValue)
+        {
+            decimal retValue = 0;
+
+            if (dValue <= 15)
+                retValue = Convert.ToDecimal(0);
+            else if (dValue <= 25 && dValue > 15)
+                retValue = Convert.ToDecimal(1.10);
+            else if (dValue <= 35 && dValue > 25)
+                retValue = Convert.ToDecimal(1);
+            else if (dValue <= 40 && dValue > 35)
+                retValue = Convert.ToDecimal(0.87);
+            else if (dValue <= 45 && dValue > 40)
+                retValue = Convert.ToDecimal(0.83);
+            else if (dValue <= 50 && dValue > 45)
+                retValue = Convert.ToDecimal(0.78);
+            else if (dValue <= 55 && dValue > 50)
+                retValue = Convert.ToDecimal(0.75);
+            else if (dValue <= 60 && dValue > 55)
+                retValue = Convert.ToDecimal(0.71);
+            else if (dValue <= 65 && dValue > 60)
+                retValue = Convert.ToDecimal(0.68);
+            else if (dValue > 65)
+                retValue = Convert.ToDecimal(0.65);
+
+            return retValue;
+        }
+        private decimal DoGetVo2MetsYMCA(decimal? V02max)
+        {
+            decimal retValue;
+
+            retValue = DoGetVo2MaxYMCA(V02max) / Convert.ToDecimal(3.5);
+
+            return retValue;
+        }
+        private decimal DoGetCustoCaloricoYMCA(decimal? V02max, decimal? CustoCalorico)
+        {
+            decimal retValue;
+
+            retValue = (DoGetVo2MetsYMCA(V02max) * Convert.ToDecimal(CustoCalorico)) / Convert.ToDecimal(100);
+
+            retValue = retValue - 1;
+
+            retValue = (retValue * Convert.ToDecimal(3.5) * Convert.ToDecimal(Configs.GESTREINO_AVALIDO_PESO)) / Convert.ToDecimal(200);
+
+            return retValue;
+        }
         //private void txtYMCAFC1_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         private void txtYMCAFC1_Validating(Cardio MODEL)
         {
-            if (MODEL.YMCAFC1==null) 
+            if (MODEL.YMCAFC1 == null)
                 return;
 
             if (MODEL.YMCAFC1 <= 90)
@@ -7360,14 +7397,14 @@ namespace Gestreino.Controllers
         {
             DoSelectGroupBy_Sex_Idade(MODEL.GT_TipoTestePessoaIdosa_ID);
 
-            if (MODEL.GT_TipoTestePessoaIdosa_ID ==1)
-                MODEL.Desejavel=DoGetDesejavelElevacoes();
+            if (MODEL.GT_TipoTestePessoaIdosa_ID == 1)
+                MODEL.Desejavel = DoGetDesejavelElevacoes();
             if (MODEL.GT_TipoTestePessoaIdosa_ID == 2)
                 MODEL.Desejavel = DoGetDesejavelFlexoes();
             if (MODEL.GT_TipoTestePessoaIdosa_ID == 3)
             {
                 MODEL.MG = DoGetPercMGEstaturaPeso(MODEL.IMC);
-                MODEL.MG = MODEL.MG.ToString().Length > 5 ? Convert.ToDecimal(MODEL.MG.ToString().Substring(0, 5)) : MODEL.MG;                
+                MODEL.MG = MODEL.MG.ToString().Length > 5 ? Convert.ToDecimal(MODEL.MG.ToString().Substring(0, 5)) : MODEL.MG;
                 MODEL.MGDesejavel = DoGetDesejavelPeso();
                 SetPesoSaudavel(MODEL);
             }
@@ -7988,9 +8025,9 @@ namespace Gestreino.Controllers
         }
         private decimal DoSet90RMBracos(decimal? txtCargaBracos)
         {
-          return (Convert.ToDecimal(txtCargaBracos) * 90) / 100;
+            return (Convert.ToDecimal(txtCargaBracos) * 90) / 100;
         }
-        private void DoGetActualBracos(decimal? txtRazaoBracos,out int iPerc, out decimal iValue, out string sRes)
+        private void DoGetActualBracos(decimal? txtRazaoBracos, out int iPerc, out decimal iValue, out string sRes)
         {
             int iPercentilAct;
             decimal ValorAct = 0;
@@ -8098,7 +8135,6 @@ namespace Gestreino.Controllers
             return Convert.ToInt32(aPernasPercentil[indice]);
             //return 0;
         }
-
         private void DoGetActualPernas(decimal? txtRazaoPernas, out int iPerc, out decimal iValue, out string sRes)
         {
             int iPercentilAct;
@@ -8159,7 +8195,7 @@ namespace Gestreino.Controllers
         }
         private decimal DoSet90RMPernas(decimal? txtCargaPernas)
         {
-           return (Convert.ToDecimal(txtCargaPernas) * 90) / 100;
+            return (Convert.ToDecimal(txtCargaPernas) * 90) / 100;
         }
         private string DoSetEsperadoPernas(string Sexo, int Idade, decimal Peso)
         {
@@ -8351,7 +8387,7 @@ namespace Gestreino.Controllers
             iValue = ValorAct;
 
         }
-      
+
         //Flexoes
         private void DoLoadValuesPercentilFlexoesForca()
         {
@@ -8478,13 +8514,13 @@ namespace Gestreino.Controllers
             return Convert.ToInt32(aFlexoesPercentil[indice]);
             //return 0;
         }
-        private void DoGetActualFlexoes(int? txtFlexoes,out int iPerc, out decimal iValue, out string sRes)
+        private void DoGetActualFlexoes(int? txtFlexoes, out int iPerc, out decimal iValue, out string sRes)
         {
             int iPercentilAct;
             decimal ValorAct = 0;
 
             ValorAct = Convert.ToDecimal(txtFlexoes.Value);
-            iPercentilAct = GetPercentilFlexoes(Configs.GESTREINO_AVALIDO_SEXO,Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), Convert.ToInt32(ValorAct));
+            iPercentilAct = GetPercentilFlexoes(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), Convert.ToInt32(ValorAct));
 
             sRes = GetResultadoFlexoes(iPercentilAct);
             iPerc = iPercentilAct;
@@ -8507,7 +8543,7 @@ namespace Gestreino.Controllers
                 retValue = "Excelente";
             return retValue;
         }
-     
+
         //Velocidade Linear
         private int GetPercentilVLinear(decimal valor)
         {
@@ -8552,7 +8588,7 @@ namespace Gestreino.Controllers
             //TODO - Get Min value
             return Convert.ToDecimal(ArrTentativas[1]);
         }*/
-        private void DoGetActualVLinear(Force MODEL,out int iPerc, out decimal iValue, out string sRes)
+        private void DoGetActualVLinear(Force MODEL, out int iPerc, out decimal iValue, out string sRes)
         {
             int iPercentilAct;
             decimal ValorAct = 0;
@@ -8589,7 +8625,7 @@ namespace Gestreino.Controllers
         //Velocidade Resistencia
         private string DoSetEsperadoVResist()
         {
-           return "85 a 89";
+            return "85 a 89";
         }
         private int GetPercentilVResist(decimal valor)
         {
@@ -8689,7 +8725,7 @@ namespace Gestreino.Controllers
 
             return Convert.ToDecimal(sTent10) - Convert.ToDecimal(sTent1);
         }
-        private void DoGetActualVResist(Force MODEL,out int iPerc, out decimal iValue, out string sRes)
+        private void DoGetActualVResist(Force MODEL, out int iPerc, out decimal iValue, out string sRes)
         {
             int iPercentilAct;
             decimal ValorAct = 0;
@@ -8698,7 +8734,7 @@ namespace Gestreino.Controllers
             MODEL.capacidadeVResist = ValorAct;
             MODEL.capacidadeVResist = MODEL.capacidadeVResist.ToString().Length > 5 ? Convert.ToDecimal(MODEL.capacidadeVResist.ToString().Substring(0, 5)) : MODEL.capacidadeVResist;
 
-            iPercentilAct = GetPercentilFlexoes(Configs.GESTREINO_AVALIDO_SEXO, Convert.ToInt32(Configs.GESTREINO_AVALIDO_IDADE), Convert.ToInt32(ValorAct));
+            iPercentilAct = GetPercentilVResist(ValorAct);
 
             sRes = GetResultadoVResist(iPercentilAct);
             iPerc = GetPercentilVResist(ValorAct);
@@ -8754,7 +8790,7 @@ namespace Gestreino.Controllers
         }
         private string DoSetEsperadoAgilidade()
         {
-            return Configs.GESTREINO_AVALIDO_SEXO == "Masculino"? "15,9 a 16,7": "17,5 a 18,6";
+            return Configs.GESTREINO_AVALIDO_SEXO == "Masculino" ? "15,9 a 16,7" : "17,5 a 18,6";
         }
         private decimal DoGetValorMinimo(Force MODEL)
         {
@@ -8767,7 +8803,7 @@ namespace Gestreino.Controllers
 
             return Convert.ToDecimal(aTentativas[0]);
         }
-        private void DoGetActualAgilidade(Force MODEL,out int iPerc, out decimal iValue, out string sRes)
+        private void DoGetActualAgilidade(Force MODEL, out int iPerc, out decimal iValue, out string sRes)
         {
             int iPercentilAct;
             decimal ValorAct = 0;
@@ -8851,7 +8887,7 @@ namespace Gestreino.Controllers
 
             return Convert.ToDecimal(aTentativas[2]);
         }
-        private void DoGetActualExplosivaH(Force MODEL,out int iPerc, out decimal iValue, out string sRes)
+        private void DoGetActualExplosivaH(Force MODEL, out int iPerc, out decimal iValue, out string sRes)
         {
             int iPercentilAct;
             decimal ValorAct = 0;
@@ -8945,7 +8981,7 @@ namespace Gestreino.Controllers
 
             return Convert.ToDecimal(aTentativas[2]);
         }
-        private void DoGetActualExplosivaV(Force MODEL,out int iPerc, out decimal iValue, out string sRes)
+        private void DoGetActualExplosivaV(Force MODEL, out int iPerc, out decimal iValue, out string sRes)
         {
             int iPercentilAct;
             decimal ValorAct = 0;
@@ -9031,6 +9067,26 @@ namespace Gestreino.Controllers
                 x.TENTATIVA10,
                 }).ToArray();
             }
+            if (Type == 7 || Type == 8)
+            {
+                flexflexNumberArr = data.Select(x => new List<decimal?>
+                {
+               x.TENTATIVA1,
+                x.TENTATIVA2,
+                x.TENTATIVA3
+                }).ToArray();
+            }
+            if (Type == 9)
+            {
+                flexflexNumberArr = data.Select(x => new List<decimal?>
+                {
+               x.TENTATIVA1,
+                x.TENTATIVA2,
+                x.TENTATIVA3,
+                x.VINICIAL
+                }).ToArray();
+            }
+
 
 
             if (flexflexNumberArr.Any())
@@ -9045,19 +9101,43 @@ namespace Gestreino.Controllers
                         {
                             ArrayList aTentativas = new ArrayList(10);
 
-                            aTentativas.Add(x);
-                            aTentativas.Add(x);
-                            aTentativas.Add(x);
-                            aTentativas.Add(x);
-                            aTentativas.Add(x);
-                            aTentativas.Add(x);
-                            aTentativas.Add(x);
-                            aTentativas.Add(x);
-                            aTentativas.Add(x);
-                            aTentativas.Add(x);
+                            aTentativas.Add(data.Select(y=>y.TENTATIVA1).FirstOrDefault());
+                            aTentativas.Add(data.Select(y => y.TENTATIVA2).FirstOrDefault());
+                            aTentativas.Add(data.Select(y => y.TENTATIVA3).FirstOrDefault());
+                            aTentativas.Add(data.Select(y => y.TENTATIVA4).FirstOrDefault());
+                            aTentativas.Add(data.Select(y => y.TENTATIVA5).FirstOrDefault());
+                            aTentativas.Add(data.Select(y => y.TENTATIVA6).FirstOrDefault());
+                            aTentativas.Add(data.Select(y => y.TENTATIVA7).FirstOrDefault());
+                            aTentativas.Add(data.Select(y => y.TENTATIVA8).FirstOrDefault());
+                            aTentativas.Add(data.Select(y => y.TENTATIVA9).FirstOrDefault());
+                            aTentativas.Add(data.Select(y => y.TENTATIVA10).FirstOrDefault());
                             aTentativas.Sort();
 
                             iFlexi = DoGetValorTentativas(aTentativas);
+                        }
+                        else if (Type == 7 || Type == 8)
+                        {
+
+                            ArrayList aTentativas = new ArrayList(10);
+
+                            aTentativas.Add(data.Select(y => y.TENTATIVA1).FirstOrDefault());
+                            aTentativas.Add(data.Select(y => y.TENTATIVA2).FirstOrDefault());
+                            aTentativas.Add(data.Select(y => y.TENTATIVA3).FirstOrDefault());
+                            aTentativas.Sort();
+
+                            iFlexi = Convert.ToDecimal(aTentativas[0]);
+                        }
+                        else if (Type == 9)
+                        {
+
+                            ArrayList aTentativas = new ArrayList(10);
+
+                            aTentativas.Add(data.Select(y => y.TENTATIVA1).FirstOrDefault());
+                            aTentativas.Add(data.Select(y => y.TENTATIVA2).FirstOrDefault());
+                            aTentativas.Add(data.Select(y => y.TENTATIVA3).FirstOrDefault());
+                            aTentativas.Sort();
+
+                            iFlexi = Convert.ToDecimal(aTentativas[2]) - Convert.ToDecimal(data.Select(y => y.VINICIAL).FirstOrDefault());
                         }
                         else
                         {
