@@ -152,6 +152,17 @@ namespace Gestreino.Controllers
                 MODEL.OB_BemEstar = dataCaract.First().OB_BE.Value;
                 MODEL.OB_Tonificar = dataCaract.First().OB_TO.Value;
                 MODEL.OB_Outros = dataCaract.First().OB_OT.Value;
+                //
+                MODEL.FCTreino1 = dataCaract.First().FCTREINO1.Value;
+                MODEL.FCTreino2 = dataCaract.First().FCTREINO2.Value;
+                MODEL.FCTreino3 = dataCaract.First().FCTREINO3.Value; 
+                MODEL.FCTreino4 = dataCaract.First().FCTREINO4.Value;
+                MODEL.FCTreino5 = dataCaract.First().FCTREINO5.Value;
+                MODEL.FCTreino6 = dataCaract.First().FCTREINO6.Value;
+                MODEL.FCTreino7 = dataCaract.First().FCTREINO7.Value;
+                MODEL.FCTreino8 = dataCaract.First().FCTREINO8.Value;
+                MODEL.FCTreino9 = dataCaract.First().FCTREINO9.Value;
+                MODEL.FCTreino10 = dataCaract.First().FCTREINO10.Value;
             }
             // MODEL.TIPO_SANGUE_LIST = databaseManager.PES_PESSOAS_CARACT_TIPO_SANG.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             MODEL.Caract_DuracaoPlanoList = databaseManager.GT_DuracaoPlano.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.DURACAO).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DURACAO.ToString() });
@@ -181,14 +192,13 @@ namespace Gestreino.Controllers
             if (DateofBirth != null)
                 MODEL.Age = Converters.CalculateAge(DateofBirth.Value);
 
-
             MODEL.PES_DEFICIENCIA_LIST = databaseManager.PES_PESSOAS_CARACT_TIPO_DEF.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-
             MODEL.PES_PROFISSAO_LIST = databaseManager.PES_PROFISSOES.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             MODEL.PES_Contracto_LIST = databaseManager.PES_PROFISSOES_TIPO_CONTRACTO.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             MODEL.PES_Regime_LIST = databaseManager.PES_PROFISSOES_REGIME_TRABALHO.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             MODEL.PES_FAMILIARES_GRUPOS_LIST = databaseManager.PES_FAMILIARES_GRUPOS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
 
+            //SetValoresEvolucoes
 
             ViewBag.imgSrc = (string.IsNullOrEmpty(data.First().FOTOGRAFIA)) ? "/Assets/images/user-avatar.jpg" : "/" + data.First().FOTOGRAFIA;
             ViewBag.data = data;
@@ -236,7 +246,7 @@ namespace Gestreino.Controllers
             //SEARCH RESULT SET
             if (!string.IsNullOrEmpty(User)) v = v.Where(a => a.LOGIN != null && a.LOGIN.ToUpper().Contains(User.ToUpper())
             || a.NOME != null && a.NOME.ToUpper().Contains(User.ToUpper()));
-            //if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
+            //if (!string.IsNullOrEmpty(Socio)) v = v.Where(a => a.PES_NUMERO != null && a.PES_NUMERO.ToString()== Socio);
             //if (!string.IsNullOrEmpty(Genero)) v = v.Where(a => a.SEXO != null && a.SEXO.ToString().Contains(Genero == "1" ? "Masculino" : "Feminino"));
             //if (!string.IsNullOrEmpty(DataNascimento)) v = v.Where(a => a.DATA_NASCIMENTO != null && a.DATA_NASCIMENTO.ToUpper().Contains(DataNascimento.Replace("-", "/").ToUpper()));
             if (!string.IsNullOrEmpty(Socio)) v = v.Where(a => a.PES_NUMERO != null && a.PES_NUMERO.ToString() == Socio);
@@ -355,7 +365,19 @@ namespace Gestreino.Controllers
                 var Altura = (MODEL.Caract_Altura != null) ? decimal.Parse(MODEL.Caract_Altura, CultureInfo.InvariantCulture) : (Decimal?)null;
 
                 if (Peso != null && Altura != null)
-                    MODEL.Caract_IMC = Convert.ToInt32(Peso / ((Altura / 100) * (Altura / 100)));
+                    MODEL.Caract_IMC = setIMC(MODEL.Caract_Peso, MODEL.Caract_Altura);
+
+                var fcarrs = setFiledsFcTreino(MODEL.Caract_FCRepouso, MODEL.Caract_FCMaximo);
+                MODEL.FCTreino1 = fcarrs[9];
+                MODEL.FCTreino2 = fcarrs[8];
+                MODEL.FCTreino3 = fcarrs[7];
+                MODEL.FCTreino4 = fcarrs[6];
+                MODEL.FCTreino5 = fcarrs[5];
+                MODEL.FCTreino6 = fcarrs[4];
+                MODEL.FCTreino7 = fcarrs[3];
+                MODEL.FCTreino8 = fcarrs[2];
+                MODEL.FCTreino9 = fcarrs[1];
+                MODEL.FCTreino10 = fcarrs[0];
 
                 //Create or update User
                 var Login = Converters.GetFirstAndLastName(MODEL.Nome).Replace(" ", "").ToLower();
@@ -388,7 +410,7 @@ namespace Gestreino.Controllers
                 var UpdatePes = databaseManager.SP_PES_ENT_PESSOAS(PesId, MODEL.Nome, MODEL.Sexo == 1 ? "M" : "F", DateofBirth, MODEL.EstadoCivil, MODEL.NIF, null, MODEL.NAT_PAIS_ID, MODEL.NAT_CIDADE_ID, MODEL.NAT_MUN_ID, Telephone, TelephoneAlternativo, Fax, MODEL.Email, MODEL.CodigoPostal, MODEL.URL, MODEL.Numero, int.Parse(User.Identity.GetUserId()), "U").ToList();
 
                 // Create or Update Caract
-                var createCaract = databaseManager.SP_PES_ENT_PESSOAS_CARACT(null, PesId, null, Altura, Peso, MODEL.Caract_FCRepouso, MODEL.Caract_FCMaximo, MODEL.Caract_TASistolica, MODEL.Caract_TADistolica, MODEL.Caract_MassaGorda, MODEL.Caract_VO2, MODEL.Caract_DuracaoPlano, MODEL.Caract_IMC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, MODEL.FR_Hipertensao, MODEL.FR_Tabaco, MODEL.FR_Hiperlipidemia, MODEL.FR_Obesidade, MODEL.FR_Diabetes, MODEL.FR_Inactividade, MODEL.FR_Heriditariedade, MODEL.FR_Examescomplementares, MODEL.FR_Outros, MODEL.OB_Actividade, MODEL.OB_Controlopeso, MODEL.OB_PrevenirIdade, MODEL.OB_TreinoDesporto, MODEL.OB_AumentarMassa, MODEL.OB_BemEstar, MODEL.OB_Tonificar, MODEL.OB_Outros, null, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                var createCaract = databaseManager.SP_PES_ENT_PESSOAS_CARACT(null, PesId, null, Altura, Peso, MODEL.Caract_FCRepouso, MODEL.Caract_FCMaximo, MODEL.Caract_TASistolica, MODEL.Caract_TADistolica, MODEL.Caract_MassaGorda, MODEL.Caract_VO2, MODEL.Caract_DuracaoPlano, MODEL.Caract_IMC, MODEL.FCTreino1, MODEL.FCTreino2, MODEL.FCTreino3, MODEL.FCTreino4, MODEL.FCTreino5, MODEL.FCTreino6, MODEL.FCTreino7, MODEL.FCTreino8, MODEL.FCTreino9, MODEL.FCTreino10, MODEL.FR_Hipertensao, MODEL.FR_Tabaco, MODEL.FR_Hiperlipidemia, MODEL.FR_Obesidade, MODEL.FR_Diabetes, MODEL.FR_Inactividade, MODEL.FR_Heriditariedade, MODEL.FR_Examescomplementares, MODEL.FR_Outros, MODEL.OB_Actividade, MODEL.OB_Controlopeso, MODEL.OB_PrevenirIdade, MODEL.OB_TreinoDesporto, MODEL.OB_AumentarMassa, MODEL.OB_BemEstar, MODEL.OB_Tonificar, MODEL.OB_Outros, null, int.Parse(User.Identity.GetUserId()), "C").ToList();
 
                 // Create or Update Address
                 var createAddress = databaseManager.SP_PES_ENT_PESSOAS_ENDERECO(null, PesId, MODEL.ENDERECO_TIPO, true, MODEL.EndNumero, MODEL.Rua, MODEL.Morada, MODEL.ENDERECO_PAIS_ID, MODEL.ENDERECO_CIDADE_ID, MODEL.ENDERECO_MUN_ID, DateTime.Now, null, int.Parse(User.Identity.GetUserId()), "C").ToList();
@@ -450,13 +472,13 @@ namespace Gestreino.Controllers
                 var Altura = (MODEL.Caract_Altura != null) ? decimal.Parse(MODEL.Caract_Altura, CultureInfo.InvariantCulture) : (Decimal?)null;
 
                 if (Peso != null && Altura != null)
-                    MODEL.Caract_IMC = Convert.ToInt32(Peso / ((Altura / 100) * (Altura / 100)));
+                    MODEL.Caract_IMC = setIMC(MODEL.Caract_Peso, MODEL.Caract_Altura);
 
                 // Create User and Pes
                 var UpdatePes = databaseManager.SP_PES_ENT_PESSOAS(MODEL.ID, MODEL.Nome, MODEL.Sexo == 1 ? "M" : "F", DateofBirth, MODEL.EstadoCivil, MODEL.NIF, null, MODEL.NAT_PAIS_ID, MODEL.NAT_CIDADE_ID, MODEL.NAT_MUN_ID, Telephone, TelephoneAlternativo, Fax, MODEL.Email, MODEL.CodigoPostal, MODEL.URL, MODEL.Numero, int.Parse(User.Identity.GetUserId()), "U").ToList();
 
                 // Create or Update Caract
-                var updateCaract = databaseManager.SP_PES_ENT_PESSOAS_CARACT(null, MODEL.ID, null, Altura, Peso, MODEL.Caract_FCRepouso, MODEL.Caract_FCMaximo, MODEL.Caract_TASistolica, MODEL.Caract_TADistolica, MODEL.Caract_MassaGorda, MODEL.Caract_VO2, MODEL.Caract_DuracaoPlano, MODEL.Caract_IMC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, MODEL.FR_Hipertensao, MODEL.FR_Tabaco, MODEL.FR_Hiperlipidemia, MODEL.FR_Obesidade, MODEL.FR_Diabetes, MODEL.FR_Inactividade, MODEL.FR_Heriditariedade, MODEL.FR_Examescomplementares, MODEL.FR_Outros, MODEL.OB_Actividade, MODEL.OB_Controlopeso, MODEL.OB_PrevenirIdade, MODEL.OB_TreinoDesporto, MODEL.OB_AumentarMassa, MODEL.OB_BemEstar, MODEL.OB_Tonificar, MODEL.OB_Outros, null, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                var updateCaract = databaseManager.SP_PES_ENT_PESSOAS_CARACT(null, MODEL.ID, null, Altura, Peso, MODEL.Caract_FCRepouso, MODEL.Caract_FCMaximo, MODEL.Caract_TASistolica, MODEL.Caract_TADistolica, MODEL.Caract_MassaGorda, MODEL.Caract_VO2, MODEL.Caract_DuracaoPlano, MODEL.Caract_IMC, MODEL.FCTreino1, MODEL.FCTreino2, MODEL.FCTreino3, MODEL.FCTreino4, MODEL.FCTreino5, MODEL.FCTreino6, MODEL.FCTreino7, MODEL.FCTreino8, MODEL.FCTreino9, MODEL.FCTreino10, MODEL.FR_Hipertensao, MODEL.FR_Tabaco, MODEL.FR_Hiperlipidemia, MODEL.FR_Obesidade, MODEL.FR_Diabetes, MODEL.FR_Inactividade, MODEL.FR_Heriditariedade, MODEL.FR_Examescomplementares, MODEL.FR_Outros, MODEL.OB_Actividade, MODEL.OB_Controlopeso, MODEL.OB_PrevenirIdade, MODEL.OB_TreinoDesporto, MODEL.OB_AumentarMassa, MODEL.OB_BemEstar, MODEL.OB_Tonificar, MODEL.OB_Outros, null, int.Parse(User.Identity.GetUserId()), "C").ToList();
 
                 // Create or Update Address
                 var createAddress = databaseManager.SP_PES_ENT_PESSOAS_ENDERECO(null, MODEL.ID, MODEL.ENDERECO_TIPO, true, MODEL.EndNumero, MODEL.Rua, MODEL.Morada, MODEL.ENDERECO_PAIS_ID, MODEL.ENDERECO_CIDADE_ID, MODEL.ENDERECO_MUN_ID, DateTime.Now, null, int.Parse(User.Identity.GetUserId()), "C").ToList();
@@ -471,6 +493,41 @@ namespace Gestreino.Controllers
                         var addnationality = databaseManager.SP_PES_ENT_PESSOAS(MODEL.ID, null, null, null, null, null, null, item, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), "IN").ToList();
                     }
                 }
+
+
+                /*
+                //Evolução Altura
+                if (iAlturaActual != Convert.ToInt32(txtAltura.Text) && iAlturaActual != Int32.MinValue)
+                {
+                    objCommand.CommandText = "INSERT INTO tblEvolucaoAltura (IDSocio, Data, Altura)  VALUES ('" + txtNrSocio.Text + "', '" + DateTime.Today.ToString() + "','" + txtAltura.Text + "')";
+                    objCommand.ExecuteNonQuery();
+                }
+
+                if (dPesoActual != Convert.ToDecimal(txtPeso.Text) && dPesoActual != Decimal.MinValue)
+                {
+                    //Evolução Peso
+                    objCommand.CommandText = "INSERT INTO tblEvolucaoPeso (IDSocio, Data, Peso)  VALUES ('" + txtNrSocio.Text + "', '" + DateTime.Today.ToString() + "','" + txtPeso.Text + "')";
+                    objCommand.ExecuteNonQuery();
+                }
+
+                if (dTASistolicaActual != Convert.ToDecimal(txtTASistolica.Text) && dTASistolicaActual != Decimal.MinValue)
+                {
+                    //Evolução Tensao Sistolica
+                    objCommand.CommandText = "INSERT INTO tblEvolucaoTASistolica (IDSocio, Data, TASistolica)  VALUES ('" + txtNrSocio.Text + "', '" + DateTime.Today.ToString() + "','" + txtTASistolica.Text + "')";
+                    objCommand.ExecuteNonQuery();
+                }
+
+
+                if (dTADistolicaActual != Convert.ToDecimal(txtTADistolica.Text) && dTADistolicaActual != Decimal.MinValue)
+                {
+                    //Evolução Tensao Distolica
+                    objCommand.CommandText = "INSERT INTO tblEvolucaoTADistolica (IDSocio, Data, TADistolica)  VALUES ('" + txtNrSocio.Text + "', '" + DateTime.Today.ToString() + "','" + txtTADistolica.Text + "')";
+                    objCommand.ExecuteNonQuery();
+                }*/
+
+
+
+
                 returnUrl = "/gtmanagement/viewathletes/" + MODEL.ID;
                 ModelState.Clear();
             }
@@ -623,16 +680,128 @@ namespace Gestreino.Controllers
             return Json(new { result = true, imageUrl = sqlpath, showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
 
+        //
 
 
+        private List<decimal?> setFiledsFcTreino(int? repouso, decimal? fcmaximo)
+        {
+            double fc1 =Convert.ToDouble(0.85);
+            double fc2 = Convert.ToDouble(0.8);
+            double fc3 = Convert.ToDouble(0.75);
+            double fc4 = Convert.ToDouble(0.7);
+            double fc5 = Convert.ToDouble(0.65);
+            double fc6 = Convert.ToDouble(0.60);
+            double fc7 = Convert.ToDouble(55);
+            double fc8 = Convert.ToDouble(0.5);
+            double fc9 = Convert.ToDouble(0.45);
+            double fc10 = Convert.ToDouble(0.4);
+
+            var arr = new List<decimal?>();
 
 
+            if (repouso != null && fcmaximo != null)
+            {
+                double result;
+       
+                result = fc1 * (Convert.ToDouble(fcmaximo) - Convert.ToDouble(repouso)) + Convert.ToDouble(repouso);
+                arr.Add(Convert.ToDecimal(result));
 
+                result = fc2 * (Convert.ToDouble(fcmaximo) - Convert.ToDouble(repouso)) + Convert.ToDouble(repouso);
+                arr.Add(Convert.ToDecimal(result));
 
+                result = fc3 * (Convert.ToDouble(fcmaximo) - Convert.ToDouble(repouso)) + Convert.ToDouble(repouso);
+                arr.Add(Convert.ToDecimal(result));
+                result = fc4 * (Convert.ToDouble(fcmaximo) - Convert.ToDouble(repouso)) + Convert.ToDouble(repouso);
+                arr.Add(Convert.ToDecimal(result));
 
+                result = fc5 * (Convert.ToDouble(fcmaximo) - Convert.ToDouble(repouso)) + Convert.ToDouble(repouso);
+                arr.Add(Convert.ToDecimal(result));
 
+                result = fc6 * (Convert.ToDouble(fcmaximo) - Convert.ToDouble(repouso)) + Convert.ToDouble(repouso);
+                arr.Add(Convert.ToDecimal(result));
 
+                result = fc7 * (Convert.ToDouble(fcmaximo) - Convert.ToDouble(repouso)) + Convert.ToDouble(repouso);
+                arr.Add(Convert.ToDecimal(result));
 
+                result = fc8 * (Convert.ToDouble(fcmaximo) - Convert.ToDouble(repouso)) + Convert.ToDouble(repouso);
+                arr.Add(Convert.ToDecimal(result));
+
+                result = fc9 * (Convert.ToDouble(fcmaximo) - Convert.ToDouble(repouso)) + Convert.ToDouble(repouso);
+                arr.Add(Convert.ToDecimal(result));
+
+                result = fc10 * (Convert.ToDouble(fcmaximo) - Convert.ToDouble(repouso)) + Convert.ToDouble(repouso);
+                arr.Add(Convert.ToDecimal(result));
+            }
+            else
+            {
+
+            }
+            return arr;
+        }
+        private void SetValoresEvolucoes()
+        {
+            //iAlturaActual = Convert.ToInt32(txtAltura.Text);
+            //dPesoActual = Convert.ToDecimal(txtPeso.Text);
+           // dTASistolicaActual = Convert.ToDecimal(txtTASistolica.Text);
+           // dTADistolicaActual = Convert.ToDecimal(txtTADistolica.Text);
+        }
+        private double? setFcMaximo(int? sexo, int? idade)
+        {
+            double FC_MAX_HOMEM = 208;
+            double FC_MAX_MULHER = 208;
+            double? fc = null;
+
+            if (sexo != null && idade != null)
+            {
+                if (sexo == 0)
+                {
+                    fc = FC_MAX_MULHER - (0.7 * Convert.ToDouble(idade));
+                }
+
+                if (sexo == 1)
+                {
+                    fc = FC_MAX_HOMEM - (0.7 * Convert.ToDouble(idade));
+                }
+
+            }
+            return fc;
+        }
+        public int setIMC(string Peso, string Altura)
+        {
+            var PesoDec = (Peso != null) ? decimal.Parse(Peso, CultureInfo.InvariantCulture) : (Decimal?)null;
+            var AlturaDec = (Altura != null) ? decimal.Parse(Altura, CultureInfo.InvariantCulture) : (Decimal?)null;
+
+            return Convert.ToInt32(PesoDec / ((AlturaDec / 100) * (AlturaDec / 100)));
+        }
+
+        [HttpGet]
+        public ActionResult GetIMC(string Peso, string Altura)
+        {
+            int imc = setIMC(Peso, Altura);
+            return Json(imc);
+        }
+        [HttpGet]
+        public ActionResult GetDobAge(string DATA_NASCIMENTO, int? Sexo)
+        {
+            var DateofBirth = string.IsNullOrWhiteSpace(DATA_NASCIMENTO) ? (DateTime?)null : DateTime.ParseExact(DATA_NASCIMENTO, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            int? idade = 0;
+            if (DateofBirth != null) 
+            {
+                idade= Converters.CalculateAge(DateofBirth.Value);
+            }
+            double? fc = setFcMaximo(Sexo, idade);
+
+            var arr = new List<string>();
+            arr.Add(idade.ToString());
+            arr.Add(Sexo == null?string.Empty:fc.ToString());
+
+            return Json(arr.ToArray(), JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult GetFCRepouso(int? Caract_FCRepouso,decimal? Caract_FCMaximo)
+        {
+            return Json(setFiledsFcTreino(Caract_FCRepouso, Caract_FCMaximo).ToArray(), JsonRequestBehavior.AllowGet);
+        }
 
 
 

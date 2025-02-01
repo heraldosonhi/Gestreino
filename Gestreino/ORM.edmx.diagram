@@ -81,9 +81,6 @@
         <AssociationConnector Association="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_CONTACTOS" Width="1.5" PointX="5.25" PointY="42.5" />
         <EntityTypeShape EntityType="GESTREINO_ORM.GT_DuracaoPlano" Width="1.5" PointX="0.75" PointY="5.75" />
-        <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_CARACT" Width="1.5" PointX="19.25" PointY="26.375" />
-        <AssociationConnector Association="GESTREINO_ORM.PES_PESSOAS_CARACT_GT_DuracaoPlano_ID" />
-        <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA872225" />
         <AssociationConnector Association="GESTREINO_ORM.PES_PESSOAS_FAM_PES_PROFISSOES_ID" />
         <EntityTypeShape EntityType="GESTREINO_ORM.GT_Carga" Width="1.5" PointX="3.375" PointY="5.75" />
         <EntityTypeShape EntityType="GESTREINO_ORM.GT_FaseTreino" Width="1.5" PointX="5.375" PointY="4.75" />
@@ -125,7 +122,6 @@
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA28870" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA54742" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA801637" />
-        <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA802772" />
         <EntityTypeShape EntityType="GESTREINO_ORM.INST_APLICACAO_ARQUIVOS" Width="1.5" PointX="16.5" PointY="37.125" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_ARQUIVOS" Width="1.5" PointX="8.25" PointY="37.75" />
         <EntityTypeShape EntityType="GESTREINO_ORM.UTILIZADORES" Width="1.5" PointX="0.75" PointY="42.625" />
@@ -184,6 +180,10 @@
         <EntityTypeShape EntityType="GESTREINO_ORM.GT_RespForca" Width="1.5" PointX="22.5" PointY="35.75" />
         <AssociationConnector Association="GESTREINO_ORM.GT_RespForca_GT_SOCIOS_ID" />
         <AssociationConnector Association="GESTREINO_ORM.GT_RespForca_GT_TipoTesteForca_ID" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_CARACT" Width="1.5" PointX="19.25" PointY="26.375" />
+        <AssociationConnector Association="GESTREINO_ORM.PES_PESSOAS_CARACT_GT_DuracaoPlano_ID" />
+        <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA802772" />
+        <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA872225" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

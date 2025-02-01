@@ -122,7 +122,7 @@
                         using (Ajax.BeginForm("NewUserGroup", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                         {
                             @Html.AntiForgeryToken()
-                            @Html.TextBoxFor(m => m.Id, new { Name = "UserId" })
+                            @Html.HiddenFor(m => m.Id, new { Name = "UserId" })
                             <div id="appenditem"></div>
                             <button hidden id="appenditemForm">save</button>
                         }

@@ -302,7 +302,7 @@ namespace Gestreino.Models
         [Display(Name = "Altura (cm)")]
         public string Caract_Altura { get; set; }
 
-        [Display(Name = "VO2")]
+        [Display(Name = "VO2 (ml/kg/min)")]
         public int? Caract_VO2 { get; set; }
 
         [Display(Name = "Peso (kg)")]
@@ -325,13 +325,13 @@ namespace Gestreino.Models
         public int? Caract_Protocolo { get; set; }
 
         [Display(Name = "FC Máximo")]
-        public int? Caract_FCMaximo { get; set; }
+        public decimal? Caract_FCMaximo { get; set; }
 
         [Display(Name = "TA Sistólica")]
-        public int? Caract_TASistolica { get; set; }
+        public decimal? Caract_TASistolica { get; set; }
 
         [Display(Name = "TA Distólica")]
-        public int? Caract_TADistolica { get; set; }
+        public decimal? Caract_TADistolica { get; set; }
         //
         [Display(Name = "Hipertensão")]
         public bool FR_Hipertensao { get; set; }
@@ -390,6 +390,17 @@ namespace Gestreino.Models
         public IEnumerable<System.Web.Mvc.SelectListItem> PES_Regime_LIST { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> PES_DEFICIENCIA_LIST { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> PES_DEFICIENCIA_GRAU_LIST { get; set; }
+
+        public decimal? FCTreino1 { get; set; }
+        public decimal? FCTreino2 { get; set; }
+        public decimal? FCTreino3 { get; set; }
+        public decimal? FCTreino4 { get; set; }
+        public decimal? FCTreino5 { get; set; }
+        public decimal? FCTreino6 { get; set; }
+        public decimal? FCTreino7 { get; set; }
+        public decimal? FCTreino8 { get; set; }
+        public decimal? FCTreino9 { get; set; }
+        public decimal? FCTreino10 { get; set; }
 
     }
 

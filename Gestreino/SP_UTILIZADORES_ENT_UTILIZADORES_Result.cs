@@ -23,6 +23,7 @@ namespace Gestreino
         public string NOME { get; set; }
         public string NOME_PROPIO { get; set; }
         public string APELIDO { get; set; }
+        public string FOTOGRAFIA { get; set; }
         public Nullable<int> TOTALGROUPS { get; set; }
         public Nullable<int> TOTALPERFIS { get; set; }
         public string ULTIMA_SESSAO { get; set; }

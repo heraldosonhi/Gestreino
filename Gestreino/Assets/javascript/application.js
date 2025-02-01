@@ -176,7 +176,7 @@ function SetUpDatepicker(id) {
     });
 
     $('.datepicker, .datepickerDisablePastDate, .datepickerDisableFutureDate, .Disablecalendardatepicker, .Disablecalendardatepicker_' + id).on('apply.daterangepicker', function (ev, picker) {
-        $(this).val(picker.startDate.format('DD-MM-YYYY'));
+        $(this).val(picker.startDate.format('DD-MM-YYYY')).trigger("input");
     });
     // Prevent data entry :: Readonly Input
     $('.datepicker, .datepickerDisablePastDate, .datepickerDisableFutureDate, .Disablecalendardatepicker, .Disablecalendardatepicker_' + id).on('keydown paste focus mousedown', function (e) {
@@ -3769,7 +3769,137 @@ function updateCityIdList(CidadeId, thisvar) {
 
 
 
+//ATLETA
+$(document).on("input", "#DataNascimento", function () {
 
+        $.ajax({
+            type: "GET",
+            url: "/gtmanagement/GetDobAge",
+            data: { "DATA_NASCIMENTO": $(this).val(), "Sexo": $('#Sexo').val() },
+            cache: false,
+            beforeSend: function () {
+                //loadIn();
+            },
+            complete: function () {
+            },
+            success: function (data) {
+                if (data == '0')
+                    $("#Age").val('');
+                else {
+                    $("#Age").val(data[0]);
+                    $("#Caract_FCMaximo").val(data[1]);
+                    
+                }
+                //loadOut();
+            }
+        });
+})
+$(document).on("change", "#Sexo", function () {
+
+    var DataNascimento = $('#DataNascimento').val();
+
+    if (DataNascimento != '') {
+        $.ajax({
+            type: "GET",
+            url: "/gtmanagement/GetDobAge",
+            data: { "DATA_NASCIMENTO": $('#DataNascimento').val(), "Sexo": $(this).val() },
+            cache: false,
+            beforeSend: function () {
+                //loadIn();
+            },
+            complete: function () {
+            },
+            success: function (data) {
+                if (data == '0')
+                    $("#Age").val('');
+                else {
+                    $("#Age").val(data[0]);
+                    $("#Caract_FCMaximo").val(data[1]);
+
+                }
+                //loadOut();
+            }
+        });
+    }
+})
+$(document).on("input", "#Caract_FCRepouso", function () {
+  
+    var Caract_FCMaximo = $('#Caract_FCMaximo').val();
+
+    if (Caract_FCMaximo != '') {
+        $.ajax({
+            type: "GET",
+            url: "/gtmanagement/GetFCRepouso",
+            data: { "Caract_FCRepouso": $(this).val(), "Caract_FCMaximo": Caract_FCMaximo },
+            cache: false,
+            beforeSend: function () {
+                //loadIn();
+            },
+            complete: function () {
+            },
+            success: function (data) {
+                $('#FCTreino1').val(data[9]);
+                $('#FCTreino2').val(data[8]);
+                $('#FCTreino3').val(data[7]);
+                $('#FCTreino4').val(data[6]);
+                $('#FCTreino5').val(data[5]);
+                $('#FCTreino6').val(data[4]);
+                $('#FCTreino7').val(data[3]);
+                $('#FCTreino8').val(data[2]);
+                $('#FCTreino9').val(data[1]);
+                $('#FCTreino10').val(data[0]);
+
+                //loadOut();
+            }
+        });
+    }
+})
+$(document).on("input", "#Caract_Altura", function () {
+
+    var Peso = $("#Caract_Peso").val();
+    var Altura = $("#Caract_Altura").val();
+
+    if (Peso != '' && Altura != '') {
+        $.ajax({
+            type: "GET",
+            url: "/gtmanagement/setIMC",
+            data: { "Peso": Peso, "Altura": Altura },
+            cache: false,
+            beforeSend: function () {
+                //loadIn();
+            },
+            complete: function () {
+            },
+            success: function (data) {
+                $("#Caract_IMC").val(data);
+                //loadOut();
+            }
+        });
+    } else $("#Caract_IMC").val('');
+})
+$(document).on("input", "#Caract_Peso", function () {
+
+    var Peso = $("#Caract_Peso").val();
+    var Altura = $("#Caract_Altura").val();
+
+    if (Peso != '' && Altura != '') {
+        $.ajax({
+            type: "GET",
+            url: "/gtmanagement/setIMC",
+            data: { "Peso": Peso, "Altura": Altura },
+            cache: false,
+            beforeSend: function () {
+                //loadIn();
+            },
+            complete: function () {
+            },
+            success: function (data) {
+                $("#Caract_IMC").val(data);
+                //loadOut();
+            }
+        });
+    } else $("#Caract_IMC").val('');
+})
 
 
 

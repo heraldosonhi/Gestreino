@@ -20,9 +20,9 @@ namespace Gestreino
         public Nullable<decimal> ALTURA { get; set; }
         public Nullable<decimal> PESO { get; set; }
         public Nullable<int> FCREPOUSO { get; set; }
-        public Nullable<int> FCMAXIMO { get; set; }
-        public Nullable<int> TASISTOLICA { get; set; }
-        public Nullable<int> TADISTOLICA { get; set; }
+        public Nullable<decimal> FCMAXIMO { get; set; }
+        public Nullable<decimal> TASISTOLICA { get; set; }
+        public Nullable<decimal> TADISTOLICA { get; set; }
         public Nullable<int> MASSAGORDA { get; set; }
         public Nullable<int> VO2 { get; set; }
         public Nullable<int> GT_DuracaoPlano_ID { get; set; }
@@ -63,7 +63,7 @@ namespace Gestreino
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
     
         public virtual GT_DuracaoPlano GT_DuracaoPlano { get; set; }
-        public virtual PES_PESSOAS_CARACT_TIPO_SANG PES_PESSOAS_CARACT_TIPO_SANG { get; set; }
         public virtual PES_PESSOAS PES_PESSOAS { get; set; }
+        public virtual PES_PESSOAS_CARACT_TIPO_SANG PES_PESSOAS_CARACT_TIPO_SANG { get; set; }
     }
 }

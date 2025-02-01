@@ -48,6 +48,8 @@ namespace Gestreino.Controllers
             if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
             var data = databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES(Id, null, null, null, null, null, null, null, null, null, null, null, null, null, "R").ToList();
             if (!data.Any()) { return RedirectToAction("", "home"); }
+            ViewBag.imgSrc = (string.IsNullOrEmpty(data.First().FOTOGRAFIA)) ? "/Assets/images/user-avatar.jpg" : "/" + data.First().FOTOGRAFIA;
+
             ViewBag.data = data;
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_User;
             return View("Users/ViewUsers");

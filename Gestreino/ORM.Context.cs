@@ -68,7 +68,6 @@ namespace Gestreino
         public virtual DbSet<GRL_DEFINICOES> GRL_DEFINICOES { get; set; }
         public virtual DbSet<PES_CONTACTOS> PES_CONTACTOS { get; set; }
         public virtual DbSet<GT_DuracaoPlano> GT_DuracaoPlano { get; set; }
-        public virtual DbSet<PES_PESSOAS_CARACT> PES_PESSOAS_CARACT { get; set; }
         public virtual DbSet<GT_Carga> GT_Carga { get; set; }
         public virtual DbSet<GT_FaseTreino> GT_FaseTreino { get; set; }
         public virtual DbSet<GT_Repeticoes> GT_Repeticoes { get; set; }
@@ -106,6 +105,7 @@ namespace Gestreino
         public virtual DbSet<GT_TipoTestePessoaIdosa> GT_TipoTestePessoaIdosa { get; set; }
         public virtual DbSet<GT_TipoTesteForca> GT_TipoTesteForca { get; set; }
         public virtual DbSet<GT_RespForca> GT_RespForca { get; set; }
+        public virtual DbSet<PES_PESSOAS_CARACT> PES_PESSOAS_CARACT { get; set; }
     
         public virtual ObjectResult<SP_UTILIZADORES_LOGIN_LOGS_Result> SP_UTILIZADORES_LOGIN_LOGS(Nullable<int> userId, string action)
         {
@@ -163,71 +163,6 @@ namespace Gestreino
                 new ObjectParameter("Action", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_UTILIZADORES_LOGIN", userIdParameter, moduleIdParameter, ipAddressParameter, macAddressParameter, hostParameter, deviceParameter, latParameter, longParameter, urlParameter, actionParameter);
-        }
-    
-        public virtual ObjectResult<SP_UTILIZADORES_ENT_UTILIZADORES_Result> SP_UTILIZADORES_ENT_UTILIZADORES(Nullable<int> id, Nullable<int> subGroupId, Nullable<int> profileId, string login, string nome, Nullable<decimal> telefone, string email, string senha, string salt, Nullable<bool> activo, Nullable<System.DateTime> dataAct, Nullable<System.DateTime> dataDesact, Nullable<bool> validada, Nullable<int> userInsercaoId, string action)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("Id", id) :
-                new ObjectParameter("Id", typeof(int));
-    
-            var subGroupIdParameter = subGroupId.HasValue ?
-                new ObjectParameter("SubGroupId", subGroupId) :
-                new ObjectParameter("SubGroupId", typeof(int));
-    
-            var profileIdParameter = profileId.HasValue ?
-                new ObjectParameter("ProfileId", profileId) :
-                new ObjectParameter("ProfileId", typeof(int));
-    
-            var loginParameter = login != null ?
-                new ObjectParameter("login", login) :
-                new ObjectParameter("login", typeof(string));
-    
-            var nomeParameter = nome != null ?
-                new ObjectParameter("Nome", nome) :
-                new ObjectParameter("Nome", typeof(string));
-    
-            var telefoneParameter = telefone.HasValue ?
-                new ObjectParameter("Telefone", telefone) :
-                new ObjectParameter("Telefone", typeof(decimal));
-    
-            var emailParameter = email != null ?
-                new ObjectParameter("Email", email) :
-                new ObjectParameter("Email", typeof(string));
-    
-            var senhaParameter = senha != null ?
-                new ObjectParameter("Senha", senha) :
-                new ObjectParameter("Senha", typeof(string));
-    
-            var saltParameter = salt != null ?
-                new ObjectParameter("Salt", salt) :
-                new ObjectParameter("Salt", typeof(string));
-    
-            var activoParameter = activo.HasValue ?
-                new ObjectParameter("Activo", activo) :
-                new ObjectParameter("Activo", typeof(bool));
-    
-            var dataActParameter = dataAct.HasValue ?
-                new ObjectParameter("DataAct", dataAct) :
-                new ObjectParameter("DataAct", typeof(System.DateTime));
-    
-            var dataDesactParameter = dataDesact.HasValue ?
-                new ObjectParameter("DataDesact", dataDesact) :
-                new ObjectParameter("DataDesact", typeof(System.DateTime));
-    
-            var validadaParameter = validada.HasValue ?
-                new ObjectParameter("Validada", validada) :
-                new ObjectParameter("Validada", typeof(bool));
-    
-            var userInsercaoIdParameter = userInsercaoId.HasValue ?
-                new ObjectParameter("UserInsercaoId", userInsercaoId) :
-                new ObjectParameter("UserInsercaoId", typeof(int));
-    
-            var actionParameter = action != null ?
-                new ObjectParameter("Action", action) :
-                new ObjectParameter("Action", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_UTILIZADORES_Result>("SP_UTILIZADORES_ENT_UTILIZADORES", idParameter, subGroupIdParameter, profileIdParameter, loginParameter, nomeParameter, telefoneParameter, emailParameter, senhaParameter, saltParameter, activoParameter, dataActParameter, dataDesactParameter, validadaParameter, userInsercaoIdParameter, actionParameter);
         }
     
         public virtual ObjectResult<SP_UTILIZADORES_ENT_ATOMOS_Result> SP_UTILIZADORES_ENT_ATOMOS(Nullable<int> id, string nome, string descricao, Nullable<int> userInsercaoId, string action)
@@ -629,183 +564,6 @@ namespace Gestreino
                 new ObjectParameter("Action", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_INST_APLICACAO_Result>("SP_INST_APLICACAO", idParameter, siglaParameter, nomeParameter, nIFParameter, telefoneParameter, telefoneAlternativoParameter, faxParameter, emailParameter, codigoPostalParameter, uRLParameter, numeroParameter, ruaParameter, moradaParameter, paisIdParameter, cidadeIdParameter, munIdParameter, userInsercaoIdParameter, actionParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<int>> SP_PES_ENT_PESSOAS_CARACT(Nullable<int> id, Nullable<int> pesId, Nullable<int> tipoSangueId, Nullable<decimal> altura, Nullable<decimal> peso, Nullable<int> fCREPOUSO, Nullable<int> fCMAXIMO, Nullable<int> tASISTOLICA, Nullable<int> tADISTOLICA, Nullable<int> mASSAGORDA, Nullable<int> vO2, Nullable<int> gT_DuracaoPlano_ID, Nullable<int> iMC, Nullable<decimal> fCTreino1, Nullable<decimal> fCTreino2, Nullable<decimal> fCTreino3, Nullable<decimal> fCTreino4, Nullable<decimal> fCTreino5, Nullable<decimal> fCTreino6, Nullable<decimal> fCTreino7, Nullable<decimal> fCTreino8, Nullable<decimal> fCTreino9, Nullable<decimal> fCTreino10, Nullable<bool> fR_ht, Nullable<bool> fR_tb, Nullable<bool> fR_hl, Nullable<bool> fR_ob, Nullable<bool> fR_db, Nullable<bool> fR_in, Nullable<bool> fR_he, Nullable<bool> fR_ec, Nullable<bool> fR_ot, Nullable<bool> oB_ac, Nullable<bool> oB_cp, Nullable<bool> oB_pi, Nullable<bool> oB_tp, Nullable<bool> oB_am, Nullable<bool> oB_be, Nullable<bool> oB_to, Nullable<bool> oB_ot, string observacoes, Nullable<int> userInsercaoId, string action)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("Id", id) :
-                new ObjectParameter("Id", typeof(int));
-    
-            var pesIdParameter = pesId.HasValue ?
-                new ObjectParameter("PesId", pesId) :
-                new ObjectParameter("PesId", typeof(int));
-    
-            var tipoSangueIdParameter = tipoSangueId.HasValue ?
-                new ObjectParameter("TipoSangueId", tipoSangueId) :
-                new ObjectParameter("TipoSangueId", typeof(int));
-    
-            var alturaParameter = altura.HasValue ?
-                new ObjectParameter("Altura", altura) :
-                new ObjectParameter("Altura", typeof(decimal));
-    
-            var pesoParameter = peso.HasValue ?
-                new ObjectParameter("Peso", peso) :
-                new ObjectParameter("Peso", typeof(decimal));
-    
-            var fCREPOUSOParameter = fCREPOUSO.HasValue ?
-                new ObjectParameter("FCREPOUSO", fCREPOUSO) :
-                new ObjectParameter("FCREPOUSO", typeof(int));
-    
-            var fCMAXIMOParameter = fCMAXIMO.HasValue ?
-                new ObjectParameter("FCMAXIMO", fCMAXIMO) :
-                new ObjectParameter("FCMAXIMO", typeof(int));
-    
-            var tASISTOLICAParameter = tASISTOLICA.HasValue ?
-                new ObjectParameter("TASISTOLICA", tASISTOLICA) :
-                new ObjectParameter("TASISTOLICA", typeof(int));
-    
-            var tADISTOLICAParameter = tADISTOLICA.HasValue ?
-                new ObjectParameter("TADISTOLICA", tADISTOLICA) :
-                new ObjectParameter("TADISTOLICA", typeof(int));
-    
-            var mASSAGORDAParameter = mASSAGORDA.HasValue ?
-                new ObjectParameter("MASSAGORDA", mASSAGORDA) :
-                new ObjectParameter("MASSAGORDA", typeof(int));
-    
-            var vO2Parameter = vO2.HasValue ?
-                new ObjectParameter("VO2", vO2) :
-                new ObjectParameter("VO2", typeof(int));
-    
-            var gT_DuracaoPlano_IDParameter = gT_DuracaoPlano_ID.HasValue ?
-                new ObjectParameter("GT_DuracaoPlano_ID", gT_DuracaoPlano_ID) :
-                new ObjectParameter("GT_DuracaoPlano_ID", typeof(int));
-    
-            var iMCParameter = iMC.HasValue ?
-                new ObjectParameter("IMC", iMC) :
-                new ObjectParameter("IMC", typeof(int));
-    
-            var fCTreino1Parameter = fCTreino1.HasValue ?
-                new ObjectParameter("FCTreino1", fCTreino1) :
-                new ObjectParameter("FCTreino1", typeof(decimal));
-    
-            var fCTreino2Parameter = fCTreino2.HasValue ?
-                new ObjectParameter("FCTreino2", fCTreino2) :
-                new ObjectParameter("FCTreino2", typeof(decimal));
-    
-            var fCTreino3Parameter = fCTreino3.HasValue ?
-                new ObjectParameter("FCTreino3", fCTreino3) :
-                new ObjectParameter("FCTreino3", typeof(decimal));
-    
-            var fCTreino4Parameter = fCTreino4.HasValue ?
-                new ObjectParameter("FCTreino4", fCTreino4) :
-                new ObjectParameter("FCTreino4", typeof(decimal));
-    
-            var fCTreino5Parameter = fCTreino5.HasValue ?
-                new ObjectParameter("FCTreino5", fCTreino5) :
-                new ObjectParameter("FCTreino5", typeof(decimal));
-    
-            var fCTreino6Parameter = fCTreino6.HasValue ?
-                new ObjectParameter("FCTreino6", fCTreino6) :
-                new ObjectParameter("FCTreino6", typeof(decimal));
-    
-            var fCTreino7Parameter = fCTreino7.HasValue ?
-                new ObjectParameter("FCTreino7", fCTreino7) :
-                new ObjectParameter("FCTreino7", typeof(decimal));
-    
-            var fCTreino8Parameter = fCTreino8.HasValue ?
-                new ObjectParameter("FCTreino8", fCTreino8) :
-                new ObjectParameter("FCTreino8", typeof(decimal));
-    
-            var fCTreino9Parameter = fCTreino9.HasValue ?
-                new ObjectParameter("FCTreino9", fCTreino9) :
-                new ObjectParameter("FCTreino9", typeof(decimal));
-    
-            var fCTreino10Parameter = fCTreino10.HasValue ?
-                new ObjectParameter("FCTreino10", fCTreino10) :
-                new ObjectParameter("FCTreino10", typeof(decimal));
-    
-            var fR_htParameter = fR_ht.HasValue ?
-                new ObjectParameter("FR_ht", fR_ht) :
-                new ObjectParameter("FR_ht", typeof(bool));
-    
-            var fR_tbParameter = fR_tb.HasValue ?
-                new ObjectParameter("FR_tb", fR_tb) :
-                new ObjectParameter("FR_tb", typeof(bool));
-    
-            var fR_hlParameter = fR_hl.HasValue ?
-                new ObjectParameter("FR_hl", fR_hl) :
-                new ObjectParameter("FR_hl", typeof(bool));
-    
-            var fR_obParameter = fR_ob.HasValue ?
-                new ObjectParameter("FR_ob", fR_ob) :
-                new ObjectParameter("FR_ob", typeof(bool));
-    
-            var fR_dbParameter = fR_db.HasValue ?
-                new ObjectParameter("FR_db", fR_db) :
-                new ObjectParameter("FR_db", typeof(bool));
-    
-            var fR_inParameter = fR_in.HasValue ?
-                new ObjectParameter("FR_in", fR_in) :
-                new ObjectParameter("FR_in", typeof(bool));
-    
-            var fR_heParameter = fR_he.HasValue ?
-                new ObjectParameter("FR_he", fR_he) :
-                new ObjectParameter("FR_he", typeof(bool));
-    
-            var fR_ecParameter = fR_ec.HasValue ?
-                new ObjectParameter("FR_ec", fR_ec) :
-                new ObjectParameter("FR_ec", typeof(bool));
-    
-            var fR_otParameter = fR_ot.HasValue ?
-                new ObjectParameter("FR_ot", fR_ot) :
-                new ObjectParameter("FR_ot", typeof(bool));
-    
-            var oB_acParameter = oB_ac.HasValue ?
-                new ObjectParameter("OB_ac", oB_ac) :
-                new ObjectParameter("OB_ac", typeof(bool));
-    
-            var oB_cpParameter = oB_cp.HasValue ?
-                new ObjectParameter("OB_cp", oB_cp) :
-                new ObjectParameter("OB_cp", typeof(bool));
-    
-            var oB_piParameter = oB_pi.HasValue ?
-                new ObjectParameter("OB_pi", oB_pi) :
-                new ObjectParameter("OB_pi", typeof(bool));
-    
-            var oB_tpParameter = oB_tp.HasValue ?
-                new ObjectParameter("OB_tp", oB_tp) :
-                new ObjectParameter("OB_tp", typeof(bool));
-    
-            var oB_amParameter = oB_am.HasValue ?
-                new ObjectParameter("OB_am", oB_am) :
-                new ObjectParameter("OB_am", typeof(bool));
-    
-            var oB_beParameter = oB_be.HasValue ?
-                new ObjectParameter("OB_be", oB_be) :
-                new ObjectParameter("OB_be", typeof(bool));
-    
-            var oB_toParameter = oB_to.HasValue ?
-                new ObjectParameter("OB_to", oB_to) :
-                new ObjectParameter("OB_to", typeof(bool));
-    
-            var oB_otParameter = oB_ot.HasValue ?
-                new ObjectParameter("OB_ot", oB_ot) :
-                new ObjectParameter("OB_ot", typeof(bool));
-    
-            var observacoesParameter = observacoes != null ?
-                new ObjectParameter("Observacoes", observacoes) :
-                new ObjectParameter("Observacoes", typeof(string));
-    
-            var userInsercaoIdParameter = userInsercaoId.HasValue ?
-                new ObjectParameter("UserInsercaoId", userInsercaoId) :
-                new ObjectParameter("UserInsercaoId", typeof(int));
-    
-            var actionParameter = action != null ?
-                new ObjectParameter("Action", action) :
-                new ObjectParameter("Action", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_PES_ENT_PESSOAS_CARACT", idParameter, pesIdParameter, tipoSangueIdParameter, alturaParameter, pesoParameter, fCREPOUSOParameter, fCMAXIMOParameter, tASISTOLICAParameter, tADISTOLICAParameter, mASSAGORDAParameter, vO2Parameter, gT_DuracaoPlano_IDParameter, iMCParameter, fCTreino1Parameter, fCTreino2Parameter, fCTreino3Parameter, fCTreino4Parameter, fCTreino5Parameter, fCTreino6Parameter, fCTreino7Parameter, fCTreino8Parameter, fCTreino9Parameter, fCTreino10Parameter, fR_htParameter, fR_tbParameter, fR_hlParameter, fR_obParameter, fR_dbParameter, fR_inParameter, fR_heParameter, fR_ecParameter, fR_otParameter, oB_acParameter, oB_cpParameter, oB_piParameter, oB_tpParameter, oB_amParameter, oB_beParameter, oB_toParameter, oB_otParameter, observacoesParameter, userInsercaoIdParameter, actionParameter);
         }
     
         public virtual ObjectResult<SP_PES_ENT_PESSOAS_Result> SP_PES_ENT_PESSOAS(Nullable<int> iD, string nome, string sexo, Nullable<System.DateTime> dataNascimento, Nullable<int> estadoCivilId, string nIF, string apresentacaoPessoal, Nullable<int> paisId, Nullable<int> cidadeId, Nullable<int> municipioId, Nullable<decimal> telefone, Nullable<decimal> telefoneAlternativo, Nullable<decimal> fax, string email, string codigoPostal, string url, Nullable<int> numero, Nullable<int> userId, string action)
@@ -1696,6 +1454,248 @@ namespace Gestreino
                 new ObjectParameter("Action", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_ENT_Resp_Result>("SP_GT_ENT_Resp", idParameter, pesIdParameter, gT_ResParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> SP_PES_ENT_PESSOAS_CARACT(Nullable<int> id, Nullable<int> pesId, Nullable<int> tipoSangueId, Nullable<decimal> altura, Nullable<decimal> peso, Nullable<int> fCREPOUSO, Nullable<decimal> fCMAXIMO, Nullable<decimal> tASISTOLICA, Nullable<decimal> tADISTOLICA, Nullable<int> mASSAGORDA, Nullable<int> vO2, Nullable<int> gT_DuracaoPlano_ID, Nullable<int> iMC, Nullable<decimal> fCTreino1, Nullable<decimal> fCTreino2, Nullable<decimal> fCTreino3, Nullable<decimal> fCTreino4, Nullable<decimal> fCTreino5, Nullable<decimal> fCTreino6, Nullable<decimal> fCTreino7, Nullable<decimal> fCTreino8, Nullable<decimal> fCTreino9, Nullable<decimal> fCTreino10, Nullable<bool> fR_ht, Nullable<bool> fR_tb, Nullable<bool> fR_hl, Nullable<bool> fR_ob, Nullable<bool> fR_db, Nullable<bool> fR_in, Nullable<bool> fR_he, Nullable<bool> fR_ec, Nullable<bool> fR_ot, Nullable<bool> oB_ac, Nullable<bool> oB_cp, Nullable<bool> oB_pi, Nullable<bool> oB_tp, Nullable<bool> oB_am, Nullable<bool> oB_be, Nullable<bool> oB_to, Nullable<bool> oB_ot, string observacoes, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var pesIdParameter = pesId.HasValue ?
+                new ObjectParameter("PesId", pesId) :
+                new ObjectParameter("PesId", typeof(int));
+    
+            var tipoSangueIdParameter = tipoSangueId.HasValue ?
+                new ObjectParameter("TipoSangueId", tipoSangueId) :
+                new ObjectParameter("TipoSangueId", typeof(int));
+    
+            var alturaParameter = altura.HasValue ?
+                new ObjectParameter("Altura", altura) :
+                new ObjectParameter("Altura", typeof(decimal));
+    
+            var pesoParameter = peso.HasValue ?
+                new ObjectParameter("Peso", peso) :
+                new ObjectParameter("Peso", typeof(decimal));
+    
+            var fCREPOUSOParameter = fCREPOUSO.HasValue ?
+                new ObjectParameter("FCREPOUSO", fCREPOUSO) :
+                new ObjectParameter("FCREPOUSO", typeof(int));
+    
+            var fCMAXIMOParameter = fCMAXIMO.HasValue ?
+                new ObjectParameter("FCMAXIMO", fCMAXIMO) :
+                new ObjectParameter("FCMAXIMO", typeof(decimal));
+    
+            var tASISTOLICAParameter = tASISTOLICA.HasValue ?
+                new ObjectParameter("TASISTOLICA", tASISTOLICA) :
+                new ObjectParameter("TASISTOLICA", typeof(decimal));
+    
+            var tADISTOLICAParameter = tADISTOLICA.HasValue ?
+                new ObjectParameter("TADISTOLICA", tADISTOLICA) :
+                new ObjectParameter("TADISTOLICA", typeof(decimal));
+    
+            var mASSAGORDAParameter = mASSAGORDA.HasValue ?
+                new ObjectParameter("MASSAGORDA", mASSAGORDA) :
+                new ObjectParameter("MASSAGORDA", typeof(int));
+    
+            var vO2Parameter = vO2.HasValue ?
+                new ObjectParameter("VO2", vO2) :
+                new ObjectParameter("VO2", typeof(int));
+    
+            var gT_DuracaoPlano_IDParameter = gT_DuracaoPlano_ID.HasValue ?
+                new ObjectParameter("GT_DuracaoPlano_ID", gT_DuracaoPlano_ID) :
+                new ObjectParameter("GT_DuracaoPlano_ID", typeof(int));
+    
+            var iMCParameter = iMC.HasValue ?
+                new ObjectParameter("IMC", iMC) :
+                new ObjectParameter("IMC", typeof(int));
+    
+            var fCTreino1Parameter = fCTreino1.HasValue ?
+                new ObjectParameter("FCTreino1", fCTreino1) :
+                new ObjectParameter("FCTreino1", typeof(decimal));
+    
+            var fCTreino2Parameter = fCTreino2.HasValue ?
+                new ObjectParameter("FCTreino2", fCTreino2) :
+                new ObjectParameter("FCTreino2", typeof(decimal));
+    
+            var fCTreino3Parameter = fCTreino3.HasValue ?
+                new ObjectParameter("FCTreino3", fCTreino3) :
+                new ObjectParameter("FCTreino3", typeof(decimal));
+    
+            var fCTreino4Parameter = fCTreino4.HasValue ?
+                new ObjectParameter("FCTreino4", fCTreino4) :
+                new ObjectParameter("FCTreino4", typeof(decimal));
+    
+            var fCTreino5Parameter = fCTreino5.HasValue ?
+                new ObjectParameter("FCTreino5", fCTreino5) :
+                new ObjectParameter("FCTreino5", typeof(decimal));
+    
+            var fCTreino6Parameter = fCTreino6.HasValue ?
+                new ObjectParameter("FCTreino6", fCTreino6) :
+                new ObjectParameter("FCTreino6", typeof(decimal));
+    
+            var fCTreino7Parameter = fCTreino7.HasValue ?
+                new ObjectParameter("FCTreino7", fCTreino7) :
+                new ObjectParameter("FCTreino7", typeof(decimal));
+    
+            var fCTreino8Parameter = fCTreino8.HasValue ?
+                new ObjectParameter("FCTreino8", fCTreino8) :
+                new ObjectParameter("FCTreino8", typeof(decimal));
+    
+            var fCTreino9Parameter = fCTreino9.HasValue ?
+                new ObjectParameter("FCTreino9", fCTreino9) :
+                new ObjectParameter("FCTreino9", typeof(decimal));
+    
+            var fCTreino10Parameter = fCTreino10.HasValue ?
+                new ObjectParameter("FCTreino10", fCTreino10) :
+                new ObjectParameter("FCTreino10", typeof(decimal));
+    
+            var fR_htParameter = fR_ht.HasValue ?
+                new ObjectParameter("FR_ht", fR_ht) :
+                new ObjectParameter("FR_ht", typeof(bool));
+    
+            var fR_tbParameter = fR_tb.HasValue ?
+                new ObjectParameter("FR_tb", fR_tb) :
+                new ObjectParameter("FR_tb", typeof(bool));
+    
+            var fR_hlParameter = fR_hl.HasValue ?
+                new ObjectParameter("FR_hl", fR_hl) :
+                new ObjectParameter("FR_hl", typeof(bool));
+    
+            var fR_obParameter = fR_ob.HasValue ?
+                new ObjectParameter("FR_ob", fR_ob) :
+                new ObjectParameter("FR_ob", typeof(bool));
+    
+            var fR_dbParameter = fR_db.HasValue ?
+                new ObjectParameter("FR_db", fR_db) :
+                new ObjectParameter("FR_db", typeof(bool));
+    
+            var fR_inParameter = fR_in.HasValue ?
+                new ObjectParameter("FR_in", fR_in) :
+                new ObjectParameter("FR_in", typeof(bool));
+    
+            var fR_heParameter = fR_he.HasValue ?
+                new ObjectParameter("FR_he", fR_he) :
+                new ObjectParameter("FR_he", typeof(bool));
+    
+            var fR_ecParameter = fR_ec.HasValue ?
+                new ObjectParameter("FR_ec", fR_ec) :
+                new ObjectParameter("FR_ec", typeof(bool));
+    
+            var fR_otParameter = fR_ot.HasValue ?
+                new ObjectParameter("FR_ot", fR_ot) :
+                new ObjectParameter("FR_ot", typeof(bool));
+    
+            var oB_acParameter = oB_ac.HasValue ?
+                new ObjectParameter("OB_ac", oB_ac) :
+                new ObjectParameter("OB_ac", typeof(bool));
+    
+            var oB_cpParameter = oB_cp.HasValue ?
+                new ObjectParameter("OB_cp", oB_cp) :
+                new ObjectParameter("OB_cp", typeof(bool));
+    
+            var oB_piParameter = oB_pi.HasValue ?
+                new ObjectParameter("OB_pi", oB_pi) :
+                new ObjectParameter("OB_pi", typeof(bool));
+    
+            var oB_tpParameter = oB_tp.HasValue ?
+                new ObjectParameter("OB_tp", oB_tp) :
+                new ObjectParameter("OB_tp", typeof(bool));
+    
+            var oB_amParameter = oB_am.HasValue ?
+                new ObjectParameter("OB_am", oB_am) :
+                new ObjectParameter("OB_am", typeof(bool));
+    
+            var oB_beParameter = oB_be.HasValue ?
+                new ObjectParameter("OB_be", oB_be) :
+                new ObjectParameter("OB_be", typeof(bool));
+    
+            var oB_toParameter = oB_to.HasValue ?
+                new ObjectParameter("OB_to", oB_to) :
+                new ObjectParameter("OB_to", typeof(bool));
+    
+            var oB_otParameter = oB_ot.HasValue ?
+                new ObjectParameter("OB_ot", oB_ot) :
+                new ObjectParameter("OB_ot", typeof(bool));
+    
+            var observacoesParameter = observacoes != null ?
+                new ObjectParameter("Observacoes", observacoes) :
+                new ObjectParameter("Observacoes", typeof(string));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_PES_ENT_PESSOAS_CARACT", idParameter, pesIdParameter, tipoSangueIdParameter, alturaParameter, pesoParameter, fCREPOUSOParameter, fCMAXIMOParameter, tASISTOLICAParameter, tADISTOLICAParameter, mASSAGORDAParameter, vO2Parameter, gT_DuracaoPlano_IDParameter, iMCParameter, fCTreino1Parameter, fCTreino2Parameter, fCTreino3Parameter, fCTreino4Parameter, fCTreino5Parameter, fCTreino6Parameter, fCTreino7Parameter, fCTreino8Parameter, fCTreino9Parameter, fCTreino10Parameter, fR_htParameter, fR_tbParameter, fR_hlParameter, fR_obParameter, fR_dbParameter, fR_inParameter, fR_heParameter, fR_ecParameter, fR_otParameter, oB_acParameter, oB_cpParameter, oB_piParameter, oB_tpParameter, oB_amParameter, oB_beParameter, oB_toParameter, oB_otParameter, observacoesParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_UTILIZADORES_ENT_UTILIZADORES_Result> SP_UTILIZADORES_ENT_UTILIZADORES(Nullable<int> id, Nullable<int> subGroupId, Nullable<int> profileId, string login, string nome, Nullable<decimal> telefone, string email, string senha, string salt, Nullable<bool> activo, Nullable<System.DateTime> dataAct, Nullable<System.DateTime> dataDesact, Nullable<bool> validada, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var subGroupIdParameter = subGroupId.HasValue ?
+                new ObjectParameter("SubGroupId", subGroupId) :
+                new ObjectParameter("SubGroupId", typeof(int));
+    
+            var profileIdParameter = profileId.HasValue ?
+                new ObjectParameter("ProfileId", profileId) :
+                new ObjectParameter("ProfileId", typeof(int));
+    
+            var loginParameter = login != null ?
+                new ObjectParameter("login", login) :
+                new ObjectParameter("login", typeof(string));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var telefoneParameter = telefone.HasValue ?
+                new ObjectParameter("Telefone", telefone) :
+                new ObjectParameter("Telefone", typeof(decimal));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var senhaParameter = senha != null ?
+                new ObjectParameter("Senha", senha) :
+                new ObjectParameter("Senha", typeof(string));
+    
+            var saltParameter = salt != null ?
+                new ObjectParameter("Salt", salt) :
+                new ObjectParameter("Salt", typeof(string));
+    
+            var activoParameter = activo.HasValue ?
+                new ObjectParameter("Activo", activo) :
+                new ObjectParameter("Activo", typeof(bool));
+    
+            var dataActParameter = dataAct.HasValue ?
+                new ObjectParameter("DataAct", dataAct) :
+                new ObjectParameter("DataAct", typeof(System.DateTime));
+    
+            var dataDesactParameter = dataDesact.HasValue ?
+                new ObjectParameter("DataDesact", dataDesact) :
+                new ObjectParameter("DataDesact", typeof(System.DateTime));
+    
+            var validadaParameter = validada.HasValue ?
+                new ObjectParameter("Validada", validada) :
+                new ObjectParameter("Validada", typeof(bool));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_UTILIZADORES_Result>("SP_UTILIZADORES_ENT_UTILIZADORES", idParameter, subGroupIdParameter, profileIdParameter, loginParameter, nomeParameter, telefoneParameter, emailParameter, senhaParameter, saltParameter, activoParameter, dataActParameter, dataDesactParameter, validadaParameter, userInsercaoIdParameter, actionParameter);
         }
     }
 }
