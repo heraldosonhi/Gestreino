@@ -184,6 +184,8 @@
         <AssociationConnector Association="GESTREINO_ORM.PES_PESSOAS_CARACT_GT_DuracaoPlano_ID" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA802772" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA872225" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_RespFuncional" Width="1.5" PointX="7.5" PointY="125.5" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_RespFuncional_GT_SOCIOS_ID" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -300,6 +300,9 @@
     <Compile Include="GT_RespForca.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_RespFuncional.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="GT_RespPessoaIdosa.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -820,6 +823,7 @@
     <Content Include="Views\GTManagement\Quest\Cardio.cshtml" />
     <Content Include="Views\GTManagement\Quest\Elderly.cshtml" />
     <Content Include="Views\GTManagement\Quest\Force.cshtml" />
+    <Content Include="Views\GTManagement\Quest\Functional.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -517,6 +517,34 @@
           <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
           <Property Name="DATA_REMOCAO" Type="datetime" />
         </EntityType>
+        <EntityType Name="GT_RespFuncional">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GT_SOCIOS_ID" Type="int" Nullable="false" />
+          <Property Name="RESP_01" Type="int" />
+          <Property Name="RESP_02" Type="int" />
+          <Property Name="RESP_03" Type="int" />
+          <Property Name="RESP_04" Type="int" />
+          <Property Name="RESP_05" Type="int" />
+          <Property Name="RESP_06" Type="int" />
+          <Property Name="RESP_07" Type="int" />
+          <Property Name="DESPORTO" Type="varchar" MaxLength="255" />
+          <Property Name="POSICAO" Type="varchar" MaxLength="255" />
+          <Property Name="MAO" Type="int" />
+          <Property Name="PERNA" Type="int" />
+          <Property Name="OLHO" Type="int" />
+          <Property Name="RESP_SUMMARY" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="RESP_DESCRICAO" Type="varchar" MaxLength="4000" />
+          <Property Name="PERCENTL" Type="int" />
+          <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="int" />
+          <Property Name="REMOVIDO_POR" Type="int" />
+          <Property Name="DATA_INSERCAO" Type="datetime" />
+          <Property Name="DATA_ACTUALIZACAO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_REMOCAO" Type="datetime" />
+        </EntityType>
         <EntityType Name="GT_RespPessoaIdosa">
           <Key>
             <PropertyRef Name="ID" />
@@ -2472,6 +2500,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="GT_RespFuncional_GT_SOCIOS_ID">
+          <End Role="GT_SOCIOS" Type="Self.GT_SOCIOS" Multiplicity="1" />
+          <End Role="GT_RespFuncional" Type="Self.GT_RespFuncional" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_SOCIOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespFuncional">
+              <PropertyRef Name="GT_SOCIOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="GT_RespPessoaIdosa_GT_SOCIOS_ID">
           <End Role="GT_SOCIOS" Type="Self.GT_SOCIOS" Multiplicity="1" />
           <End Role="GT_RespPessoaIdosa" Type="Self.GT_RespPessoaIdosa" Multiplicity="*" />
@@ -3093,6 +3133,7 @@
           <EntitySet Name="GT_RespComposicao" EntityType="Self.GT_RespComposicao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespFlexiTeste" EntityType="Self.GT_RespFlexiTeste" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespForca" EntityType="Self.GT_RespForca" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_RespFuncional" EntityType="Self.GT_RespFuncional" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespPessoaIdosa" EntityType="Self.GT_RespPessoaIdosa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespProblemasSaude" EntityType="Self.GT_RespProblemasSaude" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_RespRisco" EntityType="Self.GT_RespRisco" Schema="dbo" store:Type="Tables" />
@@ -3490,6 +3531,10 @@
           <AssociationSet Name="GT_RespForca_GT_TipoTesteForca_ID" Association="Self.GT_RespForca_GT_TipoTesteForca_ID">
             <End Role="GT_TipoTesteForca" EntitySet="GT_TipoTesteForca" />
             <End Role="GT_RespForca" EntitySet="GT_RespForca" />
+          </AssociationSet>
+          <AssociationSet Name="GT_RespFuncional_GT_SOCIOS_ID" Association="Self.GT_RespFuncional_GT_SOCIOS_ID">
+            <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+            <End Role="GT_RespFuncional" EntitySet="GT_RespFuncional" />
           </AssociationSet>
           <AssociationSet Name="GT_RespPessoaIdosa_GT_SOCIOS_ID" Association="Self.GT_RespPessoaIdosa_GT_SOCIOS_ID">
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
@@ -5422,6 +5467,11 @@
             <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="GT_RespFuncional" EntityType="GESTREINO_ORM.GT_RespFuncional" />
+          <AssociationSet Name="GT_RespFuncional_GT_SOCIOS_ID" Association="GESTREINO_ORM.GT_RespFuncional_GT_SOCIOS_ID">
+            <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
+            <End Role="GT_RespFuncional" EntitySet="GT_RespFuncional" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -6159,6 +6209,7 @@
           <NavigationProperty Name="GT_RespAptidaoCardio" Relationship="GESTREINO_ORM.GT_RespAptidaoCardio_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespAptidaoCardio" />
           <NavigationProperty Name="GT_RespPessoaIdosa" Relationship="GESTREINO_ORM.GT_RespPessoaIdosa_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespPessoaIdosa" />
           <NavigationProperty Name="GT_RespForca" Relationship="GESTREINO_ORM.GT_RespForca_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespForca" />
+          <NavigationProperty Name="GT_RespFuncional" Relationship="GESTREINO_ORM.GT_RespFuncional_GT_SOCIOS_ID" FromRole="GT_SOCIOS" ToRole="GT_RespFuncional" />
         </EntityType>
         <EntityType Name="GT_TipoTreino">
           <Key>
@@ -7791,6 +7842,47 @@
           <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
           <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
         </ComplexType>
+        <EntityType Name="GT_RespFuncional">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GT_SOCIOS_ID" Type="Int32" Nullable="false" />
+          <Property Name="RESP_01" Type="Int32" />
+          <Property Name="RESP_02" Type="Int32" />
+          <Property Name="RESP_03" Type="Int32" />
+          <Property Name="RESP_04" Type="Int32" />
+          <Property Name="RESP_05" Type="Int32" />
+          <Property Name="RESP_06" Type="Int32" />
+          <Property Name="RESP_07" Type="Int32" />
+          <Property Name="DESPORTO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="POSICAO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="MAO" Type="Int32" />
+          <Property Name="PERNA" Type="Int32" />
+          <Property Name="OLHO" Type="Int32" />
+          <Property Name="RESP_SUMMARY" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RESP_DESCRICAO" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="PERCENTL" Type="Int32" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GT_SOCIOS" Relationship="GESTREINO_ORM.GT_RespFuncional_GT_SOCIOS_ID" FromRole="GT_RespFuncional" ToRole="GT_SOCIOS" />
+        </EntityType>
+        <Association Name="GT_RespFuncional_GT_SOCIOS_ID">
+          <End Type="GESTREINO_ORM.GT_SOCIOS" Role="GT_SOCIOS" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_RespFuncional" Role="GT_RespFuncional" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_SOCIOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_RespFuncional">
+              <PropertyRef Name="GT_SOCIOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9957,6 +10049,35 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="GT_RespFuncional">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_RespFuncional">
+              <MappingFragment StoreEntitySet="GT_RespFuncional">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="PERCENTL" ColumnName="PERCENTL" />
+                <ScalarProperty Name="RESP_DESCRICAO" ColumnName="RESP_DESCRICAO" />
+                <ScalarProperty Name="RESP_SUMMARY" ColumnName="RESP_SUMMARY" />
+                <ScalarProperty Name="OLHO" ColumnName="OLHO" />
+                <ScalarProperty Name="PERNA" ColumnName="PERNA" />
+                <ScalarProperty Name="MAO" ColumnName="MAO" />
+                <ScalarProperty Name="POSICAO" ColumnName="POSICAO" />
+                <ScalarProperty Name="DESPORTO" ColumnName="DESPORTO" />
+                <ScalarProperty Name="RESP_07" ColumnName="RESP_07" />
+                <ScalarProperty Name="RESP_06" ColumnName="RESP_06" />
+                <ScalarProperty Name="RESP_05" ColumnName="RESP_05" />
+                <ScalarProperty Name="RESP_04" ColumnName="RESP_04" />
+                <ScalarProperty Name="RESP_03" ColumnName="RESP_03" />
+                <ScalarProperty Name="RESP_02" ColumnName="RESP_02" />
+                <ScalarProperty Name="RESP_01" ColumnName="RESP_01" />
+                <ScalarProperty Name="GT_SOCIOS_ID" ColumnName="GT_SOCIOS_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

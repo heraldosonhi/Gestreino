@@ -5097,3 +5097,4 @@ function loadGT_TipoTesteForca_List(id) {
         $('#ForcaExplosivaV').find('input').val('');
     }
 }
+//Functional

@@ -1443,4 +1443,28 @@ namespace Gestreino.Models
         public string lblResAnteriorFlexi { get; set; }
         public DateTime? lblDataInsercao { get; set; }
     }
+
+    public class Functional
+    {
+        public int? ID { get; set; }
+        public int? PEsId { get; set; }
+        [Display(Name = "Tipo do Desporto:")]
+        public string Desporto { get; set; }
+        [Display(Name = "Posição a que Joga:")]
+        public string Posicao { get; set; }
+        [Display(Name = "Mão Dominante:")]
+        public int? Mao { get; set; }
+        [Display(Name = "Perna Dominante:")]
+        public int? Perna { get; set; }
+        [Display(Name = "Olho Dominante:")]
+        public int? Olho { get; set; }
+       
+
+        public int? iFlexiAct { get; set; }
+        public string lblResActualFlexi { get; set; }
+        public decimal? iFlexiAnt { get; set; }
+        public string lblResAnteriorFlexi { get; set; }
+        public DateTime? lblDataInsercao { get; set; }
+    }
+
 }

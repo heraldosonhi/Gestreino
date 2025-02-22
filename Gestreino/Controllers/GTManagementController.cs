@@ -51,6 +51,7 @@ namespace Gestreino.Controllers
         int _MenuLeftBarLink_Quest_Cardio = 211;
         int _MenuLeftBarLink_Quest_Elderly = 212;
         int _MenuLeftBarLink_Quest_Force = 213;
+        int _MenuLeftBarLink_Quest_Functional = 214;
         int _MenuLeftBarLink_FileManagement = 0;
 
         // GET: GTManagement
@@ -4994,6 +4995,24 @@ namespace Gestreino.Controllers
         }
 
 
+        //Funcional
+        //Pessoa Idosa
+        public ActionResult Functional(Functional MODEL, int? Id)
+        {
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
+
+            if (Id > 0)
+            {
+                var data = databaseManager.GT_RespPessoaIdosa.Where(x => x.ID == Id).ToList();
+                if (data.Count() == 0)
+                    return RedirectToAction("elderly", "gtmanagement", new { Id = string.Empty });
+                ViewBag.data = data;
+               
+               
+            }
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Functional;
+            return View("Quest/Functional", MODEL);
+        }
 
 
 

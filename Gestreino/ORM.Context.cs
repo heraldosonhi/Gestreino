@@ -106,6 +106,7 @@ namespace Gestreino
         public virtual DbSet<GT_TipoTesteForca> GT_TipoTesteForca { get; set; }
         public virtual DbSet<GT_RespForca> GT_RespForca { get; set; }
         public virtual DbSet<PES_PESSOAS_CARACT> PES_PESSOAS_CARACT { get; set; }
+        public virtual DbSet<GT_RespFuncional> GT_RespFuncional { get; set; }
     
         public virtual ObjectResult<SP_UTILIZADORES_LOGIN_LOGS_Result> SP_UTILIZADORES_LOGIN_LOGS(Nullable<int> userId, string action)
         {
