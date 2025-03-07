@@ -656,6 +656,7 @@
     <Content Include="Assets\images\imagesfunc\func72.jpg" />
     <Content Include="Assets\images\imagesfunc\func73.jpg" />
     <Content Include="Assets\images\loading.gif" />
+    <Content Include="Assets\images\login.png" />
     <Content Include="Assets\images\user-avatar.jpg" />
     <Content Include="Assets\images\home.jpg" />
     <Content Include="Assets\images\icon.jpg" />
@@ -824,6 +825,8 @@
     <Content Include="Views\GTManagement\Quest\Elderly.cshtml" />
     <Content Include="Views\GTManagement\Quest\Force.cshtml" />
     <Content Include="Views\GTManagement\Quest\Functional.cshtml" />
+    <Content Include="Views\Account\PasswordRecovery.cshtml" />
+    <Content Include="Views\Account\PasswordRecoveryToken.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

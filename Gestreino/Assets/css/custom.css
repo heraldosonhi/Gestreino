@@ -1877,10 +1877,6 @@ table.countries_list td {
   line-height: 30px;
   border-top: 1px solid #eeeeee; }
 
-.dataTables_paginate a {
-  padding: 6px 9px !important;
-  background: #ddd !important;
-  border-color: #ddd !important; }
 
 .paging_full_numbers a.paginate_active {
   background-color: rgba(38, 185, 154, 0.59) !important;
@@ -1911,8 +1907,7 @@ table.jambo_table tbody tr.selected td {
   border-top: 1px solid rgba(38, 185, 154, 0.4);
   border-bottom: 1px solid rgba(38, 185, 154, 0.4); }
 
-.dataTables_paginate a {
-  background: #ff0000; }
+
 
 .dataTables_wrapper {
   position: relative;
@@ -1938,9 +1933,7 @@ table.jambo_table tbody tr.selected td {
   width: 60%;
   float: left; }
 
-.dataTables_paginate {
-  float: right;
-  text-align: right; }
+
 
 table.dataTable th.focus,
 table.dataTable td.focus {
@@ -3421,15 +3414,16 @@ ul.widget_profile_box li:last-child {
 ul.widget_profile_box li:last-child a {
   float: right; }
 
-ul.widget_profile_box li a {
-  font-size: 22px;
-  text-align: center;
-  width: 35px;
-  height: 35px;
-  border: 1px solid rgba(52, 73, 94, 0.44);
-  display: block;
-  border-radius: 50%;
-  padding: 0px; }
+    ul.widget_profile_box li a {
+        font-size: 22px;
+        text-align: center;
+        width: 35px;
+        height: 35px;
+        /* border: 1px solid rgba(52, 73, 94, 0.44);*/
+        display: block;
+        border-radius: 50%;
+        padding: 0px;
+    }
 
 ul.widget_profile_box li a:hover {
   color: #1ABB9C !important;
@@ -3446,7 +3440,7 @@ ul.widget_profile_box li .profile_img {
 
 .widget_tally_box .name {
   text-align: center;
-  margin: 25px; }
+  margin: 15px; }
 
 .widget_tally_box .name_title {
   text-align: center;

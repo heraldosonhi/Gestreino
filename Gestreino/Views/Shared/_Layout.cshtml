@@ -21,10 +21,7 @@
     <!-- Font Awesome -->
     <link href="~/Assets/css/font-awesome.min.css" rel="stylesheet">
 </head>
-<body class="nav-@(init==1?"md":"sm") footer_fixed">
-    <div class="bg-black text-white">
-        Docs/Stack/Repo: <i> <a class="text-white" href="https://github.com/heraldosonhi/Gestreino" target="_blank">https://github.com/heraldosonhi/Gestreino</a></i>
-    </div>
+<body class="nav-@(init==1?"md":"sm") footer_fixed @(Request.IsAuthenticated?"":"startup-img")">
     <div class="container body">
         <div class="main_container">
             @if (Request.IsAuthenticated)
@@ -70,7 +67,7 @@
                     <div class="top_nav">
                         <div class="nav_menu">
                             <div class="nav toggle">
-                                @using (Ajax.BeginForm("../ajax/SetCookies", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "", OnComplete = "", OnSuccess = "", OnFailure = "", UpdateTargetId = "" }, new { id = "" }))
+                                @using (Ajax.BeginForm("../ajax/SetCookies", null, new AjaxOptions { HttpMethod = "POST", LoadingElementId = "", LoadingElementDuration = 2000, OnBegin = "", OnComplete = "", OnSuccess = "", OnFailure = "", UpdateTargetId = "" }, new { @class = "p-12" }))
                                 {
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" value="@Cookies.COOKIES_SIDEBAR_MENU_COLLAPSE" name="entity" />
@@ -107,12 +104,12 @@
                 string Athlete = "Atleta: Nenhum selecionado";
                 if (!string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
                 {
-                    Athlete = "Atleta: " + Configs.GESTREINO_AVALIDO_NOME + "  Idade: " + Configs.GESTREINO_AVALIDO_IDADE + "   Peso: " + Configs.GESTREINO_AVALIDO_PESO + " kg    Altura: " + Configs.GESTREINO_AVALIDO_ALTURA+" cm";
+                    Athlete = "Atleta: " + Configs.GESTREINO_AVALIDO_NOME + ",  Idade: " + Configs.GESTREINO_AVALIDO_IDADE + ",   Peso: " + Configs.GESTREINO_AVALIDO_PESO + " kg,    Altura: " + Configs.GESTREINO_AVALIDO_ALTURA+" cm";
                 }
                 <!-- footer content -->
                 <footer>
                     <div class="pull-right">
-                        <i class="fa fa-user"></i> @User.Identity.GetUserName() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="bg-blue-sky"><i>@Athlete</i></span>
+                        <i class="fa fa-user"></i> @User.Identity.GetUserName() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="bg-blue-sky p-1 br-1"><i>@Athlete</i></span>
                     </div>
                     <div class="clearfix"></div>
                 </footer>

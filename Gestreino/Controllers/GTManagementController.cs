@@ -4996,16 +4996,15 @@ namespace Gestreino.Controllers
 
 
         //Funcional
-        //Pessoa Idosa
         public ActionResult Functional(Functional MODEL, int? Id)
         {
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
 
             if (Id > 0)
             {
-                var data = databaseManager.GT_RespPessoaIdosa.Where(x => x.ID == Id).ToList();
+                var data = databaseManager.GT_RespFuncional.Where(x => x.ID == Id).ToList();
                 if (data.Count() == 0)
-                    return RedirectToAction("elderly", "gtmanagement", new { Id = string.Empty });
+                    return RedirectToAction("functional", "gtmanagement", new { Id = string.Empty });
                 ViewBag.data = data;
                
                
@@ -5013,7 +5012,72 @@ namespace Gestreino.Controllers
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Functional;
             return View("Quest/Functional", MODEL);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Functional(Functional MODEL, int?[] fc1)
+        {
+            var GT_SOCIOS_ID = 0;
 
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
+
+                GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
+
+                int iPerc = 0;
+                decimal iValue = 0;
+                string sRes = string.Empty;
+
+                // DoLoadValuesPercentilBracos();
+
+                return Json(new { result = false, error = String.Join(",", fc1) });
+
+                MODEL.iFlexiAct = iPerc;
+                MODEL.lblResActualFlexi = sRes;
+
+           
+                    GT_RespFuncional fx = new GT_RespFuncional();
+                    fx.GT_SOCIOS_ID = GT_SOCIOS_ID;
+                   // fx.RESP_01 = MODEL.GT_TipoTesteForca_ID;
+               // fx.RESP_02 = MODEL.GT_TipoTesteForca_ID;
+              //  fx.RESP_03 = MODEL.GT_TipoTesteForca_ID;
+              //  fx.RESP_04 = MODEL.GT_TipoTesteForca_ID;
+             //   fx.RESP_05 = MODEL.GT_TipoTesteForca_ID;
+             //   fx.RESP_06 = MODEL.GT_TipoTesteForca_ID;
+             //   fx.RESP_07 = MODEL.GT_TipoTesteForca_ID;
+                fx.DESPORTO = MODEL.Desporto;
+                fx.POSICAO = MODEL.Posicao;
+                fx.MAO = MODEL.Mao;
+                fx.PERNA = MODEL.Perna;
+                fx.OLHO = MODEL.Olho;
+                    fx.RESP_SUMMARY = iValue;
+                    fx.RESP_DESCRICAO = sRes;
+                 //   fx.PERCENTIL = iPerc;
+                    fx.INSERIDO_POR = int.Parse(User.Identity.GetUserId());
+                    fx.DATA_INSERCAO = DateTime.Now;
+                    databaseManager.GT_RespFuncional.Add(fx);
+                    databaseManager.SaveChanges();
+
+                    MODEL.ID = fx.ID;
+               
+
+
+                MODEL.lblDataInsercao = databaseManager.GT_RespFuncional.Where(x => x.ID == MODEL.ID).Select(X => X.DATA_INSERCAO).FirstOrDefault();
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Functional;
+            return View("Quest/Functional", MODEL);
+        }
 
 
 

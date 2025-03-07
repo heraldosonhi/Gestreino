@@ -24,7 +24,7 @@
                         </div>
                     </div>
                 </div>
-                @using (Html.BeginForm("Force", "gtmanagement", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                @using (Html.BeginForm("Functional", "gtmanagement", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
 
                 //using (Ajax.BeginForm("BodyComposition", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                 {
@@ -52,248 +52,254 @@
                                         <h6 class="p-2 bg-light mt-2 text-success"><i class="fa fa-floppy-o"></i> Questionário registado:@Model.lblDataInsercao</h6>
                                     }
 
-                                    <div class="p-4">
-
-                                        <div class="row">
-                                            <div class="col-md-7">
-                                                <div class="row">
-                                                    &nbsp;
-                                                    @Html.LabelFor(m => m.Desporto, new { @class = "col-md-4 col-form-label" })
-                                                    <div class="col-md-7">
-                                                        @Html.TextBoxFor(x => Model.Desporto, new { @class = "form-control form-control-sm", required = "" })
-                                                    </div>
+                                <div class="p-4">
+                                    @for (int x = 1; x <= 7; x++)
+                                    {
+                                    <input type="" id="funcionalNumberArr_@x" name="funcionalNumberArr_[]" value="" />
+                                    }
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <div class="row">
+                                                &nbsp;
+                                                @Html.LabelFor(m => m.Desporto, new { @class = "col-md-4 col-form-label" })
+                                                <div class="col-md-7">
+                                                    @Html.TextBoxFor(x => Model.Desporto, new { @class = "form-control form-control-sm", required = "" })
                                                 </div>
-                                                <div class="row">
-                                                    &nbsp;
-                                                    @Html.LabelFor(m => m.Posicao, new { @class = "col-md-4 col-form-label" })
-                                                    <div class="col-md-7">
-                                                        @Html.TextBoxFor(x => Model.Posicao, new { @class = "form-control form-control-sm", required = "" })
-                                                    </div>
+                                            </div>
+                                            <div class="row">
+                                                &nbsp;
+                                                @Html.LabelFor(m => m.Posicao, new { @class = "col-md-4 col-form-label" })
+                                                <div class="col-md-7">
+                                                    @Html.TextBoxFor(x => Model.Posicao, new { @class = "form-control form-control-sm", required = "" })
                                                 </div>
-                                                <div class="row mt-2">
-                                                    &nbsp;
-                                                    @Html.LabelFor(m => m.Mao, new { @class = "col-md-4 col-form-label" })
-                                                    <div class="col-md-3">
-                                                        <input name="Mao" type="checkbox" id="Mao1" value="0" /> <label for="Mao1">Esquerda</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <input name="Mao" type="checkbox" id="Mao2" value="0" /> <label for="Mao2">Direita</label>
-                                                    </div>
+                                            </div>
+                                            <div class="row mt-2">
+                                                &nbsp;
+                                                @Html.LabelFor(m => m.Mao, new { @class = "col-md-4 col-form-label" })
+                                                <div class="col-md-3">
+                                                    <input name="Mao" type="checkbox" id="Mao1" value="0" /> <label for="Mao1">Esquerda</label>
                                                 </div>
-                                                <div class="row">
-                                                    &nbsp;
-                                                    @Html.LabelFor(m => m.Perna, new { @class = "col-md-4 col-form-label" })
-                                                    <div class="col-md-3">
-                                                        <input name="Perna" type="checkbox" id="Perna1" value="0" /> <label for="Perna1">Esquerda</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <input name="Perna" type="checkbox" id="Perna2" value="0" /> <label for="Perna2">Direita</label>
-                                                    </div>
+                                                <div class="col-md-3">
+                                                    <input name="Mao" type="checkbox" id="Mao2" value="0" /> <label for="Mao2">Direita</label>
                                                 </div>
-                                                <div class="row">
-                                                    &nbsp;
-                                                    @Html.LabelFor(m => m.Olho, new { @class = "col-md-4 col-form-label" })
-                                                    <div class="col-md-3">
-                                                        <input name="Olho" type="checkbox" id="Olho1" value="0" /> <label for="Olho1">Esquerdo</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <input name="Olho" type="checkbox" id="Olho2" value="0" /> <label for="Olho2">Direito</label>
-                                                    </div>
+                                            </div>
+                                            <div class="row">
+                                                &nbsp;
+                                                @Html.LabelFor(m => m.Perna, new { @class = "col-md-4 col-form-label" })
+                                                <div class="col-md-3">
+                                                    <input name="Perna" type="checkbox" id="Perna1" value="0" /> <label for="Perna1">Esquerda</label>
                                                 </div>
-                                                <div class="row mt-2 mb-2">
-                                                    <div class="col-md-12">
-                                                        <span>
-                                                            &nbsp;<b>Teste e Resultado</b>
-                                                        </span>
-                                                    </div>
+                                                <div class="col-md-3">
+                                                    <input name="Perna" type="checkbox" id="Perna2" value="0" /> <label for="Perna2">Direita</label>
                                                 </div>
+                                            </div>
+                                            <div class="row">
+                                                &nbsp;
+                                                @Html.LabelFor(m => m.Olho, new { @class = "col-md-4 col-form-label" })
+                                                <div class="col-md-3">
+                                                    <input name="Olho" type="checkbox" id="Olho1" value="0" /> <label for="Olho1">Esquerdo</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input name="Olho" type="checkbox" id="Olho2" value="0" /> <label for="Olho2">Direito</label>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-2 mb-2">
+                                                <div class="col-md-12">
+                                                    <span>
+                                                        &nbsp;<b>Teste e Resultado</b>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div id="chcktests">
                                                 <div class="row">
                                                     <label class="col-md-6 col-form-label">
-                                                     <b><span id="fa-caret-right"><i class="fa fa-caret-right"></i></span> Deep Squat</b>
+                                                        <b><span id="fa-caret-right"><i class="fa fa-caret-right">&nbsp;</i></span> Deep Squat</b>
                                                     </label>
                                                     <div class="col-md-1">
-                                                        <input name="fc1[]" type="checkbox" id="ds1" value="0" /> <label for="Olho1">0</label>
+                                                        <input name="fc1[]" type="checkbox" value="0" /> <label for="Olho1">0</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc1[]" type="checkbox" id="ds2" value="1" /> <label for="Olho2">1</label>
+                                                        <input name="fc1[]" type="checkbox" value="1" /> <label for="Olho2">1</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc1[]" type="checkbox" id="ds3" value="2" /> <label for="Olho1">2</label>
+                                                        <input name="fc1[]" type="checkbox" value="2" /> <label for="Olho1">2</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc1[]" type="checkbox" id="ds14" value="3" /> <label for="Olho2">3</label>
+                                                        <input name="fc1[]" type="checkbox" value="3" /> <label for="Olho2">3</label>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <label class="col-md-6 col-form-label">
-                                                        <b><span id="fa-caret-right">&nbsp;</span> Hurdle Step</b>
+                                                        <b><span id="fa-caret-right"><i>&nbsp;</i></span> Hurdle Step</b>
                                                     </label>
                                                     <div class="col-md-1">
-                                                        <input name="fc2[]" type="checkbox" id="ds1" value="0" /> <label for="Olho1">0</label>
+                                                        <input name="fc2[]" type="checkbox" value="0" disabled /> <label for="Olho1">0</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc2[]" type="checkbox" id="ds2" value="1" /> <label for="Olho2">1</label>
+                                                        <input name="fc2[]" type="checkbox" value="1" disabled /> <label for="Olho2">1</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc2[]" type="checkbox" id="ds3" value="2" /> <label for="Olho1">2</label>
+                                                        <input name="fc2[]" type="checkbox" value="2" disabled /> <label for="Olho1">2</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc2[]" type="checkbox" id="ds14" value="3" /> <label for="Olho2">3</label>
+                                                        <input name="fc2[]" type="checkbox" value="3" disabled /> <label for="Olho2">3</label>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <label class="col-md-6 col-form-label">
-                                                        <b><span id="fa-caret-right">&nbsp;</span> In-Line Lunge</b>
+                                                        <b><span id="fa-caret-right"><i>&nbsp;</i></span> In-Line Lunge</b>
                                                     </label>
                                                     <div class="col-md-1">
-                                                        <input name="fc3[]" type="checkbox" id="ds1" value="0" /> <label for="Olho1">0</label>
+                                                        <input name="fc3[]" type="checkbox" value="0" disabled /> <label for="Olho1">0</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc3[]" type="checkbox" id="ds2" value="1" /> <label for="Olho2">1</label>
+                                                        <input name="fc3[]" type="checkbox" value="1" disabled /> <label for="Olho2">1</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc3[]" type="checkbox" id="ds3" value="2" /> <label for="Olho1">2</label>
+                                                        <input name="fc3[]" type="checkbox" value="2" disabled /> <label for="Olho1">2</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc3[]" type="checkbox" id="ds14" value="3" /> <label for="Olho2">3</label>
+                                                        <input name="fc3[]" type="checkbox" value="3" disabled /> <label for="Olho2">3</label>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <label class="col-md-6 col-form-label">
-                                                        <b><span id="fa-caret-right">&nbsp;</span> Shoulder Mobility</b>
+                                                        <b><span id="fa-caret-right"><i>&nbsp;</i></span> Shoulder Mobility</b>
                                                     </label>
                                                     <div class="col-md-1">
-                                                        <input name="fc4[]" type="checkbox" id="ds1" value="0" /> <label for="Olho1">0</label>
+                                                        <input name="fc4[]" type="checkbox" value="0" disabled /> <label for="Olho1">0</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc4[]" type="checkbox" id="ds2" value="1" /> <label for="Olho2">1</label>
+                                                        <input name="fc4[]" type="checkbox" value="1" disabled /> <label for="Olho2">1</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc4[]" type="checkbox" id="ds3" value="2" /> <label for="Olho1">2</label>
+                                                        <input name="fc4[]" type="checkbox" value="2" disabled /> <label for="Olho1">2</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc4[]" type="checkbox" id="ds14" value="3" /> <label for="Olho2">3</label>
+                                                        <input name="fc4[]" type="checkbox" value="3" disabled /> <label for="Olho2">3</label>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <label class="col-md-6 col-form-label">
-                                                        <b><span id="fa-caret-right">&nbsp;</span> Active straight-Leg raise</b>
+                                                        <b><span id="fa-caret-right"><i>&nbsp;</i></span> Active straight-Leg raise</b>
                                                     </label>
                                                     <div class="col-md-1">
-                                                        <input name="fc5[]" type="checkbox" id="ds1" value="0" /> <label for="Olho1">0</label>
+                                                        <input name="fc5[]" type="checkbox" value="0" disabled /> <label for="Olho1">0</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc5[]" type="checkbox" id="ds2" value="1" /> <label for="Olho2">1</label>
+                                                        <input name="fc5[]" type="checkbox" value="1" disabled /> <label for="Olho2">1</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc5[]" type="checkbox" id="ds3" value="2" /> <label for="Olho1">2</label>
+                                                        <input name="fc5[]" type="checkbox" value="2" disabled /> <label for="Olho1">2</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc5[]" type="checkbox" id="ds14" value="3" /> <label for="Olho2">3</label>
+                                                        <input name="fc5[]" type="checkbox" value="3" disabled /> <label for="Olho2">3</label>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <label class="col-md-6 col-form-label">
-                                                        <b><span id="fa-caret-right">&nbsp;</span> Trunk Stability Push Up</b>
+                                                        <b><span id="fa-caret-right"><i>&nbsp;</i></span> Trunk Stability Push Up</b>
                                                     </label>
                                                     <div class="col-md-1">
-                                                        <input name="fc6[]" type="checkbox" id="ds1" value="0" /> <label for="Olho1">0</label>
+                                                        <input name="fc6[]" type="checkbox" value="0" disabled /> <label for="Olho1">0</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc6[]" type="checkbox" id="ds2" value="1" /> <label for="Olho2">1</label>
+                                                        <input name="fc6[]" type="checkbox" value="1" disabled /> <label for="Olho2">1</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc6[]" type="checkbox" id="ds3" value="2" /> <label for="Olho1">2</label>
+                                                        <input name="fc6[]" type="checkbox" value="2" disabled /> <label for="Olho1">2</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc6[]" type="checkbox" id="ds14" value="3" /> <label for="Olho2">3</label>
+                                                        <input name="fc6[]" type="checkbox" value="3" disabled /> <label for="Olho2">3</label>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <label class="col-md-6 col-form-label">
-                                                        <b><span id="fa-caret-right">&nbsp;</span> Rotary Stability</b>
-                                                    </label> 
+                                                        <b><span id="fa-caret-right"><i>&nbsp;</i></span> Rotary Stability</b>
+                                                    </label>
                                                     <div class="col-md-1">
-                                                        <input name="fc7[]" type="checkbox" id="ds1" value="0" /> <label for="Olho1">0</label>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc7[]" type="checkbox" id="ds2" value="1" /> <label for="Olho2">1</label>
+                                                        <input name="fc7[]" type="checkbox" value="0" disabled /> <label for="Olho1">0</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc7[]" type="checkbox" id="ds3" value="2" /> <label for="Olho1">2</label>
+                                                        <input name="fc7[]" type="checkbox" value="1" disabled /> <label for="Olho2">1</label>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <input name="fc7[]" type="checkbox" id="ds14" value="3" /> <label for="Olho2">3</label>
+                                                        <input name="fc7[]" type="checkbox" value="2" disabled /> <label for="Olho1">2</label>
                                                     </div>
-                                                </div>
-                                                <div class="row mt-2">
-                                                    <label class="col-md-4 col-form-label">&nbsp;&nbsp;<b>Resultado total:</b></label>
-                                                    <div class="col-md-3">
-                                                       <input type="text" class="form-control form-control-sm" readonly/>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-1">
-                                                    <div class="col-md-2"></div>
-                                                    <div class="col-md-10">
-                                                        <div class="btn-group">
-                                                            <button onclick="flexPrimeiro(this)" type="button" title="Primeiro teste" class="btn btn-sm btn-secondary"><<</button>
-                                                            <button onclick="flexAnterior(this)" type="button" title="Teste anterior" class="btn btn-sm btn-secondary"><</button>
-                                                            <input id="flexDesc" type="text" class="form-control form-control-sm text-center" readonly value="Teste 1 de 7" />
-                                                            <button onclick="flexProximo(this)" type="button" title="Próximo teste" class="btn btn-sm btn-secondary">></button>
-                                                            <button onclick="flexUltimo(this)" type="button" title="Úlimo teste" class="btn btn-sm btn-secondary">>></button>
-                                                        </div>
+                                                    <div class="col-md-1">
+                                                        <input name="fc7[]" type="checkbox" value="3" disabled /> <label for="Olho2">3</label>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-5">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <Center><label><b>In-Line Lunge</b></label></Center>
+                                            <div class="row mt-2">
+                                                <label class="col-md-6 col-form-label">&nbsp;&nbsp;<b>Resultado total:</b></label>
+                                                <div class="col-md-3">
+                                                    <input type="text" class="form-control form-control-sm" readonly />
+                                                    <input id="funcionalNumber" type="" min="1" max="7" value="1" />
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-2"></div>
+                                                <div class="col-md-10">
+                                                    <div class="btn-group">
+                                                        <button onclick="funcionalPrimeiro(this)" type="button" title="Primeiro teste" class="btn btn-sm btn-secondary"><<</button>
+                                                        <button onclick="funcionalAnterior(this)" type="button" title="Teste anterior" class="btn btn-sm btn-secondary"><</button>
+                                                        <input id="flexDesc" type="text" class="form-control form-control-sm text-center" readonly value="Teste 1 de 7" />
+                                                        <button onclick="funcionalProximo(this)" type="button" title="Próximo teste" class="btn btn-sm btn-secondary">></button>
+                                                        <button onclick="funcionalUltimo(this)" type="button" title="Úlimo teste" class="btn btn-sm btn-secondary">>></button>
                                                     </div>
                                                 </div>
-                                                <div class="row mt-1">
-                                                    <div class="col-md-1">
-                                                        <label>3</label>
-                                                    </div>
-                                                    <div class="col-md-11">
-                                                        <div style="border:1px solid #ddd">
-                                                            <img id="flexImg" src="~/Assets/images/imagesfunc/func13.jpg" style="width:89% !important;height:100% !important" />
-                                                        </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <Center><label><b id="testlabel">In-Line Lunge</b></label></Center>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-1">
+                                                    <label>3</label>
+                                                </div>
+                                                <div class="col-md-11">
+                                                    <div style="border:1px solid #ddd">
+                                                        <img id="funcImg1" src="~/Assets/images/imagesfunc/func13.jpg" style="width:89% !important;height:100% !important" />
                                                     </div>
                                                 </div>
-                                                <div class="row mt-1">
-                                                    <div class="col-md-1">
-                                                        <label>2</label>
-                                                    </div>
-                                                    <div class="col-md-11">
-                                                        <div style="border:1px solid #ddd">
-                                                            <img id="flexImg" src="~/Assets/images/imagesfunc/func12.jpg" style="width:89% !important;height:100% !important" />
-                                                        </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-1">
+                                                    <label>2</label>
+                                                </div>
+                                                <div class="col-md-11">
+                                                    <div style="border:1px solid #ddd">
+                                                        <img id="funcImg2" src="~/Assets/images/imagesfunc/func12.jpg" style="width:89% !important;height:100% !important" />
                                                     </div>
                                                 </div>
-                                                <div class="row mt-1">
-                                                    <div class="col-md-1">
-                                                        <label>1</label>
-                                                    </div>
-                                                    <div class="col-md-11">
-                                                        <div style="border:1px solid #ddd">
-                                                            <img id="flexImg" src="~/Assets/images/imagesfunc/func11.jpg" style="width:89% !important;height:100% !important" />
-                                                        </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-1">
+                                                    <label>1</label>
+                                                </div>
+                                                <div class="col-md-11">
+                                                    <div style="border:1px solid #ddd">
+                                                        <img id="funcImg3" src="~/Assets/images/imagesfunc/func11.jpg" style="width:89% !important;height:100% !important" />
                                                     </div>
                                                 </div>
-                                                <div class="row mt-1">
-                                                    <div class="col-md-1">
-                                                        <label>0</label>
-                                                    </div>
-                                                    <div class="col-md-11">
-                                                        <div style="border:1px solid #ddd">
-                                                            <img id="flexImg" src="~/Assets/images/imagesfunc/func10.jpg" style="width:89% !important;height:100% !important" />
-                                                        </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-1">
+                                                    <label>0</label>
+                                                </div>
+                                                <div class="col-md-11">
+                                                    <div style="border:1px solid #ddd">
+                                                        <img id="funcImg4" src="~/Assets/images/imagesfunc/func10.jpg" style="width:89% !important;height:100% !important" />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
