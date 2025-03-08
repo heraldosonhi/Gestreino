@@ -30,12 +30,12 @@ namespace Gestreino
         public Nullable<int> OLHO { get; set; }
         public Nullable<decimal> RESP_SUMMARY { get; set; }
         public string RESP_DESCRICAO { get; set; }
-        public Nullable<int> PERCENTL { get; set; }
+        public Nullable<int> PERCENTIL { get; set; }
         public int INSERIDO_POR { get; set; }
         public Nullable<int> ACTUALIZADO_POR { get; set; }
         public Nullable<int> REMOVIDO_POR { get; set; }
-        public Nullable<System.DateTime> DATA_INSERCAO { get; set; }
-        public System.DateTime DATA_ACTUALIZACAO { get; set; }
+        public System.DateTime DATA_INSERCAO { get; set; }
+        public Nullable<System.DateTime> DATA_ACTUALIZACAO { get; set; }
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
     
         public virtual GT_SOCIOS GT_SOCIOS { get; set; }

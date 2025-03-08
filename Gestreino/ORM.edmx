@@ -537,12 +537,12 @@
           <Property Name="OLHO" Type="int" />
           <Property Name="RESP_SUMMARY" Type="decimal" Precision="18" Scale="2" />
           <Property Name="RESP_DESCRICAO" Type="varchar" MaxLength="4000" />
-          <Property Name="PERCENTL" Type="int" />
+          <Property Name="PERCENTIL" Type="int" />
           <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
           <Property Name="ACTUALIZADO_POR" Type="int" />
           <Property Name="REMOVIDO_POR" Type="int" />
-          <Property Name="DATA_INSERCAO" Type="datetime" />
-          <Property Name="DATA_ACTUALIZACAO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_INSERCAO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_ACTUALIZACAO" Type="datetime" />
           <Property Name="DATA_REMOCAO" Type="datetime" />
         </EntityType>
         <EntityType Name="GT_RespPessoaIdosa">
@@ -7862,12 +7862,12 @@
           <Property Name="OLHO" Type="Int32" />
           <Property Name="RESP_SUMMARY" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="RESP_DESCRICAO" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
-          <Property Name="PERCENTL" Type="Int32" />
+          <Property Name="PERCENTIL" Type="Int32" />
           <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
           <Property Name="ACTUALIZADO_POR" Type="Int32" />
           <Property Name="REMOVIDO_POR" Type="Int32" />
-          <Property Name="DATA_INSERCAO" Type="DateTime" Precision="3" />
-          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
           <NavigationProperty Name="GT_SOCIOS" Relationship="GESTREINO_ORM.GT_RespFuncional_GT_SOCIOS_ID" FromRole="GT_RespFuncional" ToRole="GT_SOCIOS" />
         </EntityType>
@@ -10058,7 +10058,7 @@
                 <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
                 <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
                 <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
-                <ScalarProperty Name="PERCENTL" ColumnName="PERCENTL" />
+                <ScalarProperty Name="PERCENTIL" ColumnName="PERCENTIL" />
                 <ScalarProperty Name="RESP_DESCRICAO" ColumnName="RESP_DESCRICAO" />
                 <ScalarProperty Name="RESP_SUMMARY" ColumnName="RESP_SUMMARY" />
                 <ScalarProperty Name="OLHO" ColumnName="OLHO" />

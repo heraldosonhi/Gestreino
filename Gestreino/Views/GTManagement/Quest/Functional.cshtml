@@ -24,346 +24,388 @@
                         </div>
                     </div>
                 </div>
-                @using (Html.BeginForm("Functional", "gtmanagement", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
-
-                //using (Ajax.BeginForm("BodyComposition", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                @using (Ajax.BeginForm("Functional", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
                 {
-                    @Html.AntiForgeryToken()
-                    @Html.HiddenFor(m => m.PEsId)
-                    @Html.HiddenFor(m => m.ID)
-                    <input type="hidden" value="GT_RespForca" id="GT_Res" /><div class="row">
-                        <div class="col-md-4">
-                            <div class="btn-group">
-                                <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-floppy-o"></i> Guardar</button>
-                                <a class="btn btn-secondary" href="@Url.Action("force", "gtmanagement", new { Id = string.Empty })"><i class="fa fa-plus-circle"></i> Novo</a>
+                    //using (Ajax.BeginForm("BodyComposition", "gtmanagement", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }))
+                    
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.PEsId)
+                        @Html.HiddenFor(m => m.ID)
+                        <input type="hidden" value="GT_RespFuncional" id="GT_Res" /><div class="row">
+                            <div class="col-md-4">
+                                <div class="btn-group">
+                                    <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-floppy-o"></i> Guardar</button>
+                                    <a class="btn btn-secondary" href="@Url.Action("functional", "gtmanagement", new { Id = string.Empty })"><i class="fa fa-plus-circle"></i> Novo</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-9 mt-2">
-                            <div class="animated flipInY">
-                                <div class="tile-stats">
-                                    <div class="icon">
-                                        <i class="fa fa-anchor"></i>
-                                    </div>
-                                    <h3 class="p-2">Funcional</h3>
-                                    @if (Model.lblDataInsercao != null)
-                                    {
-                                        <h6 class="p-2 bg-light mt-2 text-success"><i class="fa fa-floppy-o"></i> Questionário registado:@Model.lblDataInsercao</h6>
-                                    }
+                        <div class="row">
+                            <div class="col-md-9 mt-2">
+                                <div class="animated flipInY">
+                                    <div class="tile-stats">
+                                        <div class="icon">
+                                            <i class="fa fa-anchor"></i>
+                                        </div>
+                                        <h3 class="p-2">Funcional</h3>
+                                        @if (Model.lblDataInsercao != null)
+                                        {
+                                            <h6 class="p-2 bg-light mt-2 text-success"><i class="fa fa-floppy-o"></i> Questionário registado:@Model.lblDataInsercao</h6>
+                                        }
 
-                                <div class="p-4">
-                                    @for (int x = 1; x <= 7; x++)
-                                    {
-                                    <input type="" id="funcionalNumberArr_@x" name="funcionalNumberArr_[]" value="" />
-                                    }
-                                    <div class="row">
-                                        <div class="col-md-7">
+                                        <div class="p-4">
+                                            @if (Model.ID > 0)
+                                            {
+                                                <input type="hidden" id="funcionalNumberArr_1" name="funcionalNumberArr_[]" value="@Model.RESP_01" />
+                                                <input type="hidden" id="funcionalNumberArr_2" name="funcionalNumberArr_[]" value="@Model.RESP_02" />
+                                                <input type="hidden" id="funcionalNumberArr_3" name="funcionalNumberArr_[]" value="@Model.RESP_03" />
+                                                <input type="hidden" id="funcionalNumberArr_4" name="funcionalNumberArr_[]" value="@Model.RESP_04" />
+                                                <input type="hidden" id="funcionalNumberArr_5" name="funcionalNumberArr_[]" value="@Model.RESP_05" />
+                                                <input type="hidden" id="funcionalNumberArr_6" name="funcionalNumberArr_[]" value="@Model.RESP_06" />
+                                                <input type="hidden" id="funcionalNumberArr_7" name="funcionalNumberArr_[]" value="@Model.RESP_07" />
+                                            }
+                                            else
+                                            {
+                                                for (int x = 1; x <= 7; x++)
+                                                {
+                                                    <input type="hidden" id="funcionalNumberArr_@x" name="funcionalNumberArr_[]" value="" />
+                                                }
+                                            }
                                             <div class="row">
-                                                &nbsp;
-                                                @Html.LabelFor(m => m.Desporto, new { @class = "col-md-4 col-form-label" })
                                                 <div class="col-md-7">
-                                                    @Html.TextBoxFor(x => Model.Desporto, new { @class = "form-control form-control-sm", required = "" })
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                &nbsp;
-                                                @Html.LabelFor(m => m.Posicao, new { @class = "col-md-4 col-form-label" })
-                                                <div class="col-md-7">
-                                                    @Html.TextBoxFor(x => Model.Posicao, new { @class = "form-control form-control-sm", required = "" })
-                                                </div>
-                                            </div>
-                                            <div class="row mt-2">
-                                                &nbsp;
-                                                @Html.LabelFor(m => m.Mao, new { @class = "col-md-4 col-form-label" })
-                                                <div class="col-md-3">
-                                                    <input name="Mao" type="checkbox" id="Mao1" value="0" /> <label for="Mao1">Esquerda</label>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <input name="Mao" type="checkbox" id="Mao2" value="0" /> <label for="Mao2">Direita</label>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                &nbsp;
-                                                @Html.LabelFor(m => m.Perna, new { @class = "col-md-4 col-form-label" })
-                                                <div class="col-md-3">
-                                                    <input name="Perna" type="checkbox" id="Perna1" value="0" /> <label for="Perna1">Esquerda</label>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <input name="Perna" type="checkbox" id="Perna2" value="0" /> <label for="Perna2">Direita</label>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                &nbsp;
-                                                @Html.LabelFor(m => m.Olho, new { @class = "col-md-4 col-form-label" })
-                                                <div class="col-md-3">
-                                                    <input name="Olho" type="checkbox" id="Olho1" value="0" /> <label for="Olho1">Esquerdo</label>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <input name="Olho" type="checkbox" id="Olho2" value="0" /> <label for="Olho2">Direito</label>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-2 mb-2">
-                                                <div class="col-md-12">
-                                                    <span>
-                                                        &nbsp;<b>Teste e Resultado</b>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div id="chcktests">
-                                                <div class="row">
-                                                    <label class="col-md-6 col-form-label">
-                                                        <b><span id="fa-caret-right"><i class="fa fa-caret-right">&nbsp;</i></span> Deep Squat</b>
-                                                    </label>
-                                                    <div class="col-md-1">
-                                                        <input name="fc1[]" type="checkbox" value="0" /> <label for="Olho1">0</label>
+                                                    <div class="row">
+                                                        &nbsp;
+                                                        @Html.LabelFor(m => m.Desporto, new { @class = "col-md-4 col-form-label" })
+                                                        <div class="col-md-7">
+                                                            @Html.TextBoxFor(x => Model.Desporto, new { @class = "form-control form-control-sm", required = "" })
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc1[]" type="checkbox" value="1" /> <label for="Olho2">1</label>
+                                                    <div class="row">
+                                                        &nbsp;
+                                                        @Html.LabelFor(m => m.Posicao, new { @class = "col-md-4 col-form-label" })
+                                                        <div class="col-md-7">
+                                                            @Html.TextBoxFor(x => Model.Posicao, new { @class = "form-control form-control-sm", required = "" })
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc1[]" type="checkbox" value="2" /> <label for="Olho1">2</label>
+                                                    <div class="row mt-2">
+                                                        &nbsp;
+                                                        @Html.LabelFor(m => m.Mao, new { @class = "col-md-4 col-form-label" })
+                                                        <div class="col-md-3">
+                                                            <input name="Mao" type="checkbox" id="Mao1" value="0" @(Model.Mao == 0 ? "checked=" : "") /> <label for="Mao1">Esquerda</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input name="Mao" type="checkbox" id="Mao2" value="1" @(Model.Mao == 1 ? "checked=" : "") /> <label for="Mao2">Direita</label>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc1[]" type="checkbox" value="3" /> <label for="Olho2">3</label>
+                                                    <div class="row">
+                                                        &nbsp;
+                                                        @Html.LabelFor(m => m.Perna, new { @class = "col-md-4 col-form-label" })
+                                                        <div class="col-md-3">
+                                                            <input name="Perna" type="checkbox" id="Perna1" value="0" @(Model.Perna == 0 ? "checked=" : "") /> <label for="Perna1">Esquerda</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input name="Perna" type="checkbox" id="Perna2" value="1" @(Model.Perna == 1 ? "checked=" : "") /> <label for="Perna2">Direita</label>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <label class="col-md-6 col-form-label">
-                                                        <b><span id="fa-caret-right"><i>&nbsp;</i></span> Hurdle Step</b>
-                                                    </label>
-                                                    <div class="col-md-1">
-                                                        <input name="fc2[]" type="checkbox" value="0" disabled /> <label for="Olho1">0</label>
+                                                    <div class="row">
+                                                        &nbsp;
+                                                        @Html.LabelFor(m => m.Olho, new { @class = "col-md-4 col-form-label" })
+                                                        <div class="col-md-3">
+                                                            <input name="Olho" type="checkbox" id="Olho1" value="0" @(Model.Olho == 0 ? "checked=" : "") /> <label for="Olho1">Esquerdo</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input name="Olho" type="checkbox" id="Olho2" value="1" @(Model.Olho == 1 ? "checked=" : "") /> <label for="Olho2">Direito</label>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc2[]" type="checkbox" value="1" disabled /> <label for="Olho2">1</label>
+                                                    <div class="row mt-2 mb-2">
+                                                        <div class="col-md-12">
+                                                            <span>
+                                                                &nbsp;<b>Teste e Resultado</b>
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc2[]" type="checkbox" value="2" disabled /> <label for="Olho1">2</label>
+                                                    <div id="chcktests">
+                                                        <div class="row">
+                                                            <label class="col-md-6 col-form-label">
+                                                                <b><span id="fa-caret-right"><i class="fa fa-caret-right">&nbsp;</i></span> Deep Squat</b>
+                                                            </label>
+                                                            <div class="col-md-6">
+                                                                <div class="row">
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc1[]" type="checkbox" value="0" id="fc1_1" @(Model.RESP_01 == 0 ? "checked" : "") /> <label for="fc1_1">0</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc1[]" type="checkbox" value="1" id="fc1_2" @(Model.RESP_01 == 1 ? "checked" : "") /> <label for="fc1_2">1</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc1[]" type="checkbox" value="2" id="fc1_3" @(Model.RESP_01 == 2 ? "checked" : "") /> <label for="fc1_3">2</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc1[]" type="checkbox" value="3" id="fc1_4" @(Model.RESP_01 == 3 ? "checked" : "") /> <label for="fc1_4">3</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="row">
+                                                            <label class="col-md-6 col-form-label">
+                                                                <b><span id="fa-caret-right"><i>&nbsp;</i></span> Hurdle Step</b>
+                                                            </label>
+                                                            <div class="col-md-6">
+                                                                <div class="row">
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc2[]" type="checkbox" value="0" id="fc2_1" @(Model.RESP_02 == 0 ? "checked" : "") disabled /> <label for="fc2_1">0</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc2[]" type="checkbox" value="1" id="fc2_2" @(Model.RESP_02 == 1 ? "checked" : "") disabled /> <label for="fc2_2">1</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc2[]" type="checkbox" value="2" id="fc2_3" @(Model.RESP_02 == 2 ? "checked" : "") disabled /> <label for="fc2_3">2</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc2[]" type="checkbox" value="3" id="fc2_4" @(Model.RESP_02 == 3 ? "checked" : "") disabled /> <label for="fc2_4">3</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <label class="col-md-6 col-form-label">
+                                                                <b><span id="fa-caret-right"><i>&nbsp;</i></span> In-Line Lunge</b>
+                                                            </label>
+                                                            <div class="col-md-6">
+                                                                <div class="row">
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc3[]" type="checkbox" value="0" id="fc3_1" @(Model.RESP_03 == 0 ? "checked" : "") disabled /> <label for="fc3_1">0</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc3[]" type="checkbox" value="1" id="fc3_2" @(Model.RESP_03 == 1 ? "checked" : "") disabled /> <label for="fc3_2">1</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc3[]" type="checkbox" value="2" id="fc3_3" @(Model.RESP_03 == 2 ? "checked" : "") disabled /> <label for="fc3_3">2</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc3[]" type="checkbox" value="3" id="fc3_4" @(Model.RESP_03 == 3 ? "checked" : "") disabled /> <label for="fc3_4">3</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <label class="col-md-6 col-form-label">
+                                                                <b><span id="fa-caret-right"><i>&nbsp;</i></span> Shoulder Mobility</b>
+                                                            </label>
+                                                            <div class="col-md-6">
+                                                                <div class="row">
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc4[]" type="checkbox" value="0" id="fc4_1" @(Model.RESP_04 == 0 ? "checked" : "") disabled /> <label for="fc4_1">0</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc4[]" type="checkbox" value="1" id="fc4_2" @(Model.RESP_04 == 1 ? "checked" : "") disabled /> <label for="fc4_2">1</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc4[]" type="checkbox" value="2" id="fc4_3" @(Model.RESP_04 == 2 ? "checked" : "") disabled /> <label for="fc4_3">2</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc4[]" type="checkbox" value="3" id="fc4_4" @(Model.RESP_04 == 3 ? "checked" : "") disabled /> <label for="fc4_4">3</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <label class="col-md-6 col-form-label">
+                                                                <b><span id="fa-caret-right"><i>&nbsp;</i></span> Active straight-Leg raise</b>
+                                                            </label>
+                                                            <div class="col-md-6">
+                                                                <div class="row">
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc5[]" type="checkbox" value="0" id="fc5_1" @(Model.RESP_05 == 0 ? "checked" : "") disabled /> <label for="fc5_1">0</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc5[]" type="checkbox" value="1" id="fc5_2" @(Model.RESP_05 == 1 ? "checked" : "") disabled /> <label for="fc5_2">1</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc5[]" type="checkbox" value="2" id="fc5_3" @(Model.RESP_05 == 2 ? "checked" : "") disabled /> <label for="fc5_3">2</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc5[]" type="checkbox" value="3" id="fc5_4" @(Model.RESP_05 == 3 ? "checked" : "") disabled /> <label for="fc5_4">3</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <label class="col-md-6 col-form-label">
+                                                                <b><span id="fa-caret-right"><i>&nbsp;</i></span> Trunk Stability Push Up</b>
+                                                            </label>
+                                                            <div class="col-md-6">
+                                                                <div class="row">
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc6[]" type="checkbox" value="0" id="fc6_1" @(Model.RESP_06 == 0 ? "checked" : "") disabled /> <label for="fc6_1">0</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc6[]" type="checkbox" value="1" id="fc6_2" @(Model.RESP_06 == 1 ? "checked" : "") disabled /> <label for="fc6_2">1</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc6[]" type="checkbox" value="2" id="fc6_3" @(Model.RESP_06 == 2 ? "checked" : "") disabled /> <label for="fc6_3">2</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc6[]" type="checkbox" value="3" id="fc6_4" @(Model.RESP_06 == 3 ? "checked" : "") disabled /> <label for="fc6_4">3</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <label class="col-md-6 col-form-label">
+                                                                <b><span id="fa-caret-right"><i>&nbsp;</i></span> Rotary Stability</b>
+                                                            </label>
+                                                            <div class="col-md-6">
+                                                                <div class="row">
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc7[]" type="checkbox" value="0" id="fc7_1" @(Model.RESP_07 == 0 ? "checked" : "") disabled /> <label for="fc7_1">0</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc7[]" type="checkbox" value="1" id="fc7_2" @(Model.RESP_07 == 1 ? "checked" : "") disabled /> <label for="fc7_2">1</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc7[]" type="checkbox" value="2" id="fc7_3" @(Model.RESP_07 == 2 ? "checked" : "") disabled /> <label for="fc7_3">2</label>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <input name="fc7[]" type="checkbox" value="3" id="fc7_4" @(Model.RESP_07 == 3 ? "checked" : "") disabled /> <label for="fc7_4">3</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc2[]" type="checkbox" value="3" disabled /> <label for="Olho2">3</label>
+                                                    <div class="row mt-2">
+                                                        <label class="col-md-6 col-form-label">&nbsp;&nbsp;<b>Resultado total:</b></label>
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(x => Model.Resultado, new { @class = "form-control form-control-sm", @readonly = "", id = "RESULTADO" })
+                                                            <input id="funcionalNumber" type="hidden" min="1" max="7" value="1" />
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <label class="col-md-6 col-form-label">
-                                                        <b><span id="fa-caret-right"><i>&nbsp;</i></span> In-Line Lunge</b>
-                                                    </label>
-                                                    <div class="col-md-1">
-                                                        <input name="fc3[]" type="checkbox" value="0" disabled /> <label for="Olho1">0</label>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc3[]" type="checkbox" value="1" disabled /> <label for="Olho2">1</label>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc3[]" type="checkbox" value="2" disabled /> <label for="Olho1">2</label>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc3[]" type="checkbox" value="3" disabled /> <label for="Olho2">3</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <label class="col-md-6 col-form-label">
-                                                        <b><span id="fa-caret-right"><i>&nbsp;</i></span> Shoulder Mobility</b>
-                                                    </label>
-                                                    <div class="col-md-1">
-                                                        <input name="fc4[]" type="checkbox" value="0" disabled /> <label for="Olho1">0</label>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc4[]" type="checkbox" value="1" disabled /> <label for="Olho2">1</label>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc4[]" type="checkbox" value="2" disabled /> <label for="Olho1">2</label>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc4[]" type="checkbox" value="3" disabled /> <label for="Olho2">3</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <label class="col-md-6 col-form-label">
-                                                        <b><span id="fa-caret-right"><i>&nbsp;</i></span> Active straight-Leg raise</b>
-                                                    </label>
-                                                    <div class="col-md-1">
-                                                        <input name="fc5[]" type="checkbox" value="0" disabled /> <label for="Olho1">0</label>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc5[]" type="checkbox" value="1" disabled /> <label for="Olho2">1</label>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc5[]" type="checkbox" value="2" disabled /> <label for="Olho1">2</label>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc5[]" type="checkbox" value="3" disabled /> <label for="Olho2">3</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <label class="col-md-6 col-form-label">
-                                                        <b><span id="fa-caret-right"><i>&nbsp;</i></span> Trunk Stability Push Up</b>
-                                                    </label>
-                                                    <div class="col-md-1">
-                                                        <input name="fc6[]" type="checkbox" value="0" disabled /> <label for="Olho1">0</label>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc6[]" type="checkbox" value="1" disabled /> <label for="Olho2">1</label>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc6[]" type="checkbox" value="2" disabled /> <label for="Olho1">2</label>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc6[]" type="checkbox" value="3" disabled /> <label for="Olho2">3</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <label class="col-md-6 col-form-label">
-                                                        <b><span id="fa-caret-right"><i>&nbsp;</i></span> Rotary Stability</b>
-                                                    </label>
-                                                    <div class="col-md-1">
-                                                        <input name="fc7[]" type="checkbox" value="0" disabled /> <label for="Olho1">0</label>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc7[]" type="checkbox" value="1" disabled /> <label for="Olho2">1</label>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc7[]" type="checkbox" value="2" disabled /> <label for="Olho1">2</label>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <input name="fc7[]" type="checkbox" value="3" disabled /> <label for="Olho2">3</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-2">
-                                                <label class="col-md-6 col-form-label">&nbsp;&nbsp;<b>Resultado total:</b></label>
-                                                <div class="col-md-3">
-                                                    <input type="text" class="form-control form-control-sm" readonly />
-                                                    <input id="funcionalNumber" type="" min="1" max="7" value="1" />
-                                                </div>
-                                            </div>
-                                            <div class="row mt-1">
-                                                <div class="col-md-2"></div>
-                                                <div class="col-md-10">
-                                                    <div class="btn-group">
-                                                        <button onclick="funcionalPrimeiro(this)" type="button" title="Primeiro teste" class="btn btn-sm btn-secondary"><<</button>
-                                                        <button onclick="funcionalAnterior(this)" type="button" title="Teste anterior" class="btn btn-sm btn-secondary"><</button>
-                                                        <input id="flexDesc" type="text" class="form-control form-control-sm text-center" readonly value="Teste 1 de 7" />
-                                                        <button onclick="funcionalProximo(this)" type="button" title="Próximo teste" class="btn btn-sm btn-secondary">></button>
-                                                        <button onclick="funcionalUltimo(this)" type="button" title="Úlimo teste" class="btn btn-sm btn-secondary">>></button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <Center><label><b id="testlabel">In-Line Lunge</b></label></Center>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-1">
-                                                <div class="col-md-1">
-                                                    <label>3</label>
-                                                </div>
-                                                <div class="col-md-11">
-                                                    <div style="border:1px solid #ddd">
-                                                        <img id="funcImg1" src="~/Assets/images/imagesfunc/func13.jpg" style="width:89% !important;height:100% !important" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-1">
-                                                <div class="col-md-1">
-                                                    <label>2</label>
-                                                </div>
-                                                <div class="col-md-11">
-                                                    <div style="border:1px solid #ddd">
-                                                        <img id="funcImg2" src="~/Assets/images/imagesfunc/func12.jpg" style="width:89% !important;height:100% !important" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-1">
-                                                <div class="col-md-1">
-                                                    <label>1</label>
-                                                </div>
-                                                <div class="col-md-11">
-                                                    <div style="border:1px solid #ddd">
-                                                        <img id="funcImg3" src="~/Assets/images/imagesfunc/func11.jpg" style="width:89% !important;height:100% !important" />
+                                                    <div class="row mt-1">
+                                                        <div class="col-md-2"></div>
+                                                        <div class="col-md-10">
+                                                            <div class="btn-group">
+                                                                <button onclick="funcionalPrimeiro(this)" type="button" title="Primeiro teste" class="btn btn-sm btn-secondary"><<</button>
+                                                                <button onclick="funcionalAnterior(this)" type="button" title="Teste anterior" class="btn btn-sm btn-secondary"><</button>
+                                                                <input id="flexDesc" type="text" class="form-control form-control-sm text-center" readonly value="Teste 1 de 7" />
+                                                                <button onclick="funcionalProximo(this)" type="button" title="Próximo teste" class="btn btn-sm btn-secondary">></button>
+                                                                <button onclick="funcionalUltimo(this)" type="button" title="Úlimo teste" class="btn btn-sm btn-secondary">>></button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mt-1">
-                                                <div class="col-md-1">
-                                                    <label>0</label>
-                                                </div>
-                                                <div class="col-md-11">
-                                                    <div style="border:1px solid #ddd">
-                                                        <img id="funcImg4" src="~/Assets/images/imagesfunc/func10.jpg" style="width:89% !important;height:100% !important" />
+                                                <div class="col-md-5">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <Center><label><b id="testlabel">Deep Squat</b></label></Center>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-1">
+                                                        <div class="col-md-1">
+                                                            <b>3</b>
+                                                        </div>
+                                                        <div class="col-md-11">
+                                                            <div style="border:1px solid #ddd">
+                                                                <img id="funcImg3" src="~/Assets/images/imagesfunc/func13.jpg" style="width: 89% !important; height: 130px !important" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-1">
+                                                        <div class="col-md-1">
+                                                            <b>2</b>
+                                                        </div>
+                                                        <div class="col-md-11">
+                                                            <div style="border:1px solid #ddd">
+                                                                <img id="funcImg2" src="~/Assets/images/imagesfunc/func12.jpg" style="width: 89% !important; height: 130px !important " />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-1">
+                                                        <div class="col-md-1">
+                                                            <b>1</b>
+                                                        </div>
+                                                        <div class="col-md-11">
+                                                            <div style="border:1px solid #ddd">
+                                                                <img id="funcImg1" src="~/Assets/images/imagesfunc/func11.jpg" style="width: 89% !important; height: 130px !important" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-1">
+                                                        <div class="col-md-1">
+                                                            <b>0</b>
+                                                        </div>
+                                                        <div class="col-md-11">
+                                                            <div style="border:1px solid #ddd">
+                                                                <img id="funcImg4" src="~/Assets/images/imagesfunc/func10.jpg" style="width: 89% !important; height: 130px !important" />
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <!--  DATATABLE START -->
-                            <div class="card mb-32pt mt-2">
-                                <div class="card-header">
-                                    <div class="form-inline">
-                                        <label class="" for="length_change">Mostrar</label>
-                                        <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GTQuestTable">
-                                            <option value='10'>10</option>
-                                            <option value='25'>25</option>
-                                            <option value='50'>50</option>
-                                            <option value='100'>100</option>
-                                            <option value='500'>500</option>
-                                            <option value='1000'>1000</option>
-                                            <option value='2000'>2000</option>
-                                            <option value='5000'>5000</option>
-                                            <option value='10000'>10000</option>
-                                        </select>
-                                        <label class="" for="length_change">registos</label>
-                                        <div class="btn-group">
-                                            <button type="button" title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GTQuestTable"><i class="fa fa-check-square"></i></button>
-                                            <button type="button" title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-upload="GT_RespForca" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                            <button type="button" title="Pesquisar" class="btnSearch btn btn-default" data-id="GTQuestTable"><i class="fa fa-search"></i></button>
-                                            <button type="button" title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GTQuestTable"><i class="fa fa-eraser"></i></button>
-                                            <!--Separator-->
-                                            <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "courses", applyFilter = "true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
-                                            <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "courses", applyFilter = "false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                            <div class="col-md-3">
+                                <!--  DATATABLE START -->
+                                <div class="card mb-32pt mt-2">
+                                    <div class="card-header">
+                                        <div class="form-inline">
+                                            <label class="" for="length_change">Mostrar</label>
+                                            <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GTQuestTable">
+                                                <option value='10'>10</option>
+                                                <option value='25'>25</option>
+                                                <option value='50'>50</option>
+                                                <option value='100'>100</option>
+                                                <option value='500'>500</option>
+                                                <option value='1000'>1000</option>
+                                                <option value='2000'>2000</option>
+                                                <option value='5000'>5000</option>
+                                                <option value='10000'>10000</option>
+                                            </select>
+                                            <label class="" for="length_change">registos</label>
+                                            <div class="btn-group">
+                                                <button type="button" title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GTQuestTable"><i class="fa fa-check-square"></i></button>
+                                                <button type="button" title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-upload="GT_RespFuncional" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                                <button type="button" title="Pesquisar" class="btnSearch btn btn-default" data-id="GTQuestTable"><i class="fa fa-search"></i></button>
+                                                <button type="button" title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GTQuestTable"><i class="fa fa-eraser"></i></button>
+                                                <!--Separator-->
+                                                <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "courses", applyFilter = "true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                                                <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "courses", applyFilter = "false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="table-responsive">
+                                        <table id="GTQuestTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td><input type="text" id="GTQuestTableInsercao" class="form-control form-control-sm" /></td>
+                                                    <td><input type="text" id="GTQuestTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                                    <td><input type="text" id="GTQuestTableActualizacao" class="form-control form-control-sm" /></td>
+                                                    <td><input type="text" id="GTQuestTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th data-name="GTQuestTableInsercao">Inserção</th>
+                                                    <th data-name="GTQuestTableDataInsercao">Data Inserção</th>
+                                                    <th data-name="GTQuestTableActualizacao">Actualização</th>
+                                                    <th data-name="GTQuestTableDataActualizacao">Data Actualização</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="card-footer p-8pt">
+                                        <span class="paginateInfoGTQuestTable paginateInfo mr-12pt" style="float:right"></span>
+                                        <div id="paginateGTQuestTable" class="pagination justify-content-start pagination-xsm m-0"></div>
+                                    </div>
                                 </div>
-                                <div class="table-responsive">
-                                    <table id="GTQuestTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                                        <thead>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td><input type="text" id="GTQuestTableInsercao" class="form-control form-control-sm" /></td>
-                                                <td><input type="text" id="GTQuestTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
-                                                <td><input type="text" id="GTQuestTableActualizacao" class="form-control form-control-sm" /></td>
-                                                <td><input type="text" id="GTQuestTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
-                                            </tr>
-                                            <tr>
-                                                <th></th>
-                                                <th></th>
-                                                <th data-name="GTQuestTableInsercao">Inserção</th>
-                                                <th data-name="GTQuestTableDataInsercao">Data Inserção</th>
-                                                <th data-name="GTQuestTableActualizacao">Actualização</th>
-                                                <th data-name="GTQuestTableDataActualizacao">Data Actualização</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                                <div class="card-footer p-8pt">
-                                    <span class="paginateInfoGTQuestTable paginateInfo mr-12pt" style="float:right"></span>
-                                    <div id="paginateGTQuestTable" class="pagination justify-content-start pagination-xsm m-0"></div>
-                                </div>
+                                <!--  DATATABLE START -->
                             </div>
-                            <!--  DATATABLE START -->
                         </div>
-                    </div>
-                }
-            </div>
+                    }
+                </div>
         </div>
         <h2>&nbsp;</h2>
         <h2>&nbsp;</h2>

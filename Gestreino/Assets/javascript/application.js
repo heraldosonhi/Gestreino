@@ -5097,19 +5097,15 @@ function loadGT_TipoTesteForca_List(id) {
         $('#ForcaExplosivaV').find('input').val('');
     }
 }
-
-
-
-
-
 //Functional
 $("#chcktests input:checkbox").change(function () {
-    var group = ":checkbox[name='" + $(this).attr("name") + "']";
     if ($(this).is(':checked')) {
-       // $(group).not($(this)).attr("checked", false);
-       
         let s = Number($('#funcionalNumber').val());
         $('#funcionalNumberArr_' + s).val($(this).val())
+    }
+    else {
+        let s = Number($('#funcionalNumber').val());
+        $('#funcionalNumberArr_' + s).val('')
     }
 });
 function funcionalLoadNumberArr() {
@@ -5142,58 +5138,23 @@ function funcionalUpDown(ss) {
     let s = Number($('#funcionalNumber').val());
     let min = Number($('#funcionalNumber').attr('min'));
     let max = Number($('#funcionalNumber').attr('max'));
-    //let ss = s + 1;
     if (ss <= max && ss >= min) {
         $('#funcionalNumber').val(ss)
         $('#flexDesc').val("Teste " + ss + " de " + max)
-        funcionalClearCheck();
-        funcionalSetClassificacao();
         funcionalLoadImg(ss);
         funcionalLoadNumberArr();
         //
         $('#chcktests input[type="checkbox"]:not([name="fc' + ss + '[]"]').attr('disabled', true);
         $('#chcktests input:checkbox[name = "fc' + ss + '[]"]').attr('disabled', false);
-        $('#chcktests input:not([name="fc' + ss + '[]"]').parent().parent().find('#fa-caret-right i').removeClass('fa fa-caret-right');
-        $('#chcktests input[name = "fc' + ss + '[]"]').parent().parent().find('#fa-caret-right i').addClass('fa fa-caret-right');
+        $('#chcktests input:not([name="fc' + ss + '[]"]').parent().parent().parent().parent().find('#fa-caret-right i').removeClass('fa fa-caret-right');
+        $('#chcktests input[name = "fc' + ss + '[]"]').parent().parent().parent().parent().find('#fa-caret-right i').addClass('fa fa-caret-right');
         
-        $('#testlabel').text($('input[name="fc' + ss + '[]"]').parent().parent().find('label b').text())
+        $('#testlabel').text($('input[name="fc' + ss + '[]"]').parent().parent().parent().parent().find('label b').text())
     }
-}
-function funcionalClearCheck() {
-    var group = ":checkbox[name='flex']";
-    $(group).attr("checked", false);
-}
-function funcionalSetClassificacao(val) {
-    var cl = '';
-
-    switch (val) {
-        case "0":
-            cl = 'Muito Fraco'
-            break;
-        case "1":
-            cl = 'Fraco'
-            break;
-        case "2":
-            cl = 'Médio'
-            break;
-        case "3":
-            cl = 'Bom'
-            break;
-        case "4":
-            cl = 'Excelente'
-            break;
-        default:
-    }
-    $('#flexClassificacao').val(cl)
 }
 function funcionalLoadImg(id) {
-    $("#funcImg1").attr('src', '/Assets/images/imagesfunc/func' + id + '1.jpg').width("89%").height("100%")
-    $("#funcImg2").attr('src', '/Assets/images/imagesfunc/func' + id + '2.jpg').width("89%").height("100%")
-    $("#funcImg3").attr('src', '/Assets/images/imagesfunc/func' + id + '3.jpg').width("89%").height("100%")
-    $("#funcImg4").attr('src', '/Assets/images/imagesfunc/func' + id + '0.jpg').width("89%").height("100%")
-}
-function loadfuncionaltype(id) {
-    //if (confirm('Tem a certeza que pretende mudar de avaliação?')) {
-    window.location = '/gtmanagement/flexibility?flexitype=' + id;
-    //} else {}
+    $("#funcImg1").attr('src', '/Assets/images/imagesfunc/func' + id + '1.jpg').width("89%").height("130px")
+    $("#funcImg2").attr('src', '/Assets/images/imagesfunc/func' + id + '2.jpg').width("89%").height("130px")
+    $("#funcImg3").attr('src', '/Assets/images/imagesfunc/func' + id + '3.jpg').width("89%").height("130px")
+    $("#funcImg4").attr('src', '/Assets/images/imagesfunc/func' + id + '0.jpg').width("89%").height("130px")
 }

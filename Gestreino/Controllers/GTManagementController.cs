@@ -2441,6 +2441,8 @@ namespace Gestreino.Controllers
             if (GT_Res == "GT_RespAptidaoCardio") Link = "/gtmanagement/cardio/";
             if (GT_Res == "GT_RespPessoaIdosa") Link = "/gtmanagement/elderly/";
             if (GT_Res == "GT_RespForca") Link = "/gtmanagement/force/";
+            if (GT_Res == "GT_RespFuncional") Link = "/gtmanagement/functional/";
+            
 
             TipoId = TipoId > 0 ? TipoId : null;
             var v = (from a in databaseManager.SP_GT_ENT_Resp(TipoId, PesId, GT_Res, null, "R").ToList() select a);
@@ -5006,18 +5008,31 @@ namespace Gestreino.Controllers
                 if (data.Count() == 0)
                     return RedirectToAction("functional", "gtmanagement", new { Id = string.Empty });
                 ViewBag.data = data;
-               
-               
+
+                MODEL.ID = Id;
+                MODEL.Desporto = data.First().DESPORTO;
+                MODEL.Posicao = data.First().POSICAO;
+                MODEL.Resultado= Convert.ToInt32(data.First().RESP_SUMMARY);
+                MODEL.Mao= data.First().MAO;
+                MODEL.Perna = data.First().PERNA;
+                MODEL.Olho = data.First().OLHO;
+                MODEL.RESP_01 = data.First().RESP_01;
+                MODEL.RESP_02 = data.First().RESP_02;
+                MODEL.RESP_03 = data.First().RESP_03;
+                MODEL.RESP_04 = data.First().RESP_04;
+                MODEL.RESP_05 = data.First().RESP_05;
+                MODEL.RESP_06 = data.First().RESP_06;
+                MODEL.RESP_07 = data.First().RESP_07;
             }
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Functional;
             return View("Quest/Functional", MODEL);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Functional(Functional MODEL, int?[] fc1)
+        public ActionResult Functional(Functional MODEL, int?[] funcionalNumberArr_)
         {
             var GT_SOCIOS_ID = 0;
-
+             
             try
             {
                 //  VALIDATE FORM FIRST
@@ -5030,53 +5045,112 @@ namespace Gestreino.Controllers
 
                 GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
 
-                int iPerc = 0;
-                decimal iValue = 0;
                 string sRes = string.Empty;
 
-                // DoLoadValuesPercentilBracos();
+                if (funcionalNumberArr_ == null)
+                    return Json(new { result = false, error = "Existem perguntas por responder" });
 
-                return Json(new { result = false, error = String.Join(",", fc1) });
+                if (MODEL.Mao==null || MODEL.Perna==null || MODEL.Olho==null)
+                    return Json(new { result = false, error = "Existem perguntas por responder" });
 
-                MODEL.iFlexiAct = iPerc;
-                MODEL.lblResActualFlexi = sRes;
+                if (funcionalNumberArr_.Count()!=7)
+                    return Json(new { result = false, error ="Existem perguntas por responder" });
+              
+                foreach(var i in funcionalNumberArr_)
+                {
+                    if (i==null)
+                        return Json(new { result = false, error = "Existem perguntas por responder" });
+                }
 
-           
+                if (funcionalNumberArr_.Count() != 7)
+                    return Json(new { result = false, error = "Existem perguntas por responder" });
+
+                //Criar a instancia do dictionary
+                FuncDictRespostas = new System.Collections.Specialized.StringDictionary();
+
+                CreateDicRespostas();
+                SetDictionary(funcionalNumberArr_);
+                MODEL.Resultado = DoGetResult();
+
+
+                if (MODEL.ID > 0)
+                {
+                    (from c in databaseManager.GT_RespFuncional
+                     where c.ID == MODEL.ID
+                     select c).ToList().ForEach(fx =>
+                     {
+                         fx.RESP_01 = funcionalNumberArr_[0];
+                         fx.RESP_02 = funcionalNumberArr_[1];
+                         fx.RESP_03 = funcionalNumberArr_[2];
+                         fx.RESP_04 = funcionalNumberArr_[3];
+                         fx.RESP_05 = funcionalNumberArr_[4];
+                         fx.RESP_06 = funcionalNumberArr_[5];
+                         fx.RESP_07 = funcionalNumberArr_[6];
+                         fx.DESPORTO = MODEL.Desporto;
+                         fx.POSICAO = MODEL.Posicao;
+                         fx.MAO = MODEL.Mao;
+                         fx.PERNA = MODEL.Perna;
+                         fx.OLHO = MODEL.Olho;
+                         fx.RESP_SUMMARY = MODEL.Resultado;
+                         fx.ACTUALIZADO_POR = int.Parse(User.Identity.GetUserId()); fx.DATA_ACTUALIZACAO = DateTime.Now;
+                     });
+                    databaseManager.SaveChanges();
+                }
+                else
+                {
+
                     GT_RespFuncional fx = new GT_RespFuncional();
                     fx.GT_SOCIOS_ID = GT_SOCIOS_ID;
-                   // fx.RESP_01 = MODEL.GT_TipoTesteForca_ID;
-               // fx.RESP_02 = MODEL.GT_TipoTesteForca_ID;
-              //  fx.RESP_03 = MODEL.GT_TipoTesteForca_ID;
-              //  fx.RESP_04 = MODEL.GT_TipoTesteForca_ID;
-             //   fx.RESP_05 = MODEL.GT_TipoTesteForca_ID;
-             //   fx.RESP_06 = MODEL.GT_TipoTesteForca_ID;
-             //   fx.RESP_07 = MODEL.GT_TipoTesteForca_ID;
-                fx.DESPORTO = MODEL.Desporto;
-                fx.POSICAO = MODEL.Posicao;
-                fx.MAO = MODEL.Mao;
-                fx.PERNA = MODEL.Perna;
-                fx.OLHO = MODEL.Olho;
-                    fx.RESP_SUMMARY = iValue;
-                    fx.RESP_DESCRICAO = sRes;
-                 //   fx.PERCENTIL = iPerc;
+                    fx.RESP_01 = funcionalNumberArr_[0];
+                    fx.RESP_02 = funcionalNumberArr_[1];
+                    fx.RESP_03 = funcionalNumberArr_[2];
+                    fx.RESP_04 = funcionalNumberArr_[3];
+                    fx.RESP_05 = funcionalNumberArr_[4];
+                    fx.RESP_06 = funcionalNumberArr_[5];
+                    fx.RESP_07 = funcionalNumberArr_[6];
+                    fx.DESPORTO = MODEL.Desporto;
+                    fx.POSICAO = MODEL.Posicao;
+                    fx.MAO = MODEL.Mao;
+                    fx.PERNA = MODEL.Perna;
+                    fx.OLHO = MODEL.Olho;
+                    fx.RESP_SUMMARY = MODEL.Resultado;
                     fx.INSERIDO_POR = int.Parse(User.Identity.GetUserId());
                     fx.DATA_INSERCAO = DateTime.Now;
                     databaseManager.GT_RespFuncional.Add(fx);
                     databaseManager.SaveChanges();
 
                     MODEL.ID = fx.ID;
-               
+                }
 
-
+                MODEL.RESP_01 = funcionalNumberArr_[0];
+                MODEL.RESP_02 = funcionalNumberArr_[1];
+                MODEL.RESP_03 = funcionalNumberArr_[2];
+                MODEL.RESP_04 = funcionalNumberArr_[3];
+                MODEL.RESP_05 = funcionalNumberArr_[4];
+                MODEL.RESP_06 = funcionalNumberArr_[5];
+                MODEL.RESP_07 = funcionalNumberArr_[6];
                 MODEL.lblDataInsercao = databaseManager.GT_RespFuncional.Where(x => x.ID == MODEL.ID).Select(X => X.DATA_INSERCAO).FirstOrDefault();
                 ModelState.Clear();
             }
             catch (Exception ex)
             {
-                return Json(new { result = false, error = ex.Message });
+                return Json(new { result = false, error = ex.ToString() });
             }
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Functional;
-            return View("Quest/Functional", MODEL);
+           
+            return Json(new
+            {
+                result = true,
+                error = string.Empty,
+                flexAct = "0-0",
+                flexAnt="0-0",
+                tentativas =  "0-" + MODEL.Resultado,
+                table = "GTQuestTable",
+                showToastr = true,
+                toastrMessage = "Submetido com sucesso!"
+            });
+
+            //return View("Quest/Functional", MODEL);
         }
 
 
@@ -9406,6 +9480,43 @@ namespace Gestreino.Controllers
                 iFlexi = null;
             return iFlexi;
         }
+
+
+
+
+
+
+
+
+        //Funcional
+        private System.Collections.Specialized.StringDictionary FuncDictRespostas;
+        private void CreateDicRespostas()
+        {
+            FuncDictRespostas.Clear();
+
+            for (int i=0; i < 7; i++)
+            {
+                FuncDictRespostas.Add(i.ToString(), string.Empty);
+            }
+        }
+        private void SetDictionary(int?[] funcionalNumberArr_)
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                FuncDictRespostas[i.ToString()] = funcionalNumberArr_[i].ToString();
+            }
+        }
+        private int DoGetResult()
+        {
+            int result = 0;
+            for (int i=0; i < 7; i++)
+            {
+                result += Convert.ToInt32(FuncDictRespostas[i.ToString()]);
+            }
+            return result;
+        }
+
+
 
     }
 }

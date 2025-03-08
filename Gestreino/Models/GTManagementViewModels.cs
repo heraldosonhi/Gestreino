@@ -1458,12 +1458,14 @@ namespace Gestreino.Models
         public int? Perna { get; set; }
         [Display(Name = "Olho Dominante:")]
         public int? Olho { get; set; }
-       
-
-        public int? iFlexiAct { get; set; }
-        public string lblResActualFlexi { get; set; }
-        public decimal? iFlexiAnt { get; set; }
-        public string lblResAnteriorFlexi { get; set; }
+        public int? Resultado { get; set; }
+        public int? RESP_01 { get; set; }
+        public int? RESP_02 { get; set; }
+        public int? RESP_03 { get; set; }
+        public int? RESP_04 { get; set; }
+        public int? RESP_05 { get; set; }
+        public int? RESP_06 { get; set; }
+        public int? RESP_07 { get; set; }
         public DateTime? lblDataInsercao { get; set; }
     }
 
