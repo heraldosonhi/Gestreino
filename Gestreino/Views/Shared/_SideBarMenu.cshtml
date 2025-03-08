@@ -67,11 +67,11 @@
                 <li>
                     <a><i class="fa fa-history"></i> Consultas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                        <li><a href="#">Prescrições</a></li>
-                        <li><a href="#">Avaliações</a></li>
+                        <li><a href="@Url.Action("prescriptions", "gtmanagement", new {Id=string.Empty})">Prescrições</a></li>
+                        <li><a href="@Url.Action("evaluations", "gtmanagement", new {Id=string.Empty})">Avaliações</a></li>
                         <li><a href="#">Peso Médio</a></li>
                         <li><a href="#">Análise Descritiva</a></li>
-                        <li><a href="#">Ranking Avaliações</a></li>
+                        <li><a href="@Url.Action("ranking", "gtmanagement", new {Id=string.Empty})">Ranking Avaliações</a></li>
                         <li><a href="#">Outras Avaliações</a></li>
                     </ul>
                 </li>

@@ -52,6 +52,9 @@ namespace Gestreino.Controllers
         int _MenuLeftBarLink_Quest_Elderly = 212;
         int _MenuLeftBarLink_Quest_Force = 213;
         int _MenuLeftBarLink_Quest_Functional = 214;
+        int _MenuLeftBarLink_Search_Prescriptions= 215;
+        int _MenuLeftBarLink_Search_Evaluations = 216;
+        int _MenuLeftBarLink_Search_Ranking = 217;
         int _MenuLeftBarLink_FileManagement = 0;
 
         // GET: GTManagement
@@ -5161,6 +5164,118 @@ namespace Gestreino.Controllers
 
 
 
+        //Consulta Prescricoes
+        public ActionResult Prescriptions(Search MODEL, int? Id)
+        {
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
+            MODEL.Pescription_List = databaseManager.GT_TipoTreino.OrderBy(x => x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_Prescriptions;
+            return View("Search/Prescriptions", MODEL);
+        }
+        //Consulta Avaliacoes
+        public ActionResult Evaluations(Search MODEL, int? Id)
+        {
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
+
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_Evaluations;
+            return View("Search/Evaluations", MODEL);
+        }
+        //Consulta Ranking
+        public ActionResult Ranking(Search MODEL, int? Id)
+        {
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
+
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_Ranking;
+            return View("Search/Ranking", MODEL);
+        }
+        public ActionResult GetSearchTable()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Numero = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Altura = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Peso = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var Data = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            var Tipo = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            //TipoId = TipoId > 0 ? TipoId : null;
+            var v = (from a in databaseManager.SP_GT_ENT_Search(null, null, null, null, null, null, null, null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+          //  if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
+            
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "NUMERO": v = v.OrderBy(s => s.N_SOCIO); break;
+                        case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "ALTURA": v = v.OrderBy(s => s.ALTURA); break;
+                        case "PESO": v = v.OrderBy(s => s.PESO); break;
+                        case "DATA": v = v.OrderBy(s => s.DATA_DEFAULT); break;
+                        case "TIPO": v = v.OrderBy(s => s.TIPO_PLANO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "NUMERO": v = v.OrderByDescending(s => s.N_SOCIO); break;
+                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "ALTURA": v = v.OrderByDescending(s => s.ALTURA); break;
+                        case "PESO": v = v.OrderByDescending(s => s.PESO); break;
+                        case "DATA": v = v.OrderByDescending(s => s.DATA_DEFAULT); break;
+                        case "TIPO": v = v.OrderByDescending(s => s.TIPO_PLANO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = 0,
+                    NUMERO = x.N_SOCIO,
+                    NOME = x.NOME,
+                    ALTURA = x.ALTURA,
+                    PESO = x.PESO,
+                    DATA = x.DATA_DEFAULT,
+                    TIPO = x.TIPO_PLANO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
 
 
 

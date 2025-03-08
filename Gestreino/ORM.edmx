@@ -2771,6 +2771,19 @@
           <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
           <Parameter Name="Action" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_GT_ENT_Search" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="NumeroSocio" Type="int" Mode="In" />
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+          <Parameter Name="GTTreinoId" Type="int" Mode="In" />
+          <Parameter Name="Date1" Type="date" Mode="In" />
+          <Parameter Name="Date2" Type="date" Mode="In" />
+          <Parameter Name="Sex" Type="int" Mode="In" />
+          <Parameter Name="AvaliacaoId" Type="int" Mode="In" />
+          <Parameter Name="Percentil" Type="int" Mode="In" />
+          <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_GT_ENT_TIPOTREINO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="Sigla" Type="varchar" Mode="In" />
@@ -5472,6 +5485,19 @@
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
             <End Role="GT_RespFuncional" EntitySet="GT_RespFuncional" />
           </AssociationSet>
+          <FunctionImport Name="SP_GT_ENT_Search" ReturnType="Collection(GESTREINO_ORM.SP_GT_ENT_Search_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="NumeroSocio" Mode="In" Type="Int32" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="GTTreinoId" Mode="In" Type="Int32" />
+            <Parameter Name="Date1" Mode="In" Type="DateTime" />
+            <Parameter Name="Date2" Mode="In" Type="DateTime" />
+            <Parameter Name="Sex" Mode="In" Type="Int32" />
+            <Parameter Name="AvaliacaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Percentil" Mode="In" Type="Int32" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -7883,6 +7909,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="SP_GT_ENT_Search_Result">
+          <Property Type="String" Name="N_SOCIO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="1" />
+          <Property Type="Decimal" Name="ALTURA" Nullable="false" Precision="1" Scale="1" />
+          <Property Type="Decimal" Name="PESO" Nullable="false" Precision="1" Scale="1" />
+          <Property Type="String" Name="DATA_DEFAULT" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="TIPO_PLANO" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="TIPO_PLANO_ID" Nullable="false" />
+          <Property Type="Int32" Name="SEXO" Nullable="false" />
+          <Property Type="String" Name="DATA1" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="DATA2" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="AVALIACAO" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="AVALIACAO_ID" Nullable="false" />
+          <Property Type="Int32" Name="PERCENTIL" Nullable="false" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10078,6 +10119,25 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_GT_ENT_Search" FunctionName="GESTREINO_ORM.Store.SP_GT_ENT_Search">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GT_ENT_Search_Result">
+                <ScalarProperty Name="N_SOCIO" ColumnName="N_SOCIO" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="ALTURA" ColumnName="ALTURA" />
+                <ScalarProperty Name="PESO" ColumnName="PESO" />
+                <ScalarProperty Name="DATA_DEFAULT" ColumnName="DATA_DEFAULT" />
+                <ScalarProperty Name="TIPO_PLANO" ColumnName="TIPO_PLANO" />
+                <ScalarProperty Name="TIPO_PLANO_ID" ColumnName="TIPO_PLANO_ID" />
+                <ScalarProperty Name="SEXO" ColumnName="SEXO" />
+                <ScalarProperty Name="DATA1" ColumnName="DATA1" />
+                <ScalarProperty Name="DATA2" ColumnName="DATA2" />
+                <ScalarProperty Name="AVALIACAO" ColumnName="AVALIACAO" />
+                <ScalarProperty Name="AVALIACAO_ID" ColumnName="AVALIACAO_ID" />
+                <ScalarProperty Name="PERCENTIL" ColumnName="PERCENTIL" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

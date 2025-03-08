@@ -485,6 +485,9 @@
     <Compile Include="SP_GT_ENT_Resp_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_GT_ENT_Search_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_GT_ENT_TIPOTREINO_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -827,6 +830,9 @@
     <Content Include="Views\GTManagement\Quest\Functional.cshtml" />
     <Content Include="Views\Account\PasswordRecovery.cshtml" />
     <Content Include="Views\Account\PasswordRecoveryToken.cshtml" />
+    <Content Include="Views\GTManagement\Search\Prescriptions.cshtml" />
+    <Content Include="Views\GTManagement\Search\Evaluations.cshtml" />
+    <Content Include="Views\GTManagement\Search\Ranking.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

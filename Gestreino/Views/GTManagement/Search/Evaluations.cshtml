@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Atletas";
+}
+<!-- page content -->
+<div class="right_col" role="main">
+
+    <!--  DATATABLE START -->
+
+    <div class="card mb-32pt">
+        <div class="card-header">
+            <div class="form-inline">
+                <label class="" for="length_change">Mostrar</label>
+                <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="DadosPessoaisTable">
+                    <option value='10'>10</option>
+                    <option value='25'>25</option>
+                    <option value='50'>50</option>
+                    <option value='100'>100</option>
+                    <option value='500'>500</option>
+                    <option value='1000'>1000</option>
+                    <option value='2000'>2000</option>
+                    <option value='5000'>5000</option>
+                    <option value='10000'>10000</option>
+                </select>
+                <label class="" for="length_change">registos</label>
+                <div class="btn-group">
+                    <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="DadosPessoaisTable"><i class="fa fa-check-square"></i></button>
+                    <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="users" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                    <button title="Pesquisar" class="btnSearch btn btn-default" data-id="DadosPessoaisTable"><i class="fa fa-search"></i></button>
+                    <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="DadosPessoaisTable"><i class="fa fa-eraser"></i></button>
+                    <a title="Adicionar atleta" href="@Url.Action("newathlete","gtmanagement")" class="btn btn-default"><i class="fa fa-plus-circle"></i></a>
+                    <!--Separator-->
+                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
+                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="DadosPessoaisTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><input type="text" id="Pes" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="Socio" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="Telefone" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="Email" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
+                        <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th data-name="Pes"></th>
+                        <th data-name="Socio">
+                            n° Sócio
+                        </th>
+                        <th data-name="Telefone">Telefone</th>
+                        <th data-name="Email">Email</th>
+                        <th data-name="Insercao">Inserção</th>
+                        <th data-name="DataInsercao">Data Inserção</th>
+                        <th data-name="Actualizacao">Actualização</th>
+                        <th data-name="DataActualizacao">Data Actualização</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="card-footer p-8pt">
+            <span class="paginateInfoDadosPessoais paginateInfo mr-12pt" style="float:right"></span>
+            <div id="paginateDadosPessoais" class="pagination justify-content-start pagination-xsm m-0"></div>
+        </div>
+    </div>
+    <!--  DATATABLE START -->
+
+    <h2>&nbsp;</h2>
+    <h2>&nbsp;</h2>
+</div>
+<!-- /page content -->
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        handleDataGPUsers();
+    });
+</script>

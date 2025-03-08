@@ -1468,5 +1468,12 @@ namespace Gestreino.Models
         public int? RESP_07 { get; set; }
         public DateTime? lblDataInsercao { get; set; }
     }
+    public class Search
+    {
+        public int? ID { get; set; }
+        public int? PEsId { get; set; }
+        public int? Pescription { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> Pescription_List { get; set; }
 
+    }
 }

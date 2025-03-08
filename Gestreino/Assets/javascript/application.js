@@ -3100,6 +3100,70 @@ function handleDataGTQuestTable() {
         },
     });
 };
+function handleDataSearchTable() {
+    var table = $("#SearchTable").DataTable({
+        "processing": true, // Para exibir mensagem de processamento a cada requisição
+        "serverSide": true, // Para processar as requisições no back-end
+        //"filter": false, // : está comentado porque estamos a usar filtros que enviamos no back-end
+        "orderMulti": false, // Opção de ordenação para uma coluna de cada vez.
+        //Linguagem PT
+        "language": {
+            "url": "/Assets/lib/datatable/pt-PT.json"
+        },
+        fixedHeader: {
+            header: true,
+            footer: true
+        },
+        "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
+        "ajax": {
+            "url": "../../gtmanagement/GetSearchTable", // POST TO CONTROLLER
+            "type": "POST",
+            "datatype": "json",
+            data: {  }
+        },
+        "columns": [
+            { "data": "Id", "name": null, "autoWidth": true },
+            //Cada dado representa uma coluna da tabela
+            { "data": "NUMERO", "name": "NUMERO", "autoWidth": true },
+            { "data": "NOME", "name": "NOME", "autoWidth": true },
+            { "data": "ALTURA", "name": "ALTURA", "autoWidth": true },
+            { "data": "PESO", "name": "PESO", "autoWidth": true },
+            { "data": "DATA", "name": "DATA", "autoWidth": true },
+            { "data": "TIPO", "name": "TIPO", "autoWidth": true },
+        ],
+        //Configuração da tabela para os checkboxes
+        'columnDefs': [
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                },
+            }
+        ], 'select': {
+            'style': 'multi'
+        },
+        'order': [[1, 'false']],
+        'rowCallback': function (row, data, dataIndex) {
+            // Get row ID
+            var rowId = data["Id"];
+            //console.log(rowId)
+            //Dra table and add selected option to previously selected checkboxes
+            $.each(values, function (i, r) {
+                if (rowId == r) {
+                    $(row).find('input[type="checkbox"]').prop('checked', true);
+                    $(row).closest("tr").addClass("selected");
+                }
+            })
+        },
+        drawCallback: function () {
+            processInfo(this.api().page.info(), 'paginateInfoSearchTable');
+        },
+        //Remove pagination from table and add to custom Div
+        initComplete: (settings, json) => {
+            $('#SearchTable_paginate').appendTo('#paginateSearchTable');
+        },
+    });
+};
 /*
 * 
 #####################################################
