@@ -93,8 +93,12 @@ namespace Gestreino.Classes
             message.IsBodyHtml = true;
 
             // Security check
-            ServicePointManager.Expect100Continue = true;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            //ServicePointManager.Expect100Continue = true;
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+            //Added this line here
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(RemoteServerCertificateValidationCallback);
+            //SmtpClient smtp = new SmtpClient();
 
             try
             {
@@ -115,6 +119,16 @@ namespace Gestreino.Classes
             {
                 StatusReport.result = ex.ToString();
             }
+        }
+
+        //Check
+        private bool RemoteServerCertificateValidationCallback(object sender,
+    System.Security.Cryptography.X509Certificates.X509Certificate certificate,
+    System.Security.Cryptography.X509Certificates.X509Chain chain,
+    System.Net.Security.SslPolicyErrors sslPolicyErrors)
+        {
+            //Console.WriteLine(certificate);
+            return true;
         }
 
 
