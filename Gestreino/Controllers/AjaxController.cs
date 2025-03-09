@@ -18,6 +18,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
+using static Gestreino.Classes.SelectValues;
 
 namespace Gestreino.Controllers
 {
@@ -32,10 +33,14 @@ namespace Gestreino.Controllers
             MODEL.Status = 1;
             if (id>0)
             {
-                var data = databaseManager.UTILIZADORES.Where(x => x.ID == id).ToList();
+                var data = databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES(id, null, null, null, null, null, null, null, null, null, null, null, null, null, "R").ToList();
+
                 MODEL.Login = data.First().LOGIN;
-                MODEL.Status = data.First().ACTIVO?1:0;
+                MODEL.Status = data.First().ACTIVO== "Activo"?1:0;
+                MODEL.Phone = data.First().TELEFONE.ToString();
+                MODEL.Email = data.First().EMAIL;
                 MODEL.Id = id;
+                MODEL.PesId = data.First().PES_PESSOAS_ID;
             }
 
             ViewBag.Action = action;

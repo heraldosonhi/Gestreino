@@ -108,12 +108,25 @@
          {
              @Html.AntiForgeryToken()
              @Html.HiddenFor(m => m.Id)
+             @Html.HiddenFor(m => m.PesId)
              <p>  <span><i class="fa fa-info-circle"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
 
              <div class="row">
                  @Html.LabelFor(m => m.Login, new { @class = "col-md-2 col-form-label required" })
                  <div class="col-md-6">
                      @Html.TextBoxFor(m => m.Login, new { @class = "form-control form-control-sm", required = "", maxlength = "32" })
+                 </div>
+             </div>
+             <div class="row">
+                 @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label required" })
+                 <div class="col-md-10">
+                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm", required = "", maxlength = "64", type = "email" })
+                 </div>
+             </div>
+             <div class="row">
+                 @Html.LabelFor(m => m.Phone, new { @class = "col-md-2 col-form-label required" })
+                 <div class="col-md-6">
+                     @Html.TextBoxFor(m => m.Phone, new { @class = "form-control form-control-sm", type = "number", required = "" })
                  </div>
              </div>
              <div class="row">

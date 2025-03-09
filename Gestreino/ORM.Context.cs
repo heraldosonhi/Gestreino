@@ -64,7 +64,6 @@ namespace Gestreino
         public virtual DbSet<UTILIZADORES_LOGIN_PASSWORD_TENT> UTILIZADORES_LOGIN_PASSWORD_TENT { get; set; }
         public virtual DbSet<INST_APLICACAO> INST_APLICACAO { get; set; }
         public virtual DbSet<UTILIZADORES_ACESSO_ATOMOS> UTILIZADORES_ACESSO_ATOMOS { get; set; }
-        public virtual DbSet<GRL_DEFINICOES> GRL_DEFINICOES { get; set; }
         public virtual DbSet<PES_CONTACTOS> PES_CONTACTOS { get; set; }
         public virtual DbSet<GT_DuracaoPlano> GT_DuracaoPlano { get; set; }
         public virtual DbSet<GT_Carga> GT_Carga { get; set; }
@@ -107,6 +106,7 @@ namespace Gestreino
         public virtual DbSet<PES_PESSOAS_CARACT> PES_PESSOAS_CARACT { get; set; }
         public virtual DbSet<GT_RespFuncional> GT_RespFuncional { get; set; }
         public virtual DbSet<PES_PESSOAS_FAM_ENDERECOS> PES_PESSOAS_FAM_ENDERECOS { get; set; }
+        public virtual DbSet<GRL_DEFINICOES> GRL_DEFINICOES { get; set; }
     
         public virtual ObjectResult<SP_UTILIZADORES_LOGIN_LOGS_Result> SP_UTILIZADORES_LOGIN_LOGS(Nullable<int> userId, string action)
         {
@@ -318,31 +318,6 @@ namespace Gestreino
                 new ObjectParameter("Action", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_PERFIS_ATOMOS_Result>("SP_UTILIZADORES_ENT_PERFIS_ATOMOS", idParameter, profileIdParameter, atomIdParameter, userInsercaoIdParameter, actionParameter);
-        }
-    
-        public virtual ObjectResult<SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS_Result> SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS(Nullable<int> id, Nullable<int> profileId, Nullable<int> userId, Nullable<int> userInsercaoId, string action)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("Id", id) :
-                new ObjectParameter("Id", typeof(int));
-    
-            var profileIdParameter = profileId.HasValue ?
-                new ObjectParameter("ProfileId", profileId) :
-                new ObjectParameter("ProfileId", typeof(int));
-    
-            var userIdParameter = userId.HasValue ?
-                new ObjectParameter("UserId", userId) :
-                new ObjectParameter("UserId", typeof(int));
-    
-            var userInsercaoIdParameter = userInsercaoId.HasValue ?
-                new ObjectParameter("UserInsercaoId", userInsercaoId) :
-                new ObjectParameter("UserInsercaoId", typeof(int));
-    
-            var actionParameter = action != null ?
-                new ObjectParameter("Action", action) :
-                new ObjectParameter("Action", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS_Result>("SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS", idParameter, profileIdParameter, userIdParameter, userInsercaoIdParameter, actionParameter);
         }
     
         public virtual ObjectResult<SP_GRL_ENT_END_CIDADE_Result> SP_GRL_ENT_END_CIDADE(Nullable<int> id, string sigla, string nome, Nullable<int> paisId, Nullable<int> userInsercaoId, string action)
@@ -1634,6 +1609,80 @@ namespace Gestreino
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_PES_ENT_PESSOAS_CARACT", idParameter, pesIdParameter, tipoSangueIdParameter, alturaParameter, pesoParameter, fCREPOUSOParameter, fCMAXIMOParameter, tASISTOLICAParameter, tADISTOLICAParameter, mASSAGORDAParameter, vO2Parameter, gT_DuracaoPlano_IDParameter, iMCParameter, fCTreino1Parameter, fCTreino2Parameter, fCTreino3Parameter, fCTreino4Parameter, fCTreino5Parameter, fCTreino6Parameter, fCTreino7Parameter, fCTreino8Parameter, fCTreino9Parameter, fCTreino10Parameter, fR_htParameter, fR_tbParameter, fR_hlParameter, fR_obParameter, fR_dbParameter, fR_inParameter, fR_heParameter, fR_ecParameter, fR_otParameter, oB_acParameter, oB_cpParameter, oB_piParameter, oB_tpParameter, oB_amParameter, oB_beParameter, oB_toParameter, oB_otParameter, observacoesParameter, userInsercaoIdParameter, actionParameter);
         }
     
+        public virtual ObjectResult<SP_GT_ENT_Search_Result> SP_GT_ENT_Search(Nullable<int> id, Nullable<int> numeroSocio, string nome, Nullable<int> gTTreinoId, Nullable<System.DateTime> date1, Nullable<System.DateTime> date2, Nullable<int> sex, Nullable<int> avaliacaoId, Nullable<int> percentil, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var numeroSocioParameter = numeroSocio.HasValue ?
+                new ObjectParameter("NumeroSocio", numeroSocio) :
+                new ObjectParameter("NumeroSocio", typeof(int));
+    
+            var nomeParameter = nome != null ?
+                new ObjectParameter("Nome", nome) :
+                new ObjectParameter("Nome", typeof(string));
+    
+            var gTTreinoIdParameter = gTTreinoId.HasValue ?
+                new ObjectParameter("GTTreinoId", gTTreinoId) :
+                new ObjectParameter("GTTreinoId", typeof(int));
+    
+            var date1Parameter = date1.HasValue ?
+                new ObjectParameter("Date1", date1) :
+                new ObjectParameter("Date1", typeof(System.DateTime));
+    
+            var date2Parameter = date2.HasValue ?
+                new ObjectParameter("Date2", date2) :
+                new ObjectParameter("Date2", typeof(System.DateTime));
+    
+            var sexParameter = sex.HasValue ?
+                new ObjectParameter("Sex", sex) :
+                new ObjectParameter("Sex", typeof(int));
+    
+            var avaliacaoIdParameter = avaliacaoId.HasValue ?
+                new ObjectParameter("AvaliacaoId", avaliacaoId) :
+                new ObjectParameter("AvaliacaoId", typeof(int));
+    
+            var percentilParameter = percentil.HasValue ?
+                new ObjectParameter("Percentil", percentil) :
+                new ObjectParameter("Percentil", typeof(int));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_ENT_Search_Result>("SP_GT_ENT_Search", idParameter, numeroSocioParameter, nomeParameter, gTTreinoIdParameter, date1Parameter, date2Parameter, sexParameter, avaliacaoIdParameter, percentilParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS_Result> SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS(Nullable<int> id, Nullable<int> profileId, Nullable<int> userId, Nullable<int> userInsercaoId, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var profileIdParameter = profileId.HasValue ?
+                new ObjectParameter("ProfileId", profileId) :
+                new ObjectParameter("ProfileId", typeof(int));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var userInsercaoIdParameter = userInsercaoId.HasValue ?
+                new ObjectParameter("UserInsercaoId", userInsercaoId) :
+                new ObjectParameter("UserInsercaoId", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS_Result>("SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS", idParameter, profileIdParameter, userIdParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
         public virtual ObjectResult<SP_UTILIZADORES_ENT_UTILIZADORES_Result> SP_UTILIZADORES_ENT_UTILIZADORES(Nullable<int> id, Nullable<int> subGroupId, Nullable<int> profileId, string login, string nome, Nullable<decimal> telefone, string email, string senha, string salt, Nullable<bool> activo, Nullable<System.DateTime> dataAct, Nullable<System.DateTime> dataDesact, Nullable<bool> validada, Nullable<int> userInsercaoId, string action)
         {
             var idParameter = id.HasValue ?
@@ -1697,55 +1746,6 @@ namespace Gestreino
                 new ObjectParameter("Action", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_UTILIZADORES_Result>("SP_UTILIZADORES_ENT_UTILIZADORES", idParameter, subGroupIdParameter, profileIdParameter, loginParameter, nomeParameter, telefoneParameter, emailParameter, senhaParameter, saltParameter, activoParameter, dataActParameter, dataDesactParameter, validadaParameter, userInsercaoIdParameter, actionParameter);
-        }
-    
-        public virtual ObjectResult<SP_GT_ENT_Search_Result> SP_GT_ENT_Search(Nullable<int> id, Nullable<int> numeroSocio, string nome, Nullable<int> gTTreinoId, Nullable<System.DateTime> date1, Nullable<System.DateTime> date2, Nullable<int> sex, Nullable<int> avaliacaoId, Nullable<int> percentil, Nullable<int> userInsercaoId, string action)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("Id", id) :
-                new ObjectParameter("Id", typeof(int));
-    
-            var numeroSocioParameter = numeroSocio.HasValue ?
-                new ObjectParameter("NumeroSocio", numeroSocio) :
-                new ObjectParameter("NumeroSocio", typeof(int));
-    
-            var nomeParameter = nome != null ?
-                new ObjectParameter("Nome", nome) :
-                new ObjectParameter("Nome", typeof(string));
-    
-            var gTTreinoIdParameter = gTTreinoId.HasValue ?
-                new ObjectParameter("GTTreinoId", gTTreinoId) :
-                new ObjectParameter("GTTreinoId", typeof(int));
-    
-            var date1Parameter = date1.HasValue ?
-                new ObjectParameter("Date1", date1) :
-                new ObjectParameter("Date1", typeof(System.DateTime));
-    
-            var date2Parameter = date2.HasValue ?
-                new ObjectParameter("Date2", date2) :
-                new ObjectParameter("Date2", typeof(System.DateTime));
-    
-            var sexParameter = sex.HasValue ?
-                new ObjectParameter("Sex", sex) :
-                new ObjectParameter("Sex", typeof(int));
-    
-            var avaliacaoIdParameter = avaliacaoId.HasValue ?
-                new ObjectParameter("AvaliacaoId", avaliacaoId) :
-                new ObjectParameter("AvaliacaoId", typeof(int));
-    
-            var percentilParameter = percentil.HasValue ?
-                new ObjectParameter("Percentil", percentil) :
-                new ObjectParameter("Percentil", typeof(int));
-    
-            var userInsercaoIdParameter = userInsercaoId.HasValue ?
-                new ObjectParameter("UserInsercaoId", userInsercaoId) :
-                new ObjectParameter("UserInsercaoId", typeof(int));
-    
-            var actionParameter = action != null ?
-                new ObjectParameter("Action", action) :
-                new ObjectParameter("Action", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_ENT_Search_Result>("SP_GT_ENT_Search", idParameter, numeroSocioParameter, nomeParameter, gTTreinoIdParameter, date1Parameter, date2Parameter, sexParameter, avaliacaoIdParameter, percentilParameter, userInsercaoIdParameter, actionParameter);
         }
     }
 }

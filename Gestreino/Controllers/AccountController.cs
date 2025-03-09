@@ -179,14 +179,14 @@ namespace JeanPiagetSGA.Controllers
             }
 
             int tokenid = Configs.TOKENS[0]; // Recuperar senha 
-            /*
+            
             if (databaseManager.PES_CONTACTOS.Where(a => a.EMAIL == MODEL.Email && a.DATA_REMOCAO == null).ToList().Count() == 0)
                 return Json(new { result = false, error = "Este email não está associado a uma conta de utilizador!" });
 
-            if (databaseManager.GRL_TOKENS.Where(a => a.CONTEUDO == MODEL.Email && a.C_TOKENS_TIPOS_ID == tokenid && a.DATA_REMOCAO == null).ToList().Count() > 0)
+            if (databaseManager.GRL_TOKENS.Where(a => a.CONTEUDO == MODEL.Email && a.GRL_TOKENS_TIPOS_ID == tokenid && a.DATA_REMOCAO == null).ToList().Count() > 0)
             {
                 // Get last timestamp from token
-                var DateAfter = databaseManager.GRL_TOKENS.Where(a => a.CONTEUDO == MODEL.Email && a.C_TOKENS_TIPOS_ID == tokenid && a.DATA_REMOCAO == null).OrderByDescending(x => x.ID).Select(x => x.DATA).First().AddMinutes(Convert.ToDouble(Configs.SEC_SENHA_RECU_LIMITE_EMAIL));
+                var DateAfter = databaseManager.GRL_TOKENS.Where(a => a.CONTEUDO == MODEL.Email && a.GRL_TOKENS_TIPOS_ID == tokenid && a.DATA_REMOCAO == null).OrderByDescending(x => x.ID).Select(x => x.DATA).First().AddMinutes(Convert.ToDouble(Configs.SEC_SENHA_RECU_LIMITE_EMAIL));
                 TimeSpan ts = DateAfter - DateTime.Now;
                 var minutes = ts.Minutes + 1;
                 if (DateAfter > DateTime.Now)
@@ -203,15 +203,15 @@ namespace JeanPiagetSGA.Controllers
             var tokenUrlEncode = HttpUtility.UrlEncode(token);
 
             // Send Email
-            string url = "https://unipiaget-angola.org/api/redirect?token=" + token + "&campus=" + Configs.INST_INSTITUICAO_SIGLA;
+            string url = "http://gestreino.pt/redirect?token=" + token + "&campus=" + Configs.INST_INSTITUICAO_SIGLA;
             Mailer.SendEmailMVC(3, MODEL.Email, pesname, tokenUrlEncode, url, null, null); // Email template - 3
-            */
+            
             // Try Catch
-            //if (!string.IsNullOrEmpty(ExportEmail.StatusReport.result) && ExportEmail.StatusReport.result != "Success")
-            //    return Json(new { result = false, error = "Erro ao requisitar link para recuperar acesso, por favor tente mais tarde!" /*Mailer.StatusReport.result*/ });
-            //else
-                // If successfull email sent insert token into database
-            //    databaseManager.SP_GRL_ENT_TOKENS(null, null, tokenid, token, MODEL.Email, DateTime.Now, null, "CT").ToList();  // Recuperar senha de acesso - 1
+            if (!string.IsNullOrEmpty(ExportEmail.StatusReport.result) && ExportEmail.StatusReport.result != "Success")
+               return Json(new { result = false, error = "Erro ao requisitar link para recuperar acesso, por favor tente mais tarde!" /*Mailer.StatusReport.result*/ });
+          //  else
+            // If successfull email sent insert token into database
+            //  databaseManager.SP_GRL_ENT_TOKENS(null, null, tokenid, token, MODEL.Email, DateTime.Now, null, "CT").ToList();  // Recuperar senha de acesso - 1
 
             //return View(model);
             return Json(new { result = true, success = "Link enviado com successo, se não recebeu o nosso email na sua caixa de entrada por favor verifique a sua pasta de Spam 'Email de Lixo', O link é valído por " + Configs.SEC_SENHA_RECU_LIMITE_EMAIL + " minutos apenas.", toastrMessage = "Email enviado com successo!", resetForm = true });

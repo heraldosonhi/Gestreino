@@ -68,6 +68,7 @@ namespace Gestreino.Models
 
         [Display(Name = "Enviar senha por email")]
         public bool isAutomaticEmail { get; set; }
+        public int? PesId { get; set; }
     }
     public class AccessAppendItems
     {
@@ -198,8 +199,23 @@ namespace Gestreino.Models
         [Display(Name = "Tempo limite de token de email (Minutos)")]
         public int? SEC_SENHA_RECU_LIMITE_EMAIL { get; set; }
 
-        [Display(Name = "Timeout de cookies de sessão (Minutos) ")]
+        [Display(Name = "Timeout de cookies de sessão (Minutos)")]
         public int? SEC_SESSAO_TIMEOUT_TEMPO { get; set; }
+
+        [Display(Name = "Nome ou endereço IP do servidor SMTP primário")]
+        public string NET_STMP_HOST { get; set; }
+
+        [Display(Name = "Porta do servidor SMTP primário")]
+        public int? NET_STMP_PORT { get; set; }
+
+        [Display(Name = "Nome do utilizador do servidor SMTP primário")]
+        public string NET_SMTP_USERNAME { get; set; }
+
+        [Display(Name = "Senha do utilizador do servidor SMTP primário")]
+        public string NET_SMTP_SENHA { get; set; }
+
+        [Display(Name = "Endereço de resposta do servidor SMTP primário")]
+        public string NET_SMTP_FROM { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> MOEDA_LIST { get; set; }
     }
 

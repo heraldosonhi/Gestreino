@@ -252,11 +252,13 @@ namespace Gestreino.Classes
                 NET_LDAP_HOSTNAME = configvalues[0].x.NET_LDAP_HOSTNAME;
                 NET_ENDERECO_IP_INTERNO = configvalues[0].x.NET_ENDERECO_IP_INTERNO;
                 NET_ENDERECO_IP_EXTERNO = configvalues[0].x.NET_ENDERECO_IP_EXTERNO;
+                */
                 NET_STMP_HOST = configvalues[0].x.NET_STMP_HOST;
                 NET_STMP_PORT = configvalues[0].x.NET_STMP_PORT;
                 NET_SMTP_USERNAME = configvalues[0].x.NET_SMTP_USERNAME;
                 NET_SMTP_SENHA = configvalues[0].x.NET_SMTP_SENHA;
-                NET_STMP_FROM = configvalues[0].x.NET_STMP_FROM;*/
+                NET_STMP_FROM = configvalues[0].x.NET_STMP_FROM;
+
                 SEC_SENHA_TENT_BLOQUEIO = configvalues[0].x.SEC_SENHA_TENT_BLOQUEIO;
                 SEC_SENHA_TENT_BLOQUEIO_TEMPO = configvalues[0].x.SEC_SENHA_TENT_BLOQUEIO_TEMPO;
                 SEC_SENHA_RECU_LIMITE_EMAIL = configvalues[0].x.SEC_SENHA_RECU_LIMITE_EMAIL;

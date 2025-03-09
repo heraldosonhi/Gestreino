@@ -69,6 +69,11 @@
           <Property Name="SEC_SENHA_TENT_BLOQUEIO_TEMPO" Type="int" />
           <Property Name="SEC_SENHA_RECU_LIMITE_EMAIL" Type="int" />
           <Property Name="SEC_SESSAO_TIMEOUT_TEMPO" Type="int" />
+          <Property Name="NET_STMP_HOST" Type="varchar" MaxLength="255" />
+          <Property Name="NET_STMP_PORT" Type="int" />
+          <Property Name="NET_SMTP_USERNAME" Type="varchar" MaxLength="255" />
+          <Property Name="NET_SMTP_SENHA" Type="varchar" MaxLength="255" />
+          <Property Name="NET_STMP_FROM" Type="varchar" MaxLength="255" />
           <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
           <Property Name="ACTUALIZADO_POR" Type="int" />
           <Property Name="REMOVIDO_POR" Type="int" />
@@ -4711,13 +4716,6 @@
             <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS_Result)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
-            <Parameter Name="ProfileId" Mode="In" Type="Int32" />
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
-            <Parameter Name="Action" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="SP_GRL_ENT_END_CIDADE" ReturnType="Collection(GESTREINO_ORM.SP_GRL_ENT_END_CIDADE_Result)">
             <Parameter Name="Id" Mode="In" Type="Int32" />
             <Parameter Name="Sigla" Mode="In" Type="String" />
@@ -4786,11 +4784,6 @@
             <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="GRL_DEFINICOES" EntityType="GESTREINO_ORM.GRL_DEFINICOES" />
-          <AssociationSet Name="GRL_DEFINICOES_INST_APLICACAO_ID" Association="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID">
-            <End Role="INST_APLICACAO" EntitySet="INST_APLICACAO" />
-            <End Role="GRL_DEFINICOES" EntitySet="GRL_DEFINICOES" />
-          </AssociationSet>
           <EntitySet Name="PES_CONTACTOS" EntityType="GESTREINO_ORM.PES_CONTACTOS" />
           <EntitySet Name="GT_DuracaoPlano" EntityType="GESTREINO_ORM.GT_DuracaoPlano" />
           <FunctionImport Name="SP_PES_ENT_PESSOAS" ReturnType="Collection(GESTREINO_ORM.SP_PES_ENT_PESSOAS_Result)">
@@ -5375,23 +5368,6 @@
             <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SP_UTILIZADORES_ENT_UTILIZADORES" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_UTILIZADORES_Result)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
-            <Parameter Name="SubGroupId" Mode="In" Type="Int32" />
-            <Parameter Name="ProfileId" Mode="In" Type="Int32" />
-            <Parameter Name="login" Mode="In" Type="String" />
-            <Parameter Name="Nome" Mode="In" Type="String" />
-            <Parameter Name="Telefone" Mode="In" Type="Decimal" />
-            <Parameter Name="Email" Mode="In" Type="String" />
-            <Parameter Name="Senha" Mode="In" Type="String" />
-            <Parameter Name="Salt" Mode="In" Type="String" />
-            <Parameter Name="Activo" Mode="In" Type="Boolean" />
-            <Parameter Name="DataAct" Mode="In" Type="DateTime" />
-            <Parameter Name="DataDesact" Mode="In" Type="DateTime" />
-            <Parameter Name="Validada" Mode="In" Type="Boolean" />
-            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
-            <Parameter Name="Action" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="GT_RespFuncional" EntityType="GESTREINO_ORM.GT_RespFuncional" />
           <AssociationSet Name="GT_RespFuncional_GT_SOCIOS_ID" Association="GESTREINO_ORM.GT_RespFuncional_GT_SOCIOS_ID">
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
@@ -5426,6 +5402,35 @@
           <AssociationSet Name="FKPES_PESSOA815594" Association="GESTREINO_ORM.FKPES_PESSOA815594">
             <End Role="PES_PESSOAS_FAM" EntitySet="PES_PESSOAS_FAM" />
             <End Role="PES_PESSOAS_FAM_ENDERECOS" EntitySet="PES_PESSOAS_FAM_ENDERECOS" />
+          </AssociationSet>
+          <FunctionImport Name="SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="ProfileId" Mode="In" Type="Int32" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UTILIZADORES_ENT_UTILIZADORES" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_UTILIZADORES_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="SubGroupId" Mode="In" Type="Int32" />
+            <Parameter Name="ProfileId" Mode="In" Type="Int32" />
+            <Parameter Name="login" Mode="In" Type="String" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="Telefone" Mode="In" Type="Decimal" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Senha" Mode="In" Type="String" />
+            <Parameter Name="Salt" Mode="In" Type="String" />
+            <Parameter Name="Activo" Mode="In" Type="Boolean" />
+            <Parameter Name="DataAct" Mode="In" Type="DateTime" />
+            <Parameter Name="DataDesact" Mode="In" Type="DateTime" />
+            <Parameter Name="Validada" Mode="In" Type="Boolean" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="GRL_DEFINICOES" EntityType="GESTREINO_ORM.GRL_DEFINICOES" />
+          <AssociationSet Name="GRL_DEFINICOES_INST_APLICACAO_ID" Association="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID">
+            <End Role="INST_APLICACAO" EntitySet="INST_APLICACAO" />
+            <End Role="GRL_DEFINICOES" EntitySet="GRL_DEFINICOES" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
@@ -5472,8 +5477,8 @@
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
           <NavigationProperty Name="INST_APLICACAO_ENDERECOS" Relationship="GESTREINO_ORM.FKINST_APLIC348700" FromRole="INST_APLICACAO" ToRole="INST_APLICACAO_ENDERECOS" />
           <NavigationProperty Name="INST_APLICACAO_CONTACTOS" Relationship="GESTREINO_ORM.FKINST_APLIC72783" FromRole="INST_APLICACAO" ToRole="INST_APLICACAO_CONTACTOS" />
-          <NavigationProperty Name="GRL_DEFINICOES" Relationship="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID" FromRole="INST_APLICACAO" ToRole="GRL_DEFINICOES" />
           <NavigationProperty Name="INST_APLICACAO_ARQUIVOS" Relationship="GESTREINO_ORM.FKINST_APLIC342516" FromRole="INST_APLICACAO" ToRole="INST_APLICACAO_ARQUIVOS" />
+          <NavigationProperty Name="GRL_DEFINICOES" Relationship="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID" FromRole="INST_APLICACAO" ToRole="GRL_DEFINICOES" />
         </EntityType>
         <Association Name="FKINST_APLIC348700">
           <End Type="GESTREINO_ORM.INST_APLICACAO" Role="INST_APLICACAO" Multiplicity="1" />
@@ -5603,18 +5608,6 @@
           <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
           <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
         </ComplexType>
-        <ComplexType Name="SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="Int32" Name="UTILIZADOR_ID" Nullable="false" />
-          <Property Type="String" Name="LOGIN" Nullable="false" MaxLength="32" />
-          <Property Type="String" Name="NOME_PROPIO" Nullable="false" MaxLength="48" />
-          <Property Type="String" Name="APELIDO" Nullable="false" MaxLength="48" />
-          <Property Type="String" Name="PERFIL_NOME" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
-          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
-          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
-          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
-        </ComplexType>
         <ComplexType Name="SP_GRL_ENT_END_CIDADE_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="30" />
@@ -5721,43 +5714,6 @@
           <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
           <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
         </ComplexType>
-        <EntityType Name="GRL_DEFINICOES">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="INST_APLICACAO_ID" Type="Int32" Nullable="false" />
-          <Property Name="INST_PER_TEMA_1" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
-          <Property Name="INST_PER_TEMA_1_SIDEBAR" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
-          <Property Name="INST_PER_TEMA_2" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
-          <Property Name="INST_PER_LOGOTIPO_WIDTH" Type="Int32" />
-          <Property Name="INST_MDL_GPAG_MOEDA_PADRAO" Type="Int32" />
-          <Property Name="INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS" Type="Int32" />
-          <Property Name="INST_MDL_GPAG_NOTA_DECIMAL" Type="Int32" />
-          <Property Name="SEC_SENHA_TENT_BLOQUEIO" Type="Int32" />
-          <Property Name="SEC_SENHA_TENT_BLOQUEIO_TEMPO" Type="Int32" />
-          <Property Name="SEC_SENHA_RECU_LIMITE_EMAIL" Type="Int32" />
-          <Property Name="SEC_SESSAO_TIMEOUT_TEMPO" Type="Int32" />
-          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
-          <Property Name="ACTUALIZADO_POR" Type="Int32" />
-          <Property Name="REMOVIDO_POR" Type="Int32" />
-          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
-          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="INST_APLICACAO" Relationship="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID" FromRole="GRL_DEFINICOES" ToRole="INST_APLICACAO" />
-        </EntityType>
-        <Association Name="GRL_DEFINICOES_INST_APLICACAO_ID">
-          <End Type="GESTREINO_ORM.INST_APLICACAO" Role="INST_APLICACAO" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.GRL_DEFINICOES" Role="GRL_DEFINICOES" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="INST_APLICACAO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GRL_DEFINICOES">
-              <PropertyRef Name="INST_APLICACAO_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="PES_CONTACTOS">
           <Key>
             <PropertyRef Name="ID" />
@@ -7777,26 +7733,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="SP_UTILIZADORES_ENT_UTILIZADORES_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="LOGIN" Nullable="false" MaxLength="32" />
-          <Property Type="String" Name="ACTIVO" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="DATA_ACT" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="DATA_DESACT" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="CONTA_VALIDA" Nullable="false" MaxLength="3" />
-          <Property Type="Int32" Name="PES_PESSOAS_ID" Nullable="false" />
-          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="NOME_PROPIO" Nullable="false" MaxLength="48" />
-          <Property Type="String" Name="APELIDO" Nullable="false" MaxLength="48" />
-          <Property Type="String" Name="FOTOGRAFIA" Nullable="true" MaxLength="4000" />
-          <Property Type="Int32" Name="TOTALGROUPS" Nullable="true" />
-          <Property Type="Int32" Name="TOTALPERFIS" Nullable="true" />
-          <Property Type="String" Name="ULTIMA_SESSAO" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
-          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
-          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
-          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
-        </ComplexType>
         <EntityType Name="GT_RespFuncional">
           <Key>
             <PropertyRef Name="ID" />
@@ -7921,6 +7857,82 @@
             </Principal>
             <Dependent Role="PES_PESSOAS_FAM_ENDERECOS">
               <PropertyRef Name="PES_PESSOAS_FAM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="UTILIZADOR_ID" Nullable="false" />
+          <Property Type="String" Name="LOGIN" Nullable="false" MaxLength="32" />
+          <Property Type="String" Name="NOME_PROPIO" Nullable="false" MaxLength="48" />
+          <Property Type="String" Name="APELIDO" Nullable="false" MaxLength="48" />
+          <Property Type="String" Name="PERFIL_NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_UTILIZADORES_ENT_UTILIZADORES_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="LOGIN" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="ACTIVO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="DATA_ACT" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="DATA_DESACT" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="CONTA_VALIDA" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="PES_PESSOAS_ID" Nullable="false" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="NOME_PROPIO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="APELIDO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="FOTOGRAFIA" Nullable="false" MaxLength="1" />
+          <Property Type="Decimal" Name="TELEFONE" Nullable="false" Precision="1" Scale="1" />
+          <Property Type="String" Name="EMAIL" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="TOTALGROUPS" Nullable="false" />
+          <Property Type="Int32" Name="TOTALPERFIS" Nullable="false" />
+          <Property Type="String" Name="ULTIMA_SESSAO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="INSERCAO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <EntityType Name="GRL_DEFINICOES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="INST_APLICACAO_ID" Type="Int32" Nullable="false" />
+          <Property Name="INST_PER_TEMA_1" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="INST_PER_TEMA_1_SIDEBAR" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="INST_PER_TEMA_2" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="INST_PER_LOGOTIPO_WIDTH" Type="Int32" />
+          <Property Name="INST_MDL_GPAG_MOEDA_PADRAO" Type="Int32" />
+          <Property Name="INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS" Type="Int32" />
+          <Property Name="INST_MDL_GPAG_NOTA_DECIMAL" Type="Int32" />
+          <Property Name="SEC_SENHA_TENT_BLOQUEIO" Type="Int32" />
+          <Property Name="SEC_SENHA_TENT_BLOQUEIO_TEMPO" Type="Int32" />
+          <Property Name="SEC_SENHA_RECU_LIMITE_EMAIL" Type="Int32" />
+          <Property Name="SEC_SESSAO_TIMEOUT_TEMPO" Type="Int32" />
+          <Property Name="NET_STMP_HOST" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NET_STMP_PORT" Type="Int32" />
+          <Property Name="NET_SMTP_USERNAME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NET_SMTP_SENHA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NET_STMP_FROM" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="INST_APLICACAO" Relationship="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID" FromRole="GRL_DEFINICOES" ToRole="INST_APLICACAO" />
+        </EntityType>
+        <Association Name="GRL_DEFINICOES_INST_APLICACAO_ID">
+          <End Type="GESTREINO_ORM.INST_APLICACAO" Role="INST_APLICACAO" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GRL_DEFINICOES" Role="GRL_DEFINICOES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INST_APLICACAO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GRL_DEFINICOES">
+              <PropertyRef Name="INST_APLICACAO_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8639,22 +8651,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="UTILIZADOR_ID" ColumnName="UTILIZADOR_ID" />
-                <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
-                <ScalarProperty Name="NOME_PROPIO" ColumnName="NOME_PROPIO" />
-                <ScalarProperty Name="APELIDO" ColumnName="APELIDO" />
-                <ScalarProperty Name="PERFIL_NOME" ColumnName="PERFIL_NOME" />
-                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
-                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
-                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
-                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_GRL_ENT_END_CIDADE" FunctionName="GESTREINO_ORM.Store.SP_GRL_ENT_END_CIDADE">
             <ResultMapping>
               <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GRL_ENT_END_CIDADE_Result">
@@ -8761,31 +8757,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="GRL_DEFINICOES">
-            <EntityTypeMapping TypeName="GESTREINO_ORM.GRL_DEFINICOES">
-              <MappingFragment StoreEntitySet="GRL_DEFINICOES">
-                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
-                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
-                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
-                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
-                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
-                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
-                <ScalarProperty Name="SEC_SESSAO_TIMEOUT_TEMPO" ColumnName="SEC_SESSAO_TIMEOUT_TEMPO" />
-                <ScalarProperty Name="SEC_SENHA_RECU_LIMITE_EMAIL" ColumnName="SEC_SENHA_RECU_LIMITE_EMAIL" />
-                <ScalarProperty Name="SEC_SENHA_TENT_BLOQUEIO_TEMPO" ColumnName="SEC_SENHA_TENT_BLOQUEIO_TEMPO" />
-                <ScalarProperty Name="SEC_SENHA_TENT_BLOQUEIO" ColumnName="SEC_SENHA_TENT_BLOQUEIO" />
-                <ScalarProperty Name="INST_MDL_GPAG_NOTA_DECIMAL" ColumnName="INST_MDL_GPAG_NOTA_DECIMAL" />
-                <ScalarProperty Name="INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS" ColumnName="INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS" />
-                <ScalarProperty Name="INST_MDL_GPAG_MOEDA_PADRAO" ColumnName="INST_MDL_GPAG_MOEDA_PADRAO" />
-                <ScalarProperty Name="INST_PER_LOGOTIPO_WIDTH" ColumnName="INST_PER_LOGOTIPO_WIDTH" />
-                <ScalarProperty Name="INST_PER_TEMA_2" ColumnName="INST_PER_TEMA_2" />
-                <ScalarProperty Name="INST_PER_TEMA_1_SIDEBAR" ColumnName="INST_PER_TEMA_1_SIDEBAR" />
-                <ScalarProperty Name="INST_PER_TEMA_1" ColumnName="INST_PER_TEMA_1" />
-                <ScalarProperty Name="INST_APLICACAO_ID" ColumnName="INST_APLICACAO_ID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PES_CONTACTOS">
             <EntityTypeMapping TypeName="GESTREINO_ORM.PES_CONTACTOS">
               <MappingFragment StoreEntitySet="PES_CONTACTOS">
@@ -10046,30 +10017,6 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_PES_ENT_PESSOAS_CARACT" FunctionName="GESTREINO_ORM.Store.SP_PES_ENT_PESSOAS_CARACT" />
-          <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_ENT_UTILIZADORES" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_ENT_UTILIZADORES">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_UTILIZADORES_ENT_UTILIZADORES_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
-                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
-                <ScalarProperty Name="DATA_ACT" ColumnName="DATA_ACT" />
-                <ScalarProperty Name="DATA_DESACT" ColumnName="DATA_DESACT" />
-                <ScalarProperty Name="CONTA_VALIDA" ColumnName="CONTA_VALIDA" />
-                <ScalarProperty Name="PES_PESSOAS_ID" ColumnName="PES_PESSOAS_ID" />
-                <ScalarProperty Name="NOME" ColumnName="NOME" />
-                <ScalarProperty Name="NOME_PROPIO" ColumnName="NOME_PROPIO" />
-                <ScalarProperty Name="APELIDO" ColumnName="APELIDO" />
-                <ScalarProperty Name="FOTOGRAFIA" ColumnName="FOTOGRAFIA" />
-                <ScalarProperty Name="TOTALGROUPS" ColumnName="TOTALGROUPS" />
-                <ScalarProperty Name="TOTALPERFIS" ColumnName="TOTALPERFIS" />
-                <ScalarProperty Name="ULTIMA_SESSAO" ColumnName="ULTIMA_SESSAO" />
-                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
-                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
-                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
-                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="GT_RespFuncional">
             <EntityTypeMapping TypeName="GESTREINO_ORM.GT_RespFuncional">
               <MappingFragment StoreEntitySet="GT_RespFuncional">
@@ -10134,6 +10081,78 @@
                 <ScalarProperty Name="RUA" ColumnName="RUA" />
                 <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
                 <ScalarProperty Name="PES_PESSOAS_FAM_ID" ColumnName="PES_PESSOAS_FAM_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UTILIZADOR_ID" ColumnName="UTILIZADOR_ID" />
+                <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
+                <ScalarProperty Name="NOME_PROPIO" ColumnName="NOME_PROPIO" />
+                <ScalarProperty Name="APELIDO" ColumnName="APELIDO" />
+                <ScalarProperty Name="PERFIL_NOME" ColumnName="PERFIL_NOME" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_ENT_UTILIZADORES" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_ENT_UTILIZADORES">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_UTILIZADORES_ENT_UTILIZADORES_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+                <ScalarProperty Name="DATA_ACT" ColumnName="DATA_ACT" />
+                <ScalarProperty Name="DATA_DESACT" ColumnName="DATA_DESACT" />
+                <ScalarProperty Name="CONTA_VALIDA" ColumnName="CONTA_VALIDA" />
+                <ScalarProperty Name="PES_PESSOAS_ID" ColumnName="PES_PESSOAS_ID" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="NOME_PROPIO" ColumnName="NOME_PROPIO" />
+                <ScalarProperty Name="APELIDO" ColumnName="APELIDO" />
+                <ScalarProperty Name="FOTOGRAFIA" ColumnName="FOTOGRAFIA" />
+                <ScalarProperty Name="TELEFONE" ColumnName="TELEFONE" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="TOTALGROUPS" ColumnName="TOTALGROUPS" />
+                <ScalarProperty Name="TOTALPERFIS" ColumnName="TOTALPERFIS" />
+                <ScalarProperty Name="ULTIMA_SESSAO" ColumnName="ULTIMA_SESSAO" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="GRL_DEFINICOES">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GRL_DEFINICOES">
+              <MappingFragment StoreEntitySet="GRL_DEFINICOES">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="NET_STMP_FROM" ColumnName="NET_STMP_FROM" />
+                <ScalarProperty Name="NET_SMTP_SENHA" ColumnName="NET_SMTP_SENHA" />
+                <ScalarProperty Name="NET_SMTP_USERNAME" ColumnName="NET_SMTP_USERNAME" />
+                <ScalarProperty Name="NET_STMP_PORT" ColumnName="NET_STMP_PORT" />
+                <ScalarProperty Name="NET_STMP_HOST" ColumnName="NET_STMP_HOST" />
+                <ScalarProperty Name="SEC_SESSAO_TIMEOUT_TEMPO" ColumnName="SEC_SESSAO_TIMEOUT_TEMPO" />
+                <ScalarProperty Name="SEC_SENHA_RECU_LIMITE_EMAIL" ColumnName="SEC_SENHA_RECU_LIMITE_EMAIL" />
+                <ScalarProperty Name="SEC_SENHA_TENT_BLOQUEIO_TEMPO" ColumnName="SEC_SENHA_TENT_BLOQUEIO_TEMPO" />
+                <ScalarProperty Name="SEC_SENHA_TENT_BLOQUEIO" ColumnName="SEC_SENHA_TENT_BLOQUEIO" />
+                <ScalarProperty Name="INST_MDL_GPAG_NOTA_DECIMAL" ColumnName="INST_MDL_GPAG_NOTA_DECIMAL" />
+                <ScalarProperty Name="INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS" ColumnName="INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS" />
+                <ScalarProperty Name="INST_MDL_GPAG_MOEDA_PADRAO" ColumnName="INST_MDL_GPAG_MOEDA_PADRAO" />
+                <ScalarProperty Name="INST_PER_LOGOTIPO_WIDTH" ColumnName="INST_PER_LOGOTIPO_WIDTH" />
+                <ScalarProperty Name="INST_PER_TEMA_2" ColumnName="INST_PER_TEMA_2" />
+                <ScalarProperty Name="INST_PER_TEMA_1_SIDEBAR" ColumnName="INST_PER_TEMA_1_SIDEBAR" />
+                <ScalarProperty Name="INST_PER_TEMA_1" ColumnName="INST_PER_TEMA_1" />
+                <ScalarProperty Name="INST_APLICACAO_ID" ColumnName="INST_APLICACAO_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

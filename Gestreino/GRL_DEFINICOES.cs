@@ -27,6 +27,11 @@ namespace Gestreino
         public Nullable<int> SEC_SENHA_TENT_BLOQUEIO_TEMPO { get; set; }
         public Nullable<int> SEC_SENHA_RECU_LIMITE_EMAIL { get; set; }
         public Nullable<int> SEC_SESSAO_TIMEOUT_TEMPO { get; set; }
+        public string NET_STMP_HOST { get; set; }
+        public Nullable<int> NET_STMP_PORT { get; set; }
+        public string NET_SMTP_USERNAME { get; set; }
+        public string NET_SMTP_SENHA { get; set; }
+        public string NET_STMP_FROM { get; set; }
         public int INSERIDO_POR { get; set; }
         public Nullable<int> ACTUALIZADO_POR { get; set; }
         public Nullable<int> REMOVIDO_POR { get; set; }

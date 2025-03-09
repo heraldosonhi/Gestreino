@@ -226,8 +226,13 @@ namespace Gestreino.Controllers
 
                 var Status = MODEL.Status == 1 ? true : false;
 
+                if (databaseManager.PES_CONTACTOS.Where(a => a.EMAIL == MODEL.Email && a.PES_PESSOAS_ID!=MODEL.PesId).ToList().Count() > 0)
+                {
+                    if (!string.IsNullOrEmpty(MODEL.Email)) return Json(new { result = false, error = "Este endereço de email já encontra-se em uso!" });
+
+                }
                 // Update
-                var update = databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES(MODEL.Id, null, null, MODEL.Login, null, null, null, null, null, Status, null, null, true, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                var update = databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES(MODEL.Id, null, null, MODEL.Login, null, Convert.ToDecimal(MODEL.Phone), MODEL.Email.Trim(), null, null, Status, null, null, true, int.Parse(User.Identity.GetUserId()), "U").ToList();
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -4697,6 +4702,11 @@ namespace Gestreino.Controllers
             MODEL.SEC_SENHA_TENT_BLOQUEIO_TEMPO = setts.First().SEC_SENHA_TENT_BLOQUEIO_TEMPO;
             MODEL.SEC_SENHA_RECU_LIMITE_EMAIL = setts.First().SEC_SENHA_RECU_LIMITE_EMAIL;
             MODEL.SEC_SESSAO_TIMEOUT_TEMPO = setts.First().SEC_SESSAO_TIMEOUT_TEMPO;
+            MODEL.NET_STMP_HOST = setts.First().NET_STMP_HOST;
+            MODEL.NET_STMP_PORT = setts.First().NET_STMP_PORT;
+            MODEL.NET_SMTP_USERNAME = setts.First().NET_SMTP_USERNAME;
+            MODEL.NET_SMTP_SENHA = setts.First().NET_SMTP_SENHA;
+            MODEL.NET_SMTP_FROM = setts.First().NET_STMP_FROM;
             ViewBag.data = data;
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Settings;
             return View("Settings/Index", MODEL);
@@ -4883,7 +4893,46 @@ namespace Gestreino.Controllers
             }
             return Json(new { result = true, error = string.Empty, showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateInstNet(SettingsDef MODEL)
+        {
+            try
+            {
+                //  VALIDATE FORM FIRST
+                if (!ModelState.IsValid)
+                {
+                    string errors = string.Empty;
+                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
+                    return Json(new { result = false, error = errors });
+                }
 
+                // Update
+                using (var db = databaseManager)
+                {
+                    var row = db.GRL_DEFINICOES.FirstOrDefault(x => x.INST_APLICACAO_ID == Configs.INST_INSTITUICAO_ID);
+
+                    // this variable is tracked by the db context
+                    row.NET_STMP_HOST = MODEL.NET_STMP_HOST;
+                    row.NET_STMP_PORT = MODEL.NET_STMP_PORT;
+                    row.NET_SMTP_USERNAME = MODEL.NET_SMTP_USERNAME;
+                    row.NET_SMTP_SENHA = MODEL.NET_SMTP_SENHA;
+                    row.NET_STMP_FROM = MODEL.NET_SMTP_FROM;
+                    db.SaveChanges();
+                }
+                ModelState.Clear();
+
+                //Update Config files
+                Configs.INST_INSTITUICAO_SIGLA = string.Empty;
+                Configs c = new Configs();
+                c.BeginConfig();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, error = ex.Message });
+            }
+            return Json(new { result = true, error = string.Empty, showToastr = true, toastrMessage = "Submetido com sucesso!" });
+        }
 
     }
 }

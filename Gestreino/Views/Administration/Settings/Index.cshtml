@@ -248,13 +248,16 @@
                                     <div class="" role="tabpanel" data-example-id="togglable-tabs">
                                         <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                                             <li role="presentation" class="active">
-                                                <a href="#tab_content1" id="" role="tab" data-toggle="tab" aria-expanded="true">Definições de personalização</a>
+                                                <a href="#tab_content1" id="" role="tab" data-toggle="tab" aria-expanded="true">Personalização</a>
                                             </li>
                                             <li role="presentation" class="">
-                                                <a href="#tab_content2" role="tab" id="" data-toggle="tab" aria-expanded="false">Definições de pagamentos</a>
+                                                <a href="#tab_content4" role="tab" id="" data-toggle="tab" aria-expanded="false">SMTP</a>
                                             </li>
                                             <li role="presentation" class="">
-                                                <a href="#tab_content3" role="tab" id="" data-toggle="tab" aria-expanded="false">Definições de segurança</a>
+                                                <a href="#tab_content2" role="tab" id="" data-toggle="tab" aria-expanded="false">Pagamentos</a>
+                                            </li>
+                                            <li role="presentation" class="">
+                                                <a href="#tab_content3" role="tab" id="" data-toggle="tab" aria-expanded="false">Segurança</a>
                                             </li>
                                         </ul>
                                         <div id="myTabContent" class="tab-content">
@@ -277,33 +280,33 @@
                                                 {
                                                     @Html.AntiForgeryToken()
                                                     <div class="row">
-                                                        @Html.LabelFor(m => m.INST_PER_TEMA_1, new { @class = "col-md-2 col-form-label" })
-                                                        <div class="col-md-6">
+                                                        @Html.LabelFor(m => m.INST_PER_TEMA_1, new { @class = "col-md-6 col-form-label" })
+                                                        <div class="col-md-3">
                                                             @Html.TextBoxFor(m => m.INST_PER_TEMA_1, new { @class = "form-control form-control-sm", @type = "color", required = "" })
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        @Html.LabelFor(m => m.INST_PER_TEMA_1_SIDEBAR, new { @class = "col-md-2 col-form-label" })
-                                                        <div class="col-md-6">
+                                                        @Html.LabelFor(m => m.INST_PER_TEMA_1_SIDEBAR, new { @class = "col-md-6 col-form-label" })
+                                                        <div class="col-md-3">
                                                             @Html.TextBoxFor(m => m.INST_PER_TEMA_1_SIDEBAR, new { @class = "form-control form-control-sm", @type = "color", required = "" })
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        @Html.LabelFor(m => m.INST_PER_TEMA_2, new { @class = "col-md-2 col-form-label" })
-                                                        <div class="col-md-6">
+                                                        @Html.LabelFor(m => m.INST_PER_TEMA_2, new { @class = "col-md-6 col-form-label" })
+                                                        <div class="col-md-3">
                                                             @Html.TextBoxFor(m => m.INST_PER_TEMA_2, new { @class = "form-control form-control-sm", @type = "color", required = "" })
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        @Html.LabelFor(m => m.INST_PER_LOGOTIPO_WIDTH, new { @class = "col-md-2 col-form-label" })
-                                                        <div class="col-md-6">
+                                                        @Html.LabelFor(m => m.INST_PER_LOGOTIPO_WIDTH, new { @class = "col-md-6 col-form-label" })
+                                                        <div class="col-md-3">
                                                             @Html.TextBoxFor(m => m.INST_PER_LOGOTIPO_WIDTH, new { @class = "form-control form-control-sm", @type = "number" })
                                                         </div>
                                                     </div>
                                                     <div class="row mt-1">
-                                                        <div class="col-sm-2 text-right">
+                                                        <div class="col-sm-6 text-right">
                                                         </div>
-                                                        <div class="col-sm-6">
+                                                        <div class="col-sm-3">
                                                             <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
                                                         </div>
                                                     </div>
@@ -328,27 +331,27 @@
                                                 {
                                                     @Html.AntiForgeryToken()
                                                     <div class="row">
-                                                        @Html.LabelFor(m => m.INST_MDL_GPAG_MOEDA_PADRAO, new { @class = "col-md-2 col-form-label" })
-                                                        <div class="col-md-6">
+                                                        @Html.LabelFor(m => m.INST_MDL_GPAG_MOEDA_PADRAO, new { @class = "col-md-6 col-form-label" })
+                                                        <div class="col-md-3">
                                                             @Html.DropDownListFor(x => Model.INST_MDL_GPAG_MOEDA_PADRAO, Model.MOEDA_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        @Html.LabelFor(m => m.INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS, new { @class = "col-md-2 col-form-label" })
-                                                        <div class="col-md-6">
+                                                        @Html.LabelFor(m => m.INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS, new { @class = "col-md-6 col-form-label" })
+                                                        <div class="col-md-3">
                                                             @Html.TextBoxFor(m => m.INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS, new { @class = "form-control form-control-sm", @type = "number", required = "" })
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        @Html.LabelFor(m => m.INST_MDL_GPAG_NOTA_DECIMAL, new { @class = "col-md-2 col-form-label" })
-                                                        <div class="col-md-6">
+                                                        @Html.LabelFor(m => m.INST_MDL_GPAG_NOTA_DECIMAL, new { @class = "col-md-6 col-form-label" })
+                                                        <div class="col-md-3">
                                                             @Html.DropDownListFor(m => Model.INST_MDL_GPAG_NOTA_DECIMAL, Enum.GetValues(typeof(SelectValues.NotaDecimal)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.NotaDecimal), e), Value = e.ToString() }), new { @class = "form-control form-control-sm custom-select" })
                                                         </div>
                                                     </div>
                                                     <div class="row mt-1">
-                                                        <div class="col-sm-2 text-right">
+                                                        <div class="col-sm-6 text-right">
                                                         </div>
-                                                        <div class="col-sm-6">
+                                                        <div class="col-sm-3">
                                                             <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
                                                         </div>
                                                     </div>
@@ -373,33 +376,90 @@
                                                 {
                                                     @Html.AntiForgeryToken()
                                                     <div class="row">
-                                                        @Html.LabelFor(m => m.SEC_SENHA_TENT_BLOQUEIO, new { @class = "col-md-2 col-form-label" })
-                                                        <div class="col-md-6">
+                                                        @Html.LabelFor(m => m.SEC_SENHA_TENT_BLOQUEIO, new { @class = "col-md-6 col-form-label" })
+                                                        <div class="col-md-3">
                                                             @Html.TextBoxFor(m => m.SEC_SENHA_TENT_BLOQUEIO, new { @class = "form-control form-control-sm", @type = "number", required = "" })
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        @Html.LabelFor(m => m.SEC_SENHA_TENT_BLOQUEIO_TEMPO, new { @class = "col-md-2 col-form-label" })
-                                                        <div class="col-md-6">
+                                                        @Html.LabelFor(m => m.SEC_SENHA_TENT_BLOQUEIO_TEMPO, new { @class = "col-md-6 col-form-label" })
+                                                        <div class="col-md-3">
                                                             @Html.TextBoxFor(m => m.SEC_SENHA_TENT_BLOQUEIO_TEMPO, new { @class = "form-control form-control-sm", @type = "number", required = "" })
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        @Html.LabelFor(m => m.SEC_SENHA_RECU_LIMITE_EMAIL, new { @class = "col-md-2 col-form-label" })
-                                                        <div class="col-md-6">
+                                                        @Html.LabelFor(m => m.SEC_SENHA_RECU_LIMITE_EMAIL, new { @class = "col-md-6 col-form-label" })
+                                                        <div class="col-md-3">
                                                             @Html.TextBoxFor(m => m.SEC_SENHA_RECU_LIMITE_EMAIL, new { @class = "form-control form-control-sm", @type = "number", required = "" })
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        @Html.LabelFor(m => m.SEC_SESSAO_TIMEOUT_TEMPO, new { @class = "col-md-2 col-form-label" })
-                                                        <div class="col-md-6">
+                                                        @Html.LabelFor(m => m.SEC_SESSAO_TIMEOUT_TEMPO, new { @class = "col-md-6 col-form-label" })
+                                                        <div class="col-md-3">
                                                             @Html.TextBoxFor(m => m.SEC_SESSAO_TIMEOUT_TEMPO, new { @class = "form-control form-control-sm", @type = "number", required = "" })
                                                         </div>
                                                     </div>
                                                     <div class="row mt-1">
-                                                        <div class="col-sm-2 text-right">
+                                                        <div class="col-sm-6 text-right">
                                                         </div>
-                                                        <div class="col-sm-6">
+                                                        <div class="col-sm-3">
+                                                            <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="">
+                                                <div class="alert alert-primary-light mb-0"
+                                                     role="alert">
+                                                    <div class="d-flex flex-wrap align-items-start">
+                                                        <div class="mr-8pt">
+                                                            <i class="fa fa-cogs"></i>&nbsp;
+                                                        </div>
+                                                        <div class="flex"
+                                                             style="min-width: 180px">
+                                                            <span class="text-black-100">
+                                                                <strong>SMTP!</strong> Definições do servidor SMTP
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @using (Ajax.BeginForm("UpdateInstNet", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }, new { @class = "p-4" }))
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.NET_STMP_HOST, new { @class = "col-md-6 col-form-label" })
+                                                        <div class="col-md-6">
+                                                            @Html.TextBoxFor(m => m.NET_STMP_HOST, new { @class = "form-control form-control-sm", required = "" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.NET_STMP_PORT, new { @class = "col-md-6 col-form-label" })
+                                                        <div class="col-md-6">
+                                                            @Html.TextBoxFor(m => m.NET_STMP_PORT, new { @class = "form-control form-control-sm", @type = "number", required = "" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.NET_SMTP_USERNAME, new { @class = "col-md-6 col-form-label" })
+                                                        <div class="col-md-6">
+                                                            @Html.TextBoxFor(m => m.NET_SMTP_USERNAME, new { @class = "form-control form-control-sm", required = "" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.NET_SMTP_SENHA, new { @class = "col-md-6 col-form-label" })
+                                                        <div class="col-md-6">
+                                                            @Html.TextBoxFor(m => m.NET_SMTP_SENHA, new { @class = "form-control form-control-sm", required = "" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.NET_SMTP_FROM, new { @class = "col-md-6 col-form-label" })
+                                                        <div class="col-md-6">
+                                                            @Html.TextBoxFor(m => m.NET_SMTP_FROM, new { @class = "form-control form-control-sm", required = "" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-1">
+                                                        <div class="col-sm-6 text-right">
+                                                        </div>
+                                                        <div class="col-sm-3">
                                                             <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
                                                         </div>
                                                     </div>

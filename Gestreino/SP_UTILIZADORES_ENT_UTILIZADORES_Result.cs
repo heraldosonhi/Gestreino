@@ -24,8 +24,10 @@ namespace Gestreino
         public string NOME_PROPIO { get; set; }
         public string APELIDO { get; set; }
         public string FOTOGRAFIA { get; set; }
-        public Nullable<int> TOTALGROUPS { get; set; }
-        public Nullable<int> TOTALPERFIS { get; set; }
+        public decimal TELEFONE { get; set; }
+        public string EMAIL { get; set; }
+        public int TOTALGROUPS { get; set; }
+        public int TOTALPERFIS { get; set; }
         public string ULTIMA_SESSAO { get; set; }
         public string INSERCAO { get; set; }
         public string ACTUALIZACAO { get; set; }

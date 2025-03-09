@@ -73,13 +73,6 @@ namespace Gestreino.Classes
                 url = var3;
                 urltitle = "Iniciar Sessão";
             }
-            if (template == 5)
-            {
-                subject = "Inscrição efetuada com successo";
-                body = "Caríssimo (a) <b>" + var1 + "</b> <br />&nbsp;<br /> A sua inscrição foi registada com successo. Acesse o  para o acompanhamento da mesma e dirija-se à instituição para proceder ao pagamento do(s) emolumento(s) acompanhado dos documentos para validação.<br />&nbsp;<br /> " + var2;
-                url = var3;
-                urltitle = string.Empty; //Configs.INST_MDL_ADM_MODULO_PORTAL;
-            }
 
             using (System.IO.StreamReader reader = new System.IO.StreamReader(System.Web.Hosting.HostingEnvironment.MapPath("~/Views/Administration/EmailTemplate.htm")))
             {
@@ -118,9 +111,6 @@ namespace Gestreino.Classes
                 smtp.Send(message);
                 //await smtp.SendMailAsync(message);
                 StatusReport.result = "Success";
-                // Log communication details
-                //AdministrationController Adm = new AdministrationController();
-                //Adm.GRLLogCommunication("MAIL", null, to, "SUBJECT:"+ subject+" TITLE:"+ urltitle+" BODY:"+body);
             }
             catch (SmtpException ex)
             {
@@ -143,14 +133,7 @@ namespace Gestreino.Classes
                     var sender = Configs.API_SMS_SENDER_ID;
                     var baseAddress = Configs.API_SMS_BASE + "/mimosms/v1/message/send?token=" + Configs.API_SMS_TOKEN;
                     client.DefaultRequestHeaders.Accept.Add(contentType);
-                    /*
-                    var data = new Dictionary<string, string>
-{
-    { "name",text },
-    { "countryCode", "244" },
-    { "phone",recipients },
-    { "mail", "" }
-};*/
+                   
                      var data = new Dictionary<string, string>
                          {
                          { "sender",sender },
@@ -169,9 +152,6 @@ namespace Gestreino.Classes
                         var stringData = await response.Content.ReadAsStringAsync();
                         var result = JsonConvert.DeserializeObject<object>(stringData);
                         responseData = "OK";
-                        // Log communication details
-                        //AdministrationController Adm = new AdministrationController();
-                        //Adm.GRLLogCommunication("SMS", userid, Converters.StripHTML(recipients), Converters.StripHTML(text));
                     }
                     else
                         responseData = await response.Content.ReadAsStringAsync();
