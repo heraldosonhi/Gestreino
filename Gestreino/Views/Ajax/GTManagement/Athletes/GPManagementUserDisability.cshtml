@@ -34,19 +34,19 @@
             <div class="form-group row">
                 @Html.LabelFor(m => m.PES_DEFICIENCIA_ID, new { @class = "col-sm-2 col-form-label text-right required" })
                 <div class="col-sm-10">
-                    @Html.DropDownListFor(x => Model.PES_DEFICIENCIA_ID, Model.PES_DEFICIENCIA_LIST, "Selecionar o tipo de deficiência", new { @class = "form-control ", required = "required" })
+                    @Html.DropDownListFor(x => Model.PES_DEFICIENCIA_ID, Model.PES_DEFICIENCIA_LIST, "Selecionar o tipo de deficiência", new { @class = "form-control form-control-sm", required = "required" })
                 </div>
             </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.PES_DEFICIENCIA_GRAU_ID, new { @class = "col-sm-2 col-form-label text-right required" })
                 <div class="col-sm-10">
-                    @Html.DropDownListFor(m => Model.PES_DEFICIENCIA_GRAU_ID, Enum.GetValues(typeof(SelectValues.GrauDef)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.GrauDef), e), Value = e.ToString() }), "Selecionar uma opção", new { @class = "form-control form-control-sm custom-select" ,required=""})
+                    @Html.DropDownListFor(m => Model.PES_DEFICIENCIA_GRAU_ID, Enum.GetValues(typeof(SelectValues.GrauDef)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.GrauDef), e), Value = e.ToString() }), "Selecionar uma opção", new { @class = "form-control form-control-sm" ,required=""})
                </div>
             </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.Descricao, new { @class = "col-sm-2 col-form-label text-right" })
                 <div class="col-sm-10">
-                    @Html.TextAreaFor(x => Model.Descricao, new { @class = "form-control ", maxlength = "4000", })
+                    @Html.TextAreaFor(x => Model.Descricao, new { @class = "form-control-sm form-control ", maxlength = "4000", })
                 </div>
             </div>
             <div>
@@ -65,19 +65,19 @@
             <div class="form-group row">
                 @Html.LabelFor(m => m.PES_DEFICIENCIA_ID, new { @class = "col-sm-2 col-form-label text-right required" })
                 <div class="col-sm-10">
-                    @Html.DropDownListFor(x => Model.PES_DEFICIENCIA_ID, Model.PES_DEFICIENCIA_LIST, "Selecionar o tipo de deficiência", new { @class = "form-control ", required = "required" })
+                    @Html.DropDownListFor(x => Model.PES_DEFICIENCIA_ID, Model.PES_DEFICIENCIA_LIST, "Selecionar o tipo de deficiência", new { @class = "form-control form-control-sm", required = "required" })
                 </div>
             </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.PES_DEFICIENCIA_GRAU_ID, new { @class = "col-sm-2 col-form-label text-right required" })
                 <div class="col-sm-10">
-                    @Html.DropDownListFor(m => Model.PES_DEFICIENCIA_GRAU_ID, Enum.GetValues(typeof(SelectValues.GrauDef)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.GrauDef), e), Value = e.ToString() }), "Selecionar uma opção", new { @class = "form-control form-control-sm custom-select",required="" })
+                    @Html.DropDownListFor(m => Model.PES_DEFICIENCIA_GRAU_ID, Enum.GetValues(typeof(SelectValues.GrauDef)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.GrauDef), e), Value = e.ToString() }), "Selecionar uma opção", new { @class = "form-control form-control-sm",required="" })
                 </div>
             </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.Descricao, new { @class = "col-sm-2 col-form-label text-right" })
                 <div class="col-sm-10">
-                    @Html.TextAreaFor(x => Model.Descricao, new { @class = "form-control ", maxlength = "4000", })
+                    @Html.TextAreaFor(x => Model.Descricao, new { @class = "form-control form-control-sm", maxlength = "4000", })
                 </div>
             </div>
             <div>

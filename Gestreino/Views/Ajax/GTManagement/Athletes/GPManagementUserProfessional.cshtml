@@ -34,13 +34,13 @@
             <div class="form-group row">
                 @Html.LabelFor(m => m.PES_PROFISSAO_ID, new { @class = "col-sm-2 col-form-label text-right required" })
                 <div class="col-sm-10">
-                    @Html.DropDownListFor(x => Model.PES_PROFISSAO_ID, Model.PES_PROFISSAO_LIST, "Selecionar a funcão", new { @class = "form-control ", required = "required" })
+                    @Html.DropDownListFor(x => Model.PES_PROFISSAO_ID, Model.PES_PROFISSAO_LIST, "Selecionar a funcão", new { @class = "select-control form-control form-control-sm", required = "required" })
                 </div>
             </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.Empresa, new { @class = "col-sm-2 col-form-label text-right" })
                 <div class="col-sm-10">
-                    @Html.TextBoxFor(x => Model.Empresa, new { @class = "empresa form-control ", placeholder = "Empresa", maxlength = "255" })
+                    @Html.TextBoxFor(x => Model.Empresa, new { @class = "empresa form-control form-control-sm", placeholder = "Empresa", maxlength = "255" })
                 </div>
             </div>
             <div class="row"><div class="col-sm-12">&nbsp;</div></div>
@@ -50,35 +50,35 @@
                 </div>
             </div>
             <div class="form-group row">
-                @Html.LabelFor(m => m.PES_PROFISSOES_CONTRACTO_ID, new { @class = "col-sm-2 col-form-label text-right" })
+                @Html.LabelFor(m => m.PES_PROFISSOES_CONTRACTO_ID, new { @class = "col-sm-2 col-form-label text-right required" })
                 <div class="col-sm-10">
-                    @Html.DropDownListFor(x => Model.PES_PROFISSOES_CONTRACTO_ID, Model.PES_PROFISSOES_CONTRACTO_LIST, "Selecionar o tipo de contracto", new { @class = "form-control " })
+                    @Html.DropDownListFor(x => Model.PES_PROFISSOES_CONTRACTO_ID, Model.PES_PROFISSOES_CONTRACTO_LIST, "Selecionar o tipo de contracto", new { @class = "form-control form-control-sm",required="" })
                 </div>
             </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.PES_PROFISSOES_REGIME_ID, new { @class = "col-sm-2 col-form-label text-right required" })
                 <div class="col-sm-10">
-                    @Html.DropDownListFor(x => Model.PES_PROFISSOES_REGIME_ID, Model.PES_PROFISSOES_REGIME_LIST, "Selecionar o regime de trabalho", new { @class = "form-control ", required = "required" })
+                    @Html.DropDownListFor(x => Model.PES_PROFISSOES_REGIME_ID, Model.PES_PROFISSOES_REGIME_LIST, "Selecionar o regime de trabalho", new { @class = "form-control form-control-sm", required = "required" })
                 </div>
             </div>
             <div class="row mt-2">
                 <div class="col-sm-2 text-right">
-                    @Html.LabelFor(m => m.DateIni, new { @class = "col-form-label required" })
+                    @Html.LabelFor(m => m.DateIni, new { @class = "col-form-label" })
                 </div>
                 <div class="col-sm-4">
-                    @Html.TextBoxFor(m => m.DateIni, new { @class = "datepicker form-control", placeholder = "Data Inicial", required = "" })
+                    @Html.TextBoxFor(m => m.DateIni, new { @class = "datepicker form-control form-control-sm", placeholder = "Data Inicial"})
                 </div>
                 <div class="col-sm-2 text-right">
                     @Html.LabelFor(m => m.DateEnd, new { @class = "col-form-label" })
                 </div>
                 <div class="col-sm-4">
-                    @Html.TextBoxFor(m => m.DateEnd, new { @class = "datepicker form-control", placeholder = "Data Fim" })
+                    @Html.TextBoxFor(m => m.DateEnd, new { @class = "datepicker form-control form-control-sm", placeholder = "Data Fim" })
                 </div>
             </div>
             <div class="form-group row mt-2">
                 @Html.LabelFor(m => m.Descricao, new { @class = "col-sm-2 col-form-label text-right" })
                 <div class="col-sm-10">
-                    @Html.TextAreaFor(m => m.Descricao, new { @class = "form-control", placeholder = "Descrição da função", maxlength = "4000" })
+                    @Html.TextAreaFor(m => m.Descricao, new { @class = "form-control form-control-sm", placeholder = "Descrição da função", maxlength = "4000" })
                 </div>
             </div>
             <div>
@@ -97,13 +97,13 @@
             <div class="form-group row">
                 @Html.LabelFor(m => m.PES_PROFISSAO_ID, new { @class = "col-sm-2 col-form-label text-right required" })
                 <div class="col-sm-10">
-                    @Html.DropDownListFor(x => Model.PES_PROFISSAO_ID, Model.PES_PROFISSAO_LIST, "Selecionar a funcão", new { @class = "form-control ", required = "required" })
+                    @Html.DropDownListFor(x => Model.PES_PROFISSAO_ID, Model.PES_PROFISSAO_LIST, "Selecionar a funcão", new { @class = "select-control form-control form-control-sm", required = "required" })
                 </div>
             </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.Empresa, new { @class = "col-sm-2 col-form-label text-right" })
                 <div class="col-sm-10">
-                    @Html.TextBoxFor(x => Model.Empresa, new { @class = "empresa form-control ", placeholder = "Empresa", maxlength = "255"})
+                    @Html.TextBoxFor(x => Model.Empresa, new { @class = "empresa form-control form-control-sm", placeholder = "Empresa", maxlength = "255"})
                 </div>
             </div>
             <div class="row"><div class="col-sm-12">&nbsp;</div></div>
@@ -113,35 +113,35 @@
                 </div>
             </div>
             <div class="form-group row">
-                @Html.LabelFor(m => m.PES_PROFISSOES_CONTRACTO_ID, new { @class = "col-sm-2 col-form-label text-right" })
+                @Html.LabelFor(m => m.PES_PROFISSOES_CONTRACTO_ID, new { @class = "col-sm-2 col-form-label text-right required" })
                 <div class="col-sm-10">
-                    @Html.DropDownListFor(x => Model.PES_PROFISSOES_CONTRACTO_ID, Model.PES_PROFISSOES_CONTRACTO_LIST, "Selecionar o tipo de contracto", new { @class = "form-control " })
+                    @Html.DropDownListFor(x => Model.PES_PROFISSOES_CONTRACTO_ID, Model.PES_PROFISSOES_CONTRACTO_LIST, "Selecionar o tipo de contracto", new { required="",@class = "form-control form-control-sm" })
                 </div>
             </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.PES_PROFISSOES_REGIME_ID, new { @class = "col-sm-2 col-form-label text-right required" })
                 <div class="col-sm-10">
-                    @Html.DropDownListFor(x => Model.PES_PROFISSOES_REGIME_ID, Model.PES_PROFISSOES_REGIME_LIST, "Selecionar o regime de trabalho", new { @class = "form-control ", required = "required" })
+                    @Html.DropDownListFor(x => Model.PES_PROFISSOES_REGIME_ID, Model.PES_PROFISSOES_REGIME_LIST, "Selecionar o regime de trabalho", new { @class = "form-control form-control-sm", required = "required" })
                 </div>
             </div>
             <div class="row mt-2">
                 <div class="col-sm-2 text-right">
-                    @Html.LabelFor(m => m.DateIni, new { @class = "col-form-label required" })
+                    @Html.LabelFor(m => m.DateIni, new { @class = "col-form-label" })
                 </div>
                 <div class="col-sm-4">
-                    @Html.TextBoxFor(m => m.DateIni, new { @class = "datepicker form-control", placeholder = "Data Inicial", required = "" })
+                    @Html.TextBoxFor(m => m.DateIni, new { @class = "datepicker form-control form-control-sm", placeholder = "Data Inicial" })
                 </div>
                 <div class="col-sm-2 text-right">
                     @Html.LabelFor(m => m.DateEnd, new { @class = "col-form-label" })
                 </div>
                 <div class="col-sm-4">
-                    @Html.TextBoxFor(m => m.DateEnd, new { @class = "datepicker form-control", placeholder = "Data Fim" })
+                    @Html.TextBoxFor(m => m.DateEnd, new { @class = "datepicker form-control form-control-sm", placeholder = "Data Fim" })
                 </div>
             </div>
             <div class="form-group row mt-2">
                 @Html.LabelFor(m => m.Descricao, new { @class = "col-sm-2 col-form-label text-right" })
                 <div class="col-sm-10">
-                    @Html.TextAreaFor(m => m.Descricao, new { @class = "form-control", placeholder = "Descrição da função", maxlength = "4000" })
+                    @Html.TextAreaFor(m => m.Descricao, new { @class = "form-control form-control-sm", placeholder = "Descrição da função", maxlength = "4000" })
                 </div>
             </div>
             <div>
