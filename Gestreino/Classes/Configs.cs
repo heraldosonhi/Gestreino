@@ -257,7 +257,7 @@ namespace Gestreino.Classes
                 NET_STMP_PORT = configvalues[0].x.NET_STMP_PORT;
                 NET_SMTP_USERNAME = configvalues[0].x.NET_SMTP_USERNAME;
                 NET_SMTP_SENHA = configvalues[0].x.NET_SMTP_SENHA;
-                NET_STMP_FROM = configvalues[0].x.NET_STMP_FROM;
+                NET_STMP_FROM = configvalues[0].x.NET_SMTP_FROM;
 
                 SEC_SENHA_TENT_BLOQUEIO = configvalues[0].x.SEC_SENHA_TENT_BLOQUEIO;
                 SEC_SENHA_TENT_BLOQUEIO_TEMPO = configvalues[0].x.SEC_SENHA_TENT_BLOQUEIO_TEMPO;

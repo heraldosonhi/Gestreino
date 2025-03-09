@@ -36,7 +36,6 @@ namespace Gestreino.Classes
              * 2 => Alterar Senha de acesso,
              * 3 => Recuperacao da Senha de acesso
              * 4 => Senha de acesso atualizada com successo
-             * 5 => Candidatura
              */
 
             var subject =  string.Empty;

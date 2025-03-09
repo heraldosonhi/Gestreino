@@ -208,7 +208,7 @@ namespace JeanPiagetSGA.Controllers
             
             // Try Catch
             if (!string.IsNullOrEmpty(ExportEmail.StatusReport.result) && ExportEmail.StatusReport.result != "Success")
-               return Json(new { result = false, error = "Erro ao requisitar link para recuperar acesso, por favor tente mais tarde!" /*Mailer.StatusReport.result*/ });
+               return Json(new { result = false, error = "Erro ao requisitar link para recuperar acesso, por favor tente mais tarde!" + ExportEmail.StatusReport.result});
           //  else
             // If successfull email sent insert token into database
             //  databaseManager.SP_GRL_ENT_TOKENS(null, null, tokenid, token, MODEL.Email, DateTime.Now, null, "CT").ToList();  // Recuperar senha de acesso - 1

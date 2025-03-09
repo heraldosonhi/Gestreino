@@ -31,7 +31,7 @@ namespace Gestreino
         public Nullable<int> NET_STMP_PORT { get; set; }
         public string NET_SMTP_USERNAME { get; set; }
         public string NET_SMTP_SENHA { get; set; }
-        public string NET_STMP_FROM { get; set; }
+        public string NET_SMTP_FROM { get; set; }
         public int INSERIDO_POR { get; set; }
         public Nullable<int> ACTUALIZADO_POR { get; set; }
         public Nullable<int> REMOVIDO_POR { get; set; }

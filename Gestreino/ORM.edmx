@@ -73,7 +73,7 @@
           <Property Name="NET_STMP_PORT" Type="int" />
           <Property Name="NET_SMTP_USERNAME" Type="varchar" MaxLength="255" />
           <Property Name="NET_SMTP_SENHA" Type="varchar" MaxLength="255" />
-          <Property Name="NET_STMP_FROM" Type="varchar" MaxLength="255" />
+          <Property Name="NET_SMTP_FROM" Type="varchar" MaxLength="255" />
           <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
           <Property Name="ACTUALIZADO_POR" Type="int" />
           <Property Name="REMOVIDO_POR" Type="int" />
@@ -7915,7 +7915,7 @@
           <Property Name="NET_STMP_PORT" Type="Int32" />
           <Property Name="NET_SMTP_USERNAME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="NET_SMTP_SENHA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="NET_STMP_FROM" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NET_SMTP_FROM" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
           <Property Name="ACTUALIZADO_POR" Type="Int32" />
           <Property Name="REMOVIDO_POR" Type="Int32" />
@@ -10136,7 +10136,7 @@
                 <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
                 <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
                 <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
-                <ScalarProperty Name="NET_STMP_FROM" ColumnName="NET_STMP_FROM" />
+                <ScalarProperty Name="NET_SMTP_FROM" ColumnName="NET_SMTP_FROM" />
                 <ScalarProperty Name="NET_SMTP_SENHA" ColumnName="NET_SMTP_SENHA" />
                 <ScalarProperty Name="NET_SMTP_USERNAME" ColumnName="NET_SMTP_USERNAME" />
                 <ScalarProperty Name="NET_STMP_PORT" ColumnName="NET_STMP_PORT" />

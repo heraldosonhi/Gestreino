@@ -4706,7 +4706,7 @@ namespace Gestreino.Controllers
             MODEL.NET_STMP_PORT = setts.First().NET_STMP_PORT;
             MODEL.NET_SMTP_USERNAME = setts.First().NET_SMTP_USERNAME;
             MODEL.NET_SMTP_SENHA = setts.First().NET_SMTP_SENHA;
-            MODEL.NET_SMTP_FROM = setts.First().NET_STMP_FROM;
+            MODEL.NET_SMTP_FROM = setts.First().NET_SMTP_FROM;
             ViewBag.data = data;
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Settings;
             return View("Settings/Index", MODEL);
@@ -4917,7 +4917,7 @@ namespace Gestreino.Controllers
                     row.NET_STMP_PORT = MODEL.NET_STMP_PORT;
                     row.NET_SMTP_USERNAME = MODEL.NET_SMTP_USERNAME;
                     row.NET_SMTP_SENHA = MODEL.NET_SMTP_SENHA;
-                    row.NET_STMP_FROM = MODEL.NET_SMTP_FROM;
+                    row.NET_SMTP_FROM = MODEL.NET_SMTP_FROM;
                     db.SaveChanges();
                 }
                 ModelState.Clear();
