@@ -1221,8 +1221,8 @@
           <Property Name="NUMERO" Type="int" />
           <Property Name="RUA" Type="varchar" MaxLength="64" />
           <Property Name="MORADA" Type="varchar" MaxLength="255" />
-          <Property Name="GRL_ENDERECO_PAIS_ID" Type="int" Nullable="false" />
-          <Property Name="GRL_ENDERECO_CIDADE_ID" Type="int" Nullable="false" />
+          <Property Name="GRL_ENDERECO_PAIS_ID" Type="int" />
+          <Property Name="GRL_ENDERECO_CIDADE_ID" Type="int" />
           <Property Name="GRL_ENDERECO_MUN_DISTR_ID" Type="int" />
           <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
           <Property Name="ACTUALIZADO_POR" Type="int" />
@@ -1853,7 +1853,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FKPES_PESSOA281518">
-          <End Role="GRL_ENDERECO_PAIS" Type="Self.GRL_ENDERECO_PAIS" Multiplicity="1" />
+          <End Role="GRL_ENDERECO_PAIS" Type="Self.GRL_ENDERECO_PAIS" Multiplicity="0..1" />
           <End Role="PES_PESSOAS_FAM_ENDERECOS" Type="Self.PES_PESSOAS_FAM_ENDERECOS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="GRL_ENDERECO_PAIS">
@@ -2009,7 +2009,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FKPES_PESSOA932046">
-          <End Role="GRL_ENDERECO_CIDADE" Type="Self.GRL_ENDERECO_CIDADE" Multiplicity="1" />
+          <End Role="GRL_ENDERECO_CIDADE" Type="Self.GRL_ENDERECO_CIDADE" Multiplicity="0..1" />
           <End Role="PES_PESSOAS_FAM_ENDERECOS" Type="Self.PES_PESSOAS_FAM_ENDERECOS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="GRL_ENDERECO_CIDADE">
@@ -3679,10 +3679,10 @@
           <NavigationProperty Name="INST_APLICACAO_ENDERECOS" Relationship="Self.FKINST_APLIC331316" FromRole="GRL_ENDERECO_CIDADE" ToRole="INST_APLICACAO_ENDERECOS" />
           <NavigationProperty Name="PES_ENDERECOS" Relationship="Self.FKPES_ENDERE742543" FromRole="GRL_ENDERECO_CIDADE" ToRole="PES_ENDERECOS" />
           <NavigationProperty Name="PES_NATURALIDADE" Relationship="Self.FKPES_NATURA422334" FromRole="GRL_ENDERECO_CIDADE" ToRole="PES_NATURALIDADE" />
-          <NavigationProperty Name="PES_PESSOAS_FAM_ENDERECOS" Relationship="Self.FKPES_PESSOA932046" FromRole="GRL_ENDERECO_CIDADE" ToRole="PES_PESSOAS_FAM_ENDERECOS" />
           <NavigationProperty Name="GRL_ENDERECO_PAIS" Relationship="GESTREINO_ORM.GRL_ENDERECO_CIDADE_ENDERECO_PAIS_ID" FromRole="GRL_ENDERECO_CIDADE" ToRole="GRL_ENDERECO_PAIS" />
           <NavigationProperty Name="GRL_ENDERECO_MUN_DISTR" Relationship="GESTREINO_ORM.GRL_ENDERECO_MUN_DISTR_ENDERECO_CIDADE_ID" FromRole="GRL_ENDERECO_CIDADE" ToRole="GRL_ENDERECO_MUN_DISTR" />
           <NavigationProperty Name="PES_IDENTIFICACAO_LOCAL_EM" Relationship="GESTREINO_ORM.FKPES_IDENTI565101" FromRole="GRL_ENDERECO_CIDADE" ToRole="PES_IDENTIFICACAO_LOCAL_EM" />
+          <NavigationProperty Name="PES_PESSOAS_FAM_ENDERECOS" Relationship="GESTREINO_ORM.FKPES_PESSOA932046" FromRole="GRL_ENDERECO_CIDADE" ToRole="PES_PESSOAS_FAM_ENDERECOS" />
         </EntityType>
         <EntityType Name="GRL_ENDERECO_MUN_DISTR">
           <Key>
@@ -3701,9 +3701,9 @@
           <NavigationProperty Name="INST_APLICACAO_ENDERECOS" Relationship="Self.FKINST_APLIC69096" FromRole="GRL_ENDERECO_MUN_DISTR" ToRole="INST_APLICACAO_ENDERECOS" />
           <NavigationProperty Name="PES_ENDERECOS" Relationship="Self.FKPES_ENDERE72444" FromRole="GRL_ENDERECO_MUN_DISTR" ToRole="PES_ENDERECOS" />
           <NavigationProperty Name="PES_NATURALIDADE" Relationship="Self.FKPES_NATURA92434" FromRole="GRL_ENDERECO_MUN_DISTR" ToRole="PES_NATURALIDADE" />
-          <NavigationProperty Name="PES_PESSOAS_FAM_ENDERECOS" Relationship="Self.FKPES_PESSOA261947" FromRole="GRL_ENDERECO_MUN_DISTR" ToRole="PES_PESSOAS_FAM_ENDERECOS" />
           <NavigationProperty Name="GRL_ENDERECO_CIDADE" Relationship="GESTREINO_ORM.GRL_ENDERECO_MUN_DISTR_ENDERECO_CIDADE_ID" FromRole="GRL_ENDERECO_MUN_DISTR" ToRole="GRL_ENDERECO_CIDADE" />
           <NavigationProperty Name="PES_IDENTIFICACAO_LOCAL_EM" Relationship="GESTREINO_ORM.FKPES_IDENTI736389" FromRole="GRL_ENDERECO_MUN_DISTR" ToRole="PES_IDENTIFICACAO_LOCAL_EM" />
+          <NavigationProperty Name="PES_PESSOAS_FAM_ENDERECOS" Relationship="GESTREINO_ORM.FKPES_PESSOA261947" FromRole="GRL_ENDERECO_MUN_DISTR" ToRole="PES_PESSOAS_FAM_ENDERECOS" />
         </EntityType>
         <EntityType Name="GRL_ENDERECO_PAIS">
           <Key>
@@ -3726,9 +3726,9 @@
           <NavigationProperty Name="PES_ENDERECOS" Relationship="Self.FKPES_ENDERE879575" FromRole="GRL_ENDERECO_PAIS" ToRole="PES_ENDERECOS" />
           <NavigationProperty Name="PES_NACIONALIDADE" Relationship="Self.FKPES_NACION768793" FromRole="GRL_ENDERECO_PAIS" ToRole="PES_NACIONALIDADE" />
           <NavigationProperty Name="PES_NATURALIDADE" Relationship="Self.FKPES_NATURA927136" FromRole="GRL_ENDERECO_PAIS" ToRole="PES_NATURALIDADE" />
-          <NavigationProperty Name="PES_PESSOAS_FAM_ENDERECOS" Relationship="Self.FKPES_PESSOA281518" FromRole="GRL_ENDERECO_PAIS" ToRole="PES_PESSOAS_FAM_ENDERECOS" />
           <NavigationProperty Name="GRL_ENDERECO_CIDADE" Relationship="GESTREINO_ORM.GRL_ENDERECO_CIDADE_ENDERECO_PAIS_ID" FromRole="GRL_ENDERECO_PAIS" ToRole="GRL_ENDERECO_CIDADE" />
           <NavigationProperty Name="PES_IDENTIFICACAO_LOCAL_EM" Relationship="GESTREINO_ORM.FKPES_IDENTI215630" FromRole="GRL_ENDERECO_PAIS" ToRole="PES_IDENTIFICACAO_LOCAL_EM" />
+          <NavigationProperty Name="PES_PESSOAS_FAM_ENDERECOS" Relationship="GESTREINO_ORM.FKPES_PESSOA281518" FromRole="GRL_ENDERECO_PAIS" ToRole="PES_PESSOAS_FAM_ENDERECOS" />
         </EntityType>
         <EntityType Name="GRL_TOKENS">
           <Key>
@@ -3985,9 +3985,9 @@
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
           <NavigationProperty Name="PES_FAMILIARES_GRUPOS" Relationship="Self.FKPES_PESSOA888362" FromRole="PES_PESSOAS_FAM" ToRole="PES_FAMILIARES_GRUPOS" />
           <NavigationProperty Name="PES_PESSOAS_FAM_CONTACTOS" Relationship="Self.FKPES_PESSOA365702" FromRole="PES_PESSOAS_FAM" ToRole="PES_PESSOAS_FAM_CONTACTOS" />
-          <NavigationProperty Name="PES_PESSOAS_FAM_ENDERECOS" Relationship="Self.FKPES_PESSOA815594" FromRole="PES_PESSOAS_FAM" ToRole="PES_PESSOAS_FAM_ENDERECOS" />
           <NavigationProperty Name="PES_PROFISSOES" Relationship="GESTREINO_ORM.PES_PESSOAS_FAM_PES_PROFISSOES_ID" FromRole="PES_PESSOAS_FAM" ToRole="PES_PROFISSOES" />
           <NavigationProperty Name="PES_PESSOAS" Relationship="GESTREINO_ORM.FKPES_PESSOA54742" FromRole="PES_PESSOAS_FAM" ToRole="PES_PESSOAS" />
+          <NavigationProperty Name="PES_PESSOAS_FAM_ENDERECOS" Relationship="GESTREINO_ORM.FKPES_PESSOA815594" FromRole="PES_PESSOAS_FAM" ToRole="PES_PESSOAS_FAM_ENDERECOS" />
         </EntityType>
         <EntityType Name="PES_PESSOAS_FAM_CONTACTOS">
           <Key>
@@ -4001,29 +4001,6 @@
           <Property Name="EMAIL" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
           <Property Name="URL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PES_PESSOAS_FAM" Relationship="Self.FKPES_PESSOA365702" FromRole="PES_PESSOAS_FAM_CONTACTOS" ToRole="PES_PESSOAS_FAM" />
-        </EntityType>
-        <EntityType Name="PES_PESSOAS_FAM_ENDERECOS">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PES_PESSOAS_FAM_ID" Type="Int32" Nullable="false" />
-          <Property Name="NUMERO" Type="Int32" />
-          <Property Name="RUA" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
-          <Property Name="MORADA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="GRL_ENDERECO_PAIS_ID" Type="Int32" Nullable="false" />
-          <Property Name="GRL_ENDERECO_CIDADE_ID" Type="Int32" Nullable="false" />
-          <Property Name="GRL_ENDERECO_MUN_DISTR_ID" Type="Int32" />
-          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
-          <Property Name="ACTUALIZADO_POR" Type="Int32" />
-          <Property Name="REMOVIDO_POR" Type="Int32" />
-          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
-          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="GRL_ENDERECO_CIDADE" Relationship="Self.FKPES_PESSOA932046" FromRole="PES_PESSOAS_FAM_ENDERECOS" ToRole="GRL_ENDERECO_CIDADE" />
-          <NavigationProperty Name="GRL_ENDERECO_MUN_DISTR" Relationship="Self.FKPES_PESSOA261947" FromRole="PES_PESSOAS_FAM_ENDERECOS" ToRole="GRL_ENDERECO_MUN_DISTR" />
-          <NavigationProperty Name="GRL_ENDERECO_PAIS" Relationship="Self.FKPES_PESSOA281518" FromRole="PES_PESSOAS_FAM_ENDERECOS" ToRole="GRL_ENDERECO_PAIS" />
-          <NavigationProperty Name="PES_PESSOAS_FAM" Relationship="Self.FKPES_PESSOA815594" FromRole="PES_PESSOAS_FAM_ENDERECOS" ToRole="PES_PESSOAS_FAM" />
         </EntityType>
         <EntityType Name="PES_PESSOAS_PROFISSOES">
           <Key>
@@ -4285,18 +4262,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKPES_PESSOA932046">
-          <End Role="GRL_ENDERECO_CIDADE" Type="Self.GRL_ENDERECO_CIDADE" Multiplicity="1" />
-          <End Role="PES_PESSOAS_FAM_ENDERECOS" Type="Self.PES_PESSOAS_FAM_ENDERECOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GRL_ENDERECO_CIDADE">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_PESSOAS_FAM_ENDERECOS">
-              <PropertyRef Name="GRL_ENDERECO_CIDADE_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FKINST_APLIC69096">
           <End Role="GRL_ENDERECO_MUN_DISTR" Type="Self.GRL_ENDERECO_MUN_DISTR" Multiplicity="1" />
           <End Role="INST_APLICACAO_ENDERECOS" Type="Self.INST_APLICACAO_ENDERECOS" Multiplicity="*" />
@@ -4329,18 +4294,6 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="PES_NATURALIDADE">
-              <PropertyRef Name="GRL_ENDERECO_MUN_DISTR_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKPES_PESSOA261947">
-          <End Role="GRL_ENDERECO_MUN_DISTR" Type="Self.GRL_ENDERECO_MUN_DISTR" Multiplicity="0..1" />
-          <End Role="PES_PESSOAS_FAM_ENDERECOS" Type="Self.PES_PESSOAS_FAM_ENDERECOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GRL_ENDERECO_MUN_DISTR">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_PESSOAS_FAM_ENDERECOS">
               <PropertyRef Name="GRL_ENDERECO_MUN_DISTR_ID" />
             </Dependent>
           </ReferentialConstraint>
@@ -4389,18 +4342,6 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="PES_NATURALIDADE">
-              <PropertyRef Name="GRL_ENDERECO_PAIS_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKPES_PESSOA281518">
-          <End Role="GRL_ENDERECO_PAIS" Type="Self.GRL_ENDERECO_PAIS" Multiplicity="1" />
-          <End Role="PES_PESSOAS_FAM_ENDERECOS" Type="Self.PES_PESSOAS_FAM_ENDERECOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GRL_ENDERECO_PAIS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_PESSOAS_FAM_ENDERECOS">
               <PropertyRef Name="GRL_ENDERECO_PAIS_ID" />
             </Dependent>
           </ReferentialConstraint>
@@ -4473,18 +4414,6 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="PES_PESSOAS_FAM_CONTACTOS">
-              <PropertyRef Name="PES_PESSOAS_FAM_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKPES_PESSOA815594">
-          <End Role="PES_PESSOAS_FAM" Type="Self.PES_PESSOAS_FAM" Multiplicity="1" />
-          <End Role="PES_PESSOAS_FAM_ENDERECOS" Type="Self.PES_PESSOAS_FAM_ENDERECOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PES_PESSOAS_FAM">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PES_PESSOAS_FAM_ENDERECOS">
               <PropertyRef Name="PES_PESSOAS_FAM_ID" />
             </Dependent>
           </ReferentialConstraint>
@@ -4595,7 +4524,6 @@
           <EntitySet Name="PES_PESSOAS_CARACT_TIPO_SANG" EntityType="Self.PES_PESSOAS_CARACT_TIPO_SANG" />
           <EntitySet Name="PES_PESSOAS_FAM" EntityType="Self.PES_PESSOAS_FAM" />
           <EntitySet Name="PES_PESSOAS_FAM_CONTACTOS" EntityType="Self.PES_PESSOAS_FAM_CONTACTOS" />
-          <EntitySet Name="PES_PESSOAS_FAM_ENDERECOS" EntityType="Self.PES_PESSOAS_FAM_ENDERECOS" />
           <EntitySet Name="PES_PESSOAS_PROFISSOES" EntityType="Self.PES_PESSOAS_PROFISSOES" />
           <EntitySet Name="PES_PROFISSOES" EntityType="Self.PES_PROFISSOES" />
           <EntitySet Name="PES_PROFISSOES_REGIME_TRABALHO" EntityType="Self.PES_PROFISSOES_REGIME_TRABALHO" />
@@ -4625,10 +4553,6 @@
             <End Role="GRL_ENDERECO_CIDADE" EntitySet="GRL_ENDERECO_CIDADE" />
             <End Role="PES_NATURALIDADE" EntitySet="PES_NATURALIDADE" />
           </AssociationSet>
-          <AssociationSet Name="FKPES_PESSOA932046" Association="Self.FKPES_PESSOA932046">
-            <End Role="GRL_ENDERECO_CIDADE" EntitySet="GRL_ENDERECO_CIDADE" />
-            <End Role="PES_PESSOAS_FAM_ENDERECOS" EntitySet="PES_PESSOAS_FAM_ENDERECOS" />
-          </AssociationSet>
           <AssociationSet Name="FKINST_APLIC69096" Association="Self.FKINST_APLIC69096">
             <End Role="GRL_ENDERECO_MUN_DISTR" EntitySet="GRL_ENDERECO_MUN_DISTR" />
             <End Role="INST_APLICACAO_ENDERECOS" EntitySet="INST_APLICACAO_ENDERECOS" />
@@ -4640,10 +4564,6 @@
           <AssociationSet Name="FKPES_NATURA92434" Association="Self.FKPES_NATURA92434">
             <End Role="GRL_ENDERECO_MUN_DISTR" EntitySet="GRL_ENDERECO_MUN_DISTR" />
             <End Role="PES_NATURALIDADE" EntitySet="PES_NATURALIDADE" />
-          </AssociationSet>
-          <AssociationSet Name="FKPES_PESSOA261947" Association="Self.FKPES_PESSOA261947">
-            <End Role="GRL_ENDERECO_MUN_DISTR" EntitySet="GRL_ENDERECO_MUN_DISTR" />
-            <End Role="PES_PESSOAS_FAM_ENDERECOS" EntitySet="PES_PESSOAS_FAM_ENDERECOS" />
           </AssociationSet>
           <AssociationSet Name="FKINST_APLIC939798" Association="Self.FKINST_APLIC939798">
             <End Role="GRL_ENDERECO_PAIS" EntitySet="GRL_ENDERECO_PAIS" />
@@ -4660,10 +4580,6 @@
           <AssociationSet Name="FKPES_NATURA927136" Association="Self.FKPES_NATURA927136">
             <End Role="GRL_ENDERECO_PAIS" EntitySet="GRL_ENDERECO_PAIS" />
             <End Role="PES_NATURALIDADE" EntitySet="PES_NATURALIDADE" />
-          </AssociationSet>
-          <AssociationSet Name="FKPES_PESSOA281518" Association="Self.FKPES_PESSOA281518">
-            <End Role="GRL_ENDERECO_PAIS" EntitySet="GRL_ENDERECO_PAIS" />
-            <End Role="PES_PESSOAS_FAM_ENDERECOS" EntitySet="PES_PESSOAS_FAM_ENDERECOS" />
           </AssociationSet>
           <AssociationSet Name="FKGRL_TOKENS134751" Association="Self.FKGRL_TOKENS134751">
             <End Role="GRL_TOKENS_TIPOS" EntitySet="GRL_TOKENS_TIPOS" />
@@ -4688,10 +4604,6 @@
           <AssociationSet Name="FKPES_PESSOA365702" Association="Self.FKPES_PESSOA365702">
             <End Role="PES_PESSOAS_FAM" EntitySet="PES_PESSOAS_FAM" />
             <End Role="PES_PESSOAS_FAM_CONTACTOS" EntitySet="PES_PESSOAS_FAM_CONTACTOS" />
-          </AssociationSet>
-          <AssociationSet Name="FKPES_PESSOA815594" Association="Self.FKPES_PESSOA815594">
-            <End Role="PES_PESSOAS_FAM" EntitySet="PES_PESSOAS_FAM" />
-            <End Role="PES_PESSOAS_FAM_ENDERECOS" EntitySet="PES_PESSOAS_FAM_ENDERECOS" />
           </AssociationSet>
           <AssociationSet Name="FKPES_PESSOA747112" Association="Self.FKPES_PESSOA747112">
             <End Role="PES_PROFISSOES" EntitySet="PES_PROFISSOES" />
@@ -5498,6 +5410,23 @@
             <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="PES_PESSOAS_FAM_ENDERECOS" EntityType="GESTREINO_ORM.PES_PESSOAS_FAM_ENDERECOS" />
+          <AssociationSet Name="FKPES_PESSOA932046" Association="GESTREINO_ORM.FKPES_PESSOA932046">
+            <End Role="GRL_ENDERECO_CIDADE" EntitySet="GRL_ENDERECO_CIDADE" />
+            <End Role="PES_PESSOAS_FAM_ENDERECOS" EntitySet="PES_PESSOAS_FAM_ENDERECOS" />
+          </AssociationSet>
+          <AssociationSet Name="FKPES_PESSOA261947" Association="GESTREINO_ORM.FKPES_PESSOA261947">
+            <End Role="GRL_ENDERECO_MUN_DISTR" EntitySet="GRL_ENDERECO_MUN_DISTR" />
+            <End Role="PES_PESSOAS_FAM_ENDERECOS" EntitySet="PES_PESSOAS_FAM_ENDERECOS" />
+          </AssociationSet>
+          <AssociationSet Name="FKPES_PESSOA281518" Association="GESTREINO_ORM.FKPES_PESSOA281518">
+            <End Role="GRL_ENDERECO_PAIS" EntitySet="GRL_ENDERECO_PAIS" />
+            <End Role="PES_PESSOAS_FAM_ENDERECOS" EntitySet="PES_PESSOAS_FAM_ENDERECOS" />
+          </AssociationSet>
+          <AssociationSet Name="FKPES_PESSOA815594" Association="GESTREINO_ORM.FKPES_PESSOA815594">
+            <End Role="PES_PESSOAS_FAM" EntitySet="PES_PESSOAS_FAM" />
+            <End Role="PES_PESSOAS_FAM_ENDERECOS" EntitySet="PES_PESSOAS_FAM_ENDERECOS" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -7910,20 +7839,91 @@
           </ReferentialConstraint>
         </Association>
         <ComplexType Name="SP_GT_ENT_Search_Result">
-          <Property Type="String" Name="N_SOCIO" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="NOME" Nullable="false" MaxLength="1" />
-          <Property Type="Decimal" Name="ALTURA" Nullable="false" Precision="1" Scale="1" />
-          <Property Type="Decimal" Name="PESO" Nullable="false" Precision="1" Scale="1" />
-          <Property Type="String" Name="DATA_DEFAULT" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="N_SOCIO" Nullable="false" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="Decimal" Name="ALTURA" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="PESO" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="DATA_DEFAULT" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="TIPO_PLANO" Nullable="false" MaxLength="1" />
           <Property Type="Int32" Name="TIPO_PLANO_ID" Nullable="false" />
           <Property Type="Int32" Name="SEXO" Nullable="false" />
           <Property Type="String" Name="DATA1" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="DATA2" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="AVALIACAO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="AVALIACAO" Nullable="false" MaxLength="255" />
           <Property Type="Int32" Name="AVALIACAO_ID" Nullable="false" />
           <Property Type="Int32" Name="PERCENTIL" Nullable="false" />
         </ComplexType>
+        <EntityType Name="PES_PESSOAS_FAM_ENDERECOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PES_PESSOAS_FAM_ID" Type="Int32" Nullable="false" />
+          <Property Name="NUMERO" Type="Int32" />
+          <Property Name="RUA" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="MORADA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="GRL_ENDERECO_PAIS_ID" Type="Int32" />
+          <Property Name="GRL_ENDERECO_CIDADE_ID" Type="Int32" />
+          <Property Name="GRL_ENDERECO_MUN_DISTR_ID" Type="Int32" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GRL_ENDERECO_CIDADE" Relationship="GESTREINO_ORM.FKPES_PESSOA932046" FromRole="PES_PESSOAS_FAM_ENDERECOS" ToRole="GRL_ENDERECO_CIDADE" />
+          <NavigationProperty Name="GRL_ENDERECO_MUN_DISTR" Relationship="GESTREINO_ORM.FKPES_PESSOA261947" FromRole="PES_PESSOAS_FAM_ENDERECOS" ToRole="GRL_ENDERECO_MUN_DISTR" />
+          <NavigationProperty Name="GRL_ENDERECO_PAIS" Relationship="GESTREINO_ORM.FKPES_PESSOA281518" FromRole="PES_PESSOAS_FAM_ENDERECOS" ToRole="GRL_ENDERECO_PAIS" />
+          <NavigationProperty Name="PES_PESSOAS_FAM" Relationship="GESTREINO_ORM.FKPES_PESSOA815594" FromRole="PES_PESSOAS_FAM_ENDERECOS" ToRole="PES_PESSOAS_FAM" />
+        </EntityType>
+        <Association Name="FKPES_PESSOA932046">
+          <End Type="GESTREINO_ORM.GRL_ENDERECO_CIDADE" Role="GRL_ENDERECO_CIDADE" Multiplicity="0..1" />
+          <End Type="GESTREINO_ORM.PES_PESSOAS_FAM_ENDERECOS" Role="PES_PESSOAS_FAM_ENDERECOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GRL_ENDERECO_CIDADE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_PESSOAS_FAM_ENDERECOS">
+              <PropertyRef Name="GRL_ENDERECO_CIDADE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPES_PESSOA261947">
+          <End Type="GESTREINO_ORM.GRL_ENDERECO_MUN_DISTR" Role="GRL_ENDERECO_MUN_DISTR" Multiplicity="0..1" />
+          <End Type="GESTREINO_ORM.PES_PESSOAS_FAM_ENDERECOS" Role="PES_PESSOAS_FAM_ENDERECOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GRL_ENDERECO_MUN_DISTR">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_PESSOAS_FAM_ENDERECOS">
+              <PropertyRef Name="GRL_ENDERECO_MUN_DISTR_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPES_PESSOA281518">
+          <End Type="GESTREINO_ORM.GRL_ENDERECO_PAIS" Role="GRL_ENDERECO_PAIS" Multiplicity="0..1" />
+          <End Type="GESTREINO_ORM.PES_PESSOAS_FAM_ENDERECOS" Role="PES_PESSOAS_FAM_ENDERECOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GRL_ENDERECO_PAIS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_PESSOAS_FAM_ENDERECOS">
+              <PropertyRef Name="GRL_ENDERECO_PAIS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPES_PESSOA815594">
+          <End Type="GESTREINO_ORM.PES_PESSOAS_FAM" Role="PES_PESSOAS_FAM" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.PES_PESSOAS_FAM_ENDERECOS" Role="PES_PESSOAS_FAM_ENDERECOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PES_PESSOAS_FAM">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PES_PESSOAS_FAM_ENDERECOS">
+              <PropertyRef Name="PES_PESSOAS_FAM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8282,26 +8282,6 @@
                 <ScalarProperty Name="FAX" ColumnName="FAX" />
                 <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
                 <ScalarProperty Name="URL" ColumnName="URL" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PES_PESSOAS_FAM_ENDERECOS">
-            <EntityTypeMapping TypeName="GESTREINO_ORM.PES_PESSOAS_FAM_ENDERECOS">
-              <MappingFragment StoreEntitySet="PES_PESSOAS_FAM_ENDERECOS">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="PES_PESSOAS_FAM_ID" ColumnName="PES_PESSOAS_FAM_ID" />
-                <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
-                <ScalarProperty Name="RUA" ColumnName="RUA" />
-                <ScalarProperty Name="MORADA" ColumnName="MORADA" />
-                <ScalarProperty Name="GRL_ENDERECO_PAIS_ID" ColumnName="GRL_ENDERECO_PAIS_ID" />
-                <ScalarProperty Name="GRL_ENDERECO_CIDADE_ID" ColumnName="GRL_ENDERECO_CIDADE_ID" />
-                <ScalarProperty Name="GRL_ENDERECO_MUN_DISTR_ID" ColumnName="GRL_ENDERECO_MUN_DISTR_ID" />
-                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
-                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
-                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
-                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
-                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
-                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -10138,6 +10118,26 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="PES_PESSOAS_FAM_ENDERECOS">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.PES_PESSOAS_FAM_ENDERECOS">
+              <MappingFragment StoreEntitySet="PES_PESSOAS_FAM_ENDERECOS">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="GRL_ENDERECO_MUN_DISTR_ID" ColumnName="GRL_ENDERECO_MUN_DISTR_ID" />
+                <ScalarProperty Name="GRL_ENDERECO_CIDADE_ID" ColumnName="GRL_ENDERECO_CIDADE_ID" />
+                <ScalarProperty Name="GRL_ENDERECO_PAIS_ID" ColumnName="GRL_ENDERECO_PAIS_ID" />
+                <ScalarProperty Name="MORADA" ColumnName="MORADA" />
+                <ScalarProperty Name="RUA" ColumnName="RUA" />
+                <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
+                <ScalarProperty Name="PES_PESSOAS_FAM_ID" ColumnName="PES_PESSOAS_FAM_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

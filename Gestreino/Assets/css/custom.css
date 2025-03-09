@@ -3146,16 +3146,18 @@ ul.bar_tabs > li {
   border-bottom: none;
   border-radius: 4px 4px 0 0; }
 
-ul.bar_tabs > li.active {
-  border-right: 6px solid #D3D6DA;
-  border-top: 0;
-  margin-top: -15px; }
+    ul.bar_tabs > li.active {
+        /* border-right: 6px solid #D3D6DA;*/
+        border-top: 0;
+        margin-top: -15px;
+    }
 
-ul.bar_tabs > li a {
-  padding: 10px 17px;
-  background: #F5F7FA;
-  margin: 0;
-  border-top-right-radius: 0; }
+    ul.bar_tabs > li a {
+        padding: 10px 17px;
+        background: rgba(0,0,0,.03);
+        margin: 0;
+        border-top-right-radius: 0;
+    }
 
 ul.bar_tabs > li a:hover {
   border: 1px solid transparent; }

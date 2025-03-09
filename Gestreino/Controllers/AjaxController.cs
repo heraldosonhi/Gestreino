@@ -110,6 +110,16 @@ namespace Gestreino.Controllers
                 ids = bulkids;
                 action = "RemoverGroupAtom";
             }
+            if (action == "RemoverMultiplosUtilProfile")
+            {
+                ids = bulkids;
+                action = "RemoverUtilProfile";
+            }
+            if (action == "RemoverMultiplosAtomProfile")
+            {
+                ids = bulkids;
+                action = "RemoverAtomProfile";
+            }
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;

@@ -30,7 +30,7 @@
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.ID)
-            <p>  <span><i class="fa fa-circle-question"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
+            <p>  <span><i class="fa fa-info-circle"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
             <div class="form-group row">
                 @Html.LabelFor(m => m.PES_TIPO_IDENTIFICACAO, new { @class = "col-sm-2 col-form-label text-right required" })
                 <div class="col-sm-6">
@@ -142,7 +142,7 @@
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.ID)
             @Html.HiddenFor(m => m.PES_PESSOAS_ID)
-            <p>  <span><i class="fa fa-circle-question"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
+            <p>  <span><i class="fa fa-info-circle"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
             <div class="form-group row">
                 @Html.LabelFor(m => m.PES_TIPO_IDENTIFICACAO, new { @class = "col-sm-2 col-form-label text-right required" })
                 <div class="col-sm-6">

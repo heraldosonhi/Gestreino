@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Gestreino.Models.Users
+@using Gestreino.Classes
+@{
     ViewBag.Title = "Utilizadores";
 }
 <!-- page content -->
@@ -24,7 +26,6 @@
                 <label class="" for="length_change">registos</label>
                 <div class="btn-group">
                     <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="UserTable"><i class="fa fa-check-square"></i></button>
-                    <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="users" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
                     <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserTable"><i class="fa fa-search"></i></button>
                     <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserTable"><i class="fa fa-eraser"></i></button>
                     <a title="Adicionar utilizador" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="users" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
@@ -44,7 +45,9 @@
                         <td><input type="text" id="Nome" class="form-control form-control-sm" /></td>
                         <td><input type="text" id="Grupos" class="form-control form-control-sm" /></td>
                         <td><input type="text" id="Perfis" class="form-control form-control-sm" /></td>
-                        <td><input type="text" id="Estado" class="form-control form-control-sm" /></td>
+                        <td>
+                            @Html.DropDownListFor(m => Model.Id, Enum.GetValues(typeof(SelectValues.Status)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.Status), e), Value = e.ToString() }), "Sem filtro",new { @class = "form-control form-control-sm", Id= "Estado" })
+                        </td>
                         <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
                         <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
                         <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
@@ -72,7 +75,7 @@
         </div>
     </div>
     <!--  DATATABLE START -->
-
+    <h2>&nbsp;</h2>
     <h2>&nbsp;</h2>
 </div>
 <!-- /page content -->

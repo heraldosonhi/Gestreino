@@ -127,7 +127,7 @@ namespace Gestreino.Models
         [DataType(DataType.PhoneNumber)]
         [RegularExpression("^[0-9]*$", ErrorMessage = "{0} não é válido!")]
         [StringLength(100, ErrorMessage = "{0} deve ter o mínimo de {2} dígitos", MinimumLength = 9)]
-        [Display(Name = "Telefone Alternativo")]
+        [Display(Name = "Telefone A/")]
         public string TelephoneAlternativo { get; set; }
 
         //[Required(ErrorMessage = "{0} é um campo obrigatório!")]
@@ -210,7 +210,7 @@ namespace Gestreino.Models
         public int? UserID { get; set; }
         public int? Age { get; set; }
 
-        [Display(Name = "n° Sócio")]
+        [Display(Name = "N° Sócio")]
         public int? Numero { get; set; }
 
         [Display(Name = "Nome")]

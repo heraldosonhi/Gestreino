@@ -48,7 +48,6 @@ namespace Gestreino
         public virtual DbSet<PES_PESSOAS_CARACT_TIPO_SANG> PES_PESSOAS_CARACT_TIPO_SANG { get; set; }
         public virtual DbSet<PES_PESSOAS_FAM> PES_PESSOAS_FAM { get; set; }
         public virtual DbSet<PES_PESSOAS_FAM_CONTACTOS> PES_PESSOAS_FAM_CONTACTOS { get; set; }
-        public virtual DbSet<PES_PESSOAS_FAM_ENDERECOS> PES_PESSOAS_FAM_ENDERECOS { get; set; }
         public virtual DbSet<PES_PESSOAS_PROFISSOES> PES_PESSOAS_PROFISSOES { get; set; }
         public virtual DbSet<PES_PROFISSOES> PES_PROFISSOES { get; set; }
         public virtual DbSet<PES_PROFISSOES_REGIME_TRABALHO> PES_PROFISSOES_REGIME_TRABALHO { get; set; }
@@ -107,6 +106,7 @@ namespace Gestreino
         public virtual DbSet<GT_RespForca> GT_RespForca { get; set; }
         public virtual DbSet<PES_PESSOAS_CARACT> PES_PESSOAS_CARACT { get; set; }
         public virtual DbSet<GT_RespFuncional> GT_RespFuncional { get; set; }
+        public virtual DbSet<PES_PESSOAS_FAM_ENDERECOS> PES_PESSOAS_FAM_ENDERECOS { get; set; }
     
         public virtual ObjectResult<SP_UTILIZADORES_LOGIN_LOGS_Result> SP_UTILIZADORES_LOGIN_LOGS(Nullable<int> userId, string action)
         {

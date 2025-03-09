@@ -37,9 +37,9 @@ namespace Gestreino
         public virtual PES_FAMILIARES_GRUPOS PES_FAMILIARES_GRUPOS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PES_PESSOAS_FAM_CONTACTOS> PES_PESSOAS_FAM_CONTACTOS { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PES_PESSOAS_FAM_ENDERECOS> PES_PESSOAS_FAM_ENDERECOS { get; set; }
         public virtual PES_PROFISSOES PES_PROFISSOES { get; set; }
         public virtual PES_PESSOAS PES_PESSOAS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PES_PESSOAS_FAM_ENDERECOS> PES_PESSOAS_FAM_ENDERECOS { get; set; }
     }
 }

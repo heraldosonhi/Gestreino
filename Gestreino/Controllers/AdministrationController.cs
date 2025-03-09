@@ -92,7 +92,7 @@ namespace Gestreino.Controllers
             if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
             if (!string.IsNullOrEmpty(Grupos)) v = v.Where(a => a.TOTALGROUPS != null && a.TOTALGROUPS.ToString() == Grupos);
             if (!string.IsNullOrEmpty(Perfis)) v = v.Where(a => a.TOTALPERFIS != null && a.TOTALPERFIS.ToString() == Perfis);
-            if (!string.IsNullOrEmpty(Estado)) v = v.Where(a => a.ACTIVO != null && a.ACTIVO.Contains(Estado));
+            if (!string.IsNullOrEmpty(Estado)) v = v.Where(a => a.ACTIVO != null && a.ACTIVO==(Estado=="1"?"Activo":"Inactivo"));
             if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
             if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
             if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
@@ -251,7 +251,7 @@ namespace Gestreino.Controllers
                 }
 
                 var _cartid = (from c in databaseManager.UTILIZADORES_LOGIN_PASSWORD_TENT
-                               where c.UTILIZADORES_ID == MODEL.Id && c.DATA.ToString("dd/MM/yyyy") == DateTime.Today.ToString("dd/MM/yyyy")
+                               where c.UTILIZADORES_ID == MODEL.Id //&& c.DATA.ToString("dd/MM/yyyy") == DateTime.Today.ToString("dd/MM/yyyy")
                                select c);
                 databaseManager.UTILIZADORES_LOGIN_PASSWORD_TENT.RemoveRange(_cartid);
                 databaseManager.SaveChanges();
@@ -1467,14 +1467,14 @@ namespace Gestreino.Controllers
                     if (MODEL.UserId == null)
                         databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS(null, MODEL.ProfileId, i, int.Parse(User.Identity.GetUserId()), "C").ToList();
                     if (MODEL.ProfileId == null)
-                        databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS(null, i, MODEL.AtomId, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                        databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES_PERFIS(null, i, MODEL.UserId, int.Parse(User.Identity.GetUserId()), "C").ToList();
 
                 }
                 ModelState.Clear();
             }
             catch (Exception ex)
             {
-                return Json(new { result = false, error = ex.Message });
+                return Json(new { result = false, error = ex.ToString() });
             }
             return Json(new { result = true, error = string.Empty, table = "ProfileUtilTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }

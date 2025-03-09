@@ -19,8 +19,8 @@ namespace Gestreino
         public Nullable<int> NUMERO { get; set; }
         public string RUA { get; set; }
         public string MORADA { get; set; }
-        public int GRL_ENDERECO_PAIS_ID { get; set; }
-        public int GRL_ENDERECO_CIDADE_ID { get; set; }
+        public Nullable<int> GRL_ENDERECO_PAIS_ID { get; set; }
+        public Nullable<int> GRL_ENDERECO_CIDADE_ID { get; set; }
         public Nullable<int> GRL_ENDERECO_MUN_DISTR_ID { get; set; }
         public int INSERIDO_POR { get; set; }
         public Nullable<int> ACTUALIZADO_POR { get; set; }

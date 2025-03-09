@@ -78,7 +78,7 @@ namespace Gestreino.Controllers
             MODEL.PAIS_LIST = databaseManager.GRL_ENDERECO_PAIS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             MODEL.CIDADE_LIST = databaseManager.GRL_ENDERECO_CIDADE.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             MODEL.MUN_LIST = databaseManager.GRL_ENDERECO_MUN_DISTR.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-            MODEL.ENDERECO_TIPO_LIST = databaseManager.PES_TIPO_ENDERECOS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            //MODEL.ENDERECO_TIPO_LIST = databaseManager.PES_TIPO_ENDERECOS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             MODEL.ENDERECO_PAIS_ID = Configs.INST_MDL_ADM_VLRID_ADDR_STANDARD_COUNTRY;
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Athletes;
             return View("Athletes/NewAthlete", MODEL);
@@ -94,7 +94,7 @@ namespace Gestreino.Controllers
             var nacionalidade = databaseManager.PES_NACIONALIDADE.Where(x => x.PES_PESSOAS_ID == Id).Select(x => x.GRL_ENDERECO_PAIS_ID).ToArray();
             var endereco = databaseManager.PES_ENDERECOS.Where(x => x.PES_PESSOAS_ID == Id).ToList();
             var naturalidade = databaseManager.PES_NATURALIDADE.Where(x => x.PES_PESSOAS_ID == Id).ToList();
-
+            
             MODEL.ID = data.First().ID;
             MODEL.Numero = data.First().PES_NUMERO;
             MODEL.Nome = data.First().NOME;
@@ -106,6 +106,11 @@ namespace Gestreino.Controllers
             MODEL.Telephone = (!string.IsNullOrEmpty(data.First().TELEFONE.ToString())) ? data.First().TELEFONE.ToString() : null;
             MODEL.TelephoneAlternativo = (!string.IsNullOrEmpty(data.First().TELEFONE_ALTERNATIVO.ToString())) ? data.First().TELEFONE_ALTERNATIVO.ToString() : null;
             MODEL.Email = data.First().EMAIL;
+
+            var DateofBirth = string.IsNullOrEmpty(data.First().DATA_NASCIMENTO) ? (DateTime?)null : DateTime.ParseExact(data.First().DATA_NASCIMENTO, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            if (DateofBirth != null)
+                MODEL.Age = Converters.CalculateAge(DateofBirth.Value);
+
 
             if (naturalidade.Any())
             {
@@ -174,7 +179,7 @@ namespace Gestreino.Controllers
             MODEL.PAIS_LIST = databaseManager.GRL_ENDERECO_PAIS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             MODEL.CIDADE_LIST = databaseManager.GRL_ENDERECO_CIDADE.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             MODEL.MUN_LIST = databaseManager.GRL_ENDERECO_MUN_DISTR.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-            MODEL.ENDERECO_TIPO_LIST = databaseManager.PES_TIPO_ENDERECOS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            //MODEL.ENDERECO_TIPO_LIST = databaseManager.PES_TIPO_ENDERECOS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             //MODEL.ENDERECO_PAIS_ID = Configs.INST_MDL_ADM_VLRID_ADDR_STANDARD_COUNTRY;
 
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Athletes;
@@ -417,6 +422,7 @@ namespace Gestreino.Controllers
                 var createCaract = databaseManager.SP_PES_ENT_PESSOAS_CARACT(null, PesId, null, Altura, Peso, MODEL.Caract_FCRepouso, MODEL.Caract_FCMaximo, MODEL.Caract_TASistolica, MODEL.Caract_TADistolica, MODEL.Caract_MassaGorda, MODEL.Caract_VO2, MODEL.Caract_DuracaoPlano, MODEL.Caract_IMC, MODEL.FCTreino1, MODEL.FCTreino2, MODEL.FCTreino3, MODEL.FCTreino4, MODEL.FCTreino5, MODEL.FCTreino6, MODEL.FCTreino7, MODEL.FCTreino8, MODEL.FCTreino9, MODEL.FCTreino10, MODEL.FR_Hipertensao, MODEL.FR_Tabaco, MODEL.FR_Hiperlipidemia, MODEL.FR_Obesidade, MODEL.FR_Diabetes, MODEL.FR_Inactividade, MODEL.FR_Heriditariedade, MODEL.FR_Examescomplementares, MODEL.FR_Outros, MODEL.OB_Actividade, MODEL.OB_Controlopeso, MODEL.OB_PrevenirIdade, MODEL.OB_TreinoDesporto, MODEL.OB_AumentarMassa, MODEL.OB_BemEstar, MODEL.OB_Tonificar, MODEL.OB_Outros, null, int.Parse(User.Identity.GetUserId()), "C").ToList();
 
                 // Create or Update Address
+                MODEL.ENDERECO_TIPO = databaseManager.PES_TIPO_ENDERECOS.Where(x => x.DATA_REMOCAO == null).Select(x => x.ID).FirstOrDefault();
                 var createAddress = databaseManager.SP_PES_ENT_PESSOAS_ENDERECO(null, PesId, MODEL.ENDERECO_TIPO, true, MODEL.EndNumero, MODEL.Rua, MODEL.Morada, MODEL.ENDERECO_PAIS_ID, MODEL.ENDERECO_CIDADE_ID, MODEL.ENDERECO_MUN_ID, DateTime.Now, null, int.Parse(User.Identity.GetUserId()), "C").ToList();
 
                 // Create nationality rows
@@ -485,6 +491,7 @@ namespace Gestreino.Controllers
                 var updateCaract = databaseManager.SP_PES_ENT_PESSOAS_CARACT(null, MODEL.ID, null, Altura, Peso, MODEL.Caract_FCRepouso, MODEL.Caract_FCMaximo, MODEL.Caract_TASistolica, MODEL.Caract_TADistolica, MODEL.Caract_MassaGorda, MODEL.Caract_VO2, MODEL.Caract_DuracaoPlano, MODEL.Caract_IMC, MODEL.FCTreino1, MODEL.FCTreino2, MODEL.FCTreino3, MODEL.FCTreino4, MODEL.FCTreino5, MODEL.FCTreino6, MODEL.FCTreino7, MODEL.FCTreino8, MODEL.FCTreino9, MODEL.FCTreino10, MODEL.FR_Hipertensao, MODEL.FR_Tabaco, MODEL.FR_Hiperlipidemia, MODEL.FR_Obesidade, MODEL.FR_Diabetes, MODEL.FR_Inactividade, MODEL.FR_Heriditariedade, MODEL.FR_Examescomplementares, MODEL.FR_Outros, MODEL.OB_Actividade, MODEL.OB_Controlopeso, MODEL.OB_PrevenirIdade, MODEL.OB_TreinoDesporto, MODEL.OB_AumentarMassa, MODEL.OB_BemEstar, MODEL.OB_Tonificar, MODEL.OB_Outros, null, int.Parse(User.Identity.GetUserId()), "C").ToList();
 
                 // Create or Update Address
+                MODEL.ENDERECO_TIPO = databaseManager.PES_TIPO_ENDERECOS.Where(x => x.DATA_REMOCAO == null).Select(x => x.ID).FirstOrDefault();
                 var createAddress = databaseManager.SP_PES_ENT_PESSOAS_ENDERECO(null, MODEL.ID, MODEL.ENDERECO_TIPO, true, MODEL.EndNumero, MODEL.Rua, MODEL.Morada, MODEL.ENDERECO_PAIS_ID, MODEL.ENDERECO_CIDADE_ID, MODEL.ENDERECO_MUN_ID, DateTime.Now, null, int.Parse(User.Identity.GetUserId()), "C").ToList();
 
                 // Create nationality rows
@@ -497,7 +504,6 @@ namespace Gestreino.Controllers
                         var addnationality = databaseManager.SP_PES_ENT_PESSOAS(MODEL.ID, null, null, null, null, null, null, item, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), "IN").ToList();
                     }
                 }
-
 
                 /*
                 //Evolução Altura
@@ -528,9 +534,6 @@ namespace Gestreino.Controllers
                     objCommand.CommandText = "INSERT INTO tblEvolucaoTADistolica (IDSocio, Data, TADistolica)  VALUES ('" + txtNrSocio.Text + "', '" + DateTime.Today.ToString() + "','" + txtTADistolica.Text + "')";
                     objCommand.ExecuteNonQuery();
                 }*/
-
-
-
 
                 returnUrl = "/gtmanagement/viewathletes/" + MODEL.ID;
                 ModelState.Clear();
@@ -5204,9 +5207,11 @@ namespace Gestreino.Controllers
             var Numero = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
             var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
             var Altura = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
-            var Peso = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
-            var Data = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            var Peso = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Data = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var Data2 = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
             var Tipo = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+            var Sexo = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault();
 
             //DECLARE PAGINATION VARIABLES
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
@@ -5214,12 +5219,22 @@ namespace Gestreino.Controllers
             int totalRecords = 0;
 
             //TipoId = TipoId > 0 ? TipoId : null;
-            var v = (from a in databaseManager.SP_GT_ENT_Search(null, null, null, null, null, null, null, null, null, null, "R").ToList() select a);
+            var v = (from a in databaseManager.SP_GT_ENT_Search(1, null, null, null, null, null, null, null, null, null, "R").ToList() select a);
             TempData["QUERYRESULT_ALL"] = v.ToList();
 
             //SEARCH RESULT SET
-          //  if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
-            
+            if (!string.IsNullOrEmpty(Numero)) v = v.Where(a => a.N_SOCIO != null && a.N_SOCIO.ToString().Contains(Numero)
+             || a.NOME != null && a.NOME.ToUpper().Contains(Numero.ToUpper()));
+            if (!string.IsNullOrEmpty(Altura)) v = v.Where(a => a.ALTURA != null && a.ALTURA.ToString().Contains(Altura));
+            if (!string.IsNullOrEmpty(Peso)) v = v.Where(a => a.PESO != null && a.PESO.ToString()==Peso);
+            if (!string.IsNullOrEmpty(Tipo)) v = v.Where(a => a.AVALIACAO_ID != null && a.AVALIACAO_ID.ToString()==Tipo);
+            if (!string.IsNullOrEmpty(Sexo)) v = v.Where(a => a.SEXO != null && a.SEXO.ToString() == Sexo);
+            if (!string.IsNullOrEmpty(Data) && !string.IsNullOrEmpty(Data2)) {
+                var date1 =  DateTime.ParseExact(Data, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                var date2 = DateTime.ParseExact(Data2, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                v=v.Where(x => DateTime.ParseExact(x.DATA1, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                >= date1 && DateTime.ParseExact(x.DATA1, "dd/MM/yyyy", CultureInfo.InvariantCulture) <= date2);
+            }
 
             //ORDER RESULT SET
             if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -5270,14 +5285,127 @@ namespace Gestreino.Controllers
                     ALTURA = x.ALTURA,
                     PESO = x.PESO,
                     DATA = x.DATA_DEFAULT,
-                    TIPO = x.TIPO_PLANO
+                    TIPO = x.AVALIACAO,
+                    SEXO = x.SEXO
                 }),
                 sortColumn = sortColumn,
                 sortColumnDir = sortColumnDir,
             }, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult GetSearchTable2()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Numero = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Altura = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Peso = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Data = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var Data2 = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            var Tipo = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+            var Sexo = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault();
+            var Percentil = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            //TipoId = TipoId > 0 ? TipoId : null;
+            var v = (from a in databaseManager.SP_GT_ENT_Search(2, null, null, null, null, null, null, null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Numero)) v = v.Where(a => a.N_SOCIO != null && a.N_SOCIO.ToString().Contains(Numero)
+             || a.NOME != null && a.NOME.ToUpper().Contains(Numero.ToUpper()));
+            if (!string.IsNullOrEmpty(Altura)) v = v.Where(a => a.ALTURA != null && a.ALTURA.ToString().Contains(Altura));
+            if (!string.IsNullOrEmpty(Peso)) v = v.Where(a => a.PESO != null && a.PESO.ToString() == Peso);
+            if (!string.IsNullOrEmpty(Tipo)) v = v.Where(a => a.TIPO_PLANO != null && a.TIPO_PLANO== Tipo);
+            if (!string.IsNullOrEmpty(Sexo)) v = v.Where(a => a.SEXO != null && a.SEXO.ToString() == Sexo);
+            if (!string.IsNullOrEmpty(Data) && !string.IsNullOrEmpty(Data2))
+            {
+                var date1 = DateTime.ParseExact(Data, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                var date2 = DateTime.ParseExact(Data2, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                v = v.Where(x => DateTime.ParseExact(x.DATA1, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                >= date1 && DateTime.ParseExact(x.DATA1, "dd/MM/yyyy", CultureInfo.InvariantCulture) <= date2);
+            }
+            if (!string.IsNullOrEmpty(Percentil)) v = v.Where(a => a.PERCENTIL != null && a.PERCENTIL.ToString() == Percentil);
 
 
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "NUMERO": v = v.OrderBy(s => s.N_SOCIO); break;
+                        case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "ALTURA": v = v.OrderBy(s => s.ALTURA); break;
+                        case "PESO": v = v.OrderBy(s => s.PESO); break;
+                        case "DATA": v = v.OrderBy(s => s.DATA_DEFAULT); break;
+                        case "TIPO": v = v.OrderBy(s => s.TIPO_PLANO); break;
+                        case "PERCENTIL": v = v.OrderBy(s => s.PERCENTIL); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "NUMERO": v = v.OrderByDescending(s => s.N_SOCIO); break;
+                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "ALTURA": v = v.OrderByDescending(s => s.ALTURA); break;
+                        case "PESO": v = v.OrderByDescending(s => s.PESO); break;
+                        case "DATA": v = v.OrderByDescending(s => s.DATA_DEFAULT); break;
+                        case "TIPO": v = v.OrderByDescending(s => s.TIPO_PLANO); break;
+                        case "PERCENTIL": v = v.OrderByDescending(s => s.PERCENTIL); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            List<String> peraval = new List<string>();
+            peraval.Add("Ansiedade e Depressão");
+            peraval.Add("Auto Conceito");
+            peraval.Add("Risco Coronário");
+            peraval.Add("Problemas de Saúde");
+            peraval.Add("Funcional");
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = 0,
+                    NUMERO = x.N_SOCIO,
+                    NOME = x.NOME,
+                    ALTURA = x.ALTURA,
+                    PESO = x.PESO,
+                    DATA = x.DATA_DEFAULT,
+                    TIPO = x.AVALIACAO,
+                    SEXO = x.SEXO,
+                    PERCENTIL = peraval.Contains(x.AVALIACAO)?string.Empty : x.PERCENTIL.ToString()
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
 
 
 

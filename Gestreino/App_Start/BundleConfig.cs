@@ -29,7 +29,7 @@ namespace Gestreino
 
                        "~/Assets/javascript/moment.min.js",
                       "~/Assets/javascript/daterangepicker.min.js",
-
+                       "~/Assets/lib/select2/select2.full.min.js",
                       "~/Assets/javascript/custom.js",
                       "~/Assets/javascript/application.js"
 
@@ -39,6 +39,7 @@ namespace Gestreino
                       "~/Assets/css/bootstrap.min.css",
                        "~/Content/css/toastr.min.css",
                        "~/Content/css/dataTables.dataTables.min.css",
+                         "~/Assets/lib/select2/select2.min.css",
                       "~/Assets/css/custom.css",
                       "~/Assets/css/app.css"));
         }

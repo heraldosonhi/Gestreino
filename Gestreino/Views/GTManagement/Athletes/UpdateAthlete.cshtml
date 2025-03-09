@@ -5,17 +5,21 @@
 }
 <!-- page content -->
 <div class="right_col" role="main">
-    <div class="handle-error alert alert-accent"
-         role="alert" style="display:none;">
-        <div class="d-flex flex-wrap align-items-start">
-            <div class="mr-8pt">
-                <i class="fa fa-warning"></i>
-            </div>
-            <div class="flex"
-                 style="min-width: 180px">
-                <span class="text-black-100">
-                    <strong>Atenção!</strong> <span class="handle-error-message"></span>
-                </span>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="handle-error alert alert-accent mb-2"
+                 role="alert" style="display: none;">
+                <div class="d-flex flex-wrap align-items-start">
+                    <div class="mr-8pt">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="flex"
+                         style="min-width: 180px">
+                        <span class="text-black-100">
+                            <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -73,7 +77,6 @@
                                     @Html.TextBoxFor(m => m.NIF, new { @class = "form-control form-control-sm" })
                                 </div>
                             </div>
-                            <h6 class="mt-1"><span><i class="fa fa-phone"></i> Naturalidade</span></h6>
                             <div class="">
                                 <div class="row">
                                     @Html.LabelFor(m => m.NacionalidadeId, new { @class = "col-md-2 col-form-label" })
@@ -83,20 +86,19 @@
                                 </div>
                                 <div class="row mt-1">
                                     @Html.LabelFor(m => m.NAT_PAIS_ID, new { @class = "col-md-2 col-form-label required" })
-                                    <div class="col-md-2">
-                                        @Html.DropDownListFor(x => Model.NAT_PAIS_ID, Model.PAIS_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
+                                    <div class="col-md-3">
+                                        @Html.DropDownListFor(x => Model.NAT_PAIS_ID, Model.PAIS_LIST, "Selecionar uma opção", new { @class = "select-control form-control form-control-sm", required = "" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        @Html.DropDownListFor(x => Model.NAT_CIDADE_ID, Model.CIDADE_LIST, "Selecionar uma opção", new { @class = "select-control form-control form-control-sm", required = "" })
                                     </div>
                                     <div class="col-md-4">
-                                        @Html.DropDownListFor(x => Model.NAT_CIDADE_ID, Model.CIDADE_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
-                                    </div>
-                                    <div class="col-md-4">
-                                        @Html.DropDownListFor(x => Model.NAT_MUN_ID, Model.MUN_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm" })
+                                        @Html.DropDownListFor(x => Model.NAT_MUN_ID, Model.MUN_LIST, "Selecionar uma opção", new { @class = "select-control form-control form-control-sm" })
                                     </div>
                                 </div>
                             </div>
-                            <h6 class="mt-1"><span><i class="fa fa-phone"></i> Contactos</span></h6>
                             <div class="">
-                                <div class="row">
+                                <div class="row mt-1">
                                     @Html.LabelFor(m => m.Telephone, new { @class = "col-md-2 col-form-label required" })
                                     <div class="col-md-4">
                                         @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control form-control-sm", required = "", @type = "number", min = "1" })
@@ -113,33 +115,30 @@
                                     </div>
                                 </div>
                             </div>
-                            <h6 class="mt-1"><span><i class="fa fa-location-arrow"></i> Endereço</span></h6>
                             <div class="">
                                 <div class="row">
                                     <label class="col-md-2 col-form-label required" for="Numero">N&#250;mero/Rua/Morada </label>
-                                    <div class="col-md-2">
-                                        @Html.DropDownListFor(x => Model.ENDERECO_TIPO, Model.ENDERECO_TIPO_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
-                                    </div>
-                                    <div class="col-md-2">
+
+                                    <div class="col-md-3">
                                         @Html.TextBoxFor(m => m.EndNumero, new { @class = "form-control form-control-sm", @type = "number", min = "1" })
                                     </div>
                                     <div class="col-md-3">
                                         @Html.TextBoxFor(m => m.Rua, new { @class = "form-control form-control-sm", required = "" })
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         @Html.TextBoxFor(m => m.Morada, new { @class = "form-control form-control-sm", required = "" })
                                     </div>
                                 </div>
                                 <div class="row">
                                     <label class="col-md-2 col-form-label required" for="Numero"></label>
-                                    <div class="col-md-2">
-                                        @Html.DropDownListFor(x => Model.ENDERECO_PAIS_ID, Model.PAIS_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
+                                    <div class="col-md-3">
+                                        @Html.DropDownListFor(x => Model.ENDERECO_PAIS_ID, Model.PAIS_LIST, "Selecionar uma opção", new { @class = "select-control form-control form-control-sm", required = "" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        @Html.DropDownListFor(x => Model.ENDERECO_CIDADE_ID, Model.CIDADE_LIST, "Selecionar uma opção", new { @class = "select-control form-control form-control-sm", required = "" })
                                     </div>
                                     <div class="col-md-4">
-                                        @Html.DropDownListFor(x => Model.ENDERECO_CIDADE_ID, Model.CIDADE_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
-                                    </div>
-                                    <div class="col-md-4">
-                                        @Html.DropDownListFor(x => Model.ENDERECO_MUN_ID, Model.MUN_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
+                                        @Html.DropDownListFor(x => Model.ENDERECO_MUN_ID, Model.MUN_LIST, "Selecionar uma opção", new { @class = "select-control form-control form-control-sm", required = "" })
                                     </div>
                                 </div>
                             </div>

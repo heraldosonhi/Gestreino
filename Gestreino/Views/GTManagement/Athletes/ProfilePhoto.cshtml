@@ -2,46 +2,51 @@
 @using Gestreino.Classes
 @model Athlete
 @{
-    ViewBag.Title = "Alterar foto de perfil: " + @ViewBag.item[0].NOME;
+    ViewBag.Title = "Carregar foto: " + @ViewBag.item[0].NOME;
 }
 <!-- page content -->
 <div class="right_col" role="main">
     <link rel="stylesheet" href="@Url.Content("~/Assets/lib/cropper/cropper.css")" />
-
-    <!-- Page Content -->
-    <div class="container page-section">
-        <div class="handle-error alert alert-accent"
-             role="alert" style="display:none;">
-            <div class="d-flex flex-wrap align-items-start">
-                <div class="mr-8pt">
-                    <i class="fa fa-warning"></i>
-                </div>
-                <div class="flex"
-                     style="min-width: 180px">
-                    <small class="text-black-100">
-                        <strong>Atenção!</strong> <span class="handle-error-message"></span>
-                    </small>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="handle-error alert alert-accent mb-2"
+                 role="alert" style="display: none;">
+                <div class="d-flex flex-wrap align-items-start">
+                    <div class="mr-8pt">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="flex"
+                         style="min-width: 180px">
+                        <span class="text-black-100">
+                            <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Page Content -->
+    @using (Html.BeginForm("UpdateProfilePhoto", "gtmanagement", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { enctype = "multipart/form-data", role = "form", id = "FileUploader" }))
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.UserID)
+        @Html.HiddenFor(m => m.ID)
+
         <div class="row">
-
-            <div class="col-sm-8half">
-                <center>
-                    @using (Html.BeginForm("UpdateProfilePhoto", "gtmanagement", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { enctype = "multipart/form-data", role = "form", id = "FileUploader" }))
-                    {
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.AntiForgeryToken()
-                        @Html.HiddenFor(m => m.UserID)
-                        @Html.HiddenFor(m => m.ID)
-
-                        <label class="label mb-24pt btn-group">
-                            <a href="@Url.Action("viewathletes", "gtmanagement", new {Id=Model.ID})" class="btn btn-danger btn-sm">Voltar</a>
+            <div class="col-md-2"></div>
+            <div class="col-md-6">
+                <div class="bg-white border-r">
+                    <center>
+                        <label class="label mb-24pt p-3 btn-group">
+                            <a class="btn btn-light" href="@Url.Action("viewathletes", "gtmanagement", new {Id=Model.ID})"><i class="fa fa-backward fa-2x"></i></a>
                             <input type="file" class="sr-only" id="input" name="file" accept="image/*">
-                            <a class="btn btn-light" id="input" title="Carregar fotografia pessoal"><i class="fa fa-upload fa-2x"></i></a>
-                            <button type="button" class="btn btn-light btn-rounded" onclick="setPictureWebcamBtn(@ViewBag.item[0].UTILIZADORES_ID,@ViewBag.item[0].ID)" title="Capturar rosto"><i class="fa fa-camera fa-2x"></i></button>
-                            <a class="btn btn-light" title="Definições de imagem" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-crop fa-2x"></i></a>
+                            <a class="btn btn-light" style="color:#333" id="input" title="Carregar foto"><i class="fa fa-upload fa-2x"></i></a>
+                            <button type="button" class="btn btn-light" onclick="setPictureWebcamBtn(@ViewBag.item[0].UTILIZADORES_ID,@ViewBag.item[0].ID)" title="Capturar rosto"><i class="fa fa-camera fa-2x"></i></button>
+                            <a class="btn btn-light" hidden title="Definições de imagem" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-crop fa-2x"></i></a>
                         </label>
+
 
                         <div class="collapse mt-2" id="collapseExample">
                             <div class="col-md-9">
@@ -90,29 +95,31 @@
                         <div>
                             <button type="submit" class="btn btn-primary btn-sm" style="display:none;" id="BtnSubmitAvatar">Submeter</button>
                         </div>
-                    } 
-                </center>
+                    </center>
+                </div>
             </div>
         </div>
-    </div>
+    }
+    <h2>&nbsp;</h2>
+    <h2>&nbsp;</h2>
+</div>
     <div class="modal fade" id="modal-profile-image-changer" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-capitalize" id="modalLabel">Alterar foto de perfil</h5>
+                <div class="modal-header" style="padding: .5rem ">
+                    <h5 class="modal-title" id="modalLabel">Carregar foto</h5>
                 </div>
                 <div class="modal-body">
                     <div class="img-container">
                         <img id="image" src="" style=" width: 100%;">
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="p-2">
                     <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary btn-sm" id="crop">Submeter</button>
                 </div>
             </div>
         </div>
-    </div>
     </div>
     <script>
     window.addEventListener('DOMContentLoaded', function () {

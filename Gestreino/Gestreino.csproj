@@ -675,6 +675,9 @@
     <Content Include="Assets\javascript\toastr.min.js" />
     <Content Include="Assets\lib\cropper\cropper.css" />
     <Content Include="Assets\lib\cropper\cropper.min.js" />
+    <Content Include="Assets\lib\select2\select2.css" />
+    <Content Include="Assets\lib\select2\select2.full.min.js" />
+    <Content Include="Assets\lib\select2\select2.min.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />

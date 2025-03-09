@@ -26,7 +26,6 @@
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_CARACT_TIPO_SANG" Width="1.5" PointX="12" PointY="52.875" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_FAM" Width="1.5" PointX="5.25" PointY="28.25" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_FAM_CONTACTOS" Width="1.5" PointX="7.5" PointY="28" IsExpanded="true" />
-        <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_FAM_ENDERECOS" Width="1.5" PointX="10.5" PointY="26.125" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_PROFISSOES" Width="1.5" PointX="14.25" PointY="28" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_PROFISSOES" Width="1.5" PointX="12" PointY="22.25" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_PROFISSOES_REGIME_TRABALHO" Width="1.5" PointX="12" PointY="17.75" IsExpanded="true" />
@@ -44,23 +43,19 @@
         <AssociationConnector Association="GESTREINO_ORM.FKINST_APLIC331316" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_ENDERE742543" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_NATURA422334" ManuallyRouted="false" />
-        <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA932046" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKINST_APLIC69096" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_ENDERE72444" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_NATURA92434" ManuallyRouted="false" />
-        <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA261947" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKINST_APLIC939798" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_ENDERE879575" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_NACION768793" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_NATURA927136" ManuallyRouted="false" />
-        <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA281518" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKGRL_TOKENS134751" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_ENDERE404884" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA888362" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_IDENTI220268" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA215063" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA365702" ManuallyRouted="false" />
-        <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA815594" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA747112" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA848229" ManuallyRouted="false" />
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA920927" ManuallyRouted="false" />
@@ -186,6 +181,11 @@
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA872225" />
         <EntityTypeShape EntityType="GESTREINO_ORM.GT_RespFuncional" Width="1.5" PointX="7.5" PointY="125.5" />
         <AssociationConnector Association="GESTREINO_ORM.GT_RespFuncional_GT_SOCIOS_ID" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS_FAM_ENDERECOS" Width="1.5" PointX="13.5" PointY="40.5" />
+        <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA932046" />
+        <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA261947" />
+        <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA281518" />
+        <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA815594" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

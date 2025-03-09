@@ -20,13 +20,14 @@
                             <img class="img-responsive avatar-view navImg" src="@ViewBag.imgSrc" width="200" alt="@ViewBag.data[0].NOME" title="@ViewBag.data[0].NOME">
                         </div>
                     </div>
-                    <h3><i class="fa fa-tag"></i>&nbsp;@ViewBag.data[0].PES_NUMERO</h3>
-                    <h3>@ViewBag.data[0].NOME_PROPIO @ViewBag.data[0].APELIDO</h3>
-                    <div class="btn-group-vertical">
-                        <a title="Atualizar informação" href="@Url.Action("updateathlete", "gtmanagement", new {Id=ViewBag.data[0].ID})" class="btn btn-sm btn-block btn-secondary"><i class="fa fa-pencil user-profile-icon"></i> Atualizar informação</a>
-                        <a title="Perfil do utilizador" href="@Url.Action("viewusers", "administration", new {Id=ViewBag.data[0].UTILIZADORES_ID})" class="btn  btn-block btn-sm btn-secondary"><i class="fa fa-user user-profile-icon"></i> Utilizador</a>
-                        <a title="Alterar foto de perfil" href="@Url.Action("profilephoto", "gtmanagement", new { Id = ViewBag.data[0].ID })" class="btn btn-sm  btn-block btn-secondary"><i class="fa fa-camera user-profile-icon"></i> A/ foto de perfil</a>
-                        <a title="Selecionar avalidado" href="javascript:void(0)" class="btn btn-sm  btn-block btn-secondary disabled"><i class="fa fa-random user-profile-icon"></i> Selecionar avaliado</a>
+                    <center>
+                        <h3><i class="fa fa-tag"></i>&nbsp;@ViewBag.data[0].PES_NUMERO</h3>
+                        <h3>@ViewBag.data[0].NOME_PROPIO @ViewBag.data[0].APELIDO</h3>
+                    </center>
+                    <div class="btn-group-vertical btn-toolbar">
+                        <a title="Atualizar informação" href="@Url.Action("updateathlete", "gtmanagement", new {Id=ViewBag.data[0].ID})" class="btn btn-sm btn-block btn-secondary w-100"><i class="fa fa-pencil user-profile-icon"></i> Atualizar informação</a>
+                        <a title="Perfil do utilizador" href="@Url.Action("viewusers", "administration", new {Id=ViewBag.data[0].UTILIZADORES_ID})" class="btn  btn-block btn-sm btn-secondary w-100"><i class="fa fa-user user-profile-icon"></i> Utilizador</a>
+                        <a title="Carregar foto" href="@Url.Action("profilephoto", "gtmanagement", new { Id = ViewBag.data[0].ID })" class="btn btn-sm  btn-block btn-secondary w-100"><i class="fa fa-camera user-profile-icon"></i> Carregar foto</a>
                     </div>
                 </div>
             </div>
@@ -36,7 +37,7 @@
                 <div class="x_content">
                     <h6 class="mt-1"><span><i class="fa fa-medkit"></i> Características</span></h6>
                     <div class="card p-1 bg-light mb-2">
-                        <table>
+                        <table style="width:45% !important">
                             <tr>
                                 <td>Altura (cm)</td>
                                 <td>@ViewBag.dataCaract[0].ALTURA.ToString("G29")</td>
@@ -93,7 +94,7 @@
                         </ul>
                         <div id="myTabContent" class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="tab_content1" aria-labelledby="">
-                                <div class="p-3 ">
+                                <div class="p-2">
                                     <div class="alert  mb-1 mt-0"
                                          role="alert">
                                         <div class="d-flex flex-wrap align-items-start">
@@ -367,7 +368,7 @@
                         <div class="">
                             <table style="width:40% !important">
                                 <tr>
-                                    <td>n° Sócio</td>
+                                    <td>N° Sócio</td>
                                     <td>@ViewBag.data[0].PES_NUMERO</td>
                                 </tr>
                                 <tr>

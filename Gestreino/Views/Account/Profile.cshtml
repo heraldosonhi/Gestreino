@@ -24,7 +24,7 @@
         </div>
         <div class="row">
             <div class="col-md-3   widget widget_tally_box">
-                <div class="x_panel fixed_height_390">
+                <div class="x_panel">
                     <div class="x_content">
                         <div class="flex">
                             <ul class="list-inline widget_profile_box">
@@ -42,19 +42,18 @@
                                 </li>
                             </ul>
                         </div>
-                      
                         <h3 class="name">@Model.Nome</h3>
                         <div class="flex">
                             <ul class="list-inline count2">
-                                <li>
-                                    <i class="fa fa-key user-profile-icon"></i> @Model.Login
-                                </li>
-                                <li>
-                                    <i class="fa fa-envelope user-profile-icon"></i> @Model.Email
+                                <li class="m-top-xs">
+                                    <center>
+                                        <a href="@Model.Email" target="_blank">@Model.Email</a>
+
+                                    </center>
                                 </li>
                             </ul>
+                          
                         </div>
-                        <p><i class="fa fa-info fa-fw user-profile-icon"></i> @ViewBag.Apresentacao</p>
                     </div>
                 </div>
             </div>
@@ -109,9 +108,15 @@
                                             </div>
                                             <div class="row">
                                                 <label class="col-sm-2 col-form-label text-right"></label>
-                                                <div class="col-md-6">
-                                                    @Html.LabelFor(m => m.isAutomaticPasswordEmail, new { @class = " col-form-label" })
-                                                    @Html.CheckBoxFor(m => m.isAutomaticPasswordEmail, new { @class = "" })
+                                                <div class="col-md-10">
+                                                    <div class="custom-controls-stacked">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input id="isAutomaticPasswordEmail" type="checkbox" class="custom-control-input">
+                                                            <label for="isAutomaticPasswordEmail" class="custom-control-label" style="padding: 3px 0px ">
+                                                                Gerar senha
+                                                            </label>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="row GenPasswordRow" style="display:none">
@@ -120,11 +125,11 @@
                                                     <input type="text" class="form-control form-control-sm" placeholder="Senha gerada" id="GenPassword" readonly="">
                                                 </div>
                                                 <div class="col-sm-3 btn-group">
-                                                    <a class="btn btn-sm btn-secondary" onclick="ShufflePassword()" title="Shuffle"><i class="fa fa-random"></i></a>
-                                                    <a class="btn btn-sm btn-secondary" onclick="copyPassword()" title="Copiar senha"><i class="fa fa-copy"></i></a>
+                                                    <button type="button" class="btn btn-sm btn-light" onclick="ShufflePassword()" title="Shuffle"><i class="fa fa-random"></i></button>
+                                                    <button type="button" class="btn btn-sm btn-light" onclick="copyPassword()" title="Copiar senha"><i class="fa fa-copy"></i></button>
                                                 </div>
                                             </div>
-                                            <div class="row">
+                                            <div class="row mt-1">
                                                 @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
                                                 <div class="col-md-6">
                                                     @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-sm", required = "" })

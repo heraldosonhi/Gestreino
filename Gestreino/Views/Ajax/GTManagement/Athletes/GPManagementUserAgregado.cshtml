@@ -29,11 +29,11 @@
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.ID)
-            <p>  <span><i class="fa fa-circle-question"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
+            <p>  <span><i class="fa fa-info-circle"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
             <div class="form-group row">
                 @Html.LabelFor(m => m.PES_FAMILIARES_GRUPOS_ID, new { @class = "col-sm-2 col-form-label text-right required" })
                 <div class="col-sm-6">
-                    @Html.DropDownListFor(x => Model.PES_FAMILIARES_GRUPOS_ID, Model.PES_FAMILIARES_GRUPOS_LIST, "Selecionar o agregado", new { @class = "form-control ", required = "required" })
+                    @Html.DropDownListFor(x => Model.PES_FAMILIARES_GRUPOS_ID, Model.PES_FAMILIARES_GRUPOS_LIST, "Selecionar o agregado", new { @class = "form-control form-control-sm", required = "required" })
                 </div>
             </div>
             <div class="alert alert-warning">
@@ -59,13 +59,13 @@
                 <div class="form-group row">
                     @Html.LabelFor(m => m.Nome, new { @class = "col-sm-2 col-form-label text-right required" })
                     <div class="col-sm-10">
-                        @Html.TextBoxFor(x => Model.Nome, new { @class = "form-control", placeholder = "Nome completo", maxlength = "255", required = "" })
+                        @Html.TextBoxFor(x => Model.Nome, new { @class = "form-control form-control-sm", placeholder = "Nome completo", maxlength = "255", required = "" })
                     </div>
                 </div>
                 <div class="form-group row">
                     @Html.LabelFor(m => m.PES_PROFISSAO_ID, new { @class = "col-sm-2 col-form-label text-right" })
                     <div class="col-sm-10">
-                        @Html.DropDownListFor(x => Model.PES_PROFISSAO_ID, Model.PES_PROFISSAO_LIST, "Selecionar a profissão", new { @class = "form-control" })
+                        @Html.DropDownListFor(x => Model.PES_PROFISSAO_ID, Model.PES_PROFISSAO_LIST, "Selecionar a profissão", new { @class = "form-control form-control-sm" })
                     </div>
                 </div>
                 <div class="row"><div class="col-sm-12">&nbsp;</div></div>
@@ -79,13 +79,13 @@
                         @Html.LabelFor(m => m.Telephone, new { @class = "col-form-label required" })
                     </div>
                     <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control", @placeholder = "Telefone", maxlength = "9", type = "number", min = 0, required = "", oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
+                        @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control form-control-sm", @placeholder = "Telefone", maxlength = "9", type = "number", min = 0, required = "", oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
                     </div>
                     <div class="col-sm-2 text-right">
                         @Html.LabelFor(m => m.TelephoneAlternativo, new { @class = "col-form-label" })
                     </div>
                     <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.TelephoneAlternativo, new { @class = "form-control", @placeholder = "Telefone Alternativo", maxlength = "9", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
+                        @Html.TextBoxFor(m => m.TelephoneAlternativo, new { @class = "form-control form-control-sm", @placeholder = "Telefone Alternativo", maxlength = "9", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
                     </div>
                 </div>
                 <div class="row">
@@ -93,13 +93,13 @@
                         @Html.LabelFor(m => m.Fax, new { @class = "col-form-label" })
                     </div>
                     <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Fax, new { @class = "form-control", @placeholder = "Fax", maxlength = "9", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
+                        @Html.TextBoxFor(m => m.Fax, new { @class = "form-control form-control-sm", @placeholder = "Fax", maxlength = "9", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
                     </div>
                     <div class="col-sm-2 text-right">
                         @Html.LabelFor(m => m.Email, new { @class = "col-form-label" })
                     </div>
                     <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email", maxlength = "64", type = "email" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm", placeholder = "Email", maxlength = "64", type = "email" })
                     </div>
                 </div>
                 <div class="row mt-2">
@@ -107,7 +107,7 @@
                         @Html.LabelFor(m => m.URL, new { @class = "col-form-label" })
                     </div>
                     <div class="col-sm-10">
-                        @Html.TextBoxFor(m => m.URL, new { @class = "form-control", placeholder = "Página Web", maxlength = "255" })
+                        @Html.TextBoxFor(m => m.URL, new { @class = "form-control form-control-sm", placeholder = "Página Web", maxlength = "255" })
                     </div>
                 </div>
                 <div class="row"><div class="col-sm-12">&nbsp;</div></div>
@@ -123,7 +123,7 @@
                     <div class="form-group row">
                         @Html.LabelFor(m => m.PaisId, new { @class = "col-sm-2 col-form-label text-right required" })
                         <div class="col-sm-10">
-                            @Html.DropDownListFor(x => Model.PaisId, Model.PaisList, "Selecionar uma opção", new { @class = "form-control SelectCountry", required = "" })
+                            @Html.DropDownListFor(x => Model.PaisId, Model.PaisList, "Selecionar uma opção", new { @class = "form-control form-control-sm SelectCountry", required = "" })
                         </div>
                     </div>
                     <div class="AddressHelper" style="">
@@ -137,13 +137,13 @@
                         <div class="form-group row mt-2">
                             @Html.LabelFor(m => m.CidadeId, new { @class = "col-sm-2 col-form-label text-right required" })
                             <div class="col-sm-10 ">
-                                @Html.DropDownListFor(x => Model.CidadeId, Model.CidadeList, "Selecionar uma opção", new { @class = "form-control", required = "required" })
+                                @Html.DropDownListFor(x => Model.CidadeId, Model.CidadeList, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "required" })
                             </div>
                         </div>
                         <div class="form-group row ">
                             @Html.LabelFor(m => m.DistrictoId, new { @class = "col-sm-2 col-form-label text-right" })
                             <div class="col-sm-10">
-                                @Html.DropDownListFor(x => Model.DistrictoId, Model.DistrictoList, "Selecionar uma opção", new { @class = "form-control" })
+                                @Html.DropDownListFor(x => Model.DistrictoId, Model.DistrictoList, "Selecionar uma opção", new { @class = "form-control form-control-sm" })
                                 <p class="form-text text-muted text-left">Informe a cidade ou província para selecionar o município</p>
                             </div>
                         </div>
@@ -154,7 +154,7 @@
                 <div class="form-group row mt-2">
                     @Html.LabelFor(m => m.Morada, new { @class = "col-sm-2 col-form-label text-right" })
                     <div class="col-sm-10">
-                        @Html.TextBoxFor(m => m.Morada, new { @class = "form-control", placeholder = "Morada", maxlength = "255" })
+                        @Html.TextBoxFor(m => m.Morada, new { @class = "form-control form-control-sm", placeholder = "Morada", maxlength = "255" })
                     </div>
                 </div>
                 <div class="row">
@@ -162,13 +162,13 @@
                         @Html.LabelFor(m => m.Rua, new { @class = "col-form-label" })
                     </div>
                     <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Rua, new { @class = "form-control", placeholder = "Rua", maxlength = "64" })
+                        @Html.TextBoxFor(m => m.Rua, new { @class = "form-control form-control-sm", placeholder = "Rua", maxlength = "64" })
                     </div>
                     <div class="col-sm-2 text-right">
                         @Html.LabelFor(m => m.Numero, new { @class = "col-form-label" })
                     </div>
                     <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Numero, new { @class = "form-control", placeholder = "Número", maxlength = "12", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
+                        @Html.TextBoxFor(m => m.Numero, new { @class = "form-control form-control-sm", placeholder = "Número", maxlength = "12", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
                     </div>
                 </div>
             </fieldset>
@@ -185,11 +185,11 @@
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.ID)
             @Html.HiddenFor(m => m.PES_PESSOAS_ID)
-            <p>  <span><i class="fa fa-circle-question"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
+            <p>  <span><i class="fa fa-info-circle"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
             <div class="form-group row">
                 @Html.LabelFor(m => m.PES_FAMILIARES_GRUPOS_ID, new { @class = "col-sm-2 col-form-label text-right required" })
                 <div class="col-sm-6">
-                    @Html.DropDownListFor(x => Model.PES_FAMILIARES_GRUPOS_ID, Model.PES_FAMILIARES_GRUPOS_LIST, "Selecionar o agregado", new { @class = "form-control ", required = "required" })
+                    @Html.DropDownListFor(x => Model.PES_FAMILIARES_GRUPOS_ID, Model.PES_FAMILIARES_GRUPOS_LIST, "Selecionar o agregado", new { @class = "form-control form-control-sm", required = "required" })
                 </div>
             </div>
             <div class="alert alert-warning">
@@ -215,13 +215,13 @@
                 <div class="form-group row">
                     @Html.LabelFor(m => m.Nome, new { @class = "col-sm-2 col-form-label text-right required" })
                     <div class="col-sm-10">
-                        @Html.TextBoxFor(x => Model.Nome, new { @class = "form-control", placeholder = "Nome completo", maxlength = "255", required = "" })
+                        @Html.TextBoxFor(x => Model.Nome, new { @class = "form-control form-control-sm", placeholder = "Nome completo", maxlength = "255", required = "" })
                     </div>
                 </div>
                 <div class="form-group row">
                     @Html.LabelFor(m => m.PES_PROFISSAO_ID, new { @class = "col-sm-2 col-form-label text-right" })
                     <div class="col-sm-10">
-                        @Html.DropDownListFor(x => Model.PES_PROFISSAO_ID, Model.PES_PROFISSAO_LIST, "Selecionar a profissão", new { @class = "form-control" })
+                        @Html.DropDownListFor(x => Model.PES_PROFISSAO_ID, Model.PES_PROFISSAO_LIST, "Selecionar a profissão", new { @class = "form-control form-control-sm" })
                     </div>
                 </div>
                 <div class="row"><div class="col-sm-12">&nbsp;</div></div>
@@ -235,13 +235,13 @@
                         @Html.LabelFor(m => m.Telephone, new { @class = "col-form-label required" })
                     </div>
                     <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control", @placeholder = "Telefone", maxlength = "9", type = "number", min = 0, required = "", oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
+                        @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control form-control-sm", @placeholder = "Telefone", maxlength = "9", type = "number", min = 0, required = "", oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
                     </div>
                     <div class="col-sm-2 text-right">
                         @Html.LabelFor(m => m.TelephoneAlternativo, new { @class = "col-form-label" })
                     </div>
                     <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.TelephoneAlternativo, new { @class = "form-control", @placeholder = "Telefone Alternativo", maxlength = "9", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
+                        @Html.TextBoxFor(m => m.TelephoneAlternativo, new { @class = "form-control form-control-sm", @placeholder = "Telefone Alternativo", maxlength = "9", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
                     </div>
                 </div>
                 <div class="row">
@@ -249,13 +249,13 @@
                         @Html.LabelFor(m => m.Fax, new { @class = "col-form-label" })
                     </div>
                     <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Fax, new { @class = "form-control", @placeholder = "Fax", maxlength = "9", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
+                        @Html.TextBoxFor(m => m.Fax, new { @class = "form-control form-control-sm", @placeholder = "Fax", maxlength = "9", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
                     </div>
                     <div class="col-sm-2 text-right">
                         @Html.LabelFor(m => m.Email, new { @class = "col-form-label" })
                     </div>
                     <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email", maxlength = "64", type = "email" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm", placeholder = "Email", maxlength = "64", type = "email" })
                     </div>
                 </div>
                 <div class="row mt-2">
@@ -263,7 +263,7 @@
                         @Html.LabelFor(m => m.URL, new { @class = "col-form-label" })
                     </div>
                     <div class="col-sm-10">
-                        @Html.TextBoxFor(m => m.URL, new { @class = "form-control", placeholder = "Página Web", maxlength = "255" })
+                        @Html.TextBoxFor(m => m.URL, new { @class = "form-control form-control-sm", placeholder = "Página Web", maxlength = "255" })
                     </div>
                 </div>
                 <div class="row"><div class="col-sm-12">&nbsp;</div></div>
@@ -279,7 +279,7 @@
                     <div class="form-group row">
                         @Html.LabelFor(m => m.PaisId, new { @class = "col-sm-2 col-form-label text-right required" })
                         <div class="col-sm-10">
-                            @Html.DropDownListFor(x => Model.PaisId, Model.PaisList, "Selecionar uma opção", new { @class = "form-control SelectCountry", required = "" })
+                            @Html.DropDownListFor(x => Model.PaisId, Model.PaisList, "Selecionar uma opção", new { @class = "form-control form-control-sm SelectCountry", required = "" })
                         </div>
                     </div>
                     <div class="AddressHelper" style="">
@@ -293,13 +293,13 @@
                         <div class="form-group row mt-2">
                             @Html.LabelFor(m => m.CidadeId, new { @class = "col-sm-2 col-form-label text-right required" })
                             <div class="col-sm-10">
-                                @Html.DropDownListFor(x => Model.CidadeId, Model.CidadeList, "Selecionar uma opção", new { @class = "form-control", required = "required" })
+                                @Html.DropDownListFor(x => Model.CidadeId, Model.CidadeList, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "required" })
                             </div>
                         </div>
                         <div class="form-group row">
                             @Html.LabelFor(m => m.DistrictoId, new { @class = "col-sm-2 col-form-label text-right" })
                             <div class="col-sm-10">
-                                @Html.DropDownListFor(x => Model.DistrictoId, Model.DistrictoList, "Selecionar uma opção", new { @class = "form-control" })
+                                @Html.DropDownListFor(x => Model.DistrictoId, Model.DistrictoList, "Selecionar uma opção", new { @class = "form-control form-control-sm" })
                                 <p class="form-text text-muted text-left">Informe a cidade ou província para selecionar o município</p>
                             </div>
                         </div>
@@ -310,7 +310,7 @@
                 <div class="form-group row mt-2">
                     @Html.LabelFor(m => m.Morada, new { @class = "col-sm-2 col-form-label text-right" })
                     <div class="col-sm-10">
-                        @Html.TextBoxFor(m => m.Morada, new { @class = "form-control", placeholder = "Morada", maxlength = "255" })
+                        @Html.TextBoxFor(m => m.Morada, new { @class = "form-control form-control-sm", placeholder = "Morada", maxlength = "255" })
                     </div>
                 </div>
                 <div class="row">
@@ -318,13 +318,13 @@
                         @Html.LabelFor(m => m.Rua, new { @class = "col-form-label" })
                     </div>
                     <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Rua, new { @class = "form-control", placeholder = "Rua", maxlength = "64" })
+                        @Html.TextBoxFor(m => m.Rua, new { @class = "form-control form-control-sm", placeholder = "Rua", maxlength = "64" })
                     </div>
                     <div class="col-sm-2 text-right">
                         @Html.LabelFor(m => m.Numero, new { @class = "col-form-label" })
                     </div>
                     <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Numero, new { @class = "form-control", placeholder = "Número", maxlength = "12", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
+                        @Html.TextBoxFor(m => m.Numero, new { @class = "form-control form-control-sm", placeholder = "Número", maxlength = "12", type = "number", min = 0, oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" })
                     </div>
                 </div>
                 </fieldset>

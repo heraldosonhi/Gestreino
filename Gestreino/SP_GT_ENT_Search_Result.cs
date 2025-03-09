@@ -13,10 +13,10 @@ namespace Gestreino
     
     public partial class SP_GT_ENT_Search_Result
     {
-        public string N_SOCIO { get; set; }
+        public int N_SOCIO { get; set; }
         public string NOME { get; set; }
-        public decimal ALTURA { get; set; }
-        public decimal PESO { get; set; }
+        public Nullable<decimal> ALTURA { get; set; }
+        public Nullable<decimal> PESO { get; set; }
         public string DATA_DEFAULT { get; set; }
         public string TIPO_PLANO { get; set; }
         public int TIPO_PLANO_ID { get; set; }

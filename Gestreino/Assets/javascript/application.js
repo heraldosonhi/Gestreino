@@ -307,15 +307,23 @@ $(document).on('click', '.open-modal-crud', function (e) {
             // Call javascript functions to enable modal support
             SetUpDatepicker();
             //addressHelper();
-            //setupSelect2();
+            setupSelect2();
             //quillEditor();
             checkDisabled("ScheduledStatus");
             //ajax();
             anxientForm();
-            handleDataUsers();
-            handleDataAtomos();
-            handleDataGrupos();
-            handleDataPerfis();
+
+            if (!$.fn.dataTable.isDataTable('#AtomTable')) 
+                handleDataAtomos();
+
+            if (!$.fn.dataTable.isDataTable('#ProfileTable'))
+                handleDataPerfis();
+
+            if (!$.fn.dataTable.isDataTable('#GroupTable'))
+                handleDataGrupos();
+           
+            if (Entity != 'users')
+                handleDataUsers();
         },
         error: function () {
             $(".modal-crud-content").show().html('<span class="text-accent-red">Erro ao processar este pedido, por favor tente mais tarde!</span>');
@@ -1068,7 +1076,7 @@ function handleDataProfileUtil() {
             {
                 sortable: false,
                 "render": function (data, type, full, meta) {
-                    return '<a style="display:' + full.AccessControlAddGroup + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="RemoverAtomProfile" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
+                    return '<a style="display:' + full.AccessControlAddGroup + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="RemoverUtilProfile" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
                 }
             },
             //Cada dado representa uma coluna da tabela
@@ -3123,13 +3131,22 @@ function handleDataSearchTable() {
         },
         "columns": [
             { "data": "Id", "name": null, "autoWidth": true },
+            //Column customizada
+            {
+                sortable: false,
+                "render": function (data, type, full, meta) {
+                    return ''
+                }
+            },
             //Cada dado representa uma coluna da tabela
             { "data": "NUMERO", "name": "NUMERO", "autoWidth": true },
             { "data": "NOME", "name": "NOME", "autoWidth": true },
             { "data": "ALTURA", "name": "ALTURA", "autoWidth": true },
             { "data": "PESO", "name": "PESO", "autoWidth": true },
             { "data": "DATA", "name": "DATA", "autoWidth": true },
+            //{ "data": "DATA", "name": "DATA", "autoWidth": true },
             { "data": "TIPO", "name": "TIPO", "autoWidth": true },
+            //{ "data": "SEXO", "name": "SEXO", "autoWidth": true },
         ],
         //Configuração da tabela para os checkboxes
         'columnDefs': [
@@ -3138,6 +3155,82 @@ function handleDataSearchTable() {
                 'checkboxes': {
                     'selectRow': true
                 },
+
+            }
+        ], 'select': {
+            'style': 'multi'
+        },
+        'order': [[1, 'false']],
+        'rowCallback': function (row, data, dataIndex) {
+            // Get row ID
+            var rowId = data["Id"];
+            //console.log(rowId)
+            //Dra table and add selected option to previously selected checkboxes
+            $.each(values, function (i, r) {
+                if (rowId == r) {
+                    $(row).find('input[type="checkbox"]').prop('checked', true);
+                    $(row).closest("tr").addClass("selected");
+                }
+            })
+        },
+        drawCallback: function () {
+            processInfo(this.api().page.info(), 'paginateInfoSearchTable');
+        },
+        //Remove pagination from table and add to custom Div
+        initComplete: (settings, json) => {
+            $('#SearchTable_paginate').appendTo('#paginateSearchTable');
+        },
+    });
+};
+function handleDataSearchTable2() {
+    var table = $("#SearchTable").DataTable({
+        "processing": true, // Para exibir mensagem de processamento a cada requisição
+        "serverSide": true, // Para processar as requisições no back-end
+        //"filter": false, // : está comentado porque estamos a usar filtros que enviamos no back-end
+        "orderMulti": false, // Opção de ordenação para uma coluna de cada vez.
+        //Linguagem PT
+        "language": {
+            "url": "/Assets/lib/datatable/pt-PT.json"
+        },
+        fixedHeader: {
+            header: true,
+            footer: true
+        },
+        "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
+        "ajax": {
+            "url": "../../gtmanagement/GetSearchTable2", // POST TO CONTROLLER
+            "type": "POST",
+            "datatype": "json",
+            data: {}
+        },
+        "columns": [
+            { "data": "Id", "name": null, "autoWidth": true },
+            //Column customizada
+            {
+                sortable: false,
+                "render": function (data, type, full, meta) {
+                    return ''
+                }
+            },
+            //Cada dado representa uma coluna da tabela
+            { "data": "NUMERO", "name": "NUMERO", "autoWidth": true },
+            { "data": "NOME", "name": "NOME", "autoWidth": true },
+            { "data": "ALTURA", "name": "ALTURA", "autoWidth": true },
+            { "data": "PESO", "name": "PESO", "autoWidth": true },
+            { "data": "DATA", "name": "DATA", "autoWidth": true },
+            //{ "data": "DATA", "name": "DATA", "autoWidth": true },
+            { "data": "TIPO", "name": "TIPO", "autoWidth": true },
+            //{ "data": "SEXO", "name": "SEXO", "autoWidth": true },
+            { "data": "PERCENTIL", "name": "PERCENTIL", "autoWidth": true },
+        ],
+        //Configuração da tabela para os checkboxes
+        'columnDefs': [
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                },
+
             }
         ], 'select': {
             'style': 'multi'
@@ -3385,13 +3478,34 @@ function shuffleArray(array) {
 }
 
 
+/* ############################################
+  SELECT2 CONFIGURATION START
+ ##############################################
+ */
+function setupSelect2() {
+    $('.select-control').each(function () {
+        $(this).select2({
+            theme: 'bootstrap4',
+            dropdownParent: $(this).parent(),
+            width: '100%'
+        });
+    });
+};
+$('form').on('reset', function (e) {
+    $(".select-control").val('').trigger('change')
+});
+
+/* ############################################
+  SELECT2 CONFIGURATION END
+ ##############################################
+ */
 
 
 
 function appenditem() {
     var html = '';
     for (var i = 0; i < values.length; i++) {
-        html += '<input type"hidden" value=' + values[i] + ' name="items[]"/>'
+        html += '<input style="display:none" type"hidden" value=' + values[i] + ' name="items[]"/>'
     }
     $('#appenditem').html(html);
     $('#appenditemForm').click();

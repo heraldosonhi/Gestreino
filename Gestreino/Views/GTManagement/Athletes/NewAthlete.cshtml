@@ -5,17 +5,21 @@
 }
 <!-- page content -->
 <div class="right_col" role="main">
-    <div class="handle-error alert alert-accent"
-         role="alert" style="display:none;">
-        <div class="d-flex flex-wrap align-items-start">
-            <div class="mr-8pt">
-                <i class="fa fa-warning"></i>
-            </div>
-            <div class="flex"
-                 style="min-width: 180px">
-                <span class="text-black-100">
-                    <strong>Atenção!</strong> <span class="handle-error-message"></span>
-                </span>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="handle-error alert alert-accent mb-2"
+                 role="alert" style="display: none;">
+                <div class="d-flex flex-wrap align-items-start">
+                    <div class="mr-8pt">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="flex"
+                         style="min-width: 180px">
+                        <span class="text-black-100">
+                            <strong>Atenção!</strong> <span class="handle-error-message"></span>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -36,7 +40,7 @@
                             <div class="row">
                                 @Html.LabelFor(m => m.Numero, new { @class = "col-md-2 col-form-label required" })
                                 <div class="col-md-4">
-                                    @Html.TextBoxFor(m => m.Numero, new { @class = "form-control form-control-sm", type = "number", min="1",required = "" })
+                                    @Html.TextBoxFor(m => m.Numero, new { @class = "form-control form-control-sm", type = "number", min = "1", required = "" })
                                 </div>
                             </div>
                             <div class="row">
@@ -73,7 +77,6 @@
                                     @Html.TextBoxFor(m => m.NIF, new { @class = "form-control form-control-sm" })
                                 </div>
                             </div>
-                            <h6 class="mt-1"><span><i class="fa fa-location-arrow"></i> Naturalidade</span></h6>
                             <div class="">
                                 <div class="row">
                                     @Html.LabelFor(m => m.NacionalidadeId, new { @class = "col-md-2 col-form-label" })
@@ -83,378 +86,373 @@
                                 </div>
                                 <div class="row mt-1">
                                     @Html.LabelFor(m => m.NAT_PAIS_ID, new { @class = "col-md-2 col-form-label required" })
-                                    <div class="col-md-2">
-                                        @Html.DropDownListFor(x => Model.NAT_PAIS_ID, Model.PAIS_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
+                                    <div class="col-md-3">
+                                        @Html.DropDownListFor(x => Model.NAT_PAIS_ID, Model.PAIS_LIST, "Selecionar uma opção", new { @class = "select-control  form-control form-control-sm", required = "" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        @Html.DropDownListFor(x => Model.NAT_CIDADE_ID, Model.CIDADE_LIST, "Selecionar uma opção", new { @class = "select-control  form-control form-control-sm", required = "" })
                                     </div>
                                     <div class="col-md-4">
-                                        @Html.DropDownListFor(x => Model.NAT_CIDADE_ID, Model.CIDADE_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
-                                    </div>
-                                    <div class="col-md-4">
-                                        @Html.DropDownListFor(x => Model.NAT_MUN_ID, Model.MUN_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm" })
+                                        @Html.DropDownListFor(x => Model.NAT_MUN_ID, Model.MUN_LIST, "Selecionar uma opção", new { @class = "select-control  form-control form-control-sm" })
                                     </div>
                                 </div>
                             </div>
-                                <h6 class="mt-1"><span><i class="fa fa-phone"></i> Contactos</span></h6>
-                                <div class="">
-                                    <div class="row">
-                                        @Html.LabelFor(m => m.Telephone, new { @class = "col-md-2 col-form-label required" })
-                                        <div class="col-md-4">
-                                            @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control form-control-sm", required = "", @type = "number", min = "1" })
-                                        </div>
-                                        @Html.LabelFor(m => m.TelephoneAlternativo, new { @class = "col-md-2 col-form-label" })
-                                        <div class="col-md-4">
-                                            @Html.TextBoxFor(m => m.TelephoneAlternativo, new { @class = "form-control form-control-sm", @type = "number", min = "1" })
-                                        </div>
+                            <div class="">
+                                <div class="row mt-1">
+                                    @Html.LabelFor(m => m.Telephone, new { @class = "col-md-2 col-form-label required" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control form-control-sm", required = "", @type = "number", min = "1" })
                                     </div>
-                                    <div class="row">
-                                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
-                                        <div class="col-md-4">
-                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm", type = "email" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <h6 class="mt-1"><span><i class="fa fa-location-arrow"></i> Endereço</span></h6>
-                                <div class="">
-                                    <div class="row">
-                                        <label class="col-md-2 col-form-label required" for="Numero">N&#250;mero/Rua/Morada </label>
-                                        <div class="col-md-2">
-                                            @Html.DropDownListFor(x => Model.ENDERECO_TIPO, Model.ENDERECO_TIPO_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
-                                        </div>
-                                        <div class="col-md-2">
-                                            @Html.TextBoxFor(m => m.EndNumero, new { @class = "form-control form-control-sm", @type = "number", min = "1" })
-                                        </div>
-                                        <div class="col-md-3">
-                                            @Html.TextBoxFor(m => m.Rua, new { @class = "form-control form-control-sm", required = "" })
-                                        </div>
-                                        <div class="col-md-3">
-                                            @Html.TextBoxFor(m => m.Morada, new { @class = "form-control form-control-sm", required = "" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label class="col-md-2 col-form-label required" for="Numero"></label>
-                                        <div class="col-md-2">
-                                            @Html.DropDownListFor(x => Model.ENDERECO_PAIS_ID, Model.PAIS_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
-                                        </div>
-                                        <div class="col-md-4">
-                                            @Html.DropDownListFor(x => Model.ENDERECO_CIDADE_ID, Model.CIDADE_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
-                                        </div>
-                                        <div class="col-md-4">
-                                            @Html.DropDownListFor(x => Model.ENDERECO_MUN_ID, Model.MUN_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <h6 class="mt-1"><span><i class="fa fa-medkit"></i> Características</span></h6>
-                                <div class="card p-1 bg-light mb-2">
-                                    <div class="row">
-                                        @Html.LabelFor(m => m.Caract_Altura, new { @class = "col-md-2 col-form-label required" })
-                                        <div class="col-md-3">
-                                            @Html.TextBoxFor(m => m.Caract_Altura, new { @class = "form-control form-control-sm", type = "number", required = "", min = "1" })
-                                        </div>
-                                        <div class="col-md-1">
-                                            <button class="btn btn-sm btn-info" disabled><i class="fa fa-line-chart"></i></button>
-                                         </div>
-                                        @Html.LabelFor(m => m.Caract_VO2, new { @class = "col-md-2 col-form-label" })
-                                        <div class="col-md-4">
-                                            @Html.TextBoxFor(m => m.Caract_VO2, new { @class = "form-control form-control-sm", @readonly = "" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        @Html.LabelFor(m => m.Caract_Peso, new { @class = "col-md-2 col-form-label required" })
-                                        <div class="col-md-3">
-                                            @Html.TextBoxFor(m => m.Caract_Peso, new { @class = "form-control form-control-sm", type = "number", required = "", step = ".01", min = "1" })
-                                        </div>
-                                        <div class="col-md-1">
-                                            <button class="btn btn-sm btn-info" disabled><i class="fa fa-line-chart"></i></button>
-                                        </div>
-                                        @Html.LabelFor(m => m.Caract_MassaGorda, new { @class = "col-md-2 col-form-label" })
-                                        <div class="col-md-4">
-                                            @Html.TextBoxFor(m => m.Caract_MassaGorda, new { @class = "form-control form-control-sm", @readonly = "" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        @Html.LabelFor(m => m.Caract_IMC, new { @class = "col-md-2 col-form-label" })
-                                        <div class="col-md-4">
-                                            @Html.TextBoxFor(m => m.Caract_IMC, new { @class = "form-control form-control-sm", @readonly = "" })
-                                        </div>
-                                        @Html.LabelFor(m => m.Caract_DuracaoPlano, new { @class = "col-md-2 col-form-label required" })
-                                        <div class="col-md-4">
-                                            @Html.DropDownListFor(x => Model.Caract_DuracaoPlano, Model.Caract_DuracaoPlanoList, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        @Html.LabelFor(m => m.Caract_FCRepouso, new { @class = "col-md-2 col-form-label required" })
-                                        <div class="col-md-4">
-                                            @Html.TextBoxFor(m => m.Caract_FCRepouso, new { @class = "form-control form-control-sm", type = "number", min = "1" })
-                                        </div>
-                                        @Html.LabelFor(m => m.Caract_Protocolo, new { @class = "col-md-2 col-form-label" })
-                                        <div class="col-md-4">
-                                            @Html.TextBoxFor(m => m.Caract_Protocolo, new { @class = "form-control form-control-sm", type = "number", min = "1" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        @Html.LabelFor(m => m.Caract_FCMaximo, new { @class = "col-md-2 col-form-label" })
-                                        <div class="col-md-4">
-                                            @Html.TextBoxFor(m => m.Caract_FCMaximo, new { @class = "form-control form-control-sm", @readonly = "" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        @Html.LabelFor(m => m.Caract_TASistolica, new { @class = "col-md-2 col-form-label required" })
-                                        <div class="col-md-3">
-                                            @Html.TextBoxFor(m => m.Caract_TASistolica, new { @class = "form-control form-control-sm", type = "number", min = "1" })
-                                        </div>
-                                        <div class="col-md-1">
-                                            <button class="btn btn-sm btn-info" disabled><i class="fa fa-line-chart"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        @Html.LabelFor(m => m.Caract_TADistolica, new { @class = "col-md-2 col-form-label required" })
-                                        <div class="col-md-3">
-                                            @Html.TextBoxFor(m => m.Caract_TADistolica, new { @class = "form-control form-control-sm", type = "number", min = "1" })
-                                        </div>
-                                        <div class="col-md-1">
-                                            <button class="btn btn-sm btn-info" disabled><i class="fa fa-line-chart"></i></button>
-                                        </div>
+                                    @Html.LabelFor(m => m.TelephoneAlternativo, new { @class = "col-md-2 col-form-label" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(m => m.TelephoneAlternativo, new { @class = "form-control form-control-sm", @type = "number", min = "1" })
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-md-2 col-form-label required" for="Nome"></label>
-                                    <div class="col-md-10">
-                                        <div class="card" role="tabpanel" data-example-id="togglable-tabs">
-                                            <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                                <li role="presentation" class="active">
-                                                    <a href="#tab_content1" id="" role="tab" data-toggle="tab" aria-expanded="true">Frequência Cardíaca</a>
-                                                </li>
-                                                <li role="presentation" class="">
-                                                    <a href="#tab_content2" role="tab" id="" data-toggle="tab" aria-expanded="false">Factores de risco</a>
-                                                </li>
-                                                <li role="presentation" class="">
-                                                    <a href="#tab_content3" role="tab" id="" data-toggle="tab" aria-expanded="false">Objectivos</a>
-                                                </li>
-                                            </ul>
-                                            <div id="myTabContent" class="tab-content">
-                                                <div role="tabpanel" class="tab-pane active" id="tab_content1" aria-labelledby="">
-                                                    <div class="p-3 ">
-                                                        <div class="alert  mb-1 mt-0"
-                                                             role="alert">
-                                                            <div class="d-flex flex-wrap align-items-start">
-                                                                <div class="mr-8pt">
-                                                                    <strong>  <i class="fa fa-code-fork"></i>&nbsp;</strong>
-                                                                </div>
-                                                                <div class="flex"
-                                                                     style="min-width: 180px">
-                                                                    <strong class="text-black-100">
-                                                                        Fórmula Karvonen e Skinner
-                                                                    </strong>
-                                                                </div>
+                                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm", type = "email" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label required" for="Numero">N&#250;mero/Rua/Morada </label>
+
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.EndNumero, new { @class = "form-control form-control-sm", @type = "number", min = "1" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.Rua, new { @class = "form-control form-control-sm", required = "" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(m => m.Morada, new { @class = "form-control form-control-sm", required = "" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label required" for="Numero"></label>
+                                    <div class="col-md-3">
+                                        @Html.DropDownListFor(x => Model.ENDERECO_PAIS_ID, Model.PAIS_LIST, "Selecionar uma opção", new { @class = "select-control form-control form-control-sm", required = "" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        @Html.DropDownListFor(x => Model.ENDERECO_CIDADE_ID, Model.CIDADE_LIST, "Selecionar uma opção", new { @class = "select-control form-control form-control-sm", required = "" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(x => Model.ENDERECO_MUN_ID, Model.MUN_LIST, "Selecionar uma opção", new { @class = "select-control form-control form-control-sm", required = "" })
+                                    </div>
+                                </div>
+                            </div>
+                            <h6 class="mt-1"><span><i class="fa fa-medkit"></i> Características</span></h6>
+                            <div class="card p-1 bg-light mb-2">
+                                <div class="row">
+                                    @Html.LabelFor(m => m.Caract_Altura, new { @class = "col-md-2 col-form-label required" })
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.Caract_Altura, new { @class = "form-control form-control-sm", type = "number", required = "", min = "1" })
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button class="btn btn-sm btn-info" disabled><i class="fa fa-line-chart"></i></button>
+                                    </div>
+                                    @Html.LabelFor(m => m.Caract_VO2, new { @class = "col-md-2 col-form-label" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(m => m.Caract_VO2, new { @class = "form-control form-control-sm", @readonly = "" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.Caract_Peso, new { @class = "col-md-2 col-form-label required" })
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.Caract_Peso, new { @class = "form-control form-control-sm", type = "number", required = "", step = ".01", min = "1" })
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button class="btn btn-sm btn-info" disabled><i class="fa fa-line-chart"></i></button>
+                                    </div>
+                                    @Html.LabelFor(m => m.Caract_MassaGorda, new { @class = "col-md-2 col-form-label" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(m => m.Caract_MassaGorda, new { @class = "form-control form-control-sm", @readonly = "" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.Caract_IMC, new { @class = "col-md-2 col-form-label" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(m => m.Caract_IMC, new { @class = "form-control form-control-sm", @readonly = "" })
+                                    </div>
+                                    @Html.LabelFor(m => m.Caract_DuracaoPlano, new { @class = "col-md-2 col-form-label required" })
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(x => Model.Caract_DuracaoPlano, Model.Caract_DuracaoPlanoList, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.Caract_FCRepouso, new { @class = "col-md-2 col-form-label required" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(m => m.Caract_FCRepouso, new { @class = "form-control form-control-sm", type = "number", min = "1" })
+                                    </div>
+                                    @Html.LabelFor(m => m.Caract_Protocolo, new { @class = "col-md-2 col-form-label" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(m => m.Caract_Protocolo, new { @class = "form-control form-control-sm", type = "number", min = "1" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.Caract_FCMaximo, new { @class = "col-md-2 col-form-label" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(m => m.Caract_FCMaximo, new { @class = "form-control form-control-sm", @readonly = "" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.Caract_TASistolica, new { @class = "col-md-2 col-form-label required" })
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.Caract_TASistolica, new { @class = "form-control form-control-sm", type = "number", min = "1" })
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button class="btn btn-sm btn-info" disabled><i class="fa fa-line-chart"></i></button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.Caract_TADistolica, new { @class = "col-md-2 col-form-label required" })
+                                    <div class="col-md-3">
+                                        @Html.TextBoxFor(m => m.Caract_TADistolica, new { @class = "form-control form-control-sm", type = "number", min = "1" })
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button class="btn btn-sm btn-info" disabled><i class="fa fa-line-chart"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-2 col-form-label required" for="Nome"></label>
+                                <div class="col-md-10">
+                                    <div class="card" role="tabpanel" data-example-id="togglable-tabs">
+                                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                            <li role="presentation" class="active">
+                                                <a href="#tab_content1" id="" role="tab" data-toggle="tab" aria-expanded="true">Frequência Cardíaca</a>
+                                            </li>
+                                            <li role="presentation" class="">
+                                                <a href="#tab_content2" role="tab" id="" data-toggle="tab" aria-expanded="false">Factores de risco</a>
+                                            </li>
+                                            <li role="presentation" class="">
+                                                <a href="#tab_content3" role="tab" id="" data-toggle="tab" aria-expanded="false">Objectivos</a>
+                                            </li>
+                                        </ul>
+                                        <div id="myTabContent" class="tab-content">
+                                            <div role="tabpanel" class="tab-pane active" id="tab_content1" aria-labelledby="">
+                                                <div class="p-3 ">
+                                                    <div class="alert  mb-1 mt-0"
+                                                         role="alert">
+                                                        <div class="d-flex flex-wrap align-items-start">
+                                                            <div class="mr-8pt">
+                                                                <strong>  <i class="fa fa-code-fork"></i>&nbsp;</strong>
                                                             </div>
-                                                        </div>
-                                                        <div class="table-responsive">
-                                                            <table class="fctable">
-                                                                <tr>
-                                                                    <td>
-                                                                        <table border="1">
-                                                                            <tr>
-                                                                                <td>40%</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    @Html.TextBoxFor(m => m.FCTreino1, new { @readonly="",@class = "form-control form-control-sm"})
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                    <td>
-                                                                        <table border="1">
-                                                                            <tr>
-                                                                                <td>45%</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    @Html.TextBoxFor(m => m.FCTreino2, new { @readonly = "", @class = "form-control form-control-sm" })
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                    <td>
-                                                                        <table border="1">
-                                                                            <tr>
-                                                                                <td>50%</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    @Html.TextBoxFor(m => m.FCTreino3, new { @readonly = "", @class = "form-control form-control-sm" })
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                    <td>
-                                                                        <table border="1">
-                                                                            <tr>
-                                                                                <td>55%</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    @Html.TextBoxFor(m => m.FCTreino4, new { @readonly = "", @class = "form-control form-control-sm" })
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                    <td>
-                                                                        <table border="1">
-                                                                            <tr>
-                                                                                <td>60%</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    @Html.TextBoxFor(m => m.FCTreino5, new { @readonly = "", @class = "form-control form-control-sm" })
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                    <td>
-                                                                        <table border="1">
-                                                                            <tr>
-                                                                                <td>65%</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    @Html.TextBoxFor(m => m.FCTreino6, new { @readonly = "", @class = "form-control form-control-sm" })
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                    <td>
-                                                                        <table border="1">
-                                                                            <tr>
-                                                                                <td>70%</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    @Html.TextBoxFor(m => m.FCTreino7, new { @readonly = "", @class = "form-control form-control-sm" })
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                    <td>
-                                                                        <table border="1">
-                                                                            <tr>
-                                                                                <td>75%</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    @Html.TextBoxFor(m => m.FCTreino8, new { @readonly = "", @class = "form-control form-control-sm" })
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                    <td>
-                                                                        <table border="1">
-                                                                            <tr>
-                                                                                <td>80%</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    @Html.TextBoxFor(m => m.FCTreino9, new { @readonly = "", @class = "form-control form-control-sm" })
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                    <td>
-                                                                        <table border="1">
-                                                                            <tr>
-                                                                                <td>85%</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    @Html.TextBoxFor(m => m.FCTreino10, new { @readonly = "", @class = "form-control form-control-sm" })
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="">
-                                                    <div class="p-3 ">
-                                                        <div class="row">
-                                                            <div class="col-md-2">
-                                                                @Html.LabelFor(m => m.FR_Hipertensao, new { @class = " col-form-label" })
-                                                                @Html.CheckBoxFor(m => m.FR_Hipertensao, new { @class = "" })
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                @Html.LabelFor(m => m.FR_Tabaco, new { @class = " col-form-label" })
-                                                                @Html.CheckBoxFor(m => m.FR_Tabaco, new { @class = "" })
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                @Html.LabelFor(m => m.FR_Hiperlipidemia, new { @class = " col-form-label" })
-                                                                @Html.CheckBoxFor(m => m.FR_Hiperlipidemia, new { @class = "" })
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                @Html.LabelFor(m => m.FR_Obesidade, new { @class = " col-form-label" })
-                                                                @Html.CheckBoxFor(m => m.FR_Obesidade, new { @class = "" })
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                @Html.LabelFor(m => m.FR_Diabetes, new { @class = " col-form-label" })
-                                                                @Html.CheckBoxFor(m => m.FR_Diabetes, new { @class = "" })
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-2">
-                                                                @Html.LabelFor(m => m.FR_Inactividade, new { @class = " col-form-label" })
-                                                                @Html.CheckBoxFor(m => m.FR_Inactividade, new { @class = "" })
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                @Html.LabelFor(m => m.FR_Heriditariedade, new { @class = " col-form-label" })
-                                                                @Html.CheckBoxFor(m => m.FR_Heriditariedade, new { @class = "" })
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                @Html.LabelFor(m => m.FR_Examescomplementares, new { @class = " col-form-label" })
-                                                                @Html.CheckBoxFor(m => m.FR_Examescomplementares, new { @class = "" })
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                @Html.LabelFor(m => m.FR_Outros, new { @class = " col-form-label" })
-                                                                @Html.CheckBoxFor(m => m.FR_Outros, new { @class = "" })
+                                                            <div class="flex"
+                                                                 style="min-width: 180px">
+                                                                <strong class="text-black-100">
+                                                                    Fórmula Karvonen e Skinner
+                                                                </strong>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="table-responsive">
+                                                        <table class="fctable">
+                                                            <tr>
+                                                                <td>
+                                                                    <table border="1">
+                                                                        <tr>
+                                                                            <td>40%</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(m => m.FCTreino1, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                                <td>
+                                                                    <table border="1">
+                                                                        <tr>
+                                                                            <td>45%</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(m => m.FCTreino2, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                                <td>
+                                                                    <table border="1">
+                                                                        <tr>
+                                                                            <td>50%</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(m => m.FCTreino3, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                                <td>
+                                                                    <table border="1">
+                                                                        <tr>
+                                                                            <td>55%</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(m => m.FCTreino4, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                                <td>
+                                                                    <table border="1">
+                                                                        <tr>
+                                                                            <td>60%</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(m => m.FCTreino5, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                                <td>
+                                                                    <table border="1">
+                                                                        <tr>
+                                                                            <td>65%</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(m => m.FCTreino6, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                                <td>
+                                                                    <table border="1">
+                                                                        <tr>
+                                                                            <td>70%</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(m => m.FCTreino7, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                                <td>
+                                                                    <table border="1">
+                                                                        <tr>
+                                                                            <td>75%</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(m => m.FCTreino8, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                                <td>
+                                                                    <table border="1">
+                                                                        <tr>
+                                                                            <td>80%</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(m => m.FCTreino9, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                                <td>
+                                                                    <table border="1">
+                                                                        <tr>
+                                                                            <td>85%</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(m => m.FCTreino10, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
                                                 </div>
-                                                <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="">
-                                                    <div class="p-3 ">
-                                                        <div class="row">
-                                                            <div class="col-md-2">
-                                                                @Html.LabelFor(m => m.OB_Actividade, new { @class = " col-form-label" })
-                                                                @Html.CheckBoxFor(m => m.OB_Actividade, new { @class = "" })
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                @Html.LabelFor(m => m.OB_Controlopeso, new { @class = " col-form-label" })
-                                                                @Html.CheckBoxFor(m => m.OB_Controlopeso, new { @class = "" })
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                @Html.LabelFor(m => m.OB_PrevenirIdade, new { @class = " col-form-label" })
-                                                                @Html.CheckBoxFor(m => m.OB_PrevenirIdade, new { @class = "" })
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                @Html.LabelFor(m => m.OB_TreinoDesporto, new { @class = " col-form-label" })
-                                                                @Html.CheckBoxFor(m => m.OB_TreinoDesporto, new { @class = "" })
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                @Html.LabelFor(m => m.OB_AumentarMassa, new { @class = " col-form-label" })
-                                                                @Html.CheckBoxFor(m => m.OB_AumentarMassa, new { @class = "" })
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                @Html.LabelFor(m => m.OB_BemEstar, new { @class = " col-form-label" })
-                                                                @Html.CheckBoxFor(m => m.OB_BemEstar, new { @class = "" })
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                @Html.LabelFor(m => m.OB_Tonificar, new { @class = " col-form-label" })
-                                                                @Html.CheckBoxFor(m => m.OB_Tonificar, new { @class = "" })
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                @Html.LabelFor(m => m.OB_Outros, new { @class = " col-form-label" })
-                                                                @Html.CheckBoxFor(m => m.OB_Outros, new { @class = "" })
-                                                            </div>
+                                            </div>
+                                            <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="">
+                                                <div class="p-3 ">
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            @Html.LabelFor(m => m.FR_Hipertensao, new { @class = " col-form-label" })
+                                                            @Html.CheckBoxFor(m => m.FR_Hipertensao, new { @class = "" })
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            @Html.LabelFor(m => m.FR_Tabaco, new { @class = " col-form-label" })
+                                                            @Html.CheckBoxFor(m => m.FR_Tabaco, new { @class = "" })
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            @Html.LabelFor(m => m.FR_Hiperlipidemia, new { @class = " col-form-label" })
+                                                            @Html.CheckBoxFor(m => m.FR_Hiperlipidemia, new { @class = "" })
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            @Html.LabelFor(m => m.FR_Obesidade, new { @class = " col-form-label" })
+                                                            @Html.CheckBoxFor(m => m.FR_Obesidade, new { @class = "" })
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            @Html.LabelFor(m => m.FR_Diabetes, new { @class = " col-form-label" })
+                                                            @Html.CheckBoxFor(m => m.FR_Diabetes, new { @class = "" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            @Html.LabelFor(m => m.FR_Inactividade, new { @class = " col-form-label" })
+                                                            @Html.CheckBoxFor(m => m.FR_Inactividade, new { @class = "" })
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            @Html.LabelFor(m => m.FR_Heriditariedade, new { @class = " col-form-label" })
+                                                            @Html.CheckBoxFor(m => m.FR_Heriditariedade, new { @class = "" })
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(m => m.FR_Examescomplementares, new { @class = " col-form-label" })
+                                                            @Html.CheckBoxFor(m => m.FR_Examescomplementares, new { @class = "" })
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            @Html.LabelFor(m => m.FR_Outros, new { @class = " col-form-label" })
+                                                            @Html.CheckBoxFor(m => m.FR_Outros, new { @class = "" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="">
+                                                <div class="p-3 ">
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            @Html.LabelFor(m => m.OB_Actividade, new { @class = " col-form-label" })
+                                                            @Html.CheckBoxFor(m => m.OB_Actividade, new { @class = "" })
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            @Html.LabelFor(m => m.OB_Controlopeso, new { @class = " col-form-label" })
+                                                            @Html.CheckBoxFor(m => m.OB_Controlopeso, new { @class = "" })
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            @Html.LabelFor(m => m.OB_PrevenirIdade, new { @class = " col-form-label" })
+                                                            @Html.CheckBoxFor(m => m.OB_PrevenirIdade, new { @class = "" })
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            @Html.LabelFor(m => m.OB_TreinoDesporto, new { @class = " col-form-label" })
+                                                            @Html.CheckBoxFor(m => m.OB_TreinoDesporto, new { @class = "" })
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(m => m.OB_AumentarMassa, new { @class = " col-form-label" })
+                                                            @Html.CheckBoxFor(m => m.OB_AumentarMassa, new { @class = "" })
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            @Html.LabelFor(m => m.OB_BemEstar, new { @class = " col-form-label" })
+                                                            @Html.CheckBoxFor(m => m.OB_BemEstar, new { @class = "" })
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            @Html.LabelFor(m => m.OB_Tonificar, new { @class = " col-form-label" })
+                                                            @Html.CheckBoxFor(m => m.OB_Tonificar, new { @class = "" })
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            @Html.LabelFor(m => m.OB_Outros, new { @class = " col-form-label" })
+                                                            @Html.CheckBoxFor(m => m.OB_Outros, new { @class = "" })
                                                         </div>
                                                     </div>
                                                 </div>
@@ -462,16 +460,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mt-2">
-                                    <div class="col-sm-2 text-right">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <a href="@Url.Action("athletes", "gtmanagement")" class="btn btn-danger btn-sm">Cancelar</a>
-                                        <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
-                                    </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-sm-2 text-right">
+                                </div>
+                                <div class="col-sm-6">
+                                    <a href="@Url.Action("athletes", "gtmanagement")" class="btn btn-danger btn-sm">Cancelar</a>
+                                    <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
