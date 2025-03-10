@@ -16,8 +16,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-8">
-                    <input type="text" id="Numero" class="form-control" placeholder="Pesquise pelo Nome ou Número do Sócio">
+                <div class="col-sm-10">
+                    <input type="text" id="Numero" class="form-control form-control-sm" placeholder="Pesquise pelo Nome ou Número do Sócio">
                 </div>
             </div>
 
@@ -41,7 +41,7 @@
                                                 <label class="col-form-label">Sexo</label>
                                             </div>
                                             <div class="col-sm-10">
-                                                @Html.DropDownListFor(m => Model.ID, Enum.GetValues(typeof(SelectValues.Sexo)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.Sexo), e), Value = e.ToString() }), "Sem filtro", new {Id="Sexo", @class = "form-control form-control-sm", required = "" })
+                                                @Html.DropDownListFor(m => Model.ID, Enum.GetValues(typeof(SelectValues.Sexo)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.Sexo), e), Value = e.ToString() }), "Sem filtro", new { Id = "Sexo", @class = "form-control form-control-sm", required = "" })
                                             </div>
                                         </div>
                                         <div class="row">
@@ -52,20 +52,27 @@
                                                 @Html.DropDownListFor(x => Model.Pescription, Model.Pescription_List, "Sem filtro", new { @class = "form-control form-control-sm", Id = "Tipo" })
                                             </div>
                                         </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="filterActions mt-1">
+                                        
                                         <div class="row">
                                             <div class="col-sm-2 text-right">
                                                 <label class="col-form-label">Data</label>
                                             </div>
-                                            <div class="col-sm-5">
+                                            <div class="col-sm-4">
                                                 <input type="text" id="Data" class="form-control form-control-sm datepicker" />
                                             </div>
-                                            <div class="col-sm-5">
+                                            <div class="col-sm-1 text-right">
+                                                <label class="col-form-label">-</label>
+                                            </div>
+                                            <div class="col-sm-4">
                                                 <input type="text" id="Data2" class="form-control form-control-sm datepicker" />
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
                                 </div>
                             </div>
                         </div>
@@ -75,16 +82,16 @@
             <div class="row mt-1">
                 <div class="col-sm-2">
                     <div class="btn-group">
-                        <button type="button" title="Pesquisar" data-id="SearchTable" class="btnSearch btn btn-light btn-sm w-100">
+                        <button type="button" onclick="initSearchTable(1)" title="Pesquisar" data-id="SearchTable" class="btnSearch btn btn-light btn-sm w-100">
                             Pesquisar
                         </button>
-                        <button title="Limpar Filtro" class="btnLimpar btn btn-light" data-id="SearchTable"><i class="fa fa-eraser"></i></button>
+                        <button title="Limpar Filtro" onclick="initSearchTable(1)" class="btnLimpar btn btn-light" data-id="SearchTable"><i class="fa fa-eraser"></i></button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <h4>&nbsp;</h4>
+    <h6>&nbsp;</h6>
     <!--  DATATABLE START -->
     <div class="card mb-32pt mt-2">
         <div class="card-header">
@@ -103,8 +110,8 @@
                 </select>
                 <label class="" for="length_change">registos</label>
                 <div class="btn-group">
-                    <button title="Pesquisar" class="btnSearch btn btn-default" data-id="SearchTable"><i class="fa fa-search"></i></button>
-                    <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="SearchTable"><i class="fa fa-eraser"></i></button>
+                    <button title="Pesquisar" onclick="initSearchTable(1)" class="btnSearch btn btn-default" data-id="SearchTable"><i class="fa fa-search"></i></button>
+                    <button title="Limpar Filtro" onclick="initSearchTable(1)" class="btnLimpar btn btn-default" data-id="SearchTable"><i class="fa fa-eraser"></i></button>
                     <!--Separator-->
                     <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
                     <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
@@ -113,8 +120,8 @@
         </div>
         <div class="table-responsive">
             <table id="SearchTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                <thead hidden>
-                    <tr>
+                <thead>
+                    <tr hidden>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -129,7 +136,7 @@
                     <tr>
                         <th></th>
                         <th></th>
-                        <th data-name="Numero">Número sócio</th>
+                        <th data-name="Numero">N° Sócio</th>
                         <th data-name="Nome">Nome do atleta</th>
                         <th data-name="Altura">Altura (cm)</th>
                         <th data-name="Peso">Peso (Kg)</th>
@@ -154,6 +161,6 @@
 <!-- /page content -->
 <script>
     document.addEventListener("DOMContentLoaded", function (event) {
-        handleDataSearchTable();
+        //handleDataSearchTable();
     });
 </script>

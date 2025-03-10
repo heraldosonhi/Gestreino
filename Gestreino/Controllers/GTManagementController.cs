@@ -41,7 +41,7 @@ namespace Gestreino.Controllers
         int _MenuLeftBarLink_Athletes = 201;
         int _MenuLeftBarLink_PlanBodyMass = 202;
         int _MenuLeftBarLink_PlanCardio = 203;
-        int _MenuLeftBarLink_Exercices = 204;
+        //int _MenuLeftBarLink_Exercices = 204;
         int _MenuLeftBarLink_Quest_Anxient = 205;
         int _MenuLeftBarLink_Quest_SelfConcept = 206;
         int _MenuLeftBarLink_Quest_CoronaryRisk = 207;
@@ -55,6 +55,9 @@ namespace Gestreino.Controllers
         int _MenuLeftBarLink_Search_Prescriptions= 215;
         int _MenuLeftBarLink_Search_Evaluations = 216;
         int _MenuLeftBarLink_Search_Ranking = 217;
+        int _MenuLeftBarLink_Search_MediumWeight = 217;
+        int _MenuLeftBarLink_Search_Analysis = 217;
+        int _MenuLeftBarLink_Search_Others = 217;
         int _MenuLeftBarLink_FileManagement = 0;
 
         // GET: GTManagement
@@ -1817,218 +1820,14 @@ namespace Gestreino.Controllers
 
 
 
-
-
-
-        // GT Exercicios
-        // GET: GTManagement
-        public ActionResult Exercises(Gestreino.Models.GTExercicio MODEL)
-        {
-            MODEL.TipoList = databaseManager.GT_TipoTreino.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Exercices;
-            return View("Plans/Exercises/Index", MODEL);
-        }
-        public ActionResult ViewExercises(int? Id, Gestreino.Models.GTExercicio MODEL)
-        {
-            //if (!AcessControl.Authorized(AcessControl.GP_USERS_LIST_VIEW_SEARCH)) return View("Lockout");
-            if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
-
-            var data = databaseManager.SP_GT_ENT_EXERCICIO(Id, null, null, null, null, null, Convert.ToChar('R').ToString()).ToList();
-            if (!data.Any()) return RedirectToAction("", "home");
-            MODEL.ID = Id;
-
-            ViewBag.data = data;
-            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Exercices;
-            return View("Plans/Exercises/ViewExercise", MODEL);
-        }
-        [HttpPost]
-        public ActionResult GetGRLExercicioTable()
-        {
-            //UI DATATABLE PAGINATION BUTTONS
-            var draw = Request.Form.GetValues("draw").FirstOrDefault();
-            var start = Request.Form.GetValues("start").FirstOrDefault();
-            var length = Request.Form.GetValues("length").FirstOrDefault();
-
-            //UI DATATABLE COLUMN ORDERING
-            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
-            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
-
-            //UI DATATABLE SEARCH INPUTS
-            var Treino = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
-            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
-            var Alongamento = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
-            var Sequencia = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
-            var Insercao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
-            var DataInsercao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
-            var Actualizacao = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
-            var DataActualizacao = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault();
-
-            //DECLARE PAGINATION VARIABLES
-            int pageSize = length != null ? Convert.ToInt32(length) : 0;
-            int skip = start != null ? Convert.ToInt32(start) : 0;
-            int totalRecords = 0;
-
-            var v = (from a in databaseManager.SP_GT_ENT_EXERCICIO(null, null, null, null, null, null, "R").ToList() select a);
-            TempData["QUERYRESULT_ALL"] = v.ToList();
-
-            //SEARCH RESULT SET
-            if (!string.IsNullOrEmpty(Treino)) v = v.Where(a => a.GT_TipoTreino_ID != null && a.GT_TipoTreino_ID.ToString() == Treino);
-            if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.nome != null && a.nome.ToUpper() == Nome.ToUpper());
-            if (!string.IsNullOrEmpty(Alongamento)) v = v.Where(a => a.ALONGAMENTO != null && a.ALONGAMENTO.ToString() == Alongamento);
-            if (!string.IsNullOrEmpty(Sequencia)) v = v.Where(a => a.SEQUENCIA != null && a.SEQUENCIA.ToString() == Sequencia);
-            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
-            if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
-            if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
-            if (!string.IsNullOrEmpty(DataActualizacao)) v = v.Where(a => a.DATA_ACTUALIZACAO != null && a.DATA_ACTUALIZACAO.ToUpper().Contains(DataActualizacao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
-
-
-            //ORDER RESULT SET
-            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-            {
-                if (sortColumnDir == "asc")
-                {
-                    switch (sortColumn)
-                    {
-                        case "TREINO": v = v.OrderBy(s => s.tr_nome); break;
-                        case "NOME": v = v.OrderBy(s => s.nome); break;
-                        case "ALONGAMENTO": v = v.OrderBy(s => s.ALONGAMENTO); break;
-                        case "SEQUENCIA": v = v.OrderBy(s => s.SEQUENCIA); break;
-                        case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
-                        case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
-                        case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
-                        case "DATAACTUALIZACAO": v = v.OrderBy(s => s.DATA_ACTUALIZACAO); break;
-                    }
-                }
-                else
-                {
-                    switch (sortColumn)
-                    {
-                        case "TREINO": v = v.OrderByDescending(s => s.tr_nome); break;
-                        case "NOME": v = v.OrderByDescending(s => s.nome); break;
-                        case "ALONGAMENTO": v = v.OrderByDescending(s => s.ALONGAMENTO); break;
-                        case "SEQUENCIA": v = v.OrderByDescending(s => s.SEQUENCIA); break;
-                        case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
-                        case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
-                        case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
-                        case "DATAACTUALIZACAO": v = v.OrderByDescending(s => s.DATA_ACTUALIZACAO); break;
-                    }
-                }
-            }
-
-            totalRecords = v.Count();
-            var data = v.Skip(skip).Take(pageSize).ToList();
-            TempData["QUERYRESULT"] = v.ToList();
-
-            //RETURN RESPONSE JSON PARSE
-            return Json(new
-            {
-                draw = draw,
-                recordsFiltered = totalRecords,
-                recordsTotal = totalRecords,
-                data = data.Select(x => new
-                {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
-                    Id = x.ID,
-                    TREINO = x.tr_nome,
-                    NOME = x.nome,
-                    ALONGAMENTO = x.ALONGAMENTO,
-                    SEQUENCIA = x.SEQUENCIA,
-                    INSERCAO = x.INSERCAO,
-                    DATAINSERCAO = x.DATA_INSERCAO,
-                    ACTUALIZACAO = x.ACTUALIZACAO,
-                    DATAACTUALIZACAO = x.DATA_ACTUALIZACAO
-                }),
-                sortColumn = sortColumn,
-                sortColumnDir = sortColumnDir,
-            }, JsonRequestBehavior.AllowGet);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult NewGRLExercicioTable(GTExercicio MODEL)
-        {
-            try
-            {
-                //  VALIDATE FORM FIRST
-                if (!ModelState.IsValid)
-                {
-                    string errors = string.Empty;
-                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
-                    return Json(new { result = false, error = errors });
-                }
-                // Create
-                var create = databaseManager.SP_GT_ENT_EXERCICIO(null, MODEL.TipoTreinoId, MODEL.Nome, MODEL.Alongamento, MODEL.Sequencia, int.Parse(User.Identity.GetUserId()), "C").ToList();
-                ModelState.Clear();
-            }
-            catch (Exception ex)
-            {
-                return Json(new { result = false, error = ex.Message });
-            }
-            return Json(new { result = true, error = string.Empty, table = "GRLExercicioTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult UpdateGRLExercicioTable(GTExercicio MODEL)
-        {
-            try
-            {
-                //  VALIDATE FORM FIRST
-                if (!ModelState.IsValid)
-                {
-                    string errors = string.Empty;
-                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
-                    return Json(new { result = false, error = errors });
-                }
-
-                // Update
-                var create = databaseManager.SP_GT_ENT_EXERCICIO(MODEL.ID, MODEL.TipoTreinoId, MODEL.Nome, MODEL.Alongamento, MODEL.Sequencia, int.Parse(User.Identity.GetUserId()), "U").ToList();
-                ModelState.Clear();
-            }
-            catch (Exception ex)
-            {
-                return Json(new { result = false, error = ex.Message });
-            }
-            return Json(new { result = true, error = string.Empty, table = "GRLExercicioTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteGRLExercicioTable(int?[] ids)
-        {
-            try
-            {
-                //  VALIDATE FORM FIRST
-                if (!ModelState.IsValid)
-                {
-                    string errors = string.Empty;
-                    ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
-                    return Json(new { result = false, error = errors });
-                }
-
-                // Delete
-                foreach (var i in ids)
-                {
-                    databaseManager.SP_GT_ENT_EXERCICIO(i, null, null, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
-                }
-                ModelState.Clear();
-            }
-            catch (Exception ex)
-            {
-                return Json(new { result = false, error = ex.Message });
-            }
-            return Json(new { result = true, error = string.Empty, table = "GRLExercicioTable", showToastr = true, toastrMessage = "Submetido com sucesso!" });
-        }
-
-
+     
+  
 
         //PLANOS
         public ActionResult BodyMassPlans(Gestreino.Models.GT_TreinoBodyMass MODEL, int? Id, string predefined)
         {
             //if (!AcessControl.Authorized(AcessControl.GP_USERS_LIST_VIEW_SEARCH)) return View("Lockout");
             //if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
-
-
-
-
 
             MODEL.GT_Series_List = databaseManager.GT_Series.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.SERIES.ToString() });
             MODEL.GT_Repeticoes_List = databaseManager.GT_Repeticoes.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.REPETICOES.ToString() });
@@ -2089,7 +1888,7 @@ namespace Gestreino.Controllers
 
             MODEL.ExerciseArqList = ExerciseArqList;
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_PlanBodyMass;
-            return View("Plans/BodyMass/NewPlan", MODEL);
+            return View("Plans/BodyMass", MODEL);
         }
         public ActionResult CardioPlans(Gestreino.Models.GT_TreinoBodyMass MODEL, int? Id, string predefined)
         {
@@ -2154,7 +1953,7 @@ namespace Gestreino.Controllers
             }
             MODEL.ExerciseArqList = ExerciseArqList;
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_PlanCardio;
-            return View("Plans/Cardio/NewPlan", MODEL);
+            return View("Plans/Cardio", MODEL);
         }
         [HttpGet]
         public ActionResult GetFasesTreino(int? Id)
@@ -5192,6 +4991,30 @@ namespace Gestreino.Controllers
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_Ranking;
             return View("Search/Ranking", MODEL);
         }
+        //Consulta Peso Medio
+        public ActionResult MediumWeight(Search MODEL, int? Id)
+        {
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
+
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_MediumWeight;
+            return View("Search/MediumWeight", MODEL);
+        }
+        //Consulta Analise Descritiva
+        public ActionResult Analysis(Search MODEL, int? Id)
+        {
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
+
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_Analysis;
+            return View("Search/Analysis", MODEL);
+        }
+        //Consulta Outros
+        public ActionResult Others(Search MODEL, int? Id)
+        {
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
+
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_Others;
+            return View("Search/Others", MODEL);
+        }
         public ActionResult GetSearchTable()
         {
             //UI DATATABLE PAGINATION BUTTONS
@@ -5401,6 +5224,107 @@ namespace Gestreino.Controllers
                     TIPO = x.AVALIACAO,
                     SEXO = x.SEXO,
                     PERCENTIL = peraval.Contains(x.AVALIACAO)?string.Empty : x.PERCENTIL.ToString()
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetSearchTable3()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Numero = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Data = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Percentil = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Tipo = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var Sexo = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            List<String> peraval = new List<string>();
+            peraval.Add("Ansiedade e Depressão");
+            peraval.Add("Auto Conceito");
+            peraval.Add("Risco Coronário");
+            peraval.Add("Problemas de Saúde");
+            peraval.Add("Funcional");
+
+            //TipoId = TipoId > 0 ? TipoId : null;
+            var v = (from a in databaseManager.SP_GT_ENT_Search(3, null, null, null, null, null, null, null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            v = v.Where(x => !peraval.Contains(x.TIPO_PLANO));
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Numero)) v = v.Where(a => a.N_SOCIO != null && a.N_SOCIO.ToString().Contains(Numero)
+             || a.NOME != null && a.NOME.ToUpper().Contains(Numero.ToUpper()));
+            if (!string.IsNullOrEmpty(Tipo)) v = v.Where(a => a.TIPO_PLANO != null && a.TIPO_PLANO == Tipo);
+            if (!string.IsNullOrEmpty(Sexo)) v = v.Where(a => a.SEXO != null && a.SEXO.ToString() == Sexo);
+
+            if (!string.IsNullOrEmpty(Percentil))
+                //v = v.Where(a => a.PERCENTIL != null && a.PERCENTIL.ToString() == Percentil);
+                v = v.Take(Convert.ToInt32(Percentil));
+ 
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "NUMERO": v = v.OrderBy(s => s.N_SOCIO); break;
+                        case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "DATA": v = v.OrderBy(s => s.DATA_DEFAULT); break;
+                        case "PERCENTIL": v = v.OrderBy(s => s.PERCENTIL); break;
+                        case "TIPO": v = v.OrderBy(s => s.TIPO_PLANO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "NUMERO": v = v.OrderByDescending(s => s.N_SOCIO); break;
+                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "DATA": v = v.OrderByDescending(s => s.DATA_DEFAULT); break;
+                        case "PERCENTIL": v = v.OrderByDescending(s => s.PERCENTIL); break;
+                        case "TIPO": v = v.OrderByDescending(s => s.TIPO_PLANO); break;
+                     }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+          
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = 0,
+                    NUMERO = x.N_SOCIO,
+                    NOME = x.NOME,
+                    DATA = x.DATA_DEFAULT,
+                    TIPO = x.AVALIACAO,
+                    SEXO = x.SEXO,
+                    PERCENTIL = peraval.Contains(x.AVALIACAO) ? string.Empty : x.PERCENTIL.ToString()
                 }),
                 sortColumn = sortColumn,
                 sortColumnDir = sortColumnDir,

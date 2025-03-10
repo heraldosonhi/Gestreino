@@ -7,8 +7,8 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="@Url.Action("","home")">Prescrição</a></li>
-            <li class="breadcrumb-item"><a href="@Url.Action("exercises","gtmanagement")">Exercícios</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("parameters","administration")">Parametrização</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("parametersgt","administration")">Entidades Gestreino (GT)</a></li>
             <li class="breadcrumb-item active" aria-current="page">@ViewBag.data[0].nome</li>
         </ol>
     </nav>
@@ -17,60 +17,60 @@
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
                 <div class="x_content">
-                    <div class="col-md-3 col-sm-3  profile_left">
+                    <div class="col-md-3 col-sm-12 profile_left">
                         <h3>@ViewBag.data[0].nome</h3>
+                        
+                    </div>
+                    <div class="col-md-2">
                         <ul class="list-unstyled user_data">
                             <li>
-                                <i class="fa fa-key user-profile-icon"></i> @ViewBag.data[0].nome
+                                <a title="Editar" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-secondary btn-block" data-id="@ViewBag.data[0].ID" data-action="Editar" data-entity="gtexercicio" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil user-profile-icon"></i> Editar</a>
                             </li>
                             <li>
-                                <a title="Editar" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-secondary" data-id="@ViewBag.data[0].ID" data-action="Editar" data-entity="gtexercicio" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil user-profile-icon"></i> Editar</a>
-                            </li>
-                            <li>
-                                <a title="Remover" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-secondary" data-id="@ViewBag.data[0].ID" data-action="Remover" data-entity="gtexercicio" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash user-profile-icon"></i> Remover</a>
+                                <a title="Remover" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-secondary btn-block" data-id="@ViewBag.data[0].ID" data-action="Remover" data-entity="gtexercicio" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash user-profile-icon"></i> Remover</a>
                             </li>
                         </ul>
                     </div>
-                    <div class="col-md-9 col-sm-9 ">
-                        <div class="" role="tabpanel" data-example-id="togglable-tabs">
-                            <table>
-                                <tr>
-                                    <td>Treino:</td>
-                                    <td>@ViewBag.data[0].tr_nome</td>
-                                </tr>
-                                <tr>
-                                    <td>Nome:</td>
-                                    <td>@ViewBag.data[0].nome</td>
-                                </tr>
-                                <tr>
-                                    <td>Alongamento:</td>
-                                    <td>@ViewBag.data[0].ALONGAMENTO</td>
-                                </tr>
-                                <tr>
-                                    <td>Sequência:</td>
-                                    <td>@ViewBag.data[0].SEQUENCIA</td>
-                                </tr>
-                                <tr>
-                                    <td>Inserção:</td>
-                                    <td>@ViewBag.data[0].INSERCAO</td>
-                                </tr>
-                                <tr>
-                                    <td>Data Inserção:</td>
-                                    <td>@ViewBag.data[0].DATA_INSERCAO</td>
-                                </tr>
-                                <tr>
-                                    <td>Actualização:</td>
-                                    <td>@ViewBag.data[0].ACTUALIZACAO</td>
-                                </tr>
-                                <tr>
-                                    <td>Data Actualização:</td>
-                                    <td>@ViewBag.data[0].DATA_ACTUALIZACAO</td>
-                                </tr>
-                            </table>
+                        <div class="col-md-7 col-sm-12">
+                            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                <table>
+                                    <tr>
+                                        <td>Treino:</td>
+                                        <td>@ViewBag.data[0].tr_nome</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nome:</td>
+                                        <td>@ViewBag.data[0].nome</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alongamento:</td>
+                                        <td>@ViewBag.data[0].ALONGAMENTO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sequência:</td>
+                                        <td>@ViewBag.data[0].SEQUENCIA</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Inserção:</td>
+                                        <td>@ViewBag.data[0].INSERCAO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Data Inserção:</td>
+                                        <td>@ViewBag.data[0].DATA_INSERCAO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Actualização:</td>
+                                        <td>@ViewBag.data[0].ACTUALIZACAO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Data Actualização:</td>
+                                        <td>@ViewBag.data[0].DATA_ACTUALIZACAO</td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 

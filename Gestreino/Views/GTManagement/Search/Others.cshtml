@@ -1,0 +1,257 @@
+﻿@model Gestreino.Models.Search
+@using Gestreino.Classes
+@{
+    ViewBag.Title = "Outras Avaliações";
+}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+@*<script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>*@
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Ansiedade e Depressão</h5>
+            <div class="row">
+                <label class="col-md-12 mb-0">N° de atletas: <b>2 (66,66%)</b></label>
+                <label class="col-md-12 mb-0">Homens: <b>0 (0%)</b> Mulheres: <b>2 (66,6%)</b></label>
+                <label class="col-md-12 ">N° de avaliações: <b>16</b></label>
+            </div>
+            <div id="container1"></div>
+        </div>
+        <div class="col-md-6">
+            <h5>Auto Conceito</h5>
+            <div class="row">
+                <label class="col-md-12 mb-0">N° de atletas: <b>2 (66,66%)</b></label>
+                <label class="col-md-12 mb-0">Homens: <b>0 (0%)</b> Mulheres: <b>2 (66,6%)</b></label>
+                <label class="col-md-12 ">N° de avaliações: <b>16</b></label>
+            </div>
+            <div id="container2"></div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <h5>Risco Coronário</h5>
+            <div class="row">
+                <label class="col-md-12 mb-0">N° de atletas: <b>2 (66,66%)</b></label>
+                <label class="col-md-12 mb-0">Homens: <b>0 (0%)</b> Mulheres: <b>2 (66,6%)</b></label>
+                <label class="col-md-12 ">N° de avaliações: <b>16</b></label>
+            </div>
+            <div id="container3"></div>
+        </div>
+    </div>
+    <h2>&nbsp;</h2>
+    <h2>&nbsp;</h2>
+</div>
+<!-- /page content -->
+<script>
+    var colors = ['#FF0000', '#E82C0C', '#FF0000', '#E80C7A', '#E80C7A'];
+    Highcharts.chart('container1', {
+
+        chart: {
+            backgroundColor: 'rgba(0,0,0,.03)',
+            borderRadius: 5,
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,.03)',
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'column',
+            // height: 250
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: 'Ansiedade e Depressão'
+        },
+        subtitle: {
+            text:
+                ''
+        },
+        xAxis: {
+            categories: ['Depressão', 'Ansiedade', 'Ansiedade/Depressão'],
+            crosshair: true,
+            accessibility: {
+                description: 'Ansiedade e Depressão'
+            }
+        },
+        yAxis: {
+            min: 0,
+
+            title: {
+                text: 'Quilogramas (Kg)'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' Kg'
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        colors: colors,
+        series: [
+            {
+                name: 'Ansiedade e Depressão',
+                data: [67, 77, 276],
+                dataLabels: {
+                    enabled: true,
+                    // rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'right',
+                    y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'helvetica, arial, sans-serif',
+                        textShadow: false,
+                        fontWeight: 'normal'
+
+                    }
+                }
+            }
+        ]
+    });
+    Highcharts.chart('container2', {
+
+        chart: {
+            backgroundColor: 'rgba(0,0,0,.03)',
+            borderRadius: 5,
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,.03)',
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'column',
+            // height: 250
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: 'Auto Conceito'
+        },
+        subtitle: {
+            text:
+                ''
+        },
+        xAxis: {
+            categories: ['Baixo Auto conceito'],
+            crosshair: true,
+            accessibility: {
+                description: 'Auto Conceito'
+            }
+        },
+        yAxis: {
+            min: 0,
+
+            title: {
+                text: 'Quilogramas (Kg)'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' Kg'
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        colors: colors,
+        series: [
+            {
+                name: 'Auto Conceito',
+                data: [67],
+                dataLabels: {
+                    enabled: true,
+                    // rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'right',
+                    y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'helvetica, arial, sans-serif',
+                        textShadow: false,
+                        fontWeight: 'normal'
+
+                    }
+                }
+            }
+        ]
+    });
+    Highcharts.chart('container3', {
+
+        chart: {
+            backgroundColor: 'rgba(0,0,0,.03)',
+            borderRadius: 5,
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,.03)',
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'column',
+            // height: 250
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: 'Risco Coronário'
+        },
+        subtitle: {
+            text:
+                ''
+        },
+        xAxis: {
+            categories: ['Risco Moderado'],
+            crosshair: true,
+            accessibility: {
+                description: 'Risco Coronário'
+            }
+        },
+        yAxis: {
+            min: 0,
+
+            title: {
+                text: 'Quilogramas (Kg)'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' Kg'
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        colors: colors,
+        series: [
+            {
+                name: 'Risco Coronário',
+                data: [67],
+                dataLabels: {
+                    enabled: true,
+                    // rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'right',
+                    y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'helvetica, arial, sans-serif',
+                        textShadow: false,
+                        fontWeight: 'normal'
+
+                    }
+                }
+            }
+        ]
+    });
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        //handleDataSearchTable3();
+    });
+</script>

@@ -21,8 +21,7 @@
                     <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive==202 ||ViewBag.LeftBarLinkActive==203 ||ViewBag.LeftBarLinkActive==204 ?"block":"")">
                         <li class="@(ViewBag.LeftBarLinkActive==202?"current-page":"")"><a href="@Url.Action("bodymassplans", "gtmanagement", new {Id=string.Empty})">Plano de Musculação</a></li>
                         <li class="@(ViewBag.LeftBarLinkActive==203?"current-page":"")"><a href="@Url.Action("cardioplans","gtmanagement", new {Id=string.Empty})">Plano de Cardiovascular</a></li>
-                        <li class="@(ViewBag.LeftBarLinkActive==204?"current-page":"")"><a href="@Url.Action("exercises","gtmanagement")">Exercícios</a></li>
-                    </ul>
+                   </ul>
                 </li>
                 <li class="@(ViewBag.LeftBarLinkActive==205 || ViewBag.LeftBarLinkActive==206 || ViewBag.LeftBarLinkActive==207 || ViewBag.LeftBarLinkActive==208 || ViewBag.LeftBarLinkActive==209|| ViewBag.LeftBarLinkActive==210  || ViewBag.LeftBarLinkActive==211|| ViewBag.LeftBarLinkActive==212?"active":"")">
                     <a><i class="fa fa-anchor"></i> Avaliação <span class="fa fa-chevron-down"></span></a>
@@ -69,10 +68,10 @@
                     <ul class="nav child_menu">
                         <li><a href="@Url.Action("prescriptions", "gtmanagement", new {Id=string.Empty})">Prescrições</a></li>
                         <li><a href="@Url.Action("evaluations", "gtmanagement", new {Id=string.Empty})">Avaliações</a></li>
-                        <li><a href="#">Peso Médio</a></li>
-                        <li><a href="#">Análise Descritiva</a></li>
+                        <li><a href="@Url.Action("mediumweight", "gtmanagement", new {Id=string.Empty})">Peso Médio</a></li>
+                        <li><a href="@Url.Action("analysis", "gtmanagement", new {Id=string.Empty})">Análise Descritiva</a></li>
                         <li><a href="@Url.Action("ranking", "gtmanagement", new {Id=string.Empty})">Ranking Avaliações</a></li>
-                        <li><a href="#">Outras Avaliações</a></li>
+                        <li><a href="@Url.Action("others", "gtmanagement", new {Id=string.Empty})">Outras Avaliações</a></li>
                     </ul>
                 </li>
                 <li>

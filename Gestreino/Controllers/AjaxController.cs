@@ -584,7 +584,7 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
-            return View("GTManagement/Exercises/GTExercise", MODEL);
+            return View("administration/Parameters//GTExercise", MODEL);
         }
 
 

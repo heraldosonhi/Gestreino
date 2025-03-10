@@ -202,19 +202,19 @@ namespace Gestreino.Models
         [Display(Name = "Timeout de cookies de sessão (Minutos)")]
         public int? SEC_SESSAO_TIMEOUT_TEMPO { get; set; }
 
-        [Display(Name = "Nome ou endereço IP do servidor SMTP primário")]
+        [Display(Name = "Host ou Endereço IP SMTP")]
         public string NET_STMP_HOST { get; set; }
 
-        [Display(Name = "Porta do servidor SMTP primário")]
+        [Display(Name = "Porta SMTP")]
         public int? NET_STMP_PORT { get; set; }
 
-        [Display(Name = "Nome do utilizador do servidor SMTP primário")]
+        [Display(Name = "Utilizador SMTP")]
         public string NET_SMTP_USERNAME { get; set; }
 
-        [Display(Name = "Senha do utilizador do servidor SMTP primário")]
+        [Display(Name = "Senha do utilizador SMTP")]
         public string NET_SMTP_SENHA { get; set; }
 
-        [Display(Name = "Endereço de resposta do servidor SMTP primário")]
+        [Display(Name = "Endereço de resposta")]
         public string NET_SMTP_FROM { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> MOEDA_LIST { get; set; }
     }

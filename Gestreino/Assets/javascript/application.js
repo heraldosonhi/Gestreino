@@ -2906,7 +2906,7 @@ function handleDataGRLExercicioTable() {
         },
         "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
         "ajax": {
-            "url": "../../gtmanagement/GetGRLExercicioTable", // POST TO CONTROLLER
+            "url": "../../administration/GetGRLExercicioTable", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
             data: {}
@@ -2917,7 +2917,7 @@ function handleDataGRLExercicioTable() {
             {
                 sortable: false,
                 "render": function (data, type, full, meta) {
-                    return '<a title="Visualizar" href="/gtmanagement/viewexercises/' + full.Id + '"><i class="fa fa-search"/></i></a>' +
+                    return '<a title="Visualizar" href="/administration/viewexercises/' + full.Id + '"><i class="fa fa-search"/></i></a>' +
                     ' <a title="Editar" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Editar" data-entity="gtexercicio" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil"></i></a>' +
                         ' <a title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="gtexercicio" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
                 }
@@ -3257,6 +3257,79 @@ function handleDataSearchTable2() {
         },
     });
 };
+function handleDataSearchTable3() {
+    var table = $("#SearchTable").DataTable({
+        "processing": true, // Para exibir mensagem de processamento a cada requisição
+        "serverSide": true, // Para processar as requisições no back-end
+        //"filter": false, // : está comentado porque estamos a usar filtros que enviamos no back-end
+        "orderMulti": false, // Opção de ordenação para uma coluna de cada vez.
+        //Linguagem PT
+        "language": {
+            "url": "/Assets/lib/datatable/pt-PT.json"
+        },
+        fixedHeader: {
+            header: true,
+            footer: true
+        },
+        "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
+        "ajax": {
+            "url": "../../gtmanagement/GetSearchTable3", // POST TO CONTROLLER
+            "type": "POST",
+            "datatype": "json",
+            data: {}
+        },
+        "columns": [
+            { "data": "Id", "name": null, "autoWidth": true },
+            //Column customizada
+            {
+                sortable: false,
+                "render": function (data, type, full, meta) {
+                    return ''
+                }
+            },
+            //Cada dado representa uma coluna da tabela
+            { "data": "NUMERO", "name": "NUMERO", "autoWidth": true },
+            { "data": "NOME", "name": "NOME", "autoWidth": true },
+            { "data": "DATA", "name": "DATA", "autoWidth": true },
+            { "data": "PERCENTIL", "name": "PERCENTIL", "autoWidth": true },
+            { "data": "TIPO", "name": "TIPO", "autoWidth": true },
+            //{ "data": "SEXO", "name": "SEXO", "autoWidth": true },
+           
+        ],
+        //Configuração da tabela para os checkboxes
+        'columnDefs': [
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                },
+
+            }
+        ], 'select': {
+            'style': 'multi'
+        },
+        'order': [[1, 'false']],
+        'rowCallback': function (row, data, dataIndex) {
+            // Get row ID
+            var rowId = data["Id"];
+            //console.log(rowId)
+            //Dra table and add selected option to previously selected checkboxes
+            $.each(values, function (i, r) {
+                if (rowId == r) {
+                    $(row).find('input[type="checkbox"]').prop('checked', true);
+                    $(row).closest("tr").addClass("selected");
+                }
+            })
+        },
+        drawCallback: function () {
+            processInfo(this.api().page.info(), 'paginateInfoSearchTable');
+        },
+        //Remove pagination from table and add to custom Div
+        initComplete: (settings, json) => {
+            $('#SearchTable_paginate').appendTo('#paginateSearchTable');
+        },
+    });
+};
 /*
 * 
 #####################################################
@@ -3368,7 +3441,8 @@ $(".btnLimpar").click(function () {
 
     $('#' + tablename + ' thead tr th').each(function () {
         if ($(this).text() != '') {
-            $('#' + $(this).data('name')).val('')
+            $('#' + $(this).data('name')).val('');
+            $('.PercentilRank').val('10');
             $(".select-control").val('').trigger('change'); //Select2
             table.columns(th).search($('#' + $(this).data('name')).val()); //val().trim());
             th++;
@@ -5335,4 +5409,18 @@ function funcionalLoadImg(id) {
     $("#funcImg2").attr('src', '/Assets/images/imagesfunc/func' + id + '2.jpg').width("89%").height("130px")
     $("#funcImg3").attr('src', '/Assets/images/imagesfunc/func' + id + '3.jpg').width("89%").height("130px")
     $("#funcImg4").attr('src', '/Assets/images/imagesfunc/func' + id + '0.jpg').width("89%").height("130px")
+}
+
+
+
+
+
+
+
+function initSearchTable(search) {
+    if (!$.fn.DataTable.isDataTable('#SearchTable')) {
+        if (search == 1) handleDataSearchTable();
+        if (search == 2) handleDataSearchTable2();
+        if (search == 3) handleDataSearchTable3();
+    }
 }

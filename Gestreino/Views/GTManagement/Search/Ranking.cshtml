@@ -1,16 +1,105 @@
-﻿@{
-    ViewBag.Title = "Atletas";
+﻿@model Gestreino.Models.Search
+@using Gestreino.Classes
+@{
+    ViewBag.Title = "Ranking Avaliações";
 }
 <!-- page content -->
 <div class="right_col" role="main">
 
-    <!--  DATATABLE START -->
+    <div class="mb-3 border-top-r">
+        <div class="col-sm-12 search-area p-2 bg-search" style="border: 1px solid #ddd; border-radius: 5px">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h4 style="color: #303956;">
+                        <strong><i class="fa fa-search fa-2x"></i>&nbsp; Ranking Avaliações</strong>
+                    </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10">
+                    <input type="text" id="Numero" class="form-control form-control-sm" placeholder="Pesquise pelo Nome ou Número do Sócio">
+                </div>
+            </div>
 
-    <div class="card mb-32pt">
+            <div class="row">
+                <div class="col-12 pt-1">
+                    <a id="advancedSearchButton" class="link" data-toggle="collapse" href="#advancedSearch" aria-expanded="true">
+                        Pesquisa avançada&nbsp;<i class="fa fa-caret-down"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-12">
+                    <hr style="margin: 8px 0;">
+                    <div id="advancedSearch" class="p-2 collapse" aria-expanded="true">
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="filterActions mt-1">
+                                        <div class="row">
+                                            <div class="col-sm-2 text-right">
+                                                <label class="col-form-label">Sexo</label>
+                                            </div>
+                                            <div class="col-sm-10">
+                                                @Html.DropDownListFor(m => Model.ID, Enum.GetValues(typeof(SelectValues.Sexo)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.Sexo), e), Value = e.ToString() }), "Sem filtro", new { Id = "Sexo", @class = "form-control form-control-sm", required = "" })
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-2 text-right">
+                                                <label class="col-form-label text-right">Avaliação</label>
+                                            </div>
+                                            <div class="col-sm-10">
+                                                <select class="form-control form-control-sm" id="Tipo">
+                                                    <option value="">Sem filtro</option>
+                                                    <option>Flexibilidade</option>
+                                                    <option>Composição Corporal</option>
+                                                    <option>Aptidão Cardiorespiratória</option>
+                                                    <option>Pessoa Idosa</option>
+                                                    <option>Força</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-sm-2 text-right">
+                                            <label class="col-form-label">Ranking</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <select class="PercentilRank form-control form-control-sm" id="Percentil">
+                                                <option value="10">10 +</option>
+                                                <option value="20">20 +</option>
+                                                <option value="30">30 +</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col-sm-2">
+                    <div class="btn-group">
+                        <button type="button" onclick="initSearchTable(3)" title="Pesquisar" data-id="SearchTable" class="btnSearch btn btn-light btn-sm w-100">
+                            Pesquisar
+                        </button>
+                        <button title="Limpar Filtro" onclick="initSearchTable(3)" class="btnLimpar btn btn-light" data-id="SearchTable"><i class="fa fa-eraser"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h6>&nbsp;</h6>
+    <!--  DATATABLE START -->
+    <div class="card mb-32pt mt-2">
         <div class="card-header">
             <div class="form-inline">
                 <label class="" for="length_change">Mostrar</label>
-                <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="DadosPessoaisTable">
+                <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="SearchTable">
                     <option value='10'>10</option>
                     <option value='25'>25</option>
                     <option value='50'>50</option>
@@ -23,11 +112,8 @@
                 </select>
                 <label class="" for="length_change">registos</label>
                 <div class="btn-group">
-                    <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="DadosPessoaisTable"><i class="fa fa-check-square"></i></button>
-                    <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="users" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                    <button title="Pesquisar" class="btnSearch btn btn-default" data-id="DadosPessoaisTable"><i class="fa fa-search"></i></button>
-                    <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="DadosPessoaisTable"><i class="fa fa-eraser"></i></button>
-                    <a title="Adicionar atleta" href="@Url.Action("newathlete","gtmanagement")" class="btn btn-default"><i class="fa fa-plus-circle"></i></a>
+                    <button title="Pesquisar" onclick="initSearchTable(3)" class="btnSearch btn btn-default" data-id="SearchTable"><i class="fa fa-search"></i></button>
+                    <button title="Limpar Filtro" onclick="initSearchTable(3)" class="btnLimpar btn btn-default" data-id="SearchTable"><i class="fa fa-eraser"></i></button>
                     <!--Separator-->
                     <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
                     <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
@@ -35,40 +121,34 @@
             </div>
         </div>
         <div class="table-responsive">
-            <table id="DadosPessoaisTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+            <table id="SearchTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
                 <thead>
-                    <tr>
+                    <tr hidden>
                         <td></td>
                         <td></td>
-                        <td><input type="text" id="Pes" class="form-control form-control-sm" /></td>
-                        <td><input type="text" id="Socio" class="form-control form-control-sm" /></td>
-                        <td><input type="text" id="Telefone" class="form-control form-control-sm" /></td>
-                        <td><input type="text" id="Email" class="form-control form-control-sm" /></td>
-                        <td><input type="text" id="Insercao" class="form-control form-control-sm" /></td>
-                        <td><input type="text" id="DataInsercao" class="form-control form-control-sm datepicker" /></td>
-                        <td><input type="text" id="Actualizacao" class="form-control form-control-sm" /></td>
-                        <td><input type="text" id="DataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="display:none"></td>
                     </tr>
                     <tr>
                         <th></th>
                         <th></th>
-                        <th data-name="Pes"></th>
-                        <th data-name="Socio">
-                            n° Sócio
-                        </th>
-                        <th data-name="Telefone">Telefone</th>
-                        <th data-name="Email">Email</th>
-                        <th data-name="Insercao">Inserção</th>
-                        <th data-name="DataInsercao">Data Inserção</th>
-                        <th data-name="Actualizacao">Actualização</th>
-                        <th data-name="DataActualizacao">Data Actualização</th>
+                        <th data-name="Numero">N° Sócio</th>
+                        <th data-name="Nome">Nome do atleta</th>
+                        <th data-name="Data">Data Avaliação</th>
+                        <th data-name="Percentil">Percentil</th>
+                        <th data-name="Tipo">Avaliação</th>
+                        <th data-name="Sexo" style="display:none">Sexo</th>
                     </tr>
                 </thead>
             </table>
         </div>
         <div class="card-footer p-8pt">
-            <span class="paginateInfoDadosPessoais paginateInfo mr-12pt" style="float:right"></span>
-            <div id="paginateDadosPessoais" class="pagination justify-content-start pagination-xsm m-0"></div>
+            <span class="paginateInfoSearchTable paginateInfo mr-12pt" style="float:right"></span>
+            <div id="paginateSearchTable" class="pagination justify-content-start pagination-xsm m-0"></div>
         </div>
     </div>
     <!--  DATATABLE START -->
@@ -79,6 +159,6 @@
 <!-- /page content -->
 <script>
     document.addEventListener("DOMContentLoaded", function (event) {
-        handleDataGPUsers();
+        //handleDataSearchTable3();
     });
 </script>

@@ -812,13 +812,8 @@
     <Content Include="Views\Ajax\Administration\Parameters\GRLPESDef.cshtml" />
     <Content Include="Views\Ajax\Administration\Parameters\GRLGTDuracaoPlano.cshtml" />
     <Content Include="Views\Ajax\Administration\Parameters\GRLGTFaseTreino.cshtml" />
-    <Content Include="Views\GTManagement\Plans\BodyMass\NewPlan.cshtml" />
-    <Content Include="Views\GTManagement\Plans\Cardio\NewPlan.cshtml" />
     <Content Include="Views\Ajax\FileManagement.cshtml" />
     <Content Include="Views\Ajax\Administration\Parameters\GRLGTTipoTreino.cshtml" />
-    <Content Include="Views\GTManagement\Plans\Exercises\Index.cshtml" />
-    <Content Include="Views\GTManagement\Plans\Exercises\ViewExercise.cshtml" />
-    <Content Include="Views\Ajax\GTManagement\Exercises\GTExercise.cshtml" />
     <Content Include="Views\Ajax\GTManagement\Athletes\GTAvaliado.cshtml" />
     <Content Include="Views\Ajax\GTManagement\Plans\Index.cshtml" />
     <Content Include="Views\Ajax\GTManagement\Quest\Index.cshtml" />
@@ -837,6 +832,13 @@
     <Content Include="Views\GTManagement\Search\Prescriptions.cshtml" />
     <Content Include="Views\GTManagement\Search\Evaluations.cshtml" />
     <Content Include="Views\GTManagement\Search\Ranking.cshtml" />
+    <Content Include="Views\Administration\Parameters\ViewExercise.cshtml" />
+    <Content Include="Views\Ajax\Administration\Parameters\GTExercise.cshtml" />
+    <Content Include="Views\GTManagement\Search\MediumWeight.cshtml" />
+    <Content Include="Views\GTManagement\Plans\Cardio.cshtml" />
+    <Content Include="Views\GTManagement\Plans\BodyMass.cshtml" />
+    <Content Include="Views\GTManagement\Search\Analysis.cshtml" />
+    <Content Include="Views\GTManagement\Search\Others.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

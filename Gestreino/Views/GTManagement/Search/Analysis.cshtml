@@ -1,0 +1,569 @@
+﻿@model Gestreino.Models.Search
+@using Gestreino.Classes
+@{
+    ViewBag.Title = "Análise Descritiva";
+}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+@*<script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>*@
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Composição Corporal</h5>
+            <div class="row">
+                <label class="col-md-12 mb-0">N° de atletas: <b>2 (66,66%)</b></label>
+                <label class="col-md-12 mb-0">Homens: <b>0 (0%)</b> Mulheres: <b>2 (66,6%)</b></label>
+                <label class="col-md-12 ">N° de avaliações: <b>16</b></label>
+            </div>
+            <div id="container1"></div>
+        </div>
+        <div class="col-md-6">
+            <h5>Aptidão Cardiorespiratória</h5>
+            <div class="row">
+                <label class="col-md-12 mb-0">N° de atletas: <b>2 (66,66%)</b></label>
+                <label class="col-md-12 mb-0">Homens: <b>0 (0%)</b> Mulheres: <b>2 (66,6%)</b></label>
+                <label class="col-md-12 ">N° de avaliações: <b>16</b></label>
+            </div>
+            <div id="container2"></div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <h5>Flexibilidade</h5>
+            <div class="row">
+                <label class="col-md-12 mb-0">N° de atletas: <b>2 (66,66%)</b></label>
+                <label class="col-md-12 mb-0">Homens: <b>0 (0%)</b> Mulheres: <b>2 (66,6%)</b></label>
+                <label class="col-md-12 ">N° de avaliações: <b>16</b></label>
+            </div>
+            <div id="container3"></div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <h5>Força - 1 RM Braços</h5>
+            <div class="row">
+                <label class="col-md-12 mb-0">N° de atletas: <b>2 (66,66%)</b></label>
+                <label class="col-md-12 mb-0">Homens: <b>0 (0%)</b> Mulheres: <b>2 (66,6%)</b></label>
+                <label class="col-md-12 ">N° de avaliações: <b>16</b></label>
+            </div>
+            <div id="container4"></div>
+        </div>
+        <div class="col-md-6">
+            <h5>Força - 1 RM Pernas</h5>
+            <div class="row">
+                <label class="col-md-12 mb-0">N° de atletas: <b>2 (66,66%)</b></label>
+                <label class="col-md-12 mb-0">Homens: <b>0 (0%)</b> Mulheres: <b>2 (66,6%)</b></label>
+                <label class="col-md-12 ">N° de avaliações: <b>16</b></label>
+            </div>
+            <div id="container5"></div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <h5>Força Resistente Superior  - Flexões</h5>
+            <div class="row">
+                <label class="col-md-12 mb-0">N° de atletas: <b>2 (66,66%)</b></label>
+                <label class="col-md-12 mb-0">Homens: <b>0 (0%)</b> Mulheres: <b>2 (66,6%)</b></label>
+                <label class="col-md-12 ">N° de avaliações: <b>16</b></label>
+            </div>
+            <div id="container6"></div>
+        </div>
+        <div class="col-md-6">
+            <h5>Força Resistente  Média - Abdominais</h5>
+            <div class="row">
+                <label class="col-md-12 mb-0">N° de atletas: <b>2 (66,66%)</b></label>
+                <label class="col-md-12 mb-0">Homens: <b>0 (0%)</b> Mulheres: <b>2 (66,6%)</b></label>
+                <label class="col-md-12 ">N° de avaliações: <b>16</b></label>
+            </div>
+            <div id="container7"></div>
+        </div>
+    </div>
+    <h2>&nbsp;</h2>
+    <h2>&nbsp;</h2>
+</div>
+<!-- /page content -->
+<script>
+    var colors = ['#FF0000', '#E82C0C', '#FF0000', '#E80C7A', '#E80C7A'];
+    Highcharts.chart('container1', {
+
+        chart: {
+            backgroundColor: 'rgba(0,0,0,.03)',
+            borderRadius: 5,
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,.03)',
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'column',
+            // height: 250
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: 'Composição Corporal'
+        },
+        subtitle: {
+            text:
+                ''
+        },
+        xAxis: {
+            categories: ['Bom', 'Excelente', 'Fraco','Médio','Muito Fraco'],
+            crosshair: true,
+            accessibility: {
+                description: 'Composição Corporal'
+            }
+        },
+        yAxis: {
+            min: 0,
+
+            title: {
+                text: 'Quilogramas (Kg)'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' Kg'
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        colors: colors,
+        series: [
+            {
+                name: 'Composição Corporal',
+                data: [67, 77, 73,44,44],
+                dataLabels: {
+                    enabled: true,
+                    // rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'right',
+                    y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'helvetica, arial, sans-serif',
+                        textShadow: false,
+                        fontWeight: 'normal'
+
+                    }
+                }
+            }
+        ]
+    });
+    Highcharts.chart('container2', {
+
+        chart: {
+            backgroundColor: 'rgba(0,0,0,.03)',
+            borderRadius: 5,
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,.03)',
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'column',
+            // height: 250
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: 'Aptidão Cardiorespiratória'
+        },
+        subtitle: {
+            text:
+                ''
+        },
+        xAxis: {
+            categories: ['Excelente', 'Fraco', 'Muito Fraco'],
+            crosshair: true,
+            accessibility: {
+                description: 'Aptidão Cardiorespiratória'
+            }
+        },
+        yAxis: {
+            min: 0,
+
+            title: {
+                text: 'Quilogramas (Kg)'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' Kg'
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        colors: colors,
+        series: [
+            {
+                name: 'Aptidão Cardiorespiratória',
+                data: [67, 77, 73],
+                dataLabels: {
+                    enabled: true,
+                    // rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'right',
+                    y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'helvetica, arial, sans-serif',
+                        textShadow: false,
+                        fontWeight: 'normal'
+
+                    }
+                }
+            }
+        ]
+    });
+    Highcharts.chart('container3', {
+
+        chart: {
+            backgroundColor: 'rgba(0,0,0,.03)',
+            borderRadius: 5,
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,.03)',
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'column',
+            // height: 250
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: 'Flexibilidade'
+        },
+        subtitle: {
+            text:
+                ''
+        },
+        xAxis: {
+            categories: ['Bom', 'Excelente', 'Fraco', 'Médio', 'Muito Fraco'],
+           crosshair: true,
+            accessibility: {
+                description: 'Flexibilidade'
+            }
+        },
+        yAxis: {
+            min: 0,
+
+            title: {
+                text: 'Quilogramas (Kg)'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' Kg'
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        colors: colors,
+        series: [
+            {
+                name: 'Flexibilidade',
+                data: [67, 77, 73,33,33],
+                dataLabels: {
+                    enabled: true,
+                    // rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'right',
+                    y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'helvetica, arial, sans-serif',
+                        textShadow: false,
+                        fontWeight: 'normal'
+
+                    }
+                }
+            }
+        ]
+    });
+    Highcharts.chart('container4', {
+
+        chart: {
+            backgroundColor: 'rgba(0,0,0,.03)',
+            borderRadius: 5,
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,.03)',
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'column',
+            // height: 250
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: 'Força - 1 RM Braços'
+        },
+        subtitle: {
+            text:
+                ''
+        },
+        xAxis: {
+            categories: ['Médio', 'Muito Fraco'],
+            crosshair: true,
+            accessibility: {
+                description: 'Força - 1 RM Braços'
+            }
+        },
+        yAxis: {
+            min: 0,
+
+            title: {
+                text: 'Quilogramas (Kg)'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' Kg'
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        colors: colors,
+        series: [
+            {
+                name: 'Força - 1 RM Braços',
+                data: [67, 77],
+                dataLabels: {
+                    enabled: true,
+                    // rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'right',
+                    y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'helvetica, arial, sans-serif',
+                        textShadow: false,
+                        fontWeight: 'normal'
+
+                    }
+                }
+            }
+        ]
+    });
+    Highcharts.chart('container5', {
+
+        chart: {
+            backgroundColor: 'rgba(0,0,0,.03)',
+            borderRadius: 5,
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,.03)',
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'column',
+            // height: 250
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: 'Força - 1 RM Pernas'
+        },
+        subtitle: {
+            text:
+                ''
+        },
+        xAxis: {
+            categories: ['Muito Fraco'],
+            crosshair: true,
+            accessibility: {
+                description: 'Força - 1 RM Pernas'
+            }
+        },
+        yAxis: {
+            min: 0,
+
+            title: {
+                text: 'Quilogramas (Kg)'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' Kg'
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        colors: colors,
+        series: [
+            {
+                name: 'Força - 1 RM Pernas',
+                data: [67],
+                dataLabels: {
+                    enabled: true,
+                    // rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'right',
+                    y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'helvetica, arial, sans-serif',
+                        textShadow: false,
+                        fontWeight: 'normal'
+
+                    }
+                }
+            }
+        ]
+    });
+    Highcharts.chart('container6', {
+
+        chart: {
+            backgroundColor: 'rgba(0,0,0,.03)',
+            borderRadius: 5,
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,.03)',
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'column',
+            // height: 250
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: 'Força Resistente Superior - Flexões'
+        },
+        subtitle: {
+            text:
+                ''
+        },
+        xAxis: {
+            categories: ['Médio'],
+            crosshair: true,
+            accessibility: {
+                description: 'Força Resistente Superior - Flexões'
+            }
+        },
+        yAxis: {
+            min: 0,
+
+            title: {
+                text: 'Quilogramas (Kg)'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' Kg'
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        colors: colors,
+        series: [
+            {
+                name: 'Força Resistente Superior - Flexões',
+                data: [67],
+                dataLabels: {
+                    enabled: true,
+                    // rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'right',
+                    y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'helvetica, arial, sans-serif',
+                        textShadow: false,
+                        fontWeight: 'normal'
+
+                    }
+                }
+            }
+        ]
+    });
+    Highcharts.chart('container7', {
+
+        chart: {
+            backgroundColor: 'rgba(0,0,0,.03)',
+            borderRadius: 5,
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,.03)',
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'column',
+            // height: 250
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: 'Força Resistente Média - Abdominais'
+        },
+        subtitle: {
+            text:
+                ''
+        },
+        xAxis: {
+            categories: ['Bom', 'Médio'],
+            crosshair: true,
+            accessibility: {
+                description: 'Força Resistente  Média - Abdominais'
+            }
+        },
+        yAxis: {
+            min: 0,
+
+            title: {
+                text: 'Quilogramas (Kg)'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' Kg'
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        colors: colors,
+        series: [
+            {
+                name: 'Força Resistente  Média - Abdominais',
+                data: [67, 77],
+                dataLabels: {
+                    enabled: true,
+                    // rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'right',
+                    y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'helvetica, arial, sans-serif',
+                        textShadow: false,
+                        fontWeight: 'normal'
+
+                    }
+                }
+            }
+        ]
+    });
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        //handleDataSearchTable3();
+    });
+</script>

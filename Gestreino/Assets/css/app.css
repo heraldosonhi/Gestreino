@@ -717,7 +717,7 @@ legend {
     background-blend-mode: difference;
 }
 .bg-search {
-    background: #dcf2f5;
+    background: rgba(0,0,0,.03);
 }
 
 
