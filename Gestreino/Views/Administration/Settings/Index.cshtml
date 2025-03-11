@@ -345,7 +345,7 @@
                                                     <div class="row">
                                                         @Html.LabelFor(m => m.INST_MDL_GPAG_NOTA_DECIMAL, new { @class = "col-md-4 col-form-label" })
                                                         <div class="col-md-5">
-                                                            @Html.DropDownListFor(m => Model.INST_MDL_GPAG_NOTA_DECIMAL, Enum.GetValues(typeof(SelectValues.NotaDecimal)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.NotaDecimal), e), Value = e.ToString() }), new { @class = "form-control form-control-sm custom-select" })
+                                                            @Html.DropDownListFor(m => Model.INST_MDL_GPAG_NOTA_DECIMAL, Enum.GetValues(typeof(SelectValues.NotaDecimal)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.NotaDecimal), e), Value = e.ToString() }), new { @class = "form-control form-control-sm" })
                                                         </div>
                                                     </div>
                                                     <div class="row mt-1">

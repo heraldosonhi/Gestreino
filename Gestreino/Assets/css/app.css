@@ -105,7 +105,6 @@ table tr:hover a {
 .alert-accent {
     color: #8e1b40
 }
-
  .alert-accent {
     background-color: #fbcedb;
     border-color: #fabbcd
@@ -118,6 +117,22 @@ table tr:hover a {
 .alert-accent .alert-link {
     color: #63132d
 }
+.alert-soft-success {
+    color: #345
+}
+
+.alert-soft-success {
+    background-color: rgba(38, 185, 154, 0.2);
+    border-color: rgba(38, 185, 154, 0.2);
+}
+
+    .alert-soft-success hr {
+        border-top-color: #345
+    }
+
+    .alert-soft-success .alert-link {
+        color: #345
+    }
 
 .alert-accent-red {
     color: #8e1b40
@@ -137,15 +152,6 @@ table tr:hover a {
 }
 
 
-
-
-
-
-
-
-
-
-
 .bg-success {
     background-color: #efe !important
 }
@@ -153,22 +159,6 @@ table tr:hover a {
 .bg-inactive {
     background-color: #f8e3e3 !important
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1324,3 +1314,37 @@ select.is-valid ~ .select2-container--bootstrap4 .select2-selection, form.was-va
     border: 0;
     width: 22px
 }
+
+
+
+
+
+
+
+.lres-table tr:nth-child(even) {
+    background-color: #f7f7f7
+}
+
+.lres-table {
+    border-collapse: collapse;
+    margin: 0;
+    font-size: .9em;
+    margin-bottom: 0 !important;
+    background: #fff;
+}
+
+    .lres-table tr th {
+        padding: 4px !important;
+        text-transform: uppercase;
+        border-bottom: 0 !important;
+        border-top: 0 !important
+    }
+
+    .lres-table td {
+        padding: 1px 5px !important;
+        text-align:center
+    }
+
+    .lres-table input {
+        font-size: 10px !important
+    }

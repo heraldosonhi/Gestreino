@@ -48,14 +48,14 @@ namespace Gestreino.Classes
             {
                  subject = "Bem vindo";
                  body = "Caríssimo (a) <b>" + var1 + "</b>, a sua conta foi gerada com successo! <br/> Segue em anexo as suas credencias de acesso: <br/> <b>Utilizador: </b> " + var2 + " <br/> <b>Senha: </b>" + var3;
-                 url = "./";
+                url = var4;
                  urltitle = "Iniciar Sessão";
             }
             if (template == 2)
             {
                 subject = "Actualização da Senha de acesso";
-                body = "Caríssimo (a) <b>" + var2 + "</b>, os seus credencias de acesso foram actualizados com successo! <br/> Segue em anexo a sua nova senha de acesso: " + var3 + "";
-                url = "./";
+                body = "Caríssimo (a) <b>" + var1 + "</b>, os seus credencias de acesso foram actualizados com successo! <br/> Segue em anexo a sua nova senha de acesso: " + var2 + "";
+                url = var3;
                 urltitle = "Iniciar Sessão";
             }
             if (template == 3)
@@ -95,10 +95,8 @@ namespace Gestreino.Classes
             // Security check
             //ServicePointManager.Expect100Continue = true;
             //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-            //Added this line here
+            // Disabled certificate for invalidation error
             System.Net.ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(RemoteServerCertificateValidationCallback);
-            //SmtpClient smtp = new SmtpClient();
 
             try
             {
@@ -123,9 +121,9 @@ namespace Gestreino.Classes
 
         //Check
         private bool RemoteServerCertificateValidationCallback(object sender,
-    System.Security.Cryptography.X509Certificates.X509Certificate certificate,
-    System.Security.Cryptography.X509Certificates.X509Chain chain,
-    System.Net.Security.SslPolicyErrors sslPolicyErrors)
+         System.Security.Cryptography.X509Certificates.X509Certificate certificate,
+         System.Security.Cryptography.X509Certificates.X509Chain chain,
+         System.Net.Security.SslPolicyErrors sslPolicyErrors)
         {
             //Console.WriteLine(certificate);
             return true;

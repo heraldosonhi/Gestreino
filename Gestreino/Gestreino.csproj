@@ -749,6 +749,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Views\Administration\EmailTemplate.htm" />
     <Content Include="Views\Ajax\Administration\EmailTemplate.htm" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

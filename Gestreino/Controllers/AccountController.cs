@@ -140,6 +140,11 @@ namespace JeanPiagetSGA.Controllers
                 // Remove whitespaces and parse datetime strings //TrimStart() //Trim()
                 var update = databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES(MODEL.UserID, null, null, null, null, null, null, Password, Salt, null, null, null, null, int.Parse(User.Identity.GetUserId()), Convert.ToChar('P').ToString()).ToArray();
 
+                // Send Email
+                string url = "http://gestreino.pt/";
+                Mailer.SendEmailMVC(4, MODEL.Email, MODEL.Login, null, url, null, null); // Email template - 3
+
+
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -203,18 +208,26 @@ namespace JeanPiagetSGA.Controllers
             var tokenUrlEncode = HttpUtility.UrlEncode(token);
 
             // Send Email
-            string url = "http://gestreino.pt/redirect?token=" + token + "&campus=" + Configs.INST_INSTITUICAO_SIGLA;
+            string url = "http://gestreino.pt/account/passwordrecoverytoken?token=" + token;
             Mailer.SendEmailMVC(3, MODEL.Email, pesname, tokenUrlEncode, url, null, null); // Email template - 3
             
             // Try Catch
             if (!string.IsNullOrEmpty(ExportEmail.StatusReport.result) && ExportEmail.StatusReport.result != "Success")
-               return Json(new { result = false, error = "Erro ao requisitar link para recuperar acesso, por favor tente mais tarde!" + ExportEmail.StatusReport.result});
-          //  else
+               return Json(new { result = false, error = "Erro ao requisitar link para recuperar acesso, por favor tente mais tarde!"/* + ExportEmail.StatusReport.result*/});
+            else
             // If successfull email sent insert token into database
-            //  databaseManager.SP_GRL_ENT_TOKENS(null, null, tokenid, token, MODEL.Email, DateTime.Now, null, "CT").ToList();  // Recuperar senha de acesso - 1
-
+            {
+                GRL_TOKENS fx = new GRL_TOKENS();
+                fx.GRL_TOKENS_TIPOS_ID = tokenid;
+                fx.TOKEN = token;
+                fx.CONTEUDO = MODEL.Email;
+                fx.DATA = DateTime.Now;
+                fx.DATA_INSERCAO = DateTime.Now;
+                databaseManager.GRL_TOKENS.Add(fx);
+                databaseManager.SaveChanges();
+            }
             //return View(model);
-            return Json(new { result = true, success = "Link enviado com successo, se não recebeu o nosso email na sua caixa de entrada por favor verifique a sua pasta de Spam 'Email de Lixo', O link é valído por " + Configs.SEC_SENHA_RECU_LIMITE_EMAIL + " minutos apenas.", toastrMessage = "Email enviado com successo!", resetForm = true });
+            return Json(new { result = true, success = "Link enviado com successo, se não recebeu o email na sua caixa de entrada por favor verifique a sua pasta de Spam 'Email de Lixo', O link é valído por " + Configs.SEC_SENHA_RECU_LIMITE_EMAIL + " minutos apenas.", toastrMessage = "Email enviado com successo!", resetForm = true });
         }
         // POST: /Account/ForgotPassword
         [HttpPost]
@@ -276,15 +289,15 @@ namespace JeanPiagetSGA.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            /*
+            
             string message = string.Empty;
             token = HttpUtility.UrlDecode(token).Replace(" ", "+");
             int tokenid = Configs.TOKENS[0]; // Recuperar senha 
-            var tokeninfo = databaseManager.GRL_TOKENS.Where(a => a.TOKEN == token && a.C_TOKENS_TIPOS_ID == tokenid && a.DATA_REMOCAO == null).ToList();
+            var tokeninfo = databaseManager.GRL_TOKENS.Where(a => a.TOKEN == token && a.GRL_TOKENS_TIPOS_ID == tokenid && a.DATA_REMOCAO == null).ToList();
             if (tokeninfo.Count > 0)
             {
                 // Get last timestamp from token
-                var DateAfter = databaseManager.GRL_TOKENS.Where(a => a.TOKEN == token && a.C_TOKENS_TIPOS_ID == tokenid && a.DATA_REMOCAO == null).OrderByDescending(x => x.ID).Select(x => x.DATA).First().AddMinutes(Convert.ToDouble(Configs.SEC_SENHA_RECU_LIMITE_EMAIL));
+                var DateAfter = databaseManager.GRL_TOKENS.Where(a => a.TOKEN == token && a.GRL_TOKENS_TIPOS_ID == tokenid && a.DATA_REMOCAO == null).OrderByDescending(x => x.ID).Select(x => x.DATA).First().AddMinutes(Convert.ToDouble(Configs.SEC_SENHA_RECU_LIMITE_EMAIL));
                 TimeSpan ts = DateAfter - DateTime.Now;
                 var minutes = ts.Minutes + 1;
                 if (DateAfter > DateTime.Now)
@@ -315,7 +328,7 @@ namespace JeanPiagetSGA.Controllers
                 MODEL.Status = 0; // Token invalido
                 message = "Atenção: link de recuperação de senha inválido ou você já pode tê-lo usado!";
             }
-            ViewBag.Message = message;*/
+            ViewBag.Message = message;
             return View(MODEL);
         }
 
@@ -330,11 +343,11 @@ namespace JeanPiagetSGA.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            /*
+            
             string message = string.Empty;
             string token = MODEL.TOKEN.Replace(" ", "+");
             int tokenid = Configs.TOKENS[0]; // Recuperar senha 
-            var tokeninfo = databaseManager.GRL_TOKENS.Where(a => a.TOKEN == token && a.C_TOKENS_TIPOS_ID == tokenid && a.DATA_REMOCAO == null).ToList();
+            var tokeninfo = databaseManager.GRL_TOKENS.Where(a => a.TOKEN == token && a.GRL_TOKENS_TIPOS_ID == tokenid && a.DATA_REMOCAO == null).ToList();
             if (tokeninfo.Count > 0)
             {
                 if (!ModelState.IsValid)
@@ -346,7 +359,7 @@ namespace JeanPiagetSGA.Controllers
                 }
 
                 // Get last timestamp from token
-                var DateAfter = databaseManager.GRL_TOKENS.Where(a => a.TOKEN == token && a.C_TOKENS_TIPOS_ID == tokenid && a.DATA_REMOCAO == null).OrderByDescending(x => x.ID).Select(x => x.DATA).First().AddMinutes(Convert.ToDouble(Configs.SEC_SENHA_RECU_LIMITE_EMAIL));
+                var DateAfter = databaseManager.GRL_TOKENS.Where(a => a.TOKEN == token && a.GRL_TOKENS_TIPOS_ID == tokenid && a.DATA_REMOCAO == null).OrderByDescending(x => x.ID).Select(x => x.DATA).First().AddMinutes(Convert.ToDouble(Configs.SEC_SENHA_RECU_LIMITE_EMAIL));
                 TimeSpan ts = DateAfter - DateTime.Now;
                 var minutes = ts.Minutes + 1;
                 if (DateAfter > DateTime.Now)
@@ -367,15 +380,23 @@ namespace JeanPiagetSGA.Controllers
                     var Salt = Crypto.GenerateSalt(64);
                     var Password = Crypto.Hash(MODEL.Password.Trim() + Salt);
                     // Remove whitespaces and parse datetime strings //TrimStart() //Trim()
-                    var update = databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES(userid, null, null, null, null, null, null, Password, Salt, null, null, null, null, null, null, null, null, null, null, 1, Convert.ToChar('P').ToString()).ToArray();
+                    var update = databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES(userid, null, null, null, null, null, null, Password, Salt, null, null, null, null, null, Convert.ToChar('P').ToString()).ToArray();
                     // Get UserId
                     int Id = int.Parse(update[0].ID.ToString());
                     if (Id > 0)
                     {
                         // Remove token
-                        var delete = databaseManager.SP_GRL_ENT_TOKENS(MODEL.TOKENID, null, null, null, null, null, null, "DT").ToList();
+                        using (var ctx = databaseManager)
+                        {
+                            var x = (from y in ctx.GRL_TOKENS
+                                     where y.ID== MODEL.TOKENID
+                                     orderby y.ID descending
+                                     select y).FirstOrDefault();
+                            ctx.GRL_TOKENS.Remove(x);
+                            ctx.SaveChanges();
+                        }
                         // Send Email
-                        string url = "https://unipiaget-angola.org/api/redirect?login=" + "&campus=" + Configs.INST_INSTITUICAO_SIGLA; ;
+                        string url = "http://gestreino.pt/";
                         Mailer.SendEmailMVC(4, MODEL.Email, pesname, MODEL.Password, url, null, null); // Email template - 4
 
                         // Try Catch
@@ -392,7 +413,7 @@ namespace JeanPiagetSGA.Controllers
             {
                 return Json(new { result = false, error = "Atenção: link de recuperação de senha inválido!" });
             }
-            */
+            
             return Json(new { result = true, success = "Senha atualizada com successo, deve iniciar a sua sessão!", resetForm = true });
         }
 

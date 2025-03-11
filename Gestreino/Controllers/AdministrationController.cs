@@ -25,6 +25,7 @@ namespace Gestreino.Controllers
     public class AdministrationController : Controller
     {
         private GESTREINO_Entities databaseManager = new GESTREINO_Entities();
+        ExportEmail Mailer = new ExportEmail();
         // _MenuLeftBarLink
         int _MenuLeftBarLink_User = 101;
         int _MenuLeftBarLink_Access = 102;
@@ -199,6 +200,11 @@ namespace Gestreino.Controllers
 
                 // Create
                 var create = databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES(null, null, null, MODEL.Login, MODEL.Name, Convert.ToDecimal(MODEL.Phone), MODEL.Email.Trim(), Password, Salt, Status, DateIni, DateEnd, true, int.Parse(User.Identity.GetUserId()), "C").ToList();
+
+                // Send Email
+                string url = "http://gestreino.pt/";
+                Mailer.SendEmailMVC(1, MODEL.Email, MODEL.Name, MODEL.Login, MODEL.Password.Trim(), url, null); // Email template - 3
+
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -288,6 +294,10 @@ namespace Gestreino.Controllers
                 var Password = Crypto.Hash(MODEL.Password.Trim() + Salt);
                 // Remove whitespaces and parse datetime strings //TrimStart() //Trim()
                 var update = databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES(MODEL.Id, null, null, null, null, null, null, Password, Salt, null, null, null, null, int.Parse(User.Identity.GetUserId()), Convert.ToChar('P').ToString()).ToArray();
+
+                // Send Email
+                string url = "http://gestreino.pt/";
+                Mailer.SendEmailMVC(2, MODEL.Email, MODEL.Login, MODEL.Password.Trim(),url, null, null); // Email template - 3
 
                 ModelState.Clear();
             }

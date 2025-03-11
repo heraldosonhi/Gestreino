@@ -147,6 +147,8 @@
          {
              @Html.AntiForgeryToken()
              @Html.HiddenFor(m => m.Id)
+             @Html.HiddenFor(m => m.Email)
+             @Html.HiddenFor(m => m.Login)
              <p>  <span><i class="fa fa-info-circle"></i> Os campos a vermelho são de caráter obrigatório!</span></p>
              <div class="row">
                  <label class="col-sm-2 col-form-label text-right"></label>

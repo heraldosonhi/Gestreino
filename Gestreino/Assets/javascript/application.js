@@ -3450,16 +3450,16 @@ $(".btnLimpar").click(function () {
     });
     //Refresh
     table.draw();
-    //Clear Checkboxes throughout
-    $("#GARequestIsentPag").prop("checked", false);
-    $("#GAInsExaPortal").prop("checked", true);
-    $("#GAInsExaSecAcad").prop("checked", true);
-    $("#GAComplaintsUnreadThr").prop("checked", false);
-    $("#GAComplaintsUnreadAns").prop("checked", false);
-    $("#GARequestCertidao").prop("checked", true);
-    $("#GARequestPedido").prop("checked", true);
-    $("#CandPautaSearchCheck").prop("checked", false);
-    $("#CandSalaSearchCheck").prop("checked", false);
+    // Clear Checkboxes throughout
+    //$("#GARequestIsentPag").prop("checked", false);
+    //$("#GAInsExaPortal").prop("checked", true);
+    //$("#GAInsExaSecAcad").prop("checked", true);
+    //$("#GAComplaintsUnreadThr").prop("checked", false);
+    //$("#GAComplaintsUnreadAns").prop("checked", false);
+    //$("#GARequestCertidao").prop("checked", true);
+    //$("#GARequestPedido").prop("checked", true);
+    //$("#CandPautaSearchCheck").prop("checked", false);
+    //$("#CandSalaSearchCheck").prop("checked", false);
 })
 //Trigger Search Event on Select Change
 $(document).on("change", "table.dataTable  thead tr select", function () {
