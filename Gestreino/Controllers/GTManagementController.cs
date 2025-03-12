@@ -4995,7 +4995,11 @@ namespace Gestreino.Controllers
         public ActionResult MediumWeight(Search MODEL, int? Id)
         {
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
+            var data = databaseManager.PesoMedio.ToList();
 
+            MODEL.PercMale = (data.Where(x => x.IDSexo == 2).First().MediaDePeso??0).ToString("F");
+            MODEL.PercFemale = (data.Where(x => x.IDSexo ==1).First().MediaDePeso ?? 0).ToString("F");
+            MODEL.PercBothGender = (data.Where(x => x.IDSexo == 0).First().MediaDePeso ?? 0).ToString("F");
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_MediumWeight;
             return View("Search/MediumWeight", MODEL);
         }
@@ -5011,6 +5015,45 @@ namespace Gestreino.Controllers
         public ActionResult Others(Search MODEL, int? Id)
         {
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
+            
+            // Labels com percentagens e totais
+            if (DBdataset.Tables[0].Rows.Count > 0)
+            {
+                lblTotalAtletasAnsiedadeDepressao.Text = "Nº de atletas: " + Convert.ToString(DBdataset.Tables[0].DefaultView[0]["Total"]) + " (" + General.FormataString(Convert.ToString(DBdataset.Tables[0].DefaultView[0]["PercentagemAtletas"]), 2) + "%)";
+                lblTotalSexosAnsiedadeDepressao.Text = "Homens: " + Convert.ToString(DBdataset.Tables[0].DefaultView[0]["TotalHomens"]) + " (" + General.FormataString(Convert.ToString(DBdataset.Tables[0].DefaultView[0]["PercentagemHomens"]), 2) + "%)";
+                lblTotalSexosAnsiedadeDepressao.Text += "    Mulheres: " + Convert.ToString(DBdataset.Tables[0].DefaultView[0]["TotalMulheres"]) + " (" + General.FormataString(Convert.ToString(DBdataset.Tables[0].DefaultView[0]["PercentagemMulheres"]), 2) + "%)";
+                lblAvaliacoesAnsiedadeDepressao.Text = "Nº de avaliações: " + Convert.ToString(DBdataset.Tables[0].DefaultView[0]["TotalAvaliacoes"]);
+
+            }
+
+            for (int i = 0; i <= DBdataset.Tables[0].Rows.Count - 1; i++)
+            {
+                if (DBdataset.Tables[0].DefaultView[i]["Res"] == null)
+                    chartAnsiedadeDepressao.Legend[i] = "N.A";
+                else
+                {
+                    sValue = string.Empty;
+                    if (Convert.ToString(DBdataset.Tables[0].DefaultView[i]["Res"]).Substring(0, 1) == "1")
+                    {
+                        sValue = "Ansiedade";
+                    }
+                    if (Convert.ToString(DBdataset.Tables[0].DefaultView[i]["Res"]).Substring(1, 1) == "1")
+                    {
+                        if (sValue == string.Empty)
+                            sValue = "Depressão";
+                        else
+                            sValue += "/Depressão";
+                    }
+
+                    chartAnsiedadeDepressao.Legend[i] = sValue;
+                }
+                chartAnsiedadeDepressao.Value[0, i] = Convert.ToDouble(DBdataset.Tables[0].DefaultView[i]["Percentagem"]);
+
+            }
+            chartAnsiedadeDepressao.CloseData(COD.Values); //It requires to import SoftwareFX.ChartFX.Lite
+
+
+
 
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_Others;
             return View("Search/Others", MODEL);

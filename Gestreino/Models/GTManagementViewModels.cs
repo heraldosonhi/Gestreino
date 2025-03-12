@@ -1489,6 +1489,9 @@ namespace Gestreino.Models
         public int? ID { get; set; }
         public int? PEsId { get; set; }
         public int? Pescription { get; set; }
+        public string PercFemale { get; set; }
+        public string PercMale { get; set; }
+        public string PercBothGender { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> Pescription_List { get; set; }
 
     }

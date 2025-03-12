@@ -385,6 +385,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ORM.edmx</DependentUpon>
     </Compile>
+    <Compile Include="PesoMedio.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="PES_ARQUIVOS.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -492,6 +495,15 @@
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_GT_ENT_TREINO_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GT_GRAPH_RespAnsiedadeDepressao_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GT_GRAPH_RespAutoConceito__Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GT_GRAPH_RespRisco_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_INST_APLICACAO_Result.cs">

@@ -1473,6 +1473,15 @@
           <Property Name="URL" Type="varchar" MaxLength="400" />
           <Property Name="DATA" Type="datetime" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PesoMedio">
+          <Key>
+            <PropertyRef Name="IDSexo" />
+          </Key>
+          <Property Name="MediaDePeso" Type="decimal" Precision="38" Scale="6" />
+          <Property Name="IDSexo" Type="int" Nullable="false" />
+        </EntityType>
         <Association Name="FKGRL_ARQUIV868408">
           <End Role="GRL_ARQUIVOS_TIPO_DOCS" Type="Self.GRL_ARQUIVOS_TIPO_DOCS" Multiplicity="1" />
           <End Role="GRL_ARQUIVOS" Type="Self.GRL_ARQUIVOS" Multiplicity="*" />
@@ -2822,6 +2831,18 @@
           <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
           <Parameter Name="Action" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_GT_GRAPH_RespAnsiedadeDepressao" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_GT_GRAPH_RespAutoConceito_" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="SP_GT_GRAPH_RespAutoConceito ">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_GT_GRAPH_RespRisco" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_INST_APLICACAO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="Sigla" Type="varchar" Mode="In" />
@@ -3206,6 +3227,12 @@
           <EntitySet Name="UTILIZADORES_ACESSO_UTIL_PERFIS" EntityType="Self.UTILIZADORES_ACESSO_UTIL_PERFIS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UTILIZADORES_LOGIN_LOGS" EntityType="Self.UTILIZADORES_LOGIN_LOGS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UTILIZADORES_LOGIN_PASSWORD_TENT" EntityType="Self.UTILIZADORES_LOGIN_PASSWORD_TENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PesoMedio" EntityType="Self.PesoMedio" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PesoMedio].[MediaDePeso] AS [MediaDePeso], 
+    [PesoMedio].[IDSexo] AS [IDSexo]
+    FROM [dbo].[PesoMedio] AS [PesoMedio]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FKGRL_ARQUIV868408" Association="Self.FKGRL_ARQUIV868408">
             <End Role="GRL_ARQUIVOS_TIPO_DOCS" EntitySet="GRL_ARQUIVOS_TIPO_DOCS" />
             <End Role="GRL_ARQUIVOS" EntitySet="GRL_ARQUIVOS" />
@@ -5432,6 +5459,19 @@
             <End Role="INST_APLICACAO" EntitySet="INST_APLICACAO" />
             <End Role="GRL_DEFINICOES" EntitySet="GRL_DEFINICOES" />
           </AssociationSet>
+          <EntitySet Name="PesoMedio" EntityType="GESTREINO_ORM.PesoMedio" />
+          <FunctionImport Name="SP_GT_GRAPH_RespAnsiedadeDepressao" ReturnType="Collection(GESTREINO_ORM.SP_GT_GRAPH_RespAnsiedadeDepressao_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GT_GRAPH_RespAutoConceito_" ReturnType="Collection(GESTREINO_ORM.SP_GT_GRAPH_RespAutoConceito__Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GT_GRAPH_RespRisco" ReturnType="Collection(GESTREINO_ORM.SP_GT_GRAPH_RespRisco_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -7936,6 +7976,52 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PesoMedio">
+          <Key>
+            <PropertyRef Name="IDSexo" />
+          </Key>
+          <Property Name="MediaDePeso" Type="Decimal" Precision="38" Scale="6" />
+          <Property Name="IDSexo" Type="Int32" Nullable="false" />
+        </EntityType>
+        <ComplexType Name="SP_GT_GRAPH_RespAnsiedadeDepressao_Result">
+          <Property Type="Int32" Name="NumAvaliacoes" Nullable="true" />
+          <Property Type="Int32" Name="TotalAvaliacoes" Nullable="true" />
+          <Property Type="Decimal" Name="Res" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="Total" Nullable="true" />
+          <Property Type="Int32" Name="TotalHomens" Nullable="true" />
+          <Property Type="Int32" Name="TotalMulheres" Nullable="true" />
+          <Property Type="Double" Name="Percentagem" Nullable="true" />
+          <Property Type="Double" Name="PercentagemHomens" Nullable="true" />
+          <Property Type="Double" Name="PercentagemMulheres" Nullable="true" />
+          <Property Type="Int32" Name="TotalAtletas" Nullable="true" />
+          <Property Type="Double" Name="PercentagemAtletas" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_GT_GRAPH_RespAutoConceito__Result">
+          <Property Type="Int32" Name="NumAvaliacoes" Nullable="true" />
+          <Property Type="Int32" Name="TotalAvaliacoes" Nullable="true" />
+          <Property Type="Decimal" Name="Res" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="Total" Nullable="true" />
+          <Property Type="Int32" Name="TotalHomens" Nullable="true" />
+          <Property Type="Int32" Name="TotalMulheres" Nullable="true" />
+          <Property Type="Double" Name="Percentagem" Nullable="true" />
+          <Property Type="Double" Name="PercentagemHomens" Nullable="true" />
+          <Property Type="Double" Name="PercentagemMulheres" Nullable="true" />
+          <Property Type="Int32" Name="TotalAtletas" Nullable="true" />
+          <Property Type="Double" Name="PercentagemAtletas" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_GT_GRAPH_RespRisco_Result">
+          <Property Type="Int32" Name="NumAvaliacoes" Nullable="true" />
+          <Property Type="Int32" Name="TotalAvaliacoes" Nullable="true" />
+          <Property Type="Decimal" Name="Res" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="Total" Nullable="true" />
+          <Property Type="Int32" Name="TotalHomens" Nullable="true" />
+          <Property Type="Int32" Name="TotalMulheres" Nullable="true" />
+          <Property Type="Double" Name="Percentagem" Nullable="true" />
+          <Property Type="Double" Name="PercentagemHomens" Nullable="true" />
+          <Property Type="Double" Name="PercentagemMulheres" Nullable="true" />
+          <Property Type="Int32" Name="TotalAtletas" Nullable="true" />
+          <Property Type="Double" Name="PercentagemAtletas" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10157,6 +10243,65 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PesoMedio">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.PesoMedio">
+              <MappingFragment StoreEntitySet="PesoMedio">
+                <ScalarProperty Name="IDSexo" ColumnName="IDSexo" />
+                <ScalarProperty Name="MediaDePeso" ColumnName="MediaDePeso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_GT_GRAPH_RespAnsiedadeDepressao" FunctionName="GESTREINO_ORM.Store.SP_GT_GRAPH_RespAnsiedadeDepressao">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GT_GRAPH_RespAnsiedadeDepressao_Result">
+                <ScalarProperty Name="NumAvaliacoes" ColumnName="NumAvaliacoes" />
+                <ScalarProperty Name="TotalAvaliacoes" ColumnName="TotalAvaliacoes" />
+                <ScalarProperty Name="Res" ColumnName="Res" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="TotalHomens" ColumnName="TotalHomens" />
+                <ScalarProperty Name="TotalMulheres" ColumnName="TotalMulheres" />
+                <ScalarProperty Name="Percentagem" ColumnName="Percentagem" />
+                <ScalarProperty Name="PercentagemHomens" ColumnName="PercentagemHomens" />
+                <ScalarProperty Name="PercentagemMulheres" ColumnName="PercentagemMulheres" />
+                <ScalarProperty Name="TotalAtletas" ColumnName="TotalAtletas" />
+                <ScalarProperty Name="PercentagemAtletas" ColumnName="PercentagemAtletas" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GT_GRAPH_RespAutoConceito_" FunctionName="GESTREINO_ORM.Store.SP_GT_GRAPH_RespAutoConceito_">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GT_GRAPH_RespAutoConceito__Result">
+                <ScalarProperty Name="NumAvaliacoes" ColumnName="NumAvaliacoes" />
+                <ScalarProperty Name="TotalAvaliacoes" ColumnName="TotalAvaliacoes" />
+                <ScalarProperty Name="Res" ColumnName="Res" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="TotalHomens" ColumnName="TotalHomens" />
+                <ScalarProperty Name="TotalMulheres" ColumnName="TotalMulheres" />
+                <ScalarProperty Name="Percentagem" ColumnName="Percentagem" />
+                <ScalarProperty Name="PercentagemHomens" ColumnName="PercentagemHomens" />
+                <ScalarProperty Name="PercentagemMulheres" ColumnName="PercentagemMulheres" />
+                <ScalarProperty Name="TotalAtletas" ColumnName="TotalAtletas" />
+                <ScalarProperty Name="PercentagemAtletas" ColumnName="PercentagemAtletas" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GT_GRAPH_RespRisco" FunctionName="GESTREINO_ORM.Store.SP_GT_GRAPH_RespRisco">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GT_GRAPH_RespRisco_Result">
+                <ScalarProperty Name="NumAvaliacoes" ColumnName="NumAvaliacoes" />
+                <ScalarProperty Name="TotalAvaliacoes" ColumnName="TotalAvaliacoes" />
+                <ScalarProperty Name="Res" ColumnName="Res" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="TotalHomens" ColumnName="TotalHomens" />
+                <ScalarProperty Name="TotalMulheres" ColumnName="TotalMulheres" />
+                <ScalarProperty Name="Percentagem" ColumnName="Percentagem" />
+                <ScalarProperty Name="PercentagemHomens" ColumnName="PercentagemHomens" />
+                <ScalarProperty Name="PercentagemMulheres" ColumnName="PercentagemMulheres" />
+                <ScalarProperty Name="TotalAtletas" ColumnName="TotalAtletas" />
+                <ScalarProperty Name="PercentagemAtletas" ColumnName="PercentagemAtletas" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

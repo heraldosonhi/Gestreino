@@ -186,6 +186,7 @@
         <AssociationConnector Association="GESTREINO_ORM.FKPES_PESSOA815594" />
         <EntityTypeShape EntityType="GESTREINO_ORM.GRL_DEFINICOES" Width="1.5" PointX="16.5" PointY="15.75" />
         <AssociationConnector Association="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.PesoMedio" Width="1.5" PointX="9.375" PointY="3.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -107,6 +107,7 @@ namespace Gestreino
         public virtual DbSet<GT_RespFuncional> GT_RespFuncional { get; set; }
         public virtual DbSet<PES_PESSOAS_FAM_ENDERECOS> PES_PESSOAS_FAM_ENDERECOS { get; set; }
         public virtual DbSet<GRL_DEFINICOES> GRL_DEFINICOES { get; set; }
+        public virtual DbSet<PesoMedio> PesoMedio { get; set; }
     
         public virtual ObjectResult<SP_UTILIZADORES_LOGIN_LOGS_Result> SP_UTILIZADORES_LOGIN_LOGS(Nullable<int> userId, string action)
         {
@@ -1746,6 +1747,45 @@ namespace Gestreino
                 new ObjectParameter("Action", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_UTILIZADORES_Result>("SP_UTILIZADORES_ENT_UTILIZADORES", idParameter, subGroupIdParameter, profileIdParameter, loginParameter, nomeParameter, telefoneParameter, emailParameter, senhaParameter, saltParameter, activoParameter, dataActParameter, dataDesactParameter, validadaParameter, userInsercaoIdParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_GT_GRAPH_RespAnsiedadeDepressao_Result> SP_GT_GRAPH_RespAnsiedadeDepressao(Nullable<int> id, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_GRAPH_RespAnsiedadeDepressao_Result>("SP_GT_GRAPH_RespAnsiedadeDepressao", idParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_GT_GRAPH_RespAutoConceito__Result> SP_GT_GRAPH_RespAutoConceito_(Nullable<int> id, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_GRAPH_RespAutoConceito__Result>("SP_GT_GRAPH_RespAutoConceito_", idParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_GT_GRAPH_RespRisco_Result> SP_GT_GRAPH_RespRisco(Nullable<int> id, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_GRAPH_RespRisco_Result>("SP_GT_GRAPH_RespRisco", idParameter, actionParameter);
         }
     }
 }
