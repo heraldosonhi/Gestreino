@@ -8000,6 +8000,7 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           <Property Type="Int32" Name="NumAvaliacoes" Nullable="true" />
           <Property Type="Int32" Name="TotalAvaliacoes" Nullable="true" />
           <Property Type="Decimal" Name="Res" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="DescRes" Nullable="true" MaxLength="4000" />
           <Property Type="Int32" Name="Total" Nullable="true" />
           <Property Type="Int32" Name="TotalHomens" Nullable="true" />
           <Property Type="Int32" Name="TotalMulheres" Nullable="true" />
@@ -10274,6 +10275,7 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
                 <ScalarProperty Name="NumAvaliacoes" ColumnName="NumAvaliacoes" />
                 <ScalarProperty Name="TotalAvaliacoes" ColumnName="TotalAvaliacoes" />
                 <ScalarProperty Name="Res" ColumnName="Res" />
+                <ScalarProperty Name="DescRes" ColumnName="DescRes" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="TotalHomens" ColumnName="TotalHomens" />
                 <ScalarProperty Name="TotalMulheres" ColumnName="TotalMulheres" />

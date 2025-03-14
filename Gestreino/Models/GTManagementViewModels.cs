@@ -1489,10 +1489,52 @@ namespace Gestreino.Models
         public int? ID { get; set; }
         public int? PEsId { get; set; }
         public int? Pescription { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> Pescription_List { get; set; }
+    }
+    public class MediumWeight
+    {
+        public int? ID { get; set; }
+        public int? PEsId { get; set; }
         public string PercFemale { get; set; }
         public string PercMale { get; set; }
         public string PercBothGender { get; set; }
-        public IEnumerable<System.Web.Mvc.SelectListItem> Pescription_List { get; set; }
-
     }
+    public class Others
+    {
+        public int? ID { get; set; }
+        public int? PEsId { get; set; }
+        public int? AnsiedadeDepressaototalAtletas { get; set; }
+        public double? AnsiedadeDepressaoPercAtletas { get; set; }
+        public int? AnsiedadeDepressaoTotalHomens { get; set; }
+        public double? AnsiedadeDepressaoPercHomens { get; set; }
+        public int? AnsiedadeDepressaoTotalMulheres { get; set; }
+        public double? AnsiedadeDepressaoPercMulheres { get; set; }
+        public int? AnsiedadeDepressaoTotalAvaliacoes { get; set; }
+
+        public int? RespAutoConceitototalAtletas { get; set; }
+        public double? RespAutoConceitoPercAtletas { get; set; }
+        public int? RespAutoConceitoTotalHomens { get; set; }
+        public double? RespAutoConceitoPercHomens { get; set; }
+        public int? RespAutoConceitoTotalMulheres { get; set; }
+        public double? RespAutoConceitoPercMulheres { get; set; }
+        public int? RespAutoConceitoTotalAvaliacoes { get; set; }
+
+        public int? RespRiscototalAtletas { get; set; }
+        public double? RespRiscoPercAtletas { get; set; }
+        public int? RespRiscoTotalHomens { get; set; }
+        public double? RespRiscoPercHomens { get; set; }
+        public int? RespRiscoTotalMulheres { get; set; }
+        public double? RespRiscoPercMulheres { get; set; }
+        public int? RespRiscoTotalAvaliacoes { get; set; }
+
+        public List<string> AnsiedadeDepressaosValue { get; set; }
+        public List<double?> AnsiedadeDepressaoValue { get; set; }
+    }
+
+public class OthersGraph
+    {
+        public string name;
+        public double? data;
+    }
+
 }

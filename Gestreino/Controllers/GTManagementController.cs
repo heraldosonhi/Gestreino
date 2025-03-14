@@ -18,6 +18,7 @@ using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using static Gestreino.Classes.SelectValues;
+using Newtonsoft.Json.Linq;
 //
 using System.Reflection;
 using DocumentFormat.OpenXml.Drawing.Charts;
@@ -28,6 +29,9 @@ using System.Data.Entity.Infrastructure;
 using System.Data.OleDb;
 using System.Data;
 using System.Diagnostics.Eventing.Reader;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
+using System.Web.Script.Serialization;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
 
 namespace Gestreino.Controllers
 {
@@ -4992,7 +4996,7 @@ namespace Gestreino.Controllers
             return View("Search/Ranking", MODEL);
         }
         //Consulta Peso Medio
-        public ActionResult MediumWeight(Search MODEL, int? Id)
+        public ActionResult MediumWeight(MediumWeight MODEL, int? Id)
         {
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
             var data = databaseManager.PesoMedio.ToList();
@@ -5012,52 +5016,113 @@ namespace Gestreino.Controllers
             return View("Search/Analysis", MODEL);
         }
         //Consulta Outros
-        public ActionResult Others(Search MODEL, int? Id)
+        public ActionResult Others(Others MODEL, int? Id)
         {
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
-            
-            // Labels com percentagens e totais
-            if (DBdataset.Tables[0].Rows.Count > 0)
-            {
-                lblTotalAtletasAnsiedadeDepressao.Text = "Nº de atletas: " + Convert.ToString(DBdataset.Tables[0].DefaultView[0]["Total"]) + " (" + General.FormataString(Convert.ToString(DBdataset.Tables[0].DefaultView[0]["PercentagemAtletas"]), 2) + "%)";
-                lblTotalSexosAnsiedadeDepressao.Text = "Homens: " + Convert.ToString(DBdataset.Tables[0].DefaultView[0]["TotalHomens"]) + " (" + General.FormataString(Convert.ToString(DBdataset.Tables[0].DefaultView[0]["PercentagemHomens"]), 2) + "%)";
-                lblTotalSexosAnsiedadeDepressao.Text += "    Mulheres: " + Convert.ToString(DBdataset.Tables[0].DefaultView[0]["TotalMulheres"]) + " (" + General.FormataString(Convert.ToString(DBdataset.Tables[0].DefaultView[0]["PercentagemMulheres"]), 2) + "%)";
-                lblAvaliacoesAnsiedadeDepressao.Text = "Nº de avaliações: " + Convert.ToString(DBdataset.Tables[0].DefaultView[0]["TotalAvaliacoes"]);
 
-            }
+            var data1 = databaseManager.SP_GT_GRAPH_RespAnsiedadeDepressao(null,null).ToList();
+            var data2 = databaseManager.SP_GT_GRAPH_RespAutoConceito_(null, null).ToList();
+            var data3 = databaseManager.SP_GT_GRAPH_RespRisco(null, null).ToList();
 
-            for (int i = 0; i <= DBdataset.Tables[0].Rows.Count - 1; i++)
+                MODEL.AnsiedadeDepressaototalAtletas = data1.Any() ? data1.Select(x => x.TotalAtletas).FirstOrDefault() : 0;
+                MODEL.AnsiedadeDepressaoPercAtletas = data1.Any() ? data1.Select(x => x.PercentagemAtletas).FirstOrDefault() : 0;
+                MODEL.AnsiedadeDepressaoTotalHomens = data1.Any() ? data1.Select(x => x.TotalHomens).FirstOrDefault() : 0;
+                MODEL.AnsiedadeDepressaoPercHomens = data1.Any() ? data1.Select(x => x.PercentagemHomens).FirstOrDefault() : 0;
+                MODEL.AnsiedadeDepressaoTotalMulheres = data1.Any() ? data1.Select(x => x.TotalMulheres).FirstOrDefault() : 0;
+                MODEL.AnsiedadeDepressaoPercMulheres = data1.Any() ? data1.Select(x => x.PercentagemMulheres).FirstOrDefault() : 0;
+                MODEL.AnsiedadeDepressaoTotalAvaliacoes = data1.Any() ? data1.Select(x => x.NumAvaliacoes).FirstOrDefault() : 0;    
+           
+                MODEL.RespAutoConceitototalAtletas = data2.Any() ? data2.Select(x => x.TotalAtletas).FirstOrDefault() : 0;
+                MODEL.RespAutoConceitoPercAtletas = data2.Any() ? data2.Select(x => x.PercentagemAtletas).FirstOrDefault() : 0;
+                MODEL.RespAutoConceitoTotalHomens = data2.Any() ? data2.Select(x => x.TotalHomens).FirstOrDefault() : 0;
+                MODEL.RespAutoConceitoPercHomens = data2.Any() ? data2.Select(x => x.PercentagemHomens).FirstOrDefault() : 0;
+                MODEL.RespAutoConceitoTotalMulheres = data2.Any() ? data2.Select(x => x.TotalMulheres).FirstOrDefault() : 0;
+                MODEL.RespAutoConceitoPercMulheres = data2.Any() ? data2.Select(x => x.PercentagemMulheres).FirstOrDefault() : 0;
+                MODEL.RespAutoConceitoTotalAvaliacoes = data2.Any() ? data2.Select(x => x.NumAvaliacoes).FirstOrDefault() : 0;
+           
+                MODEL.RespRiscototalAtletas = data3.Any() ? data3.Select(x => x.TotalAtletas).FirstOrDefault() : 0;
+                MODEL.RespRiscoPercAtletas = data3.Any() ? data3.Select(x => x.PercentagemAtletas).FirstOrDefault() : 0;
+                MODEL.RespRiscoTotalHomens = data3.Any() ? data3.Select(x => x.TotalHomens).FirstOrDefault() : 0;
+                MODEL.RespRiscoPercHomens = data3.Any() ? data3.Select(x => x.PercentagemHomens).FirstOrDefault() : 0;
+                MODEL.RespRiscoTotalMulheres = data3.Any() ? data3.Select(x => x.TotalMulheres).FirstOrDefault() : 0;
+                MODEL.RespRiscoPercMulheres = data3.Any() ? data3.Select(x => x.PercentagemMulheres).FirstOrDefault() : 0;
+                MODEL.RespRiscoTotalAvaliacoes = data3.Any() ? data3.Select(x => x.NumAvaliacoes).FirstOrDefault() : 0;
+
+           MODEL.AnsiedadeDepressaosValue = new List<string>();
+           MODEL.AnsiedadeDepressaoValue = new List<double?>();
+           ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_Others;
+           return View("Search/Others", MODEL);
+        }
+        public ActionResult GetOthersAnsiedadeDepressao(OthersGraph MODEL)
+        {
+            var data1 = databaseManager.SP_GT_GRAPH_RespAnsiedadeDepressao(null, null).ToList();
+
+            List<Dictionary<string, object>> allSeries = new List<Dictionary<string, object>>();
+            foreach (var item in data1)
             {
-                if (DBdataset.Tables[0].DefaultView[i]["Res"] == null)
-                    chartAnsiedadeDepressao.Legend[i] = "N.A";
+                var sValue = string.Empty;
+                int R = Convert.ToInt32((item.Res ?? 0).ToString("G29"));
+                if (item.Res == null)
+                    sValue = "N.A";
                 else
                 {
-                    sValue = string.Empty;
-                    if (Convert.ToString(DBdataset.Tables[0].DefaultView[i]["Res"]).Substring(0, 1) == "1")
+                    string value = string.Empty;
+
+                    if (R.ToString() == "1")
+                        value = "01";
+                    else value = R.ToString();
+
+                    if (value.Substring(0, 1) == "1")
                     {
                         sValue = "Ansiedade";
                     }
-                    if (Convert.ToString(DBdataset.Tables[0].DefaultView[i]["Res"]).Substring(1, 1) == "1")
+                    if (value.ToString().Length > 1)
                     {
-                        if (sValue == string.Empty)
-                            sValue = "Depressão";
-                        else
-                            sValue += "/Depressão";
+                        if (value.Substring(1, 1) == "1")
+                        {
+                            if (sValue == string.Empty)
+                                sValue = "Depressão";
+                            else
+                                sValue += "/Depressão";
+                        }
                     }
-
-                    chartAnsiedadeDepressao.Legend[i] = sValue;
                 }
-                chartAnsiedadeDepressao.Value[0, i] = Convert.ToDouble(DBdataset.Tables[0].DefaultView[i]["Percentagem"]);
 
+                Dictionary<string, object> aSeries = new Dictionary<string, object>();
+                aSeries["name"] = sValue;
+                aSeries["data"] = new List<double?>();
+                
+                ((List<double?>)aSeries["data"]).Add((double?)item.Percentagem);
+                allSeries.Add(aSeries);
             }
-            chartAnsiedadeDepressao.CloseData(COD.Values); //It requires to import SoftwareFX.ChartFX.Lite
-
-
-
-
-            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_Others;
-            return View("Search/Others", MODEL);
+            return Json(allSeries, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult GetOthersAutoConceito(OthersGraph MODEL)
+        {
+            var data1 = databaseManager.SP_GT_GRAPH_RespAutoConceito_(null, null).ToList();
+            List<Dictionary<string, object>> allSeries = new List<Dictionary<string, object>>();
+
+            foreach (var item in data1)
+            {
+                var sValue = string.Empty;
+                
+                if (item.Res == null)
+                    sValue = "N.A";
+                else
+                {
+                    sValue = item.DescRes;
+                }
+
+                Dictionary<string, object> aSeries = new Dictionary<string, object>();
+                aSeries["name"] = sValue;
+                aSeries["data"] = new List<double?>();
+
+                ((List<double?>)aSeries["data"]).Add((double?)item.Percentagem);
+                allSeries.Add(aSeries);
+            }
+            return Json(allSeries, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult GetSearchTable()
         {
             //UI DATATABLE PAGINATION BUTTONS

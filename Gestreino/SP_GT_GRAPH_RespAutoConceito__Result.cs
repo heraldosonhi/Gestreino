@@ -16,6 +16,7 @@ namespace Gestreino
         public Nullable<int> NumAvaliacoes { get; set; }
         public Nullable<int> TotalAvaliacoes { get; set; }
         public Nullable<decimal> Res { get; set; }
+        public string DescRes { get; set; }
         public Nullable<int> Total { get; set; }
         public Nullable<int> TotalHomens { get; set; }
         public Nullable<int> TotalMulheres { get; set; }
