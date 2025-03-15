@@ -898,7 +898,7 @@ table.dataTable tbody tr:hover {
 
         .select2-container .select2-selection--multiple .select2-selection__rendered {
             display: inline-block;
-            overflow: hidden;
+            overflow:auto;/*hidden*/
             padding-left: 8px;
             text-overflow: ellipsis;
             white-space: nowrap
@@ -1322,13 +1322,13 @@ select.is-valid ~ .select2-container--bootstrap4 .select2-selection, form.was-va
 
 
 .lres-table tr:nth-child(even) {
-    background-color: #f7f7f7
+    /*   background-color: #f7f7f7*/
 }
 
 .lres-table {
     border-collapse: collapse;
     margin: 0;
-    font-size: .9em;
+   
     margin-bottom: 0 !important;
     background: #fff;
 }
@@ -1348,3 +1348,7 @@ select.is-valid ~ .select2-container--bootstrap4 .select2-selection, form.was-va
     .lres-table input {
         font-size: 10px !important
     }
+
+.custom-control-label {
+    padding: 3px 0px !important
+}

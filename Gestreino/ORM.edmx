@@ -5201,32 +5201,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="GT_DuracaoTreinoCardio" EntityType="GESTREINO_ORM.GT_DuracaoTreinoCardio" />
-          <FunctionImport Name="SP_GT_ENT_TREINO" ReturnType="Collection(GESTREINO_ORM.SP_GT_ENT_TREINO_Result)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
-            <Parameter Name="PesID" Mode="In" Type="Int32" />
-            <Parameter Name="GT_TipoTreino_ID" Mode="In" Type="Int32" />
-            <Parameter Name="Nome" Mode="In" Type="String" />
-            <Parameter Name="GT_FaseTreino_ID" Mode="In" Type="Int32" />
-            <Parameter Name="PERIODIZACAO" Mode="In" Type="Int32" />
-            <Parameter Name="DataIni" Mode="In" Type="DateTime" />
-            <Parameter Name="DateEnd" Mode="In" Type="DateTime" />
-            <Parameter Name="Observacoes" Mode="In" Type="String" />
-            <Parameter Name="GT_Exercicio_ID" Mode="In" Type="Int32" />
-            <Parameter Name="GT_Series_ID" Mode="In" Type="Int32" />
-            <Parameter Name="GT_Repeticoes_ID" Mode="In" Type="Int32" />
-            <Parameter Name="GT_TempoDescanso_ID" Mode="In" Type="Int32" />
-            <Parameter Name="GT_Carga_ID" Mode="In" Type="Int32" />
-            <Parameter Name="REPETICOES_COMPLETADAS" Mode="In" Type="Int32" />
-            <Parameter Name="CARGA_USADA" Mode="In" Type="Int32" />
-            <Parameter Name="ONERM" Mode="In" Type="Decimal" />
-            <Parameter Name="GT_DuracaoTreinoCardio_ID" Mode="In" Type="Int32" />
-            <Parameter Name="FC" Mode="In" Type="Int32" />
-            <Parameter Name="NIVEL" Mode="In" Type="Int32" />
-            <Parameter Name="DISTANCIA" Mode="In" Type="Decimal" />
-            <Parameter Name="ordem" Mode="In" Type="Int32" />
-            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
-            <Parameter Name="Action" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="GT_ExercicioTreinoCardio" EntityType="GESTREINO_ORM.GT_ExercicioTreinoCardio" />
           <AssociationSet Name="GT_ExercicioTreinoCardio_GT_Exercicio_ID" Association="GESTREINO_ORM.GT_ExercicioTreinoCardio_GT_Exercicio_ID">
             <End Role="GT_Exercicio" EntitySet="GT_Exercicio" />
@@ -5245,13 +5219,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
             <End Role="GT_RespAnsiedadeDepressao" EntitySet="GT_RespAnsiedadeDepressao" />
           </AssociationSet>
-          <FunctionImport Name="SP_GT_ENT_Resp" ReturnType="Collection(GESTREINO_ORM.SP_GT_ENT_Resp_Result)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
-            <Parameter Name="PesId" Mode="In" Type="Int32" />
-            <Parameter Name="GT_Res" Mode="In" Type="String" />
-            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
-            <Parameter Name="Action" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="GT_RespAutoConceito" EntityType="GESTREINO_ORM.GT_RespAutoConceito" />
           <AssociationSet Name="GT_RespAutoConceito_GT_SOCIOS_ID" Association="GESTREINO_ORM.GT_RespAutoConceito_GT_SOCIOS_ID">
             <End Role="GT_SOCIOS" EntitySet="GT_SOCIOS" />
@@ -5470,6 +5437,39 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           </FunctionImport>
           <FunctionImport Name="SP_GT_GRAPH_RespRisco" ReturnType="Collection(GESTREINO_ORM.SP_GT_GRAPH_RespRisco_Result)">
             <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GT_ENT_Resp" ReturnType="Collection(GESTREINO_ORM.SP_GT_ENT_Resp_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="PesId" Mode="In" Type="Int32" />
+            <Parameter Name="GT_Res" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GT_ENT_TREINO" ReturnType="Collection(GESTREINO_ORM.SP_GT_ENT_TREINO_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="PesID" Mode="In" Type="Int32" />
+            <Parameter Name="GT_TipoTreino_ID" Mode="In" Type="Int32" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="GT_FaseTreino_ID" Mode="In" Type="Int32" />
+            <Parameter Name="PERIODIZACAO" Mode="In" Type="Int32" />
+            <Parameter Name="DataIni" Mode="In" Type="DateTime" />
+            <Parameter Name="DateEnd" Mode="In" Type="DateTime" />
+            <Parameter Name="Observacoes" Mode="In" Type="String" />
+            <Parameter Name="GT_Exercicio_ID" Mode="In" Type="Int32" />
+            <Parameter Name="GT_Series_ID" Mode="In" Type="Int32" />
+            <Parameter Name="GT_Repeticoes_ID" Mode="In" Type="Int32" />
+            <Parameter Name="GT_TempoDescanso_ID" Mode="In" Type="Int32" />
+            <Parameter Name="GT_Carga_ID" Mode="In" Type="Int32" />
+            <Parameter Name="REPETICOES_COMPLETADAS" Mode="In" Type="Int32" />
+            <Parameter Name="CARGA_USADA" Mode="In" Type="Int32" />
+            <Parameter Name="ONERM" Mode="In" Type="Decimal" />
+            <Parameter Name="GT_DuracaoTreinoCardio_ID" Mode="In" Type="Int32" />
+            <Parameter Name="FC" Mode="In" Type="Int32" />
+            <Parameter Name="NIVEL" Mode="In" Type="Int32" />
+            <Parameter Name="DISTANCIA" Mode="In" Type="Decimal" />
+            <Parameter Name="ordem" Mode="In" Type="Int32" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
@@ -6881,25 +6881,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           <Property Name="DURACAO" Type="Int32" Nullable="false" />
           <NavigationProperty Name="GT_ExercicioTreinoCardio" Relationship="GESTREINO_ORM.GT_ExercicioTreinoCardio_GT_DuracaoTreinoCardio_ID" FromRole="GT_DuracaoTreinoCardio" ToRole="GT_ExercicioTreinoCardio" />
         </EntityType>
-        <ComplexType Name="SP_GT_ENT_TREINO_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="Int32" Name="GT_TipoTreino_ID" Nullable="false" />
-          <Property Type="String" Name="nome" Nullable="true" MaxLength="255" />
-          <Property Type="Int32" Name="GT_FaseTreino_ID" Nullable="true" />
-          <Property Type="Int32" Name="PERIODIZACAO" Nullable="true" />
-          <Property Type="Int32" Name="GT_SOCIOS_ID" Nullable="false" />
-          <Property Type="String" Name="NOME_PROPIO" Nullable="false" MaxLength="48" />
-          <Property Type="String" Name="APELIDO" Nullable="false" MaxLength="48" />
-          <Property Type="Int32" Name="NUMERO" Nullable="false" />
-          <Property Type="Int32" Name="pes_id" Nullable="false" />
-          <Property Type="String" Name="DATA_INICIO" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="DATA_FIM" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="OBSERVACOES" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
-          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
-          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
-          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
-        </ComplexType>
         <EntityType Name="GT_ExercicioTreinoCardio">
           <Key>
             <PropertyRef Name="ID" />
@@ -7000,18 +6981,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="SP_GT_ENT_Resp_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="Int32" Name="socio_id" Nullable="false" />
-          <Property Type="Int32" Name="pes_id" Nullable="false" />
-          <Property Type="String" Name="NOME_PROPIO" Nullable="false" MaxLength="48" />
-          <Property Type="String" Name="APELIDO" Nullable="false" MaxLength="48" />
-          <Property Type="Int32" Name="NUMERO" Nullable="false" />
-          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
-          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
-          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
-          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
-        </ComplexType>
         <EntityType Name="GT_RespAutoConceito">
           <Key>
             <PropertyRef Name="ID" />
@@ -8014,6 +7983,7 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           <Property Type="Int32" Name="NumAvaliacoes" Nullable="true" />
           <Property Type="Int32" Name="TotalAvaliacoes" Nullable="true" />
           <Property Type="Decimal" Name="Res" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="DescRes" Nullable="true" MaxLength="4000" />
           <Property Type="Int32" Name="Total" Nullable="true" />
           <Property Type="Int32" Name="TotalHomens" Nullable="true" />
           <Property Type="Int32" Name="TotalMulheres" Nullable="true" />
@@ -8022,6 +7992,39 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           <Property Type="Double" Name="PercentagemMulheres" Nullable="true" />
           <Property Type="Int32" Name="TotalAtletas" Nullable="true" />
           <Property Type="Double" Name="PercentagemAtletas" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_GT_ENT_Resp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="socio_id" Nullable="false" />
+          <Property Type="Int32" Name="pes_id" Nullable="false" />
+          <Property Type="String" Name="NOME_PROPIO" Nullable="false" MaxLength="48" />
+          <Property Type="String" Name="APELIDO" Nullable="false" MaxLength="48" />
+          <Property Type="Int32" Name="NUMERO" Nullable="false" />
+          <Property Type="String" Name="treino" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_GT_ENT_TREINO_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="GT_TipoTreino_ID" Nullable="false" />
+          <Property Type="String" Name="GT_TipoTreino_NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="nome" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="GT_FaseTreino_ID" Nullable="true" />
+          <Property Type="Int32" Name="PERIODIZACAO" Nullable="true" />
+          <Property Type="Int32" Name="GT_SOCIOS_ID" Nullable="false" />
+          <Property Type="String" Name="NOME_PROPIO" Nullable="false" MaxLength="48" />
+          <Property Type="String" Name="APELIDO" Nullable="false" MaxLength="48" />
+          <Property Type="Int32" Name="NUMERO" Nullable="false" />
+          <Property Type="Int32" Name="pes_id" Nullable="false" />
+          <Property Type="String" Name="DATA_INICIO" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="DATA_FIM" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="OBSERVACOES" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -9504,29 +9507,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="SP_GT_ENT_TREINO" FunctionName="GESTREINO_ORM.Store.SP_GT_ENT_TREINO">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GT_ENT_TREINO_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="GT_TipoTreino_ID" ColumnName="GT_TipoTreino_ID" />
-                <ScalarProperty Name="nome" ColumnName="nome" />
-                <ScalarProperty Name="GT_FaseTreino_ID" ColumnName="GT_FaseTreino_ID" />
-                <ScalarProperty Name="PERIODIZACAO" ColumnName="PERIODIZACAO" />
-                <ScalarProperty Name="GT_SOCIOS_ID" ColumnName="GT_SOCIOS_ID" />
-                <ScalarProperty Name="NOME_PROPIO" ColumnName="NOME_PROPIO" />
-                <ScalarProperty Name="APELIDO" ColumnName="APELIDO" />
-                <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
-                <ScalarProperty Name="pes_id" ColumnName="pes_id" />
-                <ScalarProperty Name="DATA_INICIO" ColumnName="DATA_INICIO" />
-                <ScalarProperty Name="DATA_FIM" ColumnName="DATA_FIM" />
-                <ScalarProperty Name="OBSERVACOES" ColumnName="OBSERVACOES" />
-                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
-                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
-                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
-                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="GT_ExercicioTreinoCardio">
             <EntityTypeMapping TypeName="GESTREINO_ORM.GT_ExercicioTreinoCardio">
               <MappingFragment StoreEntitySet="GT_ExercicioTreinoCardio">
@@ -9577,22 +9557,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="SP_GT_ENT_Resp" FunctionName="GESTREINO_ORM.Store.SP_GT_ENT_Resp">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GT_ENT_Resp_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="socio_id" ColumnName="socio_id" />
-                <ScalarProperty Name="pes_id" ColumnName="pes_id" />
-                <ScalarProperty Name="NOME_PROPIO" ColumnName="NOME_PROPIO" />
-                <ScalarProperty Name="APELIDO" ColumnName="APELIDO" />
-                <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
-                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
-                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
-                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
-                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="GT_RespAutoConceito">
             <EntityTypeMapping TypeName="GESTREINO_ORM.GT_RespAutoConceito">
               <MappingFragment StoreEntitySet="GT_RespAutoConceito">
@@ -10293,6 +10257,7 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
                 <ScalarProperty Name="NumAvaliacoes" ColumnName="NumAvaliacoes" />
                 <ScalarProperty Name="TotalAvaliacoes" ColumnName="TotalAvaliacoes" />
                 <ScalarProperty Name="Res" ColumnName="Res" />
+                <ScalarProperty Name="DescRes" ColumnName="DescRes" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="TotalHomens" ColumnName="TotalHomens" />
                 <ScalarProperty Name="TotalMulheres" ColumnName="TotalMulheres" />
@@ -10301,6 +10266,47 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
                 <ScalarProperty Name="PercentagemMulheres" ColumnName="PercentagemMulheres" />
                 <ScalarProperty Name="TotalAtletas" ColumnName="TotalAtletas" />
                 <ScalarProperty Name="PercentagemAtletas" ColumnName="PercentagemAtletas" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GT_ENT_Resp" FunctionName="GESTREINO_ORM.Store.SP_GT_ENT_Resp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GT_ENT_Resp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="socio_id" ColumnName="socio_id" />
+                <ScalarProperty Name="pes_id" ColumnName="pes_id" />
+                <ScalarProperty Name="NOME_PROPIO" ColumnName="NOME_PROPIO" />
+                <ScalarProperty Name="APELIDO" ColumnName="APELIDO" />
+                <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
+                <ScalarProperty Name="treino" ColumnName="treino" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GT_ENT_TREINO" FunctionName="GESTREINO_ORM.Store.SP_GT_ENT_TREINO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GT_ENT_TREINO_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="GT_TipoTreino_ID" ColumnName="GT_TipoTreino_ID" />
+                <ScalarProperty Name="GT_TipoTreino_NOME" ColumnName="GT_TipoTreino_NOME" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="GT_FaseTreino_ID" ColumnName="GT_FaseTreino_ID" />
+                <ScalarProperty Name="PERIODIZACAO" ColumnName="PERIODIZACAO" />
+                <ScalarProperty Name="GT_SOCIOS_ID" ColumnName="GT_SOCIOS_ID" />
+                <ScalarProperty Name="NOME_PROPIO" ColumnName="NOME_PROPIO" />
+                <ScalarProperty Name="APELIDO" ColumnName="APELIDO" />
+                <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
+                <ScalarProperty Name="pes_id" ColumnName="pes_id" />
+                <ScalarProperty Name="DATA_INICIO" ColumnName="DATA_INICIO" />
+                <ScalarProperty Name="DATA_FIM" ColumnName="DATA_FIM" />
+                <ScalarProperty Name="OBSERVACOES" ColumnName="OBSERVACOES" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

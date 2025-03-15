@@ -4,7 +4,6 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Gestreino.Classes;
 using Gestreino.Models;
-using JeanPiagetSGA;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;

@@ -50,8 +50,8 @@
                     <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GRLExercicioTable"><i class="fa fa-eraser"></i></button>
                     <a title="Adicionar exercício" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="gtexercicio" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
                     <!--Separator-->
-                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
-                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gtexercise", applyFilter = "true" })" target="_blank" data-id="GRLExercicioTable"><i class="fa fa-filter"></i></a>
+                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gtexercise", applyFilter = "false" })" target="_blank" data-id="GRLExercicioTable"><i class="fa fa-file-excel-o"></i></a>
                 </div>
             </div>
         </div>
@@ -132,10 +132,7 @@
                     <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GRLGTFaseTreinoTable"><i class="fa fa-search"></i></button>
                     <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GRLGTFaseTreinoTable"><i class="fa fa-eraser"></i></button>
                     <a title="Adicionar duração de plano" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="grlgtfasetreino" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                    <!--Separator-->
-                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
-                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
-                </div>
+               </div>
             </div>
         </div>
         <div class="table-responsive">
@@ -214,10 +211,7 @@
                     <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GRLGTDuracaoTable"><i class="fa fa-search"></i></button>
                     <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GRLGTDuracaoTable"><i class="fa fa-eraser"></i></button>
                     <a title="Adicionar duração de plano" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="grlgtduracao" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                    <!--Separator-->
-                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
-                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
-                </div>
+                  </div>
             </div>
         </div>
         <div class="table-responsive">
@@ -291,9 +285,6 @@
                     <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GRLTipoTreinoTable"><i class="fa fa-search"></i></button>
                     <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GRLTipoTreinoTable"><i class="fa fa-eraser"></i></button>
                     <a title="Adicionar tipo de treino" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="grlgttipotreino" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                    <!--Separator-->
-                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
-                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
                 </div>
             </div>
         </div>

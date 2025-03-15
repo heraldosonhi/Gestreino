@@ -1,7 +1,6 @@
 ﻿using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using Gestreino.Controllers;
-using JeanPiagetSGA;
 using System;
 using System.Collections;
 using System.Collections.Generic;

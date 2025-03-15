@@ -39,43 +39,43 @@
                     <div class="card p-1 bg-light mb-2">
                         <table style="width:45% !important">
                             <tr>
-                                <td>Altura (cm)</td>
+                                <td>Altura (cm):</td>
                                 <td>@ViewBag.dataCaract[0].ALTURA.ToString("G29")</td>
                             </tr>
                             <tr>
-                                <td>Peso (kg)</td>
+                                <td>Peso (kg):</td>
                                 <td>@ViewBag.dataCaract[0].PESO.ToString("G29")</td>
                             </tr>
                             <tr>
-                                <td>IMC</td>
+                                <td>IMC:</td>
                                 <td>@ViewBag.dataCaract[0].IMC</td>
                             </tr>
                             <tr>
-                                <td>FC Repouso</td>
+                                <td>FC Repouso:</td>
                                 <td>@ViewBag.dataCaract[0].FCREPOUSO</td>
                             </tr>
                             <tr>
-                                <td>FC M&#225;ximo</td>
+                                <td>FC M&#225;ximo:</td>
                                 <td>@ViewBag.dataCaract[0].FCMAXIMO</td>
                             </tr>
                             <tr>
-                                <td>TA Sist&#243;lica</td>
+                                <td>TA Sist&#243;lica:</td>
                                 <td>@ViewBag.dataCaract[0].TASISTOLICA</td>
                             </tr>
                             <tr>
-                                <td>TA Dist&#243;lica</td>
+                                <td>TA Dist&#243;lica:</td>
                                 <td>@ViewBag.dataCaract[0].TADISTOLICA</td>
                             </tr>
                             <tr>
-                                <td>VO2</td>
+                                <td>VO2:</td>
                                 <td>@ViewBag.dataCaract[0].VO2</td>
                             </tr>
                             <tr>
-                                <td>Massa Gorda (%)</td>
+                                <td>Massa Gorda (%):</td>
                                 <td>@ViewBag.dataCaract[0].MASSAGORDA</td>
                             </tr>
                             <tr>
-                                <td>Dura&#231;&#227;o do plano</td>
+                                <td>Dura&#231;&#227;o do plano:</td>
                                 <td>@ViewBag.dataCaract[0].GT_DuracaoPlano_ID</td>
                             </tr>
                         </table>
@@ -95,159 +95,127 @@
                         <div id="myTabContent" class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="tab_content1" aria-labelledby="">
                                 <div class="p-2">
-                                    <div class="alert  mb-1 mt-0"
-                                         role="alert">
-                                        <div class="d-flex flex-wrap align-items-start">
-                                            <div class="mr-8pt">
-                                                <strong>  <i class="fa fa-code-fork"></i>&nbsp;</strong>
-                                            </div>
-                                            <div class="flex"
-                                                 style="min-width: 180px">
-                                                <strong class="text-black-100">
-                                                    Fórmula Karvonen e Skinner
-                                                </strong>
-                                            </div>
+                                    <div class="d-flex flex-wrap align-items-start">
+                                        <div class="mr-8pt">
+                                            <strong>  <i class="fa fa-code-fork"></i>&nbsp;</strong>
+                                        </div>
+                                        <div class="flex"
+                                             style="min-width: 180px">
+                                            <strong class="text-black-100">
+                                                Fórmula Karvonen e Skinner
+                                            </strong>
                                         </div>
                                     </div>
-                                    @*
-
-
-        <table class="lres-table">
-            <tr>
-                <td>40%</td>
-                <td>45%</td>
-                <td>50%</td>
-                <td>55%</td>
-                <td>60%</td>
-                <td>65%</td>
-                <td>70%</td>
-                <td>75%</td>
-                <td>80%</td>
-                <td>85%</td>
-            </tr>
-            <tr>
-                <td>@ViewBag.dataCaract[0].FCTREINO1</td>
-                <td>@ViewBag.dataCaract[0].FCTREINO2</td>
-                <td>@ViewBag.dataCaract[0].FCTREINO3</td>
-                <td>@ViewBag.dataCaract[0].FCTREINO4</td>
-                <td>@ViewBag.dataCaract[0].FCTREINO5</td>
-                <td>@ViewBag.dataCaract[0].FCTREINO6</td>
-                <td>@ViewBag.dataCaract[0].FCTREINO7</td>
-                <td>@ViewBag.dataCaract[0].FCTREINO8</td>
-                <td>@ViewBag.dataCaract[0].FCTREINO9</td>
-                <td>@ViewBag.dataCaract[0].FCTREINO10</td>
-            </tr>
-        </table>
-                                    *@
-                                    <table class="lres-table">
-                                        <tr>
-                                            <td>
-                                                <table border="1" class="lres-table">
-                                                    <tr>
-                                                        <td>40%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>@ViewBag.dataCaract[0].FCTREINO1</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                            <td>
-                                                <table border="1" class="lres-table">
-                                                    <tr>
-                                                        <td>45%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>@ViewBag.dataCaract[0].FCTREINO2</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                            <td>
-                                                <table border="1" class="lres-table">
-                                                    <tr>
-                                                        <td>50%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>@ViewBag.dataCaract[0].FCTREINO3</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                            <td>
-                                                <table border="1" class="lres-table">
-                                                    <tr>
-                                                        <td>55%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>@ViewBag.dataCaract[0].FCTREINO4</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                            <td>
-                                                <table border="1" class="lres-table">
-                                                    <tr>
-                                                        <td>60%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>@ViewBag.dataCaract[0].FCTREINO5</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                            <td>
-                                                <table border="1" class="lres-table">
-                                                    <tr>
-                                                        <td>65%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>@ViewBag.dataCaract[0].FCTREINO6</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                            <td>
-                                                <table border="1" class="lres-table">
-                                                    <tr>
-                                                        <td>70%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>@ViewBag.dataCaract[0].FCTREINO7</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                            <td>
-                                                <table border="1" class="lres-table">
-                                                    <tr>
-                                                        <td>75%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>@ViewBag.dataCaract[0].FCTREINO8</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                            <td>
-                                                <table border="1" class="lres-table">
-                                                    <tr>
-                                                        <td>80%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>@ViewBag.dataCaract[0].FCTREINO9</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                            <td>
-                                                <table border="1" class="lres-table">
-                                                    <tr>
-                                                        <td>85%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>@ViewBag.dataCaract[0].FCTREINO10</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
+                                    <div class="table-responsive mt-1">
+                                        <table class="lres-table">
+                                            <tr>
+                                                <td>
+                                                    <table class="lres-table">
+                                                        <tr>
+                                                            <td>40%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>@ViewBag.dataCaract[0].FCTREINO1</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table class="lres-table">
+                                                        <tr>
+                                                            <td>45%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>@ViewBag.dataCaract[0].FCTREINO2</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table class="lres-table">
+                                                        <tr>
+                                                            <td>50%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>@ViewBag.dataCaract[0].FCTREINO3</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table class="lres-table">
+                                                        <tr>
+                                                            <td>55%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>@ViewBag.dataCaract[0].FCTREINO4</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table class="lres-table">
+                                                        <tr>
+                                                            <td>60%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>@ViewBag.dataCaract[0].FCTREINO5</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table class="lres-table">
+                                                        <tr>
+                                                            <td>65%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>@ViewBag.dataCaract[0].FCTREINO6</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table class="lres-table">
+                                                        <tr>
+                                                            <td>70%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>@ViewBag.dataCaract[0].FCTREINO7</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table class="lres-table">
+                                                        <tr>
+                                                            <td>75%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>@ViewBag.dataCaract[0].FCTREINO8</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table class="lres-table">
+                                                        <tr>
+                                                            <td>80%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>@ViewBag.dataCaract[0].FCTREINO9</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table class="lres-table">
+                                                        <tr>
+                                                            <td>85%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>@ViewBag.dataCaract[0].FCTREINO10</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="">
                                 <div class="p-3 ">
-                                    <p>Visualize aqui os <b><i>factores de riscos</i></b></p>
                                     <div class="row">
                                         @if (ViewBag.dataCaract[0].FR_HT)
                                         {
@@ -310,7 +278,6 @@
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="">
                                 <div class="p-3 ">
-                                    <p>Visualize aqui os <b><i>objectivos</i></b> do Atleta</p>
                                     <div class="row">
                                         @if (ViewBag.dataCaract[0].OB_AC)
                                         {
@@ -398,31 +365,31 @@
                         <div class="">
                             <table style="width:40% !important">
                                 <tr>
-                                    <td>N° Sócio</td>
+                                    <td>N° Sócio:</td>
                                     <td>@ViewBag.data[0].PES_NUMERO</td>
                                 </tr>
                                 <tr>
-                                    <td>Nome</td>
+                                    <td>Nome:</td>
                                     <td>@ViewBag.data[0].NOME</td>
                                 </tr>
                                 <tr>
-                                    <td>Sexo</td>
+                                    <td>Sexo:</td>
                                     <td>@ViewBag.data[0].SEXO</td>
                                 </tr>
                                 <tr>
-                                    <td>Data Nascimento</td>
+                                    <td>Data Nascimento:</td>
                                     <td>@ViewBag.data[0].DATA_NASCIMENTO &nbsp;&nbsp;&nbsp;<i class="fa fa-calendar"></i> @Model.Age anos</td>
                                 </tr>
                                 <tr>
-                                    <td>Estado Civil</td>
+                                    <td>Estado Civil:</td>
                                     <td>@ViewBag.data[0].ESTADO_CIVIL</td>
                                 </tr>
                                 <tr>
-                                    <td>Nacionalidade</td>
+                                    <td>Nacionalidade:</td>
                                     <td>@ViewBag.data[0].NACIONALIDADE</td>
                                 </tr>
                                 <tr>
-                                    <td>Naturalidade</td>
+                                    <td>Naturalidade:</td>
                                     <td>@ViewBag.data[0].NATURALIDADE_MUN @ViewBag.data[0].NATURALIDADE_CIDADE @ViewBag.data[0].NATURALIDADE_PAIS</td>
                                 </tr>
                                 <tr>
@@ -430,15 +397,15 @@
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td>Telefone</td>
+                                    <td>Telefone:</td>
                                     <td>@ViewBag.data[0].TELEFONE</td>
                                 </tr>
                                 <tr>
-                                    <td>Telefone alternativo</td>
+                                    <td>Telefone alternativo:</td>
                                     <td>@ViewBag.data[0].TELEFONE_ALTERNATIVO</td>
                                 </tr>
                                 <tr>
-                                    <td>Email</td>
+                                    <td>Email:</td>
                                     <td>@ViewBag.data[0].EMAIL</td>
                                 </tr>
                                 <tr>
@@ -446,7 +413,7 @@
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td>Endereço</td>
+                                    <td>Endereço:</td>
                                     <td>@ViewBag.dataEnd[0].NUMERO  @ViewBag.dataEnd[0].RUA  @ViewBag.dataEnd[0].MORADA  @ViewBag.dataEnd[0].MUN_NOME @ViewBag.dataEnd[0].CIDADE_NOME @ViewBag.dataEnd[0].PAIS_NOME</td>
                                 </tr>
                             </table>
@@ -477,8 +444,8 @@
                                         <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserIdentTable"><i class="fa fa-eraser"></i></button>
                                         <a title="Adicionar identificação pessoal" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="pesident" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
                                         <!--Separator-->
-                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
-                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section= "GetUsersIdentification", applyFilter="true" })" target="_blank" data-id="UserIdentTable"><i class="fa fa-filter"></i></a>
+                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section="GetUsersIdentification", applyFilter="false" })" target="_blank" data-id="UserIdentTable"><i class="fa fa-file-excel-o"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -550,8 +517,8 @@
                                         <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserFamilyTable"><i class="fa fa-eraser"></i></button>
                                         <a title="Adicionar agregado familiar" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="pesfamily" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
                                         <!--Separator-->
-                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
-                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section= "GetUsersFamily", applyFilter="true" })" target="_blank" data-id="UserFamilyTable"><i class="fa fa-filter"></i></a>
+                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section="GetUsersFamily", applyFilter="false" })" target="_blank" data-id="UserFamilyTable"><i class="fa fa-file-excel-o"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -633,8 +600,8 @@
                                         <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserProfissaoTable"><i class="fa fa-eraser"></i></button>
                                         <a title="Adicionar dados profissionais" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="pesprofessional" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
                                         <!--Separator-->
-                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
-                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section= "GetUsersProfessional", applyFilter="true" })" target="_blank" data-id="UserProfissaoTable"><i class="fa fa-filter"></i></a>
+                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section="GetUsersProfessional", applyFilter="false" })" target="_blank" data-id="UserProfissaoTable"><i class="fa fa-file-excel-o"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -660,7 +627,7 @@
                                             <th></th>
                                             <th></th>
                                             <th data-name="UserProfissaoEmpresa">Empresa</th>
-                                            <th data-name="UserProfissaoFuncao">Função</th>
+                                            <th data-name="UserProfissaoFuncao">Profissão</th>
                                             <th data-name="UserProfissaoContracto">Contracto</th>
                                             <th data-name="UserProfissaoRegime">Regime</th>
                                             <th data-name="UserProfissaoDataInicial">Data Inicial</th>
@@ -706,8 +673,8 @@
                                         <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserDisabilityTable"><i class="fa fa-eraser"></i></button>
                                         <a title="Adicionar registo de deficiência" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="pesdisability" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
                                         <!--Separator-->
-                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
-                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
+                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section= "GetUsersDisability", applyFilter="true" })" target="_blank" data-id="UserDisabilityTable"><i class="fa fa-filter"></i></a>
+                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section="GetUsersDisability", applyFilter="false" })" target="_blank" data-id="UserDisabilityTable"><i class="fa fa-file-excel-o"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -750,16 +717,6 @@
                         <!--  DATATABLE START -->
                         <div class="card mb-32pt">
                             <div class="card-header">
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons" id="changeviewfile">
-                                    <label class="btn btn-outline-primary  active">
-                                        <input type="radio" name="options" id="viewtable" autocomplete="off" checked><i class="fa fa-table"></i>&nbsp;Exibir tabela
-                                    </label>
-                                    <label class="btn btn-outline-primary ">
-                                        <input type="radio" name="options" id="viewlist" autocomplete="off"><i class="fa fa-list"></i>&nbsp;Exibir lista
-                                    </label>
-                                </div>
-                                <hr />
-
                                 <div id="doctablebuttons">
                                     <div class="form-inline">
                                         <label class="" for="length_change">Mostrar</label>

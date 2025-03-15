@@ -1656,13 +1656,14 @@ function handleDataGPUsers() {
                     return '<a title="Visualizar" href="/gtmanagement/viewathletes/' + full.Id + '" class=""><i class="fa fa-search" /></i></a>';
                 }
             },
+            //{ "data": "NOME", "name": "NOME", "autoWidth": true },
             {
                 sortable: true,
                 "render": function (data, type, full, meta) {
                     return `
                                 <div class="media flex-nowrap align-items-center"
-                                         style="white-space: nowrap;">
-                                        <div class="avatar avatar-sm mr-8pt">
+                                         style="white-space: nowrap">
+                                        <div class="avatar avatar-sm mr-8pt" style="padding:4px">
                                             <img src="${full.FOTOGRAFIA}"
                                                  alt="${full.NOME}"
                                                  class="avatar-img rounded-circle">
@@ -1682,7 +1683,6 @@ function handleDataGPUsers() {
             { "data": "SOCIO", "name": "SOCIO", "autoWidth": true },
             { "data": "TELEFONE", "name": "TELEFONE", "autoWidth": true },
             { "data": "EMAIL", "name": "EMAIL", "autoWidth": true },
-            //{ "data": "UTILIZADOR", "name": "UTILIZADOR", "autoWidth": true },
             { "data": "INSERCAO", "name": "INSERCAO", "autoWidth": true },
             { "data": "DATAINSERCAO", "name": "DATAINSERCAO", "autoWidth": true },
             { "data": "ACTUALIZACAO", "name": "ACTUALIZACAO", "autoWidth": true },

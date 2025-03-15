@@ -19,6 +19,7 @@ namespace Gestreino
         public string NOME_PROPIO { get; set; }
         public string APELIDO { get; set; }
         public int NUMERO { get; set; }
+        public string treino { get; set; }
         public string INSERCAO { get; set; }
         public string ACTUALIZACAO { get; set; }
         public string DATA_INSERCAO { get; set; }

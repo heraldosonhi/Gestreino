@@ -69,7 +69,7 @@
                         <li><a href="@Url.Action("prescriptions", "gtmanagement", new {Id=string.Empty})">Prescrições</a></li>
                         <li><a href="@Url.Action("evaluations", "gtmanagement", new {Id=string.Empty})">Avaliações</a></li>
                         <li><a href="@Url.Action("mediumweight", "gtmanagement", new {Id=string.Empty})">Peso Médio</a></li>
-                        <li><a href="@Url.Action("analysis", "gtmanagement", new {Id=string.Empty})">Análise Descritiva</a></li>
+                        <li><a style="color: #425668" href="javascript:">Análise Descritiva</a></li>
                         <li><a href="@Url.Action("ranking", "gtmanagement", new {Id=string.Empty})">Ranking Avaliações</a></li>
                         <li><a href="@Url.Action("others", "gtmanagement", new {Id=string.Empty})">Outras Avaliações</a></li>
                     </ul>
@@ -77,7 +77,7 @@
                 <li>
                     <a><i class="fa fa-bar-chart-o"></i> Relatórios <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                        <li><a href="#">Relatórios</a></li>
+                        <li><a href="#" style="color: #425668 ">Relatórios</a></li>
                     </ul>
                 </li>
                 <li  class="@(Settings.Contains(ViewBag.LeftBarLinkActive)  ?"active":"")">

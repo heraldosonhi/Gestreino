@@ -8,7 +8,6 @@ using DocumentFormat.OpenXml.Vml.Office;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Gestreino.Classes;
 using Gestreino.Models;
-using JeanPiagetSGA;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using System;

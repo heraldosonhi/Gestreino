@@ -8,7 +8,7 @@ using DocumentFormat.OpenXml.EMMA;
 using static Gestreino.Classes.SelectValues;
 using Gestreino.Classes;
 
-namespace JeanPiagetSGA
+namespace Gestreino
 {
     public static class Converters
     {

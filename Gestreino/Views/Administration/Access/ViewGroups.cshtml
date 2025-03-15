@@ -108,9 +108,6 @@
                     <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserGroupTable"><i class="fa fa-search"></i></button>
                     <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserGroupTable"><i class="fa fa-eraser"></i></button>
                     <a title="Adicionar utilizador" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="AdicionarGroupUtil" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                    <!--Separator-->
-                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
-                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
                 </div>
             </div>
         </div>
@@ -187,9 +184,6 @@
                     <button title="Pesquisar" class="btnSearch btn btn-default" data-id="AtomGroupTable"><i class="fa fa-search"></i></button>
                     <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="AtomGroupTable"><i class="fa fa-eraser"></i></button>
                     <a title="Adicionar átomo" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="AdicionarGroupAtom" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                    <!--Separator-->
-                    <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section= "courses", applyFilter="true" })" target="_blank" data-id=""><i class="fa fa-filter"></i></a>
-                    <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default disabled" href="@Url.Action("ExportToExcel","XLSReports", new {section="courses", applyFilter="false" })" target="_blank" data-id=""><i class="fa fa-file-excel-o"></i></a>
                 </div>
             </div>
         </div>

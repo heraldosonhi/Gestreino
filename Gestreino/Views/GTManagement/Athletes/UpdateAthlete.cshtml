@@ -81,7 +81,7 @@
                                 <div class="row">
                                     @Html.LabelFor(m => m.NacionalidadeId, new { @class = "col-md-2 col-form-label" })
                                     <div class="col-md-4">
-                                        @Html.ListBoxFor(x => Model.NacionalidadeId, Model.PAIS_LIST, new { @class = "form-control form-control-sm" })
+                                        @Html.ListBoxFor(x => Model.NacionalidadeId, Model.PAIS_LIST, new { @class = "select-control form-control form-control-sm" })
                                     </div>
                                 </div>
                                 <div class="row mt-1">
@@ -107,7 +107,7 @@
                                     <div class="col-md-4">
                                         @Html.TextBoxFor(m => m.TelephoneAlternativo, new { @class = "form-control form-control-sm", @type = "number", min = "1" })
                                     </div>
-                                </div>
+                                </div> 
                                 <div class="row">
                                     @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
                                     <div class="col-md-4">
@@ -118,7 +118,6 @@
                             <div class="">
                                 <div class="row">
                                     <label class="col-md-2 col-form-label required" for="Numero">N&#250;mero/Rua/Morada </label>
-
                                     <div class="col-md-3">
                                         @Html.TextBoxFor(m => m.EndNumero, new { @class = "form-control form-control-sm", @type = "number", min = "1" })
                                     </div>
@@ -233,8 +232,6 @@
                                         <div id="myTabContent" class="tab-content">
                                             <div role="tabpanel" class="tab-pane active" id="tab_content1" aria-labelledby="">
                                                 <div class="p-3 ">
-                                                    <div class="alert  mb-1 mt-0"
-                                                         role="alert">
                                                         <div class="d-flex flex-wrap align-items-start">
                                                             <div class="mr-8pt">
                                                                 <strong>  <i class="fa fa-code-fork"></i>&nbsp;</strong>
@@ -246,12 +243,11 @@
                                                                 </strong>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="table-responsive">
-                                                        <table class="fctable">
+                                                    <div class="table-responsive mt-1">
+                                                        <table class="lres-table">
                                                             <tr>
                                                                 <td>
-                                                                    <table border="1">
+                                                                    <table class="lres-table">
                                                                         <tr>
                                                                             <td>40%</td>
                                                                         </tr>
@@ -263,7 +259,7 @@
                                                                     </table>
                                                                 </td>
                                                                 <td>
-                                                                    <table border="1">
+                                                                    <table class="lres-table">
                                                                         <tr>
                                                                             <td>45%</td>
                                                                         </tr>
@@ -275,7 +271,7 @@
                                                                     </table>
                                                                 </td>
                                                                 <td>
-                                                                    <table border="1">
+                                                                    <table class="lres-table">
                                                                         <tr>
                                                                             <td>50%</td>
                                                                         </tr>
@@ -287,7 +283,7 @@
                                                                     </table>
                                                                 </td>
                                                                 <td>
-                                                                    <table border="1">
+                                                                    <table class="lres-table">
                                                                         <tr>
                                                                             <td>55%</td>
                                                                         </tr>
@@ -299,7 +295,7 @@
                                                                     </table>
                                                                 </td>
                                                                 <td>
-                                                                    <table border="1">
+                                                                    <table class="lres-table">
                                                                         <tr>
                                                                             <td>60%</td>
                                                                         </tr>
@@ -311,7 +307,7 @@
                                                                     </table>
                                                                 </td>
                                                                 <td>
-                                                                    <table border="1">
+                                                                    <table class="lres-table">
                                                                         <tr>
                                                                             <td>65%</td>
                                                                         </tr>
@@ -323,7 +319,7 @@
                                                                     </table>
                                                                 </td>
                                                                 <td>
-                                                                    <table border="1">
+                                                                    <table class="lres-table">
                                                                         <tr>
                                                                             <td>70%</td>
                                                                         </tr>
@@ -335,7 +331,7 @@
                                                                     </table>
                                                                 </td>
                                                                 <td>
-                                                                    <table border="1">
+                                                                    <table class="lres-table">
                                                                         <tr>
                                                                             <td>75%</td>
                                                                         </tr>
@@ -347,7 +343,7 @@
                                                                     </table>
                                                                 </td>
                                                                 <td>
-                                                                    <table border="1">
+                                                                    <table class="lres-table">
                                                                         <tr>
                                                                             <td>80%</td>
                                                                         </tr>
@@ -359,7 +355,7 @@
                                                                     </table>
                                                                 </td>
                                                                 <td>
-                                                                    <table border="1">
+                                                                    <table class="lres-table">
                                                                         <tr>
                                                                             <td>85%</td>
                                                                         </tr>
@@ -379,42 +375,78 @@
                                                 <div class="p-3 ">
                                                     <div class="row">
                                                         <div class="col-md-2">
-                                                            @Html.LabelFor(m => m.FR_Hipertensao, new { @class = " col-form-label" })
-                                                            @Html.CheckBoxFor(m => m.FR_Hipertensao, new { @class = "" })
+                                                            <div class="custom-controls-stacked">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    @Html.CheckBoxFor(m => m.FR_Hipertensao, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.FR_Hipertensao, new { @class = "custom-control-label" })
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            @Html.LabelFor(m => m.FR_Tabaco, new { @class = " col-form-label" })
-                                                            @Html.CheckBoxFor(m => m.FR_Tabaco, new { @class = "" })
+                                                            <div class="custom-controls-stacked">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    @Html.CheckBoxFor(m => m.FR_Tabaco, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.FR_Tabaco, new { @class = "custom-control-label" })
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-3">
-                                                            @Html.LabelFor(m => m.FR_Hiperlipidemia, new { @class = " col-form-label" })
-                                                            @Html.CheckBoxFor(m => m.FR_Hiperlipidemia, new { @class = "" })
+                                                            <div class="custom-controls-stacked">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    @Html.CheckBoxFor(m => m.FR_Hiperlipidemia, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.FR_Hiperlipidemia, new { @class = "custom-control-label" })
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            @Html.LabelFor(m => m.FR_Obesidade, new { @class = " col-form-label" })
-                                                            @Html.CheckBoxFor(m => m.FR_Obesidade, new { @class = "" })
+                                                            <div class="custom-controls-stacked">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    @Html.CheckBoxFor(m => m.FR_Obesidade, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.FR_Obesidade, new { @class = "custom-control-label" })
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            @Html.LabelFor(m => m.FR_Diabetes, new { @class = " col-form-label" })
-                                                            @Html.CheckBoxFor(m => m.FR_Diabetes, new { @class = "" })
+                                                            <div class="custom-controls-stacked">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    @Html.CheckBoxFor(m => m.FR_Diabetes, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.FR_Diabetes, new { @class = "custom-control-label" })
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-2">
-                                                            @Html.LabelFor(m => m.FR_Inactividade, new { @class = " col-form-label" })
-                                                            @Html.CheckBoxFor(m => m.FR_Inactividade, new { @class = "" })
+                                                            <div class="custom-controls-stacked">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    @Html.CheckBoxFor(m => m.FR_Inactividade, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.FR_Inactividade, new { @class = "custom-control-label" })
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-3">
-                                                            @Html.LabelFor(m => m.FR_Heriditariedade, new { @class = " col-form-label" })
-                                                            @Html.CheckBoxFor(m => m.FR_Heriditariedade, new { @class = "" })
+                                                            <div class="custom-controls-stacked">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    @Html.CheckBoxFor(m => m.FR_Heriditariedade, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.FR_Heriditariedade, new { @class = "custom-control-label" })
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            @Html.LabelFor(m => m.FR_Examescomplementares, new { @class = " col-form-label" })
-                                                            @Html.CheckBoxFor(m => m.FR_Examescomplementares, new { @class = "" })
+                                                            <div class="custom-controls-stacked">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    @Html.CheckBoxFor(m => m.FR_Examescomplementares, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.FR_Examescomplementares, new { @class = "custom-control-label" })
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            @Html.LabelFor(m => m.FR_Outros, new { @class = " col-form-label" })
-                                                            @Html.CheckBoxFor(m => m.FR_Outros, new { @class = "" })
+                                                            <div class="custom-controls-stacked">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    @Html.CheckBoxFor(m => m.FR_Outros, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.FR_Outros, new { @class = "custom-control-label" })
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -423,36 +455,68 @@
                                                 <div class="p-3 ">
                                                     <div class="row">
                                                         <div class="col-md-2">
-                                                            @Html.LabelFor(m => m.OB_Actividade, new { @class = " col-form-label" })
-                                                            @Html.CheckBoxFor(m => m.OB_Actividade, new { @class = "" })
+                                                            <div class="custom-controls-stacked">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    @Html.CheckBoxFor(m => m.OB_Actividade, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.OB_Actividade, new { @class = "custom-control-label" })
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-3">
-                                                            @Html.LabelFor(m => m.OB_Controlopeso, new { @class = " col-form-label" })
-                                                            @Html.CheckBoxFor(m => m.OB_Controlopeso, new { @class = "" })
+                                                            <div class="custom-controls-stacked">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    @Html.CheckBoxFor(m => m.OB_Controlopeso, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.OB_Controlopeso, new { @class = "custom-control-label" })
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-3">
-                                                            @Html.LabelFor(m => m.OB_PrevenirIdade, new { @class = " col-form-label" })
-                                                            @Html.CheckBoxFor(m => m.OB_PrevenirIdade, new { @class = "" })
+                                                            <div class="custom-controls-stacked">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    @Html.CheckBoxFor(m => m.OB_PrevenirIdade, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.OB_PrevenirIdade, new { @class = "custom-control-label" })
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-3">
-                                                            @Html.LabelFor(m => m.OB_TreinoDesporto, new { @class = " col-form-label" })
-                                                            @Html.CheckBoxFor(m => m.OB_TreinoDesporto, new { @class = "" })
+                                                            <div class="custom-controls-stacked">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    @Html.CheckBoxFor(m => m.OB_TreinoDesporto, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.OB_TreinoDesporto, new { @class = "custom-control-label" })
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            @Html.LabelFor(m => m.OB_AumentarMassa, new { @class = " col-form-label" })
-                                                            @Html.CheckBoxFor(m => m.OB_AumentarMassa, new { @class = "" })
+                                                            <div class="custom-controls-stacked">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    @Html.CheckBoxFor(m => m.OB_AumentarMassa, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.OB_AumentarMassa, new { @class = "custom-control-label" })
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-3">
-                                                            @Html.LabelFor(m => m.OB_BemEstar, new { @class = " col-form-label" })
-                                                            @Html.CheckBoxFor(m => m.OB_BemEstar, new { @class = "" })
+                                                            <div class="custom-controls-stacked">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    @Html.CheckBoxFor(m => m.OB_BemEstar, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.OB_BemEstar, new { @class = "custom-control-label" })
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            @Html.LabelFor(m => m.OB_Tonificar, new { @class = " col-form-label" })
-                                                            @Html.CheckBoxFor(m => m.OB_Tonificar, new { @class = "" })
+                                                            <div class="custom-controls-stacked">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    @Html.CheckBoxFor(m => m.OB_Tonificar, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.OB_Tonificar, new { @class = "custom-control-label" })
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            @Html.LabelFor(m => m.OB_Outros, new { @class = " col-form-label" })
-                                                            @Html.CheckBoxFor(m => m.OB_Outros, new { @class = "" })
+                                                            <div class="custom-controls-stacked">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    @Html.CheckBoxFor(m => m.OB_Outros, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.OB_Outros, new { @class = "custom-control-label" })
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

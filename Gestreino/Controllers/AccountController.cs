@@ -22,7 +22,7 @@ using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using Gestreino;
 
-namespace JeanPiagetSGA.Controllers
+namespace Gestreino.Controllers
 {
     [Authorize]
     public class AccountController : Controller

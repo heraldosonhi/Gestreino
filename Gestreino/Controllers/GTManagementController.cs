@@ -4,7 +4,6 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Gestreino.Classes;
 using Gestreino.Models;
-using JeanPiagetSGA;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections;
@@ -239,11 +238,9 @@ namespace Gestreino.Controllers
 
             //UI DATATABLE SEARCH INPUTS
             var User = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
-            //var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
             var Socio = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
             var Telefone = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
             var Email = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
-            //var Utilizador = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
             var Insercao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
             var DataInsercao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
             var Actualizacao = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
@@ -262,13 +259,9 @@ namespace Gestreino.Controllers
             //SEARCH RESULT SET
             if (!string.IsNullOrEmpty(User)) v = v.Where(a => a.LOGIN != null && a.LOGIN.ToUpper().Contains(User.ToUpper())
             || a.NOME != null && a.NOME.ToUpper().Contains(User.ToUpper()));
-            //if (!string.IsNullOrEmpty(Socio)) v = v.Where(a => a.PES_NUMERO != null && a.PES_NUMERO.ToString()== Socio);
-            //if (!string.IsNullOrEmpty(Genero)) v = v.Where(a => a.SEXO != null && a.SEXO.ToString().Contains(Genero == "1" ? "Masculino" : "Feminino"));
-            //if (!string.IsNullOrEmpty(DataNascimento)) v = v.Where(a => a.DATA_NASCIMENTO != null && a.DATA_NASCIMENTO.ToUpper().Contains(DataNascimento.Replace("-", "/").ToUpper()));
             if (!string.IsNullOrEmpty(Socio)) v = v.Where(a => a.PES_NUMERO != null && a.PES_NUMERO.ToString() == Socio);
             if (!string.IsNullOrEmpty(Telefone)) v = v.Where(a => a.TELEFONE != null && a.TELEFONE.ToString().Contains(Telefone.ToUpper()));
             if (!string.IsNullOrEmpty(Email)) v = v.Where(a => a.EMAIL != null && a.EMAIL.ToString().ToUpper().Contains(Email.ToUpper()));
-            //if (!string.IsNullOrEmpty(Utilizador)) v = v.Where(a => a.GRUPO_UTILIZADORES != null && a.GRUPO_UTILIZADORES.ToUpper().Contains(Utilizador.ToUpper()));
             if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
             if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper()));
             if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
@@ -4995,6 +4988,323 @@ namespace Gestreino.Controllers
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_Ranking;
             return View("Search/Ranking", MODEL);
         }
+        public ActionResult GetSearchTable()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Numero = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Altura = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Peso = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Data = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var Data2 = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            var Tipo = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+            var Sexo = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            //TipoId = TipoId > 0 ? TipoId : null;
+            var v = (from a in databaseManager.SP_GT_ENT_Search(1, null, null, null, null, null, null, null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Numero)) v = v.Where(a => a.N_SOCIO != null && a.N_SOCIO.ToString().Contains(Numero)
+             || a.NOME != null && a.NOME.ToUpper().Contains(Numero.ToUpper()));
+            if (!string.IsNullOrEmpty(Altura)) v = v.Where(a => a.ALTURA != null && a.ALTURA.ToString().Contains(Altura));
+            if (!string.IsNullOrEmpty(Peso)) v = v.Where(a => a.PESO != null && a.PESO.ToString() == Peso);
+            if (!string.IsNullOrEmpty(Tipo)) v = v.Where(a => a.AVALIACAO_ID != null && a.AVALIACAO_ID.ToString() == Tipo);
+            if (!string.IsNullOrEmpty(Sexo)) v = v.Where(a => a.SEXO != null && a.SEXO.ToString() == Sexo);
+            if (!string.IsNullOrEmpty(Data) && !string.IsNullOrEmpty(Data2))
+            {
+                var date1 = DateTime.ParseExact(Data, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                var date2 = DateTime.ParseExact(Data2, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                v = v.Where(x => DateTime.ParseExact(x.DATA1, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                >= date1 && DateTime.ParseExact(x.DATA1, "dd/MM/yyyy", CultureInfo.InvariantCulture) <= date2);
+            }
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "NUMERO": v = v.OrderBy(s => s.N_SOCIO); break;
+                        case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "ALTURA": v = v.OrderBy(s => s.ALTURA); break;
+                        case "PESO": v = v.OrderBy(s => s.PESO); break;
+                        case "DATA": v = v.OrderBy(s => s.DATA_DEFAULT); break;
+                        case "TIPO": v = v.OrderBy(s => s.TIPO_PLANO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "NUMERO": v = v.OrderByDescending(s => s.N_SOCIO); break;
+                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "ALTURA": v = v.OrderByDescending(s => s.ALTURA); break;
+                        case "PESO": v = v.OrderByDescending(s => s.PESO); break;
+                        case "DATA": v = v.OrderByDescending(s => s.DATA_DEFAULT); break;
+                        case "TIPO": v = v.OrderByDescending(s => s.TIPO_PLANO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = 0,
+                    NUMERO = x.N_SOCIO,
+                    NOME = x.NOME,
+                    ALTURA = x.ALTURA,
+                    PESO = x.PESO,
+                    DATA = x.DATA_DEFAULT,
+                    TIPO = x.AVALIACAO,
+                    SEXO = x.SEXO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetSearchTable2()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Numero = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Altura = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Peso = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Data = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var Data2 = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            var Tipo = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+            var Sexo = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault();
+            var Percentil = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            //TipoId = TipoId > 0 ? TipoId : null;
+            var v = (from a in databaseManager.SP_GT_ENT_Search(2, null, null, null, null, null, null, null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Numero)) v = v.Where(a => a.N_SOCIO != null && a.N_SOCIO.ToString().Contains(Numero)
+             || a.NOME != null && a.NOME.ToUpper().Contains(Numero.ToUpper()));
+            if (!string.IsNullOrEmpty(Altura)) v = v.Where(a => a.ALTURA != null && a.ALTURA.ToString().Contains(Altura));
+            if (!string.IsNullOrEmpty(Peso)) v = v.Where(a => a.PESO != null && a.PESO.ToString() == Peso);
+            if (!string.IsNullOrEmpty(Tipo)) v = v.Where(a => a.TIPO_PLANO != null && a.TIPO_PLANO == Tipo);
+            if (!string.IsNullOrEmpty(Sexo)) v = v.Where(a => a.SEXO != null && a.SEXO.ToString() == Sexo);
+            if (!string.IsNullOrEmpty(Data) && !string.IsNullOrEmpty(Data2))
+            {
+                var date1 = DateTime.ParseExact(Data, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                var date2 = DateTime.ParseExact(Data2, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                v = v.Where(x => DateTime.ParseExact(x.DATA1, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                >= date1 && DateTime.ParseExact(x.DATA1, "dd/MM/yyyy", CultureInfo.InvariantCulture) <= date2);
+            }
+            if (!string.IsNullOrEmpty(Percentil)) v = v.Where(a => a.PERCENTIL != null && a.PERCENTIL.ToString() == Percentil);
+
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "NUMERO": v = v.OrderBy(s => s.N_SOCIO); break;
+                        case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "ALTURA": v = v.OrderBy(s => s.ALTURA); break;
+                        case "PESO": v = v.OrderBy(s => s.PESO); break;
+                        case "DATA": v = v.OrderBy(s => s.DATA_DEFAULT); break;
+                        case "TIPO": v = v.OrderBy(s => s.TIPO_PLANO); break;
+                        case "PERCENTIL": v = v.OrderBy(s => s.PERCENTIL); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "NUMERO": v = v.OrderByDescending(s => s.N_SOCIO); break;
+                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "ALTURA": v = v.OrderByDescending(s => s.ALTURA); break;
+                        case "PESO": v = v.OrderByDescending(s => s.PESO); break;
+                        case "DATA": v = v.OrderByDescending(s => s.DATA_DEFAULT); break;
+                        case "TIPO": v = v.OrderByDescending(s => s.TIPO_PLANO); break;
+                        case "PERCENTIL": v = v.OrderByDescending(s => s.PERCENTIL); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            List<String> peraval = new List<string>();
+            peraval.Add("Ansiedade e Depressão");
+            peraval.Add("Auto Conceito");
+            peraval.Add("Risco Coronário");
+            peraval.Add("Problemas de Saúde");
+            peraval.Add("Funcional");
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = 0,
+                    NUMERO = x.N_SOCIO,
+                    NOME = x.NOME,
+                    ALTURA = x.ALTURA,
+                    PESO = x.PESO,
+                    DATA = x.DATA_DEFAULT,
+                    TIPO = x.AVALIACAO,
+                    SEXO = x.SEXO,
+                    PERCENTIL = peraval.Contains(x.AVALIACAO) ? string.Empty : x.PERCENTIL.ToString()
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetSearchTable3()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Numero = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Data = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Percentil = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Tipo = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var Sexo = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            List<String> peraval = new List<string>();
+            peraval.Add("Ansiedade e Depressão");
+            peraval.Add("Auto Conceito");
+            peraval.Add("Risco Coronário");
+            peraval.Add("Problemas de Saúde");
+            peraval.Add("Funcional");
+
+            //TipoId = TipoId > 0 ? TipoId : null;
+            var v = (from a in databaseManager.SP_GT_ENT_Search(3, null, null, null, null, null, null, null, null, null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            v = v.Where(x => !peraval.Contains(x.TIPO_PLANO));
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Numero)) v = v.Where(a => a.N_SOCIO != null && a.N_SOCIO.ToString().Contains(Numero)
+             || a.NOME != null && a.NOME.ToUpper().Contains(Numero.ToUpper()));
+            if (!string.IsNullOrEmpty(Tipo)) v = v.Where(a => a.TIPO_PLANO != null && a.TIPO_PLANO == Tipo);
+            if (!string.IsNullOrEmpty(Sexo)) v = v.Where(a => a.SEXO != null && a.SEXO.ToString() == Sexo);
+
+            if (!string.IsNullOrEmpty(Percentil))
+                //v = v.Where(a => a.PERCENTIL != null && a.PERCENTIL.ToString() == Percentil);
+                v = v.Take(Convert.ToInt32(Percentil));
+
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "NUMERO": v = v.OrderBy(s => s.N_SOCIO); break;
+                        case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "DATA": v = v.OrderBy(s => s.DATA_DEFAULT); break;
+                        case "PERCENTIL": v = v.OrderBy(s => s.PERCENTIL); break;
+                        case "TIPO": v = v.OrderBy(s => s.TIPO_PLANO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "NUMERO": v = v.OrderByDescending(s => s.N_SOCIO); break;
+                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "DATA": v = v.OrderByDescending(s => s.DATA_DEFAULT); break;
+                        case "PERCENTIL": v = v.OrderByDescending(s => s.PERCENTIL); break;
+                        case "TIPO": v = v.OrderByDescending(s => s.TIPO_PLANO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
+                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    Id = 0,
+                    NUMERO = x.N_SOCIO,
+                    NOME = x.NOME,
+                    DATA = x.DATA_DEFAULT,
+                    TIPO = x.AVALIACAO,
+                    SEXO = x.SEXO,
+                    PERCENTIL = peraval.Contains(x.AVALIACAO) ? string.Empty : x.PERCENTIL.ToString()
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+
         //Consulta Peso Medio
         public ActionResult MediumWeight(MediumWeight MODEL, int? Id)
         {
@@ -5092,7 +5402,7 @@ namespace Gestreino.Controllers
                 aSeries["name"] = sValue;
                 aSeries["data"] = new List<double?>();
                 
-                ((List<double?>)aSeries["data"]).Add((double?)item.Percentagem);
+                ((List<double?>)aSeries["data"]).Add((double?)Math.Round(item.Percentagem.Value, 2));
                 allSeries.Add(aSeries);
             }
             return Json(allSeries, JsonRequestBehavior.AllowGet);
@@ -5122,323 +5432,32 @@ namespace Gestreino.Controllers
             }
             return Json(allSeries, JsonRequestBehavior.AllowGet);
         }
-
-        public ActionResult GetSearchTable()
+        public ActionResult GetOthersRisco(OthersGraph MODEL)
         {
-            //UI DATATABLE PAGINATION BUTTONS
-            var draw = Request.Form.GetValues("draw").FirstOrDefault();
-            var start = Request.Form.GetValues("start").FirstOrDefault();
-            var length = Request.Form.GetValues("length").FirstOrDefault();
+            var data1 = databaseManager.SP_GT_GRAPH_RespRisco(null, null).ToList();
+            List<Dictionary<string, object>> allSeries = new List<Dictionary<string, object>>();
 
-            //UI DATATABLE COLUMN ORDERING
-            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
-            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
-
-            //UI DATATABLE SEARCH INPUTS
-            var Numero = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
-            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
-            var Altura = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
-            var Peso = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
-            var Data = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
-            var Data2 = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
-            var Tipo = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
-            var Sexo = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault();
-
-            //DECLARE PAGINATION VARIABLES
-            int pageSize = length != null ? Convert.ToInt32(length) : 0;
-            int skip = start != null ? Convert.ToInt32(start) : 0;
-            int totalRecords = 0;
-
-            //TipoId = TipoId > 0 ? TipoId : null;
-            var v = (from a in databaseManager.SP_GT_ENT_Search(1, null, null, null, null, null, null, null, null, null, "R").ToList() select a);
-            TempData["QUERYRESULT_ALL"] = v.ToList();
-
-            //SEARCH RESULT SET
-            if (!string.IsNullOrEmpty(Numero)) v = v.Where(a => a.N_SOCIO != null && a.N_SOCIO.ToString().Contains(Numero)
-             || a.NOME != null && a.NOME.ToUpper().Contains(Numero.ToUpper()));
-            if (!string.IsNullOrEmpty(Altura)) v = v.Where(a => a.ALTURA != null && a.ALTURA.ToString().Contains(Altura));
-            if (!string.IsNullOrEmpty(Peso)) v = v.Where(a => a.PESO != null && a.PESO.ToString()==Peso);
-            if (!string.IsNullOrEmpty(Tipo)) v = v.Where(a => a.AVALIACAO_ID != null && a.AVALIACAO_ID.ToString()==Tipo);
-            if (!string.IsNullOrEmpty(Sexo)) v = v.Where(a => a.SEXO != null && a.SEXO.ToString() == Sexo);
-            if (!string.IsNullOrEmpty(Data) && !string.IsNullOrEmpty(Data2)) {
-                var date1 =  DateTime.ParseExact(Data, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                var date2 = DateTime.ParseExact(Data2, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                v=v.Where(x => DateTime.ParseExact(x.DATA1, "dd/MM/yyyy", CultureInfo.InvariantCulture)
-                >= date1 && DateTime.ParseExact(x.DATA1, "dd/MM/yyyy", CultureInfo.InvariantCulture) <= date2);
-            }
-
-            //ORDER RESULT SET
-            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            foreach (var item in data1)
             {
-                if (sortColumnDir == "asc")
-                {
-                    switch (sortColumn)
-                    {
-                        case "NUMERO": v = v.OrderBy(s => s.N_SOCIO); break;
-                        case "NOME": v = v.OrderBy(s => s.NOME); break;
-                        case "ALTURA": v = v.OrderBy(s => s.ALTURA); break;
-                        case "PESO": v = v.OrderBy(s => s.PESO); break;
-                        case "DATA": v = v.OrderBy(s => s.DATA_DEFAULT); break;
-                        case "TIPO": v = v.OrderBy(s => s.TIPO_PLANO); break;
-                    }
-                }
+                var sValue = string.Empty;
+
+                if (item.Res == null)
+                    sValue = "N.A";
                 else
                 {
-                    switch (sortColumn)
-                    {
-                        case "NUMERO": v = v.OrderByDescending(s => s.N_SOCIO); break;
-                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
-                        case "ALTURA": v = v.OrderByDescending(s => s.ALTURA); break;
-                        case "PESO": v = v.OrderByDescending(s => s.PESO); break;
-                        case "DATA": v = v.OrderByDescending(s => s.DATA_DEFAULT); break;
-                        case "TIPO": v = v.OrderByDescending(s => s.TIPO_PLANO); break;
-                    }
+                    sValue = item.DescRes;
                 }
+
+                Dictionary<string, object> aSeries = new Dictionary<string, object>();
+                aSeries["name"] = sValue;
+                aSeries["data"] = new List<double?>();
+
+                ((List<double?>)aSeries["data"]).Add((double?)item.Percentagem);
+                allSeries.Add(aSeries);
             }
-
-            totalRecords = v.Count();
-            var data = v.Skip(skip).Take(pageSize).ToList();
-            TempData["QUERYRESULT"] = v.ToList();
-
-            //RETURN RESPONSE JSON PARSE
-            return Json(new
-            {
-                draw = draw,
-                recordsFiltered = totalRecords,
-                recordsTotal = totalRecords,
-                data = data.Select(x => new
-                {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
-                    Id = 0,
-                    NUMERO = x.N_SOCIO,
-                    NOME = x.NOME,
-                    ALTURA = x.ALTURA,
-                    PESO = x.PESO,
-                    DATA = x.DATA_DEFAULT,
-                    TIPO = x.AVALIACAO,
-                    SEXO = x.SEXO
-                }),
-                sortColumn = sortColumn,
-                sortColumnDir = sortColumnDir,
-            }, JsonRequestBehavior.AllowGet);
+            return Json(allSeries, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult GetSearchTable2()
-        {
-            //UI DATATABLE PAGINATION BUTTONS
-            var draw = Request.Form.GetValues("draw").FirstOrDefault();
-            var start = Request.Form.GetValues("start").FirstOrDefault();
-            var length = Request.Form.GetValues("length").FirstOrDefault();
-
-            //UI DATATABLE COLUMN ORDERING
-            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
-            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
-
-            //UI DATATABLE SEARCH INPUTS
-            var Numero = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
-            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
-            var Altura = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
-            var Peso = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
-            var Data = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
-            var Data2 = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
-            var Tipo = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
-            var Sexo = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault();
-            var Percentil = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault();
-
-            //DECLARE PAGINATION VARIABLES
-            int pageSize = length != null ? Convert.ToInt32(length) : 0;
-            int skip = start != null ? Convert.ToInt32(start) : 0;
-            int totalRecords = 0;
-
-            //TipoId = TipoId > 0 ? TipoId : null;
-            var v = (from a in databaseManager.SP_GT_ENT_Search(2, null, null, null, null, null, null, null, null, null, "R").ToList() select a);
-            TempData["QUERYRESULT_ALL"] = v.ToList();
-
-            //SEARCH RESULT SET
-            if (!string.IsNullOrEmpty(Numero)) v = v.Where(a => a.N_SOCIO != null && a.N_SOCIO.ToString().Contains(Numero)
-             || a.NOME != null && a.NOME.ToUpper().Contains(Numero.ToUpper()));
-            if (!string.IsNullOrEmpty(Altura)) v = v.Where(a => a.ALTURA != null && a.ALTURA.ToString().Contains(Altura));
-            if (!string.IsNullOrEmpty(Peso)) v = v.Where(a => a.PESO != null && a.PESO.ToString() == Peso);
-            if (!string.IsNullOrEmpty(Tipo)) v = v.Where(a => a.TIPO_PLANO != null && a.TIPO_PLANO== Tipo);
-            if (!string.IsNullOrEmpty(Sexo)) v = v.Where(a => a.SEXO != null && a.SEXO.ToString() == Sexo);
-            if (!string.IsNullOrEmpty(Data) && !string.IsNullOrEmpty(Data2))
-            {
-                var date1 = DateTime.ParseExact(Data, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                var date2 = DateTime.ParseExact(Data2, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                v = v.Where(x => DateTime.ParseExact(x.DATA1, "dd/MM/yyyy", CultureInfo.InvariantCulture)
-                >= date1 && DateTime.ParseExact(x.DATA1, "dd/MM/yyyy", CultureInfo.InvariantCulture) <= date2);
-            }
-            if (!string.IsNullOrEmpty(Percentil)) v = v.Where(a => a.PERCENTIL != null && a.PERCENTIL.ToString() == Percentil);
-
-
-            //ORDER RESULT SET
-            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-            {
-                if (sortColumnDir == "asc")
-                {
-                    switch (sortColumn)
-                    {
-                        case "NUMERO": v = v.OrderBy(s => s.N_SOCIO); break;
-                        case "NOME": v = v.OrderBy(s => s.NOME); break;
-                        case "ALTURA": v = v.OrderBy(s => s.ALTURA); break;
-                        case "PESO": v = v.OrderBy(s => s.PESO); break;
-                        case "DATA": v = v.OrderBy(s => s.DATA_DEFAULT); break;
-                        case "TIPO": v = v.OrderBy(s => s.TIPO_PLANO); break;
-                        case "PERCENTIL": v = v.OrderBy(s => s.PERCENTIL); break;
-                    }
-                }
-                else
-                {
-                    switch (sortColumn)
-                    {
-                        case "NUMERO": v = v.OrderByDescending(s => s.N_SOCIO); break;
-                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
-                        case "ALTURA": v = v.OrderByDescending(s => s.ALTURA); break;
-                        case "PESO": v = v.OrderByDescending(s => s.PESO); break;
-                        case "DATA": v = v.OrderByDescending(s => s.DATA_DEFAULT); break;
-                        case "TIPO": v = v.OrderByDescending(s => s.TIPO_PLANO); break;
-                        case "PERCENTIL": v = v.OrderByDescending(s => s.PERCENTIL); break;
-                    }
-                }
-            }
-
-            totalRecords = v.Count();
-            var data = v.Skip(skip).Take(pageSize).ToList();
-            TempData["QUERYRESULT"] = v.ToList();
-
-            List<String> peraval = new List<string>();
-            peraval.Add("Ansiedade e Depressão");
-            peraval.Add("Auto Conceito");
-            peraval.Add("Risco Coronário");
-            peraval.Add("Problemas de Saúde");
-            peraval.Add("Funcional");
-
-            //RETURN RESPONSE JSON PARSE
-            return Json(new
-            {
-                draw = draw,
-                recordsFiltered = totalRecords,
-                recordsTotal = totalRecords,
-                data = data.Select(x => new
-                {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
-                    Id = 0,
-                    NUMERO = x.N_SOCIO,
-                    NOME = x.NOME,
-                    ALTURA = x.ALTURA,
-                    PESO = x.PESO,
-                    DATA = x.DATA_DEFAULT,
-                    TIPO = x.AVALIACAO,
-                    SEXO = x.SEXO,
-                    PERCENTIL = peraval.Contains(x.AVALIACAO)?string.Empty : x.PERCENTIL.ToString()
-                }),
-                sortColumn = sortColumn,
-                sortColumnDir = sortColumnDir,
-            }, JsonRequestBehavior.AllowGet);
-        }
-        public ActionResult GetSearchTable3()
-        {
-            //UI DATATABLE PAGINATION BUTTONS
-            var draw = Request.Form.GetValues("draw").FirstOrDefault();
-            var start = Request.Form.GetValues("start").FirstOrDefault();
-            var length = Request.Form.GetValues("length").FirstOrDefault();
-
-            //UI DATATABLE COLUMN ORDERING
-            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
-            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
-
-            //UI DATATABLE SEARCH INPUTS
-            var Numero = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
-            var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
-            var Data = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
-            var Percentil = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
-            var Tipo = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
-            var Sexo = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
-            
-            //DECLARE PAGINATION VARIABLES
-            int pageSize = length != null ? Convert.ToInt32(length) : 0;
-            int skip = start != null ? Convert.ToInt32(start) : 0;
-            int totalRecords = 0;
-
-            List<String> peraval = new List<string>();
-            peraval.Add("Ansiedade e Depressão");
-            peraval.Add("Auto Conceito");
-            peraval.Add("Risco Coronário");
-            peraval.Add("Problemas de Saúde");
-            peraval.Add("Funcional");
-
-            //TipoId = TipoId > 0 ? TipoId : null;
-            var v = (from a in databaseManager.SP_GT_ENT_Search(3, null, null, null, null, null, null, null, null, null, "R").ToList() select a);
-            TempData["QUERYRESULT_ALL"] = v.ToList();
-
-            v = v.Where(x => !peraval.Contains(x.TIPO_PLANO));
-            //SEARCH RESULT SET
-            if (!string.IsNullOrEmpty(Numero)) v = v.Where(a => a.N_SOCIO != null && a.N_SOCIO.ToString().Contains(Numero)
-             || a.NOME != null && a.NOME.ToUpper().Contains(Numero.ToUpper()));
-            if (!string.IsNullOrEmpty(Tipo)) v = v.Where(a => a.TIPO_PLANO != null && a.TIPO_PLANO == Tipo);
-            if (!string.IsNullOrEmpty(Sexo)) v = v.Where(a => a.SEXO != null && a.SEXO.ToString() == Sexo);
-
-            if (!string.IsNullOrEmpty(Percentil))
-                //v = v.Where(a => a.PERCENTIL != null && a.PERCENTIL.ToString() == Percentil);
-                v = v.Take(Convert.ToInt32(Percentil));
- 
-
-            //ORDER RESULT SET
-            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-            {
-                if (sortColumnDir == "asc")
-                {
-                    switch (sortColumn)
-                    {
-                        case "NUMERO": v = v.OrderBy(s => s.N_SOCIO); break;
-                        case "NOME": v = v.OrderBy(s => s.NOME); break;
-                        case "DATA": v = v.OrderBy(s => s.DATA_DEFAULT); break;
-                        case "PERCENTIL": v = v.OrderBy(s => s.PERCENTIL); break;
-                        case "TIPO": v = v.OrderBy(s => s.TIPO_PLANO); break;
-                    }
-                }
-                else
-                {
-                    switch (sortColumn)
-                    {
-                        case "NUMERO": v = v.OrderByDescending(s => s.N_SOCIO); break;
-                        case "NOME": v = v.OrderByDescending(s => s.NOME); break;
-                        case "DATA": v = v.OrderByDescending(s => s.DATA_DEFAULT); break;
-                        case "PERCENTIL": v = v.OrderByDescending(s => s.PERCENTIL); break;
-                        case "TIPO": v = v.OrderByDescending(s => s.TIPO_PLANO); break;
-                     }
-                }
-            }
-
-            totalRecords = v.Count();
-            var data = v.Skip(skip).Take(pageSize).ToList();
-            TempData["QUERYRESULT"] = v.ToList();
-
-          
-            //RETURN RESPONSE JSON PARSE
-            return Json(new
-            {
-                draw = draw,
-                recordsFiltered = totalRecords,
-                recordsTotal = totalRecords,
-                data = data.Select(x => new
-                {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
-                    Id = 0,
-                    NUMERO = x.N_SOCIO,
-                    NOME = x.NOME,
-                    DATA = x.DATA_DEFAULT,
-                    TIPO = x.AVALIACAO,
-                    SEXO = x.SEXO,
-                    PERCENTIL = peraval.Contains(x.AVALIACAO) ? string.Empty : x.PERCENTIL.ToString()
-                }),
-                sortColumn = sortColumn,
-                sortColumnDir = sortColumnDir,
-            }, JsonRequestBehavior.AllowGet);
-        }
-
+      
 
 
 

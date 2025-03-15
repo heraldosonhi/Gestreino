@@ -431,16 +431,16 @@ namespace Gestreino.Models
         [Display(Name = "Contrato")]
         public int? PES_PROFISSOES_CONTRACTO_ID { get; set; }
 
-        [Display(Name = "Profissao")]
+        [Display(Name = "Profissão")]
         public int? PES_PROFISSAO_ID { get; set; }
 
-        [Display(Name = "Data Inicio")]
+        [Display(Name = "Data Início")]
         public string DateIni { get; set; }
 
         [Display(Name = "Data Fim")]
         public string DateEnd { get; set; }
 
-        [Display(Name = "Descricao")]
+        [Display(Name = "Descrição")]
         public string Descricao { get; set; }
 
         [Display(Name = "Empresa")]

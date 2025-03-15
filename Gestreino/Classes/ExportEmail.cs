@@ -15,7 +15,6 @@ using System.Web.Mvc;
 using System.Web.Services.Description;
 using Gestreino.Classes;
 using DocumentFormat.OpenXml.Wordprocessing;
-using JeanPiagetSGA;
 
 namespace Gestreino.Classes
 {
