@@ -4162,8 +4162,15 @@ $(document).on("click", "#gttreinoclr", function () {
     $("#list2 li").remove();
     $("#list1 li button").attr("disabled",false);
 })
-$(document).on("change", "#FaseTreinoId", function () {
-    if ($(this).val() != '') {
+var index = $('#FaseTreinoId').prop('selectedIndex');
+var select = $('#FaseTreinoId');
+select.change(function (e) {
+    var conf = confirm('Tem a certeza que pretende aplicar a fase de treino "' + $(this).find(":selected").text() + '"?');
+    if (!conf) {
+        $('#FaseTreinoId').prop('selectedIndex', index);
+        return false;
+    }
+    else {
         if ($("#list2 li").length == 0) {
             jsonObj = [];
             var response = { result: false, error: "Não existem exercícios no plano!" };
@@ -4176,7 +4183,6 @@ $(document).on("change", "#FaseTreinoId", function () {
                 data: { "id": $(this).val() },
                 cache: false,
                 beforeSend: function () {
-                    //loadIn();
                 },
                 complete: function () {
                 },
@@ -4185,21 +4191,33 @@ $(document).on("change", "#FaseTreinoId", function () {
                     $("#list2").find(("input[name='exRepeticoes[]']")).val(data[0].GT_Repeticoes_ID);
                     $("#list2").find(("input[name='exCarga[]']")).val(data[0].GT_Carga_ID);
                     $("#list2").find(("input[name='exTempo[]']")).val(data[0].GT_TempoDescanso_ID);
-                    //loadOut();
+                    $("#FaseTreinoId option[value='']").remove();
                 }
             });
         }
+        index = $('#FaseTreinoId').prop('selectedIndex');
     }
-})
-$(document).on("change", "#GTTreinoId", function () {
-    if ($(this).val() != '') {
-        var gttipotreino = $('#GT_EXERCISE_TYPE_BODYMASS').val();
-        if (gttipotreino == $('#GTTipoTreinoId').val()) 
-            window.location = "/gtmanagement/bodymassplans/" + $(this).val() + "?predefined=true";
-        else
-            window.location = "/gtmanagement/cardioplans/" + $(this).val() + "?predefined=true";
+});
+var indexTr = $('#GTTreinoId').prop('selectedIndex');
+var selectTr = $('#GTTreinoId');
+selectTr.change(function (e) {
+    var conf = confirm('Tem a certeza que pretende carregar o plano "' + $(this).find(":selected").text() + '"?');
+    if (!conf) {
+        $('#GTTreinoId').prop('selectedIndex', indexTr);
+        return false;
     }
-})
+    else {
+        if ($(this).val() != '') {
+            var gttipotreino = $('#GT_EXERCISE_TYPE_BODYMASS').val();
+            if (gttipotreino == $('#GTTipoTreinoId').val())
+                window.location = "/gtmanagement/bodymassplans/" + $(this).val() + "?predefined=true";
+            else
+                window.location = "/gtmanagement/cardioplans/" + $(this).val() + "?predefined=true";
+        }
+
+        index = $('#GTTreinoId').prop('selectedIndex');
+    }
+});
 $(document).on("change", "#plantype1", function () {
         $(".newplangtreino").hide();
     $('#GTTreinoId').attr("required", false);
@@ -4226,9 +4244,11 @@ $(document).on('click', '.addlistplan1', function () {
     $(this).removeClass('btn-success').addClass('btn-danger');
     $(this).find('i').removeClass('fa-plus-circle').addClass('fa-times');
     //$(this).parent().find('input').attr('name', 'exIds[]');
+    $(this).parent().find('.gtplansmodaleditor').show();
+    
 
     var dataid = $(this).data('id');
-    var html = '<div class="inputs_' + dataid + '"><table><tr>';
+    var html = '<div class="inputs_' + dataid + '"><table hidden=""><tr>';
     if (gttipotreino == $('#GTTipoTreinoId').val()) {
          html +='<td></td> <td>N° de séries:</td><td>N° de repetições:</td><td>% 1RM:</td><td>Tempo descanso:</td><td>Reps:</td><td>Carga</td><td>RM</td>';
     } else {
@@ -4261,13 +4281,90 @@ $(document).on('click', '.addlistplan1', function () {
     $(this).removeClass('removegaclass1').addClass('addlistplan1');
     $(this).removeClass('btn-danger').addClass('btn-success');
     $(this).find('i').removeClass('fa-times').addClass('fa-plus-circle');
-    $(this).parent().find('.inputs_' + dataid + '').remove()
+    $(this).parent().find('.inputs_' + dataid + '').remove();
+    $(this).parent().find('.gtplansmodaleditor').hide();
 });
 $(document).on('click', '.removegaclass1', function () {
     var dataid = $(this).data('id');
     $('#ex_' + dataid+' button').attr("disabled", false);
     $(this).parent().remove();
 });
+
+function setRM1() {
+    var Rep = Number($('select[name="Reps"]').val());
+    var Carga = Number($('input[name="CargaUsada"]').val());
+    $.ajax({
+        type: "GET",
+        url: "/gtmanagement/GetSetRM",
+        data: { "Carga": Carga, "Rep": Rep },
+        cache: false,
+        beforeSend: function () {
+        },
+        complete: function () {
+        },
+        success: function (data) {
+            $('input[name="RM"]').val(data);
+        }
+    });
+}
+function setRM2() {
+    var Rep = Number($('.modal-body select[name="Reps"]').val());
+    var Carga = Number($('.modal-body input[name="CargaUsada"]').val());
+    $.ajax({
+        type: "GET",
+        url: "/gtmanagement/GetSetRM",
+        data: { "Carga": Carga, "Rep": Rep },
+        cache: false,
+        beforeSend: function () {
+        },
+        complete: function () {
+        },
+        success: function (data) {
+            $('.modal-body input[name="RM"]').val(data);
+        }
+    });
+}
+
+
+$(document).on('click', '.gtplansmodaleditor', function () {
+    var dataid = $(this).data('id');
+    $('#setGTTreinoInputId').val(dataid);
+    var exSeries = $('.inputs_' + dataid + ' table input[name="exSeries[]"]').val();
+    var exRepeticoes = $('.inputs_' + dataid + ' table input[name="exRepeticoes[]"]').val();
+    var exCarga = $('.inputs_' + dataid + ' table input[name="exCarga[]"]').val();
+    var exTempo = $('.inputs_' + dataid + ' table input[name="exTempo[]"]').val();
+    var exReps = $('.inputs_' + dataid + ' table input[name="exReps[]"]').val();
+    var exCargaUsada = $('.inputs_' + dataid + ' table input[name="exCargaUsada[]"]').val();
+    var exRM = $('.inputs_' + dataid + ' table input[name="exRM[]"]').val();
+
+    $('.modal-body select[name="GT_Series_ID"]').val(exSeries);
+    $('.modal-body select[name="GT_Repeticoes_ID"]').val(exRepeticoes);
+    $('.modal-body select[name="GT_Carga_ID"]').val(exCarga);
+    $('.modal-body select[name="GT_TempoDescanso_ID"]').val(exTempo);
+    $('.modal-body select[name="Reps"]').val(exReps);
+    $('.modal-body input[name="CargaUsada"]').val(exCargaUsada);
+    $('.modal-body input[name="RM"]').val(exRM);
+});
+function setGTTreinoInputs() {
+    var dataid = $('#setGTTreinoInputId').val();
+    var n1 = $('.modal-body select[name="GT_Series_ID"]').val();
+    var n2 = $('.modal-body select[name="GT_Repeticoes_ID"]').val();
+    var n3 = $('.modal-body select[name="GT_Carga_ID"]').val();
+    var n4 = $('.modal-body select[name="GT_TempoDescanso_ID"]').val();
+    var n5 = $('.modal-body select[name="Reps"]').val();
+    var n6 = $('.modal-body input[name="CargaUsada"]').val();
+    var n7 = $('.modal-body input[name="RM"]').val();
+
+    $('.inputs_' + dataid + ' table input[name="exSeries[]"]').val(n1);
+    $('.inputs_' + dataid + ' table input[name="exRepeticoes[]"]').val(n2);
+    $('.inputs_' + dataid + ' table input[name="exCarga[]"]').val(n3);
+    $('.inputs_' + dataid + ' table input[name="exTempo[]"]').val(n4);
+    $('.inputs_' + dataid + ' table input[name="exReps[]"]').val(n5);
+    $('.inputs_' + dataid + ' table input[name="exCargaUsada[]"]').val(n6);
+    $('.inputs_' + dataid + ' table input[name="exRM[]"]').val(n7);
+}
+
+
 
 
 //Avalicao psicologica e diversos

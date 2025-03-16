@@ -82,22 +82,15 @@
         <EntityTypeShape EntityType="GESTREINO_ORM.GT_TempoDescanso" Width="1.5" PointX="8.375" PointY="0.75" />
         <EntityTypeShape EntityType="GESTREINO_ORM.GT_Exercicio" Width="1.5" PointX="9.25" PointY="69.5" />
         <EntityTypeShape EntityType="GESTREINO_ORM.GT_Exercicio_ARQUIVOS" Width="1.5" PointX="11.5" PointY="61.125" />
-        <EntityTypeShape EntityType="GESTREINO_ORM.GT_ExercicioTreino" Width="1.5" PointX="13.5" PointY="34.25" />
         <EntityTypeShape EntityType="GESTREINO_ORM.GT_SOCIOS" Width="1.5" PointX="5.25" PointY="52.375" />
         <EntityTypeShape EntityType="GESTREINO_ORM.GT_TipoTreino" Width="1.5" PointX="7" PointY="64.75" />
         <EntityTypeShape EntityType="GESTREINO_ORM.GT_Treino" Width="1.5" PointX="9.25" PointY="64.375" />
         <EntityTypeShape EntityType="GESTREINO_ORM.GT_TreinosPessoa" Width="1.5" PointX="11.5" PointY="56.5" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_PESSOAS" Width="1.5" PointX="3" PointY="34" />
         <AssociationConnector Association="GESTREINO_ORM.GT_Exercicio_ARQUIVOS_ARQUIVOS_ID" />
-        <AssociationConnector Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Carga_ID" />
         <AssociationConnector Association="GESTREINO_ORM.GT_FaseTreino_GT_Carga_ID" />
         <AssociationConnector Association="GESTREINO_ORM.GT_Exercicio_ARQUIVOS_GT_Exercicio_ID" />
         <AssociationConnector Association="GESTREINO_ORM.GT_Exercicio_GT_TipoTreino_ID" />
-        <AssociationConnector Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Exercicio_ID" />
-        <AssociationConnector Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Repeticoes_ID" />
-        <AssociationConnector Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Series_ID" />
-        <AssociationConnector Association="GESTREINO_ORM.GT_ExercicioTreino_GT_TempoDescanso_ID" />
-        <AssociationConnector Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Treino_ID" />
         <AssociationConnector Association="GESTREINO_ORM.GT_FaseTreino_GT_Repeticoes_ID" />
         <AssociationConnector Association="GESTREINO_ORM.GT_FaseTreino_GT_Series_ID" />
         <AssociationConnector Association="GESTREINO_ORM.GT_FaseTreino_GT_TempoDescanso_ID" />
@@ -187,6 +180,15 @@
         <EntityTypeShape EntityType="GESTREINO_ORM.GRL_DEFINICOES" Width="1.5" PointX="16.5" PointY="15.75" />
         <AssociationConnector Association="GESTREINO_ORM.GRL_DEFINICOES_INST_APLICACAO_ID" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PesoMedio" Width="1.5" PointX="9.375" PointY="3.75" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_CoeficienteRepeticao" Width="1.5" PointX="14.25" PointY="46.25" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_ExercicioTreino" Width="1.5" PointX="16.5" PointY="42.25" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Carga_ID" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_ExercicioTreino_GT_CoeficienteRepeticao_ID" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Exercicio_ID" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Repeticoes_ID" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Series_ID" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_ExercicioTreino_GT_TempoDescanso_ID" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Treino_ID" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

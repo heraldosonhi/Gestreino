@@ -658,9 +658,9 @@ button.toast-close-button {
 
 
 
-.planfieldset  {
-    
-    border:1px solid #ccc
+.planfieldset {
+    border: 2px solid rgba(0,0,0,.07);
+    border-radius:4px;
 } /* Remove margins from p elements inside fieldsets */
 
 fieldset {

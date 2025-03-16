@@ -26,7 +26,7 @@ namespace Gestreino.Controllers
                 var bytearr = xls.ExportToExcel(section, query);
 
                 var content = bytearr;
-                        return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", section+".xlsx");
+                        return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "gestreino_xlsreports_"+section+".xlsx");
             }
             catch (Exception ex)
             {

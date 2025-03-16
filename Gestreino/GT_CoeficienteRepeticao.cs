@@ -12,20 +12,17 @@ namespace Gestreino
     using System;
     using System.Collections.Generic;
     
-    public partial class GT_Series
+    public partial class GT_CoeficienteRepeticao
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public GT_Series()
+        public GT_CoeficienteRepeticao()
         {
-            this.GT_FaseTreino = new HashSet<GT_FaseTreino>();
             this.GT_ExercicioTreino = new HashSet<GT_ExercicioTreino>();
         }
     
         public int ID { get; set; }
-        public int SERIES { get; set; }
+        public decimal COEFICIENTE_REPETICAO { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GT_FaseTreino> GT_FaseTreino { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GT_ExercicioTreino> GT_ExercicioTreino { get; set; }
     }

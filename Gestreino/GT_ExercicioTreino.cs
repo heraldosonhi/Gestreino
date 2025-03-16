@@ -21,8 +21,8 @@ namespace Gestreino
         public int GT_Repeticoes_ID { get; set; }
         public int GT_TempoDescanso_ID { get; set; }
         public int GT_Carga_ID { get; set; }
-        public int REPETICOES_COMPLETADAS { get; set; }
-        public Nullable<int> CARGA_USADA { get; set; }
+        public int GT_CoeficienteRepeticao_ID { get; set; }
+        public Nullable<decimal> CARGA_USADA { get; set; }
         public Nullable<decimal> ONERM { get; set; }
         public int ORDEM { get; set; }
         public int INSERIDO_POR { get; set; }
@@ -33,6 +33,7 @@ namespace Gestreino
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
     
         public virtual GT_Carga GT_Carga { get; set; }
+        public virtual GT_CoeficienteRepeticao GT_CoeficienteRepeticao { get; set; }
         public virtual GT_Exercicio GT_Exercicio { get; set; }
         public virtual GT_Repeticoes GT_Repeticoes { get; set; }
         public virtual GT_Series GT_Series { get; set; }

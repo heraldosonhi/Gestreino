@@ -257,6 +257,9 @@
     <Compile Include="GT_Carga.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_CoeficienteRepeticao.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="GT_DuracaoPlano.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>

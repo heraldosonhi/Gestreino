@@ -1832,6 +1832,7 @@ namespace Gestreino.Controllers
             MODEL.GT_TempoDescanso_List = databaseManager.GT_TempoDescanso.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.TEMPO_DESCANSO });
             MODEL.FaseTreinoList = databaseManager.GT_FaseTreino.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.SIGLA });
             MODEL.GTTreinoList = databaseManager.GT_Treino.Where(x => x.DATA_REMOCAO == null && !string.IsNullOrEmpty(x.NOME) && x.GT_TipoTreino_ID == Configs.GT_EXERCISE_TYPE_BODYMASS).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            MODEL.RepList = databaseManager.GT_CoeficienteRepeticao.OrderBy(x =>x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.ID.ToString() });
             MODEL.DateIni = DateTime.Parse(DateTime.Now.ToString()).ToString("dd-MM-yyyy");
 
             MODEL.GTTipoTreinoId = Configs.GT_EXERCISE_TYPE_BODYMASS;
@@ -1862,12 +1863,12 @@ namespace Gestreino.Controllers
                 MODEL.ExerciseArqListTreino = (from j1 in databaseManager.GT_ExercicioTreino
                                                join j2 in databaseManager.GT_Exercicio on j1.GT_Exercicio_ID equals j2.ID
                                                where j1.GT_Treino_ID == Id
-                                               select new ExerciseArq() { Name = j2.NOME, ExerciseId = j1.GT_Exercicio_ID, GT_Series_ID = j1.GT_Series_ID, GT_Repeticoes_ID = j1.GT_Repeticoes_ID, GT_TempoDescanso_ID = j1.GT_TempoDescanso_ID, GT_Carga_ID = j1.GT_Carga_ID, REPETICOES_COMPLETADAS = j1.REPETICOES_COMPLETADAS, CARGA_USADA = j1.CARGA_USADA, ONERM = j1.ONERM, ORDEM = j1.ORDEM }).ToList();
+                                               select new ExerciseArq() { Name = j2.NOME, ExerciseId = j1.GT_Exercicio_ID, GT_Series_ID = j1.GT_Series_ID, GT_Repeticoes_ID = j1.GT_Repeticoes_ID, GT_TempoDescanso_ID = j1.GT_TempoDescanso_ID, GT_Carga_ID = j1.GT_Carga_ID, REPETICOES_COMPLETADAS = j1.GT_CoeficienteRepeticao_ID, CARGA_USADA = j1.CARGA_USADA, ONERM = j1.ONERM, ORDEM = j1.ORDEM }).ToList();
 
                 if (string.IsNullOrEmpty(predefined))
                 {
                     if (!string.IsNullOrEmpty(treino.First().DATA_INICIO.ToString()))
-                        MODEL.DateIni = DateTime.Parse(treino.First().DATA_INICIO.ToString()).ToString("dd-MM-yyyy");
+                        MODEL.DateIni = DateTime.ParseExact(treino.First().DATA_INICIO, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("dd-MM-yyyy");
 
                     if (treino.First().pes_id != MODEL.PEsId)
                         return RedirectToAction("bodymassplans", "gtmanagement", new { Id = string.Empty });
@@ -1929,9 +1930,11 @@ namespace Gestreino.Controllers
                 if (string.IsNullOrEmpty(predefined))
                 {
                     if (!string.IsNullOrEmpty(treino.First().DATA_INICIO.ToString()))
-                        MODEL.DateIni = DateTime.Parse(treino.First().DATA_INICIO.ToString()).ToString("dd-MM-yyyy");
+                        MODEL.DateIni = DateTime.ParseExact(treino.First().DATA_INICIO, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("dd-MM-yyyy");
+
                     if (!string.IsNullOrEmpty(treino.First().DATA_FIM.ToString()))
-                        MODEL.DateEnd = DateTime.Parse(treino.First().DATA_FIM.ToString()).ToString("dd-MM-yyyy");
+                        MODEL.DateEnd = DateTime.ParseExact(treino.First().DATA_FIM, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("dd-MM-yyyy");
+
                     MODEL.Observacoes = treino.First().OBSERVACOES;
                     MODEL.Periodizacao = treino.First().PERIODIZACAO;
 
@@ -1974,6 +1977,15 @@ namespace Gestreino.Controllers
                 CARGA = x.CARGA,
                 TEMPO_DESCANSO = x.TEMPO_DESCANSO
             }).ToArray(), JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult GetSetRM(decimal Carga, int Rep)
+        {
+            string v = string.Empty;
+            decimal n = databaseManager.GT_CoeficienteRepeticao.Where(x => x.ID == Rep).Select(x => x.COEFICIENTE_REPETICAO).FirstOrDefault();
+            if (Carga!=null && Rep !=null)
+               v = Convert.ToDecimal(n * Carga).ToString("F");
+            return Json(v, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult GetGTTreinoTable(int? PesId, int? GTTipoTreinoId)
@@ -2077,7 +2089,7 @@ namespace Gestreino.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult GTPlans(GT_TreinoBodyMass MODEL, int?[] exIds, int?[] exSeries, int?[] exRepeticoes, int?[] exCarga, int?[] exTempo, int?[] exReps, int?[] exCargaUsada, string[] exRM,/**/ int?[] exDuracao, int?[] exFC, int?[] exNivel, string[] exDistancia)
+        public ActionResult GTPlans(GT_TreinoBodyMass MODEL, int?[] exIds, int?[] exSeries, int?[] exRepeticoes, int?[] exCarga, int?[] exTempo, int?[] exReps, string[] exCargaUsada, string[] exRM,/**/ int?[] exDuracao, int?[] exFC, int?[] exNivel, string[] exDistancia)
         {
             try
             {
@@ -2118,6 +2130,7 @@ namespace Gestreino.Controllers
                 var delete = databaseManager.SP_GT_ENT_TREINO(MODEL.ID, null, MODEL.GTTipoTreinoId, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), MODEL.GTTipoTreinoId == Configs.GT_EXERCISE_TYPE_BODYMASS ? "DB" : "DC").ToList();
 
                 Decimal RMs = 0;
+                Decimal CargaUsada = 0;
                 Decimal Distancia = 0;
 
                 if (MODEL.GTTipoTreinoId == Configs.GT_EXERCISE_TYPE_BODYMASS)
@@ -2125,8 +2138,12 @@ namespace Gestreino.Controllers
                     for (int x = 0; x < exIds.Length; x++)
                     {
                         if (exRM != null && !string.IsNullOrEmpty(exRM[x]))
-                            Convert.ToDecimal(exRM[x].Replace(".", ","));
-                        databaseManager.SP_GT_ENT_TREINO(MODEL.ID, null, MODEL.GTTipoTreinoId, null, null, null, null, null, null, exIds[x], exSeries[x], exRepeticoes[x], exTempo[x], exCarga[x], exReps[x], exCargaUsada[x], RMs, null, null, null, null, x, int.Parse(User.Identity.GetUserId()), MODEL.GTTipoTreinoId == Configs.GT_EXERCISE_TYPE_BODYMASS ? "CB" : "CC").ToList();
+                            RMs = decimal.Parse(exRM[x], CultureInfo.InvariantCulture);
+
+                        if (exCargaUsada != null && !string.IsNullOrEmpty(exCargaUsada[x]))
+                            CargaUsada = decimal.Parse(exCargaUsada[x], CultureInfo.InvariantCulture);
+
+                        databaseManager.SP_GT_ENT_TREINO(MODEL.ID, null, MODEL.GTTipoTreinoId, null, null, null, null, null, null, exIds[x], exSeries[x], exRepeticoes[x], exTempo[x], exCarga[x], exReps[x], CargaUsada, RMs, null, null, null, null, x, int.Parse(User.Identity.GetUserId()), MODEL.GTTipoTreinoId == Configs.GT_EXERCISE_TYPE_BODYMASS ? "CB" : "CC").ToList();
                     }
                 }
                 if (MODEL.GTTipoTreinoId == Configs.GT_EXERCISE_TYPE_CARDIO)

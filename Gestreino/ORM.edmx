@@ -165,6 +165,13 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CARGA" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="GT_CoeficienteRepeticao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="COEFICIENTE_REPETICAO" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="GT_DuracaoPlano">
           <Key>
             <PropertyRef Name="ID" />
@@ -231,8 +238,8 @@
           <Property Name="GT_Repeticoes_ID" Type="int" Nullable="false" />
           <Property Name="GT_TempoDescanso_ID" Type="int" Nullable="false" />
           <Property Name="GT_Carga_ID" Type="int" Nullable="false" />
-          <Property Name="REPETICOES_COMPLETADAS" Type="int" Nullable="false" />
-          <Property Name="CARGA_USADA" Type="int" />
+          <Property Name="GT_CoeficienteRepeticao_ID" Type="int" Nullable="false" />
+          <Property Name="CARGA_USADA" Type="decimal" Precision="18" Scale="2" />
           <Property Name="ONERM" Type="decimal" Precision="18" Scale="2" />
           <Property Name="ORDEM" Type="int" Nullable="false" />
           <Property Name="INSERIDO_POR" Type="int" Nullable="false" />
@@ -2226,6 +2233,18 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="GT_ExercicioTreino_GT_CoeficienteRepeticao_ID">
+          <End Role="GT_CoeficienteRepeticao" Type="Self.GT_CoeficienteRepeticao" Multiplicity="1" />
+          <End Role="GT_ExercicioTreino" Type="Self.GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_CoeficienteRepeticao">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_CoeficienteRepeticao_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="GT_ExercicioTreino_GT_Exercicio_ID">
           <End Role="GT_Exercicio" Type="Self.GT_Exercicio" Multiplicity="1" />
           <End Role="GT_ExercicioTreino" Type="Self.GT_ExercicioTreino" Multiplicity="*" />
@@ -2821,7 +2840,7 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           <Parameter Name="GT_TempoDescanso_ID" Type="int" Mode="In" />
           <Parameter Name="GT_Carga_ID" Type="int" Mode="In" />
           <Parameter Name="REPETICOES_COMPLETADAS" Type="int" Mode="In" />
-          <Parameter Name="CARGA_USADA" Type="int" Mode="In" />
+          <Parameter Name="CARGA_USADA" Type="decimal" Mode="In" />
           <Parameter Name="ONERM" Type="decimal" Mode="In" />
           <Parameter Name="GT_DuracaoTreinoCardio_ID" Type="int" Mode="In" />
           <Parameter Name="FC" Type="int" Mode="In" />
@@ -3157,6 +3176,7 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           <EntitySet Name="GRL_TOKENS" EntityType="Self.GRL_TOKENS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GRL_TOKENS_TIPOS" EntityType="Self.GRL_TOKENS_TIPOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_Carga" EntityType="Self.GT_Carga" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GT_CoeficienteRepeticao" EntityType="Self.GT_CoeficienteRepeticao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_DuracaoPlano" EntityType="Self.GT_DuracaoPlano" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_DuracaoTreinoCardio" EntityType="Self.GT_DuracaoTreinoCardio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GT_Exercicio" EntityType="Self.GT_Exercicio" Schema="dbo" store:Type="Tables" />
@@ -3479,6 +3499,10 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           </AssociationSet>
           <AssociationSet Name="GT_ExercicioTreino_GT_Carga_ID" Association="Self.GT_ExercicioTreino_GT_Carga_ID">
             <End Role="GT_Carga" EntitySet="GT_Carga" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_CoeficienteRepeticao_ID" Association="Self.GT_ExercicioTreino_GT_CoeficienteRepeticao_ID">
+            <End Role="GT_CoeficienteRepeticao" EntitySet="GT_CoeficienteRepeticao" />
             <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
           </AssociationSet>
           <AssociationSet Name="GT_ExercicioTreino_GT_Exercicio_ID" Association="Self.GT_ExercicioTreino_GT_Exercicio_ID">
@@ -4981,7 +5005,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           </FunctionImport>
           <EntitySet Name="GT_Exercicio" EntityType="GESTREINO_ORM.GT_Exercicio" />
           <EntitySet Name="GT_Exercicio_ARQUIVOS" EntityType="GESTREINO_ORM.GT_Exercicio_ARQUIVOS" />
-          <EntitySet Name="GT_ExercicioTreino" EntityType="GESTREINO_ORM.GT_ExercicioTreino" />
           <EntitySet Name="GT_SOCIOS" EntityType="GESTREINO_ORM.GT_SOCIOS" />
           <EntitySet Name="GT_TipoTreino" EntityType="GESTREINO_ORM.GT_TipoTreino" />
           <EntitySet Name="GT_Treino" EntityType="GESTREINO_ORM.GT_Treino" />
@@ -4990,10 +5013,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           <AssociationSet Name="GT_Exercicio_ARQUIVOS_ARQUIVOS_ID" Association="GESTREINO_ORM.GT_Exercicio_ARQUIVOS_ARQUIVOS_ID">
             <End Role="GRL_ARQUIVOS" EntitySet="GRL_ARQUIVOS" />
             <End Role="GT_Exercicio_ARQUIVOS" EntitySet="GT_Exercicio_ARQUIVOS" />
-          </AssociationSet>
-          <AssociationSet Name="GT_ExercicioTreino_GT_Carga_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Carga_ID">
-            <End Role="GT_Carga" EntitySet="GT_Carga" />
-            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
           </AssociationSet>
           <AssociationSet Name="GT_FaseTreino_GT_Carga_ID" Association="GESTREINO_ORM.GT_FaseTreino_GT_Carga_ID">
             <End Role="GT_Carga" EntitySet="GT_Carga" />
@@ -5006,26 +5025,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           <AssociationSet Name="GT_Exercicio_GT_TipoTreino_ID" Association="GESTREINO_ORM.GT_Exercicio_GT_TipoTreino_ID">
             <End Role="GT_TipoTreino" EntitySet="GT_TipoTreino" />
             <End Role="GT_Exercicio" EntitySet="GT_Exercicio" />
-          </AssociationSet>
-          <AssociationSet Name="GT_ExercicioTreino_GT_Exercicio_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Exercicio_ID">
-            <End Role="GT_Exercicio" EntitySet="GT_Exercicio" />
-            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
-          </AssociationSet>
-          <AssociationSet Name="GT_ExercicioTreino_GT_Repeticoes_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Repeticoes_ID">
-            <End Role="GT_Repeticoes" EntitySet="GT_Repeticoes" />
-            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
-          </AssociationSet>
-          <AssociationSet Name="GT_ExercicioTreino_GT_Series_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Series_ID">
-            <End Role="GT_Series" EntitySet="GT_Series" />
-            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
-          </AssociationSet>
-          <AssociationSet Name="GT_ExercicioTreino_GT_TempoDescanso_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_TempoDescanso_ID">
-            <End Role="GT_TempoDescanso" EntitySet="GT_TempoDescanso" />
-            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
-          </AssociationSet>
-          <AssociationSet Name="GT_ExercicioTreino_GT_Treino_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Treino_ID">
-            <End Role="GT_Treino" EntitySet="GT_Treino" />
-            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
           </AssociationSet>
           <AssociationSet Name="GT_FaseTreino_GT_Repeticoes_ID" Association="GESTREINO_ORM.GT_FaseTreino_GT_Repeticoes_ID">
             <End Role="GT_Repeticoes" EntitySet="GT_Repeticoes" />
@@ -5446,6 +5445,36 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
             <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="GT_CoeficienteRepeticao" EntityType="GESTREINO_ORM.GT_CoeficienteRepeticao" />
+          <EntitySet Name="GT_ExercicioTreino" EntityType="GESTREINO_ORM.GT_ExercicioTreino" />
+          <AssociationSet Name="GT_ExercicioTreino_GT_Carga_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Carga_ID">
+            <End Role="GT_Carga" EntitySet="GT_Carga" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_CoeficienteRepeticao_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_CoeficienteRepeticao_ID">
+            <End Role="GT_CoeficienteRepeticao" EntitySet="GT_CoeficienteRepeticao" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_Exercicio_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Exercicio_ID">
+            <End Role="GT_Exercicio" EntitySet="GT_Exercicio" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_Repeticoes_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Repeticoes_ID">
+            <End Role="GT_Repeticoes" EntitySet="GT_Repeticoes" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_Series_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Series_ID">
+            <End Role="GT_Series" EntitySet="GT_Series" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_TempoDescanso_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_TempoDescanso_ID">
+            <End Role="GT_TempoDescanso" EntitySet="GT_TempoDescanso" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="GT_ExercicioTreino_GT_Treino_ID" Association="GESTREINO_ORM.GT_ExercicioTreino_GT_Treino_ID">
+            <End Role="GT_Treino" EntitySet="GT_Treino" />
+            <End Role="GT_ExercicioTreino" EntitySet="GT_ExercicioTreino" />
+          </AssociationSet>
           <FunctionImport Name="SP_GT_ENT_TREINO" ReturnType="Collection(GESTREINO_ORM.SP_GT_ENT_TREINO_Result)">
             <Parameter Name="Id" Mode="In" Type="Int32" />
             <Parameter Name="PesID" Mode="In" Type="Int32" />
@@ -5462,7 +5491,7 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
             <Parameter Name="GT_TempoDescanso_ID" Mode="In" Type="Int32" />
             <Parameter Name="GT_Carga_ID" Mode="In" Type="Int32" />
             <Parameter Name="REPETICOES_COMPLETADAS" Mode="In" Type="Int32" />
-            <Parameter Name="CARGA_USADA" Mode="In" Type="Int32" />
+            <Parameter Name="CARGA_USADA" Mode="In" Type="Decimal" />
             <Parameter Name="ONERM" Mode="In" Type="Decimal" />
             <Parameter Name="GT_DuracaoTreinoCardio_ID" Mode="In" Type="Int32" />
             <Parameter Name="FC" Mode="In" Type="Int32" />
@@ -6005,8 +6034,8 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CARGA" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Carga_ID" FromRole="GT_Carga" ToRole="GT_ExercicioTreino" />
           <NavigationProperty Name="GT_FaseTreino" Relationship="GESTREINO_ORM.GT_FaseTreino_GT_Carga_ID" FromRole="GT_Carga" ToRole="GT_FaseTreino" />
+          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Carga_ID" FromRole="GT_Carga" ToRole="GT_ExercicioTreino" />
         </EntityType>
         <EntityType Name="GT_FaseTreino">
           <Key>
@@ -6036,8 +6065,8 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="REPETICOES" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Repeticoes_ID" FromRole="GT_Repeticoes" ToRole="GT_ExercicioTreino" />
           <NavigationProperty Name="GT_FaseTreino" Relationship="GESTREINO_ORM.GT_FaseTreino_GT_Repeticoes_ID" FromRole="GT_Repeticoes" ToRole="GT_FaseTreino" />
+          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Repeticoes_ID" FromRole="GT_Repeticoes" ToRole="GT_ExercicioTreino" />
         </EntityType>
         <EntityType Name="GT_Series">
           <Key>
@@ -6045,8 +6074,8 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SERIES" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Series_ID" FromRole="GT_Series" ToRole="GT_ExercicioTreino" />
           <NavigationProperty Name="GT_FaseTreino" Relationship="GESTREINO_ORM.GT_FaseTreino_GT_Series_ID" FromRole="GT_Series" ToRole="GT_FaseTreino" />
+          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Series_ID" FromRole="GT_Series" ToRole="GT_ExercicioTreino" />
         </EntityType>
         <EntityType Name="GT_TempoDescanso">
           <Key>
@@ -6054,8 +6083,8 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TEMPO_DESCANSO" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_TempoDescanso_ID" FromRole="GT_TempoDescanso" ToRole="GT_ExercicioTreino" />
           <NavigationProperty Name="GT_FaseTreino" Relationship="GESTREINO_ORM.GT_FaseTreino_GT_TempoDescanso_ID" FromRole="GT_TempoDescanso" ToRole="GT_FaseTreino" />
+          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_TempoDescanso_ID" FromRole="GT_TempoDescanso" ToRole="GT_ExercicioTreino" />
         </EntityType>
         <ComplexType Name="SP_GT_ENT_FaseTreino_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -6090,8 +6119,8 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
           <NavigationProperty Name="GT_Exercicio_ARQUIVOS" Relationship="GESTREINO_ORM.GT_Exercicio_ARQUIVOS_GT_Exercicio_ID" FromRole="GT_Exercicio" ToRole="GT_Exercicio_ARQUIVOS" />
           <NavigationProperty Name="GT_TipoTreino" Relationship="GESTREINO_ORM.GT_Exercicio_GT_TipoTreino_ID" FromRole="GT_Exercicio" ToRole="GT_TipoTreino" />
-          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Exercicio_ID" FromRole="GT_Exercicio" ToRole="GT_ExercicioTreino" />
           <NavigationProperty Name="GT_ExercicioTreinoCardio" Relationship="GESTREINO_ORM.GT_ExercicioTreinoCardio_GT_Exercicio_ID" FromRole="GT_Exercicio" ToRole="GT_ExercicioTreinoCardio" />
+          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Exercicio_ID" FromRole="GT_Exercicio" ToRole="GT_ExercicioTreino" />
         </EntityType>
         <EntityType Name="GT_Exercicio_ARQUIVOS">
           <Key>
@@ -6113,34 +6142,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
           <NavigationProperty Name="GRL_ARQUIVOS" Relationship="GESTREINO_ORM.GT_Exercicio_ARQUIVOS_ARQUIVOS_ID" FromRole="GT_Exercicio_ARQUIVOS" ToRole="GRL_ARQUIVOS" />
           <NavigationProperty Name="GT_Exercicio" Relationship="GESTREINO_ORM.GT_Exercicio_ARQUIVOS_GT_Exercicio_ID" FromRole="GT_Exercicio_ARQUIVOS" ToRole="GT_Exercicio" />
-        </EntityType>
-        <EntityType Name="GT_ExercicioTreino">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="GT_Treino_ID" Type="Int32" Nullable="false" />
-          <Property Name="GT_Exercicio_ID" Type="Int32" Nullable="false" />
-          <Property Name="GT_Series_ID" Type="Int32" Nullable="false" />
-          <Property Name="GT_Repeticoes_ID" Type="Int32" Nullable="false" />
-          <Property Name="GT_TempoDescanso_ID" Type="Int32" Nullable="false" />
-          <Property Name="GT_Carga_ID" Type="Int32" Nullable="false" />
-          <Property Name="REPETICOES_COMPLETADAS" Type="Int32" Nullable="false" />
-          <Property Name="CARGA_USADA" Type="Int32" />
-          <Property Name="ONERM" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ORDEM" Type="Int32" Nullable="false" />
-          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
-          <Property Name="ACTUALIZADO_POR" Type="Int32" />
-          <Property Name="REMOVIDO_POR" Type="Int32" />
-          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
-          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="GT_Carga" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Carga_ID" FromRole="GT_ExercicioTreino" ToRole="GT_Carga" />
-          <NavigationProperty Name="GT_Exercicio" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Exercicio_ID" FromRole="GT_ExercicioTreino" ToRole="GT_Exercicio" />
-          <NavigationProperty Name="GT_Repeticoes" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Repeticoes_ID" FromRole="GT_ExercicioTreino" ToRole="GT_Repeticoes" />
-          <NavigationProperty Name="GT_Series" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Series_ID" FromRole="GT_ExercicioTreino" ToRole="GT_Series" />
-          <NavigationProperty Name="GT_TempoDescanso" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_TempoDescanso_ID" FromRole="GT_ExercicioTreino" ToRole="GT_TempoDescanso" />
-          <NavigationProperty Name="GT_Treino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Treino_ID" FromRole="GT_ExercicioTreino" ToRole="GT_Treino" />
         </EntityType>
         <EntityType Name="GT_SOCIOS">
           <Key>
@@ -6193,11 +6194,11 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
           <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Treino_ID" FromRole="GT_Treino" ToRole="GT_ExercicioTreino" />
           <NavigationProperty Name="GT_FaseTreino" Relationship="GESTREINO_ORM.GT_Treino_GT_GT_FaseTreino_ID" FromRole="GT_Treino" ToRole="GT_FaseTreino" />
           <NavigationProperty Name="GT_TipoTreino" Relationship="GESTREINO_ORM.GT_Treino_GT_TipoTreino_ID" FromRole="GT_Treino" ToRole="GT_TipoTreino" />
           <NavigationProperty Name="GT_TreinosPessoa" Relationship="GESTREINO_ORM.GT_TreinosPessoa_GT_Treino_ID" FromRole="GT_Treino" ToRole="GT_TreinosPessoa" />
           <NavigationProperty Name="GT_ExercicioTreinoCardio" Relationship="GESTREINO_ORM.GT_ExercicioTreinoCardio_GT_Treino_ID" FromRole="GT_Treino" ToRole="GT_ExercicioTreinoCardio" />
+          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Treino_ID" FromRole="GT_Treino" ToRole="GT_ExercicioTreino" />
         </EntityType>
         <EntityType Name="GT_TreinosPessoa">
           <Key>
@@ -6265,18 +6266,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="GT_ExercicioTreino_GT_Carga_ID">
-          <End Type="GESTREINO_ORM.GT_Carga" Role="GT_Carga" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GT_Carga">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GT_ExercicioTreino">
-              <PropertyRef Name="GT_Carga_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="GT_FaseTreino_GT_Carga_ID">
           <End Type="GESTREINO_ORM.GT_Carga" Role="GT_Carga" Multiplicity="1" />
           <End Type="GESTREINO_ORM.GT_FaseTreino" Role="GT_FaseTreino" Multiplicity="*" />
@@ -6310,66 +6299,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
             </Principal>
             <Dependent Role="GT_Exercicio">
               <PropertyRef Name="GT_TipoTreino_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="GT_ExercicioTreino_GT_Exercicio_ID">
-          <End Type="GESTREINO_ORM.GT_Exercicio" Role="GT_Exercicio" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GT_Exercicio">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GT_ExercicioTreino">
-              <PropertyRef Name="GT_Exercicio_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="GT_ExercicioTreino_GT_Repeticoes_ID">
-          <End Type="GESTREINO_ORM.GT_Repeticoes" Role="GT_Repeticoes" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GT_Repeticoes">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GT_ExercicioTreino">
-              <PropertyRef Name="GT_Repeticoes_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="GT_ExercicioTreino_GT_Series_ID">
-          <End Type="GESTREINO_ORM.GT_Series" Role="GT_Series" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GT_Series">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GT_ExercicioTreino">
-              <PropertyRef Name="GT_Series_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="GT_ExercicioTreino_GT_TempoDescanso_ID">
-          <End Type="GESTREINO_ORM.GT_TempoDescanso" Role="GT_TempoDescanso" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GT_TempoDescanso">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GT_ExercicioTreino">
-              <PropertyRef Name="GT_TempoDescanso_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="GT_ExercicioTreino_GT_Treino_ID">
-          <End Type="GESTREINO_ORM.GT_Treino" Role="GT_Treino" Multiplicity="1" />
-          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GT_Treino">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GT_ExercicioTreino">
-              <PropertyRef Name="GT_Treino_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8006,6 +7935,127 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
           <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
         </ComplexType>
+        <EntityType Name="GT_CoeficienteRepeticao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="COEFICIENTE_REPETICAO" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="GT_ExercicioTreino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_CoeficienteRepeticao_ID" FromRole="GT_CoeficienteRepeticao" ToRole="GT_ExercicioTreino" />
+        </EntityType>
+        <EntityType Name="GT_ExercicioTreino">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GT_Treino_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_Exercicio_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_Series_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_Repeticoes_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_TempoDescanso_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_Carga_ID" Type="Int32" Nullable="false" />
+          <Property Name="GT_CoeficienteRepeticao_ID" Type="Int32" Nullable="false" />
+          <Property Name="CARGA_USADA" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ONERM" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ORDEM" Type="Int32" Nullable="false" />
+          <Property Name="INSERIDO_POR" Type="Int32" Nullable="false" />
+          <Property Name="ACTUALIZADO_POR" Type="Int32" />
+          <Property Name="REMOVIDO_POR" Type="Int32" />
+          <Property Name="DATA_INSERCAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACTUALIZACAO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_REMOCAO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="GT_Carga" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Carga_ID" FromRole="GT_ExercicioTreino" ToRole="GT_Carga" />
+          <NavigationProperty Name="GT_CoeficienteRepeticao" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_CoeficienteRepeticao_ID" FromRole="GT_ExercicioTreino" ToRole="GT_CoeficienteRepeticao" />
+          <NavigationProperty Name="GT_Exercicio" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Exercicio_ID" FromRole="GT_ExercicioTreino" ToRole="GT_Exercicio" />
+          <NavigationProperty Name="GT_Repeticoes" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Repeticoes_ID" FromRole="GT_ExercicioTreino" ToRole="GT_Repeticoes" />
+          <NavigationProperty Name="GT_Series" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Series_ID" FromRole="GT_ExercicioTreino" ToRole="GT_Series" />
+          <NavigationProperty Name="GT_TempoDescanso" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_TempoDescanso_ID" FromRole="GT_ExercicioTreino" ToRole="GT_TempoDescanso" />
+          <NavigationProperty Name="GT_Treino" Relationship="GESTREINO_ORM.GT_ExercicioTreino_GT_Treino_ID" FromRole="GT_ExercicioTreino" ToRole="GT_Treino" />
+        </EntityType>
+        <Association Name="GT_ExercicioTreino_GT_Carga_ID">
+          <End Type="GESTREINO_ORM.GT_Carga" Role="GT_Carga" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Carga">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_Carga_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_CoeficienteRepeticao_ID">
+          <End Type="GESTREINO_ORM.GT_CoeficienteRepeticao" Role="GT_CoeficienteRepeticao" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_CoeficienteRepeticao">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_CoeficienteRepeticao_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_Exercicio_ID">
+          <End Type="GESTREINO_ORM.GT_Exercicio" Role="GT_Exercicio" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Exercicio">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_Exercicio_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_Repeticoes_ID">
+          <End Type="GESTREINO_ORM.GT_Repeticoes" Role="GT_Repeticoes" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Repeticoes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_Repeticoes_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_Series_ID">
+          <End Type="GESTREINO_ORM.GT_Series" Role="GT_Series" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Series">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_Series_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_TempoDescanso_ID">
+          <End Type="GESTREINO_ORM.GT_TempoDescanso" Role="GT_TempoDescanso" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_TempoDescanso">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_TempoDescanso_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GT_ExercicioTreino_GT_Treino_ID">
+          <End Type="GESTREINO_ORM.GT_Treino" Role="GT_Treino" Multiplicity="1" />
+          <End Type="GESTREINO_ORM.GT_ExercicioTreino" Role="GT_ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GT_Treino">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GT_ExercicioTreino">
+              <PropertyRef Name="GT_Treino_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <ComplexType Name="SP_GT_ENT_TREINO_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="Int32" Name="GT_TipoTreino_ID" Nullable="false" />
@@ -9247,29 +9297,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="GT_ExercicioTreino">
-            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_ExercicioTreino">
-              <MappingFragment StoreEntitySet="GT_ExercicioTreino">
-                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
-                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
-                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
-                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
-                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
-                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
-                <ScalarProperty Name="ORDEM" ColumnName="ORDEM" />
-                <ScalarProperty Name="ONERM" ColumnName="ONERM" />
-                <ScalarProperty Name="CARGA_USADA" ColumnName="CARGA_USADA" />
-                <ScalarProperty Name="REPETICOES_COMPLETADAS" ColumnName="REPETICOES_COMPLETADAS" />
-                <ScalarProperty Name="GT_Carga_ID" ColumnName="GT_Carga_ID" />
-                <ScalarProperty Name="GT_TempoDescanso_ID" ColumnName="GT_TempoDescanso_ID" />
-                <ScalarProperty Name="GT_Repeticoes_ID" ColumnName="GT_Repeticoes_ID" />
-                <ScalarProperty Name="GT_Series_ID" ColumnName="GT_Series_ID" />
-                <ScalarProperty Name="GT_Exercicio_ID" ColumnName="GT_Exercicio_ID" />
-                <ScalarProperty Name="GT_Treino_ID" ColumnName="GT_Treino_ID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="GT_SOCIOS">
             <EntityTypeMapping TypeName="GESTREINO_ORM.GT_SOCIOS">
               <MappingFragment StoreEntitySet="GT_SOCIOS">
@@ -10286,6 +10313,37 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="GT_CoeficienteRepeticao">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_CoeficienteRepeticao">
+              <MappingFragment StoreEntitySet="GT_CoeficienteRepeticao">
+                <ScalarProperty Name="COEFICIENTE_REPETICAO" ColumnName="COEFICIENTE_REPETICAO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GT_ExercicioTreino">
+            <EntityTypeMapping TypeName="GESTREINO_ORM.GT_ExercicioTreino">
+              <MappingFragment StoreEntitySet="GT_ExercicioTreino">
+                <ScalarProperty Name="DATA_REMOCAO" ColumnName="DATA_REMOCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="REMOVIDO_POR" ColumnName="REMOVIDO_POR" />
+                <ScalarProperty Name="ACTUALIZADO_POR" ColumnName="ACTUALIZADO_POR" />
+                <ScalarProperty Name="INSERIDO_POR" ColumnName="INSERIDO_POR" />
+                <ScalarProperty Name="ORDEM" ColumnName="ORDEM" />
+                <ScalarProperty Name="ONERM" ColumnName="ONERM" />
+                <ScalarProperty Name="CARGA_USADA" ColumnName="CARGA_USADA" />
+                <ScalarProperty Name="GT_CoeficienteRepeticao_ID" ColumnName="GT_CoeficienteRepeticao_ID" />
+                <ScalarProperty Name="GT_Carga_ID" ColumnName="GT_Carga_ID" />
+                <ScalarProperty Name="GT_TempoDescanso_ID" ColumnName="GT_TempoDescanso_ID" />
+                <ScalarProperty Name="GT_Repeticoes_ID" ColumnName="GT_Repeticoes_ID" />
+                <ScalarProperty Name="GT_Series_ID" ColumnName="GT_Series_ID" />
+                <ScalarProperty Name="GT_Exercicio_ID" ColumnName="GT_Exercicio_ID" />
+                <ScalarProperty Name="GT_Treino_ID" ColumnName="GT_Treino_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_GT_ENT_TREINO" FunctionName="GESTREINO_ORM.Store.SP_GT_ENT_TREINO">
             <ResultMapping>
               <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GT_ENT_TREINO_Result">

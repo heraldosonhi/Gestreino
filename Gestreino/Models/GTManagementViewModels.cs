@@ -458,7 +458,7 @@ namespace Gestreino.Models
         public int? PES_FAMILIARES_GRUPOS_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> PES_FAMILIARES_GRUPOS_LIST { get; set; }
 
-        [Display(Name = "Profissao")]
+        [Display(Name = "Profissão")]
         public int? PES_PROFISSAO_ID { get; set; }
         [Display(Name = "Nome")]
         public string Nome { get; set; }
@@ -535,14 +535,14 @@ namespace Gestreino.Models
         public int? ID { get; set; }
         public int? PES_PESSOAS_ID { get; set; }
 
-        [Display(Name = "Deficiencia")]
+        [Display(Name = "Deficiência")]
         public int? PES_DEFICIENCIA_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> PES_DEFICIENCIA_LIST { get; set; }
 
-        [Display(Name = "Grau de deficiencia")]
+        [Display(Name = "Grau de deficiência")]
         public int? PES_DEFICIENCIA_GRAU_ID { get; set; }
 
-        [Display(Name = "Descricao")]
+        [Display(Name = "Descrição")]
         public string Descricao { get; set; }
 
     }
@@ -604,7 +604,7 @@ namespace Gestreino.Models
         public int? GT_Repeticoes_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> GT_Repeticoes_List { get; set; }
 
-        [Display(Name = "Perc. RM")]
+        [Display(Name = "% 1RM")]
         public int? GT_Carga_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> GT_Carga_List { get; set; }
 
@@ -632,17 +632,18 @@ namespace Gestreino.Models
     public class GT_TreinoBodyMass
     {
         public int? ID { get; set; }
+        public int? emptyID { get; set; }
         public bool? predefined { get; set; }
         public int? GTTipoTreinoId { get; set; }
         public int? PEsId { get; set; }
         [Display(Name = "Periodização:")]
         public int? Periodizacao { get; set; }
 
-        [Display(Name = "N° de séries:")]
+        [Display(Name = "N° de Séries:")]
         public int? GT_Series_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> GT_Series_List { get; set; }
 
-        [Display(Name = "N° de repetições:")]
+        [Display(Name = "N° de Repetições:")]
         public int? GT_Repeticoes_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> GT_Repeticoes_List { get; set; }
 
@@ -650,7 +651,7 @@ namespace Gestreino.Models
         public int? GT_Carga_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> GT_Carga_List { get; set; }
 
-        [Display(Name = "Tempo descanso:")]
+        [Display(Name = "Tempo Descanso:")]
         public int? GT_TempoDescanso_ID { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> GT_TempoDescanso_List { get; set; }
         [Display(Name = "Fases de treino:")]
@@ -668,7 +669,7 @@ namespace Gestreino.Models
         public List<ExerciseArq> ExerciseArqListTreino { get; set; }
 
         //[Required]
-        [Display(Name = "Data de início:")]
+        [Display(Name = "Data de início do plano:")]
         [DataType(DataType.Text)]
         public string DateIni { get; set; }
 
@@ -679,10 +680,12 @@ namespace Gestreino.Models
         public string RM { get; set; }
 
         [Display(Name = "Carga")]
-        public int? CargaUsada { get; set; }
+        public decimal? CargaUsada { get; set; }
 
         [Display(Name = "Rep's:")]
         public int? Reps { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> RepList { get; set; }
+
         [Display(Name = "Nome:")]
         public string Nome { get; set; }
 
@@ -710,7 +713,7 @@ namespace Gestreino.Models
         public int? GT_TempoDescanso_ID { get; set; }
         public int? GT_Carga_ID { get; set; }
         public int? REPETICOES_COMPLETADAS { get; set; }
-        public int? CARGA_USADA { get; set; }
+        public decimal? CARGA_USADA { get; set; }
         public decimal? ONERM { get; set; }
         public int? GT_DuracaoTreinoCardio_ID { get; set; }
         public int? FC { get; set; }

@@ -73,7 +73,6 @@ namespace Gestreino
         public virtual DbSet<GT_TempoDescanso> GT_TempoDescanso { get; set; }
         public virtual DbSet<GT_Exercicio> GT_Exercicio { get; set; }
         public virtual DbSet<GT_Exercicio_ARQUIVOS> GT_Exercicio_ARQUIVOS { get; set; }
-        public virtual DbSet<GT_ExercicioTreino> GT_ExercicioTreino { get; set; }
         public virtual DbSet<GT_SOCIOS> GT_SOCIOS { get; set; }
         public virtual DbSet<GT_TipoTreino> GT_TipoTreino { get; set; }
         public virtual DbSet<GT_Treino> GT_Treino { get; set; }
@@ -108,6 +107,8 @@ namespace Gestreino
         public virtual DbSet<PES_PESSOAS_FAM_ENDERECOS> PES_PESSOAS_FAM_ENDERECOS { get; set; }
         public virtual DbSet<GRL_DEFINICOES> GRL_DEFINICOES { get; set; }
         public virtual DbSet<PesoMedio> PesoMedio { get; set; }
+        public virtual DbSet<GT_CoeficienteRepeticao> GT_CoeficienteRepeticao { get; set; }
+        public virtual DbSet<GT_ExercicioTreino> GT_ExercicioTreino { get; set; }
     
         public virtual ObjectResult<SP_UTILIZADORES_LOGIN_LOGS_Result> SP_UTILIZADORES_LOGIN_LOGS(Nullable<int> userId, string action)
         {
@@ -1687,7 +1688,7 @@ namespace Gestreino
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_ENT_Resp_Result>("SP_GT_ENT_Resp", idParameter, pesIdParameter, gT_ResParameter, userInsercaoIdParameter, actionParameter);
         }
     
-        public virtual ObjectResult<SP_GT_ENT_TREINO_Result> SP_GT_ENT_TREINO(Nullable<int> id, Nullable<int> pesID, Nullable<int> gT_TipoTreino_ID, string nome, Nullable<int> gT_FaseTreino_ID, Nullable<int> pERIODIZACAO, Nullable<System.DateTime> dataIni, Nullable<System.DateTime> dateEnd, string observacoes, Nullable<int> gT_Exercicio_ID, Nullable<int> gT_Series_ID, Nullable<int> gT_Repeticoes_ID, Nullable<int> gT_TempoDescanso_ID, Nullable<int> gT_Carga_ID, Nullable<int> rEPETICOES_COMPLETADAS, Nullable<int> cARGA_USADA, Nullable<decimal> oNERM, Nullable<int> gT_DuracaoTreinoCardio_ID, Nullable<int> fC, Nullable<int> nIVEL, Nullable<decimal> dISTANCIA, Nullable<int> ordem, Nullable<int> userInsercaoId, string action)
+        public virtual ObjectResult<SP_GT_ENT_TREINO_Result> SP_GT_ENT_TREINO(Nullable<int> id, Nullable<int> pesID, Nullable<int> gT_TipoTreino_ID, string nome, Nullable<int> gT_FaseTreino_ID, Nullable<int> pERIODIZACAO, Nullable<System.DateTime> dataIni, Nullable<System.DateTime> dateEnd, string observacoes, Nullable<int> gT_Exercicio_ID, Nullable<int> gT_Series_ID, Nullable<int> gT_Repeticoes_ID, Nullable<int> gT_TempoDescanso_ID, Nullable<int> gT_Carga_ID, Nullable<int> rEPETICOES_COMPLETADAS, Nullable<decimal> cARGA_USADA, Nullable<decimal> oNERM, Nullable<int> gT_DuracaoTreinoCardio_ID, Nullable<int> fC, Nullable<int> nIVEL, Nullable<decimal> dISTANCIA, Nullable<int> ordem, Nullable<int> userInsercaoId, string action)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
@@ -1751,7 +1752,7 @@ namespace Gestreino
     
             var cARGA_USADAParameter = cARGA_USADA.HasValue ?
                 new ObjectParameter("CARGA_USADA", cARGA_USADA) :
-                new ObjectParameter("CARGA_USADA", typeof(int));
+                new ObjectParameter("CARGA_USADA", typeof(decimal));
     
             var oNERMParameter = oNERM.HasValue ?
                 new ObjectParameter("ONERM", oNERM) :
