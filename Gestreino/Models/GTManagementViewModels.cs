@@ -696,7 +696,7 @@ namespace Gestreino.Models
         public int? FC { get; set; }
 
         [Display(Name = "Nível / Resist. / Velocidade:")]
-        public int? Nivel { get; set; }
+        public string Nivel { get; set; }
 
         [Display(Name = "Inclinação:")]
         public string Distancia { get; set; }
@@ -717,7 +717,7 @@ namespace Gestreino.Models
         public decimal? ONERM { get; set; }
         public int? GT_DuracaoTreinoCardio_ID { get; set; }
         public int? FC { get; set; }
-        public int? Nivel { get; set; }
+        public decimal? Nivel { get; set; }
         public decimal? Distancia { get; set; }
         public int? ORDEM { get; set; }
     }

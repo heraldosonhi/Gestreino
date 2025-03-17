@@ -141,23 +141,27 @@
                                                 Indique os valores:
                                             </td>
                                             <td>
-                                                máx/min:
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-2"><label class="col-form-label">Máx:</label></div>
+                                                    <div class="col-md-6">
                                                         @Html.TextBoxFor(m => m.txtMaxSistolica, new { type = "number", min = "1", @class = "form-control form-control-sm" })
                                                     </div>
-                                                    <div class="col-md-1"> / </div>
-                                                    <div class="col-md-4">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2"><label class="col-form-label">Min:</label></div>
+                                                    <div class="col-md-6">
                                                         @Html.TextBoxFor(m => m.txtMinSistolica, new { type = "number", min = "1", @class = "form-control form-control-sm" })
                                                     </div>
                                                 </div>
-                                                máx/min:
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-2"><label class="col-form-label">Máx:</label></div>
+                                                    <div class="col-md-6">
                                                         @Html.TextBoxFor(m => m.txtMaxDistolica, new { type = "number", min = "1", @class = "form-control form-control-sm" })
                                                     </div>
-                                                    <div class="col-md-1"> / </div>
-                                                    <div class="col-md-4">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2"><label class="col-form-label">Min:</label></div>
+                                                    <div class="col-md-6">
                                                         @Html.TextBoxFor(m => m.txtMinDistolica, new { type = "number", min = "1", @class = "form-control form-control-sm" })
                                                     </div>
                                                 </div>
@@ -728,6 +732,7 @@
                                             <tr>
                                                 <td></td>
                                                 <td></td>
+                                                <td><input type="text" id="GTQuestTableTreino" class="form-control form-control-sm" /></td>
                                                 <td><input type="text" id="GTQuestTableInsercao" class="form-control form-control-sm" /></td>
                                                 <td><input type="text" id="GTQuestTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
                                                 <td><input type="text" id="GTQuestTableActualizacao" class="form-control form-control-sm" /></td>
@@ -736,6 +741,7 @@
                                             <tr>
                                                 <th></th>
                                                 <th></th>
+                                                <th data-name="GTQuestTableTreino">&nbsp;</th>
                                                 <th data-name="GTQuestTableInsercao">Inserção</th>
                                                 <th data-name="GTQuestTableDataInsercao">Data Inserção</th>
                                                 <th data-name="GTQuestTableActualizacao">Actualização</th>

@@ -2089,7 +2089,7 @@ namespace Gestreino.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult GTPlans(GT_TreinoBodyMass MODEL, int?[] exIds, int?[] exSeries, int?[] exRepeticoes, int?[] exCarga, int?[] exTempo, int?[] exReps, string[] exCargaUsada, string[] exRM,/**/ int?[] exDuracao, int?[] exFC, int?[] exNivel, string[] exDistancia)
+        public ActionResult GTPlans(GT_TreinoBodyMass MODEL, int?[] exIds, int?[] exSeries, int?[] exRepeticoes, int?[] exCarga, int?[] exTempo, int?[] exReps, string[] exCargaUsada, string[] exRM,/**/ int?[] exDuracao, int?[] exFC, string[] exNivel, string[] exDistancia)
         {
             try
             {
@@ -2131,6 +2131,7 @@ namespace Gestreino.Controllers
 
                 Decimal RMs = 0;
                 Decimal CargaUsada = 0;
+                Decimal Nivel = 0;
                 Decimal Distancia = 0;
 
                 if (MODEL.GTTipoTreinoId == Configs.GT_EXERCISE_TYPE_BODYMASS)
@@ -2150,9 +2151,13 @@ namespace Gestreino.Controllers
                 {
                     for (int x = 0; x < exIds.Length; x++)
                     {
+                        if (exNivel != null && !string.IsNullOrEmpty(exNivel[x]))
+                            Nivel = decimal.Parse(exNivel[x], CultureInfo.InvariantCulture);
+
                         if (exDistancia != null && !string.IsNullOrEmpty(exDistancia[x]))
-                            Convert.ToDecimal(exDistancia[x].Replace(".", ","));
-                        databaseManager.SP_GT_ENT_TREINO(MODEL.ID, null, MODEL.GTTipoTreinoId, null, null, null, null, null, null, exIds[x], null, null, null, null, null, null, null, exDuracao[x], exFC[x], exNivel[x], Distancia, x, int.Parse(User.Identity.GetUserId()), MODEL.GTTipoTreinoId == Configs.GT_EXERCISE_TYPE_BODYMASS ? "CB" : "CC").ToList();
+                            Distancia = decimal.Parse(exDistancia[x], CultureInfo.InvariantCulture);
+
+                        databaseManager.SP_GT_ENT_TREINO(MODEL.ID, null, MODEL.GTTipoTreinoId, null, null, null, null, null, null, exIds[x], null, null, null, null, null, null, null, exDuracao[x], exFC[x], Nivel, Distancia, x, int.Parse(User.Identity.GetUserId()), MODEL.GTTipoTreinoId == Configs.GT_EXERCISE_TYPE_BODYMASS ? "CB" : "CC").ToList();
                     }
                 }
 
@@ -2239,10 +2244,11 @@ namespace Gestreino.Controllers
             var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
 
             //UI DATATABLE SEARCH INPUTS
-            var Insercao = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
-            var DataInsercao = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
-            var Actualizacao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
-            var DataActualizacao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Avaliacao = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
 
             //DECLARE PAGINATION VARIABLES
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
@@ -2268,6 +2274,7 @@ namespace Gestreino.Controllers
             TempData["QUERYRESULT_ALL"] = v.ToList();
 
             //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Avaliacao)) v = v.Where(a => a.treino != null && a.treino.ToUpper().Contains(Avaliacao.ToUpper()));
             if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
             if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
             if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
@@ -2281,6 +2288,7 @@ namespace Gestreino.Controllers
                 {
                     switch (sortColumn)
                     {
+                        case "AVALIACAO": v = v.OrderBy(s => s.treino); break;
                         case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
                         case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
                         case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
@@ -2291,6 +2299,7 @@ namespace Gestreino.Controllers
                 {
                     switch (sortColumn)
                     {
+                        case "AVALIACAO": v = v.OrderByDescending(s => s.treino); break;
                         case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
                         case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
                         case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
@@ -2314,6 +2323,7 @@ namespace Gestreino.Controllers
                     //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
                     //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
+                    AVALIACAO=x.treino,
                     INSERCAO = x.INSERCAO,
                     DATAINSERCAO = x.DATA_INSERCAO,
                     ACTUALIZACAO = x.ACTUALIZACAO,

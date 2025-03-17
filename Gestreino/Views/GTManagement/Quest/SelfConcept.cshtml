@@ -5,6 +5,16 @@
 }
 @if (!string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
 {
+    <style>
+        .animated ul {
+            list-style: none;
+            padding: 0 17px !important;
+        }
+
+        .animated label {
+            margin-bottom: 5px !important
+        }
+    </style>
     <!-- page content -->
     <div class="right_col" role="main">
         <div class="row">
@@ -41,212 +51,211 @@
                                         <h6 class="p-2 bg-light mt-2 text-success"><i class="fa fa-floppy-o"></i> Questionário registado: @ViewBag.data[0].DATA_INSERCAO</h6>
                                     }
 
-                                <ul class="mt-3">
-                                    <li>
-                                        <h6>1. Sei que sou uma pessoa simpática</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q1_1" name="q1" value="1" @(Model.q1 != null && Model.q1 == 1 ? "checked" : "") /> <label for="q1_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q1_2" name="q1" value="2" @(Model.q1 != null && Model.q1 == 2 ? "checked" : "") /> <label for="q1_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q1_3" name="q1" value="3" @(Model.q1 != null && Model.q1 == 3 ? "checked" : "") /> <label for="q1_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q1_4" name="q1" value="4" @(Model.q1 != null && Model.q1 == 4 ? "checked" : "") /> <label for="q1_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q1_5" name="q1" value="5" @(Model.q1 != null && Model.q1 == 5 ? "checked" : "") /> <label for="q1_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>2. Costumo ser franco e exprimir as minhas opiniões</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q2_1" name="q2" value="1" @(Model.q2 != null && Model.q2 == 1 ? "checked" : "") /> <label for="q2_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q2_2" name="q2" value="2" @(Model.q2 != null && Model.q2 == 2 ? "checked" : "") /> <label for="q2_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q2_3" name="q2" value="3" @(Model.q2 != null && Model.q2 == 3 ? "checked" : "") /> <label for="q2_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q2_4" name="q2" value="4" @(Model.q2 != null && Model.q2 == 4 ? "checked" : "") /> <label for="q2_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q2_5" name="q2" value="5" @(Model.q2 != null && Model.q2 == 5 ? "checked" : "") /> <label for="q2_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>3. Tenho por hábito desistir das minhas tarefas quando encontro dificuldades</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q3_1" name="q3" value="1" @(Model.q3 != null && Model.q3 == 1 ? "checked" : "") /> <label for="q3_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q3_2" name="q3" value="2" @(Model.q3 != null && Model.q3 == 2 ? "checked" : "") /> <label for="q3_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q3_3" name="q3" value="3" @(Model.q3 != null && Model.q3 == 3 ? "checked" : "") /> <label for="q3_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q3_4" name="q3" value="4" @(Model.q3 != null && Model.q3 == 4 ? "checked" : "") /> <label for="q3_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q3_5" name="q3" value="5" @(Model.q3 != null && Model.q3 == 5 ? "checked" : "") /> <label for="q3_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>4. No contacto com os outros costumo ser um indivíduo falador</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q4_1" name="q4" value="1" @(Model.q4 != null && Model.q4 == 1 ? "checked" : "") /> <label for="q4_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q4_2" name="q4" value="2" @(Model.q4 != null && Model.q4 == 2 ? "checked" : "") /> <label for="q4_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q4_3" name="q4" value="3" @(Model.q4 != null && Model.q4 == 3 ? "checked" : "") /> <label for="q4_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q4_4" name="q4" value="4" @(Model.q4 != null && Model.q4 == 4 ? "checked" : "") /> <label for="q4_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q4_5" name="q4" value="5" @(Model.q4 != null && Model.q4 == 5 ? "checked" : "") /> <label for="q4_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>5. Costumo ser rápido na execução das tarefas que tenho para fazer</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q5_1" name="q5" value="1" @(Model.q5 != null && Model.q5 == 1 ? "checked" : "") /> <label for="q5_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q5_2" name="q5" value="2" @(Model.q5 != null && Model.q5 == 2 ? "checked" : "") /> <label for="q5_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q5_3" name="q5" value="3" @(Model.q5 != null && Model.q5 == 3 ? "checked" : "") /> <label for="q5_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q5_4" name="q5" value="4" @(Model.q5 != null && Model.q5 == 4 ? "checked" : "") /> <label for="q5_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q5_5" name="q5" value="5" @(Model.q5 != null && Model.q5 == 5 ? "checked" : "") /> <label for="q5_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>6. Considero-me tolerante para com as outras pessoas</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q6_1" name="q6" value="1" @(Model.q6 != null && Model.q6 == 1 ? "checked" : "") /> <label for="q6_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q6_2" name="q6" value="2" @(Model.q6 != null && Model.q6 == 2 ? "checked" : "") /> <label for="q6_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q6_3" name="q6" value="3" @(Model.q6 != null && Model.q6 == 3 ? "checked" : "") /> <label for="q6_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q6_4" name="q6" value="4" @(Model.q6 != null && Model.q6 == 4 ? "checked" : "") /> <label for="q6_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q6_5" name="q6" value="5" @(Model.q6 != null && Model.q6 == 5 ? "checked" : "") /> <label for="q6_4">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>7. Assumo uma responsabilidade até ao fim, mesmo que traga consequências desagradáveis</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q7_1" name="q7" value="1" @(Model.q7 != null && Model.q7 == 1 ? "checked" : "") /> <label for="q7_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q7_2" name="q7" value="2" @(Model.q7 != null && Model.q7 == 2 ? "checked" : "") /> <label for="q7_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q7_3" name="q7" value="3" @(Model.q7 != null && Model.q7 == 3 ? "checked" : "") /> <label for="q7_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q7_4" name="q7" value="4" @(Model.q7 != null && Model.q7 == 4 ? "checked" : "") /> <label for="q7_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q7_5" name="q7" value="5" @(Model.q7 != null && Model.q7 == 5 ? "checked" : "") /> <label for="q7_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>8. De modo geral tenho por hábito enfrentar e resolver os meus problemas</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q8_1" name="q8" value="1" @(Model.q8 != null && Model.q8 == 1 ? "checked" : "") /> <label for="q8_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q8_2" name="q8" value="2" @(Model.q8 != null && Model.q8 == 2 ? "checked" : "") /> <label for="q8_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q8_3" name="q8" value="3" @(Model.q8 != null && Model.q8 == 3 ? "checked" : "") /> <label for="q8_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q8_4" name="q8" value="4" @(Model.q8 != null && Model.q8 == 4 ? "checked" : "") /> <label for="q8_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q8_5" name="q8" value="5" @(Model.q8 != null && Model.q8 == 5 ? "checked" : "") /> <label for="q8_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>9. Sou uma pessoa usualmente bem aceite pelos outros</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q9_1" name="q9" value="1" @(Model.q9 != null && Model.q9 == 1 ? "checked" : "") /> <label for="q9_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q9_2" name="q9" value="2" @(Model.q9 != null && Model.q9 == 2 ? "checked" : "") /> <label for="q9_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q9_3" name="q9" value="3" @(Model.q9 != null && Model.q9 == 3 ? "checked" : "") /> <label for="q9_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q9_4" name="q9" value="4" @(Model.q9 != null && Model.q9 == 4 ? "checked" : "") /> <label for="q9_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q9_5" name="q9" value="5" @(Model.q9 != null && Model.q9 == 5 ? "checked" : "") /> <label for="q9_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>10. Quando tenho uma ideia que me parece válida gosto de pôr em prática</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q10_1" name="q10" value="1" @(Model.q10 != null && Model.q10 == 1 ? "checked" : "") /> <label for="q10_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q10_2" name="q10" value="2" @(Model.q10 != null && Model.q10 == 2 ? "checked" : "") /> <label for="q10_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q10_3" name="q10" value="3" @(Model.q10 != null && Model.q10 == 3 ? "checked" : "") /> <label for="q10_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q10_4" name="q10" value="4" @(Model.q10 != null && Model.q10 == 4 ? "checked" : "") /> <label for="q10_3">Concordo muito</label></li>
-                                            <li><input type="radio" id="q10_5" name="q10" value="5" @(Model.q10 != null && Model.q10 == 5 ? "checked" : "") /> <label for="q10_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>11. Tenho por hábito ser persistente na resolução das minhas dificuldades</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q11_1" name="q11" value="1" @(Model.q11 != null && Model.q11 == 1 ? "checked" : "") /> <label for="q11_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q11_2" name="q11" value="2" @(Model.q11 != null && Model.q11 == 2 ? "checked" : "") /> <label for="q11_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q11_3" name="q11" value="3" @(Model.q11 != null && Model.q11 == 3 ? "checked" : "") /> <label for="q11_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q11_4" name="q11" value="4" @(Model.q11 != null && Model.q11 == 4 ? "checked" : "") /> <label for="q11_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q11_5" name="q11" value="5" @(Model.q11 != null && Model.q11 == 5 ? "checked" : "") /> <label for="q11_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>12. Não sei porquê, a maioria das pessoas imbirra comigo</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q12_1" name="q12" value="1" @(Model.q12 != null && Model.q12 == 1 ? "checked" : "") /> <label for="q12_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q12_2" name="q12" value="2" @(Model.q12 != null && Model.q12 == 2 ? "checked" : "") /> <label for="q12_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q12_3" name="q12" value="3" @(Model.q12 != null && Model.q12 == 3 ? "checked" : "") /> <label for="q12_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q12_4" name="q12" value="4" @(Model.q12 != null && Model.q12 == 4 ? "checked" : "") /> <label for="q12_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q12_5" name="q12" value="5" @(Model.q12 != null && Model.q12 == 5 ? "checked" : "") /> <label for="q12_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>13. Quando me interrogam sobre questões importantes digo sempre a verdade</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q13_1" name="q13" value="1" @(Model.q13 != null && Model.q13 == 1 ? "checked" : "") /> <label for="q13_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q13_2" name="q13" value="2" @(Model.q13 != null && Model.q13 == 2 ? "checked" : "") /> <label for="q13_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q13_3" name="q13" value="3" @(Model.q13 != null && Model.q13 == 3 ? "checked" : "") /> <label for="q13_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q13_4" name="q13" value="4" @(Model.q13 != null && Model.q13 == 4 ? "checked" : "") /> <label for="q13_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q13_5" name="q13" value="5" @(Model.q13 != null && Model.q13 == 5 ? "checked" : "") /> <label for="q13_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>14. Considero-me competente naquilo que faço</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q14_1" name="q14" value="1" @(Model.q14 != null && Model.q14 == 1 ? "checked" : "") /> <label for="q14_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q14_2" name="q14" value="2" @(Model.q14 != null && Model.q14 == 2 ? "checked" : "") /> <label for="q14_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q14_3" name="q14" value="3" @(Model.q14 != null && Model.q14 == 3 ? "checked" : "") /> <label for="q14_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q14_4" name="q14" value="4" @(Model.q14 != null && Model.q14 == 4 ? "checked" : "") /> <label for="q14_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q14_5" name="q14" value="5" @(Model.q14 != null && Model.q14 == 5 ? "checked" : "") /> <label for="q14_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>15. Sou uma pessoa que gosta muito de fazer aquilo que lhe apetece</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q15_1" name="q15" value="1" @(Model.q15 != null && Model.q15 == 1 ? "checked" : "") /> <label for="q15_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q15_2" name="q15" value="2" @(Model.q15 != null && Model.q15 == 2 ? "checked" : "") /> <label for="q15_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q15_3" name="q15" value="3" @(Model.q15 != null && Model.q15 == 3 ? "checked" : "") /> <label for="q15_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q15_4" name="q15" value="4" @(Model.q15 != null && Model.q15 == 4 ? "checked" : "") /> <label for="q15_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q15_5" name="q15" value="5" @(Model.q15 != null && Model.q15 == 5 ? "checked" : "") /> <label for="q15_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>16. A minha maneira de ser leva a sentir-me na vida com um razoável bem-estar</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q16_1" name="q16" value="1" @(Model.q16 != null && Model.q16 == 1 ? "checked" : "") /> <label for="q16_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q16_2" name="q16" value="2" @(Model.q16 != null && Model.q16 == 2 ? "checked" : "") /> <label for="q16_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q16_3" name="q16" value="3" @(Model.q16 != null && Model.q16 == 3 ? "checked" : "") /> <label for="q16_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q16_4" name="q16" value="4" @(Model.q16 != null && Model.q16 == 4 ? "checked" : "") /> <label for="q16_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q16_5" name="q16" value="5" @(Model.q16 != null && Model.q16 == 5 ? "checked" : "") /> <label for="q16_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>17. Considero-me uma pessoa agradável no contacto com os outros</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q17_1" name="q17" value="1" @(Model.q17 != null && Model.q17 == 1 ? "checked" : "") /> <label for="q17_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q17_2" name="q17" value="2" @(Model.q17 != null && Model.q17 == 2 ? "checked" : "") /> <label for="q17_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q17_3" name="q17" value="3" @(Model.q17 != null && Model.q17 == 3 ? "checked" : "") /> <label for="q17_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q17_4" name="q17" value="4" @(Model.q17 != null && Model.q17 == 4 ? "checked" : "") /> <label for="q17_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q17_5" name="q17" value="5" @(Model.q17 != null && Model.q17 == 5 ? "checked" : "") /> <label for="q17_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>18. Quando tenho um problema que me aflige não o consigo resolver sem o auxílio dos outros</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q18_1" name="q18" value="1" @(Model.q18 != null && Model.q18 == 1 ? "checked" : "") /> <label for="q18_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q18_2" name="q18" value="2" @(Model.q18 != null && Model.q18 == 2 ? "checked" : "") /> <label for="q18_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q18_3" name="q18" value="3" @(Model.q18 != null && Model.q18 == 3 ? "checked" : "") /> <label for="q18_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q18_4" name="q18" value="4" @(Model.q18 != null && Model.q18 == 4 ? "checked" : "") /> <label for="q18_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q18_5" name="q18" value="5" @(Model.q18 != null && Model.q18 == 5 ? "checked" : "") /> <label for="q18_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>19. Gosto sempre de me sair bem nas coisas que faço</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q19_1" name="q19" value="1" @(Model.q19 != null && Model.q19 == 1 ? "checked" : "") /> <label for="q19_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q19_2" name="q19" value="2" @(Model.q19 != null && Model.q19 == 2 ? "checked" : "") /> <label for="q19_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q19_3" name="q19" value="3" @(Model.q19 != null && Model.q19 == 3 ? "checked" : "") /> <label for="q19_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q19_4" name="q19" value="4" @(Model.q19 != null && Model.q19 == 4 ? "checked" : "") /> <label for="q19_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q19_5" name="q19" value="5" @(Model.q19 != null && Model.q19 == 5 ? "checked" : "") /> <label for="q19_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mt-2">
-                                        <h6>20. Encontro sempre energia para vencer as minhas dificuldades</h6>
-                                        <ul>
-                                            <li><input type="radio" id="q20_1" name="q20" value="1" @(Model.q20 != null && Model.q20 == 1 ? "checked" : "") /> <label for="q20_1">Não concordo</label></li>
-                                            <li><input type="radio" id="q20_2" name="q20" value="2" @(Model.q20 != null && Model.q20 == 2 ? "checked" : "") /> <label for="q20_2">Concordo pouco</label></li>
-                                            <li><input type="radio" id="q20_3" name="q20" value="3" @(Model.q20 != null && Model.q20 == 3 ? "checked" : "") /> <label for="q20_3">Concordo moderadamente</label></li>
-                                            <li><input type="radio" id="q20_4" name="q20" value="4" @(Model.q20 != null && Model.q20 == 4 ? "checked" : "") /> <label for="q20_4">Concordo muito</label></li>
-                                            <li><input type="radio" id="q20_5" name="q20" value="5" @(Model.q20 != null && Model.q20 == 5 ? "checked" : "") /> <label for="q20_5">Concordo muitíssimo</label></li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                                    <ul class="mt-3">
+                                        <li>
+                                            <h6>1. Sei que sou uma pessoa simpática</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q1_1" name="q1" value="1" @(Model.q1 != null && Model.q1 == 1 ? "checked" : "") /> <label for="q1_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q1_2" name="q1" value="2" @(Model.q1 != null && Model.q1 == 2 ? "checked" : "") /> <label for="q1_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q1_3" name="q1" value="3" @(Model.q1 != null && Model.q1 == 3 ? "checked" : "") /> <label for="q1_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q1_4" name="q1" value="4" @(Model.q1 != null && Model.q1 == 4 ? "checked" : "") /> <label for="q1_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q1_5" name="q1" value="5" @(Model.q1 != null && Model.q1 == 5 ? "checked" : "") /> <label for="q1_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>2. Costumo ser franco e exprimir as minhas opiniões</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q2_1" name="q2" value="1" @(Model.q2 != null && Model.q2 == 1 ? "checked" : "") /> <label for="q2_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q2_2" name="q2" value="2" @(Model.q2 != null && Model.q2 == 2 ? "checked" : "") /> <label for="q2_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q2_3" name="q2" value="3" @(Model.q2 != null && Model.q2 == 3 ? "checked" : "") /> <label for="q2_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q2_4" name="q2" value="4" @(Model.q2 != null && Model.q2 == 4 ? "checked" : "") /> <label for="q2_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q2_5" name="q2" value="5" @(Model.q2 != null && Model.q2 == 5 ? "checked" : "") /> <label for="q2_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>3. Tenho por hábito desistir das minhas tarefas quando encontro dificuldades</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q3_1" name="q3" value="1" @(Model.q3 != null && Model.q3 == 1 ? "checked" : "") /> <label for="q3_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q3_2" name="q3" value="2" @(Model.q3 != null && Model.q3 == 2 ? "checked" : "") /> <label for="q3_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q3_3" name="q3" value="3" @(Model.q3 != null && Model.q3 == 3 ? "checked" : "") /> <label for="q3_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q3_4" name="q3" value="4" @(Model.q3 != null && Model.q3 == 4 ? "checked" : "") /> <label for="q3_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q3_5" name="q3" value="5" @(Model.q3 != null && Model.q3 == 5 ? "checked" : "") /> <label for="q3_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>4. No contacto com os outros costumo ser um indivíduo falador</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q4_1" name="q4" value="1" @(Model.q4 != null && Model.q4 == 1 ? "checked" : "") /> <label for="q4_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q4_2" name="q4" value="2" @(Model.q4 != null && Model.q4 == 2 ? "checked" : "") /> <label for="q4_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q4_3" name="q4" value="3" @(Model.q4 != null && Model.q4 == 3 ? "checked" : "") /> <label for="q4_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q4_4" name="q4" value="4" @(Model.q4 != null && Model.q4 == 4 ? "checked" : "") /> <label for="q4_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q4_5" name="q4" value="5" @(Model.q4 != null && Model.q4 == 5 ? "checked" : "") /> <label for="q4_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>5. Costumo ser rápido na execução das tarefas que tenho para fazer</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q5_1" name="q5" value="1" @(Model.q5 != null && Model.q5 == 1 ? "checked" : "") /> <label for="q5_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q5_2" name="q5" value="2" @(Model.q5 != null && Model.q5 == 2 ? "checked" : "") /> <label for="q5_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q5_3" name="q5" value="3" @(Model.q5 != null && Model.q5 == 3 ? "checked" : "") /> <label for="q5_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q5_4" name="q5" value="4" @(Model.q5 != null && Model.q5 == 4 ? "checked" : "") /> <label for="q5_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q5_5" name="q5" value="5" @(Model.q5 != null && Model.q5 == 5 ? "checked" : "") /> <label for="q5_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>6. Considero-me tolerante para com as outras pessoas</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q6_1" name="q6" value="1" @(Model.q6 != null && Model.q6 == 1 ? "checked" : "") /> <label for="q6_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q6_2" name="q6" value="2" @(Model.q6 != null && Model.q6 == 2 ? "checked" : "") /> <label for="q6_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q6_3" name="q6" value="3" @(Model.q6 != null && Model.q6 == 3 ? "checked" : "") /> <label for="q6_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q6_4" name="q6" value="4" @(Model.q6 != null && Model.q6 == 4 ? "checked" : "") /> <label for="q6_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q6_5" name="q6" value="5" @(Model.q6 != null && Model.q6 == 5 ? "checked" : "") /> <label for="q6_4">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>7. Assumo uma responsabilidade até ao fim, mesmo que traga consequências desagradáveis</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q7_1" name="q7" value="1" @(Model.q7 != null && Model.q7 == 1 ? "checked" : "") /> <label for="q7_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q7_2" name="q7" value="2" @(Model.q7 != null && Model.q7 == 2 ? "checked" : "") /> <label for="q7_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q7_3" name="q7" value="3" @(Model.q7 != null && Model.q7 == 3 ? "checked" : "") /> <label for="q7_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q7_4" name="q7" value="4" @(Model.q7 != null && Model.q7 == 4 ? "checked" : "") /> <label for="q7_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q7_5" name="q7" value="5" @(Model.q7 != null && Model.q7 == 5 ? "checked" : "") /> <label for="q7_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>8. De modo geral tenho por hábito enfrentar e resolver os meus problemas</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q8_1" name="q8" value="1" @(Model.q8 != null && Model.q8 == 1 ? "checked" : "") /> <label for="q8_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q8_2" name="q8" value="2" @(Model.q8 != null && Model.q8 == 2 ? "checked" : "") /> <label for="q8_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q8_3" name="q8" value="3" @(Model.q8 != null && Model.q8 == 3 ? "checked" : "") /> <label for="q8_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q8_4" name="q8" value="4" @(Model.q8 != null && Model.q8 == 4 ? "checked" : "") /> <label for="q8_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q8_5" name="q8" value="5" @(Model.q8 != null && Model.q8 == 5 ? "checked" : "") /> <label for="q8_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>9. Sou uma pessoa usualmente bem aceite pelos outros</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q9_1" name="q9" value="1" @(Model.q9 != null && Model.q9 == 1 ? "checked" : "") /> <label for="q9_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q9_2" name="q9" value="2" @(Model.q9 != null && Model.q9 == 2 ? "checked" : "") /> <label for="q9_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q9_3" name="q9" value="3" @(Model.q9 != null && Model.q9 == 3 ? "checked" : "") /> <label for="q9_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q9_4" name="q9" value="4" @(Model.q9 != null && Model.q9 == 4 ? "checked" : "") /> <label for="q9_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q9_5" name="q9" value="5" @(Model.q9 != null && Model.q9 == 5 ? "checked" : "") /> <label for="q9_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>10. Quando tenho uma ideia que me parece válida gosto de pôr em prática</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q10_1" name="q10" value="1" @(Model.q10 != null && Model.q10 == 1 ? "checked" : "") /> <label for="q10_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q10_2" name="q10" value="2" @(Model.q10 != null && Model.q10 == 2 ? "checked" : "") /> <label for="q10_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q10_3" name="q10" value="3" @(Model.q10 != null && Model.q10 == 3 ? "checked" : "") /> <label for="q10_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q10_4" name="q10" value="4" @(Model.q10 != null && Model.q10 == 4 ? "checked" : "") /> <label for="q10_3">Concordo muito</label></li>
+                                                <li><input type="radio" id="q10_5" name="q10" value="5" @(Model.q10 != null && Model.q10 == 5 ? "checked" : "") /> <label for="q10_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>11. Tenho por hábito ser persistente na resolução das minhas dificuldades</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q11_1" name="q11" value="1" @(Model.q11 != null && Model.q11 == 1 ? "checked" : "") /> <label for="q11_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q11_2" name="q11" value="2" @(Model.q11 != null && Model.q11 == 2 ? "checked" : "") /> <label for="q11_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q11_3" name="q11" value="3" @(Model.q11 != null && Model.q11 == 3 ? "checked" : "") /> <label for="q11_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q11_4" name="q11" value="4" @(Model.q11 != null && Model.q11 == 4 ? "checked" : "") /> <label for="q11_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q11_5" name="q11" value="5" @(Model.q11 != null && Model.q11 == 5 ? "checked" : "") /> <label for="q11_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>12. Não sei porquê, a maioria das pessoas imbirra comigo</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q12_1" name="q12" value="1" @(Model.q12 != null && Model.q12 == 1 ? "checked" : "") /> <label for="q12_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q12_2" name="q12" value="2" @(Model.q12 != null && Model.q12 == 2 ? "checked" : "") /> <label for="q12_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q12_3" name="q12" value="3" @(Model.q12 != null && Model.q12 == 3 ? "checked" : "") /> <label for="q12_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q12_4" name="q12" value="4" @(Model.q12 != null && Model.q12 == 4 ? "checked" : "") /> <label for="q12_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q12_5" name="q12" value="5" @(Model.q12 != null && Model.q12 == 5 ? "checked" : "") /> <label for="q12_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>13. Quando me interrogam sobre questões importantes digo sempre a verdade</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q13_1" name="q13" value="1" @(Model.q13 != null && Model.q13 == 1 ? "checked" : "") /> <label for="q13_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q13_2" name="q13" value="2" @(Model.q13 != null && Model.q13 == 2 ? "checked" : "") /> <label for="q13_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q13_3" name="q13" value="3" @(Model.q13 != null && Model.q13 == 3 ? "checked" : "") /> <label for="q13_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q13_4" name="q13" value="4" @(Model.q13 != null && Model.q13 == 4 ? "checked" : "") /> <label for="q13_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q13_5" name="q13" value="5" @(Model.q13 != null && Model.q13 == 5 ? "checked" : "") /> <label for="q13_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>14. Considero-me competente naquilo que faço</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q14_1" name="q14" value="1" @(Model.q14 != null && Model.q14 == 1 ? "checked" : "") /> <label for="q14_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q14_2" name="q14" value="2" @(Model.q14 != null && Model.q14 == 2 ? "checked" : "") /> <label for="q14_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q14_3" name="q14" value="3" @(Model.q14 != null && Model.q14 == 3 ? "checked" : "") /> <label for="q14_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q14_4" name="q14" value="4" @(Model.q14 != null && Model.q14 == 4 ? "checked" : "") /> <label for="q14_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q14_5" name="q14" value="5" @(Model.q14 != null && Model.q14 == 5 ? "checked" : "") /> <label for="q14_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>15. Sou uma pessoa que gosta muito de fazer aquilo que lhe apetece</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q15_1" name="q15" value="1" @(Model.q15 != null && Model.q15 == 1 ? "checked" : "") /> <label for="q15_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q15_2" name="q15" value="2" @(Model.q15 != null && Model.q15 == 2 ? "checked" : "") /> <label for="q15_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q15_3" name="q15" value="3" @(Model.q15 != null && Model.q15 == 3 ? "checked" : "") /> <label for="q15_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q15_4" name="q15" value="4" @(Model.q15 != null && Model.q15 == 4 ? "checked" : "") /> <label for="q15_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q15_5" name="q15" value="5" @(Model.q15 != null && Model.q15 == 5 ? "checked" : "") /> <label for="q15_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>16. A minha maneira de ser leva a sentir-me na vida com um razoável bem-estar</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q16_1" name="q16" value="1" @(Model.q16 != null && Model.q16 == 1 ? "checked" : "") /> <label for="q16_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q16_2" name="q16" value="2" @(Model.q16 != null && Model.q16 == 2 ? "checked" : "") /> <label for="q16_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q16_3" name="q16" value="3" @(Model.q16 != null && Model.q16 == 3 ? "checked" : "") /> <label for="q16_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q16_4" name="q16" value="4" @(Model.q16 != null && Model.q16 == 4 ? "checked" : "") /> <label for="q16_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q16_5" name="q16" value="5" @(Model.q16 != null && Model.q16 == 5 ? "checked" : "") /> <label for="q16_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>17. Considero-me uma pessoa agradável no contacto com os outros</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q17_1" name="q17" value="1" @(Model.q17 != null && Model.q17 == 1 ? "checked" : "") /> <label for="q17_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q17_2" name="q17" value="2" @(Model.q17 != null && Model.q17 == 2 ? "checked" : "") /> <label for="q17_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q17_3" name="q17" value="3" @(Model.q17 != null && Model.q17 == 3 ? "checked" : "") /> <label for="q17_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q17_4" name="q17" value="4" @(Model.q17 != null && Model.q17 == 4 ? "checked" : "") /> <label for="q17_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q17_5" name="q17" value="5" @(Model.q17 != null && Model.q17 == 5 ? "checked" : "") /> <label for="q17_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>18. Quando tenho um problema que me aflige não o consigo resolver sem o auxílio dos outros</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q18_1" name="q18" value="1" @(Model.q18 != null && Model.q18 == 1 ? "checked" : "") /> <label for="q18_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q18_2" name="q18" value="2" @(Model.q18 != null && Model.q18 == 2 ? "checked" : "") /> <label for="q18_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q18_3" name="q18" value="3" @(Model.q18 != null && Model.q18 == 3 ? "checked" : "") /> <label for="q18_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q18_4" name="q18" value="4" @(Model.q18 != null && Model.q18 == 4 ? "checked" : "") /> <label for="q18_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q18_5" name="q18" value="5" @(Model.q18 != null && Model.q18 == 5 ? "checked" : "") /> <label for="q18_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>19. Gosto sempre de me sair bem nas coisas que faço</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q19_1" name="q19" value="1" @(Model.q19 != null && Model.q19 == 1 ? "checked" : "") /> <label for="q19_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q19_2" name="q19" value="2" @(Model.q19 != null && Model.q19 == 2 ? "checked" : "") /> <label for="q19_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q19_3" name="q19" value="3" @(Model.q19 != null && Model.q19 == 3 ? "checked" : "") /> <label for="q19_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q19_4" name="q19" value="4" @(Model.q19 != null && Model.q19 == 4 ? "checked" : "") /> <label for="q19_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q19_5" name="q19" value="5" @(Model.q19 != null && Model.q19 == 5 ? "checked" : "") /> <label for="q19_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mt-2">
+                                            <h6>20. Encontro sempre energia para vencer as minhas dificuldades</h6>
+                                            <ul>
+                                                <li><input type="radio" id="q20_1" name="q20" value="1" @(Model.q20 != null && Model.q20 == 1 ? "checked" : "") /> <label for="q20_1">Não concordo</label></li>
+                                                <li><input type="radio" id="q20_2" name="q20" value="2" @(Model.q20 != null && Model.q20 == 2 ? "checked" : "") /> <label for="q20_2">Concordo pouco</label></li>
+                                                <li><input type="radio" id="q20_3" name="q20" value="3" @(Model.q20 != null && Model.q20 == 3 ? "checked" : "") /> <label for="q20_3">Concordo moderadamente</label></li>
+                                                <li><input type="radio" id="q20_4" name="q20" value="4" @(Model.q20 != null && Model.q20 == 4 ? "checked" : "") /> <label for="q20_4">Concordo muito</label></li>
+                                                <li><input type="radio" id="q20_5" name="q20" value="5" @(Model.q20 != null && Model.q20 == 5 ? "checked" : "") /> <label for="q20_5">Concordo muitíssimo</label></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
 
-                            <h3>Avaliação de @Configs.GESTREINO_AVALIDO_NOME</h3>
                             <!--  DATATABLE START -->
                             <div class="card mb-32pt">
                                 <div class="card-header">
@@ -281,6 +290,7 @@
                                             <tr>
                                                 <td></td>
                                                 <td></td>
+                                                <td><input type="text" id="GTQuestTableTreino" class="form-control form-control-sm" /></td>
                                                 <td><input type="text" id="GTQuestTableInsercao" class="form-control form-control-sm" /></td>
                                                 <td><input type="text" id="GTQuestTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
                                                 <td><input type="text" id="GTQuestTableActualizacao" class="form-control form-control-sm" /></td>
@@ -289,6 +299,7 @@
                                             <tr>
                                                 <th></th>
                                                 <th></th>
+                                                <th data-name="GTQuestTableTreino">&nbsp;</th>
                                                 <th data-name="GTQuestTableInsercao">Inserção</th>
                                                 <th data-name="GTQuestTableDataInsercao">Data Inserção</th>
                                                 <th data-name="GTQuestTableActualizacao">Actualização</th>

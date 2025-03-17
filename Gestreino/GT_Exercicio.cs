@@ -18,8 +18,8 @@ namespace Gestreino
         public GT_Exercicio()
         {
             this.GT_Exercicio_ARQUIVOS = new HashSet<GT_Exercicio_ARQUIVOS>();
-            this.GT_ExercicioTreinoCardio = new HashSet<GT_ExercicioTreinoCardio>();
             this.GT_ExercicioTreino = new HashSet<GT_ExercicioTreino>();
+            this.GT_ExercicioTreinoCardio = new HashSet<GT_ExercicioTreinoCardio>();
         }
     
         public int ID { get; set; }
@@ -38,8 +38,8 @@ namespace Gestreino
         public virtual ICollection<GT_Exercicio_ARQUIVOS> GT_Exercicio_ARQUIVOS { get; set; }
         public virtual GT_TipoTreino GT_TipoTreino { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GT_ExercicioTreinoCardio> GT_ExercicioTreinoCardio { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GT_ExercicioTreino> GT_ExercicioTreino { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GT_ExercicioTreinoCardio> GT_ExercicioTreinoCardio { get; set; }
     }
 }

@@ -1352,3 +1352,13 @@ select.is-valid ~ .select2-container--bootstrap4 .select2-selection, form.was-va
 .custom-control-label {
     padding: 3px 0px !important
 }
+
+
+
+.rm {
+    background-color: #fff !important
+}
+.planfieldseth5 {
+    font-size: 1.05rem !important;
+    font-weight: 600 !important
+}

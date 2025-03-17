@@ -5,6 +5,15 @@
 }
 @if (!string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
 {
+    <style>
+        .animated ul {
+            list-style: none;
+            padding: 0 17px !important;
+        }
+        .animated label {
+            margin-bottom: 5px !important
+        }
+    </style>
     <!-- page content -->
 <div class="right_col" role="main">
     <div class="row">
@@ -172,7 +181,6 @@
                             </div>
                         </div>
 
-                        <h3>Avaliação de @Configs.GESTREINO_AVALIDO_NOME</h3>
                         <!--  DATATABLE START -->
                         <div class="card mb-32pt">
                             <div class="card-header">
@@ -207,6 +215,7 @@
                                         <tr>
                                             <td></td>
                                             <td></td>
+                                            <td><input type="text" id="GTQuestTableTreino" class="form-control form-control-sm" /></td>
                                             <td><input type="text" id="GTQuestTableInsercao" class="form-control form-control-sm" /></td>
                                             <td><input type="text" id="GTQuestTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
                                             <td><input type="text" id="GTQuestTableActualizacao" class="form-control form-control-sm" /></td>
@@ -215,6 +224,7 @@
                                         <tr>
                                             <th></th>
                                             <th></th>
+                                            <th data-name="GTQuestTableTreino">&nbsp;</th>
                                             <th data-name="GTQuestTableInsercao">Inserção</th>
                                             <th data-name="GTQuestTableDataInsercao">Data Inserção</th>
                                             <th data-name="GTQuestTableActualizacao">Actualização</th>

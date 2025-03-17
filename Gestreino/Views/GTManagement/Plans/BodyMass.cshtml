@@ -5,15 +5,6 @@
 }
 @if (!string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
 {
-    <style>
-        h5 { 
-            font-size: 1.05rem !important;
-            font-weight:600 !important
-        }
-        .rm {
-            background-color:#fff !important
-        }
-    </style>
     <!-- page content -->
 <div class="right_col" role="main">
     <div class="row">
@@ -50,7 +41,7 @@
                         <div class="p-4">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h5>Dados do exercício</h5>
+                                    <h5 class="planfieldseth5">Dados do exercício</h5>
                                     <div class="planfieldset p-1">
                                         <div class="row">
                                             @Html.LabelFor(m => m.GT_Series_ID, new { @class = "col-md-4 col-form-label" })
@@ -103,7 +94,7 @@
                                             </div>
                                         </div>
                                     </fieldset>
-                                    <h5>Tipo de plano</h5>
+                                    <h5 class="planfieldseth5">Tipo de plano</h5>
                                     <div class="planfieldset p-1">
                                         <div class="row">
                                             <div class="col-md-4">
@@ -113,7 +104,7 @@
                                             <div class="col-md-8">
                                                 <div class="row newplangtreino" style="display:@(Model.predefined==true?"":"none")">
                                                     @Html.LabelFor(m => m.GTTreinoId, new { @class = "col-md-5 col-form-label" })
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-7">
                                                         @if (Model.predefined == true)
                                                         {
                                                             @Html.DropDownListFor(x => Model.GTTreinoId, Model.GTTreinoList, new { @class = "form-control form-control-sm", required = "" })
@@ -128,7 +119,7 @@
                                         </div>
                                     </div>
                                     <br />
-                                    <h5>Tipo de planeamento</h5>
+                                    <h5 class="planfieldseth5">Tipo de planeamento</h5>
                                     <div class="planfieldset p-1">
                                         <div class="row">
                                             <div class="col-md-4">
@@ -137,8 +128,8 @@
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="row newplanfasetreino" style="display:none">
-                                                    @Html.LabelFor(m => m.FaseTreinoId, new { @class = "col-md-6 col-form-label" })
-                                                    <div class="col-md-5">
+                                                    @Html.LabelFor(m => m.FaseTreinoId, new { @class = "col-md-5 col-form-label" })
+                                                    <div class="col-md-7">
                                                         @Html.DropDownListFor(x => Model.FaseTreinoId, Model.FaseTreinoList, "", new { @class = "form-control form-control-sm" })
                                                     </div>
                                                 </div>
@@ -165,7 +156,7 @@
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-md-5">
-                                        <h5>Exercícios disponíveis</h5>
+                                        <h5 class="planfieldseth5">Exercícios disponíveis</h5>
                                         <div class="planfieldset p-1">
                                             <div class="row mt-2">
                                                 <div class="col-md-12">
@@ -182,7 +173,7 @@
                                                                 <li class="sidebar-menu-item hide-long-text" style="" id="ex_@item.ID">
                                                                     <img class="planimg" src="@path" width="50" />
                                                                     <button @dis type="button" data-id="@item.ID" class="addlistplan1 btn btn-sm btn-success  btn-sm"><i class="fa fa-plus-circle"></i></button>
-                                                                    <a href="javascript:" style="display:none" data-placement="top" title="" class="gtplansmodaleditor open-modal-crud btn btn-light btn-sm" data-id="@item.ID" data-entity="bodymass" data-toggle="modal" data-target="#gtplansmodaleditor"><i class="fa fa-pencil"></i></a>
+                                                                    <a href="javascript:" style="display:none" data-placement="top" title="" class="gtplansmodaleditor open-modal-crud btn btn-light btn-sm" data-id="@item.ID" data-toggle="modal" data-target="#gtplansmodaleditor"><i class="fa fa-pencil"></i></a>
                                                                     <a title="" href="@Url.Action("viewexercises", "administration", new {Id=item.ID})" target="_blank" class="text-50">@item.NOME</a>
                                                                 </li>
                                                             }
@@ -194,13 +185,14 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="mt-4">
-                                            <button class="btn btn-success btn-block"><i class="fa fa-floppy-o"></i></button>
+                                            <button class="btn btn-success btn-block"><i class="fa fa-floppy-o"></i> Guardar</button>
+                                            <button class="btn btn-success btn-block" disabled><i class="fa fa-file-pdf-o"></i> Imprimir</button>
                                             <a class="btn btn-secondary btn-block" href="@Url.Action("bodymassplans", "gtmanagement", new {Id=string.Empty})"><i class="fa fa-plus-circle"></i> Novo</a>
                                             <button type="button" id="gttreinoclr" class="btn btn-secondary btn-block"><<</button>
                                         </div>
                                     </div>
                                     <div class="col-md-5">
-                                        <h5>Exercícios do Plano Musculação</h5>
+                                        <h5 class="planfieldseth5">Exercícios do Plano Musculação</h5>
                                         <div class="planfieldset p-1">
                                             <div class="row mt-2">
                                                 <div class="col-md-12">
@@ -215,7 +207,7 @@
                                                                 <li class="sidebar-menu-item hide-long-text" style="" id="ex_@item.ExerciseId">
                                                                     <img class="planimg" src="@path" width="50" />
                                                                     <button type="button" data-id="@item.ExerciseId" class="removegaclass1 btn btn-sm btn-danger btn-sm"><i class="fa fa-times"></i></button>
-                                                                    <a href="javascript:" data-placement="top" title="" class="gtplansmodaleditor open-modal-crud btn btn-light btn-sm" data-id="@item.ExerciseId" data-entity="bodymass" data-toggle="modal" data-target="#gtplansmodaleditor"><i class="fa fa-pencil"></i></a>
+                                                                    <a href="javascript:" data-placement="top" title="" class="gtplansmodaleditor open-modal-crud btn btn-light btn-sm" data-id="@item.ExerciseId" data-toggle="modal" data-target="#gtplansmodaleditor"><i class="fa fa-pencil"></i></a>
                                                                     <a title="" href="@Url.Action("viewexercises", "administration", new { Id = item.ExerciseId })" target="_blank" class="text-50">@item.Name</a>
                                                                     <div class="inputs_@item.ExerciseId">
                                                                         <table hidden="">
@@ -375,6 +367,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function (event) {
             handleDataGTTreinoTable();
+        });
     </script>
 }
 else

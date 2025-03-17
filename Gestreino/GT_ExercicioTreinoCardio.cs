@@ -19,7 +19,7 @@ namespace Gestreino
         public int GT_Exercicio_ID { get; set; }
         public int GT_DuracaoTreinoCardio_ID { get; set; }
         public Nullable<int> FC { get; set; }
-        public Nullable<int> NIVEL { get; set; }
+        public Nullable<decimal> NIVEL { get; set; }
         public Nullable<decimal> DISTANCIA { get; set; }
         public int ORDEM { get; set; }
         public int INSERIDO_POR { get; set; }
@@ -29,8 +29,8 @@ namespace Gestreino
         public Nullable<System.DateTime> DATA_ACTUALIZACAO { get; set; }
         public Nullable<System.DateTime> DATA_REMOCAO { get; set; }
     
-        public virtual GT_Exercicio GT_Exercicio { get; set; }
         public virtual GT_DuracaoTreinoCardio GT_DuracaoTreinoCardio { get; set; }
+        public virtual GT_Exercicio GT_Exercicio { get; set; }
         public virtual GT_Treino GT_Treino { get; set; }
     }
 }
