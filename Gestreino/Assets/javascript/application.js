@@ -290,6 +290,8 @@ $(document).on('click', '.open-modal-crud', function (e) {
             break;
         case 'gtquest': url = '../../Ajax/GTQuest'
             break;
+        case 'gtsocioevolution': url = '../../Ajax/GTSocioEvolution'
+            break;
         default: null
     }
     $.ajax({

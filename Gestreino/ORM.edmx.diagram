@@ -189,6 +189,8 @@
         <AssociationConnector Association="GESTREINO_ORM.GT_ExercicioTreinoCardio_GT_DuracaoTreinoCardio_ID" />
         <AssociationConnector Association="GESTREINO_ORM.GT_ExercicioTreinoCardio_GT_Exercicio_ID" />
         <AssociationConnector Association="GESTREINO_ORM.GT_ExercicioTreinoCardio_GT_Treino_ID" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.GT_SOCIOS_EVOLUCAO" Width="1.5" PointX="7.5" PointY="57" />
+        <AssociationConnector Association="GESTREINO_ORM.GT_SOCIOS_EVOLUCAO_GT_SOCIOS_ID" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

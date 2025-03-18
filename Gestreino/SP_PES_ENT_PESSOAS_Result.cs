@@ -37,7 +37,8 @@ namespace Gestreino
         public string GRUPO_UTILIZADORES { get; set; }
         public string NACIONALIDADE { get; set; }
         public string FOTOGRAFIA { get; set; }
-        public Nullable<int> PES_NUMERO { get; set; }
+        public int GT_SOCIO_ID { get; set; }
+        public int PES_NUMERO { get; set; }
         public string INSERCAO { get; set; }
         public string ACTUALIZACAO { get; set; }
         public string DATA_INSERCAO { get; set; }

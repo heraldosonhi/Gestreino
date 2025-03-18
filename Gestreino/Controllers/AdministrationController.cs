@@ -963,6 +963,9 @@ namespace Gestreino.Controllers
                     ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
                     return Json(new { result = false, error = errors });
                 }
+                if(items ==null)
+                    return Json(new { result = false, error = "Deve selecionar um item para o registo!" });
+
                 // Validate
                 foreach (var i in items)
                 {

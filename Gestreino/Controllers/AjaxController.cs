@@ -586,7 +586,23 @@ namespace Gestreino.Controllers
             return View("administration/Parameters//GTExercise", MODEL);
         }
 
+        public ActionResult GTSocioEvolution(string action, int? id, int?[] bulkids)
+        {
+            var title = string.Empty;
 
+            switch (action)
+            {
+                case "altura": title="Evolução de Altura"; break;
+                case "peso": title = "Evolução do Peso"; break;
+                case "tadistolica": title = "Evolução da Tensão Arterial Distólica"; break;
+                case "tasistolica": title = "Evolução da Tensão Arterial Sistólica"; break;
+            }
+
+            ViewBag.id = id;
+            ViewBag.title = title;
+            ViewBag.Action = action;
+            return View("GTManagement/Athletes/GTSocioEvolution");
+        }
         public ActionResult GTTreinos(string action, int? id, int?[] bulkids)
         {
             int?[] ids = new int?[] { id.Value };

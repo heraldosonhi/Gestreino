@@ -323,6 +323,9 @@
     <Compile Include="GT_SOCIOS.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="GT_SOCIOS_EVOLUCAO.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="GT_TempoDescanso.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -857,6 +860,7 @@
     <Content Include="Views\GTManagement\Plans\BodyMass.cshtml" />
     <Content Include="Views\GTManagement\Search\Analysis.cshtml" />
     <Content Include="Views\GTManagement\Search\Others.cshtml" />
+    <Content Include="Views\Ajax\GTManagement\Athletes\GTSocioEvolution.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

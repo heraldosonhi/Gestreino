@@ -112,7 +112,7 @@ namespace Gestreino.Controllers
             MODEL.Telephone = (!string.IsNullOrEmpty(data.First().TELEFONE.ToString())) ? data.First().TELEFONE.ToString() : null;
             MODEL.TelephoneAlternativo = (!string.IsNullOrEmpty(data.First().TELEFONE_ALTERNATIVO.ToString())) ? data.First().TELEFONE_ALTERNATIVO.ToString() : null;
             MODEL.Email = data.First().EMAIL;
-
+            MODEL.SOCIO_ID = data.First().GT_SOCIO_ID;
             var DateofBirth = string.IsNullOrEmpty(data.First().DATA_NASCIMENTO) ? (DateTime?)null : DateTime.ParseExact(data.First().DATA_NASCIMENTO, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             if (DateofBirth != null)
                 MODEL.Age = Converters.CalculateAge(DateofBirth.Value);
@@ -435,6 +435,19 @@ namespace Gestreino.Controllers
                         var addnationality = databaseManager.SP_PES_ENT_PESSOAS(PesId, null, null, null, null, null, null, item, null, null, null, null, null, null, null, null, null, int.Parse(User.Identity.GetUserId()), "IN").ToList();
                     }
                 }
+
+                //Evolucao
+                GT_SOCIOS_EVOLUCAO fx = new GT_SOCIOS_EVOLUCAO();
+                fx.GT_SOCIOS_ID = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == PesId).Select(x=>x.ID).FirstOrDefault();
+                fx.PESO = Peso;
+                fx.ALTURA = Altura;
+                fx.TADISTOLICA = MODEL.Caract_TADistolica;
+                fx.TASISTOLICA = MODEL.Caract_TASistolica;
+                fx.INSERIDO_POR = int.Parse(User.Identity.GetUserId());
+                fx.DATA_INSERCAO = DateTime.Now;
+                databaseManager.GT_SOCIOS_EVOLUCAO.Add(fx);
+                databaseManager.SaveChanges();
+
                 returnUrl = "/gtmanagement/viewathletes/" + PesId;
                 ModelState.Clear();
             }
@@ -484,6 +497,8 @@ namespace Gestreino.Controllers
                 if (Peso != null && Altura != null)
                     MODEL.Caract_IMC = setIMC(MODEL.Caract_Peso, MODEL.Caract_Altura);
 
+                var Evolucao = databaseManager.PES_PESSOAS_CARACT.Where(x => x.PES_PESSOAS_ID == MODEL.ID).Select(x => new {x.PESO,x.ALTURA,x.TADISTOLICA,x.TASISTOLICA}).ToList();
+
                 // Create User and Pes
                 var UpdatePes = databaseManager.SP_PES_ENT_PESSOAS(MODEL.ID, MODEL.Nome, MODEL.Sexo == 1 ? "M" : "F", DateofBirth, MODEL.EstadoCivil, MODEL.NIF, null, MODEL.NAT_PAIS_ID, MODEL.NAT_CIDADE_ID, MODEL.NAT_MUN_ID, Telephone, TelephoneAlternativo, Fax, MODEL.Email, MODEL.CodigoPostal, MODEL.URL, MODEL.Numero, int.Parse(User.Identity.GetUserId()), "U").ToList();
 
@@ -505,35 +520,23 @@ namespace Gestreino.Controllers
                     }
                 }
 
-                /*
-                //Evolução Altura
-                if (iAlturaActual != Convert.ToInt32(txtAltura.Text) && iAlturaActual != Int32.MinValue)
-                {
-                    objCommand.CommandText = "INSERT INTO tblEvolucaoAltura (IDSocio, Data, Altura)  VALUES ('" + txtNrSocio.Text + "', '" + DateTime.Today.ToString() + "','" + txtAltura.Text + "')";
-                    objCommand.ExecuteNonQuery();
-                }
+                //Evolucao
 
-                if (dPesoActual != Convert.ToDecimal(txtPeso.Text) && dPesoActual != Decimal.MinValue)
-                {
-                    //Evolução Peso
-                    objCommand.CommandText = "INSERT INTO tblEvolucaoPeso (IDSocio, Data, Peso)  VALUES ('" + txtNrSocio.Text + "', '" + DateTime.Today.ToString() + "','" + txtPeso.Text + "')";
-                    objCommand.ExecuteNonQuery();
-                }
+                var peso = Evolucao.Select(x => x.PESO).FirstOrDefault() == Peso ? (Decimal?)null : Peso;
+                var altura = Evolucao.Select(x => x.ALTURA).FirstOrDefault() == Altura ? (Decimal?)null : Altura;
+                var tadistolica = Evolucao.Select(x => x.TADISTOLICA).FirstOrDefault() == MODEL.Caract_TADistolica ? (Decimal?)null : MODEL.Caract_TADistolica;
+                var tasistolica = Evolucao.Select(x => x.TASISTOLICA).FirstOrDefault() == MODEL.Caract_TASistolica ? (Decimal?)null : MODEL.Caract_TASistolica;
 
-                if (dTASistolicaActual != Convert.ToDecimal(txtTASistolica.Text) && dTASistolicaActual != Decimal.MinValue)
-                {
-                    //Evolução Tensao Sistolica
-                    objCommand.CommandText = "INSERT INTO tblEvolucaoTASistolica (IDSocio, Data, TASistolica)  VALUES ('" + txtNrSocio.Text + "', '" + DateTime.Today.ToString() + "','" + txtTASistolica.Text + "')";
-                    objCommand.ExecuteNonQuery();
-                }
-
-
-                if (dTADistolicaActual != Convert.ToDecimal(txtTADistolica.Text) && dTADistolicaActual != Decimal.MinValue)
-                {
-                    //Evolução Tensao Distolica
-                    objCommand.CommandText = "INSERT INTO tblEvolucaoTADistolica (IDSocio, Data, TADistolica)  VALUES ('" + txtNrSocio.Text + "', '" + DateTime.Today.ToString() + "','" + txtTADistolica.Text + "')";
-                    objCommand.ExecuteNonQuery();
-                }*/
+                GT_SOCIOS_EVOLUCAO fx = new GT_SOCIOS_EVOLUCAO();
+                fx.GT_SOCIOS_ID = MODEL.SOCIO_ID.Value;
+                fx.PESO = peso;
+                fx.ALTURA = altura;
+                fx.TADISTOLICA = tadistolica;
+                fx.TASISTOLICA = tasistolica;
+                fx.INSERIDO_POR = int.Parse(User.Identity.GetUserId());
+                fx.DATA_INSERCAO = DateTime.Now;
+                databaseManager.GT_SOCIOS_EVOLUCAO.Add(fx);
+                databaseManager.SaveChanges();
 
                 returnUrl = "/gtmanagement/viewathletes/" + MODEL.ID;
                 ModelState.Clear();
@@ -4852,6 +4855,7 @@ namespace Gestreino.Controllers
                 MODEL.RESP_05 = data.First().RESP_05;
                 MODEL.RESP_06 = data.First().RESP_06;
                 MODEL.RESP_07 = data.First().RESP_07;
+                MODEL.lblDataInsercao = data.First().DATA_INSERCAO;
             }
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Quest_Functional;
             return View("Quest/Functional", MODEL);
@@ -5484,7 +5488,96 @@ namespace Gestreino.Controllers
             }
             return Json(allSeries, JsonRequestBehavior.AllowGet);
         }
-      
+
+        //Evolution
+        public ActionResult GetGTSocioEvolution(int? Id,string sval, OthersGraph MODEL)
+        {
+            List<Dictionary<string, object>> allSeries = new List<Dictionary<string, object>>();
+            var data1 = databaseManager.GT_SOCIOS_EVOLUCAO.Where(x => x.GT_SOCIOS_ID == Id).OrderBy(x=>x.DATA_INSERCAO).ToList();
+          
+            if (sval == "altura")
+            {
+             // data1= data1.Where(x => x.ALTURA != null).ToList();
+            
+            foreach (var item in data1)
+            {
+                if (item.ALTURA != null)
+                {
+                    var sValue = item.DATA_INSERCAO.ToString("dd/MM/yyyy");
+
+                    Dictionary<string, object> aSeries = new Dictionary<string, object>();
+                    aSeries["name"] = sValue;
+                    aSeries["data"] = new List<double?>();
+
+                    ((List<double?>)aSeries["data"]).Add(0);
+                    ((List<double?>)aSeries["data"]).Add((double?)Math.Round(item.ALTURA.Value, 2));
+                    allSeries.Add(aSeries);
+                }
+            }
+            }
+            if (sval == "peso")
+            {
+               // data1 = data1.Where(x => x.PESO != null).ToList();
+
+                foreach (var item in data1)
+                {
+                    if (item.PESO != null)
+                    {
+                        var sValue = item.DATA_INSERCAO.ToString("dd/MM/yyyy");
+
+                        Dictionary<string, object> aSeries = new Dictionary<string, object>();
+                        aSeries["name"] = sValue;
+                        aSeries["data"] = new List<double?>();
+
+                        ((List<double?>)aSeries["data"]).Add(0);
+                        ((List<double?>)aSeries["data"]).Add((double?)Math.Round(item.PESO.Value, 2));
+                        allSeries.Add(aSeries);
+                    }
+                }
+            }
+            if (sval == "tadistolica")
+            {
+                //data1 = data1.Where(x => x.TADISTOLICA != null).ToList();
+
+                foreach (var item in data1)
+                {
+                    if (item.TADISTOLICA != null)
+                    {
+                        var sValue = item.DATA_INSERCAO.ToString("dd/MM/yyyy");
+
+                        Dictionary<string, object> aSeries = new Dictionary<string, object>();
+                        aSeries["name"] = sValue;
+                        aSeries["data"] = new List<double?>();
+
+                        ((List<double?>)aSeries["data"]).Add(0);
+                        ((List<double?>)aSeries["data"]).Add((double?)Math.Round(item.TADISTOLICA.Value, 2));
+                        allSeries.Add(aSeries);
+                    }
+                }
+            }
+            if (sval == "tasistolica")
+            {
+               // data1 = data1.Where(x => x.TASISTOLICA != null).ToList();
+
+                foreach (var item in data1)
+                {
+                    if (item.TASISTOLICA != null)
+                    {
+                        var sValue = item.DATA_INSERCAO.ToString("dd/MM/yyyy");
+
+                        Dictionary<string, object> aSeries = new Dictionary<string, object>();
+                        aSeries["name"] = sValue;
+                        aSeries["data"] = new List<double?>();
+
+                        ((List<double?>)aSeries["data"]).Add(0);
+                        ((List<double?>)aSeries["data"]).Add((double?)Math.Round(item.TASISTOLICA.Value, 2));
+                        allSeries.Add(aSeries);
+                    }
+                }
+            }
+
+            return Json(allSeries, JsonRequestBehavior.AllowGet);
+        }
 
 
 

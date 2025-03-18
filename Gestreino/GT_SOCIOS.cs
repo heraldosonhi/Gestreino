@@ -28,6 +28,7 @@ namespace Gestreino
             this.GT_RespPessoaIdosa = new HashSet<GT_RespPessoaIdosa>();
             this.GT_RespForca = new HashSet<GT_RespForca>();
             this.GT_RespFuncional = new HashSet<GT_RespFuncional>();
+            this.GT_SOCIOS_EVOLUCAO = new HashSet<GT_SOCIOS_EVOLUCAO>();
         }
     
         public int ID { get; set; }
@@ -57,5 +58,7 @@ namespace Gestreino
         public virtual ICollection<GT_RespForca> GT_RespForca { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GT_RespFuncional> GT_RespFuncional { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GT_SOCIOS_EVOLUCAO> GT_SOCIOS_EVOLUCAO { get; set; }
     }
 }

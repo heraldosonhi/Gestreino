@@ -77,6 +77,25 @@
                                     @Html.TextBoxFor(m => m.NIF, new { @class = "form-control form-control-sm" })
                                 </div>
                             </div>
+
+                            <div class="">
+                                <div class="row mt-1">
+                                    @Html.LabelFor(m => m.Telephone, new { @class = "col-md-2 col-form-label required" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control form-control-sm", required = "", @type = "number", min = "1" })
+                                    </div>
+                                    @Html.LabelFor(m => m.TelephoneAlternativo, new { @class = "col-md-2 col-form-label" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(m => m.TelephoneAlternativo, new { @class = "form-control form-control-sm", @type = "number", min = "1" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm", type = "email" })
+                                    </div>
+                                </div>
+                            </div>
                             <div class="">
                                 <div class="row">
                                     @Html.LabelFor(m => m.NacionalidadeId, new { @class = "col-md-2 col-form-label" })
@@ -97,25 +116,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="">
-                                <div class="row mt-1">
-                                    @Html.LabelFor(m => m.Telephone, new { @class = "col-md-2 col-form-label required" })
-                                    <div class="col-md-4">
-                                        @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control form-control-sm", required = "", @type = "number", min = "1" })
-                                    </div>
-                                    @Html.LabelFor(m => m.TelephoneAlternativo, new { @class = "col-md-2 col-form-label" })
-                                    <div class="col-md-4">
-                                        @Html.TextBoxFor(m => m.TelephoneAlternativo, new { @class = "form-control form-control-sm", @type = "number", min = "1" })
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
-                                    <div class="col-md-4">
-                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm", type = "email" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="">
+                            <div class="mt-1">
                                 <div class="row">
                                     <label class="col-md-2 col-form-label required" for="Numero">N&#250;mero/Rua/Morada </label>
 
@@ -221,16 +222,16 @@
                                         <div id="myTabContent" class="tab-content">
                                             <div role="tabpanel" class="tab-pane active" id="tab_content1" aria-labelledby="">
                                                 <div class="p-3 ">
-                                                        <div class="d-flex flex-wrap align-items-start">
-                                                            <div class="mr-8pt">
-                                                                <strong>  <i class="fa fa-code-fork"></i>&nbsp;</strong>
-                                                            </div>
-                                                            <div class="flex"
-                                                                 style="min-width: 180px">
-                                                                <strong class="text-black-100">
-                                                                    Fórmula Karvonen e Skinner
-                                                                </strong>
-                                                            </div>
+                                                    <div class="d-flex flex-wrap align-items-start">
+                                                        <div class="mr-8pt">
+                                                            <strong>  <i class="fa fa-code-fork"></i>&nbsp;</strong>
+                                                        </div>
+                                                        <div class="flex"
+                                                             style="min-width: 180px">
+                                                            <strong class="text-black-100">
+                                                                Fórmula Karvonen e Skinner
+                                                            </strong>
+                                                        </div>
                                                     </div>
                                                     <div class="table-responsive mt-1">
                                                         <table class="lres-table">
@@ -366,8 +367,8 @@
                                                         <div class="col-md-2">
                                                             <div class="custom-controls-stacked">
                                                                 <div class="custom-control custom-checkbox">
-                                                                    @Html.CheckBoxFor(m => m.FR_Hipertensao, new { @class = "custom-control-input" }) 
-                                                                      @Html.LabelFor(m => m.FR_Hipertensao, new { @class = "custom-control-label" })
+                                                                    @Html.CheckBoxFor(m => m.FR_Hipertensao, new { @class = "custom-control-input" })
+                                                                    @Html.LabelFor(m => m.FR_Hipertensao, new { @class = "custom-control-label" })
                                                                 </div>
                                                             </div>
                                                         </div>

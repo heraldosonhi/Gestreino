@@ -23,9 +23,9 @@
                         <li class="@(ViewBag.LeftBarLinkActive==203?"current-page":"")"><a href="@Url.Action("cardioplans","gtmanagement", new {Id=string.Empty})">Plano de Cardiovascular</a></li>
                    </ul>
                 </li>
-                <li class="@(ViewBag.LeftBarLinkActive==205 || ViewBag.LeftBarLinkActive==206 || ViewBag.LeftBarLinkActive==207 || ViewBag.LeftBarLinkActive==208 || ViewBag.LeftBarLinkActive==209|| ViewBag.LeftBarLinkActive==210  || ViewBag.LeftBarLinkActive==211|| ViewBag.LeftBarLinkActive==212?"active":"")">
+                <li class="@(ViewBag.LeftBarLinkActive==205 || ViewBag.LeftBarLinkActive==206 || ViewBag.LeftBarLinkActive==207 || ViewBag.LeftBarLinkActive==208 || ViewBag.LeftBarLinkActive==209|| ViewBag.LeftBarLinkActive==210  || ViewBag.LeftBarLinkActive==211|| ViewBag.LeftBarLinkActive==212|| ViewBag.LeftBarLinkActive==213|| ViewBag.LeftBarLinkActive==214?"active":"")">
                     <a><i class="fa fa-anchor"></i> Avaliação <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive==205 ||ViewBag.LeftBarLinkActive==206||ViewBag.LeftBarLinkActive==207||ViewBag.LeftBarLinkActive==208||ViewBag.LeftBarLinkActive==209|| ViewBag.LeftBarLinkActive==210|| ViewBag.LeftBarLinkActive==211|| ViewBag.LeftBarLinkActive==212 ?"block":"")">
+                    <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive==205 ||ViewBag.LeftBarLinkActive==206||ViewBag.LeftBarLinkActive==207||ViewBag.LeftBarLinkActive==208||ViewBag.LeftBarLinkActive==209|| ViewBag.LeftBarLinkActive==210|| ViewBag.LeftBarLinkActive==211|| ViewBag.LeftBarLinkActive==212 || ViewBag.LeftBarLinkActive==213 || ViewBag.LeftBarLinkActive==214 ?"block":"")">
                         <li>
                             <a>Estado Psicológico<span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive==205 ||ViewBag.LeftBarLinkActive==206?"block":"")">
@@ -55,10 +55,10 @@
                         <li class="@(ViewBag.LeftBarLinkActive==212?"current-page":"")">
                             <a href="@Url.Action("elderly", "gtmanagement", new {Id=string.Empty})">Pessoa Idosa</a>
                         </li>
-                        <li class="@(ViewBag.LeftBarLinkActive==212?"current-page":"")">
+                        <li class="@(ViewBag.LeftBarLinkActive==213?"current-page":"")">
                             <a href="@Url.Action("force", "gtmanagement", new {Id=string.Empty})">Força</a>
                         </li>
-                        <li>
+                        <li class="@(ViewBag.LeftBarLinkActive==214?"current-page":"")">
                             <a href="@Url.Action("functional", "gtmanagement", new {Id=string.Empty})">Funcional</a>
                         </li>
                     </ul>

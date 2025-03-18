@@ -8,7 +8,7 @@
     <!-- page content -->
 <div class="right_col" role="main">
     <div class="row">
-        <div class="col-md-12 col-sm-12 ">
+        <div class="col-md-11 col-sm-12 ">
             <div class="handle-error alert alert-accent"
                  role="alert" style="display:none;">
                 <div class="d-flex flex-wrap align-items-start">
@@ -158,7 +158,7 @@
                                                         var path = Model.ExerciseArqList.Where(x => x.ExerciseId == item.ID).Select(x => x.LogoPath).FirstOrDefault();
                                                         <li class="sidebar-menu-item hide-long-text" style="" id="ex_@item.ID">
                                                             <img class="planimg" src="@path" width="50" />
-                                                            <button @dis type="button" data-id="@item.ID" class="addlistplan1 btn btn-sm btn-success btn-sm"><i class="fa fa-plus-circle"></i></button>
+                                                            <button @dis type="button" data-id="@item.ID" class="addlistplan1 btn btn-success btn-sm"><i class="fa fa-plus-circle"></i></button>
                                                             <a href="javascript:" style="display:none" data-placement="top" title="" class="gtplansmodaleditor open-modal-crud btn btn-light btn-sm" data-id="@item.ID" data-toggle="modal" data-target="#gtplansmodaleditor"><i class="fa fa-pencil"></i></a>
                                                             <a title="" href="@Url.Action("viewexercises", "administration", new {Id=item.ID})" target="_blank" class="text-50">@item.NOME</a>
                                                         </li>
@@ -190,7 +190,7 @@
 
                                                             <li class="sidebar-menu-item hide-long-text" style="" id="ex_@item.ExerciseId">
                                                                 <img class="planimg" src="@path" width="50" />
-                                                                <button type="button" data-id="@item.ExerciseId" class="removegaclass1 btn btn-sm btn-danger btn-sm"><i class="fa fa-times"></i></button>
+                                                                <button type="button" data-id="@item.ExerciseId" class="removegaclass1 btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
                                                                 <a href="javascript:" data-placement="top" title="" class="gtplansmodaleditor open-modal-crud btn btn-light btn-sm" data-id="@item.ExerciseId" data-toggle="modal" data-target="#gtplansmodaleditor"><i class="fa fa-pencil"></i></a>
                                                                 <a title="" href="@Url.Action("viewexercises", "administration", new { Id = item.ExerciseId })" target="_blank" class="text-50">@item.Name</a>
                                                                 <div class="inputs_@item.ExerciseId">

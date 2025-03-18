@@ -225,6 +225,7 @@ namespace Gestreino.Models
         public int? ID { get; set; }
         public int? UserID { get; set; }
         public int? Age { get; set; }
+        public int? SOCIO_ID { get; set; }
 
         [Display(Name = "N° Sócio")]
         public int? Numero { get; set; }

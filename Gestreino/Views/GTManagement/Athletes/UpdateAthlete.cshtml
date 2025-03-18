@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = "Atualizar informação de atleta";
 }
+<script src="https://code.highcharts.com/highcharts.js"></script>
+@*<script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>*@
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="row">
@@ -27,6 +31,7 @@
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.ID)
+        @Html.HiddenFor(m => m.SOCIO_ID)
         <div class="row">
             <div class="col-md-11 col-sm-12 ">
                 <div class="animated flipInY">
@@ -78,6 +83,24 @@
                                 </div>
                             </div>
                             <div class="">
+                                <div class="row mt-1">
+                                    @Html.LabelFor(m => m.Telephone, new { @class = "col-md-2 col-form-label required" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control form-control-sm", required = "", @type = "number", min = "1" })
+                                    </div>
+                                    @Html.LabelFor(m => m.TelephoneAlternativo, new { @class = "col-md-2 col-form-label" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(m => m.TelephoneAlternativo, new { @class = "form-control form-control-sm", @type = "number", min = "1" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm", type = "email" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="">
                                 <div class="row">
                                     @Html.LabelFor(m => m.NacionalidadeId, new { @class = "col-md-2 col-form-label" })
                                     <div class="col-md-4">
@@ -97,25 +120,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="">
-                                <div class="row mt-1">
-                                    @Html.LabelFor(m => m.Telephone, new { @class = "col-md-2 col-form-label required" })
-                                    <div class="col-md-4">
-                                        @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control form-control-sm", required = "", @type = "number", min = "1" })
-                                    </div>
-                                    @Html.LabelFor(m => m.TelephoneAlternativo, new { @class = "col-md-2 col-form-label" })
-                                    <div class="col-md-4">
-                                        @Html.TextBoxFor(m => m.TelephoneAlternativo, new { @class = "form-control form-control-sm", @type = "number", min = "1" })
-                                    </div>
-                                </div> 
-                                <div class="row">
-                                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
-                                    <div class="col-md-4">
-                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm", type = "email" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="">
+                            <div class="mt-1">
                                 <div class="row">
                                     <label class="col-md-2 col-form-label required" for="Numero">N&#250;mero/Rua/Morada </label>
                                     <div class="col-md-3">
@@ -149,7 +154,7 @@
                                         @Html.TextBoxFor(m => m.Caract_Altura, new { @class = "form-control form-control-sm", type = "number", required = "", min = "1" })
                                     </div>
                                     <div class="col-md-1">
-                                        <button class="btn btn-sm btn-info" disabled><i class="fa fa-line-chart"></i></button>
+                                        <a title="Evolução" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-info btn-block" data-id="@Model.SOCIO_ID" data-action="altura" data-entity="gtsocioevolution" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-bar-chart"></i></a>
                                     </div>
                                     @Html.LabelFor(m => m.Caract_VO2, new { @class = "col-md-2 col-form-label" })
                                     <div class="col-md-4">
@@ -162,7 +167,7 @@
                                         @Html.TextBoxFor(m => m.Caract_Peso, new { @class = "form-control form-control-sm", type = "number", required = "", step = ".01", min = "1" })
                                     </div>
                                     <div class="col-md-1">
-                                        <button class="btn btn-sm btn-info" disabled><i class="fa fa-line-chart"></i></button>
+                                        <a title="Evolução" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-info btn-block" data-id="@Model.SOCIO_ID" data-action="peso" data-entity="gtsocioevolution" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-bar-chart"></i></a>
                                     </div>
                                     @Html.LabelFor(m => m.Caract_MassaGorda, new { @class = "col-md-2 col-form-label" })
                                     <div class="col-md-4">
@@ -201,7 +206,7 @@
                                         @Html.TextBoxFor(m => m.Caract_TASistolica, new { @class = "form-control form-control-sm", type = "number", min = "1" })
                                     </div>
                                     <div class="col-md-1">
-                                        <button class="btn btn-sm btn-info" disabled><i class="fa fa-line-chart"></i></button>
+                                        <a title="Evolução" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-info btn-block" data-id="@Model.SOCIO_ID" data-action="tasistolica" data-entity="gtsocioevolution" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-bar-chart"></i></a>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -210,7 +215,7 @@
                                         @Html.TextBoxFor(m => m.Caract_TADistolica, new { @class = "form-control form-control-sm", type = "number", min = "1" })
                                     </div>
                                     <div class="col-md-1">
-                                        <button class="btn btn-sm btn-info" disabled><i class="fa fa-line-chart"></i></button>
+                                        <a title="Evolução" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-info btn-block" data-id="@Model.SOCIO_ID" data-action="tadistolica" data-entity="gtsocioevolution" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-bar-chart"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -232,17 +237,17 @@
                                         <div id="myTabContent" class="tab-content">
                                             <div role="tabpanel" class="tab-pane active" id="tab_content1" aria-labelledby="">
                                                 <div class="p-3 ">
-                                                        <div class="d-flex flex-wrap align-items-start">
-                                                            <div class="mr-8pt">
-                                                                <strong>  <i class="fa fa-code-fork"></i>&nbsp;</strong>
-                                                            </div>
-                                                            <div class="flex"
-                                                                 style="min-width: 180px">
-                                                                <strong class="text-black-100">
-                                                                    Fórmula Karvonen e Skinner
-                                                                </strong>
-                                                            </div>
+                                                    <div class="d-flex flex-wrap align-items-start">
+                                                        <div class="mr-8pt">
+                                                            <strong>  <i class="fa fa-code-fork"></i>&nbsp;</strong>
                                                         </div>
+                                                        <div class="flex"
+                                                             style="min-width: 180px">
+                                                            <strong class="text-black-100">
+                                                                Fórmula Karvonen e Skinner
+                                                            </strong>
+                                                        </div>
+                                                    </div>
                                                     <div class="table-responsive mt-1">
                                                         <table class="lres-table">
                                                             <tr>
