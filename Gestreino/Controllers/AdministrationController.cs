@@ -31,6 +31,7 @@ namespace Gestreino.Controllers
         int _MenuLeftBarLink_LoginLogs = 103;
         int _MenuLeftBarLink_Parameters = 104;
         int _MenuLeftBarLink_Settings = 105;
+        int _MenuLeftBarLink_Tokens = 106;
         public ActionResult Index()
         {
             return View();
@@ -39,12 +40,14 @@ namespace Gestreino.Controllers
         //Users
         public ActionResult Users()
         {
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_USERS_LIST_VIEW_SEARCH)) return View("Lockout");
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_User;
             return View("Users/Index");
         }
         [HttpGet]
         public ActionResult ViewUsers(int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_USERS_LIST_VIEW_SEARCH)) return View("Lockout");
             if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
             var data = databaseManager.SP_UTILIZADORES_ENT_UTILIZADORES(Id, null, null, null, null, null, null, null, null, null, null, null, null, null, "R").ToList();
             if (!data.Any()) { return RedirectToAction("", "home"); }
@@ -92,7 +95,7 @@ namespace Gestreino.Controllers
             if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
             if (!string.IsNullOrEmpty(Grupos)) v = v.Where(a => a.TOTALGROUPS != null && a.TOTALGROUPS.ToString() == Grupos);
             if (!string.IsNullOrEmpty(Perfis)) v = v.Where(a => a.TOTALPERFIS != null && a.TOTALPERFIS.ToString() == Perfis);
-            if (!string.IsNullOrEmpty(Estado)) v = v.Where(a => a.ACTIVO != null && a.ACTIVO==(Estado=="1"?"Activo":"Inactivo"));
+            if (!string.IsNullOrEmpty(Estado)) v = v.Where(a => a.ACTIVO != null && a.ACTIVO == (Estado == "1" ? "Activo" : "Inactivo"));
             if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
             if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
             if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
@@ -146,8 +149,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     LOGIN = x.LOGIN,
                     NOME = x.NOME_PROPIO + " " + x.APELIDO,
@@ -231,7 +232,7 @@ namespace Gestreino.Controllers
 
                 var Status = MODEL.Status == 1 ? true : false;
 
-                if (databaseManager.PES_CONTACTOS.Where(a => a.EMAIL == MODEL.Email && a.PES_PESSOAS_ID!=MODEL.PesId).ToList().Count() > 0)
+                if (databaseManager.PES_CONTACTOS.Where(a => a.EMAIL == MODEL.Email && a.PES_PESSOAS_ID != MODEL.PesId).ToList().Count() > 0)
                 {
                     if (!string.IsNullOrEmpty(MODEL.Email)) return Json(new { result = false, error = "Este endereço de email já encontra-se em uso!" });
 
@@ -296,7 +297,7 @@ namespace Gestreino.Controllers
 
                 // Send Email
                 string url = "http://gestreino.pt/";
-                Mailer.SendEmailMVC(2, MODEL.Email, MODEL.Login, MODEL.Password.Trim(),url, null, null); // Email template - 3
+                Mailer.SendEmailMVC(2, MODEL.Email, MODEL.Login, MODEL.Password.Trim(), url, null, null); // Email template - 3
 
                 ModelState.Clear();
             }
@@ -311,6 +312,9 @@ namespace Gestreino.Controllers
         [HttpGet]
         public ActionResult Access()
         {
+            if (AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_LIST_VIEW_SEARCH) || AcessControl.Authorized(AcessControl.ADM_USERS_PROFILES_LIST_VIEW_SEARCH) || AcessControl.Authorized(AcessControl.ADM_USERS_GROUPS_LIST_VIEW_SEARCH)) { }
+            else return View("Lockout");
+
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Access;
             return View("Access/Index");
         }
@@ -319,6 +323,8 @@ namespace Gestreino.Controllers
         [HttpGet]
         public ActionResult ViewGroups(int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_GROUPS_LIST_VIEW_SEARCH)) return View("Lockout");
+
             if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
             var data = databaseManager.SP_UTILIZADORES_ENT_GRUPOS(Id, null, null, null, null, "R").ToList();
             if (!data.Any()) { return RedirectToAction("", "home"); }
@@ -404,8 +410,8 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    AccessControlEdit = !AcessControl.Authorized(AcessControl.ADM_USERS_GROUPS_EDIT) ? "none" : "",
+                    AccessControlDelete = !AcessControl.Authorized(AcessControl.ADM_USERS_GROUPS_DELETE) ? "none" : "",
                     Id = x.ID,
                     SIGLA = x.SIGLA,
                     NOME = x.NOME,
@@ -503,6 +509,8 @@ namespace Gestreino.Controllers
         [HttpGet]
         public ActionResult ViewProfiles(int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_PROFILES_LIST_VIEW_SEARCH)) return View("Lockout");
+
             if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
             var data = databaseManager.SP_UTILIZADORES_ENT_PERFIS(Id, null, null, null, "R").ToList();
             if (!data.Any()) { return RedirectToAction("", "home"); }
@@ -524,10 +532,11 @@ namespace Gestreino.Controllers
 
             //UI DATATABLE SEARCH INPUTS
             var Nome = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
-            var Insercao = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
-            var DataInsercao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
-            var Actualizacao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
-            var DataActualizacao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var Desc = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
 
             //DECLARE PAGINATION VARIABLES
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
@@ -539,6 +548,7 @@ namespace Gestreino.Controllers
 
             //SEARCH RESULT SET
             if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
+            if (!string.IsNullOrEmpty(Desc)) v = v.Where(a => a.DESCRICAO != null && a.DESCRICAO.ToUpper().Contains(Desc.ToUpper()));
             if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
             if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
             if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
@@ -553,6 +563,7 @@ namespace Gestreino.Controllers
                     switch (sortColumn)
                     {
                         case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "DESCRICAO": v = v.OrderBy(s => s.DESCRICAO); break;
                         case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
                         case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
                         case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
@@ -564,6 +575,7 @@ namespace Gestreino.Controllers
                     switch (sortColumn)
                     {
                         case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "DESCRICAO": v = v.OrderByDescending(s => s.DESCRICAO); break;
                         case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
                         case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
                         case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
@@ -584,10 +596,11 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    AccessControlEdit = !AcessControl.Authorized(AcessControl.ADM_USERS_PROFILES_EDIT) ? "none" : "",
+                    AccessControlDelete = !AcessControl.Authorized(AcessControl.ADM_USERS_PROFILES_DELETE) ? "none" : "",
                     Id = x.ID,
                     NOME = x.NOME,
+                    DESCRICAO = x.DESCRICAO,
                     INSERCAO = x.INSERCAO,
                     DATAINSERCAO = x.DATA_INSERCAO,
                     ACTUALIZACAO = x.ACTUALIZACAO,
@@ -681,6 +694,8 @@ namespace Gestreino.Controllers
         [HttpGet]
         public ActionResult ViewAtoms(int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_LIST_VIEW_SEARCH)) return View("Lockout");
+
             if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
             var data = databaseManager.SP_UTILIZADORES_ENT_ATOMOS(Id, null, null, null, "R").ToList();
             if (!data.Any()) { return RedirectToAction("", "home"); }
@@ -702,10 +717,11 @@ namespace Gestreino.Controllers
 
             //UI DATATABLE SEARCH INPUTS
             var Nome = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
-            var Insercao = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
-            var DataInsercao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
-            var Actualizacao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
-            var DataActualizacao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var Desc = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
 
             //DECLARE PAGINATION VARIABLES
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
@@ -717,6 +733,7 @@ namespace Gestreino.Controllers
 
             //SEARCH RESULT SET
             if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
+            if (!string.IsNullOrEmpty(Desc)) v = v.Where(a => a.DESCRICAO != null && a.DESCRICAO.ToUpper().Contains(Desc.ToUpper()));
             if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
             if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
             if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
@@ -731,6 +748,7 @@ namespace Gestreino.Controllers
                     switch (sortColumn)
                     {
                         case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "DESCRICAO": v = v.OrderBy(s => s.DESCRICAO); break;
                         case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
                         case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
                         case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
@@ -742,6 +760,7 @@ namespace Gestreino.Controllers
                     switch (sortColumn)
                     {
                         case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "DESCRICAO": v = v.OrderByDescending(s => s.DESCRICAO); break;
                         case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
                         case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
                         case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
@@ -762,10 +781,11 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    AccessControlEdit = !AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_EDIT) ? "none" : "",
+                    AccessControlDelete = !AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_DELETE) ? "none" : "",
                     Id = x.ID,
                     NOME = x.NOME,
+                    DESCRICAO = x.DESCRICAO,
                     INSERCAO = x.INSERCAO,
                     DATAINSERCAO = x.DATA_INSERCAO,
                     ACTUALIZACAO = x.ACTUALIZACAO,
@@ -936,8 +956,7 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    AccessControlDelete = !AcessControl.Authorized(AcessControl.ADM_USERS_GROUP_USERS_DELETE) ? "none" : "",
                     Id = x.ID,
                     GRUPO = x.GRUPO_NOME + " (" + x.SIGLA + ")",
                     UTILIZADOR = x.NOME_PROPIO + " " + x.APELIDO + " (" + x.LOGIN + ")",
@@ -1105,8 +1124,7 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    AccessControlDelete = !AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_GROUPS_DELETE) ? "none" : "",
                     Id = x.ID,
                     GRUPO = x.GRUPO_NOME + " (" + x.GRUPO_SIGLA + ")",
                     ATOMO = x.ATOMO_NOME,
@@ -1271,8 +1289,7 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    AccessControlDelete = !AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_PROFILES_DELETE) ? "none" : "",
                     Id = x.ID,
                     PERFIL = x.PERFIL_NOME,
                     ATOMO = x.ATOMO_NOME,
@@ -1437,8 +1454,7 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    AccessControlDelete = !AcessControl.Authorized(AcessControl.ADM_USERS_PROFILE_USERS_DELETE) ? "none" : "",
                     Id = x.ID,
                     PERFIL = x.PERFIL_NOME,
                     UTILIZADOR = x.NOME_PROPIO + " " + x.APELIDO + " (" + x.LOGIN + ")",
@@ -1603,8 +1619,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     NOME = x.NOME,
                     INSERCAO = x.INSERCAO,
@@ -1620,6 +1634,8 @@ namespace Gestreino.Controllers
         //UserLogs
         public ActionResult LoginLogs()
         {
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_LOGIN_LOGS_LIST_VIEW_SEARCH)) return View("Lockout");
+
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_LoginLogs;
             return View("Access/LoginLogs");
         }
@@ -1706,8 +1722,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     LOGIN = x.LOGIN,
                     IP = x.ENDERECO_IP,
@@ -1722,28 +1736,130 @@ namespace Gestreino.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        //Tokens
+        public ActionResult Tokens()
+        {
+            if (!AcessControl.Authorized(AcessControl.ADM_SEC_TOKENS_LIST_VIEW_SEARCH)) return View("Lockout");
+
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Tokens;
+            return View("Access/Tokens");
+        }
+        [HttpPost]
+        public ActionResult GetTokenTable()
+        {
+            //UI DATATABLE PAGINATION BUTTONS
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            //UI DATATABLE COLUMN ORDERING
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            //UI DATATABLE SEARCH INPUTS
+            var Tipo = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+            var Token = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Conteudo = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Data = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+
+            //DECLARE PAGINATION VARIABLES
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var v = (from a in databaseManager.SP_GRL_ENT_TOKENS(null, "R").ToList() select a);
+            TempData["QUERYRESULT_ALL"] = v.ToList();
+
+            //SEARCH RESULT SET
+            if (!string.IsNullOrEmpty(Tipo)) v = v.Where(a => a.TOKEN_TIPO != null && a.TOKEN_TIPO.ToUpper().Contains(Tipo.ToUpper()));
+            if (!string.IsNullOrEmpty(Token)) v = v.Where(a => a.TOKEN != null && a.TOKEN.ToUpper().Contains(Token.ToUpper()));
+            if (!string.IsNullOrEmpty(Conteudo)) v = v.Where(a => a.CONTEUDO != null && a.CONTEUDO.ToUpper().Contains(Conteudo.ToUpper()));
+            if (!string.IsNullOrEmpty(Data)) v = v.Where(a => a.DATA != null && a.DATA.ToUpper().Contains(Data.Replace("-", "/").ToUpper()));
+            if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(Insercao.Replace("-", "/").ToUpper()));
+
+            //ORDER RESULT SET
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                if (sortColumnDir == "asc")
+                {
+                    switch (sortColumn)
+                    {
+                        case "TIPO": v = v.OrderBy(s => s.TOKEN_TIPO); break;
+                        case "TOKEN": v = v.OrderBy(s => s.TOKEN); break;
+                        case "CONTEUDO": v = v.OrderBy(s => s.CONTEUDO); break;
+                        case "DATA": v = v.OrderBy(s => s.DATA); break;
+                        case "INSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
+                    }
+                }
+                else
+                {
+                    switch (sortColumn)
+                    {
+                        case "TIPO": v = v.OrderByDescending(s => s.TOKEN_TIPO); break;
+                        case "TOKEN": v = v.OrderByDescending(s => s.TOKEN); break;
+                        case "CONTEUDO": v = v.OrderByDescending(s => s.CONTEUDO); break;
+                        case "DATA": v = v.OrderByDescending(s => s.DATA); break;
+                        case "INSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
+                    }
+                }
+            }
+
+            totalRecords = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            TempData["QUERYRESULT"] = v.ToList();
+
+            //RETURN RESPONSE JSON PARSE
+            return Json(new
+            {
+                draw = draw,
+                recordsFiltered = totalRecords,
+                recordsTotal = totalRecords,
+                data = data.Select(x => new
+                {
+                    Id = x.ID,
+                    TIPO = x.TOKEN_TIPO,
+                    TOKEN = x.TOKEN,
+                    CONTEUDO = x.CONTEUDO,
+                    DATA = x.DATA,
+                    INSERCAO = x.DATA_INSERCAO
+                }),
+                sortColumn = sortColumn,
+                sortColumnDir = sortColumnDir,
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+
         //Parameters
         [HttpGet]
         public ActionResult Parameters()
         {
+            if (AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_ADM) || AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_GT) || AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_PES)) { }else return View("Lockout");
+
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Parameters;
             return View("Parameters/Index");
         }
         [HttpGet]
         public ActionResult ParametersGRL()
         {
+            if (!AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_ADM)) return View("Lockout");
+
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Parameters;
             return View("Parameters/ParametersGRL");
         }
         [HttpGet]
         public ActionResult ParametersPES()
         {
+            if (!AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_PES)) return View("Lockout");
+
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Parameters;
             return View("Parameters/ParametersPES");
         }
         [HttpGet]
         public ActionResult ParametersGT(Gestreino.Models.GTExercicio MODEL)
         {
+            if (!AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_GT)) return View("Lockout");
+
             MODEL.TipoList = databaseManager.GT_TipoTreino.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Parameters;
             return View("Parameters/ParametersGT",MODEL);
@@ -1753,7 +1869,8 @@ namespace Gestreino.Controllers
         //Exercicios
         public ActionResult ViewExercises(int? Id, Gestreino.Models.GTExercicio MODEL)
         {
-            //if (!AcessControl.Authorized(AcessControl.GP_USERS_LIST_VIEW_SEARCH)) return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_GT)) return View("Lockout");
+            
             if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
 
             var data = databaseManager.SP_GT_ENT_EXERCICIO(Id, null, null, null, null, null, Convert.ToChar('R').ToString()).ToList();
@@ -1850,8 +1967,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     TREINO = x.tr_nome,
                     NOME = x.nome,
@@ -2022,8 +2137,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     NOME = x.NOME,
                     SIGLA = x.SIGLA,
@@ -2192,8 +2305,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     NOME = x.NOME,
                     INSERCAO = x.INSERCAO,
@@ -2369,9 +2480,7 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
-                    Id = x.ID,
+                      Id = x.ID,
                     NOME = x.NOME,
                     SIGLA = x.SIGLA,
                     CODIGO = x.CODIGO,
@@ -2548,8 +2657,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     NOME = x.NOME,
                     SIGLA = x.SIGLA,
@@ -2721,8 +2828,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     NOME = x.NOME,
                     SIGLA = x.SIGLA,
@@ -2890,8 +2995,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     NOME = x.NOME,
                     SIGLA = x.SIGLA,
@@ -3063,8 +3166,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     NOME = x.NOME,
                     SIGLA = x.SIGLA,
@@ -3236,8 +3337,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     NOME = x.NOME,
                     SIGLA = x.SIGLA,
@@ -3405,8 +3504,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     NOME = x.NOME,
                     INSERCAO = x.INSERCAO,
@@ -3577,8 +3674,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     NOME = x.NOME,
                     SIGLA = x.SIGLA,
@@ -3750,8 +3845,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     NOME = x.NOME,
                     SIGLA = x.SIGLA,
@@ -3923,8 +4016,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     NOME = x.NOME,
                     SIGLA = x.SIGLA,
@@ -4092,8 +4183,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     NOME = x.NOME,
                     INSERCAO = x.INSERCAO,
@@ -4264,8 +4353,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     NOME = x.NOME,
                     SIGLA = x.SIGLA,
@@ -4433,9 +4520,7 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
-                    Id = x.ID,
+                     Id = x.ID,
                     DURACAO = x.DURACAO,
                     INSERCAO = x.INSERCAO,
                     DATAINSERCAO = x.DATA_INSERCAO,
@@ -4617,8 +4702,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     SIGLA = x.SIGLA,
                     SERIE = x.SERIES,
@@ -4793,9 +4876,7 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
-                    Id = x.ID,
+                     Id = x.ID,
                     SIGLA = x.sigla,
                     NOME = x.NOME,
                     INSERCAO = x.INSERCAO,
@@ -4894,6 +4975,9 @@ namespace Gestreino.Controllers
         [HttpGet]
         public ActionResult Settings(SettingsDef MODEL)
         {
+            if (AcessControl.Authorized(AcessControl.ADM_CONFIG_FILEMGR) || AcessControl.Authorized(AcessControl.ADM_CONFIG_INST_EDIT) || AcessControl.Authorized(AcessControl.ADM_CONFIG_SETINGS_EDIT)) { }else
+            return View("Lockout");
+
             var data = databaseManager.SP_INST_APLICACAO(Configs.INST_INSTITUICAO_ID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "R").ToList();
             var setts = databaseManager.GRL_DEFINICOES.Where(x => x.INST_APLICACAO_ID == Configs.INST_INSTITUICAO_ID).ToList();
 
@@ -4921,6 +5005,8 @@ namespace Gestreino.Controllers
         [HttpGet]
         public ActionResult UpdateInst(SettingsInst MODEL)
         {
+            if (!AcessControl.Authorized(AcessControl.ADM_CONFIG_INST_EDIT)) return View("Lockout");
+
             var data = databaseManager.SP_INST_APLICACAO(Configs.INST_INSTITUICAO_ID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "R").ToList();
 
             MODEL.ID = data.First().ID;

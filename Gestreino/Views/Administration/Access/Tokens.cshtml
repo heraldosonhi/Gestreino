@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Tokens";
+}
+<!-- page content -->
+<div class="right_col" role="main">
+    <!--  DATATABLE START -->
+    <div class="card mb-32pt">
+        <div class="card-header">
+            <div class="form-inline">
+                <label class="" for="length_change">Mostrar</label>
+                <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="TokenTable">
+                    <option value='10'>10</option>
+                    <option value='25'>25</option>
+                    <option value='50'>50</option>
+                    <option value='100'>100</option>
+                    <option value='500'>500</option>
+                    <option value='1000'>1000</option>
+                    <option value='2000'>2000</option>
+                    <option value='5000'>5000</option>
+                    <option value='10000'>10000</option>
+                </select>
+                <label class="" for="length_change">registos</label>
+                <div class="btn-group">
+                    <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="TokenTable"><i class="fa fa-check-square"></i></button>
+                    <button title="Pesquisar" class="btnSearch btn btn-default" data-id="TokenTable"><i class="fa fa-search"></i></button>
+                    <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="TokenTable"><i class="fa fa-eraser"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="TokenTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><input type="text" id="TokenTipo" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="TokenToken" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="TokenConteudo" class="form-control form-control-sm" /></td>
+                        <td><input type="text" id="TokenData" class="form-control form-control-sm datepicker" /></td>
+                        <td><input type="text" id="TokenDataInsercao" class="form-control form-control-sm datepicker" /></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th data-name="TokenTipo">Tipo</th>
+                        <th data-name="TokenToken">Token</th>
+                        <th data-name="TokenConteudo">Conteúdo</th>
+                        <th data-name="TokenData">Data</th>
+                        <th data-name="TokenDataInsercao">Inserção</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="card-footer p-8pt">
+            <span class="paginateInfoTokenTable paginateInfo mr-12pt" style="float:right"></span>
+            <div id="paginateTokenTable" class="pagination justify-content-start pagination-xsm m-0"></div>
+        </div>
+    </div>
+    <!--  DATATABLE START -->
+    <h2>&nbsp;</h2>
+    <h2>&nbsp;</h2>
+</div>
+<!-- /page content -->
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        handleDataTokens();
+    });
+</script>

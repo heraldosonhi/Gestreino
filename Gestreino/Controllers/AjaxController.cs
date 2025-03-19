@@ -27,6 +27,7 @@ namespace Gestreino.Controllers
         private GESTREINO_Entities databaseManager = new GESTREINO_Entities();
 
 
+        //Access
         public ActionResult Users(Gestreino.Models.Users MODEL, string action, int? id, int?[] bulkids)
         {
             MODEL.Status = 1;
@@ -43,6 +44,10 @@ namespace Gestreino.Controllers
             }
 
             ViewBag.Action = action;
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_USERS_NEW) && ViewBag.Action == "Adicionar") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_USERS_EDIT) && ViewBag.Action == "Editar") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_USERS_ALTER_PASSWORD) && ViewBag.Action == "AlterarSenha") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_USERS_CLEAR_PWD_ATTEMPT) && ViewBag.Action == "LimparLogs") return View("Lockout");
             return View("administration/Users/Index",MODEL);
         }
         public ActionResult Groups(UTILIZADORES_ACESSO_GRUPOS MODEL,string action, int? id, int?[] bulkids)
@@ -61,6 +66,10 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_GROUPS_NEW) && ViewBag.Action == "Adicionar") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_GROUPS_EDIT) && ViewBag.Action == "Editar") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_GROUPS_DELETE) && ViewBag.Action == "Remover") return View("Lockout");
+          
             return View("administration/Access/Groups", MODEL);
         }
         public ActionResult Profiles(UTILIZADORES_ACESSO_PERFIS MODEL, string action, int? id, int?[] bulkids)
@@ -78,6 +87,10 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_PROFILES_NEW) && ViewBag.Action == "Adicionar") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_PROFILES_EDIT) && ViewBag.Action == "Editar") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_PROFILES_DELETE) && ViewBag.Action == "Remover") return View("Lockout");
+
             return View("administration/Access/Profiles", MODEL);
         }
         public ActionResult Atoms(UTILIZADORES_ACESSO_ATOMOS MODEL, string action, int? id, int?[] bulkids)
@@ -95,6 +108,10 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_NEW) && ViewBag.Action == "Adicionar") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_EDIT) && ViewBag.Action == "Editar") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_DELETE) && ViewBag.Action == "Remover") return View("Lockout");
+
             return View("administration/Access/Atoms", MODEL);
         }
         public ActionResult UserGroups(AccessAppendItems MODEL, string action, int? id, int?[] bulkids)
@@ -127,10 +144,27 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
+            if (AcessControl.Authorized(AcessControl.ADM_USERS_GROUP_USERS_NEW) && ViewBag.Action == "AdicionarGroupUtil" ||
+                AcessControl.Authorized(AcessControl.ADM_USERS_GROUP_USERS_NEW) && ViewBag.Action == "AdicionarUtilGroup") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_GROUP_USERS_DELETE) && ViewBag.Action == "RemoverGroupUtil") return View("Lockout");
+
+            if (AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_GROUPS_NEW) && ViewBag.Action == "AdicionarGroupAtom" ||
+                AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_GROUPS_NEW) && ViewBag.Action == "AdicionarAtomGroup") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_GROUPS_DELETE) && ViewBag.Action == "RemoverGroupAtom") return View("Lockout");
+
+            if (AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_PROFILES_NEW) && ViewBag.Action == "AdicionarAtomProfile" ||
+               AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_PROFILES_NEW) && ViewBag.Action == "AdicionarProfileAtom") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_PROFILES_DELETE) && ViewBag.Action == "RemoverAtomProfile") return View("Lockout");
+
+            if (AcessControl.Authorized(AcessControl.ADM_USERS_PROFILE_USERS_NEW) && ViewBag.Action == "AdicionarProfileUtil" ||
+                AcessControl.Authorized(AcessControl.ADM_USERS_PROFILE_USERS_NEW) && ViewBag.Action == "AdicionarUtilProfile") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_PROFILE_USERS_DELETE) && ViewBag.Action == "RemoverUtilProfile") return View("Lockout");
+
             return View("administration/Access/AppendItems", MODEL);
         }
 
 
+        //Parameters
         public ActionResult GRLDocType(GRL_ARQUIVOS_TIPO_DOCS MODEL, string action, int? id, int?[] bulkids)
         {
             if (action == "Editar")
@@ -227,131 +261,6 @@ namespace Gestreino.Controllers
             ViewBag.Action = action;
             return View("administration/Parameters/GRLEndDistr", MODEL);
         }
-
-
-        public ActionResult PESFamily(PES_Dados_Pessoais_Agregado MODEL, string action, int? id, int?[] bulkids)
-        {
-            MODEL.ID = id;
-            MODEL.PES_FAMILIARES_GRUPOS_LIST = databaseManager.PES_FAMILIARES_GRUPOS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-            MODEL.PES_PROFISSAO_LIST = databaseManager.PES_PROFISSOES.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-            MODEL.PaisList = databaseManager.GRL_ENDERECO_PAIS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-            MODEL.CidadeList = databaseManager.GRL_ENDERECO_CIDADE.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-            MODEL.DistrictoList = databaseManager.GRL_ENDERECO_MUN_DISTR.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-
-            
-            if (action == "Editar")
-            {
-
-                var data = databaseManager.PES_PESSOAS_FAM.Where(x => x.ID == id).ToList();
-                var dataCon = databaseManager.PES_PESSOAS_FAM_CONTACTOS.Where(x => x.PES_PESSOAS_FAM_ID == id).ToList();
-                var dataEnd = databaseManager.PES_PESSOAS_FAM_ENDERECOS.Where(x => x.PES_PESSOAS_FAM_ID == id).ToList();
-                MODEL.PES_FAMILIARES_GRUPOS_ID = data.First().PES_FAMILIARES_GRUPOS_ID;
-                MODEL.Nome = data.First().NOME;
-                MODEL.PES_PROFISSAO_ID= data.First().PES_PROFISSOES_ID;
-                MODEL.Isento = data.First().ISENTO;
-
-                MODEL.Telephone = (!string.IsNullOrEmpty(dataCon.First().TELEFONE.ToString())) ? dataCon.First().TELEFONE.ToString() : null;
-                MODEL.TelephoneAlternativo = (!string.IsNullOrEmpty(dataCon.First().TELEFONE_ALTERNATIVO.ToString())) ? dataCon.First().TELEFONE_ALTERNATIVO.ToString() : null;
-                MODEL.Fax = (!string.IsNullOrEmpty(dataCon.First().FAX.ToString())) ? dataCon.First().FAX.ToString() : null;
-                MODEL.Email = dataCon.First().EMAIL;
-                MODEL.URL = dataCon.First().URL;
-
-                MODEL.PaisId = dataEnd.First().GRL_ENDERECO_PAIS_ID;
-                MODEL.CidadeId = dataEnd.First().GRL_ENDERECO_CIDADE_ID;
-                MODEL.DistrictoId = dataEnd.First().GRL_ENDERECO_MUN_DISTR_ID;
-                MODEL.Numero = dataEnd.First().NUMERO;
-                MODEL.Rua = dataEnd.First().RUA;
-                MODEL.Morada = dataEnd.First().MORADA;
-            }
-            int?[] ids = new int?[] { id.Value };
-            if (action.Contains("Multiplos")) ids = bulkids;
-            if (action.Contains("Multiplos")) action = "Remover";
-
-            ViewBag.bulkids = ids;
-            ViewBag.Action = action;
-            return View("GTManagement/Athletes/GPManagementUserAgregado", MODEL);
-        }
-        public ActionResult PESProfessional(PES_Dados_Pessoais_Professional MODEL, string action, int? id, int?[] bulkids)
-        {
-
-            MODEL.ID = id;
-            MODEL.PES_PROFISSAO_LIST = databaseManager.PES_PROFISSOES.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-            MODEL.PES_PROFISSOES_CONTRACTO_LIST = databaseManager.PES_PROFISSOES_TIPO_CONTRACTO.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-            MODEL.PES_PROFISSOES_REGIME_LIST = databaseManager.PES_PROFISSOES_REGIME_TRABALHO.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-            
-            if (action == "Editar")
-            {
-               var data = databaseManager.PES_PESSOAS_PROFISSOES.Where(x => x.ID == id).ToList();
-                MODEL.PES_PROFISSAO_ID = data.First().PES_PROFISSOES_ID;
-                MODEL.Empresa = data.First().EMPRESA;
-                MODEL.PES_PROFISSOES_CONTRACTO_ID = data.First().PES_PROFISSOES_ID;
-                MODEL.PES_PROFISSOES_REGIME_ID = data.First().PES_PROFISSOES_ID;
-                MODEL.Descricao = data.First().DESCRICAO;
-                MODEL.DateIni= string.IsNullOrEmpty(data.First().DATA_INICIO.ToString()) ? null : DateTime.Parse(data.First().DATA_INICIO.ToString()).ToString("dd-MM-yyyy");
-                MODEL.DateEnd = string.IsNullOrEmpty(data.First().DATA_FIM.ToString()) ? null : DateTime.Parse(data.First().DATA_FIM.ToString()).ToString("dd-MM-yyyy");
-            }
-            int?[] ids = new int?[] { id.Value };
-            if (action.Contains("Multiplos")) ids = bulkids;
-            if (action.Contains("Multiplos")) action = "Remover";
-
-            ViewBag.bulkids = ids;
-            ViewBag.Action = action;
-            return View("GTManagement/Athletes/GPManagementUserProfessional", MODEL);
-        }
-        public ActionResult PESDisability(PES_Dados_Pessoais_Deficiencia MODEL, string action, int? id, int?[] bulkids)
-        {
-            MODEL.ID = id;
-            if (action == "Editar")
-            {
-                var data = databaseManager.PES_PESSOAS_CARACT_DEFICIENCIA.Where(x => x.ID == id).ToList();
-                MODEL.Descricao = data.First().DESCRICAO;
-                MODEL.PES_DEFICIENCIA_ID = data.First().PES_PESSOAS_CARACT_TIPO_DEF_ID;
-                MODEL.PES_DEFICIENCIA_GRAU_ID = data.First().PES_PESSOAS_CARACT_GRAU_DEF_ID;
-            }
-
-            MODEL.PES_DEFICIENCIA_LIST = databaseManager.PES_PESSOAS_CARACT_TIPO_DEF.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-
-            int?[] ids = new int?[] { id.Value };
-            if (action.Contains("Multiplos")) ids = bulkids;
-            if (action.Contains("Multiplos")) action = "Remover";
-            ViewBag.bulkids = ids;
-            ViewBag.Action = action;
-            return View("GTManagement/Athletes/GPManagementUserDisability", MODEL);
-        }
-
-        public ActionResult PESDadosPessoaisIdent(PES_Dados_Pessoais_Ident MODEL, string action, int? id, int?[] bulkids)
-        {
-            MODEL.ID = id;
-            if (action == "Editar")
-            {
-                var data = databaseManager.PES_IDENTIFICACAO.Where(x => x.ID == id).ToList();
-                var dataLocal = databaseManager.PES_IDENTIFICACAO_LOCAL_EM.Where(x => x.PES_IDENTIFICACAO_ID == id).ToList();
-                MODEL.PES_PESSOAS_ID= data.First().PES_PESSOAS_ID;
-                MODEL.Numero = data.First().NUMERO;
-                MODEL.Observacao = data.First().OBSERVACOES;
-                MODEL.PES_TIPO_IDENTIFICACAO= data.First().PES_TIPO_IDENTIFICACAO_ID;
-                MODEL.OrgaoEmissor = data.First().ORGAO_EMISSOR;
-                MODEL.DateIssue = string.IsNullOrEmpty(data.First().DATA_EMISSAO.ToString()) ? null : DateTime.Parse(data.First().DATA_EMISSAO.ToString()).ToString("dd-MM-yyyy");
-                MODEL.DateExpire = string.IsNullOrEmpty(data.First().DATA_VALIDADE.ToString()) ? null : DateTime.Parse(data.First().DATA_VALIDADE.ToString()).ToString("dd-MM-yyyy");
-                MODEL.PaisId= dataLocal.First().GRL_ENDERECO_PAIS_ID;
-                MODEL.CidadeId = dataLocal.First().GRL_ENDERECO_CIDADE_ID;
-                //MODEL.PES_DEFICIENCIA_ID = data.First().PES_PESSOAS_CARACT_TIPO_DEF_ID;
-                //MODEL.PES_DEFICIENCIA_GRAU_ID = data.First().PES_PESSOAS_CARACT_GRAU_DEF_ID;
-            }
-
-            MODEL.PES_TIPO_IDENTIFICACAO_LIST = databaseManager.PES_TIPO_IDENTIFICACAO.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-            MODEL.PaisList = databaseManager.GRL_ENDERECO_PAIS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-            MODEL.CidadeList = databaseManager.GRL_ENDERECO_CIDADE.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-
-            int?[] ids = new int?[] { id.Value };
-            if (action.Contains("Multiplos")) ids = bulkids;
-            if (action.Contains("Multiplos")) action = "Remover";
-            ViewBag.bulkids = ids;
-            ViewBag.Action = action;
-            return View("GTManagement/Athletes/GPManagementUserIdent", MODEL);
-        }
-
-
         public ActionResult GRLIdentType(PES_TIPO_IDENTIFICACAO MODEL, string action, int? id, int?[] bulkids)
         {
             if (action == "Editar")
@@ -503,7 +412,6 @@ namespace Gestreino.Controllers
             ViewBag.Action = action;
             return View("administration/Parameters/GRLPESDef", MODEL);
         }
-
         public ActionResult GRLGTDuracaoPlano(GT_DuracaoPlano MODEL, string action, int? id, int?[] bulkids)
         {
             if (action == "Editar")
@@ -520,7 +428,7 @@ namespace Gestreino.Controllers
             ViewBag.Action = action;
             return View("administration/Parameters/GRLGTDuracaoPlano", MODEL);
         }
-          public ActionResult GRLGTFaseTreino(Gestreino.Models.GT_FaseTreino MODEL, string action, int? id, int?[] bulkids)
+        public ActionResult GRLGTFaseTreino(Gestreino.Models.GT_FaseTreino MODEL, string action, int? id, int?[] bulkids)
         {
             if (action == "Editar")
             {
@@ -545,7 +453,6 @@ namespace Gestreino.Controllers
             ViewBag.Action = action;
             return View("administration/Parameters/GRLGTFaseTreino", MODEL);
         }
-
         public ActionResult GRLGTTipoTreino(GT_TipoTreino MODEL, string action, int? id, int?[] bulkids)
         {
             if (action == "Editar")
@@ -586,6 +493,128 @@ namespace Gestreino.Controllers
             return View("administration/Parameters//GTExercise", MODEL);
         }
 
+
+        //GT
+        public ActionResult PESFamily(PES_Dados_Pessoais_Agregado MODEL, string action, int? id, int?[] bulkids)
+        {
+            MODEL.ID = id;
+            MODEL.PES_FAMILIARES_GRUPOS_LIST = databaseManager.PES_FAMILIARES_GRUPOS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            MODEL.PES_PROFISSAO_LIST = databaseManager.PES_PROFISSOES.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            MODEL.PaisList = databaseManager.GRL_ENDERECO_PAIS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            MODEL.CidadeList = databaseManager.GRL_ENDERECO_CIDADE.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            MODEL.DistrictoList = databaseManager.GRL_ENDERECO_MUN_DISTR.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+
+
+            if (action == "Editar")
+            {
+
+                var data = databaseManager.PES_PESSOAS_FAM.Where(x => x.ID == id).ToList();
+                var dataCon = databaseManager.PES_PESSOAS_FAM_CONTACTOS.Where(x => x.PES_PESSOAS_FAM_ID == id).ToList();
+                var dataEnd = databaseManager.PES_PESSOAS_FAM_ENDERECOS.Where(x => x.PES_PESSOAS_FAM_ID == id).ToList();
+                MODEL.PES_FAMILIARES_GRUPOS_ID = data.First().PES_FAMILIARES_GRUPOS_ID;
+                MODEL.Nome = data.First().NOME;
+                MODEL.PES_PROFISSAO_ID = data.First().PES_PROFISSOES_ID;
+                MODEL.Isento = data.First().ISENTO;
+
+                MODEL.Telephone = (!string.IsNullOrEmpty(dataCon.First().TELEFONE.ToString())) ? dataCon.First().TELEFONE.ToString() : null;
+                MODEL.TelephoneAlternativo = (!string.IsNullOrEmpty(dataCon.First().TELEFONE_ALTERNATIVO.ToString())) ? dataCon.First().TELEFONE_ALTERNATIVO.ToString() : null;
+                MODEL.Fax = (!string.IsNullOrEmpty(dataCon.First().FAX.ToString())) ? dataCon.First().FAX.ToString() : null;
+                MODEL.Email = dataCon.First().EMAIL;
+                MODEL.URL = dataCon.First().URL;
+
+                MODEL.PaisId = dataEnd.First().GRL_ENDERECO_PAIS_ID;
+                MODEL.CidadeId = dataEnd.First().GRL_ENDERECO_CIDADE_ID;
+                MODEL.DistrictoId = dataEnd.First().GRL_ENDERECO_MUN_DISTR_ID;
+                MODEL.Numero = dataEnd.First().NUMERO;
+                MODEL.Rua = dataEnd.First().RUA;
+                MODEL.Morada = dataEnd.First().MORADA;
+            }
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("GTManagement/Athletes/GPManagementUserAgregado", MODEL);
+        }
+        public ActionResult PESProfessional(PES_Dados_Pessoais_Professional MODEL, string action, int? id, int?[] bulkids)
+        {
+
+            MODEL.ID = id;
+            MODEL.PES_PROFISSAO_LIST = databaseManager.PES_PROFISSOES.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            MODEL.PES_PROFISSOES_CONTRACTO_LIST = databaseManager.PES_PROFISSOES_TIPO_CONTRACTO.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            MODEL.PES_PROFISSOES_REGIME_LIST = databaseManager.PES_PROFISSOES_REGIME_TRABALHO.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+
+            if (action == "Editar")
+            {
+                var data = databaseManager.PES_PESSOAS_PROFISSOES.Where(x => x.ID == id).ToList();
+                MODEL.PES_PROFISSAO_ID = data.First().PES_PROFISSOES_ID;
+                MODEL.Empresa = data.First().EMPRESA;
+                MODEL.PES_PROFISSOES_CONTRACTO_ID = data.First().PES_PROFISSOES_ID;
+                MODEL.PES_PROFISSOES_REGIME_ID = data.First().PES_PROFISSOES_ID;
+                MODEL.Descricao = data.First().DESCRICAO;
+                MODEL.DateIni = string.IsNullOrEmpty(data.First().DATA_INICIO.ToString()) ? null : DateTime.Parse(data.First().DATA_INICIO.ToString()).ToString("dd-MM-yyyy");
+                MODEL.DateEnd = string.IsNullOrEmpty(data.First().DATA_FIM.ToString()) ? null : DateTime.Parse(data.First().DATA_FIM.ToString()).ToString("dd-MM-yyyy");
+            }
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("GTManagement/Athletes/GPManagementUserProfessional", MODEL);
+        }
+        public ActionResult PESDisability(PES_Dados_Pessoais_Deficiencia MODEL, string action, int? id, int?[] bulkids)
+        {
+            MODEL.ID = id;
+            if (action == "Editar")
+            {
+                var data = databaseManager.PES_PESSOAS_CARACT_DEFICIENCIA.Where(x => x.ID == id).ToList();
+                MODEL.Descricao = data.First().DESCRICAO;
+                MODEL.PES_DEFICIENCIA_ID = data.First().PES_PESSOAS_CARACT_TIPO_DEF_ID;
+                MODEL.PES_DEFICIENCIA_GRAU_ID = data.First().PES_PESSOAS_CARACT_GRAU_DEF_ID;
+            }
+
+            MODEL.PES_DEFICIENCIA_LIST = databaseManager.PES_PESSOAS_CARACT_TIPO_DEF.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("GTManagement/Athletes/GPManagementUserDisability", MODEL);
+        }
+        public ActionResult PESDadosPessoaisIdent(PES_Dados_Pessoais_Ident MODEL, string action, int? id, int?[] bulkids)
+        {
+            MODEL.ID = id;
+            if (action == "Editar")
+            {
+                var data = databaseManager.PES_IDENTIFICACAO.Where(x => x.ID == id).ToList();
+                var dataLocal = databaseManager.PES_IDENTIFICACAO_LOCAL_EM.Where(x => x.PES_IDENTIFICACAO_ID == id).ToList();
+                MODEL.PES_PESSOAS_ID = data.First().PES_PESSOAS_ID;
+                MODEL.Numero = data.First().NUMERO;
+                MODEL.Observacao = data.First().OBSERVACOES;
+                MODEL.PES_TIPO_IDENTIFICACAO = data.First().PES_TIPO_IDENTIFICACAO_ID;
+                MODEL.OrgaoEmissor = data.First().ORGAO_EMISSOR;
+                MODEL.DateIssue = string.IsNullOrEmpty(data.First().DATA_EMISSAO.ToString()) ? null : DateTime.Parse(data.First().DATA_EMISSAO.ToString()).ToString("dd-MM-yyyy");
+                MODEL.DateExpire = string.IsNullOrEmpty(data.First().DATA_VALIDADE.ToString()) ? null : DateTime.Parse(data.First().DATA_VALIDADE.ToString()).ToString("dd-MM-yyyy");
+                MODEL.PaisId = dataLocal.First().GRL_ENDERECO_PAIS_ID;
+                MODEL.CidadeId = dataLocal.First().GRL_ENDERECO_CIDADE_ID;
+                //MODEL.PES_DEFICIENCIA_ID = data.First().PES_PESSOAS_CARACT_TIPO_DEF_ID;
+                //MODEL.PES_DEFICIENCIA_GRAU_ID = data.First().PES_PESSOAS_CARACT_GRAU_DEF_ID;
+            }
+
+            MODEL.PES_TIPO_IDENTIFICACAO_LIST = databaseManager.PES_TIPO_IDENTIFICACAO.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            MODEL.PaisList = databaseManager.GRL_ENDERECO_PAIS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+            MODEL.CidadeList = databaseManager.GRL_ENDERECO_CIDADE.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
+
+            int?[] ids = new int?[] { id.Value };
+            if (action.Contains("Multiplos")) ids = bulkids;
+            if (action.Contains("Multiplos")) action = "Remover";
+            ViewBag.bulkids = ids;
+            ViewBag.Action = action;
+            return View("GTManagement/Athletes/GPManagementUserIdent", MODEL);
+        }
         public ActionResult GTSocioEvolution(string action, int? id, int?[] bulkids)
         {
             var title = string.Empty;
@@ -700,13 +729,6 @@ namespace Gestreino.Controllers
             }
             return Json(new { result = true, error = string.Empty, showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
-
-
-
- 
-
-
-
 
 
         // File Management
@@ -1029,8 +1051,6 @@ namespace Gestreino.Controllers
             }
             return Json(new { result = true, error = string.Empty, table = "tblInstituicoesArquivos", showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
-
-
 
     }
 }

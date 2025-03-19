@@ -1,47 +1,56 @@
-﻿@{
+﻿@using Gestreino.Classes;
+@{
     ViewBag.Title = "Parametrização";
 }
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="row">
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6  ">
-            <a href="@Url.Action("parametersgrl","administration")">
-                <div class="tile-stats">
-                    <div class="icon">
-                        <i class="fa fa-cogs"></i>
+        @if (AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_ADM))
+        {
+            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6  ">
+                <a href="@Url.Action("parametersgrl", "administration")">
+                    <div class="tile-stats">
+                        <div class="icon">
+                            <i class="fa fa-cogs"></i>
+                        </div>
+                        <div class="count">&nbsp;</div>
+                        <h3>Entidades gerais (GRL)</h3>
+                        <p>Parametrização de dados gerais</p>
                     </div>
-                    <div class="count">&nbsp;</div>
-                    <h3>Entidades gerais (GRL)</h3>
-                    <p>Parametrização de dados gerais</p>
-                </div>
-            </a>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6  ">
-            <a href="@Url.Action("parameterspes","administration")">
-                <div class="tile-stats">
-                    <div class="icon">
-                        <i class="fa fa-users"></i>
+                </a>
+            </div>
+        }
+        @if (AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_PES))
+        {
+            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6  ">
+                <a href="@Url.Action("parameterspes", "administration")">
+                    <div class="tile-stats">
+                        <div class="icon">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <div class="count">&nbsp;</div>
+                        <h3>Entidades pessoais (PES)</h3>
+                        <p>Parametrização de dados biográficos</p>
                     </div>
-                    <div class="count">&nbsp;</div>
-                    <h3>Entidades pessoais (PES)</h3>
-                    <p>Parametrização de dados biográficos</p>
-                </div>
-            </a>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6  ">
-            <a href="@Url.Action("parametersgt","administration")">
-                <div class="tile-stats">
-                    <div class="icon">
-                        <i class="fa fa-code"></i>
+                </a>
+            </div>
+        }
+        @if (AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_GT))
+        {
+            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6  ">
+                <a href="@Url.Action("parametersgt", "administration")">
+                    <div class="tile-stats">
+                        <div class="icon">
+                            <i class="fa fa-code"></i>
+                        </div>
+                        <div class="count">&nbsp;</div>
+                        <h3>Entidades Gestreino (GT)</h3>
+                        <p>Parametrização de dados aplicacionais</p>
                     </div>
-                    <div class="count">&nbsp;</div>
-                    <h3>Entidades Gestreino (GT)</h3>
-                    <p>Parametrização de dados aplicacionais</p>
-                </div>
-            </a>
-        </div>
+                </a>
+            </div>
+        }
     </div>
-
     <h2>&nbsp;</h2>
 </div>
 <!-- /page content -->

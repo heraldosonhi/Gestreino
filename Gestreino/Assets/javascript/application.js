@@ -643,8 +643,8 @@ function handleDataGrupos() {
                 sortable: false,
                 "render": function (data, type, full, meta) {
                     return '<a title="Visualizar" href="/administration/viewgroups/' + full.Id + '"><i class="fa fa-search"/></i></a>' +
-                        ' <a style="display:' + full.AccessControlAddGroup + '" title="Editar" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Editar" data-entity="groups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil"></i></a>' +
-                        ' <a style="display:' + full.AccessControlAddGroup + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="groups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
+                        ' <a style="display:' + full.AccessControlEdit + '" title="Editar" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Editar" data-entity="groups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil"></i></a>' +
+                        ' <a style="display:' + full.AccessControlDelete + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="groups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
                 }
             },
             //Cada dado representa uma coluna da tabela
@@ -717,12 +717,13 @@ function handleDataAtomos() {
                 sortable: false,
                 "render": function (data, type, full, meta) {
                     return '<a title="Visualizar" href="/administration/viewatoms/' + full.Id + '"><i class="fa fa-search"/></i></a>' +
-                        ' <a style="display:' + full.AccessControlAddGroup + '" title="Editar" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Editar" data-entity="atoms" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil"></i></a>' +
-                        ' <a style="display:' + full.AccessControlAddGroup + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="atoms" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
+                        ' <a style="display:' + full.AccessControlEdit + '" title="Editar" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Editar" data-entity="atoms" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil"></i></a>' +
+                        ' <a style="display:' + full.AccessControlDelete + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="atoms" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
                 }
             },
             //Cada dado representa uma coluna da tabela
             { "data": "NOME", "name": "NOME", "autoWidth": true },
+            { "data": "DESCRICAO", "name": "DESCRICAO", "autoWidth": true },
             { "data": "INSERCAO", "name": "INSERCAO", "autoWidth": true },
             { "data": "DATAINSERCAO", "name": "DATAINSERCAO", "autoWidth": true },
             { "data": "ACTUALIZACAO", "name": "ACTUALIZACAO", "autoWidth": true },
@@ -790,12 +791,13 @@ function handleDataPerfis() {
                 sortable: false,
                 "render": function (data, type, full, meta) {
                     return '<a title="Visualizar" href="/administration/viewprofiles/' + full.Id + '"><i class="fa fa-search"/></i></a>' +
-                        ' <a style="display:' + full.AccessControlAddGroup + '" title="Editar" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Editar" data-entity="profiles" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil"></i></a>' +
-                        ' <a style="display:' + full.AccessControlAddGroup + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="profiles" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
+                        ' <a style="display:' + full.AccessControlEdit + '" title="Editar" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Editar" data-entity="profiles" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil"></i></a>' +
+                        ' <a style="display:' + full.AccessControlDelete + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="profiles" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
                 }
             },
             //Cada dado representa uma coluna da tabela
             { "data": "NOME", "name": "NOME", "autoWidth": true },
+            { "data": "DESCRICAO", "name": "DESCRICAO", "autoWidth": true },
             { "data": "INSERCAO", "name": "INSERCAO", "autoWidth": true },
             { "data": "DATAINSERCAO", "name": "DATAINSERCAO", "autoWidth": true },
             { "data": "ACTUALIZACAO", "name": "ACTUALIZACAO", "autoWidth": true },
@@ -862,7 +864,7 @@ function handleDataUserGroups() {
             {
                 sortable: false,
                 "render": function (data, type, full, meta) {
-                    return '<a style="display:' + full.AccessControlAddGroup + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="RemoverGroupUtil" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
+                    return '<a style="display:' + full.AccessControlDelete + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="RemoverGroupUtil" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
                 }
             },
             //Cada dado representa uma coluna da tabela
@@ -934,7 +936,7 @@ function handleDataAtomGroups() {
             {
                 sortable: false,
                 "render": function (data, type, full, meta) {
-                    return '<a style="display:' + full.AccessControlAddGroup + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="RemoverGroupAtom" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
+                    return '<a style="display:' + full.AccessControlDelete + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="RemoverGroupAtom" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
                 }
             },
             //Cada dado representa uma coluna da tabela
@@ -1006,7 +1008,7 @@ function handleDataProfileAtoms() {
             {
                 sortable: false,
                 "render": function (data, type, full, meta) {
-                    return '<a style="display:' + full.AccessControlAddGroup + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="RemoverAtomProfile" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
+                    return '<a style="display:' + full.AccessControlDelete + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="RemoverAtomProfile" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
                 }
             },
             //Cada dado representa uma coluna da tabela
@@ -1078,7 +1080,7 @@ function handleDataProfileUtil() {
             {
                 sortable: false,
                 "render": function (data, type, full, meta) {
-                    return '<a style="display:' + full.AccessControlAddGroup + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="RemoverUtilProfile" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
+                    return '<a style="display:' + full.AccessControlDelete + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="RemoverUtilProfile" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
                 }
             },
             //Cada dado representa uma coluna da tabela
@@ -3352,6 +3354,78 @@ function handleDataSearchTable3() {
         //Remove pagination from table and add to custom Div
         initComplete: (settings, json) => {
             $('#SearchTable_paginate').appendTo('#paginateSearchTable');
+        },
+    });
+};
+function handleDataTokens() {
+    var table = $("#TokenTable").DataTable({
+        "processing": true, // Para exibir mensagem de processamento a cada requisição
+        "serverSide": true, // Para processar as requisições no back-end
+        //"filter": false, // : está comentado porque estamos a usar filtros que enviamos no back-end
+        "orderMulti": false, // Opção de ordenação para uma coluna de cada vez.
+        //Linguagem PT
+        "language": {
+            "url": "/Assets/lib/datatable/pt-PT.json"
+        },
+        fixedHeader: {
+            header: true,
+            footer: true
+        },
+        "dom": '<"toolbox">rtp',//remove componentes i - for pagination information, l -length, p -pagination
+        "ajax": {
+            "url": "../../administration/GetTokenTable", // POST TO CONTROLLER
+            "type": "POST",
+            "datatype": "json",
+            data: {}
+        },
+        "columns": [
+            { "data": "Id", "name": null, "autoWidth": true },
+            //Column customizada
+            {
+                sortable: false,
+                "render": function (data, type, full, meta) {
+                    return ''
+                }
+            },
+            //Cada dado representa uma coluna da tabela
+            { "data": "TIPO", "name": "TIPO", "autoWidth": true },
+            { "data": "TOKEN", "name": "TOKEN", "autoWidth": true },
+            { "data": "CONTEUDO", "name": "CONTEUDO", "autoWidth": true },
+            { "data": "DATA", "name": "DATA", "autoWidth": true },
+            { "data": "INSERCAO", "name": "INSERCAO", "autoWidth": true },
+
+        ],
+        //Configuração da tabela para os checkboxes
+        'columnDefs': [
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                },
+
+            }
+        ], 'select': {
+            'style': 'multi'
+        },
+        'order': [[1, 'false']],
+        'rowCallback': function (row, data, dataIndex) {
+            // Get row ID
+            var rowId = data["Id"];
+            //console.log(rowId)
+            //Dra table and add selected option to previously selected checkboxes
+            $.each(values, function (i, r) {
+                if (rowId == r) {
+                    $(row).find('input[type="checkbox"]').prop('checked', true);
+                    $(row).closest("tr").addClass("selected");
+                }
+            })
+        },
+        drawCallback: function () {
+            processInfo(this.api().page.info(), 'paginateInfoTokenTable');
+        },
+        //Remove pagination from table and add to custom Div
+        initComplete: (settings, json) => {
+            $('#TokenTable_paginate').appendTo('#paginateTokenTable');
         },
     });
 };

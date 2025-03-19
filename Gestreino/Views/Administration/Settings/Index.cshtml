@@ -14,7 +14,7 @@
                         <ul class="list-inline widget_profile_box">
                             <li>
                                 <a>
-                              
+
                                 </a>
                             </li>
                             <li>
@@ -22,20 +22,22 @@
                             </li>
                             <li>
                                 <a>
-                                   
+
                                 </a>
                             </li>
                         </ul>
                     </div>
 
                     <h3 class="name">@ViewBag.data[0].NOME (@ViewBag.data[0].SIGLA)</h3>
-
-                    <div class="">
-                        <center>
-                            <a title="Atualizar dados da aplicação" href="@Url.Action("updateinst","administration")" class="btn btn-sm btn-secondary btn-block"><i class="fa fa-pencil user-profile-icon"></i> Atualizar</a>
-                        </center>
+                    @if (AcessControl.Authorized(AcessControl.ADM_CONFIG_INST_EDIT))
+                    {
+                        <div class="">
+                            <center>
+                                <a title="Atualizar dados da aplicação" href="@Url.Action("updateinst", "administration")" class="btn btn-sm btn-secondary btn-block"><i class="fa fa-pencil user-profile-icon"></i> Atualizar</a>
+                            </center>
+                        </div>
+                    }
                     </div>
-                </div>
             </div>
         </div>
 
@@ -75,385 +77,390 @@
                     </div>
                 </div>
 
-                <div class="col-md-12">
-                    <div class="animated flipInY ">
-                        <div class="tile-stats" style="padding-bottom:0 !important">
-                            <div class="icon">
-                                <i class="fa fa-folder-open"></i>
-                            </div>
-                            <h3 class="p-2">Documentos</h3>
-                            <div class="alert alert-primary-light mb-1 mt-4"
-                                 role="alert" style="border-radius:0 !important">
-                                <div class="d-flex flex-wrap align-items-start">
-                                    <div class="mr-8pt">
-                                        <i class="fa fa-folder-o"></i>&nbsp;
-                                    </div>
-                                    <div class="flex"
-                                         style="min-width: 180px">
-                                        <span class="text-black-100">
-                                            <strong>Documentos!</strong> <small class="text-muted">
-                                                Adicione um Documento de tipo <i>Logotipo</i> para alterar o Logotipo da Aplicação 
-                                            </small><br />
-                                        </span>
-                                    </div>
+                @if (AcessControl.Authorized(AcessControl.ADM_CONFIG_FILEMGR))
+                {
+                    <div class="col-md-12">
+                        <div class="animated flipInY ">
+                            <div class="tile-stats" style="padding-bottom:0 !important">
+                                <div class="icon">
+                                    <i class="fa fa-folder-open"></i>
                                 </div>
-                            </div>
-                            <!--  DATATABLE START -->
-                            <div class="card mb-32pt">
-                                <div class="card-header">
-                                    <div id="doctablebuttons">
-                                        <div class="form-inline">
-                                            <label class="" for="length_change">Mostrar</label>
-                                            <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="tblInstituicoesArquivos">
-                                                <option value='10'>10</option>
-                                                <option value='25'>25</option>
-                                                <option value='50'>50</option>
-                                                <option value='100'>100</option>
-                                                <option value='500'>500</option>
-                                                <option value='1000'>1000</option>
-                                                <option value='2000'>2000</option>
-                                                <option value='5000'>5000</option>
-                                                <option value='10000'>10000</option>
-                                            </select>
-                                            <label class="" for="length_change">registos</label>
-                                            <div class="btn-group">
-                                                <button title="Selecionar" class="btnSelect btn btn-default" data-id="tblInstituicoesArquivos"><i class="fa fa-check-square"></i></button>
-                                                <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="fileupload" data-upload="institution" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                                <button title="Descarregar documento(s) selecionado(s)" class="btn btn-default DescarregarMultiplos" disabled=""><i class="fa fa-cloud-download"></i></button>
-                                                <button title="Pesquisar" class="btnSearch btn btn-default" data-id="tblInstituicoesArquivos"><i class="fa fa-search"></i></button>
-                                                <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="tblInstituicoesArquivos"><i class="fa fa-eraser"></i></button>
-                                                <a title="Adicionar documento" href="javascript:" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="fileupload" data-upload="institution" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i>&nbsp;</a>
-                                            </div>
+                                <h3 class="p-2">Documentos</h3>
+                                <div class="alert alert-primary-light mb-1 mt-4"
+                                     role="alert" style="border-radius:0 !important">
+                                    <div class="d-flex flex-wrap align-items-start">
+                                        <div class="mr-8pt">
+                                            <i class="fa fa-folder-o"></i>&nbsp;
+                                        </div>
+                                        <div class="flex"
+                                             style="min-width: 180px">
+                                            <span class="text-black-100">
+                                                <strong>Documentos!</strong> <small class="text-muted">
+                                                    Adicione um Documento de tipo <i>Logotipo</i> para alterar o Logotipo da Aplicação
+                                                </small><br />
+                                            </span>
                                         </div>
                                     </div>
-
-                                    <div id="doclistbuttons" hidden>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radiogroups">
-                                                    <label class="btn btn-outline-primary active">
-                                                        <input type="radio" name="options" id="radiofdate" autocomplete="off" checked><i class="fa fa-calendar"></i>&nbsp;Ordenar data
-                                                    </label>
-                                                    <label class="btn btn-outline-primary">
-                                                        <input type="radio" name="options" id="radiofgroup" autocomplete="off"><i class="fa fa-file"></i>&nbsp;Ordenar documento
-                                                    </label>
+                                </div>
+                                <!--  DATATABLE START -->
+                                <div class="card mb-32pt">
+                                    <div class="card-header">
+                                        <div id="doctablebuttons">
+                                            <div class="form-inline">
+                                                <label class="" for="length_change">Mostrar</label>
+                                                <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="tblInstituicoesArquivos">
+                                                    <option value='10'>10</option>
+                                                    <option value='25'>25</option>
+                                                    <option value='50'>50</option>
+                                                    <option value='100'>100</option>
+                                                    <option value='500'>500</option>
+                                                    <option value='1000'>1000</option>
+                                                    <option value='2000'>2000</option>
+                                                    <option value='5000'>5000</option>
+                                                    <option value='10000'>10000</option>
+                                                </select>
+                                                <label class="" for="length_change">registos</label>
+                                                <div class="btn-group">
+                                                    <button title="Selecionar" class="btnSelect btn btn-default" data-id="tblInstituicoesArquivos"><i class="fa fa-check-square"></i></button>
+                                                    <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="fileupload" data-upload="institution" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                                    <button title="Descarregar documento(s) selecionado(s)" class="btn btn-default DescarregarMultiplos" disabled=""><i class="fa fa-cloud-download"></i></button>
+                                                    <button title="Pesquisar" class="btnSearch btn btn-default" data-id="tblInstituicoesArquivos"><i class="fa fa-search"></i></button>
+                                                    <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="tblInstituicoesArquivos"><i class="fa fa-eraser"></i></button>
+                                                    <a title="Adicionar documento" href="javascript:" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="fileupload" data-upload="institution" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i>&nbsp;</a>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <div class="col-6 ">
-                                                <div class="mb-12pt d-flex align-items-center mt-8 pull-right">
-                                                    <div class="float-right">
-                                                        <div class="btn-group">
-                                                            <a title="Adicionar documento" href="javascript:" class="open-modal-crud btn btn-primary" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="fileupload" data-upload="institution" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i>&nbsp;</a>
-                                                            <a href="javascript:" title="Visualizar documento selecionado" class="btn btn-primary link-disabled" disabled id="btnViewFile" target="_blank"><i class="fa fa-eye"></i></a>
-                                                            <button title="Descarregar documento(s) selecionado(s)" class="btn btn-primary" id="btnDownloadFile" disabled><i class="fa fa-cloud-download"></i></button>
-                                                            <button title="Editar arquivo selecionado" class="open-modal-crud btn btn-primary" data-id="0" data-action="Editar" data-entity="fileupload" data-upload="" data-toggle="modal" data-target="#crudControlModal" id="btnEditFile" disabled><i class="fa fa-pencil"></i></button>
-                                                            <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-primary" data-id="0" data-action="RemoverMultiplos" data-entity="fileupload" data-upload="institution" data-toggle="modal" data-target="#crudControlModal" disabled="" id="btnDeleteFile"><i class="fa fa-trash"></i></button>
+                                        <div id="doclistbuttons" hidden>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radiogroups">
+                                                        <label class="btn btn-outline-primary active">
+                                                            <input type="radio" name="options" id="radiofdate" autocomplete="off" checked><i class="fa fa-calendar"></i>&nbsp;Ordenar data
+                                                        </label>
+                                                        <label class="btn btn-outline-primary">
+                                                            <input type="radio" name="options" id="radiofgroup" autocomplete="off"><i class="fa fa-file"></i>&nbsp;Ordenar documento
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-6 ">
+                                                    <div class="mb-12pt d-flex align-items-center mt-8 pull-right">
+                                                        <div class="float-right">
+                                                            <div class="btn-group">
+                                                                <a title="Adicionar documento" href="javascript:" class="open-modal-crud btn btn-primary" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="fileupload" data-upload="institution" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i>&nbsp;</a>
+                                                                <a href="javascript:" title="Visualizar documento selecionado" class="btn btn-primary link-disabled" disabled id="btnViewFile" target="_blank"><i class="fa fa-eye"></i></a>
+                                                                <button title="Descarregar documento(s) selecionado(s)" class="btn btn-primary" id="btnDownloadFile" disabled><i class="fa fa-cloud-download"></i></button>
+                                                                <button title="Editar arquivo selecionado" class="open-modal-crud btn btn-primary" data-id="0" data-action="Editar" data-entity="fileupload" data-upload="" data-toggle="modal" data-target="#crudControlModal" id="btnEditFile" disabled><i class="fa fa-pencil"></i></button>
+                                                                <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-primary" data-id="0" data-action="RemoverMultiplos" data-entity="fileupload" data-upload="institution" data-toggle="modal" data-target="#crudControlModal" disabled="" id="btnDeleteFile"><i class="fa fa-trash"></i></button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="table-responsive" id="doctablebody">
-                                    <table id="tblInstituicoesArquivos" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                                        <thead>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td><input type="text" id="InstArquivoNome" class="form-control form-control-sm" /></td>
-                                                <td><input type="text" id="InstArquivoDescricao" class="form-control form-control-sm" /></td>
-                                                <td><input type="text" id="InstArquivoDocumento" class="form-control form-control-sm" /></td>
-                                                <td><input type="text" id="InstArquivoTipo" class="form-control form-control-sm" /></td>
-                                                <td><input type="text" id="InstArquivoTamanho" class="form-control form-control-sm" /></td>
-                                                <td><input type="text" id="InstArquivoEstado" class="form-control form-control-sm" /></td>
-                                                <td><input type="text" id="InstArquivoDataActivacao" class="form-control form-control-sm" /></td>
-                                                <td><input type="text" id="InstArquivoDataDesactivacao" class="form-control form-control-sm" /></td>
-                                                <td><input type="text" id="InstArquivoInsercao" class="form-control form-control-sm" /></td>
-                                                <td><input type="text" id="InstArquivoDataInsercao" class="form-control form-control-sm" /></td>
-                                                <td><input type="text" id="InstArquivoActualizacao" class="form-control form-control-sm" /></td>
-                                                <td><input type="text" id="InstArquivoDataActualizacao" class="form-control form-control-sm" /></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <th></th>
-                                                <th></th>
-                                                <th data-name="InstArquivoNome">Nome</th>
-                                                <th data-name="InstArquivoDescricao">Descrição</th>
-                                                <th data-name="InstArquivoDocumento">Documento</th>
-                                                <th data-name="InstArquivoTipo">Tipo</th>
-                                                <th data-name="InstArquivoTamanho">Tamanho</th>
-                                                <th data-name="InstArquivoEstado">Estado</th>
-                                                <th data-name="InstArquivoDataActivacao">Data Activação</th>
-                                                <th data-name="InstArquivoDataDesactivacao">Data Desactivação</th>
-                                                <th data-name="InstArquivoInsercao">Inserção</th>
-                                                <th data-name="InstArquivoDataInsercao">Data Inserção</th>
-                                                <th data-name="InstArquivoActualizacao">Actualização</th>
-                                                <th data-name="InstArquivoDataActualizacao">Data Actualização</th>
-                                                <th data-name="InstArquivoDataActulinkalizacao">Link</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                                <div id="tablefooter">
-                                    <div class="card-footer p-8pt">
-                                        <span class="paginateInfoInstArquivo paginateInfo mr-12pt" style="float:right"></span>
-                                        <div id="paginateInstArquivo" class="pagination justify-content-start pagination-xsm m-0"></div>
-                                        @using (Html.BeginForm("downloadfiles", "ajax", FormMethod.Post, new { id = "tabledownloadform" }))
+                                    <div class="table-responsive" id="doctablebody">
+                                        <table id="tblInstituicoesArquivos" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td><input type="text" id="InstArquivoNome" class="form-control form-control-sm" /></td>
+                                                    <td><input type="text" id="InstArquivoDescricao" class="form-control form-control-sm" /></td>
+                                                    <td><input type="text" id="InstArquivoDocumento" class="form-control form-control-sm" /></td>
+                                                    <td><input type="text" id="InstArquivoTipo" class="form-control form-control-sm" /></td>
+                                                    <td><input type="text" id="InstArquivoTamanho" class="form-control form-control-sm" /></td>
+                                                    <td><input type="text" id="InstArquivoEstado" class="form-control form-control-sm" /></td>
+                                                    <td><input type="text" id="InstArquivoDataActivacao" class="form-control form-control-sm" /></td>
+                                                    <td><input type="text" id="InstArquivoDataDesactivacao" class="form-control form-control-sm" /></td>
+                                                    <td><input type="text" id="InstArquivoInsercao" class="form-control form-control-sm" /></td>
+                                                    <td><input type="text" id="InstArquivoDataInsercao" class="form-control form-control-sm" /></td>
+                                                    <td><input type="text" id="InstArquivoActualizacao" class="form-control form-control-sm" /></td>
+                                                    <td><input type="text" id="InstArquivoDataActualizacao" class="form-control form-control-sm" /></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th data-name="InstArquivoNome">Nome</th>
+                                                    <th data-name="InstArquivoDescricao">Descrição</th>
+                                                    <th data-name="InstArquivoDocumento">Documento</th>
+                                                    <th data-name="InstArquivoTipo">Tipo</th>
+                                                    <th data-name="InstArquivoTamanho">Tamanho</th>
+                                                    <th data-name="InstArquivoEstado">Estado</th>
+                                                    <th data-name="InstArquivoDataActivacao">Data Activação</th>
+                                                    <th data-name="InstArquivoDataDesactivacao">Data Desactivação</th>
+                                                    <th data-name="InstArquivoInsercao">Inserção</th>
+                                                    <th data-name="InstArquivoDataInsercao">Data Inserção</th>
+                                                    <th data-name="InstArquivoActualizacao">Actualização</th>
+                                                    <th data-name="InstArquivoDataActualizacao">Data Actualização</th>
+                                                    <th data-name="InstArquivoDataActulinkalizacao">Link</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div id="tablefooter">
+                                        <div class="card-footer p-8pt">
+                                            <span class="paginateInfoInstArquivo paginateInfo mr-12pt" style="float:right"></span>
+                                            <div id="paginateInstArquivo" class="pagination justify-content-start pagination-xsm m-0"></div>
+                                            @using (Html.BeginForm("downloadfiles", "ajax", FormMethod.Post, new { id = "tabledownloadform" }))
+                                            {
+                                                <div id="tabledownloaddiv" hidden></div>
+                                            }
+                                        </div>
+                                    </div>
+
+
+                                    <div id="doclistbody" hidden class="mb-2 p-2">
+                                        <!--  FANCYTREE START -->
+                                        <div id="tree"></div>
+                                        <!--  FANCYTREE START -->
+                                        @using (Html.BeginForm("downloadfiles", "ajax", FormMethod.Post, new { id = "downloadform" }))
                                         {
-                                            <div id="tabledownloaddiv" hidden></div>
+                                            <div id="downloaddiv" hidden> </div>
                                         }
                                     </div>
                                 </div>
-
-
-                                <div id="doclistbody" hidden class="mb-2 p-2">
-                                    <!--  FANCYTREE START -->
-                                    <div id="tree"></div>
-                                    <!--  FANCYTREE START -->
-                                    @using (Html.BeginForm("downloadfiles", "ajax", FormMethod.Post, new { id = "downloadform" }))
-                                    {
-                                        <div id="downloaddiv" hidden> </div>
-                                    }
-                                </div>
+                                <!--  DATATABLE START -->
+                                <input type="hidden" id="EntityId" value="@ViewBag.data[0].ID" />
+                                <input type="hidden" id="upload" value="institution" />
                             </div>
-                            <!--  DATATABLE START -->
-                            <input type="hidden" id="EntityId" value="@ViewBag.data[0].ID" />
-                            <input type="hidden" id="upload" value="institution" />
                         </div>
                     </div>
-                </div>
-
-                <div class="col-md-12">
-                    <div class="animated flipInY ">
-                        <div class="tile-stats">
-                            <div class="icon">
-                                <i class="fa fa-cogs"></i>
-                            </div>
-                            <h3 class="p-2">Definições</h3>
-                            <div class=" mb-32pt p-3 mt-2">
-                                <div class="card">
-                                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
-                                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                            <li role="presentation" class="active">
-                                                <a href="#tab_content1" id="" role="tab" data-toggle="tab" aria-expanded="true">Personalização</a>
-                                            </li>
-                                            <li role="presentation" class="">
-                                                <a href="#tab_content4" role="tab" id="" data-toggle="tab" aria-expanded="false">SMTP</a>
-                                            </li>
-                                            <li role="presentation" class="">
-                                                <a href="#tab_content2" role="tab" id="" data-toggle="tab" aria-expanded="false">Pagamentos</a>
-                                            </li>
-                                            <li role="presentation" class="">
-                                                <a href="#tab_content3" role="tab" id="" data-toggle="tab" aria-expanded="false">Segurança</a>
-                                            </li>
-                                        </ul>
-                                        <div id="myTabContent" class="tab-content">
-                                            <div role="tabpanel" class="tab-pane active" id="tab_content1" aria-labelledby="">
-                                                <div class="alert alert-primary-light mb-0"
-                                                     role="alert" style="border-radius:0 !important">
-                                                    <div class="d-flex flex-wrap align-items-start">
-                                                        <div class="mr-8pt">
-                                                            <i class="fa fa-cogs"></i>&nbsp;
-                                                        </div>
-                                                        <div class="flex"
-                                                             style="min-width: 180px">
-                                                            <span class="text-black-100">
-                                                                <strong>Personalização!</strong> Cores de temas e tamanho de formato de Logotipo
-                                                            </span>
+                }
+                @if (AcessControl.Authorized(AcessControl.ADM_CONFIG_SETINGS_EDIT))
+                {
+                    <div class="col-md-12">
+                        <div class="animated flipInY ">
+                            <div class="tile-stats">
+                                <div class="icon">
+                                    <i class="fa fa-cogs"></i>
+                                </div>
+                                <h3 class="p-2">Definições</h3>
+                                <div class=" mb-32pt p-3 mt-2">
+                                    <div class="card">
+                                        <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                            <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                                <li role="presentation" class="active">
+                                                    <a href="#tab_content1" id="" role="tab" data-toggle="tab" aria-expanded="true">Personalização</a>
+                                                </li>
+                                                <li role="presentation" class="">
+                                                    <a href="#tab_content4" role="tab" id="" data-toggle="tab" aria-expanded="false">SMTP</a>
+                                                </li>
+                                                <li role="presentation" class="">
+                                                    <a href="#tab_content2" role="tab" id="" data-toggle="tab" aria-expanded="false">Pagamentos</a>
+                                                </li>
+                                                <li role="presentation" class="">
+                                                    <a href="#tab_content3" role="tab" id="" data-toggle="tab" aria-expanded="false">Segurança</a>
+                                                </li>
+                                            </ul>
+                                            <div id="myTabContent" class="tab-content">
+                                                <div role="tabpanel" class="tab-pane active" id="tab_content1" aria-labelledby="">
+                                                    <div class="alert alert-primary-light mb-0"
+                                                         role="alert" style="border-radius:0 !important">
+                                                        <div class="d-flex flex-wrap align-items-start">
+                                                            <div class="mr-8pt">
+                                                                <i class="fa fa-cogs"></i>&nbsp;
+                                                            </div>
+                                                            <div class="flex"
+                                                                 style="min-width: 180px">
+                                                                <span class="text-black-100">
+                                                                    <strong>Personalização!</strong> Cores de temas e tamanho de formato de Logotipo
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    @using (Ajax.BeginForm("UpdateInstPer", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }, new { @class = "p-4" }))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.INST_PER_TEMA_1, new { @class = "col-md-4 col-form-label" })
+                                                            <div class="col-md-5">
+                                                                @Html.TextBoxFor(m => m.INST_PER_TEMA_1, new { @class = "form-control form-control-sm", @type = "color", required = "" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.INST_PER_TEMA_1_SIDEBAR, new { @class = "col-md-4 col-form-label" })
+                                                            <div class="col-md-5">
+                                                                @Html.TextBoxFor(m => m.INST_PER_TEMA_1_SIDEBAR, new { @class = "form-control form-control-sm", @type = "color", required = "" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.INST_PER_TEMA_2, new { @class = "col-md-4 col-form-label" })
+                                                            <div class="col-md-5">
+                                                                @Html.TextBoxFor(m => m.INST_PER_TEMA_2, new { @class = "form-control form-control-sm", @type = "color", required = "" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.INST_PER_LOGOTIPO_WIDTH, new { @class = "col-md-4 col-form-label" })
+                                                            <div class="col-md-5">
+                                                                @Html.TextBoxFor(m => m.INST_PER_LOGOTIPO_WIDTH, new { @class = "form-control form-control-sm", @type = "number" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-1">
+                                                            <div class="col-sm-4 text-right">
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+                                                            </div>
+                                                        </div>
+                                                    }
                                                 </div>
-                                                @using (Ajax.BeginForm("UpdateInstPer", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }, new { @class = "p-4" }))
-                                                {
-                                                    @Html.AntiForgeryToken()
-                                                    <div class="row">
-                                                        @Html.LabelFor(m => m.INST_PER_TEMA_1, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-5">
-                                                            @Html.TextBoxFor(m => m.INST_PER_TEMA_1, new { @class = "form-control form-control-sm", @type = "color", required = "" })
+                                                <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="">
+                                                    <div class="alert alert-primary-light mb-0"
+                                                         role="alert">
+                                                        <div class="d-flex flex-wrap align-items-start">
+                                                            <div class="mr-8pt">
+                                                                <i class="fa fa-cogs"></i>&nbsp;
+                                                            </div>
+                                                            <div class="flex"
+                                                                 style="min-width: 180px">
+                                                                <span class="text-black-100">
+                                                                    <strong>Pagamentos!</strong> Moeda padrão e número de dígitos
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        @Html.LabelFor(m => m.INST_PER_TEMA_1_SIDEBAR, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-5">
-                                                            @Html.TextBoxFor(m => m.INST_PER_TEMA_1_SIDEBAR, new { @class = "form-control form-control-sm", @type = "color", required = "" })
+                                                    @using (Ajax.BeginForm("UpdateInstPag", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }, new { @class = "p-4" }))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.INST_MDL_GPAG_MOEDA_PADRAO, new { @class = "col-md-4 col-form-label" })
+                                                            <div class="col-md-5">
+                                                                @Html.DropDownListFor(x => Model.INST_MDL_GPAG_MOEDA_PADRAO, Model.MOEDA_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        @Html.LabelFor(m => m.INST_PER_TEMA_2, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-5">
-                                                            @Html.TextBoxFor(m => m.INST_PER_TEMA_2, new { @class = "form-control form-control-sm", @type = "color", required = "" })
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS, new { @class = "col-md-4 col-form-label" })
+                                                            <div class="col-md-5">
+                                                                @Html.TextBoxFor(m => m.INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS, new { @class = "form-control form-control-sm", @type = "number", required = "" })
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        @Html.LabelFor(m => m.INST_PER_LOGOTIPO_WIDTH, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-5">
-                                                            @Html.TextBoxFor(m => m.INST_PER_LOGOTIPO_WIDTH, new { @class = "form-control form-control-sm", @type = "number" })
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.INST_MDL_GPAG_NOTA_DECIMAL, new { @class = "col-md-4 col-form-label" })
+                                                            <div class="col-md-5">
+                                                                @Html.DropDownListFor(m => Model.INST_MDL_GPAG_NOTA_DECIMAL, Enum.GetValues(typeof(SelectValues.NotaDecimal)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.NotaDecimal), e), Value = e.ToString() }), new { @class = "form-control form-control-sm" })
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row mt-1">
-                                                        <div class="col-sm-4 text-right">
+                                                        <div class="row mt-1">
+                                                            <div class="col-sm-4 text-right">
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-sm-3">
-                                                            <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
-                                                        </div>
-                                                    </div>
-                                                }
-                                            </div>
-                                            <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="">
-                                                <div class="alert alert-primary-light mb-0"
-                                                     role="alert">
-                                                    <div class="d-flex flex-wrap align-items-start">
-                                                        <div class="mr-8pt">
-                                                            <i class="fa fa-cogs"></i>&nbsp;
-                                                        </div>
-                                                        <div class="flex"
-                                                             style="min-width: 180px">
-                                                            <span class="text-black-100">
-                                                                <strong>Pagamentos!</strong> Moeda padrão e número de dígitos
-                                                            </span>
-                                                        </div>
-                                                    </div>
+                                                    }
                                                 </div>
-                                                @using (Ajax.BeginForm("UpdateInstPag", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }, new { @class = "p-4" }))
-                                                {
-                                                    @Html.AntiForgeryToken()
-                                                    <div class="row">
-                                                        @Html.LabelFor(m => m.INST_MDL_GPAG_MOEDA_PADRAO, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-5">
-                                                            @Html.DropDownListFor(x => Model.INST_MDL_GPAG_MOEDA_PADRAO, Model.MOEDA_LIST, "Selecionar uma opção", new { @class = "form-control form-control-sm", required = "" })
+                                                <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="">
+                                                    <div class="alert alert-primary-light mb-0"
+                                                         role="alert">
+                                                        <div class="d-flex flex-wrap align-items-start">
+                                                            <div class="mr-8pt">
+                                                                <i class="fa fa-cogs"></i>&nbsp;
+                                                            </div>
+                                                            <div class="flex"
+                                                                 style="min-width: 180px">
+                                                                <span class="text-black-100">
+                                                                    <strong>Segurança!</strong> Definições de sessão e tokens
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        @Html.LabelFor(m => m.INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-5">
-                                                            @Html.TextBoxFor(m => m.INST_MDL_GPAG_N_DIGITOS_VALORES_PAGAMENTOS, new { @class = "form-control form-control-sm", @type = "number", required = "" })
+                                                    @using (Ajax.BeginForm("UpdateInstSec", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }, new { @class = "p-4" }))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.SEC_SENHA_TENT_BLOQUEIO, new { @class = "col-md-4 col-form-label" })
+                                                            <div class="col-md-5">
+                                                                @Html.TextBoxFor(m => m.SEC_SENHA_TENT_BLOQUEIO, new { @class = "form-control form-control-sm", @type = "number", required = "" })
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        @Html.LabelFor(m => m.INST_MDL_GPAG_NOTA_DECIMAL, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-5">
-                                                            @Html.DropDownListFor(m => Model.INST_MDL_GPAG_NOTA_DECIMAL, Enum.GetValues(typeof(SelectValues.NotaDecimal)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.NotaDecimal), e), Value = e.ToString() }), new { @class = "form-control form-control-sm" })
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.SEC_SENHA_TENT_BLOQUEIO_TEMPO, new { @class = "col-md-4 col-form-label" })
+                                                            <div class="col-md-5">
+                                                                @Html.TextBoxFor(m => m.SEC_SENHA_TENT_BLOQUEIO_TEMPO, new { @class = "form-control form-control-sm", @type = "number", required = "" })
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row mt-1">
-                                                        <div class="col-sm-4 text-right">
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.SEC_SENHA_RECU_LIMITE_EMAIL, new { @class = "col-md-4 col-form-label" })
+                                                            <div class="col-md-5">
+                                                                @Html.TextBoxFor(m => m.SEC_SENHA_RECU_LIMITE_EMAIL, new { @class = "form-control form-control-sm", @type = "number", required = "" })
+                                                            </div>
                                                         </div>
-                                                        <div class="col-sm-3">
-                                                            <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.SEC_SESSAO_TIMEOUT_TEMPO, new { @class = "col-md-4 col-form-label" })
+                                                            <div class="col-md-5">
+                                                                @Html.TextBoxFor(m => m.SEC_SESSAO_TIMEOUT_TEMPO, new { @class = "form-control form-control-sm", @type = "number", required = "" })
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                }
-                                            </div>
-                                            <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="">
-                                                <div class="alert alert-primary-light mb-0"
-                                                     role="alert">
-                                                    <div class="d-flex flex-wrap align-items-start">
-                                                        <div class="mr-8pt">
-                                                            <i class="fa fa-cogs"></i>&nbsp;
+                                                        <div class="row mt-1">
+                                                            <div class="col-sm-4 text-right">
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+                                                            </div>
                                                         </div>
-                                                        <div class="flex"
-                                                             style="min-width: 180px">
-                                                            <span class="text-black-100">
-                                                                <strong>Segurança!</strong> Definições de sessão e tokens
-                                                            </span>
-                                                        </div>
-                                                    </div>
+                                                    }
                                                 </div>
-                                                @using (Ajax.BeginForm("UpdateInstSec", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }, new { @class = "p-4" }))
-                                                {
-                                                    @Html.AntiForgeryToken()
-                                                    <div class="row">
-                                                        @Html.LabelFor(m => m.SEC_SENHA_TENT_BLOQUEIO, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-5">
-                                                            @Html.TextBoxFor(m => m.SEC_SENHA_TENT_BLOQUEIO, new { @class = "form-control form-control-sm", @type = "number", required = "" })
+                                                <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="">
+                                                    <div class="alert alert-primary-light mb-0"
+                                                         role="alert">
+                                                        <div class="d-flex flex-wrap align-items-start">
+                                                            <div class="mr-8pt">
+                                                                <i class="fa fa-cogs"></i>&nbsp;
+                                                            </div>
+                                                            <div class="flex"
+                                                                 style="min-width: 180px">
+                                                                <span class="text-black-100">
+                                                                    <strong>SMTP!</strong> Definições do servidor SMTP
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        @Html.LabelFor(m => m.SEC_SENHA_TENT_BLOQUEIO_TEMPO, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-5">
-                                                            @Html.TextBoxFor(m => m.SEC_SENHA_TENT_BLOQUEIO_TEMPO, new { @class = "form-control form-control-sm", @type = "number", required = "" })
+                                                    @using (Ajax.BeginForm("UpdateInstNet", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }, new { @class = "p-4" }))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.NET_STMP_HOST, new { @class = "col-md-4 col-form-label" })
+                                                            <div class="col-md-5">
+                                                                @Html.TextBoxFor(m => m.NET_STMP_HOST, new { @class = "form-control form-control-sm", required = "" })
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        @Html.LabelFor(m => m.SEC_SENHA_RECU_LIMITE_EMAIL, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-5">
-                                                            @Html.TextBoxFor(m => m.SEC_SENHA_RECU_LIMITE_EMAIL, new { @class = "form-control form-control-sm", @type = "number", required = "" })
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.NET_STMP_PORT, new { @class = "col-md-4 col-form-label" })
+                                                            <div class="col-md-5">
+                                                                @Html.TextBoxFor(m => m.NET_STMP_PORT, new { @class = "form-control form-control-sm", @type = "number", required = "" })
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        @Html.LabelFor(m => m.SEC_SESSAO_TIMEOUT_TEMPO, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-5">
-                                                            @Html.TextBoxFor(m => m.SEC_SESSAO_TIMEOUT_TEMPO, new { @class = "form-control form-control-sm", @type = "number", required = "" })
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.NET_SMTP_USERNAME, new { @class = "col-md-4 col-form-label" })
+                                                            <div class="col-md-5">
+                                                                @Html.TextBoxFor(m => m.NET_SMTP_USERNAME, new { @class = "form-control form-control-sm", required = "" })
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row mt-1">
-                                                        <div class="col-sm-4 text-right">
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.NET_SMTP_SENHA, new { @class = "col-md-4 col-form-label" })
+                                                            <div class="col-md-5">
+                                                                @Html.TextBoxFor(m => m.NET_SMTP_SENHA, new { @class = "form-control form-control-sm", required = "" })
+                                                            </div>
                                                         </div>
-                                                        <div class="col-sm-3">
-                                                            <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => m.NET_SMTP_FROM, new { @class = "col-md-4 col-form-label" })
+                                                            <div class="col-md-5">
+                                                                @Html.TextBoxFor(m => m.NET_SMTP_FROM, new { @class = "form-control form-control-sm", required = "" })
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                }
-                                            </div>
-                                            <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="">
-                                                <div class="alert alert-primary-light mb-0"
-                                                     role="alert">
-                                                    <div class="d-flex flex-wrap align-items-start">
-                                                        <div class="mr-8pt">
-                                                            <i class="fa fa-cogs"></i>&nbsp;
+                                                        <div class="row mt-1">
+                                                            <div class="col-sm-4 text-right">
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
+                                                            </div>
                                                         </div>
-                                                        <div class="flex"
-                                                             style="min-width: 180px">
-                                                            <span class="text-black-100">
-                                                                <strong>SMTP!</strong> Definições do servidor SMTP
-                                                            </span>
-                                                        </div>
-                                                    </div>
+                                                    }
                                                 </div>
-                                                @using (Ajax.BeginForm("UpdateInstNet", "administration", new AjaxOptions { HttpMethod = "POST", OnFailure = "handleFailure", OnSuccess = "handleSuccess", UpdateTargetId = "" }, new { @class = "p-4" }))
-                                                {
-                                                    @Html.AntiForgeryToken()
-                                                    <div class="row">
-                                                        @Html.LabelFor(m => m.NET_STMP_HOST, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-5">
-                                                            @Html.TextBoxFor(m => m.NET_STMP_HOST, new { @class = "form-control form-control-sm", required = "" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        @Html.LabelFor(m => m.NET_STMP_PORT, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-5">
-                                                            @Html.TextBoxFor(m => m.NET_STMP_PORT, new { @class = "form-control form-control-sm", @type = "number", required = "" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        @Html.LabelFor(m => m.NET_SMTP_USERNAME, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-5">
-                                                            @Html.TextBoxFor(m => m.NET_SMTP_USERNAME, new { @class = "form-control form-control-sm", required = "" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        @Html.LabelFor(m => m.NET_SMTP_SENHA, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-5">
-                                                            @Html.TextBoxFor(m => m.NET_SMTP_SENHA, new { @class = "form-control form-control-sm", required = "" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        @Html.LabelFor(m => m.NET_SMTP_FROM, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-5">
-                                                            @Html.TextBoxFor(m => m.NET_SMTP_FROM, new { @class = "form-control form-control-sm", required = "" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mt-1">
-                                                        <div class="col-sm-4 text-right">
-                                                        </div>
-                                                        <div class="col-sm-3">
-                                                            <button type="submit" class="btn btn-primary btn-sm" id="BtnSubmit">Submeter</button>
-                                                        </div>
-                                                    </div>
-                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -461,8 +468,8 @@
                             </div>
                         </div>
                     </div>
+                }
                 </div>
-            </div>
         </div>
     </div>
     <h2>&nbsp;</h2>

@@ -484,6 +484,9 @@
     <Compile Include="SP_GRL_ENT_TIPOTOKEN_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_GRL_ENT_TOKENS_Result.cs">
+      <DependentUpon>ORM.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_GT_ENT_DURACAO_TIPO_Result.cs">
       <DependentUpon>ORM.tt</DependentUpon>
     </Compile>
@@ -861,6 +864,7 @@
     <Content Include="Views\GTManagement\Search\Analysis.cshtml" />
     <Content Include="Views\GTManagement\Search\Others.cshtml" />
     <Content Include="Views\Ajax\GTManagement\Athletes\GTSocioEvolution.cshtml" />
+    <Content Include="Views\Administration\Access\Tokens.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,4 +1,5 @@
 ﻿@model Gestreino.Models.Users
+@using Gestreino.Classes;
 @{
     ViewBag.Title = ViewBag.data[0].LOGIN;
 }
@@ -21,19 +22,28 @@
                             </div>
                         </div>
                         <h3>@ViewBag.data[0].LOGIN</h3>
-                       
+
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" @(AcessControl.Authorized(AcessControl.ADM_USERS_USERS_EDIT) || AcessControl.Authorized(AcessControl.ADM_USERS_USERS_ALTER_PASSWORD) || !AcessControl.Authorized(AcessControl.ADM_USERS_USERS_CLEAR_PWD_ATTEMPT)?"":"hidden")>
                         <ul class="list-unstyled user_data">
-                            <li>
-                                <a title="Editar" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-secondary btn-block" data-id="@ViewBag.data[0].ID" data-action="Editar" data-entity="users" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil user-profile-icon"></i> Editar</a>
-                            </li>
-                            <li>
-                                <a title="Alterar senha" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-secondary btn-block" data-id="@ViewBag.data[0].ID" data-action="AlterarSenha" data-entity="users" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-key user-profile-icon"></i> Alterar senha</a>
-                            </li>
-                            <li>
-                                <a title="Limpar bloqueio" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-secondary btn-block" data-id="@ViewBag.data[0].ID" data-action="LimparLogs" data-entity="users" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-eraser user-profile-icon"></i> Limpar bloqueio</a>
-                            </li>
+                            @if (AcessControl.Authorized(AcessControl.ADM_USERS_USERS_EDIT))
+                            {
+                                <li>
+                                    <a title="Editar" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-secondary btn-block" data-id="@ViewBag.data[0].ID" data-action="Editar" data-entity="users" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil user-profile-icon"></i> Editar</a>
+                                </li>
+                            }
+                            @if (AcessControl.Authorized(AcessControl.ADM_USERS_USERS_ALTER_PASSWORD))
+                            {
+                                <li>
+                                    <a title="Alterar senha" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-secondary btn-block" data-id="@ViewBag.data[0].ID" data-action="AlterarSenha" data-entity="users" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-key user-profile-icon"></i> Alterar senha</a>
+                                </li>
+                            }
+                            @if (AcessControl.Authorized(AcessControl.ADM_USERS_USERS_CLEAR_PWD_ATTEMPT))
+                            {
+                                <li>
+                                    <a title="Limpar bloqueio" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-secondary btn-block" data-id="@ViewBag.data[0].ID" data-action="LimparLogs" data-entity="users" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-eraser user-profile-icon"></i> Limpar bloqueio</a>
+                                </li>
+                            }
                         </ul>
                     </div>
                     <div class="col-md-5 col-sm-12">
@@ -96,140 +106,162 @@
             <div class="" role="tabpanel" data-example-id="togglable-tabs">
                 <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                     <li role="presentation" class="active">
-                        <a href="#tab_content1" id="" role="tab" data-toggle="tab" aria-expanded="true">Perfis</a>
+                        <a href="#tab_content3" role="tab" id="" data-toggle="tab" aria-expanded="true">Acesso à</a>
                     </li>
-                    <li role="presentation" class="">
-                        <a href="#tab_content2" role="tab" id="" data-toggle="tab" aria-expanded="false">Grupos</a>
-                    </li>
-                    <li role="presentation" class="">
-                        <a href="#tab_content3" role="tab" id="" data-toggle="tab" aria-expanded="false">Acesso à</a>
-                    </li>
-                    <li role="presentation" class="">
-                        <a href="#tab_content4" role="tab" id="" data-toggle="tab" aria-expanded="false">Rastreamento de sessão</a>
-                    </li>
+                    @if (AcessControl.Authorized(AcessControl.ADM_USERS_PROFILE_USERS_LIST_VIEW_SEARCH))
+                    {
+                        <li role="presentation" class="">
+                            <a href="#tab_content1" id="" role="tab" data-toggle="tab" aria-expanded="false">Perfis</a>
+                        </li>
+                    }
+                    @if (AcessControl.Authorized(AcessControl.ADM_USERS_GROUP_USERS_LIST_VIEW_SEARCH))
+                    {
+                        <li role="presentation" class="">
+                            <a href="#tab_content2" role="tab" id="" data-toggle="tab" aria-expanded="false">Grupos</a>
+                        </li>
+                    }
+                    @if (AcessControl.Authorized(AcessControl.ADM_USERS_LOGIN_LOGS_LIST_VIEW_SEARCH))
+                    {
+                        <li role="presentation" class="">
+                            <a href="#tab_content4" role="tab" id="" data-toggle="tab" aria-expanded="false">Rastreamento de sessão</a>
+                        </li>
+                    }
                 </ul>
                 <div id="myTabContent" class="tab-content">
-                    <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="">
-                        <!--  DATATABLE START -->
-                        <div class="card mb-32pt">
-                            <div class="card-header">
-                                <div class="form-inline">
-                                    <label class="" for="length_change">Mostrar</label>
-                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="ProfileUtilTable">
-                                        <option value='10'>10</option>
-                                        <option value='25'>25</option>
-                                        <option value='50'>50</option>
-                                        <option value='100'>100</option>
-                                        <option value='500'>500</option>
-                                        <option value='1000'>1000</option>
-                                        <option value='2000'>2000</option>
-                                        <option value='5000'>5000</option>
-                                        <option value='10000'>10000</option>
-                                    </select>
-                                    <label class="" for="length_change">registos</label>
-                                    <div class="btn-group">
-                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="ProfileUtilTable"><i class="fa fa-check-square"></i></button>
-                                        <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplosUtilProfile" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="ProfileUtilTable"><i class="fa fa-search"></i></button>
-                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="ProfileUtilTable"><i class="fa fa-eraser"></i></button>
-                                        <a title="Adicionar perfil" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="AdicionarUtilProfile" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                                      </div>
+                    @if (AcessControl.Authorized(AcessControl.ADM_USERS_PROFILE_USERS_LIST_VIEW_SEARCH))
+                    {
+                        <div role="tabpanel" class="tab-pane" id="tab_content1" aria-labelledby="">
+                            <!--  DATATABLE START -->
+                            <div class="card mb-32pt">
+                                <div class="card-header">
+                                    <div class="form-inline">
+                                        <label class="" for="length_change">Mostrar</label>
+                                        <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="ProfileUtilTable">
+                                            <option value='10'>10</option>
+                                            <option value='25'>25</option>
+                                            <option value='50'>50</option>
+                                            <option value='100'>100</option>
+                                            <option value='500'>500</option>
+                                            <option value='1000'>1000</option>
+                                            <option value='2000'>2000</option>
+                                            <option value='5000'>5000</option>
+                                            <option value='10000'>10000</option>
+                                        </select>
+                                        <label class="" for="length_change">registos</label>
+                                        <div class="btn-group">
+                                            <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="ProfileUtilTable"><i class="fa fa-check-square"></i></button>
+                                            @if (AcessControl.Authorized(AcessControl.ADM_USERS_PROFILE_USERS_DELETE))
+                                            {
+                                                <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplosUtilProfile" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                            }<button title="Pesquisar" class="btnSearch btn btn-default" data-id="ProfileUtilTable"><i class="fa fa-search"></i></button>
+                                            <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="ProfileUtilTable"><i class="fa fa-eraser"></i></button>
+                                                @if (AcessControl.Authorized(AcessControl.ADM_USERS_PROFILE_USERS_NEW))
+                                                {
+                                                    <a title="Adicionar perfil" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="AdicionarUtilProfile" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
+                                                }
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="ProfileUtilTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td><input type="text" id="ProfileUtilTableUtilizador" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="ProfileUtilTablePerfil" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="ProfileUtilTableInsercao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="ProfileUtilTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                                <td><input type="text" id="ProfileUtilTableActualizacao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="ProfileUtilTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th data-name="ProfileUtilTableUtilizador">Utilizador</th>
+                                                <th data-name="ProfileUtilTablePerfil">Perfil</th>
+                                                <th data-name="ProfileUtilTableInsercao">Inserção</th>
+                                                <th data-name="ProfileUtilTableDataInsercao">Data Inserção</th>
+                                                <th data-name="ProfileUtilTableActualizacao">Actualização</th>
+                                                <th data-name="ProfileUtilTableDataActualizacao">Data Actualização</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="card-footer p-8pt">
+                                    <span class="paginateInfoProfileUtilTable paginateInfo mr-12pt" style="float:right"></span>
+                                    <div id="paginateProfileUtilTable" class="pagination justify-content-start pagination-xsm m-0"></div>
                                 </div>
                             </div>
-                            <div class="table-responsive">
-                                <table id="ProfileUtilTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td><input type="text" id="ProfileUtilTableUtilizador" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="ProfileUtilTablePerfil" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="ProfileUtilTableInsercao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="ProfileUtilTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
-                                            <td><input type="text" id="ProfileUtilTableActualizacao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="ProfileUtilTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
-                                        </tr>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th data-name="ProfileUtilTableUtilizador">Utilizador</th>
-                                            <th data-name="ProfileUtilTablePerfil">Perfil</th>
-                                            <th data-name="ProfileUtilTableInsercao">Inserção</th>
-                                            <th data-name="ProfileUtilTableDataInsercao">Data Inserção</th>
-                                            <th data-name="ProfileUtilTableActualizacao">Actualização</th>
-                                            <th data-name="ProfileUtilTableDataActualizacao">Data Actualização</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div class="card-footer p-8pt">
-                                <span class="paginateInfoProfileUtilTable paginateInfo mr-12pt" style="float:right"></span>
-                                <div id="paginateProfileUtilTable" class="pagination justify-content-start pagination-xsm m-0"></div>
-                            </div>
+                            <!--  DATATABLE START -->
                         </div>
-                        <!--  DATATABLE START -->
-                    </div>
-                    <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="">
-                        <!--  DATATABLE START -->
-                        <div class="card mb-32pt">
-                            <div class="card-header">
-                                <div class="form-inline">
-                                    <label class="" for="length_change">Mostrar</label>
-                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="UserGroupTable">
-                                        <option value='10'>10</option>
-                                        <option value='25'>25</option>
-                                        <option value='50'>50</option>
-                                        <option value='100'>100</option>
-                                        <option value='500'>500</option>
-                                        <option value='1000'>1000</option>
-                                        <option value='2000'>2000</option>
-                                        <option value='5000'>5000</option>
-                                        <option value='10000'>10000</option>
-                                    </select>
-                                    <label class="" for="length_change">registos</label>
-                                    <div class="btn-group">
-                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="UserGroupTable"><i class="fa fa-check-square"></i></button>
-                                        <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplosGroupUtil" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserGroupTable"><i class="fa fa-search"></i></button>
-                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserGroupTable"><i class="fa fa-eraser"></i></button>
-                                        <a title="Adicionar grupo" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="AdicionarUtilGroup" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                                      </div>
+                    }
+                    @if (AcessControl.Authorized(AcessControl.ADM_USERS_GROUP_USERS_LIST_VIEW_SEARCH))
+                    {
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="">
+                            <!--  DATATABLE START -->
+                            <div class="card mb-32pt">
+                                <div class="card-header">
+                                    <div class="form-inline">
+                                        <label class="" for="length_change">Mostrar</label>
+                                        <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="UserGroupTable">
+                                            <option value='10'>10</option>
+                                            <option value='25'>25</option>
+                                            <option value='50'>50</option>
+                                            <option value='100'>100</option>
+                                            <option value='500'>500</option>
+                                            <option value='1000'>1000</option>
+                                            <option value='2000'>2000</option>
+                                            <option value='5000'>5000</option>
+                                            <option value='10000'>10000</option>
+                                        </select>
+                                        <label class="" for="length_change">registos</label>
+                                        <div class="btn-group">
+                                            <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="UserGroupTable"><i class="fa fa-check-square"></i></button>
+                                            @if (AcessControl.Authorized(AcessControl.ADM_USERS_GROUP_USERS_DELETE))
+                                            {<button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplosGroupUtil" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                            } <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserGroupTable"><i class="fa fa-search"></i></button>
+                                            <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserGroupTable"><i class="fa fa-eraser"></i></button>
+                                            @if (AcessControl.Authorized(AcessControl.ADM_USERS_GROUP_USERS_NEW))
+                                            {<a title="Adicionar grupo" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="AdicionarUtilGroup" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
+                                            }</div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="UserGroupTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td><input type="text" id="UserGroupTableUtilizador" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserGroupTableGrupo" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserGroupTableInsercao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserGroupTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                                <td><input type="text" id="UserGroupTableActualizacao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserGroupTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th data-name="UserGroupTableGrupo">Grupo</th>
+                                                <th data-name="UserGroupTableUtilizador">Utilizador</th>
+                                                <th data-name="UserGroupTableInsercao">Inserção</th>
+                                                <th data-name="UserGroupTableDataInsercao">Data Inserção</th>
+                                                <th data-name="UserGroupTableActualizacao">Actualização</th>
+                                                <th data-name="UserGroupTableDataActualizacao">Data Actualização</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="card-footer p-8pt">
+                                    <span class="paginateInfoUserGroupTable paginateInfo mr-12pt" style="float:right"></span>
+                                    <div id="paginateUserGroupTable" class="pagination justify-content-start pagination-xsm m-0"></div>
                                 </div>
                             </div>
-                            <div class="table-responsive">
-                                <table id="UserGroupTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td><input type="text" id="UserGroupTableUtilizador" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserGroupTableGrupo" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserGroupTableInsercao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserGroupTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
-                                            <td><input type="text" id="UserGroupTableActualizacao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserGroupTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
-                                        </tr>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th data-name="UserGroupTableGrupo">Grupo</th>
-                                            <th data-name="UserGroupTableUtilizador">Utilizador</th>
-                                            <th data-name="UserGroupTableInsercao">Inserção</th>
-                                            <th data-name="UserGroupTableDataInsercao">Data Inserção</th>
-                                            <th data-name="UserGroupTableActualizacao">Actualização</th>
-                                            <th data-name="UserGroupTableDataActualizacao">Data Actualização</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div class="card-footer p-8pt">
-                                <span class="paginateInfoUserGroupTable paginateInfo mr-12pt" style="float:right"></span>
-                                <div id="paginateUserGroupTable" class="pagination justify-content-start pagination-xsm m-0"></div>
-                            </div>
+                            <!--  DATATABLE START -->
                         </div>
-                        <!--  DATATABLE START -->
-                    </div>
-                    <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="">
+                    }
+                    <div role="tabpanel" class="tab-pane active" id="tab_content3" aria-labelledby="">
                         <!--  DATATABLE START -->
                         <div class="card mb-32pt">
                             <div class="card-header">
@@ -285,83 +317,87 @@
                         </div>
                         <!--  DATATABLE START -->
                     </div>
-                    <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="">
-                        <!--  DATATABLE START -->
-                        <div class="card mb-32pt">
-                            <div class="card-header">
-                                <div class="form-inline">
-                                    <label class="" for="length_change">Mostrar</label>
-                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="UserLogTable">
-                                        <option value='10'>10</option>
-                                        <option value='25'>25</option>
-                                        <option value='50'>50</option>
-                                        <option value='100'>100</option>
-                                        <option value='500'>500</option>
-                                        <option value='1000'>1000</option>
-                                        <option value='2000'>2000</option>
-                                        <option value='5000'>5000</option>
-                                        <option value='10000'>10000</option>
-                                    </select>
-                                    <label class="" for="length_change">registos</label>
-                                    <div class="btn-group">
-                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="UserLogTable"><i class="fa fa-check-square"></i></button>
-                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserLogTable"><i class="fa fa-search"></i></button>
-                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserLogTable"><i class="fa fa-eraser"></i></button>
-                                        <!--Separator-->
-                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "GetUserLog", applyFilter = "true" })" target="_blank" data-id="UserLogTable"><i class="fa fa-filter"></i></a>
-                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "GetUserLog", applyFilter = "false" })" target="_blank" data-id="UserLogTable"><i class="fa fa-file-excel-o"></i></a>
+
+                    @if (AcessControl.Authorized(AcessControl.ADM_USERS_LOGIN_LOGS_LIST_VIEW_SEARCH))
+                    {
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="">
+                            <!--  DATATABLE START -->
+                            <div class="card mb-32pt">
+                                <div class="card-header">
+                                    <div class="form-inline">
+                                        <label class="" for="length_change">Mostrar</label>
+                                        <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="UserLogTable">
+                                            <option value='10'>10</option>
+                                            <option value='25'>25</option>
+                                            <option value='50'>50</option>
+                                            <option value='100'>100</option>
+                                            <option value='500'>500</option>
+                                            <option value='1000'>1000</option>
+                                            <option value='2000'>2000</option>
+                                            <option value='5000'>5000</option>
+                                            <option value='10000'>10000</option>
+                                        </select>
+                                        <label class="" for="length_change">registos</label>
+                                        <div class="btn-group">
+                                            <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="UserLogTable"><i class="fa fa-check-square"></i></button>
+                                            <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserLogTable"><i class="fa fa-search"></i></button>
+                                            <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserLogTable"><i class="fa fa-eraser"></i></button>
+                                            <!--Separator-->
+                                            <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "GetUserLog", applyFilter = "true" })" target="_blank" data-id="UserLogTable"><i class="fa fa-filter"></i></a>
+                                            <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "GetUserLog", applyFilter = "false" })" target="_blank" data-id="UserLogTable"><i class="fa fa-file-excel-o"></i></a>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="table-responsive">
+                                    <table id="UserLogTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td><input type="text" id="UserLogTableLogin" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserLogTableIP" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserLogTableMAC" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserLogTableHost" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserLogTableDispositivo" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserLogTableURL" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserLogTableData" class="form-control form-control-sm datepicker" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th data-name="UserLogTableLogin">Utilizador</th>
+                                                <th data-name="UserLogTableIP">IP</th>
+                                                <th data-name="UserLogTableMAC">MAC</th>
+                                                <th data-name="UserLogTableHost">Host</th>
+                                                <th data-name="UserLogTableDispositivo">Dispositivo</th>
+                                                <th data-name="UserLogTableURL">URL</th>
+                                                <th data-name="UserLogTableData">Data</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="card-footer p-8pt">
+                                    <span class="paginateInfoUserLogTable paginateInfo mr-12pt" style="float:right"></span>
+                                    <div id="paginateUserLogTable" class="pagination justify-content-start pagination-xsm m-0"></div>
+                                </div>
                             </div>
-                            <div class="table-responsive">
-                                <table id="UserLogTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td><input type="text" id="UserLogTableLogin" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserLogTableIP" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserLogTableMAC" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserLogTableHost" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserLogTableDispositivo" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserLogTableURL" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserLogTableData" class="form-control form-control-sm datepicker" /></td>
-                                        </tr>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th data-name="UserLogTableLogin">Utilizador</th>
-                                            <th data-name="UserLogTableIP">IP</th>
-                                            <th data-name="UserLogTableMAC">MAC</th>
-                                            <th data-name="UserLogTableHost">Host</th>
-                                            <th data-name="UserLogTableDispositivo">Dispositivo</th>
-                                            <th data-name="UserLogTableURL">URL</th>
-                                            <th data-name="UserLogTableData">Data</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div class="card-footer p-8pt">
-                                <span class="paginateInfoUserLogTable paginateInfo mr-12pt" style="float:right"></span>
-                                <div id="paginateUserLogTable" class="pagination justify-content-start pagination-xsm m-0"></div>
-                            </div>
+                            <!--  DATATABLE START -->
                         </div>
-                        <!--  DATATABLE START -->
+                    }
                     </div>
-                </div>
             </div>
         </div>
     </div>
-            @Html.HiddenFor(m => m.Id, new { Id = "UserId" })
-            <h2>&nbsp;</h2>
-            <h2>&nbsp;</h2>
-        </div>
-        <!-- /page content -->
-        <script>
-            document.addEventListener("DOMContentLoaded", function (event) {
-                handleDataProfileUtil();
-                handleDataUserGroups();
-                handleDataUserLogTable();
-                handleDataAtomsAccessTable();
-            });
-        </script>
+    @Html.HiddenFor(m => m.Id, new { Id = "UserId" })
+    <h2>&nbsp;</h2>
+    <h2>&nbsp;</h2>
+</div>
+<!-- /page content -->
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        handleDataProfileUtil();
+        handleDataUserGroups();
+        handleDataUserLogTable();
+        handleDataAtomsAccessTable();
+    });
+</script>

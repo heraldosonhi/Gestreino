@@ -1789,5 +1789,18 @@ namespace Gestreino
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PES_ENT_PESSOAS_Result>("SP_PES_ENT_PESSOAS", iDParameter, nomeParameter, sexoParameter, dataNascimentoParameter, estadoCivilIdParameter, nIFParameter, apresentacaoPessoalParameter, paisIdParameter, cidadeIdParameter, municipioIdParameter, telefoneParameter, telefoneAlternativoParameter, faxParameter, emailParameter, codigoPostalParameter, urlParameter, numeroParameter, userIdParameter, actionParameter);
         }
+    
+        public virtual ObjectResult<SP_GRL_ENT_TOKENS_Result> SP_GRL_ENT_TOKENS(Nullable<int> id, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GRL_ENT_TOKENS_Result>("SP_GRL_ENT_TOKENS", idParameter, actionParameter);
+        }
     }
 }
