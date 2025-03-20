@@ -19,7 +19,10 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <!-- Font Awesome -->
-    <link href="~/Assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Assets/fonts/style/fontawesome.min.css" rel="stylesheet">
+    <link href="~/Assets/fonts/style/brands.css" rel="stylesheet" />
+    <link href="~/Assets/fonts/style/solid.css" rel="stylesheet" />
+
 </head>
 <body class="nav-@(init==1?"md":"sm") footer_fixed @(Request.IsAuthenticated?"":"startup-img")">
     <div class="container body">
@@ -39,13 +42,16 @@
                         @Html.Partial("_SideBarMenu")
                         <!-- sidebar menu -->
                         <!-- /menu footer buttons -->
-                        <div class="sidebar-footer hidden-small">
-                            <a href="javascript:" id="selecionaravaliado" data-placement="top" title="Selecionar Avaliado" class="open-modal-crud bg-blue-sky" data-id="0" data-action="Adicionar" data-entity="gtavaliado" data-toggle="modal" data-target="#crudControlModal">
-                                <span class="fa fa-random" aria-hidden="true"></span>
-                            </a>
-                            <a data-toggle="tooltip" href="@Url.Action("settings","administration")" data-placement="top" title="Configurações">
+                    <div class="sidebar-footer hidden-small">
+                        <a href="javascript:" id="selecionaravaliado" data-placement="top" title="Selecionar Avaliado" class="open-modal-crud bg-blue-sky" data-id="0" data-action="Adicionar" data-entity="gtavaliado" data-toggle="modal" data-target="#crudControlModal">
+                            <span class="fa fa-random" aria-hidden="true"></span>
+                        </a>
+                        @if (AcessControl.Authorized(AcessControl.ADM_CONFIG_FILEMGR) || AcessControl.Authorized(AcessControl.ADM_CONFIG_INST_EDIT) || AcessControl.Authorized(AcessControl.ADM_CONFIG_SETINGS_EDIT))
+                        {
+                            <a data-toggle="tooltip" href="@Url.Action("settings", "administration")" data-placement="top" title="Configurações">
                                 <span class="fa fa-cog" aria-hidden="true"></span>
                             </a>
+                        }
                             @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "" }))
                             {
                                 @Html.AntiForgeryToken()
@@ -131,13 +137,10 @@
     </div>
 
 
-    @*Scripts.Render("~/bundles/jquery")*@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     <script>SetUpDatepicker();</script>
     <script>setupSelect2();</script>
     <script src="@Url.Content("~/Assets/lib/cropper/cropper.min.js")"></script>
-    @*<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/sl-1.2.5/datatables.min.js"></script>
-        <script type="text/javascript" src="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.10/js/dataTables.checkboxes.min.js"></script>*@
-</body>
+ </body>
 </html>

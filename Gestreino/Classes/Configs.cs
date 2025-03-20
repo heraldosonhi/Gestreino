@@ -21,6 +21,7 @@ namespace Gestreino.Classes
         public static string INST_INSTITUICAO_NOME;
         public static string INST_INSTITUICAO_ENDERECO;
         public static string INST_INSTITUICAO_URL;
+        public static string INST_INSTITUICAO_LOGO;
         // PERSONALIZE
         public static string INST_PER_TEMA_1;
         public static string INST_PER_TEMA_1_SIDEBAR;

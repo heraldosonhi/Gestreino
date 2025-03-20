@@ -4975,11 +4975,22 @@ namespace Gestreino.Controllers
         [HttpGet]
         public ActionResult Settings(SettingsDef MODEL)
         {
-            if (AcessControl.Authorized(AcessControl.ADM_CONFIG_FILEMGR) || AcessControl.Authorized(AcessControl.ADM_CONFIG_INST_EDIT) || AcessControl.Authorized(AcessControl.ADM_CONFIG_SETINGS_EDIT)) { }else
-            return View("Lockout");
+           if (AcessControl.Authorized(AcessControl.ADM_CONFIG_FILEMGR) || AcessControl.Authorized(AcessControl.ADM_CONFIG_INST_EDIT) || AcessControl.Authorized(AcessControl.ADM_CONFIG_SETINGS_EDIT)) { }else
+           return View("Lockout");
 
             var data = databaseManager.SP_INST_APLICACAO(Configs.INST_INSTITUICAO_ID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "R").ToList();
             var setts = databaseManager.GRL_DEFINICOES.Where(x => x.INST_APLICACAO_ID == Configs.INST_INSTITUICAO_ID).ToList();
+
+            var path = (from j1 in databaseManager.INST_APLICACAO
+                                             join j2 in databaseManager.INST_APLICACAO_ARQUIVOS on j1.ID equals j2.INST_APLICACAO_ID
+                                             join j3 in databaseManager.GRL_ARQUIVOS on j2.ARQUIVOS_ID equals j3.ID
+                                             where j1.ID == Configs.INST_INSTITUICAO_ID && j3.GRL_ARQUIVOS_TIPO_DOCS_ID == Configs.INST_MDL_ADM_VLRID_ARQUIVO_LOGOTIPO
+                                             orderby j2.ID
+                                             select new { j3.CAMINHO_URL });
+
+            Configs.INST_INSTITUICAO_LOGO=path.Any()?path.FirstOrDefault().CAMINHO_URL:string.Empty;
+            ViewBag.imgSrc = (string.IsNullOrEmpty(Configs.INST_INSTITUICAO_LOGO)) ? "/Assets/images/user-avatar.jpg" : "/" + Configs.INST_INSTITUICAO_LOGO;
+
 
             MODEL.MOEDA_LIST = databaseManager.GRL_ENDERECO_PAIS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME + " - " + x.CODIGO.ToString() });
             MODEL.INST_PER_TEMA_1 = setts.First().INST_PER_TEMA_1;
@@ -5017,9 +5028,6 @@ namespace Gestreino.Controllers
             MODEL.Telephone = (!string.IsNullOrEmpty(data.First().TELEFONE.ToString())) ? data.First().TELEFONE.ToString() : null;
             MODEL.TelephoneAlternativo = (!string.IsNullOrEmpty(data.First().TELEFONE_ALTERNATIVO.ToString())) ? data.First().TELEFONE_ALTERNATIVO.ToString() : null;
             MODEL.Fax = (!string.IsNullOrEmpty(data.First().FAX.ToString())) ? data.First().FAX.ToString() : null;
-            //MODEL.Telephone = data.First().TELEFONE.ToString();
-            //MODEL.TelephoneAlternativo = data.First().TELEFONE_ALTERNATIVO.ToString();
-            //MODEL.Fax = data.First().FAX.ToString();
             MODEL.Email = data.First().EMAIL;
             MODEL.CodigoPostal = data.First().CODIGO_POSTAL;
             MODEL.URL = data.First().URL;

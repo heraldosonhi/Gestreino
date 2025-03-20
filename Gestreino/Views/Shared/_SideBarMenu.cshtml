@@ -1,5 +1,7 @@
 ﻿@using Gestreino.Classes;
-@{ List<int> Settings = new List<int> { 101, 102, 103, 104, 105 };}
+@{ 
+    if(ViewBag.LeftBarLinkActive==null) { ViewBag.LeftBarLinkActive = 0; }
+    List<int> Settings = new List<int> { 101, 102, 103, 104, 105,106 };}
 @if (Request.IsAuthenticated)
 {
     <!-- sidebar menu -->
@@ -8,7 +10,7 @@
 
             <ul class="nav side-menu">
                 <li class="@(ViewBag.LeftBarLinkActive==201?"active":"")">
-                    <a><i class="fa fa-tags"></i> Atletas <span class="fa fa-chevron-down"></span></a>
+                    <a><i class="fa fa-user-tag fa-fw"></i> Atletas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive==201?"block":"")">
                         <li class="@(ViewBag.LeftBarLinkActive==201?"current-page":"")"><a href="@Url.Action("athletes","gtmanagement")">Dados biográficos</a></li>
                         <li>
@@ -17,14 +19,14 @@
                     </ul>
                 </li>
                 <li class="@(ViewBag.LeftBarLinkActive==202 || ViewBag.LeftBarLinkActive==203 ?"active":"")">
-                    <a><i class="fa fa-book"></i> Prescrição <span class="fa fa-chevron-down"></span></a>
+                    <a><i class="fa fa-pen-nib fa-fw"></i> Prescrição <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive==202 ||ViewBag.LeftBarLinkActive==203 ||ViewBag.LeftBarLinkActive==204 ?"block":"")">
                         <li class="@(ViewBag.LeftBarLinkActive==202?"current-page":"")"><a href="@Url.Action("bodymassplans", "gtmanagement", new {Id=string.Empty})">Plano de Musculação</a></li>
                         <li class="@(ViewBag.LeftBarLinkActive==203?"current-page":"")"><a href="@Url.Action("cardioplans","gtmanagement", new {Id=string.Empty})">Plano de Cardiovascular</a></li>
                    </ul>
                 </li>
                 <li class="@(ViewBag.LeftBarLinkActive==205 || ViewBag.LeftBarLinkActive==206 || ViewBag.LeftBarLinkActive==207 || ViewBag.LeftBarLinkActive==208 || ViewBag.LeftBarLinkActive==209|| ViewBag.LeftBarLinkActive==210  || ViewBag.LeftBarLinkActive==211|| ViewBag.LeftBarLinkActive==212|| ViewBag.LeftBarLinkActive==213|| ViewBag.LeftBarLinkActive==214?"active":"")">
-                    <a><i class="fa fa-anchor"></i> Avaliação <span class="fa fa-chevron-down"></span></a>
+                    <a><i class="fa fa-clipboard-check fa-fw"></i> Avaliação <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive==205 ||ViewBag.LeftBarLinkActive==206||ViewBag.LeftBarLinkActive==207||ViewBag.LeftBarLinkActive==208||ViewBag.LeftBarLinkActive==209|| ViewBag.LeftBarLinkActive==210|| ViewBag.LeftBarLinkActive==211|| ViewBag.LeftBarLinkActive==212 || ViewBag.LeftBarLinkActive==213 || ViewBag.LeftBarLinkActive==214 ?"block":"")">
                         <li>
                             <a>Estado Psicológico<span class="fa fa-chevron-down"></span></a>
@@ -64,7 +66,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a><i class="fa fa-history"></i> Consultas <span class="fa fa-chevron-down"></span></a>
+                    <a><i class="fa fa-search fa-fw"></i> Consultas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li><a href="@Url.Action("prescriptions", "gtmanagement", new {Id=string.Empty})">Prescrições</a></li>
                         <li><a href="@Url.Action("evaluations", "gtmanagement", new {Id=string.Empty})">Avaliações</a></li>
@@ -75,24 +77,27 @@
                     </ul>
                 </li>
                 <li>
-                    <a><i class="fa fa-bar-chart-o"></i> Relatórios <span class="fa fa-chevron-down"></span></a>
+                    <a><i class="fa fa-print fa-fw"></i> Relatórios <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li><a href="#" style="color: #425668 ">Relatórios</a></li>
                     </ul>
                 </li>
                 <li  class="@(Settings.Contains(ViewBag.LeftBarLinkActive)  ?"active":"")">
-                    <a><i class="fa fa-cog"></i> Configurações <span class="fa fa-chevron-down"></span></a>
+                    <a><i class="fa fa-cog fa-fw"></i> Configurações <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu"  
                        style="display:@(Settings.Contains(ViewBag.LeftBarLinkActive)  ?"block":"")">
-                        <li class="@(ViewBag.LeftBarLinkActive==101 || ViewBag.LeftBarLinkActive==102 || ViewBag.LeftBarLinkActive==103?"active":"")">
+                        @if (AcessControl.Authorized(AcessControl.ADM_USERS_USERS_LIST_VIEW_SEARCH) || AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_LIST_VIEW_SEARCH) || AcessControl.Authorized(AcessControl.ADM_USERS_GROUPS_LIST_VIEW_SEARCH) || AcessControl.Authorized(AcessControl.ADM_USERS_PROFILES_LIST_VIEW_SEARCH) || AcessControl.Authorized(AcessControl.ADM_USERS_LOGIN_LOGS_LIST_VIEW_SEARCH) || AcessControl.Authorized(AcessControl.ADM_SEC_TOKENS_LIST_VIEW_SEARCH))
+                        {
+                        <li class="@(ViewBag.LeftBarLinkActive == 101 || ViewBag.LeftBarLinkActive == 102 || ViewBag.LeftBarLinkActive == 103 || ViewBag.LeftBarLinkActive == 106 ? "active" : "")">
                             <a>Controlo de Acesso<span class="fa fa-chevron-down"></span></a>
-                            <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive==101 || ViewBag.LeftBarLinkActive==102 || ViewBag.LeftBarLinkActive==103?"block":"")">
-                                <li @(!AcessControl.Authorized(AcessControl.ADM_USERS_USERS_LIST_VIEW_SEARCH) ? "hidden" : "") class="@(ViewBag.LeftBarLinkActive==101?"current-page":"")"><a href="@Url.Action("users","administration")">Utilizadores</a></li>
-                                <li @(AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_LIST_VIEW_SEARCH) || AcessControl.Authorized(AcessControl.ADM_USERS_GROUPS_LIST_VIEW_SEARCH) || AcessControl.Authorized(AcessControl.ADM_USERS_PROFILES_LIST_VIEW_SEARCH) ? "" : "hidden") class="@(ViewBag.LeftBarLinkActive==102?"current-page":"")"><a href="@Url.Action("access","administration")">Grupos, perfis e átomos</a></li>
-                                <li @(!AcessControl.Authorized(AcessControl.ADM_USERS_LOGIN_LOGS_LIST_VIEW_SEARCH) ? "hidden" : "") class="@(ViewBag.LeftBarLinkActive==103?"current-page":"")"><a href="@Url.Action("loginlogs","administration")">Rastreamento de sessão</a></li>
-                                <li @(!AcessControl.Authorized(AcessControl.ADM_SEC_TOKENS_LIST_VIEW_SEARCH) ? "hidden" : "") class="@(ViewBag.LeftBarLinkActive==106?"current-page":"")"><a href="@Url.Action("tokens","administration")">Tokens</a></li>
+                            <ul class="nav child_menu" style="display:@(ViewBag.LeftBarLinkActive == 101 || ViewBag.LeftBarLinkActive == 102 || ViewBag.LeftBarLinkActive == 103 || ViewBag.LeftBarLinkActive == 106 ? "block" : "")">
+                                <li @(!AcessControl.Authorized(AcessControl.ADM_USERS_USERS_LIST_VIEW_SEARCH) ? "hidden" : "") class="@(ViewBag.LeftBarLinkActive == 101 ? "current-page" : "")"><a href="@Url.Action("users", "administration")">Utilizadores</a></li>
+                                <li @(AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_LIST_VIEW_SEARCH) || AcessControl.Authorized(AcessControl.ADM_USERS_GROUPS_LIST_VIEW_SEARCH) || AcessControl.Authorized(AcessControl.ADM_USERS_PROFILES_LIST_VIEW_SEARCH) ? "" : "hidden") class="@(ViewBag.LeftBarLinkActive == 102 ? "current-page" : "")"><a href="@Url.Action("access", "administration")">Grupos, perfis e átomos</a></li>
+                                <li @(!AcessControl.Authorized(AcessControl.ADM_USERS_LOGIN_LOGS_LIST_VIEW_SEARCH) ? "hidden" : "") class="@(ViewBag.LeftBarLinkActive == 103 ? "current-page" : "")"><a href="@Url.Action("loginlogs", "administration")">Rastreamento de sessão</a></li>
+                                <li @(!AcessControl.Authorized(AcessControl.ADM_SEC_TOKENS_LIST_VIEW_SEARCH) ? "hidden" : "") class="@(ViewBag.LeftBarLinkActive == 106 ? "current-page" : "")"><a href="@Url.Action("tokens", "administration")">Tokens</a></li>
                             </ul>
                         </li>
+                        }
                         <li @(AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_ADM) || AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_GT) || AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_PES) ? "" : "hidden") class="@(ViewBag.LeftBarLinkActive==104?"current-page":"")"><a href="@Url.Action("parameters","administration")">Parametrização</a></li>
                         <li @(AcessControl.Authorized(AcessControl.ADM_CONFIG_INST_EDIT) || AcessControl.Authorized(AcessControl.ADM_CONFIG_FILEMGR) || AcessControl.Authorized(AcessControl.ADM_CONFIG_SETINGS_EDIT) ? "" : "hidden") class="@(ViewBag.LeftBarLinkActive==105?"current-page":"")"><a href="@Url.Action("settings","administration")">Definições</a></li>
                     </ul>

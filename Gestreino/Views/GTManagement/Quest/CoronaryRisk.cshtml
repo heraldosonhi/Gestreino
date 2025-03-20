@@ -28,7 +28,7 @@
                                 <a href="javascript:" data-placement="top" title="" class="open-modal-crud btn btn-success" data-id="0" data-action="risk" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal">
                                     <i class="fa fa-search"></i>   Ver resultado..
                                 </a>
-                                <button type="submit" value="1" name="frmaction" class="btn btn-success btn-sm"><i class="fa fa-floppy-o"></i> Guardar</button>
+                                <button type="submit" value="1" name="frmaction" class="btn btn-success btn-sm"><i class="fa fa-floppy-disk"></i> Guardar</button>
                                 <a class="btn btn-secondary" href="@Url.Action("coronaryrisk", "gtmanagement", new {Id=string.Empty})"><i class="fa fa-plus-circle"></i> Novo</a>
                             </div>
                         </div>
@@ -38,13 +38,13 @@
                             <div class="animated flipInY">
                                 <div class="tile-stats">
                                     <div class="icon">
-                                        <i class="fa fa-anchor"></i>
+                                        <i class="fa fa-clipboard-check"></i>
                                     </div>
                                     <h3 class="p-2">Estratificação de Risco Coronário</h3>
 
                                     @if (Model.ID > 0)
                                     {
-                                        <h6 class="p-2 bg-light mt-2 text-success"><i class="fa fa-floppy-o"></i> Questionário registado: @ViewBag.data[0].DATA_INSERCAO</h6>
+                                        <h6 class="p-2 bg-light mt-2 text-success"><i class="fa fa-floppy-disk"></i> Questionário registado: @ViewBag.data[0].DATA_INSERCAO.ToString("dd/MM/yyyy HH:mm")</h6>
                                     }
 
                                     <table class="table mt-3">
@@ -722,7 +722,7 @@
                                             <button type="button" title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GTQuestTable"><i class="fa fa-eraser"></i></button>
                                             <!--Separator-->
                                             <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gtquest", applyFilter = "true" })" target="_blank" data-id="GTQuestTable"><i class="fa fa-filter"></i></a>
-                                            <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gtquest", applyFilter = "false" })" target="_blank" data-id="GTQuestTable"><i class="fa fa-file-excel-o"></i></a>
+                                            <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gtquest", applyFilter = "false" })" target="_blank" data-id="GTQuestTable"><i class="fa fa-file-excel"></i></a>
                                         </div>
                                     </div>
                                 </div>

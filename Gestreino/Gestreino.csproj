@@ -629,8 +629,9 @@
     <Content Include="Assets\css\bootstrap.min.css" />
     <Content Include="Assets\css\custom.css" />
     <Content Include="Assets\css\dataTables.dataTables.min.css" />
-    <Content Include="Assets\css\font-awesome.min.css" />
-    <Content Include="Assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="Assets\fonts\style\brands.css" />
+    <Content Include="Assets\fonts\style\fontawesome.min.css" />
+    <Content Include="Assets\fonts\style\solid.css" />
     <Content Include="Assets\images\imagesflexi\f1.jpg" />
     <Content Include="Assets\images\imagesflexi\f10.jpg" />
     <Content Include="Assets\images\imagesflexi\f11.jpg" />
@@ -739,11 +740,6 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Assets\fonts\fontawesome-webfont.eot" />
-    <Content Include="Assets\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Assets\fonts\fontawesome-webfont.woff" />
-    <Content Include="Assets\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Assets\fonts\FontAwesome.otf" />
     <EntityDeploy Include="ORM.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ORM.Designer.cs</LastGenOutput>
@@ -754,6 +750,14 @@
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
     <Content Include="Assets\lib\datatable\pt-PT.json" />
+    <Content Include="Assets\fonts\fa-brands-400.ttf" />
+    <Content Include="Assets\fonts\fa-brands-400.woff2" />
+    <Content Include="Assets\fonts\fa-regular-400.ttf" />
+    <Content Include="Assets\fonts\fa-regular-400.woff2" />
+    <Content Include="Assets\fonts\fa-solid-900.ttf" />
+    <Content Include="Assets\fonts\fa-solid-900.woff2" />
+    <Content Include="Assets\fonts\fa-v4compatibility.ttf" />
+    <Content Include="Assets\fonts\fa-v4compatibility.woff2" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Properties\PublishProfiles\gestreino.pt - Web Deploy.pubxml" />

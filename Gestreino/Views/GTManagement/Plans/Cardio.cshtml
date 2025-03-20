@@ -13,12 +13,12 @@
                  role="alert" style="display:none;">
                 <div class="d-flex flex-wrap align-items-start">
                     <div class="mr-8pt">
-                        <i class="fa fa-warning"></i>
+                        <i class="fa-solid fa-shield-halved"></i>&nbsp;
                     </div>
                     <div class="flex"
                          style="min-width: 180px">
                         <span class="text-black-100">
-                            <strong>&nbsp;Atenção!</strong> <span class="handle-error-message"></span>
+                            <strong>Atenção!</strong> <span class="handle-error-message"></span>
                         </span>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                 <div class="animated flipInY">
                     <div class="tile-stats">
                         <div class="icon">
-                            <i class="fa fa-book"></i>
+                            <i class="fa fa-pen-nib"></i>
                         </div>
                         <h3 class="p-2">Plano de Treino Cardiovascular</h3>
                         <div class="p-4">
@@ -170,8 +170,8 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="mt-4">
-                                        <button class="btn btn-success btn-block"><i class="fa fa-floppy-o"></i> Guardar</button>
-                                        <button class="btn btn-success btn-block" disabled><i class="fa fa-file-pdf-o"></i> Imprimir</button>
+                                        <button class="btn btn-success btn-block"><i class="fa fa-floppy-disk"></i> Guardar</button>
+                                        <button class="btn btn-success btn-block" disabled><i class="fa fa-print"></i> Imprimir</button>
                                         <a class="btn btn-secondary btn-block" href="@Url.Action("cardioplans", "gtmanagement", new {Id=string.Empty})"><i class="fa fa-plus-circle"></i> Novo</a>
                                         <button type="button" id="gttreinoclr" class="btn btn-secondary btn-block"><<</button>
                                     </div>
@@ -244,7 +244,7 @@
                             <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GTTreinoTable"><i class="fa fa-eraser"></i></button>
                             <!--Separator-->
                             <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gttreino", applyFilter = "true" })" target="_blank" data-id="GTTreinoTable"><i class="fa fa-filter"></i></a>
-                            <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gttreino", applyFilter = "false" })" target="_blank" data-id="GTTreinoTable"><i class="fa fa-file-excel-o"></i></a>
+                            <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gttreino", applyFilter = "false" })" target="_blank" data-id="GTTreinoTable"><i class="fa fa-file-excel"></i></a>
                         </div>
                     </div>
                 </div>

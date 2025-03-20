@@ -144,20 +144,21 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
-            if (AcessControl.Authorized(AcessControl.ADM_USERS_GROUP_USERS_NEW) && ViewBag.Action == "AdicionarGroupUtil" ||
-                AcessControl.Authorized(AcessControl.ADM_USERS_GROUP_USERS_NEW) && ViewBag.Action == "AdicionarUtilGroup") return View("Lockout");
+
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_GROUP_USERS_NEW) && ViewBag.Action == "AdicionarGroupUtil") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_GROUP_USERS_NEW) && ViewBag.Action == "AdicionarUtilGroup") return View("Lockout");
             if (!AcessControl.Authorized(AcessControl.ADM_USERS_GROUP_USERS_DELETE) && ViewBag.Action == "RemoverGroupUtil") return View("Lockout");
 
-            if (AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_GROUPS_NEW) && ViewBag.Action == "AdicionarGroupAtom" ||
-                AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_GROUPS_NEW) && ViewBag.Action == "AdicionarAtomGroup") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_GROUPS_NEW) && ViewBag.Action == "AdicionarGroupAtom") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_GROUPS_NEW) && ViewBag.Action == "AdicionarAtomGroup") return View("Lockout");
             if (!AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_GROUPS_DELETE) && ViewBag.Action == "RemoverGroupAtom") return View("Lockout");
 
-            if (AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_PROFILES_NEW) && ViewBag.Action == "AdicionarAtomProfile" ||
-               AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_PROFILES_NEW) && ViewBag.Action == "AdicionarProfileAtom") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_PROFILES_NEW) && ViewBag.Action == "AdicionarAtomProfile") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_PROFILES_NEW) && ViewBag.Action == "AdicionarProfileAtom") return View("Lockout");
             if (!AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_PROFILES_DELETE) && ViewBag.Action == "RemoverAtomProfile") return View("Lockout");
 
-            if (AcessControl.Authorized(AcessControl.ADM_USERS_PROFILE_USERS_NEW) && ViewBag.Action == "AdicionarProfileUtil" ||
-                AcessControl.Authorized(AcessControl.ADM_USERS_PROFILE_USERS_NEW) && ViewBag.Action == "AdicionarUtilProfile") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_PROFILE_USERS_NEW) && ViewBag.Action == "AdicionarProfileUtil") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.ADM_USERS_PROFILE_USERS_NEW) && ViewBag.Action == "AdicionarUtilProfile") return View("Lockout");
             if (!AcessControl.Authorized(AcessControl.ADM_USERS_PROFILE_USERS_DELETE) && ViewBag.Action == "RemoverUtilProfile") return View("Lockout");
 
             return View("administration/Access/AppendItems", MODEL);
