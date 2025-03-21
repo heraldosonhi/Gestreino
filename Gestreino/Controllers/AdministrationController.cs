@@ -860,6 +860,7 @@ namespace Gestreino.Controllers
                     ModelState.Values.SelectMany(v => v.Errors).ToList().ForEach(x => errors = x.ErrorMessage + "\n");
                     return Json(new { result = false, error = errors });
                 }
+                return Json(new { result = false, error = "Não autorizado!" });
 
                 // Delete
                 foreach (var i in ids)

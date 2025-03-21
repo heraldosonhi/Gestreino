@@ -70,7 +70,7 @@
                                         <div class="row">
                                             @Html.LabelFor(m => m.Reps, new { @class = "col-md-4 col-form-label" })
                                             <div class="col-md-4">
-                                                @Html.DropDownListFor(x => Model.Reps, Model.RepList, new { onchange= "setRM1()", @class = "form-control form-control-sm", required = "" })
+                                                @Html.DropDownListFor(x => Model.Reps, Model.RepList, new { onchange = "setRM1()", @class = "form-control form-control-sm", required = "" })
                                             </div>
                                         </div>
                                         <div class="row">
@@ -80,7 +80,7 @@
                                             </div>
                                             <label class="col-md-1 col-form-label">RM:</label>
                                             <div class="col-md-3">
-                                                @Html.TextBoxFor(x => Model.RM, new { @readonly="", @class = "rm form-control form-control-sm", step = ".01", placeholder = "", min = "1" })
+                                                @Html.TextBoxFor(x => Model.RM, new { @readonly = "", @class = "rm form-control form-control-sm", step = ".01", placeholder = "", min = "1" })
                                             </div>
                                         </div>
                                     </div>
@@ -140,93 +140,42 @@
                             </div>
                             <div class="row mt-2 mb-2">
                                 <div class="col-md-4"></div>
-                                    <div class="col-md-6">
-                                        <div class="btn-group">
-                                            <button disabled="" class="btn btn-sm btn-secondary">Predefinido</button>
-                                            @if (Model.predefined == true)
-                                            {
-                                                @Html.TextBoxFor(x => Model.Nome, new { @class = "form-control form-control-sm", placeholder = "", @disabled = "" })
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(x => Model.Nome, new { @class = "form-control form-control-sm", placeholder = "" })
-                                            }
-                                        </div>
+                                <div class="col-md-6">
+                                    <div class="btn-group">
+                                        <button disabled="" class="btn btn-sm btn-secondary">Predefinido</button>
+                                        @if (Model.predefined == true)
+                                        {
+                                            @Html.TextBoxFor(x => Model.Nome, new { @class = "form-control form-control-sm", placeholder = "", @disabled = "" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(x => Model.Nome, new { @class = "form-control form-control-sm", placeholder = "" })
+                                        }
                                     </div>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="col-md-5">
-                                        <h5 class="planfieldseth5">Exercícios disponíveis</h5>
-                                        <div class="planfieldset p-1">
-                                            <div class="row mt-2">
-                                                <div class="col-md-12">
-                                                    <div class="">
-                                                        <ul class="p-2 mb-0" id="list1" style="height: 300px; top: 10px; bottom: 10px; width: 100%;overflow-y:auto;">
-                                                            @foreach (var item in ViewBag.exercises)
-                                                            {
-                                                                var dis = string.Empty;
-                                                                if (Model.ExerciseArqListTreino != null)
-                                                                {
-                                                                    dis = Model.ExerciseArqListTreino.Where(x => x.ExerciseId == item.ID).Any() ? "disabled" : "";
-                                                                }
-                                                                var path = Model.ExerciseArqList.Where(x => x.ExerciseId == item.ID).Select(x => x.LogoPath).FirstOrDefault();
-                                                                <li class="sidebar-menu-item hide-long-text" style="" id="ex_@item.ID">
-                                                                    <img class="planimg" src="@path" width="60" />
-                                                                    <button @dis type="button" data-id="@item.ID" class="addlistplan1 btn btn-sm btn-success  btn-sm"><i class="fa fa-plus-circle"></i></button>
-                                                                    <a href="javascript:" style="display:none" data-placement="top" title="" class="gtplansmodaleditor open-modal-crud btn btn-light btn-sm" data-id="@item.ID" data-toggle="modal" data-target="#gtplansmodaleditor"><i class="fa fa-pencil"></i></a>
-                                                                    <a title="" href="@Url.Action("viewexercises", "administration", new {Id=item.ID})" target="_blank" class="text-50">@item.NOME</a>
-                                                                </li>
-                                                            }
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="mt-4">
-                                            <button class="btn btn-success btn-block"><i class="fa fa-floppy-disk"></i> Guardar</button>
-                                            <button class="btn btn-success btn-block" disabled><i class="fa fa-print"></i> Imprimir</button>
-                                            <button type="button" id="gttreinoclr" class="btn btn-secondary btn-block"><<</button>
-                                            <a class="btn btn-secondary btn-block" href="@Url.Action("bodymassplans", "gtmanagement", new {Id=string.Empty})"><i class="fa fa-plus-circle"></i> Novo</a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <h5 class="planfieldseth5">Exercícios do Plano Musculação</h5>
-                                        <div class="planfieldset p-1">
-                                            <div class="row mt-2">
-                                                <div class="col-md-12">
-
-                                                    <ul class="p-2 mb-0" id="list2" style="height: 300px; top: 10px; bottom: 10px; width: 100%;overflow-y:auto;">
-                                                        @if (Model.ID > 0)
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-5">
+                                    <h5 class="planfieldseth5">Exercícios disponíveis</h5>
+                                    <div class="planfieldset p-1">
+                                        <div class="row mt-2">
+                                            <div class="col-md-12">
+                                                <div class="">
+                                                    <ul class="p-2 mb-0" id="list1" style="height: 300px; top: 10px; bottom: 10px; width: 100%;overflow-y:auto;">
+                                                        @foreach (var item in ViewBag.exercises)
                                                         {
-                                                            foreach (var item in Model.ExerciseArqListTreino.OrderBy(x => x.ORDEM))
+                                                            var dis = string.Empty;
+                                                            if (Model.ExerciseArqListTreino != null)
                                                             {
-                                                                var path = Model.ExerciseArqList.Where(x => x.ExerciseId == item.ExerciseId).Select(x => x.LogoPath).FirstOrDefault();
-
-                                                                <li class="sidebar-menu-item hide-long-text" style="" id="ex_@item.ExerciseId">
-                                                                    <img class="planimg" src="@path" width="60" />
-                                                                    <button type="button" data-id="@item.ExerciseId" class="removegaclass1 btn btn-sm btn-danger btn-sm"><i class="fa fa-times"></i></button>
-                                                                    <a href="javascript:" data-placement="top" title="" class="gtplansmodaleditor open-modal-crud btn btn-light btn-sm" data-id="@item.ExerciseId" data-toggle="modal" data-target="#gtplansmodaleditor"><i class="fa fa-pencil"></i></a>
-                                                                    <a title="" href="@Url.Action("viewexercises", "administration", new { Id = item.ExerciseId })" target="_blank" class="text-50">@item.Name</a>
-                                                                    <div class="inputs_@item.ExerciseId">
-                                                                        <table hidden="">
-                                                                            <tr><td></td> <td>N° de séries:</td><td>N° de repetições:</td><td>% 1RM:</td><td>Tempo descanso:</td><td>Reps:</td><td>Carga</td><td>RM</td></tr>
-                                                                            <tr>
-                                                                                <td><input readonly type="hidden" name="exIds[]" value="@item.ExerciseId"></td>
-                                                                                <td><input class="form-control form-control-sm w-70" readonly type="" name="exSeries[]" value="@item.GT_Series_ID"></td>
-                                                                                <td><input class="form-control form-control-sm w-70" readonly type="" name="exRepeticoes[]" value="@item.GT_Repeticoes_ID"></td>
-                                                                                <td><input class="form-control form-control-sm w-70" readonly type="" name="exCarga[]" value="@item.GT_Carga_ID"></td>
-                                                                                <td><input class="form-control form-control-sm w-70" readonly type="" name="exTempo[]" value="@item.GT_TempoDescanso_ID"></td>
-                                                                                <td><input class="form-control form-control-sm w-70" readonly type="" name="exReps[]" value="@item.REPETICOES_COMPLETADAS"></td>
-                                                                                <td><input class="form-control form-control-sm w-70" readonly type="" name="exCargaUsada[]" value="@((item.CARGA_USADA??0).ToString("G29"))"></td>
-                                                                                <td><input class="form-control form-control-sm w-70" readonly type="" name="exRM[]" value="@((item.ONERM??0).ToString("G29"))"></td>
-
-                                                                            </tr>
-                                                                        </table>
-                                                                    </div>
-                                                                </li>
+                                                                dis = Model.ExerciseArqListTreino.Where(x => x.ExerciseId == item.ID).Any() ? "disabled" : "";
                                                             }
+                                                            var path = Model.ExerciseArqList.Where(x => x.ExerciseId == item.ID).Select(x => x.LogoPath).FirstOrDefault();
+                                                            <li class="sidebar-menu-item hide-long-text" style="" id="ex_@item.ID">
+                                                                <img class="planimg" src="@path" width="60" />
+                                                                <button @dis type="button" data-id="@item.ID" class="addlistplan1 btn btn-sm btn-success  btn-sm"><i class="fa fa-plus-circle"></i></button>
+                                                                <a href="javascript:" style="display:none" data-placement="top" title="" class="gtplansmodaleditor open-modal-crud btn btn-light btn-sm" data-id="@item.ID" data-toggle="modal" data-target="#gtplansmodaleditor"><i class="fa fa-pencil"></i></a>
+                                                                <a title="" href="@Url.Action("viewexercises", "administration", new {Id=item.ID})" target="_blank" class="text-50">@item.NOME</a>
+                                                            </li>
                                                         }
                                                     </ul>
                                                 </div>
@@ -234,7 +183,62 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-2">
+                                    <div class="mt-4">
+                                        @if (AcessControl.Authorized(AcessControl.GT_PLANS_BODYMASS_UPDATE))
+                                        {
+                                            <button class="btn btn-success btn-block"><i class="fa fa-floppy-disk"></i> Guardar</button>
+                                        }   <button class="btn btn-success btn-block" disabled><i class="fa fa-print"></i> Imprimir</button>
+                                        @if (AcessControl.Authorized(AcessControl.GT_PLANS_BODYMASS_UPDATE))
+                                        {<button type="button" id="gttreinoclr" class="btn btn-secondary btn-block"><<</button>
+                                            <a class="btn btn-secondary btn-block" href="@Url.Action("bodymassplans", "gtmanagement", new { Id = string.Empty })"><i class="fa fa-plus-circle"></i> Novo</a>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <h5 class="planfieldseth5">Exercícios do Plano Musculação</h5>
+                                    <div class="planfieldset p-1">
+                                        <div class="row mt-2">
+                                            <div class="col-md-12">
+
+                                                <ul class="p-2 mb-0" id="list2" style="height: 300px; top: 10px; bottom: 10px; width: 100%;overflow-y:auto;">
+                                                    @if (Model.ID > 0)
+                                                    {
+                                                        foreach (var item in Model.ExerciseArqListTreino.OrderBy(x => x.ORDEM))
+                                                        {
+                                                            var path = Model.ExerciseArqList.Where(x => x.ExerciseId == item.ExerciseId).Select(x => x.LogoPath).FirstOrDefault();
+
+                                                            <li class="sidebar-menu-item hide-long-text" style="" id="ex_@item.ExerciseId">
+                                                                <img class="planimg" src="@path" width="60" />
+                                                                <button type="button" data-id="@item.ExerciseId" class="removegaclass1 btn btn-sm btn-danger btn-sm"><i class="fa fa-times"></i></button>
+                                                                <a href="javascript:" data-placement="top" title="" class="gtplansmodaleditor open-modal-crud btn btn-light btn-sm" data-id="@item.ExerciseId" data-toggle="modal" data-target="#gtplansmodaleditor"><i class="fa fa-pencil"></i></a>
+                                                                <a title="" href="@Url.Action("viewexercises", "administration", new { Id = item.ExerciseId })" target="_blank" class="text-50">@item.Name</a>
+                                                                <div class="inputs_@item.ExerciseId">
+                                                                    <table hidden="">
+                                                                        <tr><td></td> <td>N° de séries:</td><td>N° de repetições:</td><td>% 1RM:</td><td>Tempo descanso:</td><td>Reps:</td><td>Carga</td><td>RM</td></tr>
+                                                                        <tr>
+                                                                            <td><input readonly type="hidden" name="exIds[]" value="@item.ExerciseId"></td>
+                                                                            <td><input class="form-control form-control-sm w-70" readonly type="" name="exSeries[]" value="@item.GT_Series_ID"></td>
+                                                                            <td><input class="form-control form-control-sm w-70" readonly type="" name="exRepeticoes[]" value="@item.GT_Repeticoes_ID"></td>
+                                                                            <td><input class="form-control form-control-sm w-70" readonly type="" name="exCarga[]" value="@item.GT_Carga_ID"></td>
+                                                                            <td><input class="form-control form-control-sm w-70" readonly type="" name="exTempo[]" value="@item.GT_TempoDescanso_ID"></td>
+                                                                            <td><input class="form-control form-control-sm w-70" readonly type="" name="exReps[]" value="@item.REPETICOES_COMPLETADAS"></td>
+                                                                            <td><input class="form-control form-control-sm w-70" readonly type="" name="exCargaUsada[]" value="@((item.CARGA_USADA??0).ToString("G29"))"></td>
+                                                                            <td><input class="form-control form-control-sm w-70" readonly type="" name="exRM[]" value="@((item.ONERM??0).ToString("G29"))"></td>
+
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </li>
+                                                        }
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
                     </div>
                 </div>
             }
@@ -259,13 +263,14 @@
                         <label class="" for="length_change">registos</label>
                         <div class="btn-group">
                             <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GTTreinoTable"><i class="fa fa-check-square"></i></button>
-                            <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="gttreinos" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                            <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GTTreinoTable"><i class="fa fa-search"></i></button>
-                            <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GTTreinoTable"><i class="fa fa-eraser"></i></button>
-                            <!--Separator-->
-                            <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gttreino", applyFilter = "true" })" target="_blank" data-id="GTTreinoTable"><i class="fa fa-filter"></i></a>
-                            <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gttreino", applyFilter = "false" })" target="_blank" data-id="GTTreinoTable"><i class="fa fa-file-excel"></i></a>
-                        </div>
+                            @if (AcessControl.Authorized(AcessControl.GT_PLANS_BODYMASS_DELETE))
+                            {<button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="gttreinos" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                            }   <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GTTreinoTable"><i class="fa fa-search"></i></button>
+                                <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GTTreinoTable"><i class="fa fa-eraser"></i></button>
+                                <!--Separator-->
+                                <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gttreino", applyFilter = "true" })" target="_blank" data-id="GTTreinoTable"><i class="fa fa-filter"></i></a>
+                                <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gttreino", applyFilter = "false" })" target="_blank" data-id="GTTreinoTable"><i class="fa fa-file-excel"></i></a>
+                            </div>
                     </div>
                 </div>
                 <div class="table-responsive">

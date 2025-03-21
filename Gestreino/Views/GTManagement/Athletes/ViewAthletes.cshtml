@@ -24,7 +24,7 @@
                         <h3><i class="fa fa-tag"></i>&nbsp;@ViewBag.data[0].PES_NUMERO</h3>
                         <h3>@ViewBag.data[0].NOME_PROPIO @ViewBag.data[0].APELIDO</h3>
                     </center>
-                    <div class="btn-group-vertical btn-toolbar"
+                    <div class="btn-group-vertical btn-toolbar">
                          @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_NEW)) {<a title="Atualizar informação" href="@Url.Action("updateathlete", "gtmanagement", new { Id = ViewBag.data[0].ID })" class="btn btn-sm btn-block btn-secondary w-100"><i class="fa fa-pencil user-profile-icon"></i> Atualizar informação</a>}
                          @if (AcessControl.Authorized(AcessControl.ADM_USERS_USERS_LIST_VIEW_SEARCH))
                          {<a title="Perfil do utilizador" href="@Url.Action("viewusers", "administration", new { Id = ViewBag.data[0].UTILIZADORES_ID })" class="btn  btn-block btn-sm btn-secondary w-100"><i class="fa fa-user user-profile-icon"></i> Utilizador</a>}

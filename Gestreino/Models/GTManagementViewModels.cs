@@ -701,6 +701,7 @@ namespace Gestreino.Models
 
         [Display(Name = "Inclinação:")]
         public string Distancia { get; set; }
+        public string lblDataInsercao { get; set; }
     }
 
     public class ExerciseArq

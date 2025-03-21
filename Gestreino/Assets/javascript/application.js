@@ -365,10 +365,10 @@ function handleSuccess(response) {
             table.draw();
             //reload fancytree //disable buttons
             if (response.table == "tblInstituicoesArquivos") {
-                FancyTreeInit("listbydate");
-                var tree = $('#tree').fancytree('getTree');
-                tree.reload();
-                disableFancytreeButtons();
+                //FancyTreeInit("listbydate");
+                //var tree = $('#tree').fancytree('getTree');
+                //tree.reload();
+                //disableFancytreeButtons();
             }
             if (response.flexAct) { 
                 //Flexitest
@@ -3504,7 +3504,7 @@ $(document).on("change", "table.dataTable input[type='checkbox']", function () {
     var tablename = $(this).closest('table.dataTable').attr('id');
     var table = $('#' + tablename).DataTable();
     var rows = table.column(0).checkboxes.selected();
-    var link = table.row($(this).closest('td')).data()["Link"];
+    //var link = table.row($(this).closest('td')).data()["Link"];
     values = [];
     $.each(rows, function (index, rowId) {
         values[index] = rowId;
@@ -3518,12 +3518,12 @@ $(document).on("change", "table.dataTable input[type='checkbox']", function () {
     }
     if ($(this).is(":checked")) {
         $(this).closest("tr").addClass("selected");
-        linksToDownload.push(link);
+        //linksToDownload.push(link);
     } else {
         $(this).closest("tr").removeClass("selected");
-        const index = linksToDownload.indexOf(link);
+        //const index = linksToDownload.indexOf(link);
         if (index > -1) { // only splice array when item is found
-            linksToDownload.splice(index, 1); // 2nd parameter means remove one item only
+            //linksToDownload.splice(index, 1); // 2nd parameter means remove one item only
         }
     }
     //Enable/Disabled button for multiple options

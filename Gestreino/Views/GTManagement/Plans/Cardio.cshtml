@@ -38,6 +38,8 @@
                         <div class="icon">
                             <i class="fa fa-pen-nib"></i>
                         </div>
+
+                      
                         <h3 class="p-2">Plano de Treino Cardiovascular</h3>
                         <div class="p-4">
                             <div class="row">
@@ -170,10 +172,13 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="mt-4">
-                                        <button class="btn btn-success btn-block"><i class="fa fa-floppy-disk"></i> Guardar</button>
-                                        <button class="btn btn-success btn-block" disabled><i class="fa fa-print"></i> Imprimir</button>
-                                        <button type="button" id="gttreinoclr" class="btn btn-secondary btn-block"><<</button>
-                                        <a class="btn btn-secondary btn-block" href="@Url.Action("cardioplans", "gtmanagement", new {Id=string.Empty})"><i class="fa fa-plus-circle"></i> Novo</a>
+                                        @if (AcessControl.Authorized(AcessControl.GT_PLANS_CARDIO_UPDATE))
+                                        {<button class="btn btn-success btn-block"><i class="fa fa-floppy-disk"></i> Guardar</button>
+                                        }    <button class="btn btn-success btn-block" disabled><i class="fa fa-print"></i> Imprimir</button>
+                                        @if (AcessControl.Authorized(AcessControl.GT_PLANS_CARDIO_UPDATE))
+                                        {<button type="button" id="gttreinoclr" class="btn btn-secondary btn-block"><<</button>
+                                            <a class="btn btn-secondary btn-block" href="@Url.Action("cardioplans", "gtmanagement", new { Id = string.Empty })"><i class="fa fa-plus-circle"></i> Novo</a>
+                                        }
                                     </div>
                                 </div>
                                 <div class="col-md-5">
@@ -239,13 +244,14 @@
                         <label class="" for="length_change">registos</label>
                         <div class="btn-group">
                             <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GTTreinoTable"><i class="fa fa-check-square"></i></button>
-                            <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="gttreinos" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                            <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GTTreinoTable"><i class="fa fa-search"></i></button>
-                            <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GTTreinoTable"><i class="fa fa-eraser"></i></button>
-                            <!--Separator-->
-                            <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gttreino", applyFilter = "true" })" target="_blank" data-id="GTTreinoTable"><i class="fa fa-filter"></i></a>
-                            <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gttreino", applyFilter = "false" })" target="_blank" data-id="GTTreinoTable"><i class="fa fa-file-excel"></i></a>
-                        </div>
+                            @if (AcessControl.Authorized(AcessControl.GT_PLANS_CARDIO_DELETE))
+                            {<button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="gttreinos" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                            } <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GTTreinoTable"><i class="fa fa-search"></i></button>
+                                <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GTTreinoTable"><i class="fa fa-eraser"></i></button>
+                                <!--Separator-->
+                                <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gttreino", applyFilter = "true" })" target="_blank" data-id="GTTreinoTable"><i class="fa fa-filter"></i></a>
+                                <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gttreino", applyFilter = "false" })" target="_blank" data-id="GTTreinoTable"><i class="fa fa-file-excel"></i></a>
+                            </div>
                     </div>
                 </div>
                 <div class="table-responsive">

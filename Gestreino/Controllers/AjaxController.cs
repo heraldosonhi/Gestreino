@@ -647,9 +647,18 @@ namespace Gestreino.Controllers
             if (action.Contains("Multiplos")) ids = bulkids;
             if (action.Contains("Multiplos")) action = "Remover";
 
+            var firstInt = ids.Any() ? ids.Select(x => x.Value).FirstOrDefault() : 0;
+            var gttreinoid = databaseManager.GT_Treino.Where(x => x.ID == firstInt).Select(x => x.GT_TipoTreino_ID).FirstOrDefault();
+
+            ViewBag.gttreinoid = firstInt;
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
-            //access control
+           if (gttreinoid == Configs.GT_EXERCISE_TYPE_BODYMASS)
+                if (!AcessControl.Authorized(AcessControl.GT_PLANS_BODYMASS_DELETE) && ViewBag.Action == "Remover") return View("Lockout");
+            
+            if (gttreinoid == Configs.GT_EXERCISE_TYPE_CARDIO)
+                if (!AcessControl.Authorized(AcessControl.GT_PLANS_CARDIO_DELETE) && ViewBag.Action == "Remover") return View("Lockout");
+          
             return View("GTManagement/Plans/Index");
         }
         public ActionResult GTQuest(string action, int? id, int?[] bulkids,string upload)
