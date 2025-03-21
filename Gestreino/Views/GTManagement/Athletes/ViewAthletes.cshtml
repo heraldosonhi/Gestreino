@@ -24,10 +24,12 @@
                         <h3><i class="fa fa-tag"></i>&nbsp;@ViewBag.data[0].PES_NUMERO</h3>
                         <h3>@ViewBag.data[0].NOME_PROPIO @ViewBag.data[0].APELIDO</h3>
                     </center>
-                    <div class="btn-group-vertical btn-toolbar">
-                        <a title="Atualizar informação" href="@Url.Action("updateathlete", "gtmanagement", new {Id=ViewBag.data[0].ID})" class="btn btn-sm btn-block btn-secondary w-100"><i class="fa fa-pencil user-profile-icon"></i> Atualizar informação</a>
-                        <a title="Perfil do utilizador" href="@Url.Action("viewusers", "administration", new {Id=ViewBag.data[0].UTILIZADORES_ID})" class="btn  btn-block btn-sm btn-secondary w-100"><i class="fa fa-user user-profile-icon"></i> Utilizador</a>
-                        <a title="Carregar foto" href="@Url.Action("profilephoto", "gtmanagement", new { Id = ViewBag.data[0].ID })" class="btn btn-sm  btn-block btn-secondary w-100"><i class="fa fa-camera user-profile-icon"></i> Carregar foto</a>
+                    <div class="btn-group-vertical btn-toolbar"
+                         @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_NEW)) {<a title="Atualizar informação" href="@Url.Action("updateathlete", "gtmanagement", new { Id = ViewBag.data[0].ID })" class="btn btn-sm btn-block btn-secondary w-100"><i class="fa fa-pencil user-profile-icon"></i> Atualizar informação</a>}
+                         @if (AcessControl.Authorized(AcessControl.ADM_USERS_USERS_LIST_VIEW_SEARCH))
+                         {<a title="Perfil do utilizador" href="@Url.Action("viewusers", "administration", new { Id = ViewBag.data[0].UTILIZADORES_ID })" class="btn  btn-block btn-sm btn-secondary w-100"><i class="fa fa-user user-profile-icon"></i> Utilizador</a>}
+                         @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_ALTER_IMG))
+                         { <a title="Carregar foto" href="@Url.Action("profilephoto", "gtmanagement", new { Id = ViewBag.data[0].ID })" class="btn btn-sm  btn-block btn-secondary w-100"><i class="fa fa-camera user-profile-icon"></i> Carregar foto</a>}
                     </div>
                 </div>
             </div>
@@ -345,22 +347,37 @@
                     <li role="presentation" class="active">
                         <a href="#tab_contentd1" id="" role="tab" data-toggle="tab" aria-expanded="true">Dados gerais</a>
                     </li>
-                    <li role="presentation" class="">
-                        <a href="#tab_contentd2" role="tab" id="" data-toggle="tab" aria-expanded="false">Identificação pessoal</a>
-                    </li>
-                    <li role="presentation" class="">
-                        <a href="#tab_contentd3" role="tab" id="" data-toggle="tab" aria-expanded="false">Agregados</a>
-                    </li>
-                    <li role="presentation" class="">
-                        <a href="#tab_contentd4" role="tab" id="" data-toggle="tab" aria-expanded="false">Dados profissionais</a>
-                    </li>
-                    <li role="presentation" class="">
-                        <a href="#tab_contentd5" role="tab" id="" data-toggle="tab" aria-expanded="false">Deficiências</a>
-                    </li>
-                    <li role="presentation" class="">
-                        <a href="#tab_contentd6" role="tab" id="" data-toggle="tab" aria-expanded="false">Documentos</a>
-                    </li>
-                </ul>
+                    @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_IDENTIFICATION_LIST_VIEW_SEARCH))
+                    {
+                        <li role="presentation" class="">
+                            <a href="#tab_contentd2" role="tab" id="" data-toggle="tab" aria-expanded="false">Identificação pessoal</a>
+                        </li>
+                    }
+                    @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_FAM_LIST_VIEW_SEARCH))
+                    {
+                        <li role="presentation" class="">
+                            <a href="#tab_contentd3" role="tab" id="" data-toggle="tab" aria-expanded="false">Agregados</a>
+                        </li>
+                    }
+                        @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_PROFESSIONAL_LIST_VIEW_SEARCH))
+                        {
+                            <li role="presentation" class="">
+                                <a href="#tab_contentd4" role="tab" id="" data-toggle="tab" aria-expanded="false">Dados profissionais</a>
+                            </li>
+                        }
+                            @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_DEFICIENCY_LIST_VIEW_SEARCH))
+                            {
+                                <li role="presentation" class="">
+                                    <a href="#tab_contentd5" role="tab" id="" data-toggle="tab" aria-expanded="false">Deficiências</a>
+                                </li>
+                            }
+                                @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_FILEMGR))
+                                {
+                                    <li role="presentation" class="">
+                                        <a href="#tab_contentd6" role="tab" id="" data-toggle="tab" aria-expanded="false">Documentos</a>
+                                    </li>
+                                }
+                                </ul>
                 <div id="myTabContent" class="tab-content">
                     <div role="tabpanel" class="tab-pane active " id="tab_contentd1" aria-labelledby="">
                         <div class="">
@@ -420,308 +437,15 @@
                             </table>
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="tab_contentd2" aria-labelledby="">
-                        <!--  DATATABLE START -->
-                        <div class="card mb-32pt">
-                            <div class="card-header">
-                                <div class="form-inline">
-                                    <label class="" for="length_change">Mostrar</label>
-                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="UserIdentTable">
-                                        <option value='10'>10</option>
-                                        <option value='25'>25</option>
-                                        <option value='50'>50</option>
-                                        <option value='100'>100</option>
-                                        <option value='500'>500</option>
-                                        <option value='1000'>1000</option>
-                                        <option value='2000'>2000</option>
-                                        <option value='5000'>5000</option>
-                                        <option value='10000'>10000</option>
-                                    </select>
-                                    <label class="" for="length_change">registos</label>
-                                    <div class="btn-group">
-                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="UserIdentTable"><i class="fa fa-check-square"></i></button>
-                                        <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="pesident" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserIdentTable"><i class="fa fa-search"></i></button>
-                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserIdentTable"><i class="fa fa-eraser"></i></button>
-                                        <a title="Adicionar identificação pessoal" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="pesident" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                                        <!--Separator-->
-                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section= "GetUsersIdentification", applyFilter="true" })" target="_blank" data-id="UserIdentTable"><i class="fa fa-filter"></i></a>
-                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section="GetUsersIdentification", applyFilter="false" })" target="_blank" data-id="UserIdentTable"><i class="fa fa-file-excel"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table id="UserIdentTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td>@*@Html.DropDownListFor(x => Model.UserID, Model.PES_TIPO_IDENTIFICACAO_LIST, "Sem filtro", new { @class = "form-control", Id = "UserIdent" })*@</td>
-                                            <td><input type="text" id="UserIdentNumero" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserIdentDataEmissao" class="form-control datepicker form-control-sm" /></td>
-                                            <td><input type="text" id="UserIdentDataValidade" class="form-control datepicker form-control-sm" /></td>
-                                            <td><input type="text" id="UserIdentLocalEmissao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserIdentOrgaoEmissor" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserIdentObservacao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserIdentInsercao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserIdentDataInsercao" class="form-control datepicker form-control-sm" /></td>
-                                            <td><input type="text" id="UserIdentActualizacao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserIdentDataActualizacao" class="form-control datepicker form-control-sm" /></td>
-                                        </tr>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th data-name="UserIdent">Identificação</th>
-                                            <th data-name="UserIdentNumero">Número</th>
-                                            <th data-name="UserIdentDataEmissao">Data Emissão</th>
-                                            <th data-name="UserIdentDataValidade">Data Validade</th>
-                                            <th data-name="UserIdentLocalEmissao">Local de Emissão</th>
-                                            <th data-name="UserIdentOrgaoEmissor">Órgão Emissor</th>
-                                            <th data-name="UserIdentObservacao">Observações</th>
-                                            <th data-name="UserIdentInsercao">Inserção</th>
-                                            <th data-name="UserIdentDataInsercao">Data Inserção</th>
-                                            <th data-name="UserIdentActualizacao">Actualização</th>
-                                            <th data-name="UserIdentDataActualizacao">Data Actualização</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div class="card-footer p-8pt">
-                                <span class="paginateInfoUserIdent paginateInfo mr-12pt" style="float:right"></span>
-                                <div id="paginateUserIdent" class="pagination justify-content-start pagination-xsm m-0"></div>
-                            </div>
-                        </div>
-                        <!--  DATATABLE START -->
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="tab_contentd3" aria-labelledby="">
-                        <!--  DATATABLE START -->
-                        <div class="card mb-32pt">
-                            <div class="card-header">
-                                <div class="form-inline">
-                                    <label class="" for="length_change">Mostrar</label>
-                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="UserFamilyTable">
-                                        <option value='10'>10</option>
-                                        <option value='25'>25</option>
-                                        <option value='50'>50</option>
-                                        <option value='100'>100</option>
-                                        <option value='500'>500</option>
-                                        <option value='1000'>1000</option>
-                                        <option value='2000'>2000</option>
-                                        <option value='5000'>5000</option>
-                                        <option value='10000'>10000</option>
-                                    </select>
-                                    <label class="" for="length_change">registos</label>
-                                    <div class="btn-group">
-                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="UserFamilyTable"><i class="fa fa-check-square"></i></button>
-                                        <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="pesfamily" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserFamilyTable"><i class="fa fa-search"></i></button>
-                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserFamilyTable"><i class="fa fa-eraser"></i></button>
-                                        <a title="Adicionar agregado familiar" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="pesfamily" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                                        <!--Separator-->
-                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section= "GetUsersFamily", applyFilter="true" })" target="_blank" data-id="UserFamilyTable"><i class="fa fa-filter"></i></a>
-                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section="GetUsersFamily", applyFilter="false" })" target="_blank" data-id="UserFamilyTable"><i class="fa fa-file-excel"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table id="UserFamilyTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td>@Html.DropDownListFor(x => Model.UserID, Model.PES_FAMILIARES_GRUPOS_LIST, "Sem filtro", new { @class = "form-control form-control-sm", Id = "UserFamilyAgregado" })</td>
-                                            <td><input type="text" id="UserFamilyNome" class="form-control form-control-sm" /></td>
-                                            <td> @Html.DropDownListFor(x => Model.UserID, Model.PES_PROFISSAO_LIST, "Sem filtro", new { @class = "form-control form-control-sm", Id = "UserFamilyProfissao" })</td>
-                                            <td><input type="text" id="UserFamilyTelefone" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserFamilyTelefoneAlternativo" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserFamilyFax" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserFamilyEmail" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserFamilyURL" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserFamilyEndereco" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserFamilyMorada" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserFamilyRua" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserFamilyNumero" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserFamilyInsercao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserFamilyDataInsercao" class="form-control datepicker form-control-sm" /></td>
-                                            <td><input type="text" id="UserFamilyActualizacao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserFamilyDataActualizacao" class="form-control datepicker form-control-sm" /></td>
-                                        </tr>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th data-name="UserFamilyAgregado">Agregado</th>
-                                            <th data-name="UserFamilyNome">Nome</th>
-                                            <th data-name="UserFamilyProfissao">Profissão</th>
-                                            <th data-name="UserFamilyTelefone">Telefone</th>
-                                            <th data-name="UserFamilyTelefoneAlternativo">Telefone Alternativo</th>
-                                            <th data-name="UserFamilyFax">Fax</th>
-                                            <th data-name="UserFamilyEmail">Email</th>
-                                            <th data-name="UserFamilyURL">URL</th>
-                                            <th data-name="UserFamilyEndereco">Endereço</th>
-                                            <th data-name="UserFamilyMorada">Morada</th>
-                                            <th data-name="UserFamilyRua">Rua</th>
-                                            <th data-name="UserFamilyNumero">Número</th>
-                                            <th data-name="UserFamilyInsercao">Inserção</th>
-                                            <th data-name="UserFamilyDataInsercao">Data Inserção</th>
-                                            <th data-name="UserFamilyActualizacao">Actualização</th>
-                                            <th data-name="UserFamilyDataActualizacao">Data Actualização</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div class="card-footer p-8pt">
-                                <span class="paginateInfoUserFamilyTable paginateInfo mr-12pt" style="float:right"></span>
-                                <div id="paginateUserFamilyTable" class="pagination justify-content-start pagination-xsm m-0"></div>
-                            </div>
-                        </div>
-                        <!--  DATATABLE START -->
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="tab_contentd4" aria-labelledby="">
-                        <!--  DATATABLE START -->
-                        <div class="card mb-32pt">
-                            <div class="card-header">
-                                <div class="form-inline">
-                                    <label class="" for="length_change">Mostrar</label>
-                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="UserProfissaoTable">
-                                        <option value='10'>10</option>
-                                        <option value='25'>25</option>
-                                        <option value='50'>50</option>
-                                        <option value='100'>100</option>
-                                        <option value='500'>500</option>
-                                        <option value='1000'>1000</option>
-                                        <option value='2000'>2000</option>
-                                        <option value='5000'>5000</option>
-                                        <option value='10000'>10000</option>
-                                    </select>
-                                    <label class="" for="length_change">registos</label>
-                                    <div class="btn-group">
-                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="UserProfissaoTable"><i class="fa fa-check-square"></i></button>
-                                        <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="pesprofessional" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserProfissaoTable"><i class="fa fa-search"></i></button>
-                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserProfissaoTable"><i class="fa fa-eraser"></i></button>
-                                        <a title="Adicionar dados profissionais" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="pesprofessional" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                                        <!--Separator-->
-                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section= "GetUsersProfessional", applyFilter="true" })" target="_blank" data-id="UserProfissaoTable"><i class="fa fa-filter"></i></a>
-                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section="GetUsersProfessional", applyFilter="false" })" target="_blank" data-id="UserProfissaoTable"><i class="fa fa-file-excel"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table id="UserProfissaoTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td><input type="text" id="UserProfissaoEmpresa" class="form-control form-control-sm" /></td>
-                                            <td>@Html.DropDownListFor(x => Model.UserID, Model.PES_PROFISSAO_LIST, "Sem filtro", new { @class = "form-control form-control-sm", Id = "UserProfissaoFuncao" })</td>
-                                            <td>@Html.DropDownListFor(x => Model.UserID, Model.PES_Contracto_LIST, "Sem filtro", new { @class = "form-control form-control-sm", Id = "UserProfissaoContracto" })
-                                            <td>@Html.DropDownListFor(x => Model.UserID, Model.PES_Regime_LIST, "Sem filtro", new { @class = "form-control form-control-sm", Id = "UserProfissaoRegime" })
-                                            <td><input type="text" id="UserProfissaoDataInicial" class="form-control datepicker form-control-sm" /></td>
-                                            <td><input type="text" id="UserProfissaoDataFim" class="form-control datepicker form-control-sm" /></td>
-                                            <td><input type="text" id="UserProfissaoDescricao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserProfissaoInsercao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserProfissaoDataInsercao" class="form-control datepicker form-control-sm" /></td>
-                                            <td><input type="text" id="UserProfissaoActualizacao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserProfissaoDataActualizacao" class="form-control datepicker form-control-sm" /></td>
-                                        </tr>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th data-name="UserProfissaoEmpresa">Empresa</th>
-                                            <th data-name="UserProfissaoFuncao">Profissão</th>
-                                            <th data-name="UserProfissaoContracto">Contracto</th>
-                                            <th data-name="UserProfissaoRegime">Regime</th>
-                                            <th data-name="UserProfissaoDataInicial">Data Inicial</th>
-                                            <th data-name="UserProfissaoDataFim">Data Fim</th>
-                                            <th data-name="UserProfissaoDescricao">Descrição</th>
-                                            <th data-name="UserProfissaoInsercao">Inserção</th>
-                                            <th data-name="UserProfissaoDataInsercao">Data Inserção</th>
-                                            <th data-name="UserProfissaoActualizacao">Actualização</th>
-                                            <th data-name="UserProfissaoDataActualizacao">Data Actualização</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div class="card-footer p-8pt">
-                                <span class="paginateInfoUserProfissaoTable paginateInfo mr-12pt" style="float:right"></span>
-                                <div id="paginateUserProfissaoTable" class="pagination justify-content-start pagination-xsm m-0"></div>
-                            </div>
-                        </div>
-                        <!--  DATATABLE START -->
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="tab_contentd5" aria-labelledby="">
-                        <!--  DATATABLE START -->
-                        <div class="card mb-32pt">
-                            <div class="card-header">
-                                <div class="form-inline">
-                                    <label class="" for="length_change">Mostrar</label>
-                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="UserDisabilityTable">
-                                        <option value='10'>10</option>
-                                        <option value='25'>25</option>
-                                        <option value='50'>50</option>
-                                        <option value='100'>100</option>
-                                        <option value='500'>500</option>
-                                        <option value='1000'>1000</option>
-                                        <option value='2000'>2000</option>
-                                        <option value='5000'>5000</option>
-                                        <option value='10000'>10000</option>
-                                    </select>
-                                    <label class="" for="length_change">registos</label>
-                                    <div class="btn-group">
-                                        <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="UserDisabilityTable"><i class="fa fa-check-square"></i></button>
-                                        <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="pesdisability" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                        <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserDisabilityTable"><i class="fa fa-search"></i></button>
-                                        <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserDisabilityTable"><i class="fa fa-eraser"></i></button>
-                                        <a title="Adicionar registo de deficiência" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="pesdisability" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                                        <!--Separator-->
-                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section= "GetUsersDisability", applyFilter="true" })" target="_blank" data-id="UserDisabilityTable"><i class="fa fa-filter"></i></a>
-                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel","XLSReports", new {section="GetUsersDisability", applyFilter="false" })" target="_blank" data-id="UserDisabilityTable"><i class="fa fa-file-excel"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table id="UserDisabilityTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td>@Html.DropDownListFor(x => Model.UserID, Model.PES_DEFICIENCIA_LIST, "Sem filtro", new { @class = "form-control form-control-sm", Id = "UserDisability" })</td>
-                                            <td>@Html.DropDownListFor(m => Model.UserID, Enum.GetValues(typeof(SelectValues.GrauDef)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.GrauDef), e), Value = e.ToString() }), "Sem filtro", new { Id = "UserDisabilityGrau", @class = "form-control form-control-sm" })</td>
-                                            <td><input type="text" id="UserDisabilityDescricao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserDisabilityInsercao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserDisabilityDataInsercao" class="form-control datepicker form-control-sm" /></td>
-                                            <td><input type="text" id="UserDisabilityActualizacao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="UserDisabilityDataActualizacao" class="form-control datepicker form-control-sm" /></td>
-                                        </tr>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th data-name="UserDisability">Deficiência</th>
-                                            <th data-name="UserDisabilityGrau">Grau</th>
-                                            <th data-name="UserDisabilityDescricao">Descrição</th>
-                                            <th data-name="UserDisabilityInsercao">Inserção</th>
-                                            <th data-name="UserDisabilityDataInsercao">Data Inserção</th>
-                                            <th data-name="UserDisabilityActualizacao">Actualização</th>
-                                            <th data-name="UserDisabilityDataActualizacao">Data Actualização</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div class="card-footer p-8pt">
-                                <span class="paginateInfoUserDisabilityTable paginateInfo mr-12pt" style="float:right"></span>
-                                <div id="paginateUserDisabilityTable" class="pagination justify-content-start pagination-xsm m-0"></div>
-                            </div>
-                        </div>
-                        <!--  DATATABLE START -->
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="tab_contentd6" aria-labelledby="">
-                        <!--  DATATABLE START -->
-                        <div class="card mb-32pt">
-                            <div class="card-header">
-                                <div id="doctablebuttons">
+                    @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_IDENTIFICATION_LIST_VIEW_SEARCH))
+                    {
+                        <div role="tabpanel" class="tab-pane" id="tab_contentd2" aria-labelledby="">
+                            <!--  DATATABLE START -->
+                            <div class="card mb-32pt">
+                                <div class="card-header">
                                     <div class="form-inline">
                                         <label class="" for="length_change">Mostrar</label>
-                                        <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="tblInstituicoesArquivos">
+                                        <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="UserIdentTable">
                                             <option value='10'>10</option>
                                             <option value='25'>25</option>
                                             <option value='50'>50</option>
@@ -734,113 +458,429 @@
                                         </select>
                                         <label class="" for="length_change">registos</label>
                                         <div class="btn-group">
-                                            <button title="Selecionar" class="btnSelect btn btn-default" data-id="tblInstituicoesArquivos"><i class="fa fa-check-square"></i></button>
-                                            <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="fileupload" data-upload="pespessoas" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                            <button title="Descarregar documento(s) selecionado(s)" class="btn btn-default DescarregarMultiplos" disabled=""><i class="fa fa-cloud-download"></i></button>
-                                            <button title="Pesquisar" class="btnSearch btn btn-default" data-id="tblInstituicoesArquivos"><i class="fa fa-search"></i></button>
-                                            <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="tblInstituicoesArquivos"><i class="fa fa-eraser"></i></button>
-                                            <a title="Adicionar documento" href="javascript:" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="fileupload" data-upload="pespessoas" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i>&nbsp;</a>
-                                        </div>
+                                            <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="UserIdentTable"><i class="fa fa-check-square"></i></button>
+                                            @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_IDENTIFICATION_DELETE))
+                                            {<button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="pesident" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                            }  <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserIdentTable"><i class="fa fa-search"></i></button>
+                                                <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserIdentTable"><i class="fa fa-eraser"></i></button>
+                                                @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_IDENTIFICATION_NEW))
+                                                {<a title="Adicionar identificação pessoal" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="pesident" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
+                                                } <!--Separator-->
+                                                <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "GetUsersIdentification", applyFilter = "true" })" target="_blank" data-id="UserIdentTable"><i class="fa fa-filter"></i></a>
+                                                <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "GetUsersIdentification", applyFilter = "false" })" target="_blank" data-id="UserIdentTable"><i class="fa fa-file-excel"></i></a>
+                                            </div>
                                     </div>
                                 </div>
-
-                                <div id="doclistbuttons" hidden>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radiogroups">
-                                                <label class="btn btn-outline-primary active">
-                                                    <input type="radio" name="options" id="radiofdate" autocomplete="off" checked><i class="fa fa-calendar"></i>&nbsp;Ordenar data
-                                                </label>
-                                                <label class="btn btn-outline-primary">
-                                                    <input type="radio" name="options" id="radiofgroup" autocomplete="off"><i class="fa fa-file"></i>&nbsp;Ordenar documento
-                                                </label>
+                                <div class="table-responsive">
+                                    <table id="UserIdentTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>@*@Html.DropDownListFor(x => Model.UserID, Model.PES_TIPO_IDENTIFICACAO_LIST, "Sem filtro", new { @class = "form-control", Id = "UserIdent" })*@</td>
+                                                <td><input type="text" id="UserIdentNumero" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserIdentDataEmissao" class="form-control datepicker form-control-sm" /></td>
+                                                <td><input type="text" id="UserIdentDataValidade" class="form-control datepicker form-control-sm" /></td>
+                                                <td><input type="text" id="UserIdentLocalEmissao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserIdentOrgaoEmissor" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserIdentObservacao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserIdentInsercao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserIdentDataInsercao" class="form-control datepicker form-control-sm" /></td>
+                                                <td><input type="text" id="UserIdentActualizacao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserIdentDataActualizacao" class="form-control datepicker form-control-sm" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th data-name="UserIdent">Identificação</th>
+                                                <th data-name="UserIdentNumero">Número</th>
+                                                <th data-name="UserIdentDataEmissao">Data Emissão</th>
+                                                <th data-name="UserIdentDataValidade">Data Validade</th>
+                                                <th data-name="UserIdentLocalEmissao">Local de Emissão</th>
+                                                <th data-name="UserIdentOrgaoEmissor">Órgão Emissor</th>
+                                                <th data-name="UserIdentObservacao">Observações</th>
+                                                <th data-name="UserIdentInsercao">Inserção</th>
+                                                <th data-name="UserIdentDataInsercao">Data Inserção</th>
+                                                <th data-name="UserIdentActualizacao">Actualização</th>
+                                                <th data-name="UserIdentDataActualizacao">Data Actualização</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="card-footer p-8pt">
+                                    <span class="paginateInfoUserIdent paginateInfo mr-12pt" style="float:right"></span>
+                                    <div id="paginateUserIdent" class="pagination justify-content-start pagination-xsm m-0"></div>
+                                </div>
+                            </div>
+                            <!--  DATATABLE START -->
+                        </div>
+                    }
+                    @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_FAM_LIST_VIEW_SEARCH))
+                    {
+                        <div role="tabpanel" class="tab-pane" id="tab_contentd3" aria-labelledby="">
+                            <!--  DATATABLE START -->
+                            <div class="card mb-32pt">
+                                <div class="card-header">
+                                    <div class="form-inline">
+                                        <label class="" for="length_change">Mostrar</label>
+                                        <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="UserFamilyTable">
+                                            <option value='10'>10</option>
+                                            <option value='25'>25</option>
+                                            <option value='50'>50</option>
+                                            <option value='100'>100</option>
+                                            <option value='500'>500</option>
+                                            <option value='1000'>1000</option>
+                                            <option value='2000'>2000</option>
+                                            <option value='5000'>5000</option>
+                                            <option value='10000'>10000</option>
+                                        </select>
+                                        <label class="" for="length_change">registos</label>
+                                        <div class="btn-group">
+                                            <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="UserFamilyTable"><i class="fa fa-check-square"></i></button>
+                                            @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_FAM_DELETE))
+                                            {<button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="pesfamily" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                            } <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserFamilyTable"><i class="fa fa-search"></i></button>
+                                            <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserFamilyTable"><i class="fa fa-eraser"></i></button>
+                                            @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_FAM_NEW))
+                                            {<a title="Adicionar agregado familiar" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="pesfamily" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
+                                            }<!--Separator-->
+                                                <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "GetUsersFamily", applyFilter = "true" })" target="_blank" data-id="UserFamilyTable"><i class="fa fa-filter"></i></a>
+                                                <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "GetUsersFamily", applyFilter = "false" })" target="_blank" data-id="UserFamilyTable"><i class="fa fa-file-excel"></i></a>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="UserFamilyTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>@Html.DropDownListFor(x => Model.UserID, Model.PES_FAMILIARES_GRUPOS_LIST, "Sem filtro", new { @class = "form-control form-control-sm", Id = "UserFamilyAgregado" })</td>
+                                                <td><input type="text" id="UserFamilyNome" class="form-control form-control-sm" /></td>
+                                                <td> @Html.DropDownListFor(x => Model.UserID, Model.PES_PROFISSAO_LIST, "Sem filtro", new { @class = "form-control form-control-sm", Id = "UserFamilyProfissao" })</td>
+                                                <td><input type="text" id="UserFamilyTelefone" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserFamilyTelefoneAlternativo" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserFamilyFax" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserFamilyEmail" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserFamilyURL" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserFamilyEndereco" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserFamilyMorada" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserFamilyRua" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserFamilyNumero" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserFamilyInsercao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserFamilyDataInsercao" class="form-control datepicker form-control-sm" /></td>
+                                                <td><input type="text" id="UserFamilyActualizacao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserFamilyDataActualizacao" class="form-control datepicker form-control-sm" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th data-name="UserFamilyAgregado">Agregado</th>
+                                                <th data-name="UserFamilyNome">Nome</th>
+                                                <th data-name="UserFamilyProfissao">Profissão</th>
+                                                <th data-name="UserFamilyTelefone">Telefone</th>
+                                                <th data-name="UserFamilyTelefoneAlternativo">Telefone Alternativo</th>
+                                                <th data-name="UserFamilyFax">Fax</th>
+                                                <th data-name="UserFamilyEmail">Email</th>
+                                                <th data-name="UserFamilyURL">URL</th>
+                                                <th data-name="UserFamilyEndereco">Endereço</th>
+                                                <th data-name="UserFamilyMorada">Morada</th>
+                                                <th data-name="UserFamilyRua">Rua</th>
+                                                <th data-name="UserFamilyNumero">Número</th>
+                                                <th data-name="UserFamilyInsercao">Inserção</th>
+                                                <th data-name="UserFamilyDataInsercao">Data Inserção</th>
+                                                <th data-name="UserFamilyActualizacao">Actualização</th>
+                                                <th data-name="UserFamilyDataActualizacao">Data Actualização</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="card-footer p-8pt">
+                                    <span class="paginateInfoUserFamilyTable paginateInfo mr-12pt" style="float:right"></span>
+                                    <div id="paginateUserFamilyTable" class="pagination justify-content-start pagination-xsm m-0"></div>
+                                </div>
+                            </div>
+                            <!--  DATATABLE START -->
+                        </div>
+                    }
+                    @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_PROFESSIONAL_LIST_VIEW_SEARCH))
+                    {
+                        <div role="tabpanel" class="tab-pane" id="tab_contentd4" aria-labelledby="">
+                            <!--  DATATABLE START -->
+                            <div class="card mb-32pt">
+                                <div class="card-header">
+                                    <div class="form-inline">
+                                        <label class="" for="length_change">Mostrar</label>
+                                        <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="UserProfissaoTable">
+                                            <option value='10'>10</option>
+                                            <option value='25'>25</option>
+                                            <option value='50'>50</option>
+                                            <option value='100'>100</option>
+                                            <option value='500'>500</option>
+                                            <option value='1000'>1000</option>
+                                            <option value='2000'>2000</option>
+                                            <option value='5000'>5000</option>
+                                            <option value='10000'>10000</option>
+                                        </select>
+                                        <label class="" for="length_change">registos</label>
+                                        <div class="btn-group">
+                                            <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="UserProfissaoTable"><i class="fa fa-check-square"></i></button>
+                                            @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_PROFESSIONAL_DELETE))
+                                            {<button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="pesprofessional" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                            }  <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserProfissaoTable"><i class="fa fa-search"></i></button>
+                                            <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserProfissaoTable"><i class="fa fa-eraser"></i></button>
+                                            @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_PROFESSIONAL_NEW))
+                                            {<a title="Adicionar dados profissionais" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="pesprofessional" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
+                                            } <!--Separator-->
+                                                <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "GetUsersProfessional", applyFilter = "true" })" target="_blank" data-id="UserProfissaoTable"><i class="fa fa-filter"></i></a>
+                                                <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "GetUsersProfessional", applyFilter = "false" })" target="_blank" data-id="UserProfissaoTable"><i class="fa fa-file-excel"></i></a>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="UserProfissaoTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td><input type="text" id="UserProfissaoEmpresa" class="form-control form-control-sm" /></td>
+                                                <td>@Html.DropDownListFor(x => Model.UserID, Model.PES_PROFISSAO_LIST, "Sem filtro", new { @class = "form-control form-control-sm", Id = "UserProfissaoFuncao" })</td>
+                                                <td>@Html.DropDownListFor(x => Model.UserID, Model.PES_Contracto_LIST, "Sem filtro", new { @class = "form-control form-control-sm", Id = "UserProfissaoContracto" })
+                                                <td>@Html.DropDownListFor(x => Model.UserID, Model.PES_Regime_LIST, "Sem filtro", new { @class = "form-control form-control-sm", Id = "UserProfissaoRegime" })
+                                                <td><input type="text" id="UserProfissaoDataInicial" class="form-control datepicker form-control-sm" /></td>
+                                                <td><input type="text" id="UserProfissaoDataFim" class="form-control datepicker form-control-sm" /></td>
+                                                <td><input type="text" id="UserProfissaoDescricao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserProfissaoInsercao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserProfissaoDataInsercao" class="form-control datepicker form-control-sm" /></td>
+                                                <td><input type="text" id="UserProfissaoActualizacao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserProfissaoDataActualizacao" class="form-control datepicker form-control-sm" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th data-name="UserProfissaoEmpresa">Empresa</th>
+                                                <th data-name="UserProfissaoFuncao">Profissão</th>
+                                                <th data-name="UserProfissaoContracto">Contracto</th>
+                                                <th data-name="UserProfissaoRegime">Regime</th>
+                                                <th data-name="UserProfissaoDataInicial">Data Inicial</th>
+                                                <th data-name="UserProfissaoDataFim">Data Fim</th>
+                                                <th data-name="UserProfissaoDescricao">Descrição</th>
+                                                <th data-name="UserProfissaoInsercao">Inserção</th>
+                                                <th data-name="UserProfissaoDataInsercao">Data Inserção</th>
+                                                <th data-name="UserProfissaoActualizacao">Actualização</th>
+                                                <th data-name="UserProfissaoDataActualizacao">Data Actualização</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="card-footer p-8pt">
+                                    <span class="paginateInfoUserProfissaoTable paginateInfo mr-12pt" style="float:right"></span>
+                                    <div id="paginateUserProfissaoTable" class="pagination justify-content-start pagination-xsm m-0"></div>
+                                </div>
+                            </div>
+                            <!--  DATATABLE START -->
+                        </div>
+                    }
+                    @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_DEFICIENCY_LIST_VIEW_SEARCH))
+                    {
+                        <div role="tabpanel" class="tab-pane" id="tab_contentd5" aria-labelledby="">
+                            <!--  DATATABLE START -->
+                            <div class="card mb-32pt">
+                                <div class="card-header">
+                                    <div class="form-inline">
+                                        <label class="" for="length_change">Mostrar</label>
+                                        <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="UserDisabilityTable">
+                                            <option value='10'>10</option>
+                                            <option value='25'>25</option>
+                                            <option value='50'>50</option>
+                                            <option value='100'>100</option>
+                                            <option value='500'>500</option>
+                                            <option value='1000'>1000</option>
+                                            <option value='2000'>2000</option>
+                                            <option value='5000'>5000</option>
+                                            <option value='10000'>10000</option>
+                                        </select>
+                                        <label class="" for="length_change">registos</label>
+                                        <div class="btn-group">
+                                            <button title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="UserDisabilityTable"><i class="fa fa-check-square"></i></button>
+                                            @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_DEFICIENCY_DELETE))
+                                            {<button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="pesdisability" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                            } <button title="Pesquisar" class="btnSearch btn btn-default" data-id="UserDisabilityTable"><i class="fa fa-search"></i></button>
+                                            <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="UserDisabilityTable"><i class="fa fa-eraser"></i></button>
+                                            @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_DEFICIENCY_NEW))
+                                            {<a title="Adicionar registo de deficiência" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="pesdisability" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
+                                            } <!--Separator-->
+                                                <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "GetUsersDisability", applyFilter = "true" })" target="_blank" data-id="UserDisabilityTable"><i class="fa fa-filter"></i></a>
+                                                <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "GetUsersDisability", applyFilter = "false" })" target="_blank" data-id="UserDisabilityTable"><i class="fa fa-file-excel"></i></a>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="UserDisabilityTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>@Html.DropDownListFor(x => Model.UserID, Model.PES_DEFICIENCIA_LIST, "Sem filtro", new { @class = "form-control form-control-sm", Id = "UserDisability" })</td>
+                                                <td>@Html.DropDownListFor(m => Model.UserID, Enum.GetValues(typeof(SelectValues.GrauDef)).Cast<int>().Select(e => new SelectListItem() { Text = Enum.GetName(typeof(SelectValues.GrauDef), e), Value = e.ToString() }), "Sem filtro", new { Id = "UserDisabilityGrau", @class = "form-control form-control-sm" })</td>
+                                                <td><input type="text" id="UserDisabilityDescricao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserDisabilityInsercao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserDisabilityDataInsercao" class="form-control datepicker form-control-sm" /></td>
+                                                <td><input type="text" id="UserDisabilityActualizacao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="UserDisabilityDataActualizacao" class="form-control datepicker form-control-sm" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th data-name="UserDisability">Deficiência</th>
+                                                <th data-name="UserDisabilityGrau">Grau</th>
+                                                <th data-name="UserDisabilityDescricao">Descrição</th>
+                                                <th data-name="UserDisabilityInsercao">Inserção</th>
+                                                <th data-name="UserDisabilityDataInsercao">Data Inserção</th>
+                                                <th data-name="UserDisabilityActualizacao">Actualização</th>
+                                                <th data-name="UserDisabilityDataActualizacao">Data Actualização</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="card-footer p-8pt">
+                                    <span class="paginateInfoUserDisabilityTable paginateInfo mr-12pt" style="float:right"></span>
+                                    <div id="paginateUserDisabilityTable" class="pagination justify-content-start pagination-xsm m-0"></div>
+                                </div>
+                            </div>
+                            <!--  DATATABLE START -->
+                        </div>
+                    }
+                    @if (AcessControl.Authorized(AcessControl.GT_ATHLETES_FILEMGR))
+                    {
+                        <div role="tabpanel" class="tab-pane" id="tab_contentd6" aria-labelledby="">
+                            <!--  DATATABLE START -->
+                            <div class="card mb-32pt">
+                                <div class="card-header">
+                                    <div id="doctablebuttons">
+                                        <div class="form-inline">
+                                            <label class="" for="length_change">Mostrar</label>
+                                            <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="tblInstituicoesArquivos">
+                                                <option value='10'>10</option>
+                                                <option value='25'>25</option>
+                                                <option value='50'>50</option>
+                                                <option value='100'>100</option>
+                                                <option value='500'>500</option>
+                                                <option value='1000'>1000</option>
+                                                <option value='2000'>2000</option>
+                                                <option value='5000'>5000</option>
+                                                <option value='10000'>10000</option>
+                                            </select>
+                                            <label class="" for="length_change">registos</label>
+                                            <div class="btn-group">
+                                                <button title="Selecionar" class="btnSelect btn btn-default" data-id="tblInstituicoesArquivos"><i class="fa fa-check-square"></i></button>
+                                                <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-entity="fileupload" data-upload="pespessoas" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                                <button title="Descarregar documento(s) selecionado(s)" class="btn btn-default DescarregarMultiplos" disabled=""><i class="fa fa-cloud-download"></i></button>
+                                                <button title="Pesquisar" class="btnSearch btn btn-default" data-id="tblInstituicoesArquivos"><i class="fa fa-search"></i></button>
+                                                <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="tblInstituicoesArquivos"><i class="fa fa-eraser"></i></button>
+                                                <a title="Adicionar documento" href="javascript:" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="fileupload" data-upload="pespessoas" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i>&nbsp;</a>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="col-6 ">
-                                            <div class="mb-12pt d-flex align-items-center mt-8 pull-right">
-                                                <div class="float-right">
-                                                    <div class="btn-group">
-                                                        <a title="Adicionar documento" href="javascript:" class="open-modal-crud btn btn-primary" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="fileupload" data-upload="pespessoas" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i>&nbsp;</a>
-                                                        <a href="javascript:" title="Visualizar documento selecionado" class="btn btn-primary link-disabled" disabled id="btnViewFile" target="_blank"><i class="fa fa-eye"></i></a>
-                                                        <button title="Descarregar documento(s) selecionado(s)" class="btn btn-primary" id="btnDownloadFile" disabled><i class="fa fa-cloud-download"></i></button>
-                                                        <button title="Editar arquivo selecionado" class="open-modal-crud btn btn-primary" data-id="0" data-action="Editar" data-entity="fileupload" data-upload="" data-toggle="modal" data-target="#crudControlModal" id="btnEditFile" disabled><i class="fa fa-pencil"></i></button>
-                                                        <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-primary" data-id="0" data-action="RemoverMultiplos" data-entity="fileupload" data-upload="pespessoas" data-toggle="modal" data-target="#crudControlModal" disabled="" id="btnDeleteFile"><i class="fa fa-trash"></i></button>
+                                    <div id="doclistbuttons" hidden>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radiogroups">
+                                                    <label class="btn btn-outline-primary active">
+                                                        <input type="radio" name="options" id="radiofdate" autocomplete="off" checked><i class="fa fa-calendar"></i>&nbsp;Ordenar data
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="radiofgroup" autocomplete="off"><i class="fa fa-file"></i>&nbsp;Ordenar documento
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6 ">
+                                                <div class="mb-12pt d-flex align-items-center mt-8 pull-right">
+                                                    <div class="float-right">
+                                                        <div class="btn-group">
+                                                            <a title="Adicionar documento" href="javascript:" class="open-modal-crud btn btn-primary" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="fileupload" data-upload="pespessoas" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i>&nbsp;</a>
+                                                            <a href="javascript:" title="Visualizar documento selecionado" class="btn btn-primary link-disabled" disabled id="btnViewFile" target="_blank"><i class="fa fa-eye"></i></a>
+                                                            <button title="Descarregar documento(s) selecionado(s)" class="btn btn-primary" id="btnDownloadFile" disabled><i class="fa fa-cloud-download"></i></button>
+                                                            <button title="Editar arquivo selecionado" class="open-modal-crud btn btn-primary" data-id="0" data-action="Editar" data-entity="fileupload" data-upload="" data-toggle="modal" data-target="#crudControlModal" id="btnEditFile" disabled><i class="fa fa-pencil"></i></button>
+                                                            <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-primary" data-id="0" data-action="RemoverMultiplos" data-entity="fileupload" data-upload="pespessoas" data-toggle="modal" data-target="#crudControlModal" disabled="" id="btnDeleteFile"><i class="fa fa-trash"></i></button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="table-responsive" id="doctablebody">
-                                <table id="tblInstituicoesArquivos" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td><input type="text" id="InstArquivoNome" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="InstArquivoDescricao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="InstArquivoDocumento" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="InstArquivoTipo" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="InstArquivoTamanho" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="InstArquivoEstado" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="InstArquivoDataActivacao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="InstArquivoDataDesactivacao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="InstArquivoInsercao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="InstArquivoDataInsercao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="InstArquivoActualizacao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="InstArquivoDataActualizacao" class="form-control form-control-sm" /></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th data-name="InstArquivoNome">Nome</th>
-                                            <th data-name="InstArquivoDescricao">Descrição</th>
-                                            <th data-name="InstArquivoDocumento">Documento</th>
-                                            <th data-name="InstArquivoTipo">Tipo</th>
-                                            <th data-name="InstArquivoTamanho">Tamanho</th>
-                                            <th data-name="InstArquivoEstado">Estado</th>
-                                            <th data-name="InstArquivoDataActivacao">Data Activação</th>
-                                            <th data-name="InstArquivoDataDesactivacao">Data Desactivação</th>
-                                            <th data-name="InstArquivoInsercao">Inserção</th>
-                                            <th data-name="InstArquivoDataInsercao">Data Inserção</th>
-                                            <th data-name="InstArquivoActualizacao">Actualização</th>
-                                            <th data-name="InstArquivoDataActualizacao">Data Actualização</th>
-                                            <th data-name="InstArquivoDataActulinkalizacao">Link</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div id="tablefooter">
-                                <div class="card-footer p-8pt">
-                                    <span class="paginateInfoInstArquivo paginateInfo mr-12pt" style="float:right"></span>
-                                    <div id="paginateInstArquivo" class="pagination justify-content-start pagination-xsm m-0"></div>
-                                    @using (Html.BeginForm("downloadfiles", "ajax", FormMethod.Post, new { id = "tabledownloadform" }))
+                                <div class="table-responsive" id="doctablebody">
+                                    <table id="tblInstituicoesArquivos" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td><input type="text" id="InstArquivoNome" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="InstArquivoDescricao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="InstArquivoDocumento" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="InstArquivoTipo" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="InstArquivoTamanho" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="InstArquivoEstado" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="InstArquivoDataActivacao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="InstArquivoDataDesactivacao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="InstArquivoInsercao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="InstArquivoDataInsercao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="InstArquivoActualizacao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="InstArquivoDataActualizacao" class="form-control form-control-sm" /></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th data-name="InstArquivoNome">Nome</th>
+                                                <th data-name="InstArquivoDescricao">Descrição</th>
+                                                <th data-name="InstArquivoDocumento">Documento</th>
+                                                <th data-name="InstArquivoTipo">Tipo</th>
+                                                <th data-name="InstArquivoTamanho">Tamanho</th>
+                                                <th data-name="InstArquivoEstado">Estado</th>
+                                                <th data-name="InstArquivoDataActivacao">Data Activação</th>
+                                                <th data-name="InstArquivoDataDesactivacao">Data Desactivação</th>
+                                                <th data-name="InstArquivoInsercao">Inserção</th>
+                                                <th data-name="InstArquivoDataInsercao">Data Inserção</th>
+                                                <th data-name="InstArquivoActualizacao">Actualização</th>
+                                                <th data-name="InstArquivoDataActualizacao">Data Actualização</th>
+                                                <th data-name="InstArquivoDataActulinkalizacao">Link</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div id="tablefooter">
+                                    <div class="card-footer p-8pt">
+                                        <span class="paginateInfoInstArquivo paginateInfo mr-12pt" style="float:right"></span>
+                                        <div id="paginateInstArquivo" class="pagination justify-content-start pagination-xsm m-0"></div>
+                                        @using (Html.BeginForm("downloadfiles", "ajax", FormMethod.Post, new { id = "tabledownloadform" }))
+                                        {
+                                            <div id="tabledownloaddiv" hidden></div>
+                                        }
+                                    </div>
+                                </div>
+
+
+                                <div id="doclistbody" hidden class="mb-2 p-2">
+                                    <!--  FANCYTREE START -->
+                                    <div id="tree"></div>
+                                    <!--  FANCYTREE START -->
+                                    @using (Html.BeginForm("downloadfiles", "ajax", FormMethod.Post, new { id = "downloadform" }))
                                     {
-                                        <div id="tabledownloaddiv" hidden></div>
+                                        <div id="downloaddiv" hidden> </div>
                                     }
                                 </div>
                             </div>
-
-
-                            <div id="doclistbody" hidden class="mb-2 p-2">
-                                <!--  FANCYTREE START -->
-                                <div id="tree"></div>
-                                <!--  FANCYTREE START -->
-                                @using (Html.BeginForm("downloadfiles", "ajax", FormMethod.Post, new { id = "downloadform" }))
-                                {
-                                    <div id="downloaddiv" hidden> </div>
-                                }
-                            </div>
+                            <!--  DATATABLE START -->
+                            <input type="hidden" id="EntityId" value="@ViewBag.data[0].ID" />
+                            <input type="hidden" id="upload" value="pespessoas" />
                         </div>
-                        <!--  DATATABLE START -->
-                        <input type="hidden" id="EntityId" value="@ViewBag.data[0].ID" />
-                        <input type="hidden" id="upload" value="pespessoas" />
+                    }
                     </div>
-                </div>
                 </div>
         </div>
     </div>

@@ -157,7 +157,7 @@
                                                         }
                                                         var path = Model.ExerciseArqList.Where(x => x.ExerciseId == item.ID).Select(x => x.LogoPath).FirstOrDefault();
                                                         <li class="sidebar-menu-item hide-long-text" style="" id="ex_@item.ID">
-                                                            <img class="planimg" src="@path" width="50" />
+                                                            <img class="planimg" src="@path" width="60" />
                                                             <button @dis type="button" data-id="@item.ID" class="addlistplan1 btn btn-success btn-sm"><i class="fa fa-plus-circle"></i></button>
                                                             <a href="javascript:" style="display:none" data-placement="top" title="" class="gtplansmodaleditor open-modal-crud btn btn-light btn-sm" data-id="@item.ID" data-toggle="modal" data-target="#gtplansmodaleditor"><i class="fa fa-pencil"></i></a>
                                                             <a title="" href="@Url.Action("viewexercises", "administration", new {Id=item.ID})" target="_blank" class="text-50">@item.NOME</a>
@@ -172,8 +172,8 @@
                                     <div class="mt-4">
                                         <button class="btn btn-success btn-block"><i class="fa fa-floppy-disk"></i> Guardar</button>
                                         <button class="btn btn-success btn-block" disabled><i class="fa fa-print"></i> Imprimir</button>
-                                        <a class="btn btn-secondary btn-block" href="@Url.Action("cardioplans", "gtmanagement", new {Id=string.Empty})"><i class="fa fa-plus-circle"></i> Novo</a>
                                         <button type="button" id="gttreinoclr" class="btn btn-secondary btn-block"><<</button>
+                                        <a class="btn btn-secondary btn-block" href="@Url.Action("cardioplans", "gtmanagement", new {Id=string.Empty})"><i class="fa fa-plus-circle"></i> Novo</a>
                                     </div>
                                 </div>
                                 <div class="col-md-5">
@@ -189,7 +189,7 @@
                                                             var path = Model.ExerciseArqList.Where(x => x.ExerciseId == item.ExerciseId).Select(x => x.LogoPath).FirstOrDefault();
 
                                                             <li class="sidebar-menu-item hide-long-text" style="" id="ex_@item.ExerciseId">
-                                                                <img class="planimg" src="@path" width="50" />
+                                                                <img class="planimg" src="@path" width="60" />
                                                                 <button type="button" data-id="@item.ExerciseId" class="removegaclass1 btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
                                                                 <a href="javascript:" data-placement="top" title="" class="gtplansmodaleditor open-modal-crud btn btn-light btn-sm" data-id="@item.ExerciseId" data-toggle="modal" data-target="#gtplansmodaleditor"><i class="fa fa-pencil"></i></a>
                                                                 <a title="" href="@Url.Action("viewexercises", "administration", new { Id = item.ExerciseId })" target="_blank" class="text-50">@item.Name</a>

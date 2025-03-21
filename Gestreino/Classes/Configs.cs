@@ -85,7 +85,7 @@ namespace Gestreino.Classes
             {
                 // Setup Static Config Values 
                 var configvalues = databaseManager.GRL_DEFINICOES.Join(databaseManager.INST_APLICACAO,x => x.INST_APLICACAO_ID, y => y.ID,(x, y) => new { x, y }).Where(y => y.y.ID == INST_INSTITUICAO_ID).ToList();
-                       INST_INSTITUICAO_SIGLA = configvalues[0].y.SIGLA;
+                INST_INSTITUICAO_SIGLA = configvalues[0].y.SIGLA;
                 INST_INSTITUICAO_NOME = configvalues[0].y.NOME;
 
                 INST_PER_TEMA_1 = configvalues[0].x.INST_PER_TEMA_1;

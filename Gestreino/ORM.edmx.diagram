@@ -33,7 +33,7 @@
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_TIPO_ENDERECOS" Width="1.5" PointX="9" PointY="52.875" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.PES_TIPO_IDENTIFICACAO" Width="1.5" PointX="6" PointY="23.875" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.UTILIZADORES_ACESSO_ATOMOS_GRUPOS" Width="1.5" PointX="6" PointY="15.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GESTREINO_ORM.UTILIZADORES_ACESSO_GRUPOS" Width="1.5" PointX="3.75" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GESTREINO_ORM.UTILIZADORES_ACESSO_GRUPOS" Width="1.875" PointX="3.75" PointY="19.625" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.UTILIZADORES_ACESSO_PERFIS" Width="1.5" PointX="3.75" PointY="23.75" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.UTILIZADORES_ACESSO_PERFIS_ATOMOS" Width="1.5" PointX="6" PointY="19.75" IsExpanded="true" />
         <EntityTypeShape EntityType="GESTREINO_ORM.UTILIZADORES_ACESSO_UTIL_GRUPOS" Width="1.5" PointX="6" PointY="37.75" IsExpanded="true" />

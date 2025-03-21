@@ -26,7 +26,6 @@ namespace Gestreino.Controllers
     {
         private GESTREINO_Entities databaseManager = new GESTREINO_Entities();
 
-
         //Access
         public ActionResult Users(Gestreino.Models.Users MODEL, string action, int? id, int?[] bulkids)
         {
@@ -163,7 +162,6 @@ namespace Gestreino.Controllers
 
             return View("administration/Access/AppendItems", MODEL);
         }
-
 
         //Parameters
         public ActionResult GRLDocType(GRL_ARQUIVOS_TIPO_DOCS MODEL, string action, int? id, int?[] bulkids)
@@ -494,7 +492,6 @@ namespace Gestreino.Controllers
             return View("administration/Parameters//GTExercise", MODEL);
         }
 
-
         //GT
         public ActionResult PESFamily(PES_Dados_Pessoais_Agregado MODEL, string action, int? id, int?[] bulkids)
         {
@@ -536,6 +533,9 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_FAM_NEW) && ViewBag.Action == "Adicionar") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_FAM_EDIT) && ViewBag.Action == "Editar") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_FAM_DELETE) && ViewBag.Action == "Remover") return View("Lockout");
             return View("GTManagement/Athletes/GPManagementUserAgregado", MODEL);
         }
         public ActionResult PESProfessional(PES_Dados_Pessoais_Professional MODEL, string action, int? id, int?[] bulkids)
@@ -563,6 +563,9 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_PROFESSIONAL_NEW) && ViewBag.Action == "Adicionar") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_PROFESSIONAL_EDIT) && ViewBag.Action == "Editar") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_PROFESSIONAL_DELETE) && ViewBag.Action == "Remover") return View("Lockout");
             return View("GTManagement/Athletes/GPManagementUserProfessional", MODEL);
         }
         public ActionResult PESDisability(PES_Dados_Pessoais_Deficiencia MODEL, string action, int? id, int?[] bulkids)
@@ -583,6 +586,9 @@ namespace Gestreino.Controllers
             if (action.Contains("Multiplos")) action = "Remover";
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_DEFICIENCY_NEW) && ViewBag.Action == "Adicionar") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_DEFICIENCY_EDIT) && ViewBag.Action == "Editar") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_DEFICIENCY_DELETE) && ViewBag.Action == "Remover") return View("Lockout");
             return View("GTManagement/Athletes/GPManagementUserDisability", MODEL);
         }
         public ActionResult PESDadosPessoaisIdent(PES_Dados_Pessoais_Ident MODEL, string action, int? id, int?[] bulkids)
@@ -601,8 +607,6 @@ namespace Gestreino.Controllers
                 MODEL.DateExpire = string.IsNullOrEmpty(data.First().DATA_VALIDADE.ToString()) ? null : DateTime.Parse(data.First().DATA_VALIDADE.ToString()).ToString("dd-MM-yyyy");
                 MODEL.PaisId = dataLocal.First().GRL_ENDERECO_PAIS_ID;
                 MODEL.CidadeId = dataLocal.First().GRL_ENDERECO_CIDADE_ID;
-                //MODEL.PES_DEFICIENCIA_ID = data.First().PES_PESSOAS_CARACT_TIPO_DEF_ID;
-                //MODEL.PES_DEFICIENCIA_GRAU_ID = data.First().PES_PESSOAS_CARACT_GRAU_DEF_ID;
             }
 
             MODEL.PES_TIPO_IDENTIFICACAO_LIST = databaseManager.PES_TIPO_IDENTIFICACAO.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
@@ -614,8 +618,12 @@ namespace Gestreino.Controllers
             if (action.Contains("Multiplos")) action = "Remover";
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_IDENTIFICATION_NEW) && ViewBag.Action == "Adicionar") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_IDENTIFICATION_EDIT) && ViewBag.Action == "Editar") return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_IDENTIFICATION_DELETE) && ViewBag.Action == "Remover") return View("Lockout");
             return View("GTManagement/Athletes/GPManagementUserIdent", MODEL);
         }
+      
         public ActionResult GTSocioEvolution(string action, int? id, int?[] bulkids)
         {
             var title = string.Empty;
@@ -641,6 +649,7 @@ namespace Gestreino.Controllers
 
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
+            //access control
             return View("GTManagement/Plans/Index");
         }
         public ActionResult GTQuest(string action, int? id, int?[] bulkids,string upload)
@@ -737,7 +746,7 @@ namespace Gestreino.Controllers
         {
             MODEL.EntityID = id.Value;
             MODEL.EntityName = upload;
-
+            MODEL.Status = "Activo";
             if (action == "Editar")
             {
                 MODEL.ID = id.Value;

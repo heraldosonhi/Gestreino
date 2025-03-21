@@ -1,7 +1,4 @@
 ﻿using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.EMMA;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
 using Gestreino.Classes;
 using Gestreino.Models;
 using Microsoft.AspNet.Identity;
@@ -16,21 +13,9 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
-using static Gestreino.Classes.SelectValues;
 using Newtonsoft.Json.Linq;
-//
 using System.Reflection;
-using DocumentFormat.OpenXml.Drawing.Charts;
-using static Gestreino.Models.CoronaryRisk;
-using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Entity.Infrastructure;
-using System.Data.OleDb;
 using System.Data;
-using System.Diagnostics.Eventing.Reader;
-using DocumentFormat.OpenXml.Drawing.Diagrams;
-using System.Web.Script.Serialization;
-using DocumentFormat.OpenXml.Office2010.ExcelAc;
 
 namespace Gestreino.Controllers
 {
@@ -40,11 +25,9 @@ namespace Gestreino.Controllers
         private GESTREINO_Entities databaseManager = new GESTREINO_Entities();
         private System.Collections.Specialized.StringDictionary DictRespostas;
 
-        // _MenuLeftBarLink
         int _MenuLeftBarLink_Athletes = 201;
         int _MenuLeftBarLink_PlanBodyMass = 202;
         int _MenuLeftBarLink_PlanCardio = 203;
-        //int _MenuLeftBarLink_Exercices = 204;
         int _MenuLeftBarLink_Quest_Anxient = 205;
         int _MenuLeftBarLink_Quest_SelfConcept = 206;
         int _MenuLeftBarLink_Quest_CoronaryRisk = 207;
@@ -63,37 +46,37 @@ namespace Gestreino.Controllers
         int _MenuLeftBarLink_Search_Others = 217;
         int _MenuLeftBarLink_FileManagement = 0;
 
-        // GET: GTManagement
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: GTManagement
         public ActionResult Athletes()
         {
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_LIST_VIEW_SEARCH)) return View("Lockout");
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Athletes;
             return View("Athletes/Index");
         }
 
-        // GET: GTManagement
         public ActionResult NewAthlete(Gestreino.Models.Athlete MODEL)
         {
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_NEW)) return View("Lockout");
+
             MODEL.Caract_DuracaoPlanoList = databaseManager.GT_DuracaoPlano.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.DURACAO).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DURACAO.ToString() });
             MODEL.EstadoCivilList = databaseManager.PES_ESTADO_CIVIL.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             MODEL.PAIS_LIST = databaseManager.GRL_ENDERECO_PAIS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             MODEL.CIDADE_LIST = databaseManager.GRL_ENDERECO_CIDADE.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             MODEL.MUN_LIST = databaseManager.GRL_ENDERECO_MUN_DISTR.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
-            //MODEL.ENDERECO_TIPO_LIST = databaseManager.PES_TIPO_ENDERECOS.Where(x => x.DATA_REMOCAO == null).OrderBy(x => x.NOME).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             MODEL.ENDERECO_PAIS_ID = Configs.INST_MDL_ADM_VLRID_ADDR_STANDARD_COUNTRY;
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Athletes;
             return View("Athletes/NewAthlete", MODEL);
         }
-        // GET: GTManagement
         public ActionResult UpdateAthlete(int? Id, Gestreino.Models.Athlete MODEL)
         {
-            if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_EDIT)) return View("Lockout");
 
+            if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
+            
             var data = databaseManager.SP_PES_ENT_PESSOAS(Id, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, Convert.ToChar('R').ToString()).ToList();
             if (!data.Any()) return RedirectToAction("", "home");
             var dataCaract = databaseManager.PES_PESSOAS_CARACT.Where(x => x.PES_PESSOAS_ID == Id).ToList();
@@ -192,10 +175,9 @@ namespace Gestreino.Controllers
             return View("Athletes/UpdateAthlete", MODEL);
         }
 
-        // GET: GTManagement
         public ActionResult ViewAthletes(int? Id, Gestreino.Models.Athlete MODEL)
         {
-            //if (!AcessControl.Authorized(AcessControl.GP_USERS_LIST_VIEW_SEARCH)) return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_LIST_VIEW_SEARCH)) return View("Lockout");
             if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
 
             var data = databaseManager.SP_PES_ENT_PESSOAS(Id, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, Convert.ToChar('R').ToString()).ToList();
@@ -223,7 +205,6 @@ namespace Gestreino.Controllers
             return View("Athletes/ViewAthletes", MODEL);
         }
 
-        // Ajax Table
         [HttpPost]
         public ActionResult GetUsers()
         {
@@ -457,7 +438,6 @@ namespace Gestreino.Controllers
             }
             return Json(new { result = true, error = string.Empty, url = returnUrl, showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
-
         // Update
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -552,7 +532,7 @@ namespace Gestreino.Controllers
         // Get
         public ActionResult ProfilePhoto(int? Id, Athlete MODEL)
         {
-            //if (AcessControl.Authorized(AcessControl.GP_USERS_ALTER_PHOTOGRAPH) || AcessControl.Authorized(AcessControl.GA_ENROLLMENTS_NEW) || AcessControl.Authorized(AcessControl.GA_ENROLLMENTS_NEW_EXCEPTION) || AcessControl.Authorized(AcessControl.GA_APPLICATIONS_ENROL_STUDENTS)) { } else return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_ALTER_IMG)) return View("Lockout");
             if (Id == null || Id <= 0) { return RedirectToAction("users", "gpmanagement"); }
             var item = databaseManager.SP_PES_ENT_PESSOAS(Id, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, Convert.ToChar('R').ToString()).ToList();
             ViewBag.item = item;
@@ -568,7 +548,7 @@ namespace Gestreino.Controllers
         [HttpGet]
         public ActionResult WebCam()
         {
-            // if (AcessControl.Authorized(AcessControl.GP_USERS_ALTER_PHOTOGRAPH) || AcessControl.Authorized(AcessControl.GA_ENROLLMENTS_NEW) || AcessControl.Authorized(AcessControl.GA_ENROLLMENTS_NEW_EXCEPTION) || AcessControl.Authorized(AcessControl.GA_APPLICATIONS_ENROL_STUDENTS)) { } else return View("Lockout");
+            if (!AcessControl.Authorized(AcessControl.GT_ATHLETES_ALTER_IMG)) return View("Lockout");
             ViewBag.LeftBarLinkActive = 0;
             return View("Athletes/WebCam");
         }
@@ -689,9 +669,6 @@ namespace Gestreino.Controllers
             }
             return Json(new { result = true, imageUrl = sqlpath, showToastr = true, toastrMessage = "Submetido com sucesso!" });
         }
-
-        //
-
 
         private List<decimal?> setFiledsFcTreino(int? repouso, decimal? fcmaximo)
         {
@@ -867,8 +844,6 @@ namespace Gestreino.Controllers
             if (!string.IsNullOrEmpty(Funcao)) v = v.Where(a => a.PES_PROFISSOES_ID != null && a.PES_PROFISSOES_ID.ToString() == Funcao);
             if (!string.IsNullOrEmpty(Contracto)) v = v.Where(a => a.PES_PROFISSOES_TIPO_CONTRACTO_ID != null && a.PES_PROFISSOES_TIPO_CONTRACTO_ID.ToString() == Contracto);
             if (!string.IsNullOrEmpty(Regime)) v = v.Where(a => a.PES_PROFISSOES_REGIME_TRABALHO_ID != null && a.PES_PROFISSOES_REGIME_TRABALHO_ID.ToString() == Regime);
-            //if (!string.IsNullOrEmpty(Unidade)) v = v.Where(a => a.INST_UNIDADES_ID != null && a.INST_UNIDADES_ID.ToString() == Unidade);
-            //if (!string.IsNullOrEmpty(Espaco)) v = v.Where(a => a.INST_ESPACOS_ID != null && a.INST_ESPACOS_ID.ToString() == Espaco);
             if (!string.IsNullOrEmpty(DataIni)) v = v.Where(a => a.DATA_INICIO != null && a.DATA_INICIO.ToUpper().Contains(DataIni.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
             if (!string.IsNullOrEmpty(DataFim)) v = v.Where(a => a.DATA_FIM != null && a.DATA_FIM.ToUpper().Contains(DataFim.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
             if (!string.IsNullOrEmpty(Descricao)) v = v.Where(a => a.DESCRICAO != null && a.DESCRICAO.ToUpper().ToString().Contains(Descricao.ToUpper()));
@@ -928,8 +903,8 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_PROFESSIONAL_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_PROFESSIONAL_DELETE) ? "none" : "",
+                    AccessControlEdit = !AcessControl.Authorized(AcessControl.GT_ATHLETES_PROFESSIONAL_EDIT) ? "none" : "",
+                    AccessControlDelete = !AcessControl.Authorized(AcessControl.GT_ATHLETES_PROFESSIONAL_DELETE) ? "none" : "",
                     Id = x.ID,
                     EMPRESA = x.EMPRESA,
                     FUNCAO = x.PROFISSAO,
@@ -1174,8 +1149,8 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_FAM_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_FAM_DELETE) ? "none" : "",
+                    AccessControlEdit = !AcessControl.Authorized(AcessControl.GT_ATHLETES_FAM_EDIT) ? "none" : "",
+                    AccessControlDelete = !AcessControl.Authorized(AcessControl.GT_ATHLETES_FAM_DELETE) ? "none" : "",
                     Id = x.ID,
                     AGREGADO = x.AGREGADO,
                     NOME = x.NOME,
@@ -1387,8 +1362,8 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_DEFICIENCY_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_DEFICIENCY_DELETE) ? "none" : "",
+                    AccessControlEdit = !AcessControl.Authorized(AcessControl.GT_ATHLETES_DEFICIENCY_EDIT) ? "none" : "",
+                    AccessControlDelete = !AcessControl.Authorized(AcessControl.GT_ATHLETES_DEFICIENCY_DELETE) ? "none" : "",
                     Id = x.ID,
                     DEFICIENCIA = x.NOME,
                     GRAU = x.GRAU,
@@ -1601,8 +1576,8 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_IDENTIFICATION_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_IDENTIFICATION_DELETE) ? "none" : "",
+                    AccessControlEdit = !AcessControl.Authorized(AcessControl.GT_ATHLETES_IDENTIFICATION_EDIT) ? "none" : "",
+                    AccessControlDelete = !AcessControl.Authorized(AcessControl.GT_ATHLETES_IDENTIFICATION_DELETE) ? "none" : "",
                     Id = x.ID,
                     IDENTIFICACAO = x.IDENTIFICACAO,
                     NUMERO = x.NUMERO,
@@ -1826,9 +1801,8 @@ namespace Gestreino.Controllers
         //PLANOS
         public ActionResult BodyMassPlans(Gestreino.Models.GT_TreinoBodyMass MODEL, int? Id, string predefined)
         {
-            //if (!AcessControl.Authorized(AcessControl.GP_USERS_LIST_VIEW_SEARCH)) return View("Lockout");
-            //if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
-
+            if (!AcessControl.Authorized(AcessControl.GT_PLANS_BODYMASS_LIST_VIEW_SEARCH)) return View("Lockout");
+            
             MODEL.GT_Series_List = databaseManager.GT_Series.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.SERIES.ToString() });
             MODEL.GT_Repeticoes_List = databaseManager.GT_Repeticoes.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.REPETICOES.ToString() });
             MODEL.GT_Carga_List = databaseManager.GT_Carga.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.CARGA.ToString() });
@@ -1840,7 +1814,7 @@ namespace Gestreino.Controllers
 
             MODEL.GTTipoTreinoId = Configs.GT_EXERCISE_TYPE_BODYMASS;
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
-            ViewBag.exercises = databaseManager.GT_Exercicio.Where(x => x.DATA_REMOCAO == null && x.GT_TipoTreino_ID == Configs.GT_EXERCISE_TYPE_BODYMASS).ToList();
+            ViewBag.exercises = databaseManager.GT_Exercicio.Where(x => x.DATA_REMOCAO == null && x.GT_TipoTreino_ID == Configs.GT_EXERCISE_TYPE_BODYMASS).OrderBy(x=>x.NOME).ToList();
 
             var upload = "gtexercicios";
             List<ExerciseArq> ExerciseArqList = new List<ExerciseArq>();
@@ -1893,16 +1867,15 @@ namespace Gestreino.Controllers
         }
         public ActionResult CardioPlans(Gestreino.Models.GT_TreinoBodyMass MODEL, int? Id, string predefined)
         {
-            //if (!AcessControl.Authorized(AcessControl.GP_USERS_LIST_VIEW_SEARCH)) return View("Lockout");
-            //if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
-
+            if (!AcessControl.Authorized(AcessControl.GT_PLANS_CARDIO_LIST_VIEW_SEARCH)) return View("Lockout");
+            
             MODEL.GT_DuracaoTreinoCardioList = databaseManager.GT_DuracaoTreinoCardio.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DURACAO.ToString() + "'" });
             MODEL.GTTreinoList = databaseManager.GT_Treino.Where(x => x.DATA_REMOCAO == null && !string.IsNullOrEmpty(x.NOME) && x.GT_TipoTreino_ID == Configs.GT_EXERCISE_TYPE_CARDIO).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
             MODEL.DateIni = DateTime.Parse(DateTime.Now.ToString()).ToString("dd-MM-yyyy");
 
             MODEL.GTTipoTreinoId = Configs.GT_EXERCISE_TYPE_CARDIO;
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
-            ViewBag.exercises = databaseManager.GT_Exercicio.Where(x => x.DATA_REMOCAO == null && x.GT_TipoTreino_ID == Configs.GT_EXERCISE_TYPE_CARDIO).ToList();
+            ViewBag.exercises = databaseManager.GT_Exercicio.Where(x => x.DATA_REMOCAO == null && x.GT_TipoTreino_ID == Configs.GT_EXERCISE_TYPE_CARDIO).OrderBy(x=>x.NOME).ToList();
 
             var upload = "gtexercicios";
             List<ExerciseArq> ExerciseArqList = new List<ExerciseArq>();
@@ -2074,8 +2047,11 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    AccessControlDelete = x.GT_TipoTreino_ID == Configs.GT_EXERCISE_TYPE_BODYMASS 
+                    ?
+                    !AcessControl.Authorized(AcessControl.GT_PLANS_BODYMASS_DELETE) ? "none" : ""   
+                    :
+                    !AcessControl.Authorized(AcessControl.GT_PLANS_CARDIO_DELETE) ? "none" : "",
                     Id = x.ID,
                     DATEINI = x.DATA_INICIO,
                     DATEFIM = x.DATA_FIM,
