@@ -670,6 +670,40 @@ namespace Gestreino.Controllers
             ViewBag.bulkids = ids;
             ViewBag.Action = action;
             ViewBag.upload = upload;
+
+            if(ViewBag.Action== "Remover")
+            {
+                if (ViewBag.upload == "GT_RespAnsiedadeDepressao")
+                    if (!AcessControl.Authorized(AcessControl.GT_QUEST_ANXIETY_DELETE)) return View("Lockout");
+
+                if (ViewBag.upload == "GT_RespAutoConceito")
+                    if (!AcessControl.Authorized(AcessControl.GT_QUEST_SELFCONCEPT_DELETE)) return View("Lockout");
+
+                if (ViewBag.upload == "GT_RespRisco")
+                    if (!AcessControl.Authorized(AcessControl.GT_QUEST_CORONARYRISK_DELETE)) return View("Lockout");
+
+                if (ViewBag.upload == "GT_RespProblemasSaude")
+                    if (!AcessControl.Authorized(AcessControl.GT_QUEST_HEALTH_DELETE)) return View("Lockout");
+
+                if (ViewBag.upload == "GT_RespFlexiTeste")
+                    if (!AcessControl.Authorized(AcessControl.GT_QUEST_FLEXIBILITY_DELETE)) return View("Lockout");
+
+                if (ViewBag.upload == "GT_RespComposicao")
+                    if (!AcessControl.Authorized(AcessControl.GT_QUEST_BODYCOMPOSITION_DELETE)) return View("Lockout");
+
+                if (ViewBag.upload == "GT_RespAptidaoCardio")
+                    if (!AcessControl.Authorized(AcessControl.GT_QUEST_CARDIO_DELETE)) return View("Lockout");
+
+                if (ViewBag.upload == "GT_RespPessoaIdosa")
+                    if (!AcessControl.Authorized(AcessControl.GT_QUEST_ELDERLY_DELETE)) return View("Lockout");
+
+                if (ViewBag.upload == "GT_RespForca")
+                    if (!AcessControl.Authorized(AcessControl.GT_QUEST_FORCE_DELETE)) return View("Lockout");
+
+                if (ViewBag.upload == "GT_RespFuncional")
+                    if (!AcessControl.Authorized(AcessControl.GT_QUEST_FUNCTIONAL_DELETE)) return View("Lockout");
+            }
+
             return View("GTManagement/Quest/Index");
         }
         public ActionResult GTAvaliado(GTAvaliado MODEL, string action, int? id, int?[] bulkids)

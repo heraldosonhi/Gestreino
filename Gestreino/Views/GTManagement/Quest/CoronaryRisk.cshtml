@@ -28,9 +28,11 @@
                                 <a href="javascript:" data-placement="top" title="" class="open-modal-crud btn btn-success" data-id="0" data-action="risk" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal">
                                     <i class="fa fa-search"></i>   Ver resultado..
                                 </a>
-                                <button type="submit" value="1" name="frmaction" class="btn btn-success btn-sm"><i class="fa fa-floppy-disk"></i> Guardar</button>
-                                <a class="btn btn-secondary" href="@Url.Action("coronaryrisk", "gtmanagement", new {Id=string.Empty})"><i class="fa fa-plus-circle"></i> Novo</a>
-                            </div>
+                                @if (AcessControl.Authorized(AcessControl.GT_QUEST_CORONARYRISK_UPDATE))
+                                {
+                                    <button type="submit" value="1" name="frmaction" class="btn btn-success btn-sm"><i class="fa fa-floppy-disk"></i> Guardar</button>
+                                    <a class="btn btn-secondary" href="@Url.Action("coronaryrisk", "gtmanagement", new { Id = string.Empty })"><i class="fa fa-plus-circle"></i> Novo</a>
+                                }</div>
                         </div>
                     </div>
                     <div class="row">
@@ -717,13 +719,14 @@
                                         <label class="" for="length_change">registos</label>
                                         <div class="btn-group">
                                             <button type="button" title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GTQuestTable"><i class="fa fa-check-square"></i></button>
-                                            <button type="button" title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-upload="GT_RespRisco" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                            <button type="button" title="Pesquisar" class="btnSearch btn btn-default" data-id="GTQuestTable"><i class="fa fa-search"></i></button>
-                                            <button type="button" title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GTQuestTable"><i class="fa fa-eraser"></i></button>
-                                            <!--Separator-->
-                                            <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gtquest", applyFilter = "true" })" target="_blank" data-id="GTQuestTable"><i class="fa fa-filter"></i></a>
-                                            <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gtquest", applyFilter = "false" })" target="_blank" data-id="GTQuestTable"><i class="fa fa-file-excel"></i></a>
-                                        </div>
+                                            @if (AcessControl.Authorized(AcessControl.GT_QUEST_CORONARYRISK_DELETE))
+                                            {<button type="button" title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-upload="GT_RespRisco" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                            } <button type="button" title="Pesquisar" class="btnSearch btn btn-default" data-id="GTQuestTable"><i class="fa fa-search"></i></button>
+                                                <button type="button" title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GTQuestTable"><i class="fa fa-eraser"></i></button>
+                                                <!--Separator-->
+                                                <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gtquest", applyFilter = "true" })" target="_blank" data-id="GTQuestTable"><i class="fa fa-filter"></i></a>
+                                                <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gtquest", applyFilter = "false" })" target="_blank" data-id="GTQuestTable"><i class="fa fa-file-excel"></i></a>
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="table-responsive">

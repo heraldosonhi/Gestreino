@@ -2126,18 +2126,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKUTILIZADOR744434">
-          <End Role="UTILIZADORES_ACESSO_ATOMOS" Type="Self.UTILIZADORES_ACESSO_ATOMOS" Multiplicity="1" />
-          <End Role="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" Type="Self.UTILIZADORES_ACESSO_ATOMOS_GRUPOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UTILIZADORES_ACESSO_ATOMOS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UTILIZADORES_ACESSO_ATOMOS_GRUPOS">
-              <PropertyRef Name="UTILIZADORES_ACESSO_ATOMOS_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FKUTILIZADOR769774">
           <End Role="UTILIZADORES" Type="Self.UTILIZADORES" Multiplicity="1" />
           <End Role="UTILIZADORES_ACESSO_UTIL_GRUPOS" Type="Self.UTILIZADORES_ACESSO_UTIL_GRUPOS" Multiplicity="*" />
@@ -2147,18 +2135,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
             </Principal>
             <Dependent Role="UTILIZADORES_ACESSO_UTIL_GRUPOS">
               <PropertyRef Name="UTILIZADORES_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKUTILIZADOR816609">
-          <End Role="UTILIZADORES_ACESSO_ATOMOS" Type="Self.UTILIZADORES_ACESSO_ATOMOS" Multiplicity="1" />
-          <End Role="UTILIZADORES_ACESSO_PERFIS_ATOMOS" Type="Self.UTILIZADORES_ACESSO_PERFIS_ATOMOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UTILIZADORES_ACESSO_ATOMOS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UTILIZADORES_ACESSO_PERFIS_ATOMOS">
-              <PropertyRef Name="UTILIZADORES_ACESSO_ATOMOS_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2726,6 +2702,30 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="UTILIZADORES_ACESSO_ATOMOS_GRUPOS_UTILIZADORES_ACESSO_ATOMOS_ID">
+          <End Role="UTILIZADORES_ACESSO_ATOMOS" Type="Self.UTILIZADORES_ACESSO_ATOMOS" Multiplicity="1" />
+          <End Role="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" Type="Self.UTILIZADORES_ACESSO_ATOMOS_GRUPOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UTILIZADORES_ACESSO_ATOMOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UTILIZADORES_ACESSO_ATOMOS_GRUPOS">
+              <PropertyRef Name="UTILIZADORES_ACESSO_ATOMOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UTILIZADORES_ACESSO_PERFIS_ATOMOS_UTILIZADORES_ACESSO_ATOMOS_ID">
+          <End Role="UTILIZADORES_ACESSO_ATOMOS" Type="Self.UTILIZADORES_ACESSO_ATOMOS" Multiplicity="1" />
+          <End Role="UTILIZADORES_ACESSO_PERFIS_ATOMOS" Type="Self.UTILIZADORES_ACESSO_PERFIS_ATOMOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UTILIZADORES_ACESSO_ATOMOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UTILIZADORES_ACESSO_PERFIS_ATOMOS">
+              <PropertyRef Name="UTILIZADORES_ACESSO_ATOMOS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID">
           <End Role="UTILIZADORES" Type="Self.UTILIZADORES" Multiplicity="1" />
           <End Role="UTILIZADORES_LOGIN_PASSWORD_TENT" Type="Self.UTILIZADORES_LOGIN_PASSWORD_TENT" Multiplicity="*" />
@@ -3113,6 +3113,8 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
         </Function>
         <Function Name="SP_UTILIZADORES_ENT_ATOMOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="ProfileId" Type="int" Mode="In" />
+          <Parameter Name="GroupId" Type="int" Mode="In" />
           <Parameter Name="Nome" Type="varchar" Mode="In" />
           <Parameter Name="Descricao" Type="varchar" Mode="In" />
           <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
@@ -3127,6 +3129,8 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
         </Function>
         <Function Name="SP_UTILIZADORES_ENT_GRUPOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="AtomId" Type="int" Mode="In" />
+          <Parameter Name="UtilizadorId" Type="int" Mode="In" />
           <Parameter Name="Sigla" Type="varchar" Mode="In" />
           <Parameter Name="Nome" Type="varchar" Mode="In" />
           <Parameter Name="Descricao" Type="varchar" Mode="In" />
@@ -3142,6 +3146,8 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
         </Function>
         <Function Name="SP_UTILIZADORES_ENT_PERFIS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="AtomId" Type="int" Mode="In" />
+          <Parameter Name="UtilizadorId" Type="int" Mode="In" />
           <Parameter Name="Nome" Type="varchar" Mode="In" />
           <Parameter Name="Descricao" Type="varchar" Mode="In" />
           <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
@@ -3491,17 +3497,9 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
             <End Role="UTILIZADORES_ACESSO_GRUPOS" EntitySet="UTILIZADORES_ACESSO_GRUPOS" />
             <End Role="UTILIZADORES_ACESSO_UTIL_GRUPOS" EntitySet="UTILIZADORES_ACESSO_UTIL_GRUPOS" />
           </AssociationSet>
-          <AssociationSet Name="FKUTILIZADOR744434" Association="Self.FKUTILIZADOR744434">
-            <End Role="UTILIZADORES_ACESSO_ATOMOS" EntitySet="UTILIZADORES_ACESSO_ATOMOS" />
-            <End Role="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" EntitySet="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" />
-          </AssociationSet>
           <AssociationSet Name="FKUTILIZADOR769774" Association="Self.FKUTILIZADOR769774">
             <End Role="UTILIZADORES" EntitySet="UTILIZADORES" />
             <End Role="UTILIZADORES_ACESSO_UTIL_GRUPOS" EntitySet="UTILIZADORES_ACESSO_UTIL_GRUPOS" />
-          </AssociationSet>
-          <AssociationSet Name="FKUTILIZADOR816609" Association="Self.FKUTILIZADOR816609">
-            <End Role="UTILIZADORES_ACESSO_ATOMOS" EntitySet="UTILIZADORES_ACESSO_ATOMOS" />
-            <End Role="UTILIZADORES_ACESSO_PERFIS_ATOMOS" EntitySet="UTILIZADORES_ACESSO_PERFIS_ATOMOS" />
           </AssociationSet>
           <AssociationSet Name="GRL_DEFINICOES_INST_APLICACAO_ID" Association="Self.GRL_DEFINICOES_INST_APLICACAO_ID">
             <End Role="INST_APLICACAO" EntitySet="INST_APLICACAO" />
@@ -3690,6 +3688,14 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           <AssociationSet Name="PES_PESSOAS_FAM_PES_PROFISSOES_ID" Association="Self.PES_PESSOAS_FAM_PES_PROFISSOES_ID">
             <End Role="PES_PROFISSOES" EntitySet="PES_PROFISSOES" />
             <End Role="PES_PESSOAS_FAM" EntitySet="PES_PESSOAS_FAM" />
+          </AssociationSet>
+          <AssociationSet Name="UTILIZADORES_ACESSO_ATOMOS_GRUPOS_UTILIZADORES_ACESSO_ATOMOS_ID" Association="Self.UTILIZADORES_ACESSO_ATOMOS_GRUPOS_UTILIZADORES_ACESSO_ATOMOS_ID">
+            <End Role="UTILIZADORES_ACESSO_ATOMOS" EntitySet="UTILIZADORES_ACESSO_ATOMOS" />
+            <End Role="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" EntitySet="UTILIZADORES_ACESSO_ATOMOS_GRUPOS" />
+          </AssociationSet>
+          <AssociationSet Name="UTILIZADORES_ACESSO_PERFIS_ATOMOS_UTILIZADORES_ACESSO_ATOMOS_ID" Association="Self.UTILIZADORES_ACESSO_PERFIS_ATOMOS_UTILIZADORES_ACESSO_ATOMOS_ID">
+            <End Role="UTILIZADORES_ACESSO_ATOMOS" EntitySet="UTILIZADORES_ACESSO_ATOMOS" />
+            <End Role="UTILIZADORES_ACESSO_PERFIS_ATOMOS" EntitySet="UTILIZADORES_ACESSO_PERFIS_ATOMOS" />
           </AssociationSet>
           <AssociationSet Name="UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID" Association="Self.UTILIZADORES_LOGIN_PASSWORD_TENT_UTILIZADORES_ID">
             <End Role="UTILIZADORES" EntitySet="UTILIZADORES" />
@@ -4749,28 +4755,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
             <End Role="INST_APLICACAO" EntitySet="INST_APLICACAO" />
             <End Role="INST_APLICACAO_CONTACTOS" EntitySet="INST_APLICACAO_CONTACTOS" />
           </AssociationSet>
-          <FunctionImport Name="SP_UTILIZADORES_ENT_ATOMOS" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_ATOMOS_Result)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
-            <Parameter Name="Nome" Mode="In" Type="String" />
-            <Parameter Name="Descricao" Mode="In" Type="String" />
-            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
-            <Parameter Name="Action" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="SP_UTILIZADORES_ENT_GRUPOS" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_GRUPOS_Result)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
-            <Parameter Name="Sigla" Mode="In" Type="String" />
-            <Parameter Name="Nome" Mode="In" Type="String" />
-            <Parameter Name="Descricao" Mode="In" Type="String" />
-            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
-            <Parameter Name="Action" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="SP_UTILIZADORES_ENT_PERFIS" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_PERFIS_Result)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
-            <Parameter Name="Nome" Mode="In" Type="String" />
-            <Parameter Name="Descricao" Mode="In" Type="String" />
-            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
-            <Parameter Name="Action" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="UTILIZADORES_ACESSO_ATOMOS" EntityType="GESTREINO_ORM.UTILIZADORES_ACESSO_ATOMOS" />
           <AssociationSet Name="FKUTILIZADOR744434" Association="GESTREINO_ORM.FKUTILIZADOR744434">
             <End Role="UTILIZADORES_ACESSO_ATOMOS" EntitySet="UTILIZADORES_ACESSO_ATOMOS" />
@@ -5544,6 +5528,34 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
             <Parameter Name="Id" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="SP_UTILIZADORES_ENT_ATOMOS" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_ATOMOS_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="ProfileId" Mode="In" Type="Int32" />
+            <Parameter Name="GroupId" Mode="In" Type="Int32" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="Descricao" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UTILIZADORES_ENT_GRUPOS" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_GRUPOS_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="AtomId" Mode="In" Type="Int32" />
+            <Parameter Name="UtilizadorId" Mode="In" Type="Int32" />
+            <Parameter Name="Sigla" Mode="In" Type="String" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="Descricao" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UTILIZADORES_ENT_PERFIS" ReturnType="Collection(GESTREINO_ORM.SP_UTILIZADORES_ENT_PERFIS_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="AtomId" Mode="In" Type="Int32" />
+            <Parameter Name="UtilizadorId" Mode="In" Type="Int32" />
+            <Parameter Name="Nome" Mode="In" Type="String" />
+            <Parameter Name="Descricao" Mode="In" Type="String" />
+            <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -5616,34 +5628,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="SP_UTILIZADORES_ENT_ATOMOS_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="DESCRICAO" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
-          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
-          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
-          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
-        </ComplexType>
-        <ComplexType Name="SP_UTILIZADORES_ENT_GRUPOS_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="3" />
-          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="DESCRICAO" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
-          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
-          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
-          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
-        </ComplexType>
-        <ComplexType Name="SP_UTILIZADORES_ENT_PERFIS_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="DESCRICAO" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
-          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
-          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
-          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
-        </ComplexType>
         <EntityType Name="UTILIZADORES_ACESSO_ATOMOS">
           <Key>
             <PropertyRef Name="ID" />
@@ -8159,6 +8143,34 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
           <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
         </ComplexType>
+        <ComplexType Name="SP_UTILIZADORES_ENT_ATOMOS_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="DESCRICAO" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_UTILIZADORES_ENT_GRUPOS_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SIGLA" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="DESCRICAO" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="SP_UTILIZADORES_ENT_PERFIS_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="NOME" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="DESCRICAO" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="INSERCAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="ACTUALIZACAO" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
+          <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8771,46 +8783,6 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_ENT_ATOMOS" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_ENT_ATOMOS">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_UTILIZADORES_ENT_ATOMOS_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="NOME" ColumnName="NOME" />
-                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
-                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
-                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
-                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
-                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_ENT_GRUPOS" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_ENT_GRUPOS">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_UTILIZADORES_ENT_GRUPOS_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
-                <ScalarProperty Name="NOME" ColumnName="NOME" />
-                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
-                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
-                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
-                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
-                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_ENT_PERFIS" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_ENT_PERFIS">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_UTILIZADORES_ENT_PERFIS_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="NOME" ColumnName="NOME" />
-                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
-                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
-                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
-                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
-                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="UTILIZADORES_ACESSO_ATOMOS">
             <EntityTypeMapping TypeName="GESTREINO_ORM.UTILIZADORES_ACESSO_ATOMOS">
               <MappingFragment StoreEntitySet="UTILIZADORES_ACESSO_ATOMOS">
@@ -10475,6 +10447,46 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
                 <ScalarProperty Name="TOKEN" ColumnName="TOKEN" />
                 <ScalarProperty Name="CONTEUDO" ColumnName="CONTEUDO" />
                 <ScalarProperty Name="DATA" ColumnName="DATA" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_ENT_ATOMOS" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_ENT_ATOMOS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_UTILIZADORES_ENT_ATOMOS_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_ENT_GRUPOS" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_ENT_GRUPOS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_UTILIZADORES_ENT_GRUPOS_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
+                <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
+                <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
+                <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_UTILIZADORES_ENT_PERFIS" FunctionName="GESTREINO_ORM.Store.SP_UTILIZADORES_ENT_PERFIS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_UTILIZADORES_ENT_PERFIS_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
                 <ScalarProperty Name="INSERCAO" ColumnName="INSERCAO" />
                 <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
                 <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />

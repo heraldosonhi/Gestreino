@@ -634,7 +634,7 @@ function handleDataGrupos() {
             "url": "../../administration/GetGroups", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
-            data: { }
+            data: { "Atom": $('#AtomId').val(), "Utilizador": $('#UserId').val()}
         },
         "columns": [
             { "data": "Id", "name": null, "autoWidth": true },
@@ -708,7 +708,7 @@ function handleDataAtomos() {
             "url": "../../administration/GetAtoms", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
-            data: { }
+            data: { "ProfileId": $('#ProfileId').val(), "GroupId": $('#GroupId').val() }
         },
         "columns": [
             { "data": "Id", "name": null, "autoWidth": true },
@@ -782,7 +782,7 @@ function handleDataPerfis() {
             "url": "../../administration/GetProfiles", // POST TO CONTROLLER
             "type": "POST",
             "datatype": "json",
-            data: { }
+            data: { "Atom": $('#AtomId').val(), "Utilizador": $('#UserId').val() }
         },
         "columns": [
             { "data": "Id", "name": null, "autoWidth": true },
@@ -1230,6 +1230,7 @@ function handleDataAtomsAccessTable() {
             },
             //Cada dado representa uma coluna da tabela
             { "data": "NOME", "name": "NOME", "autoWidth": true },
+            { "data": "DESCRICAO", "name": "DESCRICAO", "autoWidth": true },
             { "data": "INSERCAO", "name": "INSERCAO", "autoWidth": true },
             { "data": "DATAINSERCAO", "name": "DATAINSERCAO", "autoWidth": true },
             { "data": "ACTUALIZACAO", "name": "ACTUALIZACAO", "autoWidth": true },
@@ -3071,7 +3072,7 @@ function handleDataGTQuestTable() {
                 sortable: false,
                 "render": function (data, type, full, meta) {
                     return '<a title="Visualizar" href="' + full.LINK + '"><i class="fa fa-search"/></i></a>' +
-                        ' <a style="display:' + full.AccessControlAddGroup + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="gtquest" data-upload="'+full.UPLOAD+'"  data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
+                        ' <a style="display:' + full.AccessControlDelete + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="gtquest" data-upload="'+full.UPLOAD+'"  data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
                 }
             },
             {

@@ -28,137 +28,201 @@
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(m => m.PEsId)
                 @Html.HiddenFor(m => m.ID)
-                <input type="hidden" value="GT_RespFlexiTeste" id="GT_Res" /><div class="row">
-                    <div class="col-md-4">
-                        <div class="btn-group">
-                            <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-floppy-disk"></i> Guardar</button>
-                            @if (Model.TipoId == 1)
-                            {
-                                <a class="btn btn-secondary" href="@Url.Action("flexibility", "gtmanagement", new { Id = string.Empty })"><i class="fa fa-plus-circle"></i> Novo</a>
-                            }
-                            @if (Model.TipoId == 2)
-                            {
-                                <a class="btn btn-secondary" href="@Url.Action("flexibility", "gtmanagement", new { Id = string.Empty,flexitype=2 })"><i class="fa fa-plus-circle"></i> Novo</a>
-                            }
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-9 mt-2">
-                        <div class="animated flipInY">
-                            <div class="tile-stats">
-                                <div class="icon">
-                                    <i class="fa fa-clipboard-check"></i>
-                                </div>
-                                <h3 class="p-2">Flexibilidade</h3>
-                                @if (Model.ID > 0)
-                                {
-                                    <h6 class="p-2 bg-light mt-2 text-success"><i class="fa fa-floppy-disk"></i> Questionário registado: @ViewBag.data[0].DATA_INSERCAO.ToString("dd/MM/yyyy HH:mm")</h6>
-                                }
+                <input type="hidden" value="GT_RespFlexiTeste" id="GT_Res" />
 
-                            <div class="p-4">
-                                <div class="row">
-                                    @Html.LabelFor(m => m.TipoId, new { @class = "col-md-1 col-form-label" })
-                                    <div class="col-md-4">
-                                        @Html.DropDownListFor(x => Model.TipoId, Model.TipoList, new { @class = "form-control form-control-sm", required = "",onchange="loadflexitype(this.value)" })
-                                    </div>
-                                </div>
+                if (AcessControl.Authorized(AcessControl.GT_QUEST_FLEXIBILITY_UPDATE))
+                {
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-floppy-disk"></i> Guardar</button>
                                 @if (Model.TipoId == 1)
                                 {
-                                    <div class="row mt-4">
-                                        <div class="col-md-8">
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <div class="row mb-2">
-                                                        <div class="col-md-12">
-                                                            <b>Resultado</b>
-                                                        </div>
-                                                    </div>
-                                                    <table>
-                                                        <tr>
-                                                            <td><input name="flex" type="checkbox" id="flex0" value="0" /> <label for="flex0"><b>0</b></label></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input name="flex" type="checkbox" id="flex1" value="1" /> <label for="flex1"><b>1</b></label></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input name="flex" type="checkbox" id="flex2" value="2" /> <label for="flex2"><b>2</b></label></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input name="flex" type="checkbox" id="flex3" value="3" /> <label for="flex3"><b>3</b></label></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input name="flex" type="checkbox" id="flex4" value="4" /> <label for="flex4"><b>4</b></label></td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                                <div class="col-md-9">
-                                                    <center class="mt-5">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <b>Classificação</b>
+                                    <a class="btn btn-secondary" href="@Url.Action("flexibility", "gtmanagement", new { Id = string.Empty })"><i class="fa fa-plus-circle"></i> Novo</a>
+                                }
+                                @if (Model.TipoId == 2)
+                                {
+                                    <a class="btn btn-secondary" href="@Url.Action("flexibility", "gtmanagement", new { Id = string.Empty, flexitype = 2 })"><i class="fa fa-plus-circle"></i> Novo</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+                    <div class="row">
+                        <div class="col-md-9 mt-2">
+                            <div class="animated flipInY">
+                                <div class="tile-stats">
+                                    <div class="icon">
+                                        <i class="fa fa-clipboard-check"></i>
+                                    </div>
+                                    <h3 class="p-2">Flexibilidade</h3>
+                                    @if (Model.ID > 0)
+                                    {
+                                        <h6 class="p-2 bg-light mt-2 text-success"><i class="fa fa-floppy-disk"></i> Questionário registado: @ViewBag.data[0].DATA_INSERCAO.ToString("dd/MM/yyyy HH:mm")</h6>
+                                    }
 
-                                                                @if (Model.ID > 0)
-                                                                {
-                                                                    int counter = 0;
-                                                                    foreach (var x in ViewBag.flexflexNumberArr)
-                                                                    {
-                                                                        counter++;
-                                                                        <input type="hidden" id="flexflexNumberArr_@counter" name="flexflexNumberArr[]" value="@x" />
-                                                                    }
-                                                                }
-                                                                else
-                                                                {
-                                                                    for (int x = 1; x <= 20; x++)
-                                                                    {
-                                                                        <input type="hidden" id="flexflexNumberArr_@x" name="flexflexNumberArr[]" value="" />
-                                                                    }
-                                                                }
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <input id="flexClassificacao" type="text" class="text-center form-control form-control-sm" readonly />
-                                                                <input id="flexNumber" type="hidden" min="1" max="20" value="1" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                &nbsp;
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <div class="btn-group">
-                                                                    <button onclick="flexPrimeiro(this)" type="button" title="Primeiro teste" class="btn btn-sm btn-secondary"><<</button>
-                                                                    <button onclick="flexAnterior(this)" type="button" title="Teste anterior" class="btn btn-sm btn-secondary"><</button>
-                                                                    <input id="flexDesc" type="text" class="form-control form-control-sm text-center" readonly value="Teste 1 de 20" />
-                                                                    <button onclick="flexProximo(this)" type="button" title="Próximo teste" class="btn btn-sm btn-secondary">></button>
-                                                                    <button onclick="flexUltimo(this)" type="button" title="Úlimo teste" class="btn btn-sm btn-secondary">>></button>
+                                    <div class="p-4">
+                                        <div class="row">
+                                            @Html.LabelFor(m => m.TipoId, new { @class = "col-md-1 col-form-label" })
+                                            <div class="col-md-4">
+                                                @Html.DropDownListFor(x => Model.TipoId, Model.TipoList, new { @class = "form-control form-control-sm", required = "", onchange = "loadflexitype(this.value)" })
+                                            </div>
+                                        </div>
+                                        @if (Model.TipoId == 1)
+                                        {
+                                            <div class="row mt-4">
+                                                <div class="col-md-8">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <div class="row mb-2">
+                                                                <div class="col-md-12">
+                                                                    <b>Resultado</b>
                                                                 </div>
                                                             </div>
+                                                            <table>
+                                                                <tr>
+                                                                    <td><input name="flex" type="checkbox" id="flex0" value="0" /> <label for="flex0"><b>0</b></label></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><input name="flex" type="checkbox" id="flex1" value="1" /> <label for="flex1"><b>1</b></label></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><input name="flex" type="checkbox" id="flex2" value="2" /> <label for="flex2"><b>2</b></label></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><input name="flex" type="checkbox" id="flex3" value="3" /> <label for="flex3"><b>3</b></label></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><input name="flex" type="checkbox" id="flex4" value="4" /> <label for="flex4"><b>4</b></label></td>
+                                                                </tr>
+                                                            </table>
                                                         </div>
-                                                    </center>
+                                                        <div class="col-md-9">
+                                                            <center class="mt-5">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <b>Classificação</b>
+
+                                                                        @if (Model.ID > 0)
+                                                                        {
+                                                                            int counter = 0;
+                                                                            foreach (var x in ViewBag.flexflexNumberArr)
+                                                                            {
+                                                                                counter++;
+                                                                                <input type="hidden" id="flexflexNumberArr_@counter" name="flexflexNumberArr[]" value="@x" />
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            for (int x = 1; x <= 20; x++)
+                                                                            {
+                                                                                <input type="hidden" id="flexflexNumberArr_@x" name="flexflexNumberArr[]" value="" />
+                                                                            }
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <input id="flexClassificacao" type="text" class="text-center form-control form-control-sm" readonly />
+                                                                        <input id="flexNumber" type="hidden" min="1" max="20" value="1" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        &nbsp;
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="btn-group">
+                                                                            <button onclick="flexPrimeiro(this)" type="button" title="Primeiro teste" class="btn btn-sm btn-secondary"><<</button>
+                                                                            <button onclick="flexAnterior(this)" type="button" title="Teste anterior" class="btn btn-sm btn-secondary"><</button>
+                                                                            <input id="flexDesc" type="text" class="form-control form-control-sm text-center" readonly value="Teste 1 de 20" />
+                                                                            <button onclick="flexProximo(this)" type="button" title="Próximo teste" class="btn btn-sm btn-secondary">></button>
+                                                                            <button onclick="flexUltimo(this)" type="button" title="Úlimo teste" class="btn btn-sm btn-secondary">>></button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </center>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-12">
+                                                            <label>FlexiÍndice Actual (0 a 80)</label>
+                                                        </div>
+                                                        <div class="col-md-10">
+                                                            <div class="progress">
+                                                                <div id="pgrflexActual" class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:@(Model.ID>0?(Model.iFlexiAct * 1.25).ToString().Replace(",","."):"")%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@(Model.ID>0?Model.iFlexiAct:null)</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label><b id="lblflexActual">@(Model.ID>0?Model.lblResActualFlexi:"")</b></label>
+                                                        </div>
+                                                        <div class="col-md-12 mt-2">
+                                                            <label>FlexiÍndice Anterior  (0 a 80)</label>
+                                                        </div>
+                                                        <div class="col-md-10">
+                                                            <div class="progress">
+                                                                <div id="pgrflexAnterior" class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width:@(Model.ID>0?(Model.iFlexiAnt * 1.25).ToString().Replace(",","."):"")%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@(Model.ID>0?Model.iFlexiAnt:null)</div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label><b id="lblflexAnterior">@(Model.ID>0?Model.lblResAnteriorFlexi:"")</b></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div style="border:1px solid #ddd">
+                                                                <img id="flexImg" src="~/Assets/images/imagesflexi/f1.jpg" style="width:100% !important;height:100% !important" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        @if (Model.TipoId == 2)
+                                        {
+                                            <div class="row mt-4">
+                                                <label class="col-md-2 col-form-label">1ª Tentativa:</label>
+                                                <div class="col-md-2">
+                                                    @Html.TextBoxFor(x => Model.TENTATIVA1, new { type = "number", min = "0", @class = "form-control form-control-sm", required = "" })
+                                                </div>
+                                                <label class="col-md-2 col-form-label">2ª Tentativa:</label>
+                                                <div class="col-md-2">
+                                                    @Html.TextBoxFor(x => Model.TENTATIVA2, new { type = "number", min = "0", @class = "form-control form-control-sm", required = "" })
+                                                </div>
+                                                <label class="col-md-2 col-form-label">Desejável:</label>
+                                                <div class="col-md-2">
+                                                    @Html.TextBoxFor(x => Model.ESPERADO, new { @readonly = "", @class = "form-control form-control-sm" })
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-md-2 col-form-label">Resultado:</label>
+                                                <div class="col-md-2">
+                                                    @Html.TextBoxFor(x => Model.RESULTADO, new { @readonly = "", @class = "form-control form-control-sm" })
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
                                                 <div class="col-md-12">
-                                                    <label>FlexiÍndice Actual (0 a 80)</label>
+                                                    <label>Classificação Actual (0 a 100)</label>
                                                 </div>
                                                 <div class="col-md-10">
                                                     <div class="progress">
-                                                        <div id="pgrflexActual" class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:@(Model.ID>0?(Model.iFlexiAct * 1.25).ToString().Replace(",","."):"")%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@(Model.ID>0?Model.iFlexiAct:null)</div>
+                                                        <div id="pgrflexActual" class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:@(Model.ID>0?(Model.iFlexiAct).ToString().Replace(",","."):"")%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@(Model.ID>0?Model.iFlexiAct:null)</div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <label><b id="lblflexActual">@(Model.ID>0?Model.lblResActualFlexi:"")</b></label>
                                                 </div>
                                                 <div class="col-md-12 mt-2">
-                                                    <label>FlexiÍndice Anterior  (0 a 80)</label>
+                                                    <label>Classificação Anterior(0 a 100)</label>
                                                 </div>
                                                 <div class="col-md-10">
                                                     <div class="progress">
-                                                        <div id="pgrflexAnterior" class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width:@(Model.ID>0?(Model.iFlexiAnt * 1.25).ToString().Replace(",","."):"")%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@(Model.ID>0?Model.iFlexiAnt:null)</div>
+                                                        <div id="pgrflexAnterior" class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width:@(Model.ID>0?(Model.iFlexiAnt).ToString().Replace(",","."):"")%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@(Model.ID>0?Model.iFlexiAnt:null)</div>
                                                     </div>
 
                                                 </div>
@@ -166,137 +230,79 @@
                                                     <label><b id="lblflexAnterior">@(Model.ID>0?Model.lblResAnteriorFlexi:"")</b></label>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div style="border:1px solid #ddd">
-                                                        <img id="flexImg" src="~/Assets/images/imagesflexi/f1.jpg" style="width:100% !important;height:100% !important" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                                @if (Model.TipoId == 2)
-                                {
-                                    <div class="row mt-4">
-                                        <label class="col-md-2 col-form-label">1ª Tentativa:</label>
-                                        <div class="col-md-2">
-                                            @Html.TextBoxFor(x => Model.TENTATIVA1, new { type="number",min="0", @class = "form-control form-control-sm", required = "" })
-                                        </div>
-                                        <label class="col-md-2 col-form-label">2ª Tentativa:</label>
-                                        <div class="col-md-2">
-                                            @Html.TextBoxFor(x => Model.TENTATIVA2, new { type = "number", min = "0", @class = "form-control form-control-sm", required = "" })
-                                        </div>
-                                        <label class="col-md-2 col-form-label">Desejável:</label>
-                                        <div class="col-md-2">
-                                            @Html.TextBoxFor(x => Model.ESPERADO, new { @readonly="", @class = "form-control form-control-sm" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label class="col-md-2 col-form-label">Resultado:</label>
-                                        <div class="col-md-2">
-                                            @Html.TextBoxFor(x => Model.RESULTADO, new { @readonly = "", @class = "form-control form-control-sm" })
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-md-12">
-                                            <label>Classificação Actual (0 a 100)</label>
-                                        </div>
-                                        <div class="col-md-10">
-                                            <div class="progress">
-                                                <div id="pgrflexActual" class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:@(Model.ID>0?(Model.iFlexiAct).ToString().Replace(",","."):"")%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@(Model.ID>0?Model.iFlexiAct:null)</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label><b id="lblflexActual">@(Model.ID>0?Model.lblResActualFlexi:"")</b></label>
-                                        </div>
-                                        <div class="col-md-12 mt-2">
-                                            <label>Classificação Anterior(0 a 100)</label>
-                                        </div>
-                                        <div class="col-md-10">
-                                            <div class="progress">
-                                                <div id="pgrflexAnterior" class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width:@(Model.ID>0?(Model.iFlexiAnt).ToString().Replace(",","."):"")%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@(Model.ID>0?Model.iFlexiAnt:null)</div>
-                                            </div>
+                                        }
 
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label><b id="lblflexAnterior">@(Model.ID>0?Model.lblResAnteriorFlexi:"")</b></label>
-                                        </div>
-                                    </div>
-                                }
-
-                            </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-md-3">
-                        <!--  DATATABLE START -->
-                        <div class="card mb-32pt mt-2">
-                            <div class="card-header">
-                                <div class="form-inline">
-                                    <label class="" for="length_change">Mostrar</label>
-                                    <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GTQuestTable">
-                                        <option value='10'>10</option>
-                                        <option value='25'>25</option>
-                                        <option value='50'>50</option>
-                                        <option value='100'>100</option>
-                                        <option value='500'>500</option>
-                                        <option value='1000'>1000</option>
-                                        <option value='2000'>2000</option>
-                                        <option value='5000'>5000</option>
-                                        <option value='10000'>10000</option>
-                                    </select>
-                                    <label class="" for="length_change">registos</label>
-                                    <div class="btn-group">
-                                        <button type="button" title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GTQuestTable"><i class="fa fa-check-square"></i></button>
-                                        <button type="button" title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-upload="GT_RespFlexiTeste" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                        <button type="button" title="Pesquisar" class="btnSearch btn btn-default" data-id="GTQuestTable"><i class="fa fa-search"></i></button>
-                                        <button type="button" title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GTQuestTable"><i class="fa fa-eraser"></i></button>
-                                        <!--Separator-->
-                                        <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gtquest", applyFilter = "true" })" target="_blank" data-id="GTQuestTable"><i class="fa fa-filter"></i></a>
-                                        <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gtquest", applyFilter = "false" })" target="_blank" data-id="GTQuestTable"><i class="fa fa-file-excel"></i></a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="table-responsive">
-                                <table id="GTQuestTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td><input type="text" id="GTQuestTableTreino" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="GTQuestTableInsercao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="GTQuestTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
-                                            <td><input type="text" id="GTQuestTableActualizacao" class="form-control form-control-sm" /></td>
-                                            <td><input type="text" id="GTQuestTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
-                                        </tr>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th data-name="GTQuestTableTreino">&nbsp;</th>
-                                            <th data-name="GTQuestTableInsercao">Inserção</th>
-                                            <th data-name="GTQuestTableDataInsercao">Data Inserção</th>
-                                            <th data-name="GTQuestTableActualizacao">Actualização</th>
-                                            <th data-name="GTQuestTableDataActualizacao">Data Actualização</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div class="card-footer p-8pt">
-                                <span class="paginateInfoGTQuestTable paginateInfo mr-12pt" style="float:right"></span>
-                                <div id="paginateGTQuestTable" class="pagination justify-content-start pagination-xsm m-0"></div>
-                            </div>
+
                         </div>
-                        <!--  DATATABLE START -->
+                        <div class="col-md-3">
+                            <!--  DATATABLE START -->
+                            <div class="card mb-32pt mt-2">
+                                <div class="card-header">
+                                    <div class="form-inline">
+                                        <label class="" for="length_change">Mostrar</label>
+                                        <select class="custom-select length_change mb-2 mr-sm-2 mb-sm-0" data-id="GTQuestTable">
+                                            <option value='10'>10</option>
+                                            <option value='25'>25</option>
+                                            <option value='50'>50</option>
+                                            <option value='100'>100</option>
+                                            <option value='500'>500</option>
+                                            <option value='1000'>1000</option>
+                                            <option value='2000'>2000</option>
+                                            <option value='5000'>5000</option>
+                                            <option value='10000'>10000</option>
+                                        </select>
+                                        <label class="" for="length_change">registos</label>
+                                        <div class="btn-group">
+                                            <button type="button" title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GTQuestTable"><i class="fa fa-check-square"></i></button>
+                                            @if (AcessControl.Authorized(AcessControl.GT_QUEST_FLEXIBILITY_DELETE))
+                                            {<button type="button" title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-upload="GT_RespFlexiTeste" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                            }<button type="button" title="Pesquisar" class="btnSearch btn btn-default" data-id="GTQuestTable"><i class="fa fa-search"></i></button>
+                                            <button type="button" title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GTQuestTable"><i class="fa fa-eraser"></i></button>
+                                            <!--Separator-->
+                                            <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gtquest", applyFilter = "true" })" target="_blank" data-id="GTQuestTable"><i class="fa fa-filter"></i></a>
+                                            <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gtquest", applyFilter = "false" })" target="_blank" data-id="GTQuestTable"><i class="fa fa-file-excel"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="GTQuestTable" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td><input type="text" id="GTQuestTableTreino" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="GTQuestTableInsercao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="GTQuestTableDataInsercao" class="form-control form-control-sm datepicker" /></td>
+                                                <td><input type="text" id="GTQuestTableActualizacao" class="form-control form-control-sm" /></td>
+                                                <td><input type="text" id="GTQuestTableDataActualizacao" class="form-control form-control-sm datepicker" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th data-name="GTQuestTableTreino">&nbsp;</th>
+                                                <th data-name="GTQuestTableInsercao">Inserção</th>
+                                                <th data-name="GTQuestTableDataInsercao">Data Inserção</th>
+                                                <th data-name="GTQuestTableActualizacao">Actualização</th>
+                                                <th data-name="GTQuestTableDataActualizacao">Data Actualização</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="card-footer p-8pt">
+                                    <span class="paginateInfoGTQuestTable paginateInfo mr-12pt" style="float:right"></span>
+                                    <div id="paginateGTQuestTable" class="pagination justify-content-start pagination-xsm m-0"></div>
+                                </div>
+                            </div>
+                            <!--  DATATABLE START -->
+                        </div>
                     </div>
-                </div>
 
 
-            }
-        </div>
+                }
+            </div>
     </div>
             <h2>&nbsp;</h2>
             <h2>&nbsp;</h2>

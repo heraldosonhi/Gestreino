@@ -326,14 +326,14 @@ namespace Gestreino.Controllers
             if (!AcessControl.Authorized(AcessControl.ADM_USERS_GROUPS_LIST_VIEW_SEARCH)) return View("Lockout");
 
             if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
-            var data = databaseManager.SP_UTILIZADORES_ENT_GRUPOS(Id, null, null, null, null, "R").ToList();
+            var data = databaseManager.SP_UTILIZADORES_ENT_GRUPOS(Id, null, null, null, null, null, null, "R").ToList();
             if (!data.Any()) { return RedirectToAction("", "home"); }
             ViewBag.data = data;
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Access;
             return View("Access/ViewGroups");
         }
         [HttpPost]
-        public ActionResult GetGroups()
+        public ActionResult GetGroups(int? Atom, int? Utilizador)
         {
             //UI DATATABLE PAGINATION BUTTONS
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
@@ -357,7 +357,9 @@ namespace Gestreino.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            var v = (from a in databaseManager.SP_UTILIZADORES_ENT_GRUPOS(null, null, null, null, null, "R").ToList() select a);
+            Atom = Atom==null?null : Atom;
+            Utilizador = Utilizador == null ? null : Utilizador;
+            var v = (from a in databaseManager.SP_UTILIZADORES_ENT_GRUPOS(null, Atom, Utilizador, null, null, null, null, "R").ToList() select a);
             TempData["QUERYRESULT_ALL"] = v.ToList();
 
             //SEARCH RESULT SET
@@ -442,7 +444,7 @@ namespace Gestreino.Controllers
                     return Json(new { result = false, error = "Sigla e/ou Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
 
                 // Create
-                var create = databaseManager.SP_UTILIZADORES_ENT_GRUPOS(null, MODEL.SIGLA, MODEL.NOME, MODEL.DESCRICAO, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                var create = databaseManager.SP_UTILIZADORES_ENT_GRUPOS(null,null,null, MODEL.SIGLA, MODEL.NOME, MODEL.DESCRICAO, int.Parse(User.Identity.GetUserId()), "C").ToList();
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -468,7 +470,7 @@ namespace Gestreino.Controllers
                     return Json(new { result = false, error = "Sigla e/ou Nome desta entidade já se encontra registada, por favor verifique a seleção!" });
 
                 // Update
-                var update = databaseManager.SP_UTILIZADORES_ENT_GRUPOS(MODEL.ID, MODEL.SIGLA, MODEL.NOME, MODEL.DESCRICAO, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                var update = databaseManager.SP_UTILIZADORES_ENT_GRUPOS(MODEL.ID,null,null, MODEL.SIGLA, MODEL.NOME, MODEL.DESCRICAO, int.Parse(User.Identity.GetUserId()), "U").ToList();
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -494,7 +496,7 @@ namespace Gestreino.Controllers
                 // Delete
                 foreach (var i in ids)
                 {
-                    databaseManager.SP_UTILIZADORES_ENT_GRUPOS(i, null, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
+                    databaseManager.SP_UTILIZADORES_ENT_GRUPOS(i,null,null, null, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
                 }
                 ModelState.Clear();
             }
@@ -512,14 +514,14 @@ namespace Gestreino.Controllers
             if (!AcessControl.Authorized(AcessControl.ADM_USERS_PROFILES_LIST_VIEW_SEARCH)) return View("Lockout");
 
             if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
-            var data = databaseManager.SP_UTILIZADORES_ENT_PERFIS(Id, null, null, null, "R").ToList();
+            var data = databaseManager.SP_UTILIZADORES_ENT_PERFIS(Id, null,null,null, null, null, "R").ToList();
             if (!data.Any()) { return RedirectToAction("", "home"); }
             ViewBag.data = data;
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Access;
             return View("Access/ViewProfiles");
         }
         [HttpPost]
-        public ActionResult GetProfiles()
+        public ActionResult GetProfiles(int? Atom,int? Utilizador)
         {
             //UI DATATABLE PAGINATION BUTTONS
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
@@ -543,7 +545,9 @@ namespace Gestreino.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            var v = (from a in databaseManager.SP_UTILIZADORES_ENT_PERFIS(null, null, null, null, "R").ToList() select a);
+            Atom = Atom == null ? null : Atom;
+            Utilizador = Utilizador == null ? null : Utilizador;
+            var v = (from a in databaseManager.SP_UTILIZADORES_ENT_PERFIS(null, Atom, Utilizador, null, null, null, "R").ToList() select a);
             TempData["QUERYRESULT_ALL"] = v.ToList();
 
             //SEARCH RESULT SET
@@ -627,7 +631,7 @@ namespace Gestreino.Controllers
                     return Json(new { result = false, error = "Nome e/ou Descrição desta entidade já se encontra registada, por favor verifique a seleção!" });
 
                 // Create
-                var create = databaseManager.SP_UTILIZADORES_ENT_PERFIS(null, MODEL.NOME, MODEL.DESCRICAO, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                var create = databaseManager.SP_UTILIZADORES_ENT_PERFIS(null,null,null, MODEL.NOME, MODEL.DESCRICAO, int.Parse(User.Identity.GetUserId()), "C").ToList();
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -653,7 +657,7 @@ namespace Gestreino.Controllers
                     return Json(new { result = false, error = "Nome e/ou Descrição desta entidade já se encontra registada, por favor verifique a seleção!" });
 
                 // Update
-                var update = databaseManager.SP_UTILIZADORES_ENT_PERFIS(MODEL.ID, MODEL.NOME, MODEL.DESCRICAO, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                var update = databaseManager.SP_UTILIZADORES_ENT_PERFIS(MODEL.ID, null,null,MODEL.NOME, MODEL.DESCRICAO, int.Parse(User.Identity.GetUserId()), "U").ToList();
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -679,7 +683,7 @@ namespace Gestreino.Controllers
                 // Delete
                 foreach (var i in ids)
                 {
-                    databaseManager.SP_UTILIZADORES_ENT_PERFIS(i, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
+                    databaseManager.SP_UTILIZADORES_ENT_PERFIS(i, null, null, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
                 }
                 ModelState.Clear();
             }
@@ -697,14 +701,14 @@ namespace Gestreino.Controllers
             if (!AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_LIST_VIEW_SEARCH)) return View("Lockout");
 
             if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
-            var data = databaseManager.SP_UTILIZADORES_ENT_ATOMOS(Id, null, null, null, "R").ToList();
+            var data = databaseManager.SP_UTILIZADORES_ENT_ATOMOS(Id, null, null, null, null, null, "R").ToList();
             if (!data.Any()) { return RedirectToAction("", "home"); }
             ViewBag.data = data;
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Access;
             return View("Access/ViewAtoms");
         }
         [HttpPost]
-        public ActionResult GetAtoms()
+        public ActionResult GetAtoms(int? ProfileId, int? GroupId)
         {
             //UI DATATABLE PAGINATION BUTTONS
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
@@ -728,7 +732,9 @@ namespace Gestreino.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            var v = (from a in databaseManager.SP_UTILIZADORES_ENT_ATOMOS(null, null, null, null, "R").ToList() select a);
+            ProfileId = ProfileId == null ? null : ProfileId;
+            GroupId = GroupId == null ? null : GroupId;
+            var v = (from a in databaseManager.SP_UTILIZADORES_ENT_ATOMOS(null, ProfileId, GroupId, null, null, null, "R").ToList() select a);
             TempData["QUERYRESULT_ALL"] = v.ToList();
 
             //SEARCH RESULT SET
@@ -812,7 +818,7 @@ namespace Gestreino.Controllers
                     return Json(new { result = false, error = "Nome e/ou Descrição desta entidade já se encontra registada, por favor verifique a seleção!" });
 
                 // Create
-                var create = databaseManager.SP_UTILIZADORES_ENT_ATOMOS(null, MODEL.NOME, MODEL.DESCRICAO, int.Parse(User.Identity.GetUserId()), "C").ToList();
+                var create = databaseManager.SP_UTILIZADORES_ENT_ATOMOS(null, null, null,MODEL.NOME, MODEL.DESCRICAO, int.Parse(User.Identity.GetUserId()), "C").ToList();
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -838,7 +844,7 @@ namespace Gestreino.Controllers
                     return Json(new { result = false, error = "Nome e/ou Descrição desta entidade já se encontra registada, por favor verifique a seleção!" });
 
                 // Update
-                var update = databaseManager.SP_UTILIZADORES_ENT_ATOMOS(MODEL.ID, MODEL.NOME, MODEL.DESCRICAO, int.Parse(User.Identity.GetUserId()), "U").ToList();
+                var update = databaseManager.SP_UTILIZADORES_ENT_ATOMOS(MODEL.ID, null, null, MODEL.NOME, MODEL.DESCRICAO, int.Parse(User.Identity.GetUserId()), "U").ToList();
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -865,7 +871,7 @@ namespace Gestreino.Controllers
                 // Delete
                 foreach (var i in ids)
                 {
-                    databaseManager.SP_UTILIZADORES_ENT_ATOMOS(i, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
+                    databaseManager.SP_UTILIZADORES_ENT_ATOMOS(i, null, null, null, null, int.Parse(User.Identity.GetUserId()), "D").ToList();
                 }
                 ModelState.Clear();
             }
@@ -1554,10 +1560,11 @@ namespace Gestreino.Controllers
 
             //UI DATATABLE SEARCH INPUTS
             var Nome = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
-            var Insercao = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
-            var DataInsercao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
-            var Actualizacao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
-            var DataActualizacao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var Desc = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
 
             //DECLARE PAGINATION VARIABLES
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
@@ -1567,7 +1574,7 @@ namespace Gestreino.Controllers
             UserId = UserId == null ? null : UserId;
             var atoms = databaseManager.SP_UTILIZADORES_LOGIN(UserId, null, null, null, null, null, null, null, null, "A").Select(x => x).ToList();
 
-            var v = (from a in databaseManager.SP_UTILIZADORES_ENT_ATOMOS(null, null, null, null, "R").
+            var v = (from a in databaseManager.SP_UTILIZADORES_ENT_ATOMOS(null, null, null, null, null, null, "R").
                      //FIX
                      Where(x => atoms.Contains(x.ID)).ToList()
                      select a);
@@ -1575,6 +1582,7 @@ namespace Gestreino.Controllers
 
             //SEARCH RESULT SET
             if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
+            if (!string.IsNullOrEmpty(Desc)) v = v.Where(a => a.DESCRICAO != null && a.DESCRICAO.ToUpper().Contains(Desc.ToUpper()));
             if (!string.IsNullOrEmpty(Insercao)) v = v.Where(a => a.INSERCAO != null && a.INSERCAO.ToUpper().Contains(Insercao.ToUpper()));
             if (!string.IsNullOrEmpty(DataInsercao)) v = v.Where(a => a.DATA_INSERCAO != null && a.DATA_INSERCAO.ToUpper().Contains(DataInsercao.Replace("-", "/").ToUpper())); // Simply replace no need for DateTime Parse
             if (!string.IsNullOrEmpty(Actualizacao)) v = v.Where(a => a.ACTUALIZACAO != null && a.ACTUALIZACAO.ToUpper().Contains(Actualizacao.ToUpper()));
@@ -1589,6 +1597,7 @@ namespace Gestreino.Controllers
                     switch (sortColumn)
                     {
                         case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "DESCRICAO": v = v.OrderBy(s => s.DESCRICAO); break;
                         case "INSERCAO": v = v.OrderBy(s => s.INSERCAO); break;
                         case "DATAINSERCAO": v = v.OrderBy(s => s.DATA_INSERCAO); break;
                         case "ACTUALIZACAO": v = v.OrderBy(s => s.ACTUALIZACAO); break;
@@ -1600,6 +1609,7 @@ namespace Gestreino.Controllers
                     switch (sortColumn)
                     {
                         case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "DESCRICAO": v = v.OrderByDescending(s => s.DESCRICAO); break;
                         case "INSERCAO": v = v.OrderByDescending(s => s.INSERCAO); break;
                         case "DATAINSERCAO": v = v.OrderByDescending(s => s.DATA_INSERCAO); break;
                         case "ACTUALIZACAO": v = v.OrderByDescending(s => s.ACTUALIZACAO); break;
@@ -1622,6 +1632,7 @@ namespace Gestreino.Controllers
                 {
                     Id = x.ID,
                     NOME = x.NOME,
+                    DESCRICAO=x.DESCRICAO,
                     INSERCAO = x.INSERCAO,
                     DATAINSERCAO = x.DATA_INSERCAO,
                     ACTUALIZACAO = x.ACTUALIZACAO,

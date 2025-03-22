@@ -53,7 +53,14 @@
         </div>
         <div id="anxientFormClone" hidden></div>
         <div>
-            <button class="btn btn-success btn-sm" id="submitanxientForm" onclick="submitanxientForm()"><i class="fa fa-floppy-disk"></i> Guardar</button>
+            @if (ViewBag.Action == "anxiety" && AcessControl.Authorized(AcessControl.GT_QUEST_ANXIETY_UPDATE))
+            {
+                <button class="btn btn-success btn-sm" id="submitanxientForm" onclick="submitanxientForm()"><i class="fa fa-floppy-disk"></i> Guardar</button>
+            }
+            @if (ViewBag.Action == "selfconcept" && AcessControl.Authorized(AcessControl.GT_QUEST_SELFCONCEPT_UPDATE))
+            {
+                <button class="btn btn-success btn-sm" id="submitanxientForm" onclick="submitanxientForm()"><i class="fa fa-floppy-disk"></i> Guardar</button>
+            }
             <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">OK</button>
         </div>
     }
@@ -127,9 +134,12 @@
 
         <div id="anxientFormClone" hidden></div>
         <div>
-            <button class="btn btn-success btn-sm" id="submitanxientForm" onclick="submitanxientForm()"><i class="fa fa-floppy-disk"></i> Guardar</button>
+            @if (AcessControl.Authorized(AcessControl.GT_QUEST_CORONARYRISK_UPDATE))
+            {
+                <button class="btn btn-success btn-sm" id="submitanxientForm" onclick="submitanxientForm()"><i class="fa fa-floppy-disk"></i> Guardar</button>
+            }   
             <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">OK</button>
-        </div>
+            </div>
     }
     @if (ViewBag.Action == "Remover")
     {

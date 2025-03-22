@@ -21,14 +21,18 @@
                     @Html.HiddenFor(m => m.PEsId)
                     @Html.HiddenFor(m => m.ID)
                     <input type="hidden" value="GT_RespProblemasSaude" id="GT_Res" />
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="btn-group">
-                                <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-floppy-disk"></i> Guardar</button>
-                                <a class="btn btn-secondary" href="@Url.Action("health", "gtmanagement", new {Id=string.Empty})"><i class="fa fa-plus-circle"></i> Novo</a>
+
+                    if (AcessControl.Authorized(AcessControl.GT_QUEST_HEALTH_UPDATE))
+                    {
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="btn-group">
+                                    <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-floppy-disk"></i> Guardar</button>
+                                    <a class="btn btn-secondary" href="@Url.Action("health", "gtmanagement", new {Id=string.Empty})"><i class="fa fa-plus-circle"></i> Novo</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        }
                     <div class="row">
                         <div class="col-md-9 mt-2">
                             <div class="animated flipInY">
@@ -43,649 +47,649 @@
                                         <h6 class="p-2 bg-light mt-2 text-success"><i class="fa fa-floppy-disk"></i> Questionário registado: @ViewBag.data[0].DATA_INSERCAO.ToString("dd/MM/yyyy HH:mm")</h6>
                                     }
 
-                                <table class="table mt-3">
-                                    <tr>
-                                        <td>
-                                            <h5> 1. Osteoporose</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input class="radhealth"  type="radio" id="q1_1" name="q1" value="1" @(Model.q1 != null && Model.q1 == 1 ? "checked" : "") /> <label for="q1_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q1_2" name="q1" value="0" @(Model.q1 != null && Model.q1 == 0 ? "checked" : "") /> <label for="q1_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q1 != 1?"disabled":"")>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.dtOsteoporoseI, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtOsteoporoseI, new { @class = "datepicker form-control form-control-sm" })
+                                    <table class="table mt-3">
+                                        <tr>
+                                            <td>
+                                                <h5> 1. Osteoporose</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class="radhealth" type="radio" id="q1_1" name="q1" value="1" @(Model.q1 != null && Model.q1 == 1 ? "checked" : "") /> <label for="q1_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q1_2" name="q1" value="0" @(Model.q1 != null && Model.q1 == 0 ? "checked" : "") /> <label for="q1_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q1 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.dtOsteoporoseI, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtOsteoporoseI, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
+                                                        @Html.LabelFor(m => m.dtOsteoporoseF, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtOsteoporoseF, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                    @Html.LabelFor(m => m.dtOsteoporoseF, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtOsteoporoseF, new { @class = "datepicker form-control form-control-sm" })
+                                                    <div class="row mt-1">
+                                                        @Html.LabelFor(m => m.txtOsteoporose, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtOsteoporose, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row mt-1">
-                                                    @Html.LabelFor(m => m.txtOsteoporose, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtOsteoporose, new { @class = "form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>  2. Osteoartose</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class="radhealth" type="radio" id="q2_1" name="q2" value="1" @(Model.q2 != null && Model.q2 == 1 ? "checked" : "") /> <label for="q2_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q2_2" name="q2" value="0" @(Model.q2 != null && Model.q2 == 0 ? "checked" : "") /> <label for="q2_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q2 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.dtOsteoartoseI, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtOsteoartoseI, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
+                                                        @Html.LabelFor(m => m.dtOsteoartoseF, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtOsteoartoseF, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>  2. Osteoartose</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input class="radhealth" type="radio" id="q2_1" name="q2" value="1" @(Model.q2 != null && Model.q2 == 1 ? "checked" : "") /> <label for="q2_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q2_2" name="q2" value="0" @(Model.q2 != null && Model.q2 == 0 ? "checked" : "") /> <label for="q2_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q2 !=1 ? "disabled" : "")>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.dtOsteoartoseI, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtOsteoartoseI, new { @class = "datepicker form-control form-control-sm" })
+                                                    <div class="row mt-1">
+                                                        @Html.LabelFor(m => m.txtOsteoartose, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtOsteoartose, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                    @Html.LabelFor(m => m.dtOsteoartoseF, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtOsteoartoseF, new { @class = "datepicker form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>  3. Alterações Ariculares</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class="radhealth" type="radio" id="q3_1" name="q3" value="1" @(Model.q3 != null && Model.q3 == 1 ? "checked" : "") /> <label for="q3_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q3_2" name="q3" value="0" @(Model.q3 != null && Model.q3 == 0 ? "checked" : "") /> <label for="q3_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q3 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.dtArticularesI, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtArticularesI, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
+                                                        @Html.LabelFor(m => m.dtArticularesF, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtArticularesF, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row mt-1">
-                                                    @Html.LabelFor(m => m.txtOsteoartose, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtOsteoartose, new { @class = "form-control form-control-sm" })
+                                                    <div class="row mt-1">
+                                                        @Html.LabelFor(m => m.txtArticulares, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtArticulares, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>  3. Alterações Ariculares</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input class="radhealth" type="radio" id="q3_1" name="q3" value="1" @(Model.q3 != null && Model.q3 == 1 ? "checked" : "") /> <label for="q3_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q3_2" name="q3" value="0" @(Model.q3 != null && Model.q3 == 0 ? "checked" : "") /> <label for="q3_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q3 !=1 ? "disabled" : "")>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.dtArticularesI, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtArticularesI, new { @class = "datepicker form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>  4. Lesões ou Complicações Ortopedicas</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class="radhealth" type="radio" id="q4_1" name="q4" value="1" @(Model.q4 != null && Model.q4 == 1 ? "checked" : "") /> <label for="q4_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q4_2" name="q4" value="0" @(Model.q4 != null && Model.q4 == 0 ? "checked" : "") /> <label for="q4_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q4 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.dtLesoesI, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtLesoesI, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
+                                                        @Html.LabelFor(m => m.dtLesoesF, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtLesoesF, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                    @Html.LabelFor(m => m.dtArticularesF, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtArticularesF, new { @class = "datepicker form-control form-control-sm" })
+                                                    <div class="row mt-1">
+                                                        @Html.LabelFor(m => m.txtLesoes, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtLesoes, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row mt-1">
-                                                    @Html.LabelFor(m => m.txtArticulares, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtArticulares, new { @class = "form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>  5. Sente dor ou incomodo nas costas?</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class="radhealth" type="radio" id="q5_1" name="q5" value="1" @(Model.q5 != null && Model.q5 == 1 ? "checked" : "") /> <label for="q5_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q5_2" name="q5" value="0" @(Model.q5 != null && Model.q5 == 0 ? "checked" : "") /> <label for="q5_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q5 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.dtDorI, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtDorI, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
+                                                        @Html.LabelFor(m => m.dtDorF, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtDorF, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>  4. Lesões ou Complicações Ortopedicas</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input class="radhealth" type="radio" id="q4_1" name="q4" value="1" @(Model.q4 != null && Model.q4 == 1 ? "checked" : "") /> <label for="q4_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q4_2" name="q4" value="0" @(Model.q4 != null && Model.q4 == 0 ? "checked" : "") /> <label for="q4_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q4 !=1 ? "disabled" : "")>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.dtLesoesI, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtLesoesI, new { @class = "datepicker form-control form-control-sm" })
+                                                    <div class="row mt-1">
+                                                        @Html.LabelFor(m => m.txtDor, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtDor, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                    @Html.LabelFor(m => m.dtLesoesF, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtLesoesF, new { @class = "datepicker form-control form-control-sm" })
+                                                    <div class="row mt-1">
+                                                        @Html.LabelFor(m => m.txtCausaDor, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtCausaDor, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row mt-1">
-                                                    @Html.LabelFor(m => m.txtLesoes, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtLesoes, new { @class = "form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>Escoliose?</b>
+                                                <input class="radhealth" type="radio" id="q5_1_1" name="q5_1" value="1" @(Model.q5_1 != null && Model.q5_1 == 1 ? "checked" : "") /> <label for="q5_1_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q5_1_2" name="q5_1" value="0" @(Model.q5_1 != null && Model.q5_1 == 0 ? "checked" : "") /> <label for="q5_1_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q5_1 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.dtEscolioseI, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtEscolioseI, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
+                                                        @Html.LabelFor(m => m.dtEscolioseF, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtEscolioseF, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>  5. Sente dor ou incomodo nas costas?</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input class="radhealth" type="radio" id="q5_1" name="q5" value="1" @(Model.q5 != null && Model.q5 == 1 ? "checked" : "") /> <label for="q5_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q5_2" name="q5" value="0" @(Model.q5 != null && Model.q5 == 0 ? "checked" : "") /> <label for="q5_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q5 !=1 ? "disabled" : "")>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.dtDorI, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtDorI, new { @class = "datepicker form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b> Hiperlordose?</b>
+                                                <input class="radhealth" type="radio" id="q5_2_1" name="q5_2" value="1" @(Model.q5_2 != null && Model.q5_2 == 1 ? "checked" : "") /> <label for="q5_2_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q5_2_2" name="q5_2" value="0" @(Model.q5_2 != null && Model.q5_2 == 0 ? "checked" : "") /> <label for="q5_2_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q5_2 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.dtHiperlordoseI, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtHiperlordoseI, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
+                                                        @Html.LabelFor(m => m.dtHiperlordoseF, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtHiperlordoseF, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                    @Html.LabelFor(m => m.dtDorF, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtDorF, new { @class = "datepicker form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b> Hipercifose?</b>
+                                                <input class="radhealth" type="radio" id="q5_3_1" name="q5_3" value="1" @(Model.q5_3 != null && Model.q5_3 == 1 ? "checked" : "") /> <label for="q5_3_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q5_3_2" name="q5_3" value="0" @(Model.q5_3 != null && Model.q5_3 == 0 ? "checked" : "") /> <label for="q5_3_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q5_3 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.dtHipercifoseI, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtHipercifoseI, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
+                                                        @Html.LabelFor(m => m.dtHipercifoseF, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtHipercifoseF, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row mt-1">
-                                                    @Html.LabelFor(m => m.txtDor, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtDor, new { @class = "form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>  6. Sente dor ou incómodo no joelho?</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class="radhealth" type="radio" id="q6_1" name="q6" value="1" @(Model.q6 != null && Model.q6 == 1 ? "checked" : "") /> <label for="q6_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q6_2" name="q6" value="0" @(Model.q6 != null && Model.q6 == 0 ? "checked" : "") /> <label for="q6_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q6 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.dtJoelhoI, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtJoelhoI, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
+                                                        @Html.LabelFor(m => m.dtJoelhoF, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtJoelhoF, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row mt-1">
-                                                    @Html.LabelFor(m => m.txtCausaDor, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtCausaDor, new { @class = "form-control form-control-sm" })
+                                                    <div class="row mt-1">
+                                                        @Html.LabelFor(m => m.txtJoelho, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtJoelho, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>Escoliose?</b>
-                                            <input class="radhealth" type="radio" id="q5_1_1" name="q5_1" value="1" @(Model.q5_1 != null && Model.q5_1 == 1 ? "checked" : "") /> <label for="q5_1_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q5_1_2" name="q5_1" value="0" @(Model.q5_1 != null && Model.q5_1 == 0 ? "checked" : "") /> <label for="q5_1_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q5_1 !=1 ? "disabled" : "")>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.dtEscolioseI, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtEscolioseI, new { @class = "datepicker form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>  7. Sente dor ou incómodo no ombro?</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class="radhealth" type="radio" id="q7_1" name="q7" value="1" @(Model.q7 != null && Model.q7 == 1 ? "checked" : "") /> <label for="q7_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q7_2" name="q7" value="0" @(Model.q7 != null && Model.q7 == 0 ? "checked" : "") /> <label for="q7_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q7 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.dtOmbroI, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtOmbroI, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
+                                                        @Html.LabelFor(m => m.dtOmbroF, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtOmbroF, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                    @Html.LabelFor(m => m.dtEscolioseF, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtEscolioseF, new { @class = "datepicker form-control form-control-sm" })
+                                                    <div class="row mt-1">
+                                                        @Html.LabelFor(m => m.txtOmbro, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtOmbro, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b> Hiperlordose?</b>
-                                            <input class="radhealth" type="radio" id="q5_2_1" name="q5_2" value="1" @(Model.q5_2 != null && Model.q5_2 == 1 ? "checked" : "") /> <label for="q5_2_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q5_2_2" name="q5_2" value="0" @(Model.q5_2 != null && Model.q5_2 == 0 ? "checked" : "") /> <label for="q5_2_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q5_2 !=1 ? "disabled" : "")>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.dtHiperlordoseI, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtHiperlordoseI, new { @class = "datepicker form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>  8. Sente dor ou incómodo no punho?</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class="radhealth" type="radio" id="q8_1" name="q8" value="1" @(Model.q8 != null && Model.q8 == 1 ? "checked" : "") /> <label for="q8_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q8_2" name="q8" value="0" @(Model.q8 != null && Model.q8 == 0 ? "checked" : "") /> <label for="q8_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q8 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.dtPunhoI, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtPunhoI, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
+                                                        @Html.LabelFor(m => m.dtPunhoF, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtPunhoF, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                    @Html.LabelFor(m => m.dtHiperlordoseF, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtHiperlordoseF, new { @class = "datepicker form-control form-control-sm" })
+                                                    <div class="row mt-1">
+                                                        @Html.LabelFor(m => m.txtPunho, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtPunho, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b> Hipercifose?</b>
-                                            <input class="radhealth" type="radio" id="q5_3_1" name="q5_3" value="1" @(Model.q5_3 != null && Model.q5_3 == 1 ? "checked" : "") /> <label for="q5_3_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q5_3_2" name="q5_3" value="0" @(Model.q5_3 != null && Model.q5_3 == 0 ? "checked" : "") /> <label for="q5_3_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q5_3 !=1 ? "disabled" : "")>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.dtHipercifoseI, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtHipercifoseI, new { @class = "datepicker form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>  9. Sente dor ou incómodo no tornozelo?</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class="radhealth" type="radio" id="q9_1" name="q9" value="1" @(Model.q9 != null && Model.q9 == 1 ? "checked" : "") /> <label for="q9_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q9_2" name="q9" value="0" @(Model.q9 != null && Model.q9 == 0 ? "checked" : "") /> <label for="q9_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q9 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.dtTornozeloI, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtTornozeloI, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
+                                                        @Html.LabelFor(m => m.dtTornozeloF, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtTornozeloF, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                    @Html.LabelFor(m => m.dtHipercifoseF, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtHipercifoseF, new { @class = "datepicker form-control form-control-sm" })
+                                                    <div class="row mt-1">
+                                                        @Html.LabelFor(m => m.txtTornozelo, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtTornozelo, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>  6. Sente dor ou incómodo no joelho?</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input class="radhealth" type="radio" id="q6_1" name="q6" value="1" @(Model.q6 != null && Model.q6 == 1 ? "checked" : "") /> <label for="q6_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q6_2" name="q6" value="0" @(Model.q6 != null && Model.q6 == 0 ? "checked" : "") /> <label for="q6_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q6 !=1 ? "disabled" : "")>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.dtJoelhoI, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtJoelhoI, new { @class = "datepicker form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>  10. Sente dor ou incómodo noutra articulação ?</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class="radhealth" type="radio" id="q10_1" name="q10" value="1" @(Model.q10 != null && Model.q10 == 1 ? "checked" : "") /> <label for="q10_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q10_2" name="q10" value="0" @(Model.q10 != null && Model.q10 == 0 ? "checked" : "") /> <label for="q10_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q10 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.dtOutraArticI, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtOutraArticI, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
+                                                        @Html.LabelFor(m => m.dtOutraArticF, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtOutraArticF, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                    @Html.LabelFor(m => m.dtJoelhoF, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtJoelhoF, new { @class = "datepicker form-control form-control-sm" })
+                                                    <div class="row mt-1">
+                                                        @Html.LabelFor(m => m.txtOutraArtic1, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtOutraArtic1, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row mt-1">
-                                                    @Html.LabelFor(m => m.txtJoelho, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtJoelho, new { @class = "form-control form-control-sm" })
+                                                    <div class="row mt-1">
+                                                        @Html.LabelFor(m => m.txtOutraArtic2, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtOutraArtic2, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>  7. Sente dor ou incómodo no ombro?</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input class="radhealth" type="radio" id="q7_1" name="q7" value="1" @(Model.q7 != null && Model.q7 == 1 ? "checked" : "") /> <label for="q7_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q7_2" name="q7" value="0" @(Model.q7 != null && Model.q7 == 0 ? "checked" : "") /> <label for="q7_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q7 !=1 ? "disabled" : "")>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.dtOmbroI, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtOmbroI, new { @class = "datepicker form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>  11. Doença de Parkinson?</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class="radhealth" type="radio" id="q11_1" name="q11" value="1" @(Model.q11 != null && Model.q11 == 1 ? "checked" : "") /> <label for="q11_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q11_2" name="q11" value="0" @(Model.q11 != null && Model.q11 == 0 ? "checked" : "") /> <label for="q11_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q11 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.dtParkinsonI, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtParkinsonI, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                    @Html.LabelFor(m => m.dtOmbroF, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtOmbroF, new { @class = "datepicker form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5>  12. Problemas Visuais?</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class="radhealth" type="radio" id="q12_1" name="q12" value="1" @(Model.q12 != null && Model.q12 == 1 ? "checked" : "") /> <label for="q12_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q12_2" name="q12" value="0" @(Model.q12 != null && Model.q12 == 0 ? "checked" : "") /> <label for="q12_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q12 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.dtVisualI, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtVisualI, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
+                                                        @Html.LabelFor(m => m.dtVisualF, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtVisualF, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row mt-1">
-                                                    @Html.LabelFor(m => m.txtOmbro, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtOmbro, new { @class = "form-control form-control-sm" })
+                                                    <div class="row mt-1">
+                                                        @Html.LabelFor(m => m.txtVisual, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtVisual, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>  8. Sente dor ou incómodo no punho?</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input class="radhealth" type="radio" id="q8_1" name="q8" value="1" @(Model.q8 != null && Model.q8 == 1 ? "checked" : "") /> <label for="q8_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q8_2" name="q8" value="0" @(Model.q8 != null && Model.q8 == 0 ? "checked" : "") /> <label for="q8_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q8 !=1 ? "disabled" : "")>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.dtPunhoI, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtPunhoI, new { @class = "datepicker form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5> 13. Problemas Auditivos?</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class="radhealth" type="radio" id="q13_1" name="q13" value="1" @(Model.q13 != null && Model.q13 == 1 ? "checked" : "") /> <label for="q13_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q13_2" name="q13" value="0" @(Model.q13 != null && Model.q13 == 0 ? "checked" : "") /> <label for="q13_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q13 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.dtAuditivoI, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtAuditivoI, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
+                                                        @Html.LabelFor(m => m.dtAuditivoF, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtAuditivoF, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                    @Html.LabelFor(m => m.dtPunhoF, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtPunhoF, new { @class = "datepicker form-control form-control-sm" })
+                                                    <div class="row mt-1">
+                                                        @Html.LabelFor(m => m.txtAuditivo, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtAuditivo, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row mt-1">
-                                                    @Html.LabelFor(m => m.txtPunho, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtPunho, new { @class = "form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5> 14. Problemas Gastrointestinais?</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class="radhealth" type="radio" id="q14_1" name="q14" value="1" @(Model.q14 != null && Model.q14 == 1 ? "checked" : "") /> <label for="q14_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q14_2" name="q14" value="0" @(Model.q14 != null && Model.q14 == 0 ? "checked" : "") /> <label for="q14_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q14 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.dtGastroI, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtGastroI, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
+                                                        @Html.LabelFor(m => m.dtGastroF, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.dtGastroF, new { @class = "datepicker form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>  9. Sente dor ou incómodo no tornozelo?</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input class="radhealth" type="radio" id="q9_1" name="q9" value="1" @(Model.q9 != null && Model.q9 == 1 ? "checked" : "") /> <label for="q9_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q9_2" name="q9" value="0" @(Model.q9 != null && Model.q9 == 0 ? "checked" : "") /> <label for="q9_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q9 !=1 ? "disabled" : "")>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.dtTornozeloI, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtTornozeloI, new { @class = "datepicker form-control form-control-sm" })
+                                                    <div class="row mt-1">
+                                                        @Html.LabelFor(m => m.txtGastro, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtGastro, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                    @Html.LabelFor(m => m.dtTornozeloF, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtTornozeloF, new { @class = "datepicker form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5> 15. Intervenções cirúgicas?</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class="radhealth" type="radio" id="q15_1" name="q15" value="1" @(Model.q15 != null && Model.q15 == 1 ? "checked" : "") /> <label for="q15_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q15_2" name="q15" value="0" @(Model.q15 != null && Model.q15 == 0 ? "checked" : "") /> <label for="q15_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q15 != 1 ? "disabled" : "")>
+                                                    <div class="row">
+                                                        <b>@Html.LabelFor(m => m.txtCirugiaIdade1, new { @class = "col-sm-2 col-form-label" })</b>
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.txtCirugiaIdade1, new { @class = "form-control form-control-sm", type = "number", min = "1" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row mt-1">
-                                                    @Html.LabelFor(m => m.txtTornozelo, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtTornozelo, new { @class = "form-control form-control-sm" })
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.txtCirugiaOnde1, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtCirugiaOnde1, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>  10. Sente dor ou incómodo noutra articulação ?</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input class="radhealth" type="radio" id="q10_1" name="q10" value="1" @(Model.q10 != null && Model.q10 == 1 ? "checked" : "") /> <label for="q10_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q10_2" name="q10" value="0" @(Model.q10 != null && Model.q10 == 0 ? "checked" : "") /> <label for="q10_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q10 !=1 ? "disabled" : "")>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.dtOutraArticI, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtOutraArticI, new { @class = "datepicker form-control form-control-sm" })
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.txtCirugiaCausa1, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtCirugiaCausa1, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                    @Html.LabelFor(m => m.dtOutraArticF, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtOutraArticF, new { @class = "datepicker form-control form-control-sm" })
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.txtCirugiaRestricao1, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtCirugiaRestricao1, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row mt-1">
-                                                    @Html.LabelFor(m => m.txtOutraArtic1, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtOutraArtic1, new { @class = "form-control form-control-sm" })
+                                                    <div class="row">
+                                                        <div class="col-md-2">&nbsp;</div>
                                                     </div>
-                                                </div>
-                                                <div class="row mt-1">
-                                                    @Html.LabelFor(m => m.txtOutraArtic2, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtOutraArtic2, new { @class = "form-control form-control-sm" })
+                                                    <div class="row">
+                                                        <b>@Html.LabelFor(m => m.txtCirugiaIdade2, new { @class = "col-sm-2 col-form-label" })</b>
+                                                        <div class="col-sm-4">
+                                                            @Html.TextBoxFor(x => Model.txtCirugiaIdade2, new { @class = "form-control form-control-sm", type = "number", min = "1" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>  11. Doença de Parkinson?</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input class="radhealth" type="radio" id="q11_1" name="q11" value="1" @(Model.q11 != null && Model.q11 == 1 ? "checked" : "") /> <label for="q11_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q11_2" name="q11" value="0" @(Model.q11 != null && Model.q11 == 0 ? "checked" : "") /> <label for="q11_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q11 !=1 ? "disabled" : "")>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.dtParkinsonI, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtParkinsonI, new { @class = "datepicker form-control form-control-sm" })
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.txtCirugiaOnde2, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtCirugiaOnde2, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>  12. Problemas Visuais?</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input class="radhealth" type="radio" id="q12_1" name="q12" value="1" @(Model.q12 != null && Model.q12 == 1 ? "checked" : "") /> <label for="q12_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q12_2" name="q12" value="0" @(Model.q12 != null && Model.q12 == 0 ? "checked" : "") /> <label for="q12_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q12 !=1 ? "disabled" : "")>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.dtVisualI, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtVisualI, new { @class = "datepicker form-control form-control-sm" })
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.txtCirugiaCausa2, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtCirugiaCausa2, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                    @Html.LabelFor(m => m.dtVisualF, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtVisualF, new { @class = "datepicker form-control form-control-sm" })
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => m.txtCirugiaRestricao2, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(x => Model.txtCirugiaRestricao2, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row mt-1">
-                                                    @Html.LabelFor(m => m.txtVisual, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtVisual, new { @class = "form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5> 16. Outros problemas de saúde?</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class="radhealth" type="radio" id="q16_1" name="q16" value="1" @(Model.q16 != null && Model.q16 == 1 ? "checked" : "") /> <label for="q16_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q16_2" name="q16" value="0" @(Model.q16 != null && Model.q16 == 0 ? "checked" : "") /> <label for="q16_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q16 != 1 ? "disabled" : "")>
+                                                    <div class="row mt-1">
+                                                        @Html.LabelFor(m => m.txtProbSaude, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextAreaFor(x => Model.txtProbSaude, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5> 13. Problemas Auditivos?</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input class="radhealth" type="radio" id="q13_1" name="q13" value="1" @(Model.q13 != null && Model.q13 == 1 ? "checked" : "") /> <label for="q13_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q13_2" name="q13" value="0" @(Model.q13 != null && Model.q13 == 0 ? "checked" : "") /> <label for="q13_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q13 !=1 ? "disabled" : "")>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.dtAuditivoI, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtAuditivoI, new { @class = "datepicker form-control form-control-sm" })
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h5> 17. Tem alguma razão médica que limite a sua actividade física?</h5>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class="radhealth" type="radio" id="q17_1" name="q17" value="1" @(Model.q17 != null && Model.q17 == 1 ? "checked" : "") /> <label for="q17_1">Sim</label>
+                                                &nbsp;&nbsp;<input class="radhealth" type="radio" id="q17_2" name="q17" value="0" @(Model.q17 != null && Model.q17 == 0 ? "checked" : "") /> <label for="q17_2">Não</label>
+                                            </td>
+                                            <td>
+                                                <fieldset @(Model.q17 != 1 ? "disabled" : "")>
+                                                    <div class="row mt-1">
+                                                        @Html.LabelFor(m => m.txtInactividade, new { @class = "col-sm-2 col-form-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextAreaFor(x => Model.txtInactividade, new { @class = "form-control form-control-sm" })
+                                                        </div>
                                                     </div>
-                                                    @Html.LabelFor(m => m.dtAuditivoF, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtAuditivoF, new { @class = "datepicker form-control form-control-sm" })
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-1">
-                                                    @Html.LabelFor(m => m.txtAuditivo, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtAuditivo, new { @class = "form-control form-control-sm" })
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5> 14. Problemas Gastrointestinais?</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input class="radhealth" type="radio" id="q14_1" name="q14" value="1" @(Model.q14 != null && Model.q14 == 1 ? "checked" : "") /> <label for="q14_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q14_2" name="q14" value="0" @(Model.q14 != null && Model.q14 == 0 ? "checked" : "") /> <label for="q14_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q14 !=1 ? "disabled" : "")>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.dtGastroI, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtGastroI, new { @class = "datepicker form-control form-control-sm" })
-                                                    </div>
-                                                    @Html.LabelFor(m => m.dtGastroF, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.dtGastroF, new { @class = "datepicker form-control form-control-sm" })
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-1">
-                                                    @Html.LabelFor(m => m.txtGastro, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtGastro, new { @class = "form-control form-control-sm" })
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5> 15. Intervenções cirúgicas?</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input class="radhealth" type="radio" id="q15_1" name="q15" value="1" @(Model.q15 != null && Model.q15 == 1 ? "checked" : "") /> <label for="q15_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q15_2" name="q15" value="0" @(Model.q15 != null && Model.q15 == 0 ? "checked" : "") /> <label for="q15_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q15 !=1 ? "disabled" : "")>
-                                                <div class="row">
-                                                    <b>@Html.LabelFor(m => m.txtCirugiaIdade1, new { @class = "col-sm-2 col-form-label" })</b>
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.txtCirugiaIdade1, new { @class = "form-control form-control-sm", type = "number", min = "1" })
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.txtCirugiaOnde1, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtCirugiaOnde1, new { @class = "form-control form-control-sm" })
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.txtCirugiaCausa1, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtCirugiaCausa1, new { @class = "form-control form-control-sm" })
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.txtCirugiaRestricao1, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtCirugiaRestricao1, new { @class = "form-control form-control-sm" })
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2">&nbsp;</div>
-                                                </div>
-                                                <div class="row">
-                                                    <b>@Html.LabelFor(m => m.txtCirugiaIdade2, new { @class = "col-sm-2 col-form-label" })</b>
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => Model.txtCirugiaIdade2, new { @class = "form-control form-control-sm", type = "number", min = "1" })
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.txtCirugiaOnde2, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtCirugiaOnde2, new { @class = "form-control form-control-sm" })
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.txtCirugiaCausa2, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtCirugiaCausa2, new { @class = "form-control form-control-sm" })
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    @Html.LabelFor(m => m.txtCirugiaRestricao2, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextBoxFor(x => Model.txtCirugiaRestricao2, new { @class = "form-control form-control-sm" })
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5> 16. Outros problemas de saúde?</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input class="radhealth" type="radio" id="q16_1" name="q16" value="1" @(Model.q16 != null && Model.q16 == 1 ? "checked" : "") /> <label for="q16_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q16_2" name="q16" value="0" @(Model.q16 != null && Model.q16 == 0 ? "checked" : "") /> <label for="q16_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q16 !=1 ? "disabled" : "")>
-                                                <div class="row mt-1">
-                                                    @Html.LabelFor(m => m.txtProbSaude, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextAreaFor(x => Model.txtProbSaude, new { @class = "form-control form-control-sm" })
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5> 17. Tem alguma razão médica que limite a sua actividade física?</h5>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input class="radhealth" type="radio" id="q17_1" name="q17" value="1" @(Model.q17 != null && Model.q17 == 1 ? "checked" : "") /> <label for="q17_1">Sim</label>
-                                            &nbsp;&nbsp;<input class="radhealth" type="radio" id="q17_2" name="q17" value="0" @(Model.q17 != null && Model.q17 == 0 ? "checked" : "") /> <label for="q17_2">Não</label>
-                                        </td>
-                                        <td>
-                                            <fieldset @(Model.q17 !=1 ? "disabled" : "")>
-                                                <div class="row mt-1">
-                                                    @Html.LabelFor(m => m.txtInactividade, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-10">
-                                                        @Html.TextAreaFor(x => Model.txtInactividade, new { @class = "form-control form-control-sm" })
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </td>
-                                    </tr>
-                                </table>
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -709,8 +713,9 @@
                                         <label class="" for="length_change">registos</label>
                                         <div class="btn-group">
                                             <button type="button" title="Selecionar" id="btnSelect" class="btnSelect btn btn-default" data-id="GTQuestTable"><i class="fa fa-check-square"></i></button>
-                                            <button type="button" title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-upload="GT_RespProblemasSaude" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
-                                            <button type="button" title="Pesquisar" class="btnSearch btn btn-default" data-id="GTQuestTable"><i class="fa fa-search"></i></button>
+                                            @if (AcessControl.Authorized(AcessControl.GT_QUEST_HEALTH_DELETE))
+                                            {<button type="button" title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-default" data-id="0" data-action="RemoverMultiplos" data-upload="GT_RespProblemasSaude" data-entity="gtquest" data-toggle="modal" data-target="#crudControlModal" disabled=""><i class="fa fa-trash"></i></button>
+                                            }  <button type="button" title="Pesquisar" class="btnSearch btn btn-default" data-id="GTQuestTable"><i class="fa fa-search"></i></button>
                                             <button type="button" title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GTQuestTable"><i class="fa fa-eraser"></i></button>
                                             <!--Separator-->
                                             <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gtquest", applyFilter = "true" })" target="_blank" data-id="GTQuestTable"><i class="fa fa-filter"></i></a>

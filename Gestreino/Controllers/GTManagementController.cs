@@ -2184,6 +2184,8 @@ namespace Gestreino.Controllers
         // Avaliacao psicologica
         public ActionResult Anxiety(GT_Quest_Anxient MODEL, int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.GT_QUEST_ANXIETY_LIST_VIEW_SEARCH)) return View("Lockout");
+
             if (Id > 0)
             {
                 var data = databaseManager.GT_RespAnsiedadeDepressao.Where(x => x.ID == Id).ToList();
@@ -2299,7 +2301,6 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlEdit = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_EDIT) ? "none" : "",
                     //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
                     Id = x.ID,
                     AVALIACAO=x.treino,
@@ -2440,6 +2441,7 @@ namespace Gestreino.Controllers
 
         public ActionResult SelfConcept(GT_Quest_SelfConcept MODEL, int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.GT_QUEST_SELFCONCEPT_LIST_VIEW_SEARCH)) return View("Lockout");
 
             if (Id > 0)
             {
@@ -2590,6 +2592,7 @@ namespace Gestreino.Controllers
         //Risco coronario
         public ActionResult CoronaryRisk(CoronaryRisk MODEL, int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.GT_QUEST_CORONARYRISK_LIST_VIEW_SEARCH)) return View("Lockout");
 
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
             MODEL.txtIMC = databaseManager.PES_PESSOAS_CARACT.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(X => X.IMC).FirstOrDefault();
@@ -2832,6 +2835,8 @@ namespace Gestreino.Controllers
         //Outros problemas de saude
         public ActionResult Health(Health MODEL, int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.GT_QUEST_HEALTH_LIST_VIEW_SEARCH)) return View("Lockout");
+
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
 
             if (Id > 0)
@@ -3184,6 +3189,8 @@ namespace Gestreino.Controllers
         //Flexibilidade
         public ActionResult Flexibility(Flexibility MODEL, int? Id, int? flexiType)
         {
+            if (!AcessControl.Authorized(AcessControl.GT_QUEST_FLEXIBILITY_LIST_VIEW_SEARCH)) return View("Lockout");
+
             var tipoList = databaseManager.GT_TipoTesteFlexibilidade.ToList();
             MODEL.TipoList = tipoList.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
             MODEL.TipoId = MODEL.TipoList.Any() ? Convert.ToInt32(MODEL.TipoList.FirstOrDefault().Value) : 0;
@@ -3415,6 +3422,8 @@ namespace Gestreino.Controllers
         //Composicao Corporal
         public ActionResult BodyComposition(BodyComposition MODEL, int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.GT_QUEST_BODYCOMPOSITION_LIST_VIEW_SEARCH)) return View("Lockout");
+
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
 
             MODEL.GT_TipoNivelActividade_List = databaseManager.GT_TipoNivelActividade.OrderBy(x => x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
@@ -3610,6 +3619,8 @@ namespace Gestreino.Controllers
         //Cardio
         public ActionResult Cardio(Cardio MODEL, int? Id, int? flexiType)
         {
+            if (!AcessControl.Authorized(AcessControl.GT_QUEST_CARDIO_LIST_VIEW_SEARCH)) return View("Lockout");
+
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
 
             MODEL.GT_TipoMetodoComposicao_List = databaseManager.GT_TipoMetodoCardio.OrderBy(x => x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
@@ -4025,6 +4036,8 @@ namespace Gestreino.Controllers
         //Pessoa Idosa
         public ActionResult Elderly(Elderly MODEL, int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.GT_QUEST_ELDERLY_LIST_VIEW_SEARCH)) return View("Lockout");
+
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
 
             MODEL.GT_TipoTestePessoaIdosa_List = databaseManager.GT_TipoTestePessoaIdosa.OrderBy(x => x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
@@ -4233,6 +4246,8 @@ namespace Gestreino.Controllers
         //Forca
         public ActionResult Force(Force MODEL, int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.GT_QUEST_FORCE_LIST_VIEW_SEARCH)) return View("Lockout");
+
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
 
             MODEL.GT_TipoTesteForca_List = databaseManager.GT_TipoTesteForca.OrderBy(x => x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
@@ -4808,6 +4823,8 @@ namespace Gestreino.Controllers
         //Funcional
         public ActionResult Functional(Functional MODEL, int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.GT_QUEST_FUNCTIONAL_LIST_VIEW_SEARCH)) return View("Lockout");
+
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
 
             if (Id > 0)
@@ -4973,6 +4990,8 @@ namespace Gestreino.Controllers
         //Consulta Prescricoes
         public ActionResult Prescriptions(Search MODEL, int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.GT_SEARCH_PRESCRIPTIONS_LIST_VIEW_SEARCH)) return View("Lockout");
+
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
             MODEL.Pescription_List = databaseManager.GT_TipoTreino.OrderBy(x => x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.NOME });
 
@@ -4982,6 +5001,8 @@ namespace Gestreino.Controllers
         //Consulta Avaliacoes
         public ActionResult Evaluations(Search MODEL, int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.GT_SEARCH_EVALUATIONS_LIST_VIEW_SEARCH)) return View("Lockout");
+
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
 
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_Evaluations;
@@ -4990,6 +5011,8 @@ namespace Gestreino.Controllers
         //Consulta Ranking
         public ActionResult Ranking(Search MODEL, int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.GT_SEARCH_RANKING_LIST_VIEW_SEARCH)) return View("Lockout");
+
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
 
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_Ranking;
@@ -5315,6 +5338,8 @@ namespace Gestreino.Controllers
         //Consulta Peso Medio
         public ActionResult MediumWeight(MediumWeight MODEL, int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.GT_SEARCH_MEDIUMWEIGHT_LIST_VIEW_SEARCH)) return View("Lockout");
+
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
             var data = databaseManager.PesoMedio.ToList();
 
@@ -5327,6 +5352,8 @@ namespace Gestreino.Controllers
         //Consulta Analise Descritiva
         public ActionResult Analysis(Search MODEL, int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.GT_SEARCH_ANALYSIS_LIST_VIEW_SEARCH)) return View("Lockout");
+
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
 
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_Analysis;
@@ -5335,6 +5362,8 @@ namespace Gestreino.Controllers
         //Consulta Outros
         public ActionResult Others(Others MODEL, int? Id)
         {
+            if (!AcessControl.Authorized(AcessControl.GT_SEARCH_OTHERS_LIST_VIEW_SEARCH)) return View("Lockout");
+
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
 
             var data1 = databaseManager.SP_GT_GRAPH_RespAnsiedadeDepressao(null,null).ToList();

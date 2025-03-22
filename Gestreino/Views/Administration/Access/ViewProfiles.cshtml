@@ -112,7 +112,8 @@
                         <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="ProfileUtilTable"><i class="fa fa-eraser"></i></button>
                         @if (AcessControl.Authorized(AcessControl.ADM_USERS_PROFILE_USERS_NEW))
                         {<a title="Adicionar utilizador" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="AdicionarProfileUtil" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                        }</div>
+                        }
+                    </div>
                 </div>
             </div>
             <div class="table-responsive">
@@ -191,7 +192,8 @@
                         <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="ProfileAtomTable"><i class="fa fa-eraser"></i></button>
                         @if (AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_PROFILES_NEW))
                         {<a title="Adicionar átomo" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="@ViewBag.data[0].ID" data-action="AdicionarProfileAtom" data-entity="usergroups" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                        }</div>
+                        }
+                    </div>
                 </div>
             </div>
             <div class="table-responsive">
@@ -227,10 +229,10 @@
         </div>
         <!--  DATATABLE START -->
     }
-        @Html.HiddenFor(m => m.ID, new { Id = "ProfileId" })
-        <h2>&nbsp;</h2>
-        <h2>&nbsp;</h2>
-    </div>
+    @Html.HiddenFor(m => m.ID, new { Id = "ProfileId" })
+    <h2>&nbsp;</h2>
+    <h2>&nbsp;</h2>
+</div>
 <!-- /page content -->
 <script>
     document.addEventListener("DOMContentLoaded", function (event) {
