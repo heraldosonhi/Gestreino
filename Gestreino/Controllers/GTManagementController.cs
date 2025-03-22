@@ -2293,6 +2293,28 @@ namespace Gestreino.Controllers
             var data = v.Skip(skip).Take(pageSize).ToList();
             TempData["QUERYRESULT"] = v.ToList();
 
+            var AccessControlDelete = string.Empty;
+            if (GT_Res == "GT_RespAnsiedadeDepressao")
+                if (!AcessControl.Authorized(AcessControl.GT_QUEST_ANXIETY_DELETE)) AccessControlDelete = "none";
+            if (GT_Res == "GT_RespAutoConceito") 
+                if (!AcessControl.Authorized(AcessControl.GT_QUEST_SELFCONCEPT_DELETE)) AccessControlDelete = "none";
+            if (GT_Res == "GT_RespRisco") 
+                if (!AcessControl.Authorized(AcessControl.GT_QUEST_CORONARYRISK_DELETE)) AccessControlDelete = "none";
+            if (GT_Res == "GT_RespProblemasSaude") 
+                if (!AcessControl.Authorized(AcessControl.GT_QUEST_HEALTH_DELETE)) AccessControlDelete = "none";
+            if (GT_Res == "GT_RespFlexiTeste") 
+                if (!AcessControl.Authorized(AcessControl.GT_QUEST_FLEXIBILITY_DELETE)) AccessControlDelete = "none";
+            if (GT_Res == "GT_RespComposicao") 
+                if (!AcessControl.Authorized(AcessControl.GT_QUEST_BODYCOMPOSITION_DELETE)) AccessControlDelete = "none";
+            if (GT_Res == "GT_RespAptidaoCardio") 
+               if (!AcessControl.Authorized(AcessControl.GT_QUEST_CARDIO_DELETE)) AccessControlDelete = "none";
+            if (GT_Res == "GT_RespPessoaIdosa") 
+               if (!AcessControl.Authorized(AcessControl.GT_QUEST_ELDERLY_DELETE)) AccessControlDelete = "none";
+            if (GT_Res == "GT_RespForca") 
+               if (!AcessControl.Authorized(AcessControl.GT_QUEST_FORCE_DELETE)) AccessControlDelete = "none";
+            if (GT_Res == "GT_RespFuncional") 
+               if (!AcessControl.Authorized(AcessControl.GT_QUEST_FUNCTIONAL_DELETE)) AccessControlDelete = "none";
+
             //RETURN RESPONSE JSON PARSE
             return Json(new
             {
@@ -2301,7 +2323,7 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    //AccessControlDelete = !AcessControl.Authorized(AcessControl.GP_USERS_ACADEMIC_DELETE) ? "none" : "",
+                    AccessControlDelete = AccessControlDelete,
                     Id = x.ID,
                     AVALIACAO=x.treino,
                     INSERCAO = x.INSERCAO,
@@ -5342,11 +5364,13 @@ namespace Gestreino.Controllers
 
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
             var data = databaseManager.PesoMedio.ToList();
-
-            MODEL.PercMale = (data.Where(x => x.IDSexo == 2).First().MediaDePeso??0).ToString("F");
-            MODEL.PercFemale = (data.Where(x => x.IDSexo ==1).First().MediaDePeso ?? 0).ToString("F");
-            MODEL.PercBothGender = (data.Where(x => x.IDSexo == 0).First().MediaDePeso ?? 0).ToString("F");
-            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_MediumWeight;
+            if (data.Any())
+            {
+                MODEL.PercMale = (data.Where(x => x.IDSexo == 2).First().MediaDePeso ?? 0).ToString("F");
+                MODEL.PercFemale = (data.Where(x => x.IDSexo == 1).First().MediaDePeso ?? 0).ToString("F");
+                MODEL.PercBothGender = (data.Where(x => x.IDSexo == 0).First().MediaDePeso ?? 0).ToString("F");
+            }
+                ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_MediumWeight;
             return View("Search/MediumWeight", MODEL);
         }
         //Consulta Analise Descritiva
