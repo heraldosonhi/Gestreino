@@ -59,11 +59,10 @@
                                             <h3 class="p-2">Pessoa Idosa</h3>
                                             @if (Model.lblDataInsercao != null)
                                             {
-                                                <h6 class="p-2 bg-light mt-2 text-success"><i class="fa fa-floppy-disk"></i> Questionário registado: @Model.lblDataInsercao.Value.ToString("dd/MM/yyyy HH:mm")</h6>
+                                                <h6 class="p-2 mt-2 text-success"><i class="fa fa-floppy-disk"></i> Questionário registado: @Model.lblDataInsercao.Value.ToString("dd/MM/yyyy HH:mm")</h6>
                                             }
-
-                                            <div class="p-4">
-                                                <fieldset class="bg-light p-2 border-r">
+                                            <div class="p4-quest mt-3">
+                                                <fieldset class="p-2 border-r">
                                                     <div class="row">
                                                         @Html.LabelFor(m => m.GT_TipoTestePessoaIdosa_ID, new { @class = "col-md-1 col-form-label" })
                                                         <div class="col-md-5">
@@ -222,7 +221,7 @@
                                                     </div>
                                                     <div class="col-md-10">
                                                         <div class="progress">
-                                                            <div id="pgrflexActual" class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:@Model.iFlexiAct%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@Model.iFlexiAct%</div>
+                                                            <div id="pgrflexActual" class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:@Model.iFlexiAct%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@Model.iFlexiAct@(Model.iFlexiAct == null?"": "%")</div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-2">
@@ -233,7 +232,7 @@
                                                     </div>
                                                     <div class="col-md-10">
                                                         <div class="progress">
-                                                            <div id="pgrflexAnterior" class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width:@Model.iFlexiAnt%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@Model.iFlexiAnt%</div>
+                                                            <div id="pgrflexAnterior" class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width:@Model.iFlexiAnt%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@Model.iFlexiAnt@(Model.iFlexiAnt == null?"": "%")</div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-2">

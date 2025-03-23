@@ -53,10 +53,10 @@
                                         <h3 class="p-2">Funcional</h3>
                                         @if (Model.lblDataInsercao != null)
                                         {
-                                            <h6 class="p-2 bg-light mt-2 text-success"><i class="fa fa-floppy-disk"></i> Questionário registado: @Model.lblDataInsercao.Value.ToString("dd/MM/yyyy HH:mm")</h6>
+                                            <h6 class="p-2 mt-2 text-success"><i class="fa fa-floppy-disk"></i> Questionário registado: @Model.lblDataInsercao.Value.ToString("dd/MM/yyyy HH:mm")</h6>
                                         }
 
-                                        <div class="p-4">
+                                        <div class="p4-quest mt-3">
                                             @if (Model.ID > 0)
                                             {
                                                 <input type="hidden" id="funcionalNumberArr_1" name="funcionalNumberArr_[]" value="@Model.RESP_01" />
@@ -77,16 +77,14 @@
                                             <div class="row">
                                                 <div class="col-md-7">
                                                     <div class="row">
-                                                        &nbsp;
                                                         @Html.LabelFor(m => m.Desporto, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-7">
+                                                        <div class="col-md-8">
                                                             @Html.TextBoxFor(x => Model.Desporto, new { @class = "form-control form-control-sm", required = "" })
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        &nbsp;
                                                         @Html.LabelFor(m => m.Posicao, new { @class = "col-md-4 col-form-label" })
-                                                        <div class="col-md-7">
+                                                        <div class="col-md-8">
                                                             @Html.TextBoxFor(x => Model.Posicao, new { @class = "form-control form-control-sm", required = "" })
                                                         </div>
                                                     </div>

@@ -109,7 +109,7 @@
                         <li>
                             <a><i class="fa fa-print fa-fw"></i> Relatórios <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
-                                <li @(!AcessControl.Authorized(AcessControl.GT_REPORTS_LIST_VIEW_SEARCH) ? "hidden" : "")><a href="#" style="color: #425668 ">Relatórios</a></li>
+                                <li @(!AcessControl.Authorized(AcessControl.GT_REPORTS_LIST_VIEW_SEARCH) ? "hidden" : "")><a href="@Url.Action("reports", "gtmanagement", new { Id = string.Empty })">Relatório Actual</a></li>
                             </ul>
                         </li>
                     }

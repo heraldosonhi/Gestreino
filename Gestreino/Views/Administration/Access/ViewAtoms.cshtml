@@ -23,13 +23,13 @@
                                 @if (AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_EDIT))
                                 {
                                     <li>
-                                        <a title="Editar" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-secondary btn-block" data-id="@ViewBag.data[0].ID" data-action="Editar" data-entity="atoms" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil user-profile-icon"></i> Editar</a>
+                                        <a hidden="" title="Editar" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-secondary btn-block" data-id="@ViewBag.data[0].ID" data-action="Editar" data-entity="atoms" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-pencil user-profile-icon"></i> Editar</a>
                                     </li>
                                 }
                                 @if (AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_DELETE))
                                 {
                                     <li>
-                                        <a title="Remover" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-secondary btn-block" data-id="@ViewBag.data[0].ID" data-action="Remover" data-entity="atoms" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash user-profile-icon"></i> Remover</a>
+                                        <a hidden="" title="Remover" href="javascript:void(0)" class="open-modal-crud btn btn-sm btn-secondary btn-block" data-id="@ViewBag.data[0].ID" data-action="Remover" data-entity="atoms" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash user-profile-icon"></i> Remover</a>
                                     </li>
                                 }
                             </ul>

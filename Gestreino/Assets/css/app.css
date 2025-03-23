@@ -729,11 +729,6 @@ legend {
     border-radius: 10px !important;
 }
 
-.startup-img {
-    background: url('../../Assets/images/login.png');
-    background-size: cover;
-    background-blend-mode: difference;
-}
 
 .bg-search {
     background: rgba(0,0,0,.03);
@@ -1476,3 +1471,15 @@ select.is-valid ~ .select2-container--bootstrap4 .select2-selection, form.was-va
     box-shadow: 0 0 2px #c7cfe7
 }
 */
+
+.startup-img {
+    min-height: 100%;
+    background-size: cover;
+    background: linear-gradient(0deg, rgba(105, 105, 105, 0.6), rgba(105, 105, 105, 0.6)), url(../../Assets/images/login.jpeg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position:right;
+}
+.p4-quest {
+    padding: 0 1.5rem 1.5rem !important;
+}

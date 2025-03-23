@@ -695,7 +695,7 @@
     <Content Include="Assets\images\imagesfunc\func72.jpg" />
     <Content Include="Assets\images\imagesfunc\func73.jpg" />
     <Content Include="Assets\images\loading.gif" />
-    <Content Include="Assets\images\login.png" />
+    <Content Include="Assets\images\login.jpeg" />
     <Content Include="Assets\images\user-avatar.jpg" />
     <Content Include="Assets\images\home.jpg" />
     <Content Include="Assets\images\icon.jpg" />
@@ -881,6 +881,7 @@
     <Content Include="Views\GTManagement\Search\Others.cshtml" />
     <Content Include="Views\Ajax\GTManagement\Athletes\GTSocioEvolution.cshtml" />
     <Content Include="Views\Administration\Access\Tokens.cshtml" />
+    <Content Include="Views\GTManagement\Reports\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

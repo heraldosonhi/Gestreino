@@ -41,9 +41,10 @@ namespace Gestreino.Controllers
         int _MenuLeftBarLink_Search_Prescriptions= 215;
         int _MenuLeftBarLink_Search_Evaluations = 216;
         int _MenuLeftBarLink_Search_Ranking = 217;
-        int _MenuLeftBarLink_Search_MediumWeight = 217;
-        int _MenuLeftBarLink_Search_Analysis = 217;
-        int _MenuLeftBarLink_Search_Others = 217;
+        int _MenuLeftBarLink_Search_MediumWeight = 218;
+        int _MenuLeftBarLink_Search_Analysis = 219;
+        int _MenuLeftBarLink_Search_Others = 220;
+        int _MenuLeftBarLink_Reports = 221;
         int _MenuLeftBarLink_FileManagement = 0;
 
         public ActionResult Index()
@@ -88,7 +89,7 @@ namespace Gestreino.Controllers
             MODEL.Numero = data.First().PES_NUMERO;
             MODEL.Nome = data.First().NOME;
             MODEL.Sexo = data.First().SEXO == "Masculino" ? 1 : 0;
-            MODEL.DataNascimento = string.IsNullOrEmpty(data.First().DATA_NASCIMENTO.ToString()) ? null : DateTime.Parse(data.First().DATA_NASCIMENTO.ToString()).ToString("dd-MM-yyyy");
+            MODEL.DataNascimento = string.IsNullOrEmpty(data.First().DATA_NASCIMENTO.ToString()) ? null : DateTime.ParseExact(data.First().DATA_NASCIMENTO, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("dd-MM-yyyy");
             MODEL.EstadoCivil = data.First().PES_ESTADO_CIVIL_ID;
             MODEL.NIF = data.First().NIF;
             MODEL.NacionalidadeId = nacionalidade;
@@ -5775,8 +5776,63 @@ namespace Gestreino.Controllers
 
 
 
+        //Reports
+        public ActionResult Reports(Reports MODEL, int? Id)
+        {
+            if (!AcessControl.Authorized(AcessControl.GT_REPORTS_LIST_VIEW_SEARCH)) return View("Lockout");
 
+            MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
 
+            var GTSocioId = databaseManager.GT_SOCIOS.Where(x => x.PES_PESSOAS_ID == MODEL.PEsId).Select(x => x.ID).FirstOrDefault();
+
+            var data1 = databaseManager.GT_RespAnsiedadeDepressao.Where(x => x.GT_SOCIOS_ID == GTSocioId);
+            MODEL.lblDataAnsiedade = data1.Any()? data1.OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+
+            var data2 = databaseManager.GT_RespAutoConceito.Where(x => x.GT_SOCIOS_ID == GTSocioId);
+            MODEL.lblDataAutoConceito = data2.Any() ? data2.OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+
+            var data3 = databaseManager.GT_RespRisco.Where(x => x.GT_SOCIOS_ID == GTSocioId);
+            MODEL.lblDataAutoRisco = data3.Any() ? data3.OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+
+            var data4 = databaseManager.GT_RespProblemasSaude.Where(x => x.GT_SOCIOS_ID == GTSocioId);
+            MODEL.lblDataHealth = data4.Any() ? data4.OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+
+            var data5 = databaseManager.GT_RespFlexiTeste.Where(x => x.GT_SOCIOS_ID == GTSocioId);
+            MODEL.lblDataFlexi = data5.Any() ? data5.OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+
+            var data6 = databaseManager.GT_RespComposicao.Where(x => x.GT_SOCIOS_ID == GTSocioId);
+            MODEL.lblDataComposicaoCorporal = data6.Any() ? data6.OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+
+            var data7 = databaseManager.GT_RespAptidaoCardio.Where(x => x.GT_SOCIOS_ID == GTSocioId);
+            MODEL.lblDataCardio = data7.Any() ? data7.OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+
+            var data8 = databaseManager.GT_RespPessoaIdosa.Where(x => x.GT_SOCIOS_ID == GTSocioId);
+            MODEL.lblDataSentarCadeira = data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 1).Any() ? data8.Where(x=>x.GT_TipoTestePessoaIdosa_ID==1).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+            MODEL.lblDataFlexaoAntebraco = data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 2).Any() ? data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 2).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+            MODEL.lblDataPeso = data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 3).Any() ? data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 3).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+            MODEL.lblDataSentarCadeira = data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 4).Any() ? data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 4).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+            MODEL.lblDataAgilidade = data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 5).Any() ? data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 5).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+            MODEL.lblDataAlcancar = data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 6).Any() ? data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 6).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+            MODEL.lblData6Minutos = data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 7).Any() ? data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 7).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+            MODEL.lblDataStep = data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 8).Any() ? data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 8).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+
+            var data9 = databaseManager.GT_RespForca.Where(x => x.GT_SOCIOS_ID == GTSocioId);
+            MODEL.lblData1RMBraco = data9.Where(x => x.GT_TipoTesteForca_ID == 1).Any() ? data9.Where(x => x.GT_TipoTesteForca_ID == 1).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+            MODEL.lblData1RMPerna = data9.Where(x => x.GT_TipoTesteForca_ID == 2).Any() ? data9.Where(x => x.GT_TipoTesteForca_ID == 2).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+            MODEL.lblDataResistenciaMedia = data9.Where(x => x.GT_TipoTesteForca_ID == 3).Any() ? data9.Where(x => x.GT_TipoTesteForca_ID == 3).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+            MODEL.lblDataResistenciaSuperior = data9.Where(x => x.GT_TipoTesteForca_ID == 4).Any() ? data9.Where(x => x.GT_TipoTesteForca_ID == 4).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+            MODEL.lblDataVelocidadeLinear = data9.Where(x => x.GT_TipoTesteForca_ID == 5).Any() ? data9.Where(x => x.GT_TipoTesteForca_ID == 5).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+            MODEL.lblDataVelocidadeResistente = data9.Where(x => x.GT_TipoTesteForca_ID == 6).Any() ? data9.Where(x => x.GT_TipoTesteForca_ID == 6).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+            MODEL.lblDataAgilidade = data9.Where(x => x.GT_TipoTesteForca_ID == 7).Any() ? data9.Where(x => x.GT_TipoTesteForca_ID == 7).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+            MODEL.lblDataExplosivaH = data9.Where(x => x.GT_TipoTesteForca_ID == 8).Any() ? data9.Where(x => x.GT_TipoTesteForca_ID == 8).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+            MODEL.lblDataExplosivaV = data9.Where(x => x.GT_TipoTesteForca_ID == 9).Any() ? data9.Where(x => x.GT_TipoTesteForca_ID == 9).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+
+            var data10 = databaseManager.GT_RespFuncional.Where(x => x.GT_SOCIOS_ID == GTSocioId);
+            MODEL.lblDataFuncional = data10.Any() ? data10.OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+
+            ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Reports;
+            return View("Reports/Index", MODEL);
+        }
 
 
 

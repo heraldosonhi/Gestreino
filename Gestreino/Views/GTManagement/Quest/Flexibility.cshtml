@@ -58,10 +58,9 @@
                                     <h3 class="p-2">Flexibilidade</h3>
                                     @if (Model.ID > 0)
                                     {
-                                        <h6 class="p-2 bg-light mt-2 text-success"><i class="fa fa-floppy-disk"></i> Questionário registado: @ViewBag.data[0].DATA_INSERCAO.ToString("dd/MM/yyyy HH:mm")</h6>
+                                        <h6 class="p-2 mt-2 text-success"><i class="fa fa-floppy-disk"></i> Questionário registado: @ViewBag.data[0].DATA_INSERCAO.ToString("dd/MM/yyyy HH:mm")</h6>
                                     }
-
-                                    <div class="p-4">
+                                    <div class="p4-quest mt-3">
                                         <div class="row">
                                             @Html.LabelFor(m => m.TipoId, new { @class = "col-md-1 col-form-label" })
                                             <div class="col-md-4">

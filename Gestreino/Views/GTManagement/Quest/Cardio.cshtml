@@ -56,10 +56,10 @@
                                     <h3 class="p-2">Aptidão Cardiorespiratória</h3>
                                     @if (Model.lblDataInsercao != null)
                                     {
-                                        <h6 class="p-2 bg-light mt-2 text-success"><i class="fa fa-floppy-disk"></i> Questionário registado: @Model.lblDataInsercao.Value.ToString("dd/MM/yyyy HH:mm")</h6>
+                                        <h6 class="p-2 mt-2 text-success"><i class="fa fa-floppy-disk"></i> Questionário registado: @Model.lblDataInsercao.Value.ToString("dd/MM/yyyy HH:mm")</h6>
                                     }
-                                    <div class="p-4">
-                                        <fieldset class="bg-light p-2 border-r mb-2">
+                                    <div class="p4-quest mt-3">
+                                        <fieldset class="p-2 border-r mb-2">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="row mb-2">
@@ -83,7 +83,7 @@
                                         <div id="200m" style="display:@(Model.GT_TipoTesteCardio_ID == 1?"":"none")">
                                             <div class="row">
                                                 @Html.LabelFor(m => m.TempoRealizacao200, new { @class = "col-md-3 col-form-label" })
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     @if (Model.GT_TipoTesteCardio_ID == 1)
                                                     {
                                                         @Html.TextBoxFor(m => m.TempoRealizacao200, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
@@ -96,7 +96,7 @@
                                             </div>
                                             <div class="row">
                                                 @Html.LabelFor(m => m.MediaWatts, new { @class = "col-md-3 col-form-label" })
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     @if (Model.GT_TipoTesteCardio_ID == 1)
                                                     {
                                                         @Html.TextBoxFor(m => m.MediaWatts, new { type = "number", min = "0", @class = "form-control form-control-sm", required = "" })
@@ -112,7 +112,7 @@
                                         <div id="cooper" style="display:@(Model.GT_TipoTesteCardio_ID == 2?"":"none")">
                                             <div class="row">
                                                 @Html.LabelFor(m => m.Distancia12m, new { @class = "col-md-3 col-form-label" })
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     @if (Model.GT_TipoTesteCardio_ID == 2)
                                                     {
                                                         @Html.TextBoxFor(m => m.Distancia12m, new { type = "number", min = "0", @class = "form-control form-control-sm", required = "" })
@@ -128,7 +128,7 @@
                                         <div id="rockport" style="display:@(Model.GT_TipoTesteCardio_ID == 3?"":"none")">
                                             <div class="row">
                                                 @Html.LabelFor(m => m.Tempo1600m, new { @class = "col-md-3 col-form-label" })
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <div class="input-group mb-3">
                                                         @if (Model.GT_TipoTesteCardio_ID == 3)
                                                         {
@@ -146,7 +146,7 @@
                                             </div>
                                             <div class="row">
                                                 @Html.LabelFor(m => m.Frequencia400m, new { @class = "col-md-3 col-form-label" })
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <div class="input-group mb-3">
                                                         @if (Model.GT_TipoTesteCardio_ID == 3)
                                                         {
@@ -164,7 +164,7 @@
                                             </div>
                                             <div class="row">
                                                 @Html.LabelFor(m => m.FrequenciaFimTeste, new { @class = "col-md-3 col-form-label" })
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <div class="input-group mb-3">
                                                         @if (Model.GT_TipoTesteCardio_ID == 3)
                                                         {
@@ -182,7 +182,7 @@
                                             </div>
                                             <div class="row">
                                                 @Html.LabelFor(m => m.MediaFrequencia, new { @class = "col-md-3 col-form-label" })
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     @Html.TextBoxFor(m => m.MediaFrequencia, new { @readonly = "", @class = "form-control form-control-sm" })
 
                                                 </div>
@@ -192,7 +192,7 @@
                                         <div id="queens" style="display:@(Model.GT_TipoTesteCardio_ID == 4?"":"none")">
                                             <div class="row">
                                                 @Html.LabelFor(m => m.FC15sec, new { @class = "col-md-3 col-form-label" })
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <div class="input-group mb-3">
                                                         @if (Model.GT_TipoTesteCardio_ID == 4)
                                                         {
@@ -213,7 +213,7 @@
                                         <div id="jogging" style="display:@(Model.GT_TipoTesteCardio_ID == 5?"":"none")">
                                             <div class="row">
                                                 @Html.LabelFor(m => m.FC3min, new { @class = "col-md-3 col-form-label" })
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     @if (Model.GT_TipoTesteCardio_ID == 5)
                                                     {
                                                         @Html.TextBoxFor(m => m.FC3min, new { type = "number", min = "0", @class = "form-control form-control-sm", required = "" })
@@ -257,12 +257,12 @@
                                             <div class="row">
                                                 @Html.LabelFor(m => m.FactorCorrecao, new { @class = "col-md-3 col-form-label" })
                                                 <div class="col-md-3">
-                                                    <label>Idade</label>
+                                                    <label class="col-form-label">Idade</label>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 @Html.LabelFor(m => m.Carga, new { @class = "col-md-3 col-form-label" })
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <div class="input-group mb-3">
                                                         @if (Model.GT_TipoTesteCardio_ID == 6)
                                                         {
@@ -280,7 +280,7 @@
                                             </div>
                                             <div class="row">
                                                 @Html.LabelFor(m => m.FC4min, new { @class = "col-md-3 col-form-label" })
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     @if (Model.GT_TipoTesteCardio_ID == 6)
                                                     {
                                                         @Html.TextBoxFor(m => m.FC4min, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
@@ -293,7 +293,7 @@
                                             </div>
                                             <div class="row">
                                                 @Html.LabelFor(m => m.FC5min, new { @class = "col-md-3 col-form-label" })
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     @if (Model.GT_TipoTesteCardio_ID == 6)
                                                     {
                                                         @Html.TextBoxFor(m => m.FC5min, new { type = "number", min = "0", step = ".01", @class = "form-control form-control-sm", required = "" })
@@ -306,13 +306,13 @@
                                             </div>
                                             <div class="row">
                                                 @Html.LabelFor(m => m.ValorMedioFC, new { @class = "col-md-3 col-form-label" })
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     @Html.TextBoxFor(m => m.ValorMedioFC, new { @readonly = "", @class = "form-control form-control-sm" })
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 @Html.LabelFor(m => m.VO2Carga, new { @class = "col-md-3 col-form-label" })
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <div class="input-group mb-3">
                                                         @Html.TextBoxFor(m => m.VO2Carga, new { @readonly = "", @class = "form-control form-control-sm" })
                                                         <div class="input-group-prepend">
@@ -388,9 +388,9 @@
 
 
                                         <!-- GENERAL PURPOSE -->
-                                        <div class="row mt-2">
+                                        <div class="row">
                                             <div class="col-md-12">
-                                                <fieldset class="bg-light p-2 border-r">
+                                                <fieldset class=" p-2 border-r">
                                                     <div class="row">
                                                         @Html.LabelFor(m => m.V02max, new { @class = "col-md-3 col-form-label" })
                                                         <div class="col-md-4">
@@ -448,7 +448,7 @@
                                                         </div>
                                                         <div class="col-md-10">
                                                             <div class="progress">
-                                                                <div id="pgrflexActual" class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:@Model.iFlexiAct%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@Model.iFlexiAct%</div>
+                                                                <div id="pgrflexActual" class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:@Model.iFlexiAct%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@Model.iFlexiAct@(Model.iFlexiAct==null?"": "%")</div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-2">
@@ -459,7 +459,7 @@
                                                         </div>
                                                         <div class="col-md-10">
                                                             <div class="progress">
-                                                                <div id="pgrflexAnterior" class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width:@Model.iFlexiAnt%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@Model.iFlexiAnt%</div>
+                                                                <div id="pgrflexAnterior" class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width:@Model.iFlexiAnt%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">@Model.iFlexiAnt@(Model.iFlexiAnt == null?"": "%")</div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-2">
@@ -552,10 +552,10 @@
 
         Highcharts.chart('container', {
             chart: {
-                backgroundColor: 'rgba(0,0,0,.03)',
-                borderRadius: 5,
-                borderWidth: 1,
-                borderColor: 'rgba(0,0,0,.03)',
+                //backgroundColor: 'rgba(0,0,0,.03)',
+                //borderRadius: 5,
+                //borderWidth: 1,
+                //borderColor: 'rgba(0,0,0,.03)',
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false,

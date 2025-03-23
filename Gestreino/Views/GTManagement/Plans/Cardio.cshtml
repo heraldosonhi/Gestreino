@@ -38,10 +38,12 @@
                         <div class="icon">
                             <i class="fa fa-pen-nib"></i>
                         </div>
-
-                      
                         <h3 class="p-2">Plano de Treino Cardiovascular</h3>
-                        <div class="p-4">
+                        @if (Model.ID > 0)
+                        {
+                            <h6 class="p-2 mt-2 text-success"><i class="fa fa-floppy-disk"></i> Questionário registado: @Model.lblDataInsercao</h6>
+                        }
+                        <div class="p4-quest mt-3">
                             <div class="row">
                                 <div class="col-md-6">
                                     <h5 class="planfieldseth5">Dados do exercício</h5>

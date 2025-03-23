@@ -1598,6 +1598,36 @@ namespace Gestreino.Models
         public List<string> AnsiedadeDepressaosValue { get; set; }
         public List<double?> AnsiedadeDepressaoValue { get; set; }
     }
+    public class Reports
+    {
+        public int? ID { get; set; }
+        public int? PEsId { get; set; }
+        public string lblDataAnsiedade { get; set; }
+        public string lblDataAutoConceito { get; set; }
+        public string lblDataAutoRisco { get; set; }
+        public string lblDataHealth { get; set; }
+        public string lblDataFlexi { get; set; }
+        public string lblDataComposicaoCorporal { get; set; }
+        public string lblDataCardio { get; set; }
+        public string lblDataLevantarCadeira { get; set; }
+        public string lblDataFlexaoAntebraco { get; set; }
+        public string lblDataPeso { get; set; }
+        public string lblDataSentarCadeira { get; set; }
+        public string lblDataAgilidade { get; set; }
+        public string lblDataAlcancar { get; set; }
+        public string lblData6Minutos { get; set; }
+        public string lblDataStep { get; set; }
+        public string lblData1RMBraco { get; set; }
+        public string lblData1RMPerna { get; set; }
+        public string lblDataResistenciaMedia { get; set; }
+        public string lblDataResistenciaSuperior { get; set; }
+        public string lblDataVelocidadeLinear { get; set; }
+        public string lblDataVelocidadeResistente { get; set; }
+        public string lblDataForcaAgilidade { get; set; }
+        public string lblDataExplosivaH { get; set; }
+        public string lblDataExplosivaV { get; set; }
+        public string lblDataFuncional { get; set; }
+    }
     public class OthersGraph
     {
         public string name;
