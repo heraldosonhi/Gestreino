@@ -1535,8 +1535,70 @@ namespace Gestreino.Models
         public List<string> AnsiedadeDepressaosValue { get; set; }
         public List<double?> AnsiedadeDepressaoValue { get; set; }
     }
+    public class Analysis
+    {
+        public int? ID { get; set; }
+        public int? PEsId { get; set; }
+        public int? ComptotalAtletas { get; set; }
+        public double? CompPercAtletas { get; set; }
+        public int? CompTotalHomens { get; set; }
+        public double? CompPercHomens { get; set; }
+        public int? CompTotalMulheres { get; set; }
+        public double? CompPercMulheres { get; set; }
+        public int? CompTotalAvaliacoes { get; set; }
 
-public class OthersGraph
+        public int? CardiototalAtletas { get; set; }
+        public double? CardioPercAtletas { get; set; }
+        public int? CardioTotalHomens { get; set; }
+        public double? CardioPercHomens { get; set; }
+        public int? CardioTotalMulheres { get; set; }
+        public double? CardioPercMulheres { get; set; }
+        public int? CardioTotalAvaliacoes { get; set; }
+
+        public int? FlexitotalAtletas { get; set; }
+        public double? FlexiPercAtletas { get; set; }
+        public int? FlexiTotalHomens { get; set; }
+        public double? FlexiPercHomens { get; set; }
+        public int? FlexiTotalMulheres { get; set; }
+        public double? FlexiPercMulheres { get; set; }
+        public int? FlexiTotalAvaliacoes { get; set; }
+
+        public int? Force1totalAtletas { get; set; }
+        public double? Force1PercAtletas { get; set; }
+        public int? Force1TotalHomens { get; set; }
+        public double? Force1PercHomens { get; set; }
+        public int? Force1TotalMulheres { get; set; }
+        public double? Force1PercMulheres { get; set; }
+        public int? Force1TotalAvaliacoes { get; set; }
+
+        public int? Force2totalAtletas { get; set; }
+        public double? Force2PercAtletas { get; set; }
+        public int? Force2TotalHomens { get; set; }
+        public double? Force2PercHomens { get; set; }
+        public int? Force2TotalMulheres { get; set; }
+        public double? Force2PercMulheres { get; set; }
+        public int? Force2TotalAvaliacoes { get; set; }
+
+        public int? Force3totalAtletas { get; set; }
+        public double? Force3PercAtletas { get; set; }
+        public int? Force3TotalHomens { get; set; }
+        public double? Force3PercHomens { get; set; }
+        public int? Force3TotalMulheres { get; set; }
+        public double? Force3PercMulheres { get; set; }
+        public int? Force3TotalAvaliacoes { get; set; }
+
+        public int? Force4totalAtletas { get; set; }
+        public double? Force4PercAtletas { get; set; }
+        public int? Force4TotalHomens { get; set; }
+        public double? Force4PercHomens { get; set; }
+        public int? Force4TotalMulheres { get; set; }
+        public double? Force4PercMulheres { get; set; }
+        public int? Force4TotalAvaliacoes { get; set; }
+
+        public List<string> AnsiedadeDepressaosValue { get; set; }
+        public List<double?> AnsiedadeDepressaoValue { get; set; }
+    }
+    public class OthersGraph
     {
         public string name;
         public double? data;

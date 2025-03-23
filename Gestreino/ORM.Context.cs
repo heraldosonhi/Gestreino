@@ -1826,5 +1826,57 @@ namespace Gestreino
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_UTILIZADORES_ENT_PERFIS_Result>("SP_UTILIZADORES_ENT_PERFIS", idParameter, atomIdParameter, utilizadorIdParameter, nomeParameter, descricaoParameter, userInsercaoIdParameter, actionParameter);
         }
+    
+        public virtual ObjectResult<SP_GT_GRAPH_Cardio_Result> SP_GT_GRAPH_Cardio(Nullable<int> id, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_GRAPH_Cardio_Result>("SP_GT_GRAPH_Cardio", idParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_GT_GRAPH_ComposicaoCorporal_Result> SP_GT_GRAPH_ComposicaoCorporal(Nullable<int> id, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_GRAPH_ComposicaoCorporal_Result>("SP_GT_GRAPH_ComposicaoCorporal", idParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_GT_GRAPH_Flexibilidade_Result> SP_GT_GRAPH_Flexibilidade(Nullable<int> id, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_GRAPH_Flexibilidade_Result>("SP_GT_GRAPH_Flexibilidade", idParameter, actionParameter);
+        }
+    
+        public virtual ObjectResult<SP_GT_GRAPH_Forca1RMBraco_Result> SP_GT_GRAPH_Forca1RMBraco(Nullable<int> id, string action)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GT_GRAPH_Forca1RMBraco_Result>("SP_GT_GRAPH_Forca1RMBraco", idParameter, actionParameter);
+        }
     }
 }

@@ -787,8 +787,8 @@ namespace Gestreino.Controllers
                 recordsTotal = totalRecords,
                 data = data.Select(x => new
                 {
-                    AccessControlEdit = !AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_EDIT) ? "none" : "",
-                    AccessControlDelete = !AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_DELETE) ? "none" : "",
+                    AccessControlEdit = "none",//!AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_EDIT) ? "none" : "",
+                    AccessControlDelete = "none",// !AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_DELETE) ? "none" : "",
                     Id = x.ID,
                     NOME = x.NOME,
                     DESCRICAO = x.DESCRICAO,

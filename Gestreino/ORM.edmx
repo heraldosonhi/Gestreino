@@ -2879,6 +2879,22 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           <Parameter Name="UserInsercaoId" Type="int" Mode="In" />
           <Parameter Name="Action" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_GT_GRAPH_Cardio" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_GT_GRAPH_ComposicaoCorporal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_GT_GRAPH_Flexibilidade" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_GT_GRAPH_Forca1RMBraco" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_GT_GRAPH_RespAnsiedadeDepressao" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="Action" Type="varchar" Mode="In" />
@@ -5556,6 +5572,22 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
             <Parameter Name="UserInsercaoId" Mode="In" Type="Int32" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="SP_GT_GRAPH_Cardio" ReturnType="Collection(GESTREINO_ORM.SP_GT_GRAPH_Cardio_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GT_GRAPH_ComposicaoCorporal" ReturnType="Collection(GESTREINO_ORM.SP_GT_GRAPH_ComposicaoCorporal_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GT_GRAPH_Flexibilidade" ReturnType="Collection(GESTREINO_ORM.SP_GT_GRAPH_Flexibilidade_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GT_GRAPH_Forca1RMBraco" ReturnType="Collection(GESTREINO_ORM.SP_GT_GRAPH_Forca1RMBraco_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="SP_UTILIZADORES_LOGIN_LOGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -8171,6 +8203,58 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
           <Property Type="String" Name="DATA_INSERCAO" Nullable="true" MaxLength="19" />
           <Property Type="String" Name="DATA_ACTUALIZACAO" Nullable="true" MaxLength="19" />
         </ComplexType>
+        <ComplexType Name="SP_GT_GRAPH_Cardio_Result">
+          <Property Type="Int32" Name="NumAvaliacoes" Nullable="true" />
+          <Property Type="Int32" Name="TotalAvaliacoes" Nullable="true" />
+          <Property Type="String" Name="DescRes" Nullable="true" MaxLength="4000" />
+          <Property Type="Int32" Name="Total" Nullable="true" />
+          <Property Type="Int32" Name="TotalHomens" Nullable="true" />
+          <Property Type="Int32" Name="TotalMulheres" Nullable="true" />
+          <Property Type="Double" Name="Percentagem" Nullable="true" />
+          <Property Type="Double" Name="PercentagemHomens" Nullable="true" />
+          <Property Type="Double" Name="PercentagemMulheres" Nullable="true" />
+          <Property Type="Int32" Name="TotalAtletas" Nullable="true" />
+          <Property Type="Double" Name="PercentagemAtletas" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_GT_GRAPH_ComposicaoCorporal_Result">
+          <Property Type="Int32" Name="NumAvaliacoes" Nullable="true" />
+          <Property Type="Int32" Name="TotalAvaliacoes" Nullable="true" />
+          <Property Type="String" Name="DescRes" Nullable="true" MaxLength="4000" />
+          <Property Type="Int32" Name="Total" Nullable="true" />
+          <Property Type="Int32" Name="TotalHomens" Nullable="true" />
+          <Property Type="Int32" Name="TotalMulheres" Nullable="true" />
+          <Property Type="Double" Name="Percentagem" Nullable="true" />
+          <Property Type="Double" Name="PercentagemHomens" Nullable="true" />
+          <Property Type="Double" Name="PercentagemMulheres" Nullable="true" />
+          <Property Type="Int32" Name="TotalAtletas" Nullable="true" />
+          <Property Type="Double" Name="PercentagemAtletas" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_GT_GRAPH_Flexibilidade_Result">
+          <Property Type="Int32" Name="NumAvaliacoes" Nullable="true" />
+          <Property Type="Int32" Name="TotalAvaliacoes" Nullable="true" />
+          <Property Type="String" Name="DescRes" Nullable="true" MaxLength="4000" />
+          <Property Type="Int32" Name="Total" Nullable="true" />
+          <Property Type="Int32" Name="TotalHomens" Nullable="true" />
+          <Property Type="Int32" Name="TotalMulheres" Nullable="true" />
+          <Property Type="Double" Name="Percentagem" Nullable="true" />
+          <Property Type="Double" Name="PercentagemHomens" Nullable="true" />
+          <Property Type="Double" Name="PercentagemMulheres" Nullable="true" />
+          <Property Type="Int32" Name="TotalAtletas" Nullable="true" />
+          <Property Type="Double" Name="PercentagemAtletas" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_GT_GRAPH_Forca1RMBraco_Result">
+          <Property Type="Int32" Name="NumAvaliacoes" Nullable="true" />
+          <Property Type="Int32" Name="TotalAvaliacoes" Nullable="true" />
+          <Property Type="String" Name="DescRes" Nullable="true" MaxLength="4000" />
+          <Property Type="Int32" Name="Total" Nullable="true" />
+          <Property Type="Int32" Name="TotalHomens" Nullable="true" />
+          <Property Type="Int32" Name="TotalMulheres" Nullable="true" />
+          <Property Type="Double" Name="Percentagem" Nullable="true" />
+          <Property Type="Double" Name="PercentagemHomens" Nullable="true" />
+          <Property Type="Double" Name="PercentagemMulheres" Nullable="true" />
+          <Property Type="Int32" Name="TotalAtletas" Nullable="true" />
+          <Property Type="Double" Name="PercentagemAtletas" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10491,6 +10575,74 @@ warning 6002: The table/view 'GESTREINO_.dbo.PesoMedio' does not have a primary 
                 <ScalarProperty Name="ACTUALIZACAO" ColumnName="ACTUALIZACAO" />
                 <ScalarProperty Name="DATA_INSERCAO" ColumnName="DATA_INSERCAO" />
                 <ScalarProperty Name="DATA_ACTUALIZACAO" ColumnName="DATA_ACTUALIZACAO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GT_GRAPH_Cardio" FunctionName="GESTREINO_ORM.Store.SP_GT_GRAPH_Cardio">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GT_GRAPH_Cardio_Result">
+                <ScalarProperty Name="NumAvaliacoes" ColumnName="NumAvaliacoes" />
+                <ScalarProperty Name="TotalAvaliacoes" ColumnName="TotalAvaliacoes" />
+                <ScalarProperty Name="DescRes" ColumnName="DescRes" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="TotalHomens" ColumnName="TotalHomens" />
+                <ScalarProperty Name="TotalMulheres" ColumnName="TotalMulheres" />
+                <ScalarProperty Name="Percentagem" ColumnName="Percentagem" />
+                <ScalarProperty Name="PercentagemHomens" ColumnName="PercentagemHomens" />
+                <ScalarProperty Name="PercentagemMulheres" ColumnName="PercentagemMulheres" />
+                <ScalarProperty Name="TotalAtletas" ColumnName="TotalAtletas" />
+                <ScalarProperty Name="PercentagemAtletas" ColumnName="PercentagemAtletas" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GT_GRAPH_ComposicaoCorporal" FunctionName="GESTREINO_ORM.Store.SP_GT_GRAPH_ComposicaoCorporal">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GT_GRAPH_ComposicaoCorporal_Result">
+                <ScalarProperty Name="NumAvaliacoes" ColumnName="NumAvaliacoes" />
+                <ScalarProperty Name="TotalAvaliacoes" ColumnName="TotalAvaliacoes" />
+                <ScalarProperty Name="DescRes" ColumnName="DescRes" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="TotalHomens" ColumnName="TotalHomens" />
+                <ScalarProperty Name="TotalMulheres" ColumnName="TotalMulheres" />
+                <ScalarProperty Name="Percentagem" ColumnName="Percentagem" />
+                <ScalarProperty Name="PercentagemHomens" ColumnName="PercentagemHomens" />
+                <ScalarProperty Name="PercentagemMulheres" ColumnName="PercentagemMulheres" />
+                <ScalarProperty Name="TotalAtletas" ColumnName="TotalAtletas" />
+                <ScalarProperty Name="PercentagemAtletas" ColumnName="PercentagemAtletas" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GT_GRAPH_Flexibilidade" FunctionName="GESTREINO_ORM.Store.SP_GT_GRAPH_Flexibilidade">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GT_GRAPH_Flexibilidade_Result">
+                <ScalarProperty Name="NumAvaliacoes" ColumnName="NumAvaliacoes" />
+                <ScalarProperty Name="TotalAvaliacoes" ColumnName="TotalAvaliacoes" />
+                <ScalarProperty Name="DescRes" ColumnName="DescRes" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="TotalHomens" ColumnName="TotalHomens" />
+                <ScalarProperty Name="TotalMulheres" ColumnName="TotalMulheres" />
+                <ScalarProperty Name="Percentagem" ColumnName="Percentagem" />
+                <ScalarProperty Name="PercentagemHomens" ColumnName="PercentagemHomens" />
+                <ScalarProperty Name="PercentagemMulheres" ColumnName="PercentagemMulheres" />
+                <ScalarProperty Name="TotalAtletas" ColumnName="TotalAtletas" />
+                <ScalarProperty Name="PercentagemAtletas" ColumnName="PercentagemAtletas" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GT_GRAPH_Forca1RMBraco" FunctionName="GESTREINO_ORM.Store.SP_GT_GRAPH_Forca1RMBraco">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GESTREINO_ORM.SP_GT_GRAPH_Forca1RMBraco_Result">
+                <ScalarProperty Name="NumAvaliacoes" ColumnName="NumAvaliacoes" />
+                <ScalarProperty Name="TotalAvaliacoes" ColumnName="TotalAvaliacoes" />
+                <ScalarProperty Name="DescRes" ColumnName="DescRes" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="TotalHomens" ColumnName="TotalHomens" />
+                <ScalarProperty Name="TotalMulheres" ColumnName="TotalMulheres" />
+                <ScalarProperty Name="Percentagem" ColumnName="Percentagem" />
+                <ScalarProperty Name="PercentagemHomens" ColumnName="PercentagemHomens" />
+                <ScalarProperty Name="PercentagemMulheres" ColumnName="PercentagemMulheres" />
+                <ScalarProperty Name="TotalAtletas" ColumnName="TotalAtletas" />
+                <ScalarProperty Name="PercentagemAtletas" ColumnName="PercentagemAtletas" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

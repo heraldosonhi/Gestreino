@@ -5366,23 +5366,188 @@ namespace Gestreino.Controllers
             var data = databaseManager.PesoMedio.ToList();
             if (data.Any())
             {
-                MODEL.PercMale = (data.Where(x => x.IDSexo == 2).First().MediaDePeso ?? 0).ToString("F");
-                MODEL.PercFemale = (data.Where(x => x.IDSexo == 1).First().MediaDePeso ?? 0).ToString("F");
-                MODEL.PercBothGender = (data.Where(x => x.IDSexo == 0).First().MediaDePeso ?? 0).ToString("F");
+                MODEL.PercMale = data.Where(x => x.IDSexo == 2).Any()?(data.Where(x => x.IDSexo == 2).First().MediaDePeso ?? 0).ToString("F"):"0";
+                MODEL.PercFemale = data.Where(x => x.IDSexo == 1).Any()?(data.Where(x => x.IDSexo == 1).First().MediaDePeso ?? 0).ToString("F"):"0";
+                MODEL.PercBothGender = data.Where(x => x.IDSexo == 0).Any()?(data.Where(x => x.IDSexo == 0).First().MediaDePeso ?? 0).ToString("F"):"0";
             }
                 ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_MediumWeight;
             return View("Search/MediumWeight", MODEL);
         }
         //Consulta Analise Descritiva
-        public ActionResult Analysis(Search MODEL, int? Id)
+        public ActionResult Analysis(Analysis MODEL, int? Id)
         {
             if (!AcessControl.Authorized(AcessControl.GT_SEARCH_ANALYSIS_LIST_VIEW_SEARCH)) return View("Lockout");
 
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
 
+            var data1 = databaseManager.SP_GT_GRAPH_ComposicaoCorporal(null, null).ToList();
+            var data2 = databaseManager.SP_GT_GRAPH_Cardio(null, null).ToList();
+            var data3 = databaseManager.SP_GT_GRAPH_Flexibilidade(null, null).ToList();
+            var data4 = databaseManager.SP_GT_GRAPH_Forca1RMBraco(1, null).ToList();
+            var data5 = databaseManager.SP_GT_GRAPH_Forca1RMBraco(2, null).ToList();
+            var data6 = databaseManager.SP_GT_GRAPH_Forca1RMBraco(4, null).ToList();
+            var data7 = databaseManager.SP_GT_GRAPH_Forca1RMBraco(3, null).ToList();
+
+            MODEL.ComptotalAtletas = data1.Any() ? data1.Select(x => x.TotalAtletas).FirstOrDefault() : 0;
+            MODEL.CompPercAtletas = data1.Any() ? data1.Select(x => x.PercentagemAtletas).FirstOrDefault() : 0;
+            MODEL.CompTotalHomens = data1.Any() ? data1.Select(x => x.TotalHomens).FirstOrDefault() : 0;
+            MODEL.CompPercHomens = data1.Any() ? data1.Select(x => x.PercentagemHomens).FirstOrDefault() : 0;
+            MODEL.CardioTotalMulheres = data1.Any() ? data1.Select(x => x.TotalMulheres).FirstOrDefault() : 0;
+            MODEL.CompPercMulheres = data1.Any() ? data1.Select(x => x.PercentagemMulheres).FirstOrDefault() : 0;
+            MODEL.CompTotalAvaliacoes = data1.Any() ? data1.Select(x => x.TotalAvaliacoes).FirstOrDefault() : 0;
+
+            MODEL.CardiototalAtletas = data2.Any() ? data2.Select(x => x.TotalAtletas).FirstOrDefault() : 0;
+            MODEL.CardioPercAtletas = data2.Any() ? data2.Select(x => x.PercentagemAtletas).FirstOrDefault() : 0;
+            MODEL.CardioTotalHomens = data2.Any() ? data2.Select(x => x.TotalHomens).FirstOrDefault() : 0;
+            MODEL.CardioPercHomens = data2.Any() ? data2.Select(x => x.PercentagemHomens).FirstOrDefault() : 0;
+            MODEL.CardioTotalMulheres = data2.Any() ? data2.Select(x => x.TotalMulheres).FirstOrDefault() : 0;
+            MODEL.CardioPercMulheres = data2.Any() ? data2.Select(x => x.PercentagemMulheres).FirstOrDefault() : 0;
+            MODEL.CardioTotalAvaliacoes = data2.Any() ? data2.Select(x => x.TotalAvaliacoes).FirstOrDefault() : 0;
+
+            MODEL.FlexitotalAtletas = data3.Any() ? data3.Select(x => x.TotalAtletas).FirstOrDefault() : 0;
+            MODEL.FlexiPercAtletas = data3.Any() ? data3.Select(x => x.PercentagemAtletas).FirstOrDefault() : 0;
+            MODEL.FlexiTotalHomens = data3.Any() ? data3.Select(x => x.TotalHomens).FirstOrDefault() : 0;
+            MODEL.FlexiPercHomens = data3.Any() ? data3.Select(x => x.PercentagemHomens).FirstOrDefault() : 0;
+            MODEL.FlexiTotalMulheres = data3.Any() ? data3.Select(x => x.TotalMulheres).FirstOrDefault() : 0;
+            MODEL.FlexiPercMulheres = data3.Any() ? data3.Select(x => x.PercentagemMulheres).FirstOrDefault() : 0;
+            MODEL.FlexiTotalAvaliacoes = data3.Any() ? data3.Select(x => x.TotalAvaliacoes).FirstOrDefault() : 0;
+
+            MODEL.Force1totalAtletas = data4.Any() ? data4.Select(x => x.TotalAtletas).FirstOrDefault() : 0;
+            MODEL.Force1PercAtletas = data4.Any() ? data4.Select(x => x.PercentagemAtletas).FirstOrDefault() : 0;
+            MODEL.Force1TotalHomens = data4.Any() ? data4.Select(x => x.TotalHomens).FirstOrDefault() : 0;
+            MODEL.Force1PercHomens = data4.Any() ? data4.Select(x => x.PercentagemHomens).FirstOrDefault() : 0;
+            MODEL.Force1TotalMulheres = data4.Any() ? data4.Select(x => x.TotalMulheres).FirstOrDefault() : 0;
+            MODEL.Force1PercMulheres = data4.Any() ? data4.Select(x => x.PercentagemMulheres).FirstOrDefault() : 0;
+            MODEL.Force1TotalAvaliacoes = data4.Any() ? data4.Select(x => x.TotalAvaliacoes).FirstOrDefault() : 0;
+
+            MODEL.Force2totalAtletas = data5.Any() ? data5.Select(x => x.TotalAtletas).FirstOrDefault() : 0;
+            MODEL.Force2PercAtletas = data5.Any() ? data5.Select(x => x.PercentagemAtletas).FirstOrDefault() : 0;
+            MODEL.Force2TotalHomens = data5.Any() ? data5.Select(x => x.TotalHomens).FirstOrDefault() : 0;
+            MODEL.Force2PercHomens = data5.Any() ? data5.Select(x => x.PercentagemHomens).FirstOrDefault() : 0;
+            MODEL.Force2TotalMulheres = data5.Any() ? data5.Select(x => x.TotalMulheres).FirstOrDefault() : 0;
+            MODEL.Force2PercMulheres = data5.Any() ? data5.Select(x => x.PercentagemMulheres).FirstOrDefault() : 0;
+            MODEL.Force2TotalAvaliacoes = data5.Any() ? data5.Select(x => x.TotalAvaliacoes).FirstOrDefault() : 0;
+
+            MODEL.Force3totalAtletas = data6.Any() ? data6.Select(x => x.TotalAtletas).FirstOrDefault() : 0;
+            MODEL.Force3PercAtletas = data6.Any() ? data6.Select(x => x.PercentagemAtletas).FirstOrDefault() : 0;
+            MODEL.Force3TotalHomens = data6.Any() ? data6.Select(x => x.TotalHomens).FirstOrDefault() : 0;
+            MODEL.Force3PercHomens = data6.Any() ? data6.Select(x => x.PercentagemHomens).FirstOrDefault() : 0;
+            MODEL.Force3TotalMulheres = data6.Any() ? data6.Select(x => x.TotalMulheres).FirstOrDefault() : 0;
+            MODEL.Force3PercMulheres = data6.Any() ? data6.Select(x => x.PercentagemMulheres).FirstOrDefault() : 0;
+            MODEL.Force3TotalAvaliacoes = data6.Any() ? data6.Select(x => x.TotalAvaliacoes).FirstOrDefault() : 0;
+
+            MODEL.Force4totalAtletas = data7.Any() ? data7.Select(x => x.TotalAtletas).FirstOrDefault() : 0;
+            MODEL.Force4PercAtletas = data7.Any() ? data7.Select(x => x.PercentagemAtletas).FirstOrDefault() : 0;
+            MODEL.Force4TotalHomens = data7.Any() ? data7.Select(x => x.TotalHomens).FirstOrDefault() : 0;
+            MODEL.Force4PercHomens = data7.Any() ? data7.Select(x => x.PercentagemHomens).FirstOrDefault() : 0;
+            MODEL.Force4TotalMulheres = data7.Any() ? data7.Select(x => x.TotalMulheres).FirstOrDefault() : 0;
+            MODEL.Force4PercMulheres = data7.Any() ? data7.Select(x => x.PercentagemMulheres).FirstOrDefault() : 0;
+            MODEL.Force4TotalAvaliacoes = data7.Any() ? data7.Select(x => x.TotalAvaliacoes).FirstOrDefault() : 0;
+
             ViewBag.LeftBarLinkActive = _MenuLeftBarLink_Search_Analysis;
             return View("Search/Analysis", MODEL);
         }
+        public ActionResult GetAnaliseBodyComposition(OthersGraph MODEL)
+        {
+            var data1 = databaseManager.SP_GT_GRAPH_ComposicaoCorporal(null, null).ToList();
+            List<Dictionary<string, object>> allSeries = new List<Dictionary<string, object>>();
+
+            foreach (var item in data1)
+            {
+                var sValue = string.Empty;
+
+                if (item.DescRes == null)
+                    sValue = "N.A";
+                else
+                {
+                    sValue = item.DescRes;
+                }
+
+                Dictionary<string, object> aSeries = new Dictionary<string, object>();
+                aSeries["name"] = sValue;
+                aSeries["data"] = new List<double?>();
+
+                ((List<double?>)aSeries["data"]).Add(item.Percentagem == null ? 0 : (double?)(Convert.ToDouble((item.Percentagem ?? 0).ToString("F"))));
+                allSeries.Add(aSeries);
+            }
+            return Json(allSeries, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetAnaliseCardio(OthersGraph MODEL)
+        {
+            var data1 = databaseManager.SP_GT_GRAPH_Cardio(null, null).ToList();
+            List<Dictionary<string, object>> allSeries = new List<Dictionary<string, object>>();
+
+            foreach (var item in data1)
+            {
+                var sValue = string.Empty;
+
+                if (item.DescRes == null)
+                    sValue = "N.A";
+                else
+                {
+                    sValue = item.DescRes;
+                }
+
+                Dictionary<string, object> aSeries = new Dictionary<string, object>();
+                aSeries["name"] = sValue;
+                aSeries["data"] = new List<double?>();
+
+                ((List<double?>)aSeries["data"]).Add(item.Percentagem == null ? 0 : (double?)(Convert.ToDouble((item.Percentagem ?? 0).ToString("F"))));
+                allSeries.Add(aSeries);
+            }
+            return Json(allSeries, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetAnaliseFlexibility(OthersGraph MODEL)
+        {
+            var data1 = databaseManager.SP_GT_GRAPH_Flexibilidade(null, null).ToList();
+            List<Dictionary<string, object>> allSeries = new List<Dictionary<string, object>>();
+
+            foreach (var item in data1)
+            {
+                var sValue = string.Empty;
+
+                if (item.DescRes == null)
+                    sValue = "N.A";
+                else
+                {
+                    sValue = item.DescRes;
+                }
+
+                Dictionary<string, object> aSeries = new Dictionary<string, object>();
+                aSeries["name"] = sValue;
+                aSeries["data"] = new List<double?>();
+
+                ((List<double?>)aSeries["data"]).Add(item.Percentagem == null ? 0 : (double?)(Convert.ToDouble((item.Percentagem ?? 0).ToString("F"))));
+                allSeries.Add(aSeries);
+            }
+            return Json(allSeries, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetAnaliseForce(int? Id,OthersGraph MODEL)
+        {
+            var data1 = databaseManager.SP_GT_GRAPH_Forca1RMBraco(Id, null).ToList();
+            List<Dictionary<string, object>> allSeries = new List<Dictionary<string, object>>();
+
+            foreach (var item in data1)
+            {
+                var sValue = string.Empty;
+
+                if (item.DescRes == null)
+                    sValue = "N.A";
+                else
+                {
+                    sValue = item.DescRes;
+                }
+
+                Dictionary<string, object> aSeries = new Dictionary<string, object>();
+                aSeries["name"] = sValue;
+                aSeries["data"] = new List<double?>();
+
+                ((List<double?>)aSeries["data"]).Add(item.Percentagem==null?0:(double?)(Convert.ToDouble((item.Percentagem ?? 0).ToString("F"))));
+                allSeries.Add(aSeries);
+            }
+            return Json(allSeries, JsonRequestBehavior.AllowGet);
+        }
+
         //Consulta Outros
         public ActionResult Others(Others MODEL, int? Id)
         {
