@@ -27,6 +27,8 @@
                             </div>
                             <h3 class="p-2">Relatório Actual</h3>
                             <div class="p-4">
+                                <a href="@Url.Action("reports", "pdfreports", new { })" class="btn btn-light btn-rounded" title="Imprimir"><i class="fa-solid fa-cloud-arrow-down"></i> Imprimir</a>
+
                                 <button disabled class="btn btn-secondary mb-3"><i class="fa fa-print"></i> Imprimir</button>
 
                                 <div class="row">
@@ -34,8 +36,8 @@
                                         <label class="col-form-label text-right">Ansiedade e Depressão</label>
                                     </div>
                                     <div class="col-sm-1">
-                                        <i @(string.IsNullOrEmpty(Model.lblDataAnsiedade)?"hidden=":"") class="fa fa-check fa-2x text-success"></i>
-                                        <i @(string.IsNullOrEmpty(Model.lblDataAnsiedade)?"":"hidden=") class="fa fa-times fa-2x text-danger"></i>
+                                        <i @(string.IsNullOrEmpty(Model.lblDataAnsiedade) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
+                                        <i @(string.IsNullOrEmpty(Model.lblDataAnsiedade) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
                                     </div>
                                     <div class="col-sm-3">
                                         @Model.lblDataAnsiedade
@@ -117,7 +119,7 @@
                                     <div class="col-sm-3">
                                         <label class="col-form-label text-right">Pessoa Idosa</label>
                                     </div>
-                                </div> 
+                                </div>
                                 <div class="row">
                                     <div class="col-sm-1"></div>
                                     <div class="col-sm-4">
@@ -222,140 +224,140 @@
                                         @Model.lblDataStep
                                     </div>
                                 </div>
-                                       <div class="row">
-                                           <div class="col-sm-3">
-                                               <label class="col-form-label text-right">Força</label>
-                                           </div>
-                                       </div>
-                                       <div class="row">
-                                           <div class="col-sm-1"></div>
-                                           <div class="col-sm-4">
-                                               <label class="col-form-label text-right">1 RM Braços</label>
-                                           </div>
-                                           <div class="col-sm-1">
-                                               <i @(string.IsNullOrEmpty(Model.lblData1RMBraco) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
-                                               <i @(string.IsNullOrEmpty(Model.lblData1RMBraco) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
-                                           </div>
-                                           <div class="col-sm-3">
-                                               @Model.lblData1RMBraco
-                                           </div>
-                                       </div>
-                                       <div class="row">
-                                           <div class="col-sm-1"></div>
-                                           <div class="col-sm-4">
-                                               <label class="col-form-label text-right">1 RM Pernas</label>
-                                           </div>
-                                           <div class="col-sm-1">
-                                               <i @(string.IsNullOrEmpty(Model.lblData1RMPerna) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
-                                               <i @(string.IsNullOrEmpty(Model.lblData1RMPerna) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
-                                           </div>
-                                           <div class="col-sm-3">
-                                               @Model.lblData1RMPerna
-                                           </div>
-                                       </div>
-                                       <div class="row">
-                                           <div class="col-sm-1"></div>
-                                           <div class="col-sm-4">
-                                               <label class="col-form-label text-right">Resistência Média / Abdominais</label>
-                                           </div>
-                                           <div class="col-sm-1">
-                                               <i @(string.IsNullOrEmpty(Model.lblDataResistenciaMedia) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
-                                               <i @(string.IsNullOrEmpty(Model.lblDataResistenciaMedia) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
-                                           </div>
-                                           <div class="col-sm-3">
-                                               @Model.lblDataResistenciaMedia
-                                           </div>
-                                       </div>
-                                       <div class="row">
-                                           <div class="col-sm-1"></div>
-                                           <div class="col-sm-4">
-                                               <label class="col-form-label text-right">Resistência Superior / Flexões Braços</label>
-                                           </div>
-                                           <div class="col-sm-1">
-                                               <i @(string.IsNullOrEmpty(Model.lblDataResistenciaSuperior) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
-                                               <i @(string.IsNullOrEmpty(Model.lblDataResistenciaSuperior) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
-                                           </div>
-                                           <div class="col-sm-3">
-                                               @Model.lblDataResistenciaSuperior
-                                           </div>
-                                       </div>
-                                       <div class="row">
-                                           <div class="col-sm-1"></div>
-                                           <div class="col-sm-4">
-                                               <label class="col-form-label text-right">Velocidade Linear 30 M</label>
-                                           </div>
-                                           <div class="col-sm-1">
-                                               <i @(string.IsNullOrEmpty(Model.lblDataVelocidadeLinear) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
-                                               <i @(string.IsNullOrEmpty(Model.lblDataVelocidadeLinear) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
-                                           </div>
-                                           <div class="col-sm-3">
-                                               @Model.lblDataVelocidadeLinear
-                                           </div>
-                                       </div>
-                                       <div class="row">
-                                           <div class="col-sm-1"></div>
-                                           <div class="col-sm-4">
-                                               <label class="col-form-label text-right">30 M Velocidade Resistente</label>
-                                           </div>
-                                           <div class="col-sm-1">
-                                               <i @(string.IsNullOrEmpty(Model.lblDataVelocidadeResistente) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
-                                               <i @(string.IsNullOrEmpty(Model.lblDataVelocidadeResistente) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
-                                           </div>
-                                           <div class="col-sm-3">
-                                               @Model.lblDataVelocidadeResistente
-                                           </div>
-                                       </div>
-                                       <div class="row">
-                                           <div class="col-sm-1"></div>
-                                           <div class="col-sm-4">
-                                               <label class="col-form-label text-right">Agilidade/ illinoistest</label>
-                                           </div>
-                                           <div class="col-sm-1">
-                                               <i @(string.IsNullOrEmpty(Model.lblDataForcaAgilidade) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
-                                               <i @(string.IsNullOrEmpty(Model.lblDataForcaAgilidade) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
-                                           </div>
-                                           <div class="col-sm-3">
-                                               @Model.lblDataForcaAgilidade
-                                           </div>
-                                       </div>
-                                       <div class="row">
-                                           <div class="col-sm-1"></div>
-                                           <div class="col-sm-4">
-                                               <label class="col-form-label text-right">Força Explosiva / Salto Horizontal</label>
-                                           </div>
-                                           <div class="col-sm-1">
-                                               <i @(string.IsNullOrEmpty(Model.lblDataExplosivaH) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
-                                               <i @(string.IsNullOrEmpty(Model.lblDataExplosivaH) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
-                                           </div>
-                                           <div class="col-sm-3">
-                                               @Model.lblDataExplosivaH
-                                           </div>
-                                       </div>
-                                       <div class="row">
-                                           <div class="col-sm-1"></div>
-                                           <div class="col-sm-4">
-                                               <label class="col-form-label text-right">Força Explosiva / Salto Vertical</label>
-                                           </div>
-                                           <div class="col-sm-1">
-                                               <i @(string.IsNullOrEmpty(Model.lblDataExplosivaV) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
-                                               <i @(string.IsNullOrEmpty(Model.lblDataExplosivaV) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
-                                           </div>
-                                           <div class="col-sm-3">
-                                               @Model.lblDataExplosivaV
-                                           </div>
-                                       </div>
-                                       <div class="row">
-                                           <div class="col-sm-3">
-                                               <label class="col-form-label text-right">Funcional</label>
-                                           </div>
-                                           <div class="col-sm-1">
-                                               <i @(string.IsNullOrEmpty(Model.lblDataFuncional) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
-                                               <i @(string.IsNullOrEmpty(Model.lblDataFuncional) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
-                                           </div>
-                                           <div class="col-sm-3">
-                                               @Model.lblDataFuncional
-                                           </div>
-                                       </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="col-form-label text-right">Força</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-4">
+                                        <label class="col-form-label text-right">1 RM Braços</label>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <i @(string.IsNullOrEmpty(Model.lblData1RMBraco) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
+                                        <i @(string.IsNullOrEmpty(Model.lblData1RMBraco) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Model.lblData1RMBraco
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-4">
+                                        <label class="col-form-label text-right">1 RM Pernas</label>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <i @(string.IsNullOrEmpty(Model.lblData1RMPerna) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
+                                        <i @(string.IsNullOrEmpty(Model.lblData1RMPerna) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Model.lblData1RMPerna
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-4">
+                                        <label class="col-form-label text-right">Resistência Média / Abdominais</label>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <i @(string.IsNullOrEmpty(Model.lblDataResistenciaMedia) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
+                                        <i @(string.IsNullOrEmpty(Model.lblDataResistenciaMedia) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Model.lblDataResistenciaMedia
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-4">
+                                        <label class="col-form-label text-right">Resistência Superior / Flexões Braços</label>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <i @(string.IsNullOrEmpty(Model.lblDataResistenciaSuperior) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
+                                        <i @(string.IsNullOrEmpty(Model.lblDataResistenciaSuperior) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Model.lblDataResistenciaSuperior
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-4">
+                                        <label class="col-form-label text-right">Velocidade Linear 30 M</label>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <i @(string.IsNullOrEmpty(Model.lblDataVelocidadeLinear) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
+                                        <i @(string.IsNullOrEmpty(Model.lblDataVelocidadeLinear) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Model.lblDataVelocidadeLinear
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-4">
+                                        <label class="col-form-label text-right">30 M Velocidade Resistente</label>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <i @(string.IsNullOrEmpty(Model.lblDataVelocidadeResistente) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
+                                        <i @(string.IsNullOrEmpty(Model.lblDataVelocidadeResistente) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Model.lblDataVelocidadeResistente
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-4">
+                                        <label class="col-form-label text-right">Agilidade/ illinoistest</label>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <i @(string.IsNullOrEmpty(Model.lblDataForcaAgilidade) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
+                                        <i @(string.IsNullOrEmpty(Model.lblDataForcaAgilidade) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Model.lblDataForcaAgilidade
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-4">
+                                        <label class="col-form-label text-right">Força Explosiva / Salto Horizontal</label>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <i @(string.IsNullOrEmpty(Model.lblDataExplosivaH) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
+                                        <i @(string.IsNullOrEmpty(Model.lblDataExplosivaH) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Model.lblDataExplosivaH
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-4">
+                                        <label class="col-form-label text-right">Força Explosiva / Salto Vertical</label>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <i @(string.IsNullOrEmpty(Model.lblDataExplosivaV) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
+                                        <i @(string.IsNullOrEmpty(Model.lblDataExplosivaV) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Model.lblDataExplosivaV
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="col-form-label text-right">Funcional</label>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <i @(string.IsNullOrEmpty(Model.lblDataFuncional) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
+                                        <i @(string.IsNullOrEmpty(Model.lblDataFuncional) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Model.lblDataFuncional
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

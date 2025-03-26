@@ -3448,7 +3448,7 @@ namespace Gestreino.Controllers
             if (!AcessControl.Authorized(AcessControl.GT_QUEST_BODYCOMPOSITION_LIST_VIEW_SEARCH)) return View("Lockout");
 
             MODEL.PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
-
+ 
             MODEL.GT_TipoNivelActividade_List = databaseManager.GT_TipoNivelActividade.OrderBy(x => x.ID).Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
             MODEL.GT_TipoMetodoComposicao_List = databaseManager.GT_TipoMetodoComposicao.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.DESCRICAO });
             MODEL.Actual = !string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_PESO) ? decimal.Parse(Configs.GESTREINO_AVALIDO_PESO).ToString("G29").Replace(",", ".") : string.Empty;

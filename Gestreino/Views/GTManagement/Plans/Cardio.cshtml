@@ -176,7 +176,11 @@
                                     <div class="mt-4">
                                         @if (AcessControl.Authorized(AcessControl.GT_PLANS_CARDIO_UPDATE))
                                         {<button class="btn btn-success btn-block"><i class="fa fa-floppy-disk"></i> Guardar</button>
-                                        }    <button class="btn btn-success btn-block" disabled><i class="fa fa-print"></i> Imprimir</button>
+                                        }
+                                        @if (Model.ID > 0)
+                                        {
+                                            <a href="@Url.Action("cardio", "pdfreports", new { Id=Model.ID})" class="btn btn-success btn-block" title="Imprimir"><i class="fa fa-print"></i> Imprimir</a>
+                                        }
                                         @if (AcessControl.Authorized(AcessControl.GT_PLANS_CARDIO_UPDATE))
                                         {<button type="button" id="gttreinoclr" class="btn btn-secondary btn-block"><<</button>
                                             <a class="btn btn-secondary btn-block" href="@Url.Action("cardioplans", "gtmanagement", new { Id = string.Empty })"><i class="fa fa-plus-circle"></i> Novo</a>
