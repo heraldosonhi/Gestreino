@@ -48,8 +48,10 @@ namespace Gestreino.Controllers
         {
             if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
 
-            ConverterProperties converterProperties = new ConverterProperties();
-            var html = PDFReports.BodyMassReport(Id,string.Empty,string.Empty);
+           
+            //var path = Path.Combine( Environment.GetFolderPath(Environment.SpecialFolder.Personal),"Sample1.txt");
+            var path = Path.Combine(Server.MapPath("~/"), string.Empty);
+            var html = PDFReports.BodyMassReport(Id, path, string.Empty);
 
             var data = databaseManager.GT_Treino.Where(x => x.ID == Id).ToList();
                if (!data.Any()) return RedirectToAction("", "home");
@@ -58,6 +60,7 @@ namespace Gestreino.Controllers
             PdfWriter writer = new PdfWriter(workStream);//file
             PdfDocument pdf = new PdfDocument(writer);
             pdf.SetDefaultPageSize(iText.Kernel.Geom.PageSize.LEGAL);
+            ConverterProperties converterProperties = new ConverterProperties();
             HtmlConverter.ConvertToPdf(html, pdf, converterProperties);
 
             var bytearr = workStream.ToArray();

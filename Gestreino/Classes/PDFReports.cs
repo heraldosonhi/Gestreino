@@ -3,29 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Web;
-using Microsoft.AspNet.Identity;
-using Microsoft.Ajax.Utilities;
-using iText.StyledXmlParser.Jsoup.Nodes;
-using DocumentFormat.OpenXml.EMMA;
-//using System.Web.Http.Results;
 using System.Web.UI.WebControls;
-using System.Drawing;
-using System.Windows;
-using DocumentFormat.OpenXml.Drawing.Charts;
-using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
-using System.Web.Services.Description;
-using iText.Kernel.Pdf.Layer;
-//using Org.BouncyCastle.Ocsp;
-using System.Web.UI;
-using DocumentFormat.OpenXml.Bibliography;
-using static ClosedXML.Excel.XLPredefinedFormat;
 using System.Data.Entity;
-using DocumentFormat.OpenXml.Wordprocessing;
-using System.ComponentModel;
-using System.Collections;
-using Gestreino.Classes;
-using Gestreino;
 
 namespace Gestreino.Classes
 {
@@ -33,7 +12,6 @@ namespace Gestreino.Classes
     {
         public static string BodyMassReport(int? Id,/*List<SP_GT_ENT_TREINO_Result> treino*/ string path, string logo)
         {
-
             string Html = null;
 
             using (GESTREINO_Entities databaseManager = new GESTREINO_Entities())
@@ -42,12 +20,38 @@ namespace Gestreino.Classes
                 var treino = databaseManager.GT_Treino.Where(x => x.ID == Id).ToList();
                 var tipotreinoID = treino.First().GT_TipoTreino_ID;
                 var treinosp = databaseManager.SP_GT_ENT_TREINO(Id, null, tipotreinoID, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "R").ToList();
-
+                var pesId = treinosp.Select(x => x.pes_id).FirstOrDefault();
+                var caract = databaseManager.PES_PESSOAS_CARACT.Where(x => x.PES_PESSOAS_ID == pesId).ToList();
+                var DuracaoPlanoId = caract.Select(x => x.GT_DuracaoPlano_ID).FirstOrDefault();
+                var DuracaoPlano = databaseManager.GT_DuracaoPlano.Where(x => x.ID == DuracaoPlanoId).Select(x => x.DURACAO);
                 var exercicio = databaseManager.GT_ExercicioTreino.Where(x=>x.GT_Treino_ID == Id).ToList();
                 var exIds = exercicio.Select(x=>x.GT_Exercicio_ID).ToList();
                 var exSeries = exercicio.Select(x => x.GT_Series_ID).ToList();
                 var exRepeticoes = exercicio.Select(x => x.GT_Repeticoes_ID).ToList();
                 var exDescanso = exercicio.Select(x => x.GT_TempoDescanso_ID).ToList();
+
+                //FR e OB
+                List<Tuple<int, string>> FR = new List<Tuple<int, string>>();
+                FR.Add(new Tuple<int, string>(1, "Hipertensão"));
+                FR.Add(new Tuple<int, string>(2, "Tabaco"));
+                FR.Add(new Tuple<int, string>(3, "Hiperlipidemia"));
+                FR.Add(new Tuple<int, string>(4, "Obesidade"));
+                FR.Add(new Tuple<int, string>(5, "Diabetes"));
+                FR.Add(new Tuple<int, string>(6, "Inactividade"));
+                FR.Add(new Tuple<int, string>(7, "Heriditariedade"));
+                FR.Add(new Tuple<int, string>(8, "Exames complementares"));
+                FR.Add(new Tuple<int, string>(9, "Outros"));
+
+                List<Tuple<int, string>> OB = new List<Tuple<int, string>>();
+                OB.Add(new Tuple<int, string>(1, "Actividade"));
+                OB.Add(new Tuple<int, string>(2, "Controlo de peso"));
+                OB.Add(new Tuple<int, string>(3, "Predevenir a Idade"));
+                OB.Add(new Tuple<int, string>(4, "Treino desportivo"));
+                OB.Add(new Tuple<int, string>(5, "Aumentar a massa muscular"));
+                OB.Add(new Tuple<int, string>(6, "Bem estar / Saúde"));
+                OB.Add(new Tuple<int, string>(7, "Tonificar"));
+                OB.Add(new Tuple<int, string>(8, "Outros"));
+
 
                 var images = (from j1 in databaseManager.GT_Exercicio_ARQUIVOS
                                                join j2 in databaseManager.GRL_ARQUIVOS on j1.ARQUIVOS_ID equals j2.ID
@@ -70,12 +74,13 @@ namespace Gestreino.Classes
                 Html += "<body>";
                
                 Html += "<div class=bg-ddd><div class=row><div class=col-md-12>";
-                Html += "<h1 class=\"p4\" style=\"font-weight:900;\">Ginásio Gestreino</h1></div></div><table><tr><td style=width:250px><h3 class=\"p4\" style=\"font-weight:900;\">Número: <small>"+treinosp.First().NUMERO+"</small></h3><td><h3 style=\"font-weight:900;\">Nome: <small>"+ tnome + "</small></h3></table></div><div class=\"bg-ddd mt-1\"><table><tr><td style=width:250px><h3 class=\"p4\" style=\"font-weight:900;margin-bottom:0;margin-top:0\">Data de Início: <small>"+treinosp.First().DATA_INICIO+"</small></h3><td><h3 style=\"font-weight:900;margin-bottom:0;margin-top:0\">Factores de risco: <small>AC AF RR</small></h3><tr><td style=width:250px><h3 class=\"p4\" style=\"font-weight:900;margin-bottom:0;margin-top:0\">Duração do plano: <small>5</small></h3><td><h3 style=\"font-weight:900;margin-bottom:0;margin-top:0\">Objectivos: <small>PP BM BE</small></h3><tr><td style=width:250px><h3 class=\"p4\" style=\"font-weight:900;\">Protocolo: <small>6</small></h3></table></div>";
+                Html += "<h1 class=\"p4\" style=\"font-weight:900;\">Ginásio Gestreino</h1></div></div><table><tr><td style=width:250px><h3 class=\"p4\" style=\"font-weight:900;\">Número: <small>"+treinosp.First().NUMERO+"</small></h3><td><h3 style=\"font-weight:900;\">Nome: <small>"+ tnome + "</small></h3></table></div><div class=\"bg-ddd mt-1\"><table><tr><td style=width:250px><h3 class=\"p4\" style=\"font-weight:900;margin-bottom:0;margin-top:0\">Data de Início: <small>"+treinosp.First().DATA_INICIO+"</small></h3><td><h3 style=\"font-weight:900;margin-bottom:0;margin-top:0\">Factores de risco: <small>AC AF RR</small></h3><tr><td style=width:250px><h3 class=\"p4\" style=\"font-weight:900;margin-bottom:0;margin-top:0\">Duração do plano: <small>"+ DuracaoPlano + "</small></h3><td><h3 style=\"font-weight:900;margin-bottom:0;margin-top:0\">Objectivos: <small>PP BM BE</small></h3><tr><td style=width:250px><h3 class=\"p4\" style=\"font-weight:900;\">Protocolo: <small>"+ caract.FirstOrDefault().OBSERVACOES + "</small></h3></table></div>";
                 Html += "<div class=\"bg-ddd mt-1\"><div class=row><div class=col-md-12><center><h2 style=\"font-weight:900;margin-bottom:0\" >TREINO MUSCULAÇÃO</h1></center></div></div></div>";
                 Html += "<div class=\"mt-1\"  style=\"height:420px\"><div class=row><div class=col-md-12><table class=r-table><thead><tr><th style=width:33px><span class=tabletext>Altura&nbsp;Banco</span><th style=width:33px><span class=tabletext>Inclinação</span><th style=width:33px><th style=width:123px colspan=3>Exercício<th style=width:33px><span class=tabletext>Alongamento</span><th style=width:83px>Séries<th style=width:100px>Descanso<th style=width:100px>Carga<th style=width:33px><span class=tabletext>Repetições</span><th style=width:33px><span class=tabletext>Ajust.&nbsp;Carga</span>";
                 Html += "<tbody>";
 
                 int c = 0;
+                int i = 0;
                 foreach (var ex in exercicio)
                 {
                     c++;
@@ -102,20 +107,43 @@ namespace Gestreino.Classes
 
                 Html += "</tbody></table></div></div></div>";
                 Html += "<h1>&nbsp;</h1>";
-                Html += "<table style=width:758px><tr>";
+                Html += "<table style=width:758px>";
 
-                foreach (var ex in exercicio)
+                if (exercicio.Count() <= 6)
                 {
+                    Html += "<tr>";
 
-                    var img = images.Where(x => x.GT_Exercicio_ID == ex.GT_Exercicio_ID).OrderByDescending(x=>x.ID).Select(x => x.CAMINHO_URL).FirstOrDefault();
+                    foreach (var ex in exercicio)
+                    {
+                        i++;
+                        var img = images.Where(x => x.GT_Exercicio_ID == ex.GT_Exercicio_ID).OrderByDescending(x => x.ID).Select(x => x.CAMINHO_URL).FirstOrDefault();
+                        path += img.Replace("/", @"\");
 
+                        Html += "<td><span style=margin-left:45px>" + i + "</span><br><img src=\""+path+"\" style=\"border:1px solid #333;width:100px\"></td>";
+                    }
+                    Html += "</tr>";
+                }
+                if (exercicio.Count() > 6)
+                {
+                    var skip = 0;
+                    for (int y=1; y<=2;y++)
+                    {
+                            Html += "<tr>";
+                            foreach (var ex in exercicio.Skip(skip).Take(6))
+                            {
+                                i++;
+                                var img = images.Where(x => x.GT_Exercicio_ID == ex.GT_Exercicio_ID).OrderByDescending(x => x.ID).Select(x => x.CAMINHO_URL).FirstOrDefault();
+                                path += img.Replace("/", @"\");
 
-                    Html += "<td>"+img+ "<span style=margin-left:55px>1</span><br><img src=\"/Assets/images/user-avatar.jpg\" style=\"border:1px solid #333;width:100px\"></td>";
+                                Html += "<td><span style=margin-left:45px>" + i + "</span><br><img src=\""+path+"\" style=\"border:1px solid #333;width:100px\"></td>";
+                            }
+                            Html += "</tr>";
 
-               //     Html += "<td><span style=margin-left:55px>1</span><br><img src=\"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFhU3gyDQM2_Zr3kU9hahczQwgNU0Vvu4uvA&s\"style=\"border:1px solid #333;width:100px\"></td>";
+                        skip = 6;
+                    }
                 }
 
-                Html += "</tr></table>";
+                Html += "</table>";
                 Html+= "<div class=\"bg-ddd mt-1\"><h5 class=\"p4\" style=\"font-weight:900;margin-bottom:0;font-size:13px;\"> Regras da sala de exercício:</h5><table class=\"table footertext\" style=\"margin-bottom:0\"><tr><td class=col-md-6>1. Faça sempre o aquecimento com exercícios de alongamentos<br>2. Utilize toalha para evitar o contacto directo com os equipamentos<br>3. Utilize ténis apropriados para a prática da actividade<br/>Obrigado pela sua compreensão<td class=col-md-6>4. Beba água antes, durante e após cada sessão<br>5. Não é permitido levar telemóveis e outros objectos para a sala de exercício<br>6. Cumpra com a prescrição dos instrutores e esclareça todas as dúvidas</table></div>";
                 
                 /*Html += "   <div style=\"border-top: 2px solid black; padding-top: 2px; margin-top: 12px\">";
