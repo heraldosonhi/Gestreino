@@ -55,8 +55,7 @@ namespace Gestreino.Controllers
 
             var data = databaseManager.GT_Treino.Where(x => x.ID == Id).ToList();
                if (!data.Any()) return RedirectToAction("", "home");
-               if() 
-
+               
             var workStream = new MemoryStream();
             PdfWriter writer = new PdfWriter(workStream);//file
             PdfDocument pdf = new PdfDocument(writer);
