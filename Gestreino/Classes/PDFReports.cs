@@ -23,35 +23,58 @@ namespace Gestreino.Classes
                 var pesId = treinosp.Select(x => x.pes_id).FirstOrDefault();
                 var caract = databaseManager.PES_PESSOAS_CARACT.Where(x => x.PES_PESSOAS_ID == pesId).ToList();
                 var DuracaoPlanoId = caract.Select(x => x.GT_DuracaoPlano_ID).FirstOrDefault();
-                var DuracaoPlano = databaseManager.GT_DuracaoPlano.Where(x => x.ID == DuracaoPlanoId).Select(x => x.DURACAO);
+                var DuracaoPlano = databaseManager.GT_DuracaoPlano.Where(x => x.ID == DuracaoPlanoId).Select(x => x.DURACAO).FirstOrDefault() ;
                 var exercicio = databaseManager.GT_ExercicioTreino.Where(x=>x.GT_Treino_ID == Id).ToList();
                 var exIds = exercicio.Select(x=>x.GT_Exercicio_ID).ToList();
                 var exSeries = exercicio.Select(x => x.GT_Series_ID).ToList();
                 var exRepeticoes = exercicio.Select(x => x.GT_Repeticoes_ID).ToList();
                 var exDescanso = exercicio.Select(x => x.GT_TempoDescanso_ID).ToList();
+                var exCarga = exercicio.Select(x => x.GT_Carga_ID).ToList();
 
                 //FR e OB
                 List<Tuple<int, string>> FR = new List<Tuple<int, string>>();
-                FR.Add(new Tuple<int, string>(1, "Hipertensão"));
-                FR.Add(new Tuple<int, string>(2, "Tabaco"));
-                FR.Add(new Tuple<int, string>(3, "Hiperlipidemia"));
-                FR.Add(new Tuple<int, string>(4, "Obesidade"));
-                FR.Add(new Tuple<int, string>(5, "Diabetes"));
-                FR.Add(new Tuple<int, string>(6, "Inactividade"));
-                FR.Add(new Tuple<int, string>(7, "Heriditariedade"));
-                FR.Add(new Tuple<int, string>(8, "Exames complementares"));
-                FR.Add(new Tuple<int, string>(9, "Outros"));
+                FR.Add(new Tuple<int, string>(1, "HT"));
+                FR.Add(new Tuple<int, string>(2, "TB"));
+                FR.Add(new Tuple<int, string>(3, "HL"));
+                FR.Add(new Tuple<int, string>(4, "OB"));
+                FR.Add(new Tuple<int, string>(5, "DB"));
+                FR.Add(new Tuple<int, string>(6, "IN"));
+                FR.Add(new Tuple<int, string>(7, "HE"));
+                FR.Add(new Tuple<int, string>(8, "EC"));
+                FR.Add(new Tuple<int, string>(9, "OT"));
 
                 List<Tuple<int, string>> OB = new List<Tuple<int, string>>();
-                OB.Add(new Tuple<int, string>(1, "Actividade"));
-                OB.Add(new Tuple<int, string>(2, "Controlo de peso"));
-                OB.Add(new Tuple<int, string>(3, "Predevenir a Idade"));
-                OB.Add(new Tuple<int, string>(4, "Treino desportivo"));
-                OB.Add(new Tuple<int, string>(5, "Aumentar a massa muscular"));
-                OB.Add(new Tuple<int, string>(6, "Bem estar / Saúde"));
-                OB.Add(new Tuple<int, string>(7, "Tonificar"));
-                OB.Add(new Tuple<int, string>(8, "Outros"));
+                OB.Add(new Tuple<int, string>(1, "AC"));
+                OB.Add(new Tuple<int, string>(2, "CP"));
+                OB.Add(new Tuple<int, string>(3, "PI"));
+                OB.Add(new Tuple<int, string>(4, "TP"));
+                OB.Add(new Tuple<int, string>(5, "AM"));
+                OB.Add(new Tuple<int, string>(6, "BE"));
+                OB.Add(new Tuple<int, string>(7, "TO"));
+                OB.Add(new Tuple<int, string>(8, "OT"));
 
+                var c = caract.First();
+                var fr = new List<string>();
+                if (c.FR_HT == true) fr.Add(FR.Where(x => x.Item1 ==1).Select(x=>x.Item2).FirstOrDefault());
+                if (c.FR_TB == true) fr.Add(FR.Where(x => x.Item1 == 2).Select(x => x.Item2).FirstOrDefault());
+                if (c.FR_HL == true) fr.Add(FR.Where(x => x.Item1 == 3).Select(x => x.Item2).FirstOrDefault());
+                if (c.FR_OB == true) fr.Add(FR.Where(x => x.Item1 == 4).Select(x => x.Item2).FirstOrDefault());
+                if (c.FR_DB == true) fr.Add(FR.Where(x => x.Item1 == 5).Select(x => x.Item2).FirstOrDefault());
+                if (c.FR_IN == true) fr.Add(FR.Where(x => x.Item1 == 6).Select(x => x.Item2).FirstOrDefault());
+                if (c.FR_HE == true) fr.Add(FR.Where(x => x.Item1 == 7).Select(x => x.Item2).FirstOrDefault());
+                if (c.FR_EC == true) fr.Add(FR.Where(x => x.Item1 == 8).Select(x => x.Item2).FirstOrDefault());
+                if (c.FR_OT == true) fr.Add(FR.Where(x => x.Item1 == 9).Select(x => x.Item2).FirstOrDefault());
+
+                var o = caract.First();
+                var ob = new List<string>();
+                if (o.OB_AC == true) ob.Add(OB.Where(x => x.Item1 == 1).Select(x => x.Item2).FirstOrDefault());
+                if (o.OB_CP == true) ob.Add(OB.Where(x => x.Item1 == 2).Select(x => x.Item2).FirstOrDefault());
+                if (o.OB_PI == true) ob.Add(OB.Where(x => x.Item1 == 3).Select(x => x.Item2).FirstOrDefault());
+                if (o.OB_TP == true) ob.Add(OB.Where(x => x.Item1 == 4).Select(x => x.Item2).FirstOrDefault());
+                if (o.OB_AM == true) ob.Add(OB.Where(x => x.Item1 == 5).Select(x => x.Item2).FirstOrDefault());
+                if (o.OB_BE == true) ob.Add(OB.Where(x => x.Item1 == 6).Select(x => x.Item2).FirstOrDefault());
+                if (o.OB_TO == true) ob.Add(OB.Where(x => x.Item1 == 7).Select(x => x.Item2).FirstOrDefault());
+                if (o.OB_OT == true) ob.Add(OB.Where(x => x.Item1 == 8).Select(x => x.Item2).FirstOrDefault());
 
                 var images = (from j1 in databaseManager.GT_Exercicio_ARQUIVOS
                                                join j2 in databaseManager.GRL_ARQUIVOS on j1.ARQUIVOS_ID equals j2.ID
@@ -63,6 +86,7 @@ namespace Gestreino.Classes
                 var eseries = databaseManager.GT_Series.Where(x => exSeries.Contains(x.ID)).ToList();
                 var erepeticoes = databaseManager.GT_Repeticoes.Where(x => exRepeticoes.Contains(x.ID)).ToList();
                 var edescanso = databaseManager.GT_TempoDescanso.Where(x => exDescanso.Contains(x.ID)).ToList();
+                var ecargas = databaseManager.GT_Carga.Where(x => exCarga.Contains(x.ID)).ToList();
 
                 var tnome = treinosp.First().NOME_PROPIO + " " + treinosp.First().APELIDO;
 
@@ -74,32 +98,34 @@ namespace Gestreino.Classes
                 Html += "<body>";
                
                 Html += "<div class=bg-ddd><div class=row><div class=col-md-12>";
-                Html += "<h1 class=\"p4\" style=\"font-weight:900;\">Ginásio Gestreino</h1></div></div><table><tr><td style=width:250px><h3 class=\"p4\" style=\"font-weight:900;\">Número: <small>"+treinosp.First().NUMERO+"</small></h3><td><h3 style=\"font-weight:900;\">Nome: <small>"+ tnome + "</small></h3></table></div><div class=\"bg-ddd mt-1\"><table><tr><td style=width:250px><h3 class=\"p4\" style=\"font-weight:900;margin-bottom:0;margin-top:0\">Data de Início: <small>"+treinosp.First().DATA_INICIO+"</small></h3><td><h3 style=\"font-weight:900;margin-bottom:0;margin-top:0\">Factores de risco: <small>AC AF RR</small></h3><tr><td style=width:250px><h3 class=\"p4\" style=\"font-weight:900;margin-bottom:0;margin-top:0\">Duração do plano: <small>"+ DuracaoPlano + "</small></h3><td><h3 style=\"font-weight:900;margin-bottom:0;margin-top:0\">Objectivos: <small>PP BM BE</small></h3><tr><td style=width:250px><h3 class=\"p4\" style=\"font-weight:900;\">Protocolo: <small>"+ caract.FirstOrDefault().OBSERVACOES + "</small></h3></table></div>";
+                Html += "<h1 class=\"p4\" style=\"font-weight:900;\">Ginásio Gestreino</h1></div></div><table><tr><td style=width:250px><h3 class=\"p4\" style=\"font-weight:900;\">Número: <small>"+treinosp.First().NUMERO+"</small></h3><td><h3 style=\"font-weight:900;\">Nome: <small>"+ tnome + "</small></h3></table></div><div class=\"bg-ddd mt-1\"><table><tr><td style=width:250px><h3 class=\"p4\" style=\"font-weight:900;margin-bottom:0;margin-top:0\">Data de Início: <small>"+treinosp.First().DATA_INICIO+"</small></h3><td><h3 style=\"font-weight:900;margin-bottom:0;margin-top:0\">Factores de risco: <small>"+ string.Join(", ", fr) + "</small></h3><tr><td style=width:250px><h3 class=\"p4\" style=\"font-weight:900;margin-bottom:0;margin-top:0\">Duração do plano: <small>"+ DuracaoPlano + "</small></h3><td><h3 style=\"font-weight:900;margin-bottom:0;margin-top:0\">Objectivos: <small>"+ string.Join(", ", ob) + "</small></h3><tr><td style=width:250px><h3 class=\"p4\" style=\"font-weight:900;\">Protocolo: <small>"+ caract.FirstOrDefault().OBSERVACOES + "</small></h3></table></div>";
                 Html += "<div class=\"bg-ddd mt-1\"><div class=row><div class=col-md-12><center><h2 style=\"font-weight:900;margin-bottom:0\" >TREINO MUSCULAÇÃO</h1></center></div></div></div>";
                 Html += "<div class=\"mt-1\"  style=\"height:420px\"><div class=row><div class=col-md-12><table class=r-table><thead><tr><th style=width:33px><span class=tabletext>Altura&nbsp;Banco</span><th style=width:33px><span class=tabletext>Inclinação</span><th style=width:33px><th style=width:123px colspan=3>Exercício<th style=width:33px><span class=tabletext>Alongamento</span><th style=width:83px>Séries<th style=width:100px>Descanso<th style=width:100px>Carga<th style=width:33px><span class=tabletext>Repetições</span><th style=width:33px><span class=tabletext>Ajust.&nbsp;Carga</span>";
                 Html += "<tbody>";
 
-                int c = 0;
+                int t = 0;
                 int i = 0;
                 foreach (var ex in exercicio)
                 {
-                    c++;
+                    t++;
                     var enome = ename.Where(x => x.ID == ex.GT_Exercicio_ID).Select(x => x.NOME).FirstOrDefault();
                     var eserie = eseries.Where(x => x.ID == ex.GT_Series_ID).Select(x => x.SERIES).FirstOrDefault();
                     var erepeticao = erepeticoes.Where(x => x.ID == ex.GT_Repeticoes_ID).Select(x => x.REPETICOES).FirstOrDefault();
                     var edescansos= edescanso.Where(x => x.ID == ex.GT_TempoDescanso_ID).Select(x => x.TEMPO_DESCANSO).FirstOrDefault();
+                    var ecarga = ecargas.Where(x => x.ID == ex.GT_Carga_ID).Select(x => x.CARGA).FirstOrDefault();
+                    var carga = ex.CARGA_USADA!=null? Math.Round((ex.CARGA_USADA.Value * ecarga) / 100):0;
 
                     Html += "<tr>";
                     Html += "<td class=bg-ddd></td>";
                     Html += "<td class=bg-ddd></td>";
-                    Html += "<td>X</td>";
-                    Html += "<td>"+c+".</td>";
+                    Html += "<td><image width=\"14px\" src=\"https://www.svgrepo.com/show/188245/pointing-right-finger.svg\"></image></td>";
+                    Html += "<td>"+t+".</td>";
                     Html += "<td class=bg-ddd>"+(ex.CARGA_USADA??0).ToString("G29")+"</td>";
                     Html += "<td class=text-left>"+enome+"</td>";
                     Html += "<td class=bg-ddd>0</td>";
                     Html += "<td>"+eserie+"</td>";
                     Html += "<td>"+ edescansos + "</td>";
-                    Html += "<td>X</td>";
+                    Html += "<td>"+ carga + " kg</td>";
                     Html += "<td>"+ erepeticao + "</td>";
                     Html += "<td></td>";
                     Html += "</tr>";

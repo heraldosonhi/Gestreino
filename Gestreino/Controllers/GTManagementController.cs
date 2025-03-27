@@ -1838,9 +1838,10 @@ namespace Gestreino.Controllers
                 MODEL.ID = Id;
                 var treino = databaseManager.SP_GT_ENT_TREINO(Id, null, MODEL.GTTipoTreinoId, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "R").ToList();
                 MODEL.lblDataInsercao = treino.First().DATA_INSERCAO;
-        MODEL.ExerciseArqListTreino = (from j1 in databaseManager.GT_ExercicioTreino
+                MODEL.ExerciseArqListTreino = (from j1 in databaseManager.GT_ExercicioTreino
                                                join j2 in databaseManager.GT_Exercicio on j1.GT_Exercicio_ID equals j2.ID
                                                where j1.GT_Treino_ID == Id
+                                               orderby j1.ORDEM
                                                select new ExerciseArq() { Name = j2.NOME, ExerciseId = j1.GT_Exercicio_ID, GT_Series_ID = j1.GT_Series_ID, GT_Repeticoes_ID = j1.GT_Repeticoes_ID, GT_TempoDescanso_ID = j1.GT_TempoDescanso_ID, GT_Carga_ID = j1.GT_Carga_ID, REPETICOES_COMPLETADAS = j1.GT_CoeficienteRepeticao_ID, CARGA_USADA = j1.CARGA_USADA, ONERM = j1.ONERM, ORDEM = j1.ORDEM }).ToList();
 
                 if (string.IsNullOrEmpty(predefined))
@@ -1902,6 +1903,7 @@ namespace Gestreino.Controllers
                 MODEL.ExerciseArqListTreino = (from j1 in databaseManager.GT_ExercicioTreinoCardio
                                                join j2 in databaseManager.GT_Exercicio on j1.GT_Exercicio_ID equals j2.ID
                                                where j1.GT_Treino_ID == Id
+                                               orderby j1.ORDEM
                                                select new ExerciseArq() { Name = j2.NOME, ExerciseId = j1.GT_Exercicio_ID, GT_DuracaoTreinoCardio_ID = j1.GT_DuracaoTreinoCardio_ID, FC = j1.FC, Nivel = j1.NIVEL, Distancia = j1.DISTANCIA, ORDEM = j1.ORDEM }).ToList();
 
                 if (string.IsNullOrEmpty(predefined))
