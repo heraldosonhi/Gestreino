@@ -2096,6 +2096,22 @@ namespace Gestreino.Controllers
                         return Json(new { result = false, error = "Data de início deve ser inferior a Data de fim!" });
                 }
 
+                if (MODEL.GTTipoTreinoId == Configs.GT_EXERCISE_TYPE_BODYMASS)
+                {
+                    if(exIds.Length>12)
+                        return Json(new { result = false, error = "Plano de treino não pode ter mais de 12 exercícios definidos!" });
+                }
+                if (MODEL.GTTipoTreinoId == Configs.GT_EXERCISE_TYPE_CARDIO)
+                {
+                    if (DateTime.ParseExact(MODEL.DateIni, "dd-MM-yyyy", CultureInfo.InvariantCulture).AddMonths(3) < DateTime.ParseExact(MODEL.DateEnd, "dd-MM-yyyy", CultureInfo.InvariantCulture))
+                    {
+                        return Json(new { result = false, error = "É aconselhável que a duração do plano de treino seja até 3 meses. Verifique as datas do plano!" });
+                    }
+                    if (exIds.Length > 4)
+                        return Json(new { result = false, error = "Plano de treino não pode ter mais de 4 exercícios definidos!" });
+
+                }
+
                 if (MODEL.ID > 0)
                 {
                     //Update

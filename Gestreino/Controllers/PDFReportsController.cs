@@ -47,15 +47,15 @@ namespace Gestreino.Controllers
         public ActionResult BodyMass(int? Id)
         {
             if (Id == null || Id <= 0) { return RedirectToAction("", "home"); }
-
-           
-            //var path = Path.Combine( Environment.GetFolderPath(Environment.SpecialFolder.Personal),"Sample1.txt");
-            var path = Path.Combine(Server.MapPath("~/"), string.Empty);
-            var html = PDFReports.BodyMassReport(Id, path, string.Empty);
-
+            
             var data = databaseManager.GT_Treino.Where(x => x.ID == Id).ToList();
                if (!data.Any()) return RedirectToAction("", "home");
-               
+               if(data.Select(x=>x.GT_TipoTreino_ID).FirstOrDefault()!=Configs.GT_EXERCISE_TYPE_BODYMASS)
+                return RedirectToAction("", "home");
+
+            var path = Path.Combine(Server.MapPath("~/"), string.Empty);
+            var html = PDFReports.BodyMassPrintReport(Id, data, path, string.Empty);
+
             var workStream = new MemoryStream();
             PdfWriter writer = new PdfWriter(workStream);//file
             PdfDocument pdf = new PdfDocument(writer);
@@ -70,35 +70,24 @@ namespace Gestreino.Controllers
 
         public ActionResult Cardio(int? Id)
         {
-            ConverterProperties converterProperties = new ConverterProperties();
+            var data = databaseManager.GT_Treino.Where(x => x.ID == Id).ToList();
+            if (!data.Any()) return RedirectToAction("", "home");
+            if (data.Select(x => x.GT_TipoTreino_ID).FirstOrDefault() != Configs.GT_EXERCISE_TYPE_CARDIO)
+                return RedirectToAction("", "home");
 
-            // Create a Temp PDF file temporary, remove this when the whole invoice is created to manaqge it as stream byte[]
-            string file = System.IO.Path.Combine("", $@"Documents\Temp_Invoice_.pdf");
-            var html = PDFReports.BodyMassReport(0, string.Empty, string.Empty);
-
-
-            using (System.IO.StreamReader reader = new System.IO.StreamReader(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/BodyMassReport.html")))
-            {
-                //    html = reader.ReadToEnd();
-            }
-            // html = html.Replace("{inst_nome}", Configs.INST_INSTITUICAO_NOME);
-            //   html = html.Replace("{inst_sigla}", Configs.INST_INSTITUICAO_SIGLA);
-
-
+            var path = Path.Combine(Server.MapPath("~/"), string.Empty);
+            var html = PDFReports.CardioPrintReport(Id, data, path, string.Empty);
 
             var workStream = new MemoryStream();
             PdfWriter writer = new PdfWriter(workStream);//file
             PdfDocument pdf = new PdfDocument(writer);
-            pdf.SetDefaultPageSize(iText.Kernel.Geom.PageSize.LEGAL);
+            pdf.SetDefaultPageSize(iText.Kernel.Geom.PageSize.A4.Rotate());
+            ConverterProperties converterProperties = new ConverterProperties();
             HtmlConverter.ConvertToPdf(html, pdf, converterProperties);
-            //document.Close();
 
-            //iText.Layout.Document pdfModifier = document;
             var bytearr = workStream.ToArray();
-
             var content = bytearr;
-            return File(content, "application/pdf", "gestreinopdf.pdf");
-
+            return File(content, "application/pdf", "gestreinoplanocardio" + Id + ".pdf");
         }
         public ActionResult Reports()
         {
@@ -106,7 +95,7 @@ namespace Gestreino.Controllers
 
             // Create a Temp PDF file temporary, remove this when the whole invoice is created to manaqge it as stream byte[]
             string file = System.IO.Path.Combine("", $@"Documents\Temp_Invoice_.pdf");
-            var html = PDFReports.BodyMassReport(0, string.Empty, string.Empty);
+            var html = ""; //PDFReports.BodyMassPrintReport(0, string.Empty, string.Empty);
 
 
             using (System.IO.StreamReader reader = new System.IO.StreamReader(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/BodyMassReport.html")))

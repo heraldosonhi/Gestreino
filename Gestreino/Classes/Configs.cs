@@ -32,6 +32,7 @@ namespace Gestreino.Classes
 
         public static int? GT_EXERCISE_TYPE_BODYMASS = 1;//"Musculação";
         public static int? GT_EXERCISE_TYPE_CARDIO = 3;//"Cardiovascular";
+        public static int[] GT_EXERCISE_TYPE_CARDIO_INCLINACAO = { 5,6 };//Passadeira,Crosstrainer
         public static int? INST_MDL_ADM_VLRID_ARQUIVO_LOGOTIPO=2;
 
         public static string GESTREINO_AVALIDO_NOME;
