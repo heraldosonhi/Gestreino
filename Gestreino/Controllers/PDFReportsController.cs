@@ -89,37 +89,24 @@ namespace Gestreino.Controllers
             var content = bytearr;
             return File(content, "application/pdf", "gestreinoplanocardio" + Id + ".pdf");
         }
-        public ActionResult Reports()
+        public ActionResult MainReport()
         {
-            ConverterProperties converterProperties = new ConverterProperties();
+            var PEsId = !string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) ? int.Parse(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) : 0;
+            if(PEsId==null || PEsId==0) return RedirectToAction("", "home");
 
-            // Create a Temp PDF file temporary, remove this when the whole invoice is created to manaqge it as stream byte[]
-            string file = System.IO.Path.Combine("", $@"Documents\Temp_Invoice_.pdf");
-            var html = ""; //PDFReports.BodyMassPrintReport(0, string.Empty, string.Empty);
-
-
-            using (System.IO.StreamReader reader = new System.IO.StreamReader(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/BodyMassReport.html")))
-            {
-                //    html = reader.ReadToEnd();
-            }
-            // html = html.Replace("{inst_nome}", Configs.INST_INSTITUICAO_NOME);
-            //   html = html.Replace("{inst_sigla}", Configs.INST_INSTITUICAO_SIGLA);
-
-
+            var path = Path.Combine(Server.MapPath("~/"), string.Empty);
+            var html = PDFReports.MainReportPrint(PEsId, path, string.Empty);
 
             var workStream = new MemoryStream();
             PdfWriter writer = new PdfWriter(workStream);//file
             PdfDocument pdf = new PdfDocument(writer);
-            pdf.SetDefaultPageSize(iText.Kernel.Geom.PageSize.LEGAL);
+            pdf.SetDefaultPageSize(iText.Kernel.Geom.PageSize.A4);
+            ConverterProperties converterProperties = new ConverterProperties();
             HtmlConverter.ConvertToPdf(html, pdf, converterProperties);
-            //document.Close();
 
-            //iText.Layout.Document pdfModifier = document;
             var bytearr = workStream.ToArray();
-
             var content = bytearr;
-            return File(content, "application/pdf", "gestreinopdf.pdf");
-
+            return File(content, "application/pdf", "relatoriogestreino" + PEsId + ".pdf");
         }
         
 

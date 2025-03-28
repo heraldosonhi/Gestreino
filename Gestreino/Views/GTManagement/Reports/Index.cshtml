@@ -27,9 +27,7 @@
                             </div>
                             <h3 class="p-2">Relatório Actual</h3>
                             <div class="p-4">
-                                <a href="@Url.Action("reports", "pdfreports", new { })" class="btn btn-light btn-rounded" title="Imprimir"><i class="fa-solid fa-cloud-arrow-down"></i> Imprimir</a>
-
-                                <button disabled class="btn btn-secondary mb-3"><i class="fa fa-print"></i> Imprimir</button>
+                                <a href="@Url.Action("mainreport", "pdfreports", new { })" class="btn btn-secondary mb-3" title="Imprimir"><i class="fa-solid fa-print"></i> Imprimir</a>
 
                                 <div class="row">
                                     <div class="col-sm-3">
@@ -165,11 +163,11 @@
                                         <label class="col-form-label text-right">Sentar e Alcançar na Cadeira</label>
                                     </div>
                                     <div class="col-sm-1">
-                                        <i @(string.IsNullOrEmpty(Model.lblDataSentarCadeira) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
-                                        <i @(string.IsNullOrEmpty(Model.lblDataSentarCadeira) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
+                                        <i @(string.IsNullOrEmpty(Model.lblDataLevantarCadeira) ? "hidden=" : "") class="fa fa-check fa-2x text-success"></i>
+                                        <i @(string.IsNullOrEmpty(Model.lblDataLevantarCadeira) ? "" : "hidden=") class="fa fa-times fa-2x text-danger"></i>
                                     </div>
                                     <div class="col-sm-3">
-                                        @Model.lblDataSentarCadeira
+                                        @Model.lblDataLevantarCadeira
                                     </div>
                                 </div>
                                 <div class="row">

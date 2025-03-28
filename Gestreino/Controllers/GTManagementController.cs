@@ -342,6 +342,8 @@ namespace Gestreino.Controllers
                     MODEL.Age = Converters.CalculateAge(DateofBirth.Value);
                     if (MODEL.Age < 15)
                         return Json(new { result = false, error = "Não pode ter uma idade inferior a 15 anos!" });
+                    if (MODEL.Age > 69)
+                        return Json(new { result = false, error = "Não pode ter uma idade superior a 69 anos!" });
                 }
 
                 if (databaseManager.PES_CONTACTOS.Where(a => a.EMAIL == MODEL.Email).ToList().Count() > 0)
@@ -463,6 +465,8 @@ namespace Gestreino.Controllers
                     MODEL.Age = Converters.CalculateAge(DateofBirth.Value);
                     if (MODEL.Age < 15)
                         return Json(new { result = false, error = "Não pode ter uma idade inferior a 15 anos!" });
+                    if (MODEL.Age > 69)
+                        return Json(new { result = false, error = "Não pode ter uma idade superior a 69 anos!" });
                 }
                 if (databaseManager.PES_CONTACTOS.Where(a => a.EMAIL == MODEL.Email && a.PES_PESSOAS_ID != MODEL.ID).ToList().Count() > 0)
                 {
@@ -1803,7 +1807,7 @@ namespace Gestreino.Controllers
         public ActionResult BodyMassPlans(Gestreino.Models.GT_TreinoBodyMass MODEL, int? Id, string predefined)
         {
             if (!AcessControl.Authorized(AcessControl.GT_PLANS_BODYMASS_LIST_VIEW_SEARCH)) return View("Lockout");
-            
+          
             MODEL.GT_Series_List = databaseManager.GT_Series.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.SERIES.ToString() });
             MODEL.GT_Repeticoes_List = databaseManager.GT_Repeticoes.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.REPETICOES.ToString() });
             MODEL.GT_Carga_List = databaseManager.GT_Carga.Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.CARGA.ToString() });
@@ -1832,6 +1836,9 @@ namespace Gestreino.Controllers
 
             if (Id > 0)
             {
+                if (string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
+                    return RedirectToAction("bodymassplans", "gtmanagement", new { Id = string.Empty });
+
                 if (databaseManager.GT_Treino.Where(x => x.ID == Id).Count() == 0)
                     return RedirectToAction("bodymassplans", "gtmanagement", new { Id = string.Empty });
 
@@ -1895,6 +1902,9 @@ namespace Gestreino.Controllers
             if (Id > 0)
             {
                 if (databaseManager.GT_Treino.Where(x => x.ID == Id).Count() == 0)
+                    return RedirectToAction("cardioplans", "gtmanagement", new { Id = string.Empty });
+
+                if (string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
                     return RedirectToAction("cardioplans", "gtmanagement", new { Id = string.Empty });
 
                 MODEL.ID = Id;
@@ -2063,7 +2073,8 @@ namespace Gestreino.Controllers
                     DATAINSERCAO = x.DATA_INSERCAO,
                     ACTUALIZACAO = x.ACTUALIZACAO,
                     DATAACTUALIZACAO = x.DATA_ACTUALIZACAO,
-                    LINK = x.GT_TipoTreino_ID == Configs.GT_EXERCISE_TYPE_BODYMASS ? "/gtmanagement/bodymassplans/" + x.ID : "/gtmanagement/cardioplans/" + x.ID
+                    LINK = x.GT_TipoTreino_ID == Configs.GT_EXERCISE_TYPE_BODYMASS ? "/gtmanagement/bodymassplans/" + x.ID : "/gtmanagement/cardioplans/" + x.ID,
+                    LINKPDF = x.GT_TipoTreino_ID == Configs.GT_EXERCISE_TYPE_BODYMASS ? "/pdfreports/bodymass/" + x.ID : "/pdfreports/cardio/" + x.ID
                 }),
                 sortColumn = sortColumn,
                 sortColumnDir = sortColumnDir,
@@ -2098,8 +2109,8 @@ namespace Gestreino.Controllers
 
                 if (MODEL.GTTipoTreinoId == Configs.GT_EXERCISE_TYPE_BODYMASS)
                 {
-                    if(exIds.Length>12)
-                        return Json(new { result = false, error = "Plano de treino não pode ter mais de 12 exercícios definidos!" });
+                    if(exIds.Length> Configs.GT_EXERCISE_TYPE_BODYMASS_EX_MAX_ALLOWED)
+                        return Json(new { result = false, error = "Plano de treino não pode ter mais de "+ Configs.GT_EXERCISE_TYPE_BODYMASS_EX_MAX_ALLOWED + " exercícios definidos!" });
                 }
                 if (MODEL.GTTipoTreinoId == Configs.GT_EXERCISE_TYPE_CARDIO)
                 {
@@ -2107,8 +2118,8 @@ namespace Gestreino.Controllers
                     {
                         return Json(new { result = false, error = "É aconselhável que a duração do plano de treino seja até 3 meses. Verifique as datas do plano!" });
                     }
-                    if (exIds.Length > 4)
-                        return Json(new { result = false, error = "Plano de treino não pode ter mais de 4 exercícios definidos!" });
+                    if (exIds.Length > Configs.GT_EXERCISE_TYPE_CARDIO_EX_MAX_ALLOWED)
+                        return Json(new { result = false, error = "Plano de treino não pode ter mais de "+ Configs.GT_EXERCISE_TYPE_CARDIO_EX_MAX_ALLOWED + " exercícios definidos!" });
 
                 }
 
@@ -2210,6 +2221,9 @@ namespace Gestreino.Controllers
                 var data = databaseManager.GT_RespAnsiedadeDepressao.Where(x => x.ID == Id).ToList();
                 if (data.Count() == 0)
                     return RedirectToAction("anxient", "gtmanagement", new { Id = string.Empty });
+                if (string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
+                    return RedirectToAction("anxient", "gtmanagement", new { Id = string.Empty });
+
                 ViewBag.data = data;
                 MODEL.ID = Id;
                 MODEL.q1 = data.First().RESP_01;
@@ -2489,6 +2503,9 @@ namespace Gestreino.Controllers
                 var data = databaseManager.GT_RespAutoConceito.Where(x => x.ID == Id).ToList();
                 if (data.Count() == 0)
                     return RedirectToAction("selfconcept", "gtmanagement", new { Id = string.Empty });
+                if (string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
+                    return RedirectToAction("selfconcept", "gtmanagement", new { Id = string.Empty });
+
                 ViewBag.data = data;
                 MODEL.ID = Id;
                 MODEL.q1 = data.First().RESP_01;
@@ -2653,6 +2670,9 @@ namespace Gestreino.Controllers
                 var data = databaseManager.GT_RespRisco.Where(x => x.ID == Id).ToList();
                 if (data.Count() == 0)
                     return RedirectToAction("coronaryrisk", "gtmanagement", new { Id = string.Empty });
+                if (string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
+                    return RedirectToAction("coronaryrisk", "gtmanagement", new { Id = string.Empty });
+
                 ViewBag.data = data;
                 MODEL.ID = Id;
                 MODEL.q2 = data.First().radHeredMasc.HasValue ? Convert.ToInt32(data.First().radHeredMasc) : (int?)null;
@@ -2885,6 +2905,9 @@ namespace Gestreino.Controllers
                 var data = databaseManager.GT_RespProblemasSaude.Where(x => x.ID == Id).ToList();
                 if (data.Count() == 0)
                     return RedirectToAction("health", "gtmanagement", new { Id = string.Empty });
+                if (string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
+                    return RedirectToAction("health", "gtmanagement", new { Id = string.Empty });
+
                 ViewBag.data = data;
                 MODEL.ID = Id;
                 MODEL.q1 = data.First().radOsteoporose.HasValue ? Convert.ToInt32(data.First().radOsteoporose) : (int?)null;
@@ -3251,6 +3274,9 @@ namespace Gestreino.Controllers
                 var data = databaseManager.GT_RespFlexiTeste.Where(x => x.ID == Id).ToList();
                 if (data.Count() == 0)
                     return RedirectToAction("flexibility", "gtmanagement", new { Id = string.Empty });
+                if (string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
+                    return RedirectToAction("flexibility", "gtmanagement", new { Id = string.Empty });
+
                 ViewBag.data = data;
                 MODEL.ID = Id;
                 MODEL.TipoId = data.First().GT_TipoTesteFlexibilidade_ID;
@@ -3477,6 +3503,9 @@ namespace Gestreino.Controllers
                 var data = databaseManager.GT_RespComposicao.Where(x => x.ID == Id).ToList();
                 if (data.Count() == 0)
                     return RedirectToAction("bodycomposition", "gtmanagement", new { Id = string.Empty });
+                if (string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
+                    return RedirectToAction("bodycomposition", "gtmanagement", new { Id = string.Empty });
+
                 ViewBag.data = data;
                 MODEL.ID = Id;
                 MODEL.GT_TipoTesteComposicao_ID = data.First().GT_TipoTesteComposicao_ID;
@@ -3673,6 +3702,8 @@ namespace Gestreino.Controllers
             {
                 var data = databaseManager.GT_RespAptidaoCardio.Where(x => x.ID == Id).ToList();
                 if (data.Count() == 0)
+                    return RedirectToAction("cardio", "gtmanagement", new { Id = string.Empty });
+                if (string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
                     return RedirectToAction("cardio", "gtmanagement", new { Id = string.Empty });
 
                 ViewBag.data = data;
@@ -4089,6 +4120,9 @@ namespace Gestreino.Controllers
                 var data = databaseManager.GT_RespPessoaIdosa.Where(x => x.ID == Id).ToList();
                 if (data.Count() == 0)
                     return RedirectToAction("elderly", "gtmanagement", new { Id = string.Empty });
+                if (string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
+                    return RedirectToAction("elderly", "gtmanagement", new { Id = string.Empty });
+
                 ViewBag.data = data;
                 MODEL.ID = Id;
                 MODEL.GT_TipoTestePessoaIdosa_ID = data.First().GT_TipoTestePessoaIdosa_ID;
@@ -4299,6 +4333,9 @@ namespace Gestreino.Controllers
                 var data = databaseManager.GT_RespForca.Where(x => x.ID == Id).ToList();
                 if (data.Count() == 0)
                     return RedirectToAction("force", "gtmanagement", new { Id = string.Empty });
+                if (string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
+                    return RedirectToAction("force", "gtmanagement", new { Id = string.Empty });
+
                 ViewBag.data = data;
                 MODEL.ID = Id;
                 MODEL.GT_TipoTesteForca_ID = data.First().GT_TipoTesteForca_ID;
@@ -4873,6 +4910,9 @@ namespace Gestreino.Controllers
                 var data = databaseManager.GT_RespFuncional.Where(x => x.ID == Id).ToList();
                 if (data.Count() == 0)
                     return RedirectToAction("functional", "gtmanagement", new { Id = string.Empty });
+                if (string.IsNullOrEmpty(Cookies.ReadCookie(Cookies.COOKIES_GESTREINO_AVALIADO)) && string.IsNullOrEmpty(Configs.GESTREINO_AVALIDO_NOME))
+                    return RedirectToAction("functional", "gtmanagement", new { Id = string.Empty });
+
                 ViewBag.data = data;
 
                 MODEL.ID = Id;
@@ -5828,7 +5868,7 @@ namespace Gestreino.Controllers
             MODEL.lblDataSentarCadeira = data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 1).Any() ? data8.Where(x=>x.GT_TipoTestePessoaIdosa_ID==1).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
             MODEL.lblDataFlexaoAntebraco = data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 2).Any() ? data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 2).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
             MODEL.lblDataPeso = data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 3).Any() ? data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 3).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
-            MODEL.lblDataSentarCadeira = data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 4).Any() ? data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 4).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
+            MODEL.lblDataLevantarCadeira = data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 4).Any() ? data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 4).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
             MODEL.lblDataAgilidade = data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 5).Any() ? data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 5).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
             MODEL.lblDataAlcancar = data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 6).Any() ? data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 6).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;
             MODEL.lblData6Minutos = data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 7).Any() ? data8.Where(x => x.GT_TipoTestePessoaIdosa_ID == 7).OrderByDescending(x => x.DATA_INSERCAO).Select(x => x.DATA_INSERCAO).FirstOrDefault().ToString("dd/MM/yyyy hh:mm:ss") : string.Empty;

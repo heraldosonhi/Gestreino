@@ -2998,7 +2998,7 @@ function handleDataGTTreinoTable() {
                 sortable: false,
                 "render": function (data, type, full, meta) {
                     return '<a title="Visualizar" href="' + full.LINK + '"><i class="fa fa-search"/></i></a>' +
-                        ' <a title="Imprimir plano (PDF)" href="javascript:" target="_blank"><i class="fa fa-file-pdf-o" /></i></a>' +
+                        ' <a title="Imprimir" href="' + full.LINKPDF + '" target="_blank"><i class="fa fa-print" /></i></a>' +
                         ' <a style="display:' + full.AccessControlDelete + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="gttreinos" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
                 }
             },
@@ -4339,6 +4339,13 @@ $(document).on("change", "#planningtype2", function () {
     $('#FaseTreinoId').attr("required", true);
 })
 $(document).on('click', '.addlistplan1', function () {
+    var maxllowed = $('#EX_MAX_ALLOWED').val();
+    if ($('#list2 li').length > Number(maxllowed-1)) {
+        const obj = { result: false, error: "Plano de treino não pode ter mais de " + maxllowed +" exercícios definidos!" };
+        handleSuccess(obj);
+        return false;
+    }
+
     var gttipotreino = $('#GT_EXERCISE_TYPE_BODYMASS').val();
     $(this).removeClass('addlistplan1').addClass('removegaclass1');
     $(this).removeClass('btn-success').addClass('btn-danger');

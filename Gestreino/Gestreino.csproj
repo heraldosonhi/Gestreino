@@ -773,6 +773,7 @@
     <Content Include="Assets\images\imagesfunc\func73.jpg" />
     <Content Include="Assets\images\loading.gif" />
     <Content Include="Assets\images\login.jpeg" />
+    <Content Include="Assets\images\printimg.jpg" />
     <Content Include="Assets\images\user-avatar.jpg" />
     <Content Include="Assets\images\home.jpg" />
     <Content Include="Assets\images\icon.jpg" />
