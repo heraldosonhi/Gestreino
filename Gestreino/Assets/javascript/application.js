@@ -573,6 +573,8 @@ function handleDataUsers() {
             //Cada dado representa uma coluna da tabela
             { "data": "LOGIN", "name": "LOGIN", "autoWidth": true },
             { "data": "NOME", "name": "NOME", "autoWidth": true },
+            { "data": "TELEFONE", "name": "TELEFONE", "autoWidth": true },
+            { "data": "EMAIL", "name": "EMAIL", "autoWidth": true },
             { "data": "GRUPOS", "name": "GRUPOS", "autoWidth": true },
             { "data": "PERFIS", "name": "PERFIS", "autoWidth": true },
             { "data": "ESTADO", "name": "ESTADO", "autoWidth": true },
@@ -2998,7 +3000,7 @@ function handleDataGTTreinoTable() {
                 sortable: false,
                 "render": function (data, type, full, meta) {
                     return '<a title="Visualizar" href="' + full.LINK + '"><i class="fa fa-search"/></i></a>' +
-                        ' <a title="Imprimir" href="' + full.LINKPDF + '" target="_blank"><i class="fa fa-print" /></i></a>' +
+                        ' <a style="display:' + full.LINKPDFVIEW+'"  title="Imprimir" href="' + full.LINKPDF + '" target="_blank"><i class="fa fa-print" /></i></a>' +
                         ' <a style="display:' + full.AccessControlDelete + '" title="Remover" href="javascript:void(0)" class="open-modal-crud" data-id="' + full.Id + '" data-action="Remover" data-entity="gttreinos" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-trash"></i></a>';
                 }
             },

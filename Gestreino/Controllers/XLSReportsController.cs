@@ -30,7 +30,7 @@ namespace Gestreino.Controllers
             }
             catch (Exception ex)
             {
-                return null;
+                return Json(new { result = false, error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
     }

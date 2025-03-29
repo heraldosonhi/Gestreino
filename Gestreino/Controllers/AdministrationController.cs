@@ -72,13 +72,15 @@ namespace Gestreino.Controllers
             //UI DATATABLE SEARCH INPUTS
             var Login = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
             var Nome = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
-            var Grupos = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
-            var Perfis = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
-            var Estado = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
-            var Insercao = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
-            var DataInsercao = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
-            var Actualizacao = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault();
-            var DataActualizacao = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault();
+            var Telefone = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var Email = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var Grupos = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var Perfis = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            var Estado = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+            var Insercao = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault();
+            var DataInsercao = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault();
+            var Actualizacao = Request.Form.GetValues("columns[9][search][value]").FirstOrDefault();
+            var DataActualizacao = Request.Form.GetValues("columns[10][search][value]").FirstOrDefault();
 
             //DECLARE PAGINATION VARIABLES
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
@@ -93,6 +95,8 @@ namespace Gestreino.Controllers
             //SEARCH RESULT SET
             if (!string.IsNullOrEmpty(Login)) v = v.Where(a => a.LOGIN != null && a.LOGIN.ToUpper().Contains(Login.ToUpper()));
             if (!string.IsNullOrEmpty(Nome)) v = v.Where(a => a.NOME != null && a.NOME.ToUpper().Contains(Nome.ToUpper()));
+            if (!string.IsNullOrEmpty(Telefone)) v = v.Where(a => a.TELEFONE != null && a.TELEFONE.ToString().Contains(Telefone.ToUpper()));
+            if (!string.IsNullOrEmpty(Email)) v = v.Where(a => a.EMAIL != null && a.EMAIL.ToUpper().Contains(Email.ToUpper()));
             if (!string.IsNullOrEmpty(Grupos)) v = v.Where(a => a.TOTALGROUPS != null && a.TOTALGROUPS.ToString() == Grupos);
             if (!string.IsNullOrEmpty(Perfis)) v = v.Where(a => a.TOTALPERFIS != null && a.TOTALPERFIS.ToString() == Perfis);
             if (!string.IsNullOrEmpty(Estado)) v = v.Where(a => a.ACTIVO != null && a.ACTIVO == (Estado == "1" ? "Activo" : "Inactivo"));
@@ -111,6 +115,8 @@ namespace Gestreino.Controllers
                     {
                         case "LOGIN": v = v.OrderBy(s => s.LOGIN); break;
                         case "NOME": v = v.OrderBy(s => s.NOME); break;
+                        case "TELEFONE": v = v.OrderBy(s => s.NOME); break;
+                        case "EMAIL": v = v.OrderBy(s => s.NOME); break;
                         case "GRUPOS": v = v.OrderBy(s => s.TOTALGROUPS); break;
                         case "PERFIS": v = v.OrderBy(s => s.TOTALPERFIS); break;
                         case "ESTADO": v = v.OrderBy(s => s.ACTIVO); break;
@@ -126,6 +132,8 @@ namespace Gestreino.Controllers
                     {
                         case "LOGIN": v = v.OrderByDescending(s => s.LOGIN); break;
                         case "NOME": v = v.OrderByDescending(s => s.NOME); break;
+                        case "TELEFONE": v = v.OrderByDescending(s => s.NOME); break;
+                        case "EMAIL": v = v.OrderByDescending(s => s.NOME); break;
                         case "GRUPOS": v = v.OrderByDescending(s => s.TOTALGROUPS); break;
                         case "PERFIS": v = v.OrderByDescending(s => s.TOTALPERFIS); break;
                         case "ESTADO": v = v.OrderByDescending(s => s.ACTIVO); break;
@@ -152,6 +160,8 @@ namespace Gestreino.Controllers
                     Id = x.ID,
                     LOGIN = x.LOGIN,
                     NOME = x.NOME_PROPIO + " " + x.APELIDO,
+                    TELEFONE=x.TELEFONE,
+                    EMAIL=x.EMAIL,
                     GRUPOS = x.TOTALGROUPS,
                     PERFIS = x.TOTALPERFIS,
                     ESTADO = x.ACTIVO,
@@ -4997,7 +5007,7 @@ namespace Gestreino.Controllers
                                              join j2 in databaseManager.INST_APLICACAO_ARQUIVOS on j1.ID equals j2.INST_APLICACAO_ID
                                              join j3 in databaseManager.GRL_ARQUIVOS on j2.ARQUIVOS_ID equals j3.ID
                                              where j1.ID == Configs.INST_INSTITUICAO_ID && j3.GRL_ARQUIVOS_TIPO_DOCS_ID == Configs.INST_MDL_ADM_VLRID_ARQUIVO_LOGOTIPO
-                                             orderby j2.ID
+                                             && j2.ACTIVO==true orderby j2.ID descending
                                              select new { j3.CAMINHO_URL });
 
             Configs.INST_INSTITUICAO_LOGO=path.Any()?path.FirstOrDefault().CAMINHO_URL:string.Empty;

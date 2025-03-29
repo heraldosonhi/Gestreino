@@ -38,7 +38,7 @@
                             <i class="fa fa-pen-nib"></i>
                         </div>
                         <h3 class="p-2">Plano de Treino Musculação</h3>
-                        @if (Model.ID > 0)
+                        @if (Model.ID > 0 && Model.predefined!=true)
                         {
                             <h6 class="p-2 mt-2 text-success"><i class="fa fa-floppy-disk"></i> Questionário registado: @Model.lblDataInsercao</h6>
                         }
@@ -195,7 +195,7 @@
                                         }
                                         @if (Model.ID > 0)
                                         {
-                                            <a href="@Url.Action("bodymass", "pdfreports", new { Id=Model.ID})" class="btn btn-success btn-block" title="Imprimir"><i class="fa fa-print"></i> Imprimir</a>
+                                            <a style="display:none" href="@Url.Action("bodymass", "pdfreports", new { Id=Model.ID})" class="btn btn-success btn-block" title="Imprimir"><i class="fa fa-print"></i> Imprimir</a>
                                         }
                                         @if (AcessControl.Authorized(AcessControl.GT_PLANS_BODYMASS_UPDATE))
                                         {<button type="button" id="gttreinoclr" class="btn btn-secondary btn-block"><<</button>

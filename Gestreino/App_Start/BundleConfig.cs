@@ -26,7 +26,6 @@ namespace Gestreino
                       "~/Assets/javascript/toastr.min.js",
                       "~/Assets/javascript/dataTables.min.js",
                       "~/Assets/javascript/dataTables.checkboxes.min.js",
-
                        "~/Assets/javascript/moment.min.js",
                       "~/Assets/javascript/daterangepicker.min.js",
                        "~/Assets/lib/select2/select2.full.min.js",
@@ -37,9 +36,9 @@ namespace Gestreino
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Assets/css/bootstrap.min.css",
-                       "~/Content/css/toastr.min.css",
-                       "~/Content/css/dataTables.dataTables.min.css",
-                         "~/Assets/lib/select2/select2.min.css",
+                      //"~/Content/css/toastr.min.css",
+                      //"~/Content/css/dataTables.dataTables.min.css",
+                      "~/Assets/lib/select2/select2.min.css",
                       "~/Assets/css/custom.css",
                       "~/Assets/css/app.css"));
         }

@@ -12,7 +12,11 @@ namespace Gestreino.Controllers
         {
             if (!Request.IsAuthenticated)
                  return RedirectToAction("login", "account");
-         //   ViewBag.LeftBarLinkActive = 0;
+            return View();
+        }
+        [AllowAnonymous]
+        public ActionResult Help()
+        {
             return View();
         }
     }

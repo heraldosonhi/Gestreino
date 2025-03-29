@@ -39,7 +39,7 @@
                             <i class="fa fa-pen-nib"></i>
                         </div>
                         <h3 class="p-2">Plano de Treino Cardiovascular</h3>
-                        @if (Model.ID > 0)
+                        @if (Model.ID > 0 && Model.predefined != true)
                         {
                             <h6 class="p-2 mt-2 text-success"><i class="fa fa-floppy-disk"></i> Questionário registado: @Model.lblDataInsercao</h6>
                         }

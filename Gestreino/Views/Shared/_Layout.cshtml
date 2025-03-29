@@ -52,14 +52,17 @@
                                 <span class="fa fa-cog" aria-hidden="true"></span>
                             </a>
                         }
-                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "" }))
-                            {
-                                @Html.AntiForgeryToken()
-                                <a data-toggle="tooltip" data-placement="top" title="Terminar sessão" href="javascript:document.getElementById('logoutForm').submit()">
-                                    <span class="fa fa-sign-out" aria-hidden="true"></span>
-                                </a>
-                            }
-                        </div>
+                        <a data-toggle="tooltip" href="@Url.Action("help", "home")" data-placement="top" title="Ajuda">
+                            <span class="fa fa-video" aria-hidden="true"></span>
+                        </a>
+                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <a data-toggle="tooltip" data-placement="top" title="Terminar sessão" href="javascript:document.getElementById('logoutForm').submit()">
+                                <span class="fa fa-sign-out" aria-hidden="true"></span>
+                            </a>
+                        }
+                    </div>
                         <!-- /menu footer buttons -->
                     </div>
                 </div>

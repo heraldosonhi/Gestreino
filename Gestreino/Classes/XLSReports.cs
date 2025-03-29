@@ -1,37 +1,11 @@
 ﻿using ClosedXML.Excel;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.EMMA;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
-//using iText.Kernel.Pdf.Canvas.Wmf;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Web;
-using System.Web.Mvc;
-using Gestreino.Classes;
 
 namespace Gestreino.Classes
 {
     public class XLSReports
     {
-        private GESTREINO_Entities databaseManager = new GESTREINO_Entities();
-
-        /*
-       *******************************************
-       *******************************************
-       DATATABLES
-       *******************************************
-       *******************************************
-       */
         
         public byte[] ExportToExcel(string section, IList query)
         {
@@ -633,34 +607,42 @@ namespace Gestreino.Classes
                         worksheet.Cell(currentRow, 1).Style.Font.Bold = true;
                         worksheet.Cell(currentRow, 2).Value = "NOME";
                         worksheet.Cell(currentRow, 2).Style.Font.Bold = true;
-                        worksheet.Cell(currentRow, 3).Value = "ESTADO";
+
+                        worksheet.Cell(currentRow, 3).Value = "TELEFONE";
                         worksheet.Cell(currentRow, 3).Style.Font.Bold = true;
-                        worksheet.Cell(currentRow, 4).Value = "VALIDADO";
+                        worksheet.Cell(currentRow, 4).Value = "EMAIL";
                         worksheet.Cell(currentRow, 4).Style.Font.Bold = true;
-                        worksheet.Cell(currentRow, 5).Value = "DATA DE ACTIVAÇÃO";
+
+                        worksheet.Cell(currentRow, 5).Value = "ESTADO";
                         worksheet.Cell(currentRow, 5).Style.Font.Bold = true;
-                        worksheet.Cell(currentRow, 6).Value = "DATA DE DESACTIVAÇÃO";
+                        worksheet.Cell(currentRow, 6).Value = "VALIDADO";
                         worksheet.Cell(currentRow, 6).Style.Font.Bold = true;
-                        worksheet.Cell(currentRow, 7).Value = "GRUPOS";
+                        worksheet.Cell(currentRow, 7).Value = "DATA DE ACTIVAÇÃO";
                         worksheet.Cell(currentRow, 7).Style.Font.Bold = true;
-                        worksheet.Cell(currentRow, 8).Value = "PERFIS";
+                        worksheet.Cell(currentRow, 8).Value = "DATA DE DESACTIVAÇÃO";
                         worksheet.Cell(currentRow, 8).Style.Font.Bold = true;
-                        worksheet.Cell(currentRow, 9).Value = "ÚLTIMO INÍCIO DE SESSÃO";
+                        worksheet.Cell(currentRow, 9).Value = "GRUPOS";
                         worksheet.Cell(currentRow, 9).Style.Font.Bold = true;
-                        worksheet.Cell(currentRow, 10).Value = "INSERÇÃO";
+                        worksheet.Cell(currentRow, 10).Value = "PERFIS";
                         worksheet.Cell(currentRow, 10).Style.Font.Bold = true;
-                        worksheet.Cell(currentRow, 11).Value = "DATA INSERÇÃO";
+                        worksheet.Cell(currentRow, 11).Value = "ÚLTIMO INÍCIO DE SESSÃO";
                         worksheet.Cell(currentRow, 11).Style.Font.Bold = true;
-                        worksheet.Cell(currentRow, 12).Value = "ACTUALIZAÇÃO";
+                        worksheet.Cell(currentRow, 12).Value = "INSERÇÃO";
                         worksheet.Cell(currentRow, 12).Style.Font.Bold = true;
-                        worksheet.Cell(currentRow, 13).Value = "DATA ACTUALIZAÇÃO";
+                        worksheet.Cell(currentRow, 13).Value = "DATA INSERÇÃO";
                         worksheet.Cell(currentRow, 13).Style.Font.Bold = true;
+                        worksheet.Cell(currentRow, 14).Value = "ACTUALIZAÇÃO";
+                        worksheet.Cell(currentRow, 14).Style.Font.Bold = true;
+                        worksheet.Cell(currentRow, 15).Value = "DATA ACTUALIZAÇÃO";
+                        worksheet.Cell(currentRow, 15).Style.Font.Bold = true;
                         worksheet.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
                         for (int i = 0; i < query.Count; i++)
                         {
                             object UTILIZADOR = query[i].GetType().GetProperty("LOGIN").GetValue(query[i], null);
                             object NOME = query[i].GetType().GetProperty("NOME").GetValue(query[i], null);
+                            object TELEFONE = query[i].GetType().GetProperty("TELEFONE").GetValue(query[i], null);
+                            object EMAIL = query[i].GetType().GetProperty("EMAIL").GetValue(query[i], null);
                             object ESTADO = query[i].GetType().GetProperty("ACTIVO").GetValue(query[i], null);
                             object VALIDA = query[i].GetType().GetProperty("CONTA_VALIDA").GetValue(query[i], null);
                             object DATAACTIVACAO = query[i].GetType().GetProperty("DATA_ACT").GetValue(query[i], null);
@@ -678,17 +660,19 @@ namespace Gestreino.Classes
                             currentRow++;
                             worksheet.Cell(currentRow, 1).Value = UTILIZADOR != null ? UTILIZADOR.ToString() : string.Empty;
                             worksheet.Cell(currentRow, 2).Value = NOME != null ? NOME.ToString() : string.Empty;
-                            worksheet.Cell(currentRow, 3).Value = ESTADO != null ? ESTADO.ToString() : string.Empty; 
-                            worksheet.Cell(currentRow, 4).Value = VALIDA != null ? VALIDA.ToString() : string.Empty;
-                            worksheet.Cell(currentRow, 5).Value = DATAACTIVACAO != null ? DATAACTIVACAO.ToString() : string.Empty ;
-                            worksheet.Cell(currentRow, 6).Value = DATADESACTIVACAO != null ? DATADESACTIVACAO.ToString() : string.Empty; 
-                            worksheet.Cell(currentRow, 7).Value = GRUPOS != null ? GRUPOS.ToString() : string.Empty; 
-                            worksheet.Cell(currentRow, 8).Value = PERFIS != null ? PERFIS.ToString() : string.Empty;
-                            worksheet.Cell(currentRow, 9).Value = ULTIMOINICIODESESSAO != null ? ULTIMOINICIODESESSAO.ToString() : string.Empty;
-                            worksheet.Cell(currentRow, 10).Value = INSERCAO != null ? INSERCAO.ToString() : string.Empty;
-                            worksheet.Cell(currentRow, 11).Value = DATAINSERCAO != null ? DATAINSERCAO.ToString() : string.Empty;
-                            worksheet.Cell(currentRow, 12).Value = ACTUALIZACAO != null ? ACTUALIZACAO.ToString() : string.Empty;
+                            worksheet.Cell(currentRow, 3).Value = TELEFONE != null ? TELEFONE.ToString() : string.Empty;
+                            worksheet.Cell(currentRow, 4).Value = EMAIL != null ? EMAIL.ToString() : string.Empty;
+                            worksheet.Cell(currentRow, 5).Value = ESTADO != null ? ESTADO.ToString() : string.Empty; 
+                            worksheet.Cell(currentRow, 6).Value = VALIDA != null ? VALIDA.ToString() : string.Empty;
+                            worksheet.Cell(currentRow, 7).Value = DATAACTIVACAO != null ? DATAACTIVACAO.ToString() : string.Empty ;
+                            worksheet.Cell(currentRow, 8).Value = DATADESACTIVACAO != null ? DATADESACTIVACAO.ToString() : string.Empty; 
+                            worksheet.Cell(currentRow, 9).Value = GRUPOS != null ? GRUPOS.ToString() : string.Empty; 
+                            worksheet.Cell(currentRow, 10).Value = PERFIS != null ? PERFIS.ToString() : string.Empty;
+                            worksheet.Cell(currentRow, 11).Value = ULTIMOINICIODESESSAO != null ? ULTIMOINICIODESESSAO.ToString() : string.Empty;
+                            worksheet.Cell(currentRow, 12).Value = INSERCAO != null ? INSERCAO.ToString() : string.Empty;
                             worksheet.Cell(currentRow, 13).Value = DATAINSERCAO != null ? DATAINSERCAO.ToString() : string.Empty;
+                            worksheet.Cell(currentRow, 14).Value = ACTUALIZACAO != null ? ACTUALIZACAO.ToString() : string.Empty;
+                            worksheet.Cell(currentRow, 15).Value = DATAINSERCAO != null ? DATAINSERCAO.ToString() : string.Empty;
                         }
 
                         worksheet.Columns().AdjustToContents();
