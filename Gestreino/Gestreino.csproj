@@ -796,7 +796,6 @@
     <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="GestreinoERD.jpg" />
-    <Content Include="GestreinoERDGT.jpg" />
     <Content Include="Global.asax" />
     <Content Include="ORM.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
