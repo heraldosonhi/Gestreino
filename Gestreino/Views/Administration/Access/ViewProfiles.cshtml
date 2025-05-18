@@ -3,9 +3,7 @@
 @{
     ViewBag.Title = "Perfis: " + @ViewBag.data[0].NOME;
 }
-<!-- page content -->
 <div class="right_col" role="main">
-
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="@Url.Action("access","administration")">Controlo de acesso</a></li>
@@ -13,7 +11,6 @@
             <li class="breadcrumb-item active" aria-current="page">@ViewBag.data[0].NOME</li>
         </ol>
     </nav>
-
     <div class="row">
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
@@ -87,7 +84,6 @@
                 </div>
             </div>
         </div>
-        <!--  DATATABLE START -->
         <div class="card mb-32pt">
             <div class="card-header">
                 <div class="form-inline">
@@ -147,7 +143,6 @@
                 <div id="paginateProfileUtilTable" class="pagination justify-content-start pagination-xsm m-0"></div>
             </div>
         </div>
-        <!--  DATATABLE START -->
         <br />
     }
     @if (AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_PROFILES_LIST_VIEW_SEARCH))
@@ -166,8 +161,6 @@
                 </div>
             </div>
         </div>
-
-        <!--  DATATABLE START -->
         <div class="card mb-32pt">
             <div class="card-header">
                 <div class="form-inline">
@@ -227,13 +220,11 @@
                 <div id="paginateProfileAtomTable" class="pagination justify-content-start pagination-xsm m-0"></div>
             </div>
         </div>
-        <!--  DATATABLE START -->
     }
     @Html.HiddenFor(m => m.ID, new { Id = "ProfileId" })
     <h2>&nbsp;</h2>
     <h2>&nbsp;</h2>
 </div>
-<!-- /page content -->
 <script>
     document.addEventListener("DOMContentLoaded", function (event) {
         handleDataProfileUtil();

@@ -792,8 +792,6 @@
     <Content Include="Assets\lib\select2\select2.css" />
     <Content Include="Assets\lib\select2\select2.full.min.js" />
     <Content Include="Assets\lib\select2\select2.min.css" />
-    <Content Include="Content\toastr.css" />
-    <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="GestreinoERD.jpg" />
     <Content Include="Global.asax" />
@@ -820,8 +818,6 @@
     <Content Include="ORM.edmx.diagram">
       <DependentUpon>ORM.edmx</DependentUpon>
     </Content>
-    <Content Include="Content\toastr.scss" />
-    <Content Include="Content\toastr.less" />
     <Content Include="Assets\lib\datatable\pt-PT.json" />
     <Content Include="Assets\fonts\fa-brands-400.ttf" />
     <Content Include="Assets\fonts\fa-brands-400.woff2" />
@@ -864,7 +860,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_SideBarMenu.cshtml" />
@@ -947,7 +942,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Tutorials\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

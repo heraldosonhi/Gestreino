@@ -1,20 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
-using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using System.Text;
-using System.IO;
-using DocumentFormat.OpenXml.EMMA;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using System.Web.Services.Description;
-using Gestreino.Classes;
-using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Gestreino.Classes
 {
@@ -27,9 +18,6 @@ namespace Gestreino.Classes
 
         public void SendEmailMVC(int template, string to, string var1, string var2, string var3, string var4, string var5)
         {
-            // Mailer Class
-
-            // Define Template ID
             /*
              * 1 => Criação de Conta,
              * 2 => Alterar Senha de acesso,
@@ -91,10 +79,9 @@ namespace Gestreino.Classes
             message.Body = content;
             message.IsBodyHtml = true;
 
-            // Security check
             //ServicePointManager.Expect100Continue = true;
             //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            // Disabled certificate for invalidation error
+            //Disabled certificate for invalidation error
             System.Net.ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(RemoteServerCertificateValidationCallback);
 
             try
@@ -118,16 +105,13 @@ namespace Gestreino.Classes
             }
         }
 
-        //Check
         private bool RemoteServerCertificateValidationCallback(object sender,
          System.Security.Cryptography.X509Certificates.X509Certificate certificate,
          System.Security.Cryptography.X509Certificates.X509Chain chain,
          System.Net.Security.SslPolicyErrors sslPolicyErrors)
         {
-            //Console.WriteLine(certificate);
             return true;
         }
-
 
         public static async Task<string> SendSMSMVC(string text, string recipients, int? userid)
         {
@@ -138,8 +122,6 @@ namespace Gestreino.Classes
                 using (var client = new HttpClient())
                 {
                     var contentType = new MediaTypeWithQualityHeaderValue("application/json");
-                    // Send SMS /mimosms/v1/message/send?token=
-                    // Create Contact /mimosms/v1/contact/add?token=
                     var sender = Configs.API_SMS_SENDER_ID;
                     var baseAddress = Configs.API_SMS_BASE + "/mimosms/v1/message/send?token=" + Configs.API_SMS_TOKEN;
                     client.DefaultRequestHeaders.Accept.Add(contentType);
@@ -150,7 +132,6 @@ namespace Gestreino.Classes
                              { "recipients", Converters.StripHTML(recipients) },
                              { "text", Converters.StripHTML(text) }
                          };
-
 
                     var jsonData = JsonConvert.SerializeObject(data);
                     var contentData = new StringContent(jsonData, System.Text.Encoding.UTF8, "application/json");
@@ -165,7 +146,6 @@ namespace Gestreino.Classes
                     }
                     else
                         responseData = await response.Content.ReadAsStringAsync();
-                    
                 }
             }
             catch(HttpException i)
@@ -175,7 +155,6 @@ namespace Gestreino.Classes
 
             return responseData;
         }
-      
        
     }
 }

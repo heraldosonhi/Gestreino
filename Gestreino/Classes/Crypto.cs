@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Text;
 using System.Security.Cryptography;
-using System.Linq;
 using System.IO;
 
 namespace Gestreino
 {
     public static class Crypto
     {
-        // Hash Password
         public static string Hash(string value)
         {
             return Convert.ToBase64String(
@@ -17,22 +15,16 @@ namespace Gestreino
                 );
         }
 
-        // Create Salt String
         public static string GenerateSalt(int size)
         {
-            //Generate a cryptographic random number.
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
             byte[] buff = new byte[size];
             rng.GetBytes(buff);
-
-            // Return a Base64 string representation of the random number.
             return Convert.ToBase64String(buff);
         }
 
-        // Create Token value
         public static string GenerateToken()
         {
-            //Generate a token value
             return Convert.ToBase64String(CreateCryptographicallySecureGuid().ToByteArray());
         }
 
@@ -46,8 +38,6 @@ namespace Gestreino
                 return new Guid(bytes);
             }
         }
-
-        //USER FRIENDLY URL PARAMETER ENCRYPTION
 
         static readonly char[] padding = { '=' };
         public static string EncryptURLParameter(string clearText)
@@ -82,7 +72,6 @@ namespace Gestreino
 
         public static string DecryptURLParameter(string cipherText)
         {
-            
             try
             {
                 string incoming = cipherText.Replace('_', '/').Replace('-', '+');

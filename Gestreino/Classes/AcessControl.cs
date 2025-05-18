@@ -6,9 +6,6 @@ namespace Gestreino.Classes
 {
     public class AcessControl
     {
-
-        // ACESS CONTROL VARS
-
         public static int ADM_USERS_ATOMS_LIST_VIEW_SEARCH = 1;
         public static int ADM_USERS_ATOMS_NEW = 2;
         public static int ADM_USERS_ATOMS_EDIT = 3;
@@ -144,23 +141,12 @@ namespace Gestreino.Classes
         public static List<int> ADM_GROUP_ADM_FUN = new List<int>(new int[] { 6, 140 }); 
         public static List<int> ADM_GROUP_ADM_FUN_DOC = new List<int>(new int[] { 10 });
 
-        //Authentication Claims
-        // Fetch grupos
-        //var grupoClaim = claimsIdentity.Claims.Where(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/primarygroupsid").ToList();
-        // Fetch subgrupos
-        //var subgrupoClaim = claimsIdentity.Claims.Where(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/groupsid").ToList();
-        // Fetch atomos
-        //var atomoClaim = claimsIdentity.Claims.Where(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").ToList();
-
-
-        // Authorized
         public static bool Authorized(int atom)
         {
             var Authorized = false;
 
-            // Security Claim
             var claimsIdentity = System.Web.HttpContext.Current.User.Identity as ClaimsIdentity;
-            // Atoms
+
             var atoms = claimsIdentity.Claims.Where(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").ToList();
 
             foreach (var i in atoms)
@@ -169,57 +155,5 @@ namespace Gestreino.Classes
             }
             return Authorized;
         }
-        /*
-        // Authorized
-        public static bool AuthorizedGroupSessionFUN(List<Claim> group)
-        {
-            var Authorized = false;
-
-            foreach (var i in group)
-            {
-                if(ADM_GROUP_ADM_FUN.Contains(int.Parse(i.Value))) Authorized = true;
-            }
-
-            return Authorized;
-        }
-        // Authorized
-        public static bool AuthorizedGroupSessionEST(List<Claim> group)
-        {
-            var Authorized = false;
-
-            foreach (var i in group)
-            {
-                if (ADM_GROUP_EST.Contains(int.Parse(i.Value))) Authorized = true;
-            }
-
-            return Authorized;
-        }
-        // Authorized
-        public static bool AuthorizedGroupSessionDOC(List<Claim> group)
-        {
-            var Authorized = false;
-
-            foreach (var i in group)
-            {
-                if (ADM_GROUP_ADM_FUN_DOC.Contains(int.Parse(i.Value))) Authorized = true;
-            }
-
-            return Authorized;
-        }
-        // Counter
-        public static int CountSubGroupAuthorized(ClaimsIdentity claimsIdentity)
-        {
-            var t = 0;
-            var subgrupoClaim = claimsIdentity.Claims.Where(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/groupsid").ToList();
-
-            List<string> s = new List<string>();
-
-            foreach (var i in subgrupoClaim)  { s.Add(i.Value); }
-
-            t=s.Count();
-
-            return t;
-        }
-        */
     }
 }

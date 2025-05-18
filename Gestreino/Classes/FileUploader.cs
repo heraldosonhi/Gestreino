@@ -1,59 +1,26 @@
 ﻿using System;
-using System.Web;
 using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using System.Web.Mvc;
-using Gestreino.Classes;
 
 namespace Gestreino.Classes
 {
     public static class FileUploader
     {
-        /*
-          * Web.Config
-          * 
-          * Allow Server Content Processing under 1.0 GB maxAllowedContentLength=1073741824 in Bytes
-          * <requestLimits maxAllowedContentLength="1073741824" />
-          * 
-          * Allow Server Content Processing under 1.0 GB maxRequestLength=8589934 in KiloBytes
-          * <httpRuntime targetFramework="4.5.1" maxRequestLength="8589934" />
-          *   
-          * Allow Form Content processing under 50 MB : value="50485000" in Bytes 
-          * appSettings => <add key="maxRequestLength" value="50485000" />
-          * 
-          */
-
-        // Define Main Storage location
         public static string FileStorage = "~/uploads/";
         public static string SQLStorage = "uploads/";
-
-        // Define Module Subfolder
-        /*
-         * 0 => ADM,
-         * 1 => PES,
-         * 2 => GT
-         * 3 => 
-         * 4 => 
-         */
         public static string[] ModuleStorage = { "adm","pes", "gt" };
-
-        // Define Int Sizes
-        public static int OneMB = 1097152; //1MB 
-        public static int TwoMB = 2097152; //2MB 
-        public static int FourMB = 4097152; //4MB 
-        public static int EightMB = 8097152; //8MB 
-        public static int ThirtyMB = 30097152; //30MB 
-        public static int FiftyMB = 50097152; //50MB 
-
-        // Define Acceptable File Types
-        public static string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".pdf", ".doc", ".docx", "odt", ".xls", ".xlsx"};
-
-        // Define Size Suffixes
+        public static string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".pdf", ".doc", ".docx", "odt", ".xls", ".xlsx" };
         static readonly string[] suffixes = { "Bytes", "KB", "MB", "GB", "TB", "PB" };
 
-        // Convert Byte Sizes
+        public static int OneMB = 1097152; 
+        public static int TwoMB = 2097152; 
+        public static int FourMB = 4097152; 
+        public static int EightMB = 8097152; 
+        public static int ThirtyMB = 30097152; 
+        public static int FiftyMB = 50097152; 
+
         public static string FormatSize(Int64 bytes)
         {
             int counter = 0;
@@ -65,7 +32,7 @@ namespace Gestreino.Classes
             }
             return string.Format("{0:n1} {1}", number, suffixes[counter]);
         }
-        // Return font-awesome icon 
+
         public static string FontIconType(string filetype)
         {
             var fa = "fa-file";
@@ -94,37 +61,25 @@ namespace Gestreino.Classes
             return fa;
         }
 
-        // Directory Factory
         public static string[] DirectoryFactory(string modulestorage, string absolutepath, /*HttpPostedFileBase file*/string FileExtension, string tipodoc, string nomedoc)
         {
-            // Define SQL path
             var uploadpath = modulestorage + "/" + DateTime.Now.ToString("MMyyyy") + "/";
             var sqlpath = SQLStorage + uploadpath;
-            // Define Absolute path [Upload Directory]
+
             absolutepath = absolutepath + uploadpath;
-            // Get uploaded filename
-            //var _filename = System.IO.Path.GetFileName(file.FileName);
-            // Create Directory
+
             if (!Directory.Exists(absolutepath))
                 Directory.CreateDirectory(absolutepath);
-            // Initialize absolute path
-            var extension = FileExtension; //Path.GetExtension(file.FileName);
-            // Rename file
-            //var filename = tipodoc + "_" + Guid.NewGuid() + extension;
-            //change back
-            //nomedoc = nomedoc.Replace(" ", "_").ToLower().RemoveDiacritics();
-            //nomedoc = nomedoc.RemoveSpecialCharacters();
 
+            var extension = FileExtension;
             var filename = nomedoc + "_" + Guid.NewGuid() + extension;
 
-            // Get full path with filename
             absolutepath = System.IO.Path.Combine(absolutepath, filename);
             sqlpath = System.IO.Path.Combine(sqlpath, filename);
-            // Return path
+
             return new[] { sqlpath, absolutepath, filename };
         }
 
-        // Delete File
         public static bool DeleteFile(string absolutepath)
         {
             bool success = false;
@@ -136,33 +91,26 @@ namespace Gestreino.Classes
             return success;
         }
 
-        // Get Table and Field Name
         public static string[] DecoderFactory(string entityname)
         {
             List<string> names = new List<string>();
 
-            /*
-              * 0 => Tablename,
-              * 1 => Fieldname,
-              * 2 => Directoryname [FileUploader.ModuleStorage]    
-             */
-
             switch (entityname)
             {
                 case "institution":
-                    names.Add("INST_APLICACAO_ARQUIVOS"); // FIRST IN ARRAY!
-                    names.Add("INST_APLICACAO_ID"); // SECOND IN ARRAY!
-                    names.Add("0"); // ModuleStorage
+                    names.Add("INST_APLICACAO_ARQUIVOS"); 
+                    names.Add("INST_APLICACAO_ID"); 
+                    names.Add("0"); 
                     break;
                 case "pespessoas":
-                    names.Add("PES_ARQUIVOS"); // FIRST IN ARRAY!
-                    names.Add("PES_PESSOAS_ID"); // SECOND IN ARRAY!
-                    names.Add("1"); // ModuleStorage
+                    names.Add("PES_ARQUIVOS"); 
+                    names.Add("PES_PESSOAS_ID");
+                    names.Add("1"); 
                     break;
                 case "gtexercicios":
-                    names.Add("GT_Exercicio_ARQUIVOS"); // FIRST IN ARRAY!
-                    names.Add("GT_Exercicio_ID"); // SECOND IN ARRAY!
-                    names.Add("2"); // ModuleStorage
+                    names.Add("GT_Exercicio_ARQUIVOS"); 
+                    names.Add("GT_Exercicio_ID"); 
+                    names.Add("2"); 
                     break;
             }
             return names.ToArray();
@@ -170,25 +118,21 @@ namespace Gestreino.Classes
 
         public class FileUploadModel
         {
-            //[Required]
             [Display(Name = "Nome")]
             [StringLength(255, ErrorMessage = "{0} Permite apenas {1} caracteres")]
             [DataType(DataType.Text)]
             public string Nome { get; set; }
 
             [AllowHtml]
-            //[Required]
             [Display(Name = "Descrição")]
             [StringLength(255, ErrorMessage = "{0} Permite apenas {1} caracteres")]
             [DataType(DataType.Text)]
             public string Descricao { get; set; }
 
-            //[Required]
             [Display(Name = "Estado")]
             [DataType(DataType.Text)]
             public string Status { get; set; }
 
-            //[Required]
             [Display(Name = "Data Activação")]
             [DataType(DataType.Text)]
             public string DateAct { get; set; }
@@ -206,12 +150,9 @@ namespace Gestreino.Classes
             [Display(Name = "Documento")]
             public string TipoDoc { get; set; }
 
-            // Dropdown list
-            //[Required]
-            public int? TipoDocId { get; set; } //public int?
+            public int? TipoDocId { get; set; }
             public IEnumerable<System.Web.Mvc.SelectListItem> TipoDocList { get; set; }
 
-            //[Required]
             public int EntityID { get; set; }
 
             [Required]
@@ -219,8 +160,6 @@ namespace Gestreino.Classes
             public int ID { get; set; }
         }
 
-
-        //Fancytree
         public class FileFancyModel
         {
             public string title { get; set; }
@@ -233,7 +172,6 @@ namespace Gestreino.Classes
                 children = new List<ChildrenFancyModel>();
             }
         }
-
         
         public class FileFancyInfoModel
         {
@@ -251,7 +189,6 @@ namespace Gestreino.Classes
             public string type { get; set; }
         }
 
-        // Get Month
         public static string DecodeMonth(int month)
         {
             string monthname = string.Empty;

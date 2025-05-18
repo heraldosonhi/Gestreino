@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "Parametrização de entidadades Gestreino";
 }
-<!-- page content -->
 <div class="right_col" role="main">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -10,8 +9,6 @@
             <li class="breadcrumb-item active" aria-current="page">Entidades Gestreino (GT)</li>
         </ol>
     </nav>
-
-
     <div class="alert alert-primary-light"
          role="alert">
         <div class="d-flex flex-wrap align-items-start">
@@ -26,7 +23,6 @@
             </div>
         </div>
     </div>
-    <!--  DATATABLE START -->
     <div class="card mb-32pt">
         <div class="card-header">
             <div class="form-inline">
@@ -49,7 +45,6 @@
                     <button title="Pesquisar" class="btnSearch btn btn-default" data-id="GRLExercicioTable"><i class="fa fa-search"></i></button>
                     <button title="Limpar Filtro" class="btnLimpar btn btn-default" data-id="GRLExercicioTable"><i class="fa fa-eraser"></i></button>
                     <a title="Adicionar exercício" href="javascript:void(0)" class="open-modal-crud btn btn-default" data-id="0" data-action="Adicionar" data-entity="gtexercicio" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i></a>
-                    <!--Separator-->
                     <a title="Exportar filtro (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gtexercise", applyFilter = "true" })" target="_blank" data-id="GRLExercicioTable"><i class="fa fa-filter"></i></a>
                     <a title="Exportar todos (.xlsx)" class="btnSearch btn btn-default" href="@Url.Action("ExportToExcel", "XLSReports", new { section = "gtexercise", applyFilter = "false" })" target="_blank" data-id="GRLExercicioTable"><i class="fa fa-file-excel"></i></a>
                 </div>
@@ -92,7 +87,6 @@
             <div id="paginateGRLExercicioTable" class="pagination justify-content-start pagination-xsm m-0"></div>
         </div>
     </div>
-    <!--  DATATABLE START -->
     <br />
     <div class="alert alert-primary-light"
          role="alert">
@@ -108,8 +102,6 @@
             </div>
         </div>
     </div>
-    <!-- FASES DE TREINO -->
-    <!--  DATATABLE START -->
     <div class="card mb-32pt">
         <div class="card-header">
             <div class="form-inline">
@@ -172,7 +164,6 @@
             <div id="paginateGRLGTFaseTreinoTable" class="pagination justify-content-start pagination-xsm m-0"></div>
         </div>
     </div>
-    <!--  DATATABLE START -->
     <br />
     <div class="alert alert-primary-light"
          role="alert">
@@ -188,7 +179,6 @@
             </div>
         </div>
     </div>
-    <!--  DATATABLE START -->
     <div class="card mb-32pt">
         <div class="card-header">
             <div class="form-inline">
@@ -243,7 +233,6 @@
             <div id="paginateGRLGTDuracaoTable" class="pagination justify-content-start pagination-xsm m-0"></div>
         </div>
     </div>
-    <!--  DATATABLE START -->
     <br />
     <div class="alert alert-primary-light"
          role="alert">
@@ -261,8 +250,6 @@
             </div>
         </div>
     </div>
-    <!-- TIPOS DE TREINO -->
-    <!--  DATATABLE START -->
     <div class="card mb-32pt">
         <div class="card-header">
             <div class="form-inline">
@@ -319,11 +306,9 @@
             <div id="paginateGRLTipoTreinoTable" class="pagination justify-content-start pagination-xsm m-0"></div>
         </div>
     </div>
-    <!--  DATATABLE START -->
     <h2>&nbsp;</h2>
     <h2>&nbsp;</h2>
 </div>
-<!-- /page content -->
 <script>
     document.addEventListener("DOMContentLoaded", function (event) {
         handleDataGRLGTDuracaoTable();

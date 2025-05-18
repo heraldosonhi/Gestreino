@@ -4,10 +4,8 @@
     List<int> Settings = new List<int> { 101, 102, 103, 104, 105,106 };}
 @if (Request.IsAuthenticated)
 {
-    <!-- sidebar menu -->
     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
         <div class="menu_section">
-
             <ul class="nav side-menu">
                 <li class="@(ViewBag.LeftBarLinkActive==201?"active":"")">
                     <a><i class="fa fa-user-tag fa-fw"></i> Atletas <span class="fa fa-chevron-down"></span></a>
@@ -19,7 +17,7 @@
                     </ul>
                 </li>
                 @if (AcessControl.Authorized(AcessControl.GT_PLANS_BODYMASS_LIST_VIEW_SEARCH)
-    || AcessControl.Authorized(AcessControl.GT_PLANS_CARDIO_LIST_VIEW_SEARCH))
+                || AcessControl.Authorized(AcessControl.GT_PLANS_CARDIO_LIST_VIEW_SEARCH))
                 {
                     <li class="@(ViewBag.LeftBarLinkActive == 202 || ViewBag.LeftBarLinkActive == 203 ? "active" : "")">
                         <a><i class="fa fa-pen-nib fa-fw"></i> Prescrição <span class="fa fa-chevron-down"></span></a>
@@ -30,16 +28,15 @@
                     </li>
                 }
                 @if (AcessControl.Authorized(AcessControl.GT_QUEST_ANXIETY_LIST_VIEW_SEARCH)
-    || AcessControl.Authorized(AcessControl.GT_QUEST_SELFCONCEPT_LIST_VIEW_SEARCH)
-
-    || AcessControl.Authorized(AcessControl.GT_QUEST_CORONARYRISK_LIST_VIEW_SEARCH)
-    || AcessControl.Authorized(AcessControl.GT_QUEST_HEALTH_LIST_VIEW_SEARCH)
-    || AcessControl.Authorized(AcessControl.GT_QUEST_FLEXIBILITY_LIST_VIEW_SEARCH)
-    || AcessControl.Authorized(AcessControl.GT_QUEST_BODYCOMPOSITION_LIST_VIEW_SEARCH)
-|| AcessControl.Authorized(AcessControl.GT_QUEST_CARDIO_LIST_VIEW_SEARCH)
-|| AcessControl.Authorized(AcessControl.GT_QUEST_ELDERLY_LIST_VIEW_SEARCH)
-|| AcessControl.Authorized(AcessControl.GT_QUEST_FORCE_LIST_VIEW_SEARCH)
-|| AcessControl.Authorized(AcessControl.GT_QUEST_FUNCTIONAL_LIST_VIEW_SEARCH))
+               || AcessControl.Authorized(AcessControl.GT_QUEST_SELFCONCEPT_LIST_VIEW_SEARCH)
+               || AcessControl.Authorized(AcessControl.GT_QUEST_CORONARYRISK_LIST_VIEW_SEARCH)
+               || AcessControl.Authorized(AcessControl.GT_QUEST_HEALTH_LIST_VIEW_SEARCH)
+               || AcessControl.Authorized(AcessControl.GT_QUEST_FLEXIBILITY_LIST_VIEW_SEARCH)
+               || AcessControl.Authorized(AcessControl.GT_QUEST_BODYCOMPOSITION_LIST_VIEW_SEARCH)
+               || AcessControl.Authorized(AcessControl.GT_QUEST_CARDIO_LIST_VIEW_SEARCH)
+               || AcessControl.Authorized(AcessControl.GT_QUEST_ELDERLY_LIST_VIEW_SEARCH)
+               || AcessControl.Authorized(AcessControl.GT_QUEST_FORCE_LIST_VIEW_SEARCH)
+               || AcessControl.Authorized(AcessControl.GT_QUEST_FUNCTIONAL_LIST_VIEW_SEARCH))
                 {
                     <li class="@(ViewBag.LeftBarLinkActive == 205 || ViewBag.LeftBarLinkActive == 206 || ViewBag.LeftBarLinkActive == 207 || ViewBag.LeftBarLinkActive == 208 || ViewBag.LeftBarLinkActive == 209 || ViewBag.LeftBarLinkActive == 210 || ViewBag.LeftBarLinkActive == 211 || ViewBag.LeftBarLinkActive == 212 || ViewBag.LeftBarLinkActive == 213 || ViewBag.LeftBarLinkActive == 214 ? "active" : "")">
                         <a><i class="fa fa-clipboard-check fa-fw"></i> Avaliação <span class="fa fa-chevron-down"></span></a>
@@ -86,11 +83,11 @@
                         </ul>
                     </li>
                 } @if (AcessControl.Authorized(AcessControl.GT_SEARCH_PRESCRIPTIONS_LIST_VIEW_SEARCH)
-                        || AcessControl.Authorized(AcessControl.GT_SEARCH_EVALUATIONS_LIST_VIEW_SEARCH)
-                        || AcessControl.Authorized(AcessControl.GT_SEARCH_MEDIUMWEIGHT_LIST_VIEW_SEARCH)
-                        || AcessControl.Authorized(AcessControl.GT_SEARCH_ANALYSIS_LIST_VIEW_SEARCH)
-                        || AcessControl.Authorized(AcessControl.GT_SEARCH_RANKING_LIST_VIEW_SEARCH)
-                        || AcessControl.Authorized(AcessControl.GT_SEARCH_OTHERS_LIST_VIEW_SEARCH))
+                   || AcessControl.Authorized(AcessControl.GT_SEARCH_EVALUATIONS_LIST_VIEW_SEARCH)
+                   || AcessControl.Authorized(AcessControl.GT_SEARCH_MEDIUMWEIGHT_LIST_VIEW_SEARCH)
+                   || AcessControl.Authorized(AcessControl.GT_SEARCH_ANALYSIS_LIST_VIEW_SEARCH)
+                   || AcessControl.Authorized(AcessControl.GT_SEARCH_RANKING_LIST_VIEW_SEARCH)
+                   || AcessControl.Authorized(AcessControl.GT_SEARCH_OTHERS_LIST_VIEW_SEARCH))
                     {
                         <li>
                             <a><i class="fa fa-search fa-fw"></i> Consultas <span class="fa fa-chevron-down"></span></a>
@@ -113,21 +110,18 @@
                             </ul>
                         </li>
                     }
-
                     @if (AcessControl.Authorized(AcessControl.ADM_USERS_USERS_LIST_VIEW_SEARCH)
-        || AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_LIST_VIEW_SEARCH)
-        || AcessControl.Authorized(AcessControl.ADM_USERS_GROUPS_LIST_VIEW_SEARCH)
-        || AcessControl.Authorized(AcessControl.ADM_USERS_PROFILES_LIST_VIEW_SEARCH)
-        || AcessControl.Authorized(AcessControl.ADM_USERS_LOGIN_LOGS_LIST_VIEW_SEARCH)
-        || AcessControl.Authorized(AcessControl.ADM_SEC_TOKENS_LIST_VIEW_SEARCH)
-
-         || AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_ADM)
-          || AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_GT)
-           || AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_PES)
-
-            || AcessControl.Authorized(AcessControl.ADM_CONFIG_INST_EDIT)
-              || AcessControl.Authorized(AcessControl.ADM_CONFIG_SETINGS_EDIT)
-                || AcessControl.Authorized(AcessControl.ADM_CONFIG_FILEMGR))
+                    || AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_LIST_VIEW_SEARCH)
+                    || AcessControl.Authorized(AcessControl.ADM_USERS_GROUPS_LIST_VIEW_SEARCH)
+                    || AcessControl.Authorized(AcessControl.ADM_USERS_PROFILES_LIST_VIEW_SEARCH)
+                    || AcessControl.Authorized(AcessControl.ADM_USERS_LOGIN_LOGS_LIST_VIEW_SEARCH)
+                    || AcessControl.Authorized(AcessControl.ADM_SEC_TOKENS_LIST_VIEW_SEARCH)
+                    || AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_ADM)
+                    || AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_GT)
+                    || AcessControl.Authorized(AcessControl.ADM_CONFIG_PARAM_PES)
+                    || AcessControl.Authorized(AcessControl.ADM_CONFIG_INST_EDIT)
+                    || AcessControl.Authorized(AcessControl.ADM_CONFIG_SETINGS_EDIT)
+                    || AcessControl.Authorized(AcessControl.ADM_CONFIG_FILEMGR))
                     {
                         <li class="@(Settings.Contains(ViewBag.LeftBarLinkActive) ? "active" : "")">
                             <a><i class="fa fa-cog fa-fw"></i> Configurações <span class="fa fa-chevron-down"></span></a>
@@ -153,5 +147,4 @@
                 </ul>
         </div>
     </div>
-    <!-- /sidebar menu -->
 }

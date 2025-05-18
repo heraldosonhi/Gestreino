@@ -2,9 +2,7 @@
 @{
     ViewBag.Title = "Exercícios: " + @ViewBag.data[0].nome;
 }
-<!-- page content -->
 <div class="right_col" role="main">
-
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="@Url.Action("parameters","administration")">Parametrização</a></li>
@@ -12,14 +10,12 @@
             <li class="breadcrumb-item active" aria-current="page">@ViewBag.data[0].nome</li>
         </ol>
     </nav>
-
     <div class="row">
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
                 <div class="x_content">
                     <div class="col-md-3 col-sm-12 profile_left">
                         <h3>@ViewBag.data[0].nome</h3>
-
                     </div>
                     <div class="col-md-2">
                         <ul class="list-unstyled user_data">
@@ -73,8 +69,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="alert alert-primary-light mb-2"
          role="alert">
         <div class="d-flex flex-wrap align-items-start">
@@ -91,7 +85,6 @@
             </div>
         </div>
     </div>
-    <!--  DATATABLE START -->
     <div class="card mb-32pt">
         <div class="card-header">
             <div id="doctablebuttons">
@@ -119,37 +112,7 @@
                     </div>
                 </div>
             </div>
-
-            <div id="doclistbuttons" hidden>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radiogroups">
-                            <label class="btn btn-outline-primary active">
-                                <input type="radio" name="options" id="radiofdate" autocomplete="off" checked><i class="fa fa-calendar"></i>&nbsp;Ordenar data
-                            </label>
-                            <label class="btn btn-outline-primary">
-                                <input type="radio" name="options" id="radiofgroup" autocomplete="off"><i class="fa fa-file"></i>&nbsp;Ordenar documento
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="col-6 ">
-                        <div class="mb-12pt d-flex align-items-center mt-8 pull-right">
-                            <div class="float-right">
-                                <div class="btn-group">
-                                    <a title="Adicionar documento" href="javascript:" class="open-modal-crud btn btn-primary" data-id="@ViewBag.data[0].ID" data-action="Adicionar" data-entity="fileupload" data-upload="gtexercicios" data-toggle="modal" data-target="#crudControlModal"><i class="fa fa-plus-circle"></i>&nbsp;</a>
-                                    <a href="javascript:" title="Visualizar documento selecionado" class="btn btn-primary link-disabled" disabled id="btnViewFile" target="_blank"><i class="fa fa-eye"></i></a>
-                                    <button title="Descarregar documento(s) selecionado(s)" class="btn btn-primary" id="btnDownloadFile" disabled><i class="fa fa-cloud-download"></i></button>
-                                    <button title="Editar arquivo selecionado" class="open-modal-crud btn btn-primary" data-id="0" data-action="Editar" data-entity="fileupload" data-upload="" data-toggle="modal" data-target="#crudControlModal" id="btnEditFile" disabled><i class="fa fa-pencil"></i></button>
-                                    <button title="Remover selecionado(s)" class="open-modal-crud RemoverMultiplos btn btn-primary" data-id="0" data-action="RemoverMultiplos" data-entity="fileupload" data-upload="gtexercicios" data-toggle="modal" data-target="#crudControlModal" disabled="" id="btnDeleteFile"><i class="fa fa-trash"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-
         <div class="table-responsive" id="doctablebody">
             <table id="tblInstituicoesArquivos" class="hideInputCheck table table-hover mb-0 thead-border-top-0 table-nowrap">
                 <thead>
@@ -200,26 +163,12 @@
                 }
             </div>
         </div>
-
-
-        <div id="doclistbody" hidden class="mb-2 p-2">
-            <!--  FANCYTREE START -->
-            <div id="tree"></div>
-            <!--  FANCYTREE START -->
-            @using (Html.BeginForm("downloadfiles", "ajax", FormMethod.Post, new { id = "downloadform" }))
-            {
-                <div id="downloaddiv" hidden> </div>
-            }
-        </div>
     </div>
-    <!--  DATATABLE START -->
     <input type="hidden" id="EntityId" value="@ViewBag.data[0].ID" />
     <input type="hidden" id="upload" value="gtexercicios" />
-
     <h2>&nbsp;</h2>
     <h2>&nbsp;</h2>
 </div>
-<!-- /page content -->
 <script>
     document.addEventListener("DOMContentLoaded", function (event) {
         handleDataFileUploaderView();

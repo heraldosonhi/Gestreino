@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "Grupos, perfis e átomos";
 }
-<!-- page content -->
 <div class="right_col" role="main">
     <div class="row">
         <div class="col-md-12 col-sm-12">
@@ -22,8 +21,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!--  DATATABLE START -->
                 <div class="card mb-32pt">
                     <div class="card-header">
                         <div class="form-inline">
@@ -83,7 +80,6 @@
                         <div id="paginateGroup" class="pagination justify-content-start pagination-xsm m-0"></div>
                     </div>
                 </div>
-                <!--  DATATABLE START -->
                 <br />
             }
             @if (AcessControl.Authorized(AcessControl.ADM_USERS_PROFILES_LIST_VIEW_SEARCH))
@@ -102,8 +98,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!--  DATATABLE START -->
                 <div class="card mb-32pt">
                     <div class="card-header">
                         <div class="form-inline">
@@ -163,7 +157,6 @@
                         <div id="paginateProfile" class="pagination justify-content-start pagination-xsm m-0"></div>
                     </div>
                 </div>
-                <!--  DATATABLE START -->
                 <br />
             }
             @if (AcessControl.Authorized(AcessControl.ADM_USERS_ATOMS_LIST_VIEW_SEARCH))
@@ -182,8 +175,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!--  DATATABLE START -->
                 <div class="card mb-32pt">
                     <div class="card-header">
                         <div class="form-inline">
@@ -243,14 +234,12 @@
                         <div id="paginateAtom" class="pagination justify-content-start pagination-xsm m-0"></div>
                     </div>
                 </div>
-                <!--  DATATABLE START -->
             }
                 <h2>&nbsp;</h2>
                 <h2>&nbsp;</h2>
             </div>
     </div>
 </div>
-<!-- /page content -->
 <script>
     document.addEventListener("DOMContentLoaded", function (event) {
         handleDataGrupos();

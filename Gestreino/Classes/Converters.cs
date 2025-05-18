@@ -4,47 +4,39 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.Collections.Generic;
-using DocumentFormat.OpenXml.EMMA;
-using static Gestreino.Classes.SelectValues;
 using Gestreino.Classes;
 
 namespace Gestreino
 {
     public static class Converters
     {
-        // Capitalize first character of each word
+        private static Random random = new Random();
+
         public static string ToTitleCase(this string title)
         {
             return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(title.ToLower());
         }
 
-
-        // Count number of words in given string
         public static int WordCount(string text)
         {
             int wordCount = 0, index = 0;
 
-            // skip whitespace until first word
             while (index < text.Length && char.IsWhiteSpace(text[index]))
                 index++;
 
             while (index < text.Length)
             {
-                // check if current char is part of a word
                 while (index < text.Length && !char.IsWhiteSpace(text[index]))
                     index++;
 
                 wordCount++;
 
-                // skip whitespace until next word
                 while (index < text.Length && char.IsWhiteSpace(text[index]))
                     index++;
             }
             return wordCount;
         }
 
-
-        //Custom method to Replace special characters of string
         public static string RemoveDiacritics(this string text)
         {
             if (string.IsNullOrEmpty(text)) return text;
@@ -92,7 +84,6 @@ namespace Gestreino
             return accents;
         }
 
-        //Custom method to Replace ou/e acentuações of string
         public static string RemoveSpecialCharacters(this string str)
         {
             StringBuilder sb = new StringBuilder();
@@ -106,7 +97,6 @@ namespace Gestreino
             return sb.ToString();
         }
 
-        //Strip HTML (Remover tags html dos campos textarea)
         public static string StripHTML(this string str)
         {
             if (!string.IsNullOrEmpty(str))
@@ -115,10 +105,6 @@ namespace Gestreino
             }
             return str;
         }
-
-
-        //RANDOM STRING :: MIGHT REMOVE
-        private static Random random = new Random();
 
         public static string RandomString(int length)
         {
@@ -133,12 +119,10 @@ namespace Gestreino
 
             bool IsValidPhoto = false;
             string format = photo.Split('.').Last().ToLower();
-            //if(allowedPhotoExtensions.All(format.Contains)) IsValidPhoto = true;
             if (allowedPhotoExtensions.Any(s => format.Contains(s))) IsValidPhoto = true;
             return IsValidPhoto;
         }
 
-        //Currency
         private static readonly Dictionary<string, CultureInfo> ISOCurrenciesToACultureMap =
         CultureInfo.GetCultures(CultureTypes.SpecificCultures)
             .Select(c => new { c, new RegionInfo(c.Name).ISOCurrencySymbol })
@@ -153,15 +137,8 @@ namespace Gestreino
             return amount.ToString("#,##0.00", FormatProvider);
         }
 
-
-        //##############################
-        //NUMERARIO EM EXTENSO PT
-        //##############################
-
-
         public static string toExtenso(decimal valor)
         {
-            // if (valor <= 0 | valor >= 1000000000000000)
             if (valor >= 1000000000000000)
                 return "Valor não suportado pelo sistema.";
             else if (valor == 0)
@@ -205,7 +182,6 @@ namespace Gestreino
                                 valor_por_extenso += " Mil" + ((Convert.ToDecimal(strValor.Substring(12, 3)) > 0) ? " e " : string.Empty);
                         }
 
-
                     if (i == 12)
                     {
                         if (valor_por_extenso.Length > 8)
@@ -218,20 +194,9 @@ namespace Gestreino
                                     if (valor_por_extenso.Substring(valor_por_extenso.Length - 8, 8) == "Trilhões")
                                 valor_por_extenso += " de";
 
-                        /* if (Convert.ToInt64(strValor.Substring(0, 15)) == 1)
-                             valor_por_extenso += " KWANZA";
-                         else if (Convert.ToInt64(strValor.Substring(0, 15)) > 1)
-                             valor_por_extenso += " KWANZAS";*/
-
                         if (Convert.ToInt32(strValor.Substring(16, 2)) > 0 && valor_por_extenso != string.Empty)
                             valor_por_extenso += " e ";
                     }
-
-                    /*if (i == 15)
-                        if (Convert.ToInt32(strValor.Substring(16, 2)) == 1)
-                            valor_por_extenso += " CENTIMO";
-                        else if (Convert.ToInt32(strValor.Substring(16, 2)) > 1)
-                            valor_por_extenso += " CENTIMOS";*/
                 }
                 return valor_por_extenso;
             }
@@ -328,17 +293,7 @@ namespace Gestreino
 
             return color;
         }
-        public static string GASchedulesColorSchemes(int type)
-        {
-            string color = "#81ecec"; //todas as semanas
 
-            if (type == 2) //semana impar
-                color = "#b8e994";
-            else if (type == 3)
-                color = "#ffbe76"; //semana par
-
-            return color;
-        }
         public static decimal FormatarDecimais(decimal? numeronullable, int casasDecimais, decimal escalaMaxima, decimal escalaMin)
         {
             decimal valor = numeronullable ?? 0;
@@ -346,27 +301,20 @@ namespace Gestreino
             if (casasDecimais < 0)
                 valor = valor;
 
-            if (casasDecimais == 0)
+            else if (casasDecimais == 0)
             {
-                // Para manter a parte inteira do número sem arredondamento
-                /* if (numero >= 0)
-                     numero = Math.Truncate(numero);
-                 else
-                     numero = Math.Ceiling(numero);*/
             }
             else
             {
                 decimal fatorMultiplicativo = (decimal)Math.Pow(10, casasDecimais);
                 decimal numeroMultiplicado = valor * fatorMultiplicativo;
 
-                // Verifica se a parte decimal é maior ou igual a 0.5 para arredondar corretamente
                 if (numeroMultiplicado - Math.Truncate(numeroMultiplicado) >= 0.5m)
                     valor = Math.Ceiling(numeroMultiplicado) / fatorMultiplicativo;
                 else
                     valor = Math.Floor(numeroMultiplicado) / fatorMultiplicativo;
             }
 
-            // Verifica se o número formatado excede a escala máxima
             if (valor > escalaMaxima)
                 valor = escalaMaxima;
 
@@ -375,27 +323,7 @@ namespace Gestreino
 
             return valor;
         }
-        /*
-        public static decimal FormatarDecimais(decimal numero, int casasDecimais, decimal escalaMaxima, decimal escalaMin)
-        {
-            if (casasDecimais < 0)
-                numero = numero;
 
-            if (casasDecimais == 0)
-                numero = Math.Truncate(numero); // Retorna o valor truncado (sem casas decimais)
-            else
-                numero = Math.Round(numero, casasDecimais); // Retorna o valor arredondado com o número de casas decimais especificado
-
-            // Verifica se o número formatado excede a escala máxima
-            if (numero > escalaMaxima)
-                numero = escalaMaxima;
-
-            if (numero < escalaMin)
-                numero = escalaMin;
-
-            return numero;
-
-        }*/
         public static string CapitalizeFirstLetter(string s)
         {
             if (string.IsNullOrEmpty(s))
@@ -443,13 +371,11 @@ namespace Gestreino
                 return string.Empty;
             }
 
-            // If text in shorter or equal to length, just return it
             if (text.Length <= length)
             {
                 return text;
             }
 
-            // Text is longer, so try to find out where to cut
             char[] delimiters = new char[] { ' ', '.', ',', ':', ';' };
             int index = text.LastIndexOfAny(delimiters, length - 3);
 
@@ -466,17 +392,17 @@ namespace Gestreino
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                return name; //caso for null
+                return name; 
             }
 
             string[] nomes = name.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if (nomes.Length == 0)
             {
-                return name; //caso não tiver nome
+                return name; 
             }
             else if (nomes.Length == 1)
             {
-                return name; //caso não tiver o outro nome
+                return name; 
             }
 
             string primeiroNome = nomes[0];
@@ -495,7 +421,6 @@ namespace Gestreino
                 return entrada;
             }
         }
-
         public static int CalculateAge(DateTime dateOfBirth)
         {
             int age = 0;
