@@ -6,6 +6,6 @@ This branch features an upgrade from the original application formely developed 
 
 Some interesting features: Plesk automatic deployment from Github, Authentication, Password recovery tokens, Built-in granular access control class, Entity Mapping, Datatables, Highcharts lib, XLS Export, PDF Exports (iText, Html2PDF lib)
 
-<a href="https://gestreino.pt/home/help" target="_blank">Quick overview</a>
+Quick overview
 
 <img src="https://github.com/heraldosonhi/Gestreino/blob/master/Gestreino/GestreinoERD.jpg">
