@@ -1,6 +1,6 @@
-Gestreino v2.0
+## Gestreino v2.0
 
-ASP.NET MVC (C#, Entity ORM, Razor syntax), MS SQL Server, JavaScript/jQuery/Datatables, Local storage
+Stack: C#, ASP.NET MVC, Entity Framework, Razor pages, MS SQL Server, JavaScript (jQuery, Datatables), Local storage
 
 This branch features an upgrade from the original application formely developed as a Windows Desktop version using a Microsoft Access database.
 
